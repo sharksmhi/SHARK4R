@@ -19,6 +19,12 @@ Depends:
     R (>= 4.0.2)
 License: MIT + file LICENSE
 Imports:
+    plotly,
+    knitr,
+    readxl,
+    tidyverse,
+    ggthemes,
+    lubridate,
     cowplot,
     data.tree,
     digest,

@@ -1,0 +1,65 @@
+#' Read files delivered to SHARK
+#' Uses readxl to read excel files with standardized delivery format 
+#' @param filename path to file to be read
+#' @return Data frame of file
+#' @export
+
+shark_read_deliv <- function(filename) {
+  
+  i <- read_xlsx(filename, skip = 1, sheet = 2, guess_max = 2000, col_names = T, locale = readr::locale(encoding = "latin1", decimal_mark = ","))
+  
+  i <- i %>% 
+    mutate_all(type.convert) %>%
+    mutate_if(is.factor, as.character)
+  
+  if (length(i) > 0) {
+    return(i)
+    }
+  else {
+    message("ERROR: File is empty or not in excel format")
+  }
+}
+
+#' Read tab delimited files downloaded from SHARK
+#' Uses read_delim to read tab delimited files with standardized export format from SHARK
+#' @param filename path to file to be read
+#' @return Data frame of file
+#' @export
+
+shark_read <- function(filename, type = "txt") {
+  
+  i <- read_delim(filename, delim = "\t", guess_max = 2000, col_names = T, locale = readr::locale(encoding = "latin1", decimal_mark = ","))
+  
+  i <- i %>% 
+    mutate_all(type.convert) %>%
+    mutate_if(is.factor, as.character)
+  
+  if (length(i) > 0) {
+    return(i)
+  }
+  else {
+    message("ERROR: File is empty or not in tab delimited format")
+  }
+}
+
+#' Read zip archive and unzip tab delimited files downloaded from SHARK
+#' Uses unzip (unz) and read_delim to unzip archive and read tab delimited files with standardized export format from SHARK
+#' @param filename path to file to be read
+#' @return Data frame of file
+#' @export
+
+shark_read_zip <- function(zipname, type = "zip") {
+  
+  i <- read_delim(unz(description = zipname, filename = "shark_data.txt"), delim ="\t", guess_max = 2000, col_names = T, locale = readr::locale(encoding = "latin1", decimal_mark = ","))
+
+  i <- i %>% 
+    mutate_all(type.convert) %>%
+    mutate_if(is.factor, as.character)
+  
+  if (length(i) > 0) {
+    return(i)
+  }
+  else {
+    message("ERROR: Zip archive or File is empty or not in tab delimited format")
+  }
+}
