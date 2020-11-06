@@ -20,7 +20,6 @@ library(SHARK4R)
 
 ## Check required fields
 check_datatype() will check if all global SHARK required fields are present in an occurrence table and if any values are missing.
-check_DATATYPENAME() will check if datatype specific SHARK field are present in an occurrence table and if any values are missing.
 These functions returns a dataframe of errors (if any).
 
 ## Plot points on a map
@@ -31,7 +30,6 @@ check_onland() uses the xylookup web service which internally uses land polygons
 
 ## Check depth
 check_depth uses the xylookup web service to identify which records have potentially invalid depths. Multiple checks are performed in this function:
-
 missing depth column (warning)
 empty depth column (warning)
 depth values that can't be converted to numbers (error)
@@ -44,6 +42,3 @@ check_outliers_dataset use the qc-service web service to identify which records 
 
 ## Taxon matching
 match_taxa() performs interactive taxon matching with the World Register of Marine Species (WoRMS; http://www.marinespecies.org/index.php).
-
-## Data quality report
-report() generates a basic data quality report.
