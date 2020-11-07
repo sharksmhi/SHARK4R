@@ -16,7 +16,7 @@ Description: R package for data analysis and automatic quality control of physic
 Encoding: UTF-8
 LazyData: true
 Depends:
-    R (>= 4.0.2),
+    R (>= 4.0.3),
     tidyverse,
     lubridate,
     plotly,
