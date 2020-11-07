@@ -86,6 +86,7 @@ check_datatype <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_Bacterioplankton <- function(data, level = "error") {
   
@@ -165,6 +166,7 @@ check_Bacterioplankton <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_Chlorophyll <- function(data, level = "error") {
   
@@ -244,6 +246,7 @@ check_Chlorophyll <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_Epibenthos <- function(data, level = "error") {
   
@@ -323,6 +326,7 @@ check_Epibenthos <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_EpibenthosDropvideo <- function(data, level = "error") {
   
@@ -402,6 +406,7 @@ check_EpibenthosDropvideo <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_GreySeal <- function(data, level = "error") {
   
@@ -481,6 +486,7 @@ check_GreySeal <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_HarbourPorpoise <- function(data, level = "error") {
   
@@ -560,6 +566,7 @@ check_HarbourPorpoise <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_HarbourSeal <- function(data, level = "error") {
   
@@ -639,6 +646,7 @@ check_HarbourSeal <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_PhysicalChemical <- function(data, level = "error") {
   
@@ -718,6 +726,7 @@ check_PhysicalChemical <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_Phytoplankton <- function(data, level = "error") {
   
@@ -797,6 +806,7 @@ check_Phytoplankton <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_Picoplankton <- function(data, level = "error") {
   
@@ -876,6 +886,7 @@ check_Picoplankton <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_PrimaryProduction <- function(data, level = "error") {
   
@@ -955,6 +966,7 @@ check_PrimaryProduction <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_RingedSeal <- function(data, level = "error") {
   
@@ -1034,6 +1046,7 @@ check_RingedSeal <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_SealPathology <- function(data, level = "error") {
   
@@ -1113,6 +1126,7 @@ check_SealPathology <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_Sedimentation <- function(data, level = "error") {
   
@@ -1192,6 +1206,7 @@ check_Sedimentation <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_Zoobenthos <- function(data, level = "error") {
   
@@ -1271,6 +1286,7 @@ check_Zoobenthos <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_Zooplankton <- function(data, level = "error") {
   
@@ -1430,6 +1446,7 @@ check_deliv_Bacterioplankton <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_Chlorophyll <- function(data, level = "error") {
   
@@ -1509,6 +1526,7 @@ check_deliv_Chlorophyll <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_Epibenthos <- function(data, level = "error") {
   
@@ -1588,6 +1606,7 @@ check_deliv_Epibenthos <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_EpibenthosDropvideo <- function(data, level = "error") {
   
@@ -1667,6 +1686,7 @@ check_deliv_EpibenthosDropvideo <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_GreySeal <- function(data, level = "error") {
   
@@ -1746,6 +1766,7 @@ check_deliv_GreySeal <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_HarbourPorpoise <- function(data, level = "error") {
   
@@ -1825,6 +1846,7 @@ check_deliv_HarbourPorpoise <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_HarbourSeal <- function(data, level = "error") {
   
@@ -1904,6 +1926,7 @@ check_deliv_HarbourSeal <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_PhysicalChemical <- function(data, level = "error") {
   
@@ -1983,6 +2006,7 @@ check_deliv_PhysicalChemical <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_Phytoplankton <- function(data, level = "error") {
   
@@ -2062,6 +2086,7 @@ check_deliv_Phytoplankton <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_Picoplankton <- function(data, level = "error") {
   
@@ -2141,6 +2166,7 @@ check_deliv_Picoplankton <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_PrimaryProduction <- function(data, level = "error") {
   
@@ -2220,6 +2246,7 @@ check_deliv_PrimaryProduction <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_RingedSeal <- function(data, level = "error") {
   
@@ -2299,6 +2326,7 @@ check_deliv_RingedSeal <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_SealPathology <- function(data, level = "error") {
   
@@ -2378,6 +2406,7 @@ check_deliv_SealPathology <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_Sedimentation <- function(data, level = "error") {
   
@@ -2457,6 +2486,7 @@ check_deliv_Sedimentation <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_Zoobenthos <- function(data, level = "error") {
   
@@ -2536,6 +2566,7 @@ check_deliv_Zoobenthos <- function(data, level = "error") {
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' @export
 
 check_deliv_Zooplankton <- function(data, level = "error") {
   

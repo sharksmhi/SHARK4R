@@ -4,7 +4,7 @@
 \alias{plot_map_leaflet}
 \title{Create a Leaflet map.}
 \usage{
-plot_map_leaflet(data, provider = "Esri.OceanBasemap", popup = NULL)
+plot_map_leaflet(data)
 }
 \arguments{
 \item{data}{The data frame.}

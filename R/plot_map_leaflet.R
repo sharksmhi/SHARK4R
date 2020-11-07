@@ -7,9 +7,9 @@
 #'   many elements as there are rows, by default the row names are shown.
 #' @return HTML widget object.
 #' @export
-plot_map_leaflet <- function(data, provider = "Esri.OceanBasemap") {
+plot_map_leaflet <- function(data) {
   m <- leaflet(data) %>%
-    addProviderTiles(provider) %>%
+    addProviderTiles("Esri.OceanBasemap") %>%
     addCircleMarkers(~sample_longitude_dd, ~sample_latitude_dd, popup = ~station_name, radius = 3, weight = 1, fillColor = "#FF368B", color = "#FF368B", opacity = 1, fillOpacity = 0.1)
-  return(m)
+  print(m)
 }

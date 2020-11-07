@@ -1,0 +1,39 @@
+---
+title: "_check_bacterial_data"
+author: "Markus Lindh"
+date: '2020-11-07'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Check bacterial data
+
+This is an R Markdown document that checks bacterial data that has passed initial delivery QC and is now in the test phase.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## Load library and data
+
+```{r loadlibdata, echo=FALSE}
+library(SHARK4R)
+myfile = shark_read("shark_data.txt")
+```
+
+## Check map
+
+Uses plot_map_leaflet to render an interactive leaflet map of sampled stations in the data.
+
+```{r plotmap, echo=FALSE}
+plot_map_leaflet(myfile)
+```
+
+## Check fields
+
+Uses check_fields function to control if all required fields are present.
+
+```{r checkfields, echo=FALSE}
+check_bacterioplankton(myfile)
+```
