@@ -17,9 +17,18 @@ When you click the **Knit** button a document will be generated that includes bo
 
 ## Load library and data
 
-```{r loadlibdata, echo=FALSE}
+```{r loadlibdata, echo=FALSE, include = FALSE}
 library(SHARK4R)
+library(DT)
+setwd("C:/__R/_test_SHARK4R/")
 myfile = shark_read("shark_data.txt")
+```
+
+## Overview of data
+
+```{r overview, echo=FALSE}
+kable(str(myfile))
+DT::datatable(myfile, editable = 'cell')
 ```
 
 ## Check map
@@ -35,5 +44,5 @@ plot_map_leaflet(myfile)
 Uses check_fields function to control if all required fields are present.
 
 ```{r checkfields, echo=FALSE}
-check_bacterioplankton(myfile)
+check_Bacterioplankton(myfile)
 ```
