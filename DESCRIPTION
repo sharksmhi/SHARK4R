@@ -16,15 +16,14 @@ Description: R package for data analysis and automatic quality control of physic
 Encoding: UTF-8
 LazyData: true
 Depends:
-    R (>= 4.0.2)
-License: MIT + file LICENSE
-Imports:
+    R (>= 4.0.2),
     tidyverse,
     lubridate,
     plotly,
     leaflet,
     knitr,
     readxl,
+License: MIT + file LICENSE
 Suggests:
     testthat
 Roxygen: list(markdown = TRUE)
