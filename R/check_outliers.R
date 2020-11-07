@@ -21,8 +21,8 @@ check_bacterial_production <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -42,8 +42,8 @@ check_bacterial_production <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -69,8 +69,8 @@ check_bacterial_concentration <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -90,8 +90,8 @@ check_bacterial_concentration <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -116,8 +116,8 @@ check_bacterial_carbon <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -137,8 +137,8 @@ check_bacterial_carbon <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -163,8 +163,8 @@ check_picoplankton_abundance <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -184,8 +184,8 @@ check_picoplankton_abundance <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -210,8 +210,8 @@ check_picoplankton_biovol <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -231,8 +231,8 @@ check_picoplankton_biovol <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -257,8 +257,8 @@ check_picoplankton_carbon <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -278,8 +278,8 @@ check_picoplankton_carbon <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -304,8 +304,8 @@ check_picoplankton_counted <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -325,8 +325,8 @@ check_picoplankton_counted <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -351,8 +351,8 @@ check_zooplankton_abund <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -372,8 +372,8 @@ check_zooplankton_abund <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -398,8 +398,8 @@ check_zooplankton_counted <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -419,8 +419,8 @@ check_zooplankton_counted <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -445,8 +445,8 @@ check_zooplankton_length_mean <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -466,8 +466,8 @@ check_zooplankton_length_mean <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -492,8 +492,8 @@ check_zooplankton_length_median <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -513,8 +513,8 @@ check_zooplankton_length_median <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -539,8 +539,8 @@ check_zooplankton_wetweight <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -560,8 +560,8 @@ check_zooplankton_wetweight <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -586,8 +586,8 @@ check_zooplankton_carbon <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -607,8 +607,8 @@ check_zooplankton_carbon <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -633,8 +633,8 @@ check_zooplankton_wetweight_volume <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -654,8 +654,8 @@ check_zooplankton_wetweight_volume <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -680,8 +680,8 @@ check_zooplankton_wetweight_area <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -701,8 +701,8 @@ check_zooplankton_wetweight_area <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -727,8 +727,8 @@ check_phytoplankton_abund <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -748,8 +748,8 @@ check_phytoplankton_abund <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -774,8 +774,8 @@ check_phytoplankton_biovol <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -795,8 +795,8 @@ check_phytoplankton_biovol <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -821,8 +821,8 @@ check_phytoplankton_carbon <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -842,8 +842,8 @@ check_phytoplankton_carbon <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -868,8 +868,8 @@ check_phytoplankton_carbon <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -889,8 +889,8 @@ check_phytoplankton_carbon <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -915,8 +915,8 @@ check_primaryproduction_carbonprod <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -936,8 +936,8 @@ check_primaryproduction_carbonprod <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -962,8 +962,8 @@ check_primaryproduction_carbonprodlight <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -983,8 +983,8 @@ check_primaryproduction_carbonprodlight <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1009,8 +1009,8 @@ check_primaryproduction_carbonprod_hour <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1030,8 +1030,8 @@ check_primaryproduction_carbonprod_hour <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1056,8 +1056,8 @@ check_epibenthos_counted <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1077,8 +1077,8 @@ check_epibenthos_counted <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1103,8 +1103,8 @@ check_epibenthos_dryweight <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1124,8 +1124,8 @@ check_epibenthos_dryweight <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1150,8 +1150,8 @@ check_epibenthos_specdistr_maxdepth <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1171,8 +1171,8 @@ check_epibenthos_specdistr_maxdepth <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1197,8 +1197,8 @@ check_epibenthos_specdistr_mindepth <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1218,8 +1218,8 @@ check_epibenthos_specdistr_mindepth <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1244,8 +1244,8 @@ check_harbourseal_counted <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1265,8 +1265,8 @@ check_harbourseal_counted <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1291,8 +1291,8 @@ check_greyseal_counted <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1312,8 +1312,8 @@ check_greyseal_counted <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1338,8 +1338,8 @@ check_zoobenthos_BQIm <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1359,8 +1359,8 @@ check_zoobenthos_BQIm <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1385,8 +1385,8 @@ check_zoobenthos_abund <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1406,8 +1406,8 @@ check_zoobenthos_abund <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1432,8 +1432,8 @@ check_zoobenthos_counted <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1453,8 +1453,8 @@ check_zoobenthos_counted <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1479,8 +1479,8 @@ check_zoobenthos_wetweight <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1500,8 +1500,8 @@ check_zoobenthos_wetweight <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1526,8 +1526,8 @@ check_ringedseal_calccounted <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1547,8 +1547,8 @@ check_ringedseal_calccounted <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1573,8 +1573,8 @@ check_harbporp_positivemin <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
@@ -1594,8 +1594,8 @@ check_harbporp_positivemin <- function(data) {
       geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
       geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
       ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_economist() +
-      scale_colour_economist()+
+
+      
       theme(axis.title.x=element_blank(),
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
