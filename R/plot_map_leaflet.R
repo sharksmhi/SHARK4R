@@ -6,10 +6,6 @@
 #' @param popup The field to display as a popup or a character vector with as
 #'   many elements as there are rows, by default the row names are shown.
 #' @return HTML widget object.
-#' @examples
-#' plot_map_leaflet(abra)
-#' plot_map_leaflet(abra, popup = "datasetID")
-#' plot_map_leaflet(abra, popup = head(colnames(abra)))
 #' @export
 plot_map_leaflet <- function(data, provider = "Esri.OceanBasemap", popup = NULL) {
   check_lonlat(data, FALSE)
