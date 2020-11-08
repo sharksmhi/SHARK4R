@@ -25,6 +25,9 @@ check_datatype <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -55,6 +58,9 @@ check_datatype <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
