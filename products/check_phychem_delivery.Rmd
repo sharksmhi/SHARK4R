@@ -1,0 +1,42 @@
+---
+title: "_check_phychem_delivery"
+author: "Markus Lindh"
+date: '2020-11-08'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Check phychem delivery
+
+This is an R Markdown document that checks physical and chemical data that has been delivered to the datahost.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## Load library and data
+
+```{r loadlibdata, echo=FALSE, include = FALSE}
+library(SHARK4R)
+library(tidyverse)
+library(DT)
+setwd("C:/__R/_test_SHARK4R/")
+# myfile = shark_read_deliv("Hallands kustkontroll kvartal 2_2020.xlsx") # The good
+myfile = shark_read_deliv_xls("rptSMHI_2012-2017_mol.xls", skip=0) # The bad
+```
+
+## Overview of data
+
+```{r overview, echo=FALSE}
+glimpse(myfile)
+DT::datatable(myfile)
+```
+
+## Check fields
+
+Uses the check_fields() function to control if all required fields are present.
+
+```{r checkfields, echo = FALSE}
+check_deliv_PhysicalChemical(myfile)
+```

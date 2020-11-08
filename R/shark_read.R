@@ -1,12 +1,12 @@
-#' Read files delivered to SHARK
+#' Read .xlsx files delivered to SHARK
 #' Uses readxl to read excel files with standardized delivery format 
 #' @param filename path to file to be read
 #' @return Data frame of file
 #' @export
 
-shark_read_deliv <- function(filename) {
+shark_read_deliv <- function(filename, skip = 2, sheet = 2) {
   
-  i <- read_xlsx(filename, skip = 1, sheet = 2, guess_max = 2000, col_names = T, locale = readr::locale(encoding = "latin1"))
+  i <- read_xlsx(filename, skip = skip, sheet = sheet, guess_max = 2000, col_names = T)
   
   i <- i %>% 
     mutate_all(type.convert) %>%
@@ -16,6 +16,29 @@ shark_read_deliv <- function(filename) {
   if (length(i) > 0) {
     return(i)
     }
+  else {
+    message("ERROR: File is empty or not in excel format")
+  }
+}
+
+#' Read .xls files delivered to SHARK
+#' Uses readxl to read excel files with standardized delivery format 
+#' @param filename path to file to be read
+#' @return Data frame of file
+#' @export
+
+shark_read_deliv_xls <- function(filename, skip = 2, sheet = 2) {
+  
+  i <- read_xls(filename, skip = skip, sheet = sheet, guess_max = 2000, col_names = T)
+  
+  i <- i %>% 
+    mutate_all(type.convert) %>%
+    #mutate_if(is.factor, as.character) %>% 
+    mutate_at("SDATE", ymd)
+  
+  if (length(i) > 0) {
+    return(i)
+  }
   else {
     message("ERROR: File is empty or not in excel format")
   }
