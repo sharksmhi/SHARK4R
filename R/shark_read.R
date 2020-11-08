@@ -6,7 +6,7 @@
 
 shark_read_deliv <- function(filename) {
   
-  i <- read_xlsx(filename, skip = 1, sheet = 2, guess_max = 2000, col_names = T, locale = readr::locale(encoding = "latin1", decimal_mark = ","))
+  i <- read_xlsx(filename, skip = 1, sheet = 2, guess_max = 2000, col_names = T, locale = readr::locale(encoding = "latin1"))
   
   i <- i %>% 
     mutate_all(type.convert) %>%
@@ -29,7 +29,7 @@ shark_read_deliv <- function(filename) {
 
 shark_read <- function(filename, type = "txt") {
   
-  i <- read_delim(filename, delim = "\t", guess_max = 2000, col_names = T, locale = readr::locale(encoding = "latin1", decimal_mark = ","))
+  i <- read_delim(filename, delim = "\t", guess_max = 2000, col_names = T, locale = readr::locale(encoding = "latin1"))
   
   i <- i %>% 
     mutate_all(type.convert) %>%
@@ -54,7 +54,7 @@ shark_read <- function(filename, type = "txt") {
 
 shark_read_zip <- function(zipname, type = "zip") {
   
-  i <- read_delim(unz(description = zipname, filename = "shark_data.txt"), delim ="\t", guess_max = 2000, col_names = T, locale = readr::locale(encoding = "latin1", decimal_mark = ","))
+  i <- read_delim(unz(description = zipname, filename = "shark_data.txt"), delim ="\t", guess_max = 2000, col_names = T, locale = readr::locale(encoding = "latin1"))
 
   i <- i %>% 
     mutate_all(type.convert) %>%
