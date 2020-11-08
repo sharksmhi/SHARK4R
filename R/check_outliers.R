@@ -53,6 +53,13 @@ check_bacterial_production <- function(data) {
   
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_bacterial_concentration <- function(data) {
   mild.threshold.upper = 4686343500                      
   extreme.threshold.upper = 6779382000              
@@ -99,6 +106,13 @@ check_bacterial_concentration <- function(data) {
     message("Parameter Bacterial concentration, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_bacterial_carbon <- function(data) {
   mild.threshold.upper = 18.96                      
@@ -147,6 +161,13 @@ check_bacterial_carbon <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_picoplankton_abundance <- function(data) {
   mild.threshold.upper = 85155831                                  
   extreme.threshold.upper = 133564616              
@@ -193,6 +214,13 @@ check_picoplankton_abundance <- function(data) {
     message("Parameter Abundance, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_picoplankton_biovol <- function(data) {
   mild.threshold.upper = 0.05928825                                  
@@ -241,6 +269,13 @@ check_picoplankton_biovol <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_picoplankton_carbon <- function(data) {
   mild.threshold.upper = 13.27727                                  
   extreme.threshold.upper = 20.85692              
@@ -287,6 +322,13 @@ check_picoplankton_carbon <- function(data) {
     message("Parameter Carbon concentration, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_picoplankton_counted <- function(data) {
   mild.threshold.upper = 461.5                                  
@@ -335,6 +377,13 @@ check_picoplankton_counted <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_zooplankton_abund <- function(data) {
   mild.threshold.upper = 1092.02                                  
   extreme.threshold.upper = 1731.232              
@@ -381,6 +430,13 @@ check_zooplankton_abund <- function(data) {
     message("Parameter Abundance, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_zooplankton_counted <- function(data) {
   mild.threshold.upper = 54.5                                  
@@ -429,6 +485,13 @@ check_zooplankton_counted <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_zooplankton_length_mean <- function(data) {
   mild.threshold.upper = 1286.662                                  
   extreme.threshold.upper = 1898.325              
@@ -475,6 +538,13 @@ check_zooplankton_length_mean <- function(data) {
     message("Parameter Length (mean), measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_zooplankton_length_median <- function(data) {
   mild.threshold.upper = 1287                                  
@@ -523,6 +593,13 @@ check_zooplankton_length_median <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_zooplankton_wetweight <- function(data) {
   mild.threshold.upper = 0.82                                  
   extreme.threshold.upper = 1.3              
@@ -569,6 +646,13 @@ check_zooplankton_wetweight <- function(data) {
     message("Parameter Wet weight, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_zooplankton_carbon <- function(data) {
   mild.threshold.upper = 3.88                                  
@@ -617,6 +701,13 @@ check_zooplankton_carbon <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_zooplankton_wetweight_volume <- function(data) {
   mild.threshold.upper = 9.816648                                  
   extreme.threshold.upper = 15.54263              
@@ -663,6 +754,13 @@ check_zooplankton_wetweight_volume <- function(data) {
     message("Parameter Wet weight/volume, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_zooplankton_wetweight_area <- function(data) {
   mild.threshold.upper = 372.6163                                  
@@ -711,6 +809,13 @@ check_zooplankton_wetweight_area <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_phytoplankton_abund <- function(data) {
   mild.threshold.upper = 39460                                  
   extreme.threshold.upper = 62920              
@@ -757,6 +862,13 @@ check_phytoplankton_abund <- function(data) {
     message("Parameter Abundance, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_phytoplankton_biovol <- function(data) {
   mild.threshold.upper = 0.01514523                                  
@@ -805,6 +917,13 @@ check_phytoplankton_biovol <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_phytoplankton_carbon <- function(data) {
   mild.threshold.upper = 1.679784                                  
   extreme.threshold.upper = 2.653602              
@@ -851,6 +970,13 @@ check_phytoplankton_carbon <- function(data) {
     message("Parameter Carbon concentration, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_phytoplankton_carbon <- function(data) {
   mild.threshold.upper = 52                                  
@@ -899,6 +1025,13 @@ check_phytoplankton_carbon <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_primaryproduction_carbonprod <- function(data) {
   mild.threshold.upper = 36.6904                                  
   extreme.threshold.upper = 58.41079              
@@ -945,6 +1078,13 @@ check_primaryproduction_carbonprod <- function(data) {
     message("Parameter Carbon production, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_primaryproduction_carbonprodlight <- function(data) {
   mild.threshold.upper = 36.6904                                  
@@ -993,6 +1133,13 @@ check_primaryproduction_carbonprodlight <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_primaryproduction_carbonprod_hour <- function(data) {
   mild.threshold.upper = 11.86375                                  
   extreme.threshold.upper = 18.6775              
@@ -1039,6 +1186,13 @@ check_primaryproduction_carbonprod_hour <- function(data) {
     message("Parameter Carbon production/hour, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_epibenthos_counted <- function(data) {
   mild.threshold.upper = 87                                  
@@ -1087,6 +1241,13 @@ check_epibenthos_counted <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_epibenthos_dryweight <- function(data) {
   mild.threshold.upper = 0.2303094                                  
   extreme.threshold.upper = 0.367895              
@@ -1133,6 +1294,13 @@ check_epibenthos_dryweight <- function(data) {
     message("Parameter Dry weight, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_epibenthos_specdistr_maxdepth <- function(data) {
   mild.threshold.upper = 29.3125                                  
@@ -1181,6 +1349,13 @@ check_epibenthos_specdistr_maxdepth <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_epibenthos_specdistr_mindepth <- function(data) {
   mild.threshold.upper = 13.075                                  
   extreme.threshold.upper = 20.65              
@@ -1227,6 +1402,13 @@ check_epibenthos_specdistr_mindepth <- function(data) {
     message("Parameter Species distribution min depth, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_harbourseal_counted <- function(data) {
   mild.threshold.upper = 162.5                                  
@@ -1275,6 +1457,13 @@ check_harbourseal_counted <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_greyseal_counted <- function(data) {
   mild.threshold.upper = 397.25                                  
   extreme.threshold.upper = 632              
@@ -1321,6 +1510,13 @@ check_greyseal_counted <- function(data) {
     message("Parameter # counted, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_zoobenthos_BQIm <- function(data) {
   mild.threshold.upper = 18.52294                                  
@@ -1369,6 +1565,13 @@ check_zoobenthos_BQIm <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_zoobenthos_abund <- function(data) {
   mild.threshold.upper = 185                                                    
   extreme.threshold.upper = 290              
@@ -1415,6 +1618,13 @@ check_zoobenthos_abund <- function(data) {
     message("Parameter Abundance, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_zoobenthos_counted <- function(data) {
   mild.threshold.upper = 21                                                    
@@ -1463,6 +1673,13 @@ check_zoobenthos_counted <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_zoobenthos_wetweight <- function(data) {
   mild.threshold.upper = 0.5395                                                    
   extreme.threshold.upper = 0.859              
@@ -1510,6 +1727,13 @@ check_zoobenthos_wetweight <- function(data) {
   }
 }
 
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_ringedseal_calccounted <- function(data) {
   mild.threshold.upper = 28.247                                                    
   extreme.threshold.upper = 41.6792              
@@ -1556,6 +1780,13 @@ check_ringedseal_calccounted <- function(data) {
     message("Parameter Calculated # counted, measurement(s) is within range")
   }
 }
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
 
 check_harbporp_positivemin <- function(data) {
   mild.threshold.upper = 189.5                                                    
