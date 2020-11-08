@@ -9,7 +9,7 @@ check_code_proj <- function(data) {
   shark_codes <- read_delim(system.file("extdata", "codelist_SMHI.txt", package = "SHARK4R"), skip = 1, delim ="\t", guess_max = 2000, col_names = T, locale = readr::locale(encoding = "latin1"))
   shark_proj_codes <- shark_codes %>% 
     filter(Data_field == "PROJ")
-  match_type <- toMatch %in% shark_proj_codes$Code
+  match_type <- toMatch %in% shark_proj_codes$`Description/English translate`
   matches <- data.frame(reported_PROJ_code = unique(data$sample_project_name_sv), match_type = match_type)
   
   if (length(which(match_type == FALSE)) > 0) {

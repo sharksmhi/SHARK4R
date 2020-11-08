@@ -33,7 +33,7 @@ check_bacterial_production <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Bacterial production") %>% 
       select(value)
@@ -88,7 +88,7 @@ check_bacterial_concentration <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Bacterial concentration") %>% 
       select(value)
@@ -142,7 +142,7 @@ check_bacterial_carbon <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Bacterial cell carbon content") %>% 
       select(value)
@@ -196,7 +196,7 @@ check_picoplankton_abundance <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Abundance") %>% 
       select(value)
@@ -250,7 +250,7 @@ check_picoplankton_biovol <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Biovolume concentration") %>% 
       select(value)
@@ -304,7 +304,7 @@ check_picoplankton_carbon <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Carbon concentration") %>% 
       select(value)
@@ -358,7 +358,7 @@ check_picoplankton_counted <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "# counted") %>% 
       select(value)
@@ -412,7 +412,7 @@ check_zooplankton_abund <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Abundance") %>% 
       select(value)
@@ -466,7 +466,7 @@ check_zooplankton_counted <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "# counted") %>% 
       select(value)
@@ -520,7 +520,7 @@ check_zooplankton_length_mean <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Length (mean)") %>% 
       select(value)
@@ -574,7 +574,7 @@ check_zooplankton_length_median <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Length (median)") %>% 
       select(value)
@@ -628,7 +628,7 @@ check_zooplankton_wetweight <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Wet weight") %>% 
       select(value)
@@ -682,7 +682,7 @@ check_zooplankton_carbon <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Carbon content") %>% 
       select(value)
@@ -736,7 +736,7 @@ check_zooplankton_wetweight_volume <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Wet weight/volume") %>% 
       select(value)
@@ -790,7 +790,7 @@ check_zooplankton_wetweight_area <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Wet weight/area") %>% 
       select(value)
@@ -844,7 +844,7 @@ check_phytoplankton_abund <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Abundance") %>% 
       select(value)
@@ -898,7 +898,7 @@ check_phytoplankton_biovol <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Biovolume concentration") %>% 
       select(value)
@@ -952,7 +952,7 @@ check_phytoplankton_carbon <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Carbon concentration") %>% 
       select(value)
@@ -1006,7 +1006,7 @@ check_phytoplankton_carbon <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "# counted") %>% 
       select(value)
@@ -1060,7 +1060,7 @@ check_primaryproduction_carbonprod <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Carbon production") %>% 
       select(value)
@@ -1114,7 +1114,7 @@ check_primaryproduction_carbonprodlight <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Carbon prod in light") %>% 
       select(value)
@@ -1168,7 +1168,7 @@ check_primaryproduction_carbonprod_hour <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Carbon production/hour") %>% 
       select(value)
@@ -1222,7 +1222,7 @@ check_epibenthos_counted <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "# counted") %>% 
       select(value)
@@ -1276,7 +1276,7 @@ check_epibenthos_dryweight <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Dry weight") %>% 
       select(value)
@@ -1330,7 +1330,7 @@ check_epibenthos_specdistr_maxdepth <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Species distribution max depth") %>% 
       select(value)
@@ -1384,7 +1384,7 @@ check_epibenthos_specdistr_mindepth <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Species distribution min depth") %>% 
       select(value)
@@ -1438,7 +1438,7 @@ check_harbourseal_counted <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "# counted") %>% 
       select(value)
@@ -1492,7 +1492,7 @@ check_greyseal_counted <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "# counted") %>% 
       select(value)
@@ -1546,7 +1546,7 @@ check_zoobenthos_BQIm <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "BQIm") %>% 
       select(value)
@@ -1600,7 +1600,7 @@ check_zoobenthos_abund <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Abundance") %>% 
       select(value)
@@ -1654,7 +1654,7 @@ check_zoobenthos_counted <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "# counted") %>% 
       select(value)
@@ -1708,7 +1708,7 @@ check_zoobenthos_wetweight <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Wet weight") %>% 
       select(value)
@@ -1762,7 +1762,7 @@ check_ringedseal_calccounted <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Calculated # counted") %>% 
       select(value)
@@ -1816,7 +1816,7 @@ check_harbporp_positivemin <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     print(extreme.outliers)
   }
-  else {
+  else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
       filter(parameter == "Porpoise positive minutes") %>% 
       select(value)
