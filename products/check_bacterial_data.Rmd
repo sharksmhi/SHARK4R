@@ -52,7 +52,7 @@ DT::datatable(check_Bacterioplankton(myfile), editable = 'cell')
 Uses check_outliers() function to control if all values are within range.
 
 ```{r checkoutliers, echo=FALSE}
-DT::datatable(check_bacterial_carbon(myfile), editable = 'cell')
-DT::datatable(check_bacterial_concentration(myfile), editable = 'cell')
-DT::datatable(check_bacterial_production(myfile), editable = 'cell')
+check_bacterial_carbon(myfile)
+check_bacterial_concentration(myfile)
+check_bacterial_production(myfile)
 ```

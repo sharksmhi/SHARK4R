@@ -8,9 +8,12 @@
 #' @return HTML widget object.
 #' @export
 plot_map_leaflet <- function(data) {
-  m <- leaflet(data) %>%
+  coord <- data %>% 
+    select(station_name, sample_longitude_dd, sample_latitude_dd) %>% 
+    rename(STATION = station_name, LONG = sample_longitude_dd, LAT = sample_latitude_dd)
+  m <- leaflet(coord) %>%
     addProviderTiles("Esri.OceanBasemap") %>%
-    addCircleMarkers(~sample_longitude_dd, ~sample_latitude_dd, popup = ~station_name, radius = 3, weight = 1, fillColor = "#FF368B", color = "#FF368B", opacity = 1, fillOpacity = 0.1) %>% 
+    addCircleMarkers(~LONG, ~LAT, popup = ~STATION, radius = 3, weight = 1, fillColor = "#FF368B", color = "#FF368B", opacity = 1, fillOpacity = 0.1) %>% 
     addMarkers(clusterOptions = markerClusterOptions())
   print(m)
 }
