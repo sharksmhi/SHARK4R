@@ -27,7 +27,7 @@ myfile = shark_read("shark_data.txt")
 ## Overview of data
 
 ```{r overview, echo=FALSE}
-kable(str(myfile))
+DT::datatable(str(myfile), editable = 'cell')
 DT::datatable(myfile, editable = 'cell')
 ```
 
@@ -41,9 +41,18 @@ plot_map_leaflet(myfile)
 
 ## Check fields
 
-Uses check_fields function to control if all required fields are present.
+Uses check_fields() function to control if all required fields are present.
 
 ```{r checkfields, echo=FALSE}
-check_datatype(myfile)
-check_Bacterioplankton(myfile)
+DT::datatable(check_datatype(myfile), editable = 'cell')
+DT::datatable(check_Bacterioplankton(myfile), editable = 'cell')
+```
+## Check outliers
+
+Uses check_outliers() function to control if all values are within range.
+
+```{r checkoutliers, echo=FALSE}
+DT::datatable(check_bacterial_carbon(myfile), editable = 'cell')
+DT::datatable(check_bacterial_concentration(myfile), editable = 'cell')
+DT::datatable(check_bacterial_production(myfile), editable = 'cell')
 ```
