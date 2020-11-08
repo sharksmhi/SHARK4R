@@ -78,7 +78,7 @@ check_bacterial_production(myfile)
 
 Uses check_logical() function to control if data follows logical assumptions.
 
-```{r checkoutliers, echo=FALSE}
+```{r checklogical, echo=FALSE}
 check_value_logical(myfile)
 ```
 ## Check codes

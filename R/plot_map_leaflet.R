@@ -13,7 +13,6 @@ plot_map_leaflet <- function(data) {
     rename(STATION = station_name, LONG = sample_longitude_dd, LAT = sample_latitude_dd)
   m <- leaflet(coord) %>%
     addProviderTiles("Esri.OceanBasemap") %>%
-    addCircleMarkers(~LONG, ~LAT, popup = ~STATION, radius = 3, weight = 1, fillColor = "#FF368B", color = "#FF368B", opacity = 1, fillOpacity = 0.1) %>% 
-    addMarkers(clusterOptions = markerClusterOptions())
+    addCircleMarkers(~LONG, ~LAT, popup = ~STATION, radius = 3, weight = 1, fillColor = "#FF368B", color = "#FF368B", opacity = 1, fillOpacity = 0.1, clusterOptions = markerClusterOptions()) 
 return(m)
 }

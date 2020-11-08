@@ -97,7 +97,7 @@ check_datatype <- function(data, level = "error") {
 check_Bacterioplankton <- function(data, level = "error") {
   
   errors <- tibble()
-  required <- c("visit_year","station_name","sample_project_name_sv","sample_orderer_name_sv","platform_code","sample_date","sample_time","sample_latitude_dd","sample_longitude_dd","water_depth_m","sample_min_depth_m","sample_max_depth_m","sampling_laboratory_name_sv","sampling_laboratory_accreditated","sampler_type_code","sampled_volume_l","scientific_name","value","quality_flag","analysis_method_code","method_reference_code","analytical_laboratory_name_sv","analytical_laboratory_accreditated","analysed_volume_cm3","preservation_method_code","counted_portions","reporting_institute_name_sv")
+  required <- c("visit_year","station_name","sample_project_name_sv","sample_orderer_name_sv","platform_code","sample_date","sample_time","sample_latitude_dd","sample_longitude_dd", "positioning_system_code","water_depth_m","sample_min_depth_m","sample_max_depth_m","sampling_laboratory_name_sv","sampling_laboratory_accreditated","sampler_type_code","sampled_volume_l","scientific_name","value","quality_flag","analysis_method_code","method_reference_code","analytical_laboratory_name_sv","analytical_laboratory_accreditated","analysed_volume_cm3","preservation_method_code","counted_portions","reporting_institute_name_sv")
   recommended <- c("monitoring_program_code")
   
   # find missing required fields
