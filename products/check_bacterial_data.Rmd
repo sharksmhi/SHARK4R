@@ -27,7 +27,7 @@ myfile = shark_read("shark_data.txt")
 ## Overview of data
 
 ```{r overview, echo=FALSE}
-DT::datatable(str(myfile), editable = 'cell')
+glimpse(myfile)
 DT::datatable(myfile, editable = 'cell')
 ```
 

@@ -11,7 +11,7 @@ shark_read_deliv <- function(filename) {
   i <- i %>% 
     mutate_all(type.convert) %>%
     mutate_if(is.factor, as.character) %>% 
-    mutate_at(SDATE, ymd)
+    mutate_at("SDATE", ymd)
   
   if (length(i) > 0) {
     return(i)
@@ -34,7 +34,7 @@ shark_read <- function(filename, type = "txt") {
   i <- i %>% 
     mutate_all(type.convert) %>%
     mutate_if(is.factor, as.character)%>% 
-    mutate_at(sample_date, ymd)
+    mutate_at("sample_date", ymd)
   
   if (length(i) > 0) {
     return(i)
@@ -57,7 +57,7 @@ shark_read_zip <- function(zipname, type = "zip") {
   i <- i %>% 
     mutate_all(type.convert) %>%
     mutate_if(is.factor, as.character)%>% 
-    mutate_at(sample_date, ymd)
+    mutate_at("sample_date", ymd)
   
   if (length(i) > 0) {
     return(i)
