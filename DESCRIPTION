@@ -19,6 +19,7 @@ Depends:
     R (>= 4.0.3),
     tidyverse,
     lubridate,
+    DT,
     plotly,
     leaflet,
     knitr,
