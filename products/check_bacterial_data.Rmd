@@ -29,14 +29,14 @@ myfile = shark_read("shark_data.txt")
 
 ```{r overview, echo=FALSE}
 glimpse(myfile)
-DT::datatable(myfile, editable = 'cell')
+DT::datatable(myfile)
 ```
 
 ## Check map
 
 Uses plot_map_leaflet to render an interactive leaflet map of sampled stations in the data.
 
-```{r plotmap, echo=FALSE, include=FALSE}
+```{r plotmap, echo=FALSE}
 plot_map_leaflet(myfile)
 ```
 
@@ -45,8 +45,8 @@ plot_map_leaflet(myfile)
 Uses check_fields() function to control if all required fields are present.
 
 ```{r checkfields, echo=FALSE}
-DT::datatable(check_datatype(myfile), editable = 'cell')
-DT::datatable(check_Bacterioplankton(myfile), editable = 'cell')
+check_datatype(myfile)
+check_Bacterioplankton(myfile)
 ```
 ## Check outliers
 
