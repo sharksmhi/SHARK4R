@@ -19,6 +19,7 @@ When you click the **Knit** button a document will be generated that includes bo
 
 ```{r loadlibdata, echo=FALSE, include = FALSE}
 library(SHARK4R)
+library(tidyverse)
 library(DT)
 setwd("C:/__R/_test_SHARK4R/")
 myfile = shark_read("shark_data.txt")
@@ -35,7 +36,7 @@ DT::datatable(myfile, editable = 'cell')
 
 Uses plot_map_leaflet to render an interactive leaflet map of sampled stations in the data.
 
-```{r plotmap, echo=FALSE}
+```{r plotmap, echo=FALSE, include=FALSE}
 plot_map_leaflet(myfile)
 ```
 
