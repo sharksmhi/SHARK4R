@@ -1,10 +1,10 @@
 ---
-title: "_check_bacterial_data: `r params$targetDataset`"
+title: "_check_data: `r params$targetDataset`"
 author: "Markus Lindh"
 date: '2020-11-07'
 output: html_document
 params:
-  targetDataset: "SHARK_Bacterioplankton_ABU_2018_UMSC_Bactabund_version_2020-10-27.zip"
+  targetDataset: "NAME" # Name of dataset in folder, please write the name exactly as it is in the current source data folder
 ---
 
 ```{r setup, include=FALSE}
@@ -26,6 +26,14 @@ library(tidyverse)
 library(DT)
 setwd("C:/__R/_test_SHARK4R/")
 myfile = shark_read_zip(params$targetDataset)
+```
+
+## Check fields
+
+Uses check_fields() function to control if all required fields are present.
+
+```{r checkfields, echo=TRUE}
+check_Bacterioplankton(myfile)
 ```
 
 ## Overview of data
@@ -57,15 +65,6 @@ Uses check_depth() to control if any sample depths are incorrect.
 
 ```{r checkdepth, echo = TRUE}
 # check_depth(myfile)
-```
-
-## Check fields
-
-Uses check_fields() function to control if all required fields are present.
-
-```{r checkfields, echo=TRUE}
-check_datatype(myfile)
-check_Bacterioplankton(myfile)
 ```
 
 ## Check outliers
