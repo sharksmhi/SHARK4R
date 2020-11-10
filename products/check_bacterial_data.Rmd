@@ -1,17 +1,19 @@
 ---
-title: "_check_bacterial_data"
+title: "_check_bacterial_data: `r params$targetDataset`"
 author: "Markus Lindh"
 date: '2020-11-07'
 output: html_document
+params:
+  targetDataset: "SHARK_Bacterioplankton_ABU_2018_UMSC_Bactabund_version_2020-10-27.zip"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Check bacterial data
+## Check data
 
-This is an R Markdown document that checks bacterial data that has passed initial delivery QC and is now in the test phase.
+This is an R Markdown document that checks data that has passed initial delivery QC and is now in the test phase.
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
 
@@ -23,7 +25,7 @@ library(SHARK4R)
 library(tidyverse)
 library(DT)
 setwd("C:/__R/_test_SHARK4R/")
-myfile = shark_read("shark_data.txt")
+myfile = shark_read_zip(params$targetDataset)
 ```
 
 ## Overview of data

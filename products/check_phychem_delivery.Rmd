@@ -18,6 +18,7 @@ When you click the **Knit** button a document will be generated that includes bo
 ## Load library and data
 
 ```{r loadlibdata, echo=FALSE, include = FALSE}
+scriptstart = Sys.time()
 library(SHARK4R)
 library(tidyverse)
 library(DT)
@@ -32,18 +33,27 @@ glimpse(myfile)
 DT::datatable(myfile)
 ```
 
-## Check map
-
-Uses plot_map_leaflet_deliv to render an interactive leaflet map of sampled stations in the delivered data.
-
-```{r plotmap, echo=FALSE}
-plot_map_leaflet_deliv(myfile)
-```
-
 ## Check fields
 
 Uses the check_fields() function to control if all required fields are present.
 
-```{r checkfields, echo = FALSE}
+```{r checkfields, echo = TRUE}
 check_deliv_PhysicalChemical(myfile)
+```
+
+## Reproducibility
+
+```{r reproducibility}
+# Date time
+Sys.time()
+
+# Here we store the session info for this script
+sessioninfo::session_info()
+```
+
+## Runtime of script
+
+```{r runtime, echo = FALSE}
+scriptend = Sys.time()
+print(scriptend-scriptstart)
 ```
