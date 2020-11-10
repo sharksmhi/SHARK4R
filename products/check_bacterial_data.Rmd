@@ -83,6 +83,7 @@ Uses check_logical() function to control if data follows logical assumptions.
 ```{r checklogical, echo=TRUE}
 check_value_logical(myfile)
 ```
+
 ## Check codes
 
 Uses check_codes() function to control if data follows the SMHI codelist.
