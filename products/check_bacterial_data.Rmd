@@ -18,6 +18,7 @@ When you click the **Knit** button a document will be generated that includes bo
 ## Load library and data
 
 ```{r loadlibdata, echo=FALSE, include = FALSE}
+scriptstart = Sys.time()
 library(SHARK4R)
 library(tidyverse)
 library(DT)
@@ -44,7 +45,7 @@ plot_map_leaflet(myfile)
 
 Uses check_onland() to control if any locations are on land.
 
-```{r checkonland, echo = FALSE}
+```{r checkonland, echo = TRUE}
 # check_onland(myfile)
 ```
 
@@ -52,7 +53,7 @@ Uses check_onland() to control if any locations are on land.
 
 Uses check_depth() to control if any sample depths are incorrect.
 
-```{r checkdepth, echo = FALSE}
+```{r checkdepth, echo = TRUE}
 # check_depth(myfile)
 ```
 
@@ -60,15 +61,16 @@ Uses check_depth() to control if any sample depths are incorrect.
 
 Uses check_fields() function to control if all required fields are present.
 
-```{r checkfields, echo=FALSE}
+```{r checkfields, echo=TRUE}
 check_datatype(myfile)
 check_Bacterioplankton(myfile)
 ```
+
 ## Check outliers
 
 Uses check_outliers() function to control if all values are within range.
 
-```{r checkoutliers, echo=FALSE}
+```{r checkoutliers, echo=TRUE}
 check_bacterial_carbon(myfile)
 check_bacterial_concentration(myfile)
 check_bacterial_production(myfile)
@@ -78,13 +80,30 @@ check_bacterial_production(myfile)
 
 Uses check_logical() function to control if data follows logical assumptions.
 
-```{r checklogical, echo=FALSE}
+```{r checklogical, echo=TRUE}
 check_value_logical(myfile)
 ```
 ## Check codes
 
 Uses check_codes() function to control if data follows the SMHI codelist.
 
-```{r checkcode, echo=FALSE}
+```{r checkcode, echo=TRUE}
 check_code_proj(myfile)
+```
+
+## Reproducibility
+
+```{r reproducibility}
+# Date time
+Sys.time()
+
+# Here we store the session info for this script
+sessioninfo::session_info()
+```
+
+## Runtime of script
+
+```{r runtime, echo = FALSE}
+scriptend = Sys.time()
+print(scriptend-scriptstart)
 ```
