@@ -22,8 +22,7 @@ library(SHARK4R)
 library(tidyverse)
 library(DT)
 setwd("C:/__R/_test_SHARK4R/")
-# myfile = shark_read_deliv("Hallands kustkontroll kvartal 2_2020.xlsx") # The good
-myfile = shark_read_deliv_xls("rptSMHI_2012-2017_mol.xls", skip=0) # The bad
+myfile = shark_read_deliv("Hallands kustkontroll kvartal 2_2020.xlsx") # The good
 ```
 
 ## Overview of data
@@ -31,6 +30,14 @@ myfile = shark_read_deliv_xls("rptSMHI_2012-2017_mol.xls", skip=0) # The bad
 ```{r overview, echo=FALSE}
 glimpse(myfile)
 DT::datatable(myfile)
+```
+
+## Check map
+
+Uses plot_map_leaflet_deliv to render an interactive leaflet map of sampled stations in the delivered data.
+
+```{r plotmap, echo=FALSE}
+plot_map_leaflet_deliv(myfile)
 ```
 
 ## Check fields

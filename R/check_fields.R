@@ -111,6 +111,9 @@ check_Bacterioplankton <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -141,6 +144,9 @@ check_Bacterioplankton <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -191,6 +197,9 @@ check_Chlorophyll <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -221,6 +230,9 @@ check_Chlorophyll <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -271,6 +283,9 @@ check_Epibenthos <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -301,6 +316,9 @@ check_Epibenthos <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -351,6 +369,9 @@ check_EpibenthosDropvideo <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -381,6 +402,9 @@ check_EpibenthosDropvideo <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -431,6 +455,9 @@ check_GreySeal <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -461,6 +488,9 @@ check_GreySeal <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -511,6 +541,9 @@ check_HarbourPorpoise <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -541,6 +574,9 @@ check_HarbourPorpoise <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -591,6 +627,9 @@ check_HarbourSeal <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -621,6 +660,9 @@ check_HarbourSeal <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -671,6 +713,9 @@ check_PhysicalChemical <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -701,6 +746,9 @@ check_PhysicalChemical <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -751,6 +799,9 @@ check_Phytoplankton <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -781,6 +832,9 @@ check_Phytoplankton <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -831,6 +885,9 @@ check_Picoplankton <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -861,6 +918,9 @@ check_Picoplankton <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -911,6 +971,9 @@ check_PrimaryProduction <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -941,6 +1004,9 @@ check_PrimaryProduction <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -991,6 +1057,9 @@ check_RingedSeal <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -1021,6 +1090,9 @@ check_RingedSeal <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -1071,6 +1143,9 @@ check_SealPathology <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -1101,6 +1176,9 @@ check_SealPathology <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -1151,6 +1229,9 @@ check_Sedimentation <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -1181,6 +1262,9 @@ check_Sedimentation <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -1231,6 +1315,9 @@ check_Zoobenthos <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -1261,6 +1348,9 @@ check_Zoobenthos <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -1311,6 +1401,9 @@ check_Zooplankton <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -1341,6 +1434,9 @@ check_Zooplankton <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -1391,6 +1487,9 @@ check_deliv_Bacterioplankton <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -1421,6 +1520,9 @@ check_deliv_Bacterioplankton <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -1462,6 +1564,8 @@ check_deliv_Chlorophyll <- function(data, level = "error") {
   
   # find missing required fields
   
+  # find missing required fields
+  
   fields <- missing_fields(data, required)
   if (length(fields) > 0) {
     errors <- bind_rows(errors, tibble(
@@ -1470,6 +1574,9 @@ check_deliv_Chlorophyll <- function(data, level = "error") {
       row = NA,
       message = paste0("Required field ", fields, " is missing")
     ))
+  }
+  else {
+    message("All required fields present")
   }
   
   # find empty values for required fields
@@ -1501,6 +1608,9 @@ check_deliv_Chlorophyll <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -1551,6 +1661,9 @@ check_deliv_Epibenthos <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -1581,6 +1694,9 @@ check_deliv_Epibenthos <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -1631,6 +1747,9 @@ check_deliv_EpibenthosDropvideo <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -1661,6 +1780,9 @@ check_deliv_EpibenthosDropvideo <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -1711,6 +1833,9 @@ check_deliv_GreySeal <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -1741,6 +1866,9 @@ check_deliv_GreySeal <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -1791,6 +1919,9 @@ check_deliv_HarbourPorpoise <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -1821,6 +1952,9 @@ check_deliv_HarbourPorpoise <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -1871,6 +2005,9 @@ check_deliv_HarbourSeal <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -1901,6 +2038,9 @@ check_deliv_HarbourSeal <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -1951,6 +2091,9 @@ check_deliv_PhysicalChemical <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -1981,6 +2124,9 @@ check_deliv_PhysicalChemical <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -2031,6 +2177,9 @@ check_deliv_Phytoplankton <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -2061,6 +2210,9 @@ check_deliv_Phytoplankton <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -2111,6 +2263,9 @@ check_deliv_Picoplankton <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -2141,6 +2296,9 @@ check_deliv_Picoplankton <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -2191,6 +2349,9 @@ check_deliv_PrimaryProduction <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -2221,6 +2382,9 @@ check_deliv_PrimaryProduction <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -2271,6 +2435,9 @@ check_deliv_RingedSeal <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -2301,6 +2468,9 @@ check_deliv_RingedSeal <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -2351,6 +2521,9 @@ check_deliv_SealPathology <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -2381,6 +2554,9 @@ check_deliv_SealPathology <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -2431,6 +2607,9 @@ check_deliv_Sedimentation <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -2461,6 +2640,9 @@ check_deliv_Sedimentation <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -2511,6 +2693,9 @@ check_deliv_Zoobenthos <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -2541,6 +2726,9 @@ check_deliv_Zoobenthos <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
@@ -2591,6 +2779,9 @@ check_deliv_Zooplankton <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   }
+  else {
+    message("All required fields present")
+  }
   
   # find empty values for required fields
   
@@ -2621,6 +2812,9 @@ check_deliv_Zooplankton <- function(data, level = "error") {
         level = "warning",
         message = paste0("Recommended field ", fields, " is missing")
       ))
+    }
+    else {
+      message("All recommended fields present")
     }
     
     # find empty values for recommended fields
