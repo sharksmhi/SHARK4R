@@ -26,12 +26,12 @@ check_bacterial_production <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Bacterial Production, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Bacterial Production, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Bacterial production", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -47,7 +47,7 @@ check_bacterial_production <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Bacterial Production, measurement(s) is within range")
   }
   
@@ -81,12 +81,12 @@ check_bacterial_concentration <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Bacterial concentration, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Bacterial concentration, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Bacterial concentration", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -102,7 +102,7 @@ check_bacterial_concentration <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Bacterial concentration, measurement(s) is within range")
   }
 }
@@ -135,12 +135,12 @@ check_bacterial_carbon <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Bacterial cell carbon content, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Bacterial cell carbon content, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Bacterial cell carbon content", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -156,7 +156,7 @@ check_bacterial_carbon <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Bacterial cell carbon content, measurement(s) is within range")
   }
 }
@@ -189,12 +189,12 @@ check_chlorophyll_conc <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Chlorophyll-a concentration, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Chlorophyll-a concentration, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Chlorophyll-a", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Chlorophyll-a") == TRUE) {
     data_vis = data %>% 
@@ -210,7 +210,7 @@ check_chlorophyll_conc <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Chlorophyll-a concentration, measurement(s) is within range")
   }
 }
@@ -243,12 +243,12 @@ check_picoplankton_abundance <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Abundance, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Abundance, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -264,7 +264,7 @@ check_picoplankton_abundance <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Abundance, measurement(s) is within range")
   }
 }
@@ -297,12 +297,12 @@ check_picoplankton_biovol <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Biovolume concentration, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Biovolume concentration, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -318,7 +318,7 @@ check_picoplankton_biovol <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Biovolume concentration, measurement(s) is within range")
   }
 }
@@ -351,12 +351,12 @@ check_picoplankton_carbon <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Carbon concentration, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Carbon concentration, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -372,7 +372,7 @@ check_picoplankton_carbon <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Carbon concentration, measurement(s) is within range")
   }
 }
@@ -405,12 +405,12 @@ check_picoplankton_counted <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter # counted, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter # counted, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -426,7 +426,7 @@ check_picoplankton_counted <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter # counted, measurement(s) is within range")
   }
 }
@@ -459,12 +459,12 @@ check_zooplankton_abund <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Abundance, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Abundance, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -480,7 +480,7 @@ check_zooplankton_abund <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Abundance, measurement(s) is within range")
   }
 }
@@ -513,12 +513,12 @@ check_zooplankton_counted <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter # counted, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter # counted, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -534,7 +534,7 @@ check_zooplankton_counted <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter # counted, measurement(s) is within range")
   }
 }
@@ -567,12 +567,12 @@ check_zooplankton_length_mean <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Length (mean), measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Length (mean), measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Length (mean)", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -588,7 +588,7 @@ check_zooplankton_length_mean <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Length (mean), measurement(s) is within range")
   }
 }
@@ -621,12 +621,12 @@ check_zooplankton_length_median <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Length (median), measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Length (median), measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Length (median)", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -642,7 +642,7 @@ check_zooplankton_length_median <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Length (median), measurement(s) is within range")
   }
 }
@@ -675,12 +675,12 @@ check_zooplankton_wetweight <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Wet weight, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Wet weight, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Wet weight", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -696,7 +696,7 @@ check_zooplankton_wetweight <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Wet weight, measurement(s) is within range")
   }
 }
@@ -729,12 +729,12 @@ check_zooplankton_carbon <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Carbon content, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Carbon content, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Carbon content", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -750,7 +750,7 @@ check_zooplankton_carbon <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Carbon content, measurement(s) is within range")
   }
 }
@@ -783,12 +783,12 @@ check_zooplankton_wetweight_volume <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Wet weight/volume, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Wet weight/volume, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Carbon content", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -804,7 +804,7 @@ check_zooplankton_wetweight_volume <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Wet weight/volume, measurement(s) is within range")
   }
 }
@@ -837,12 +837,12 @@ check_zooplankton_wetweight_area <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Wet weight/area, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Wet weight/area, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Wet weight/area", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -858,7 +858,7 @@ check_zooplankton_wetweight_area <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Wet weight/area, measurement(s) is within range")
   }
 }
@@ -891,12 +891,12 @@ check_phytoplankton_abund <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Abundance, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Abundance, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -912,7 +912,7 @@ check_phytoplankton_abund <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Abundance, measurement(s) is within range")
   }
 }
@@ -945,12 +945,12 @@ check_phytoplankton_biovol <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Biovolume concentration, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Biovolume concentration, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Biovolume concentration", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -966,7 +966,7 @@ check_phytoplankton_biovol <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Biovolume concentration, measurement(s) is within range")
   }
 }
@@ -999,12 +999,12 @@ check_phytoplankton_carbon <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Carbon concentration, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Carbon concentration, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Carbon concentration", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1020,7 +1020,7 @@ check_phytoplankton_carbon <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Carbon concentration, measurement(s) is within range")
   }
 }
@@ -1053,12 +1053,12 @@ check_phytoplankton_carbon <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter # counted, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter # counted, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1074,7 +1074,7 @@ check_phytoplankton_carbon <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter # counted, measurement(s) is within range")
   }
 }
@@ -1107,12 +1107,12 @@ check_primaryproduction_carbonprod <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Carbon production, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Carbon production, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Carbon production", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1128,7 +1128,7 @@ check_primaryproduction_carbonprod <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Carbon production, measurement(s) is within range")
   }
 }
@@ -1161,12 +1161,12 @@ check_primaryproduction_carbonprodlight <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Carbon prod in light, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Carbon prod in light, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Carbon prod in light", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1182,7 +1182,7 @@ check_primaryproduction_carbonprodlight <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Carbon prod in light, measurement(s) is within range")
   }
 }
@@ -1215,12 +1215,12 @@ check_primaryproduction_carbonprod_hour <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Carbon production/hour, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Carbon production/hour, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Carbon production/hour", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1236,7 +1236,7 @@ check_primaryproduction_carbonprod_hour <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Carbon production/hour, measurement(s) is within range")
   }
 }
@@ -1269,12 +1269,12 @@ check_epibenthos_counted <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter # counted, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter # counted, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1290,7 +1290,7 @@ check_epibenthos_counted <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter # counted, measurement(s) is within range")
   }
 }
@@ -1323,12 +1323,12 @@ check_epibenthos_dryweight <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Dry weight, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Dry weight, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Dry weight", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1344,7 +1344,7 @@ check_epibenthos_dryweight <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Dry weight, measurement(s) is within range")
   }
 }
@@ -1377,12 +1377,12 @@ check_epibenthos_specdistr_maxdepth <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Species distribution max depth, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Species distribution max depth, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Dry weight", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1398,7 +1398,7 @@ check_epibenthos_specdistr_maxdepth <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Species distribution max depth, measurement(s) is within range")
   }
 }
@@ -1431,12 +1431,12 @@ check_epibenthos_specdistr_mindepth <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Species distribution min depth, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Species distribution min depth, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Species distribution min depth", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1452,7 +1452,7 @@ check_epibenthos_specdistr_mindepth <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Species distribution min depth, measurement(s) is within range")
   }
 }
@@ -1485,12 +1485,12 @@ check_harbourseal_counted <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter # counted, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter # counted, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Species distribution min depth", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1506,7 +1506,7 @@ check_harbourseal_counted <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter # counted, measurement(s) is within range")
   }
 }
@@ -1539,12 +1539,12 @@ check_greyseal_counted <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter # counted, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter # counted, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Species distribution min depth", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1560,7 +1560,7 @@ check_greyseal_counted <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter # counted, measurement(s) is within range")
   }
 }
@@ -1593,12 +1593,12 @@ check_zoobenthos_BQIm <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter BQIm, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter BQIm, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "BQIm", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1614,7 +1614,7 @@ check_zoobenthos_BQIm <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter BQIm, measurement(s) is within range")
   }
 }
@@ -1647,12 +1647,12 @@ check_zoobenthos_abund <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Abundance, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Abundance, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1668,7 +1668,7 @@ check_zoobenthos_abund <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Abundance, measurement(s) is within range")
   }
 }
@@ -1701,12 +1701,12 @@ check_zoobenthos_counted <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter # counted, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter # counted, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1722,7 +1722,7 @@ check_zoobenthos_counted <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter # counted, measurement(s) is within range")
   }
 }
@@ -1755,12 +1755,12 @@ check_zoobenthos_wetweight <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Wet weight, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Wet weight, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1776,7 +1776,7 @@ check_zoobenthos_wetweight <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Wet weight, measurement(s) is within range")
   }
 }
@@ -1809,12 +1809,12 @@ check_ringedseal_calccounted <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Calculated # counted, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Calculated # counted, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1830,7 +1830,7 @@ check_ringedseal_calccounted <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Calculated # counted, measurement(s) is within range")
   }
 }
@@ -1863,12 +1863,12 @@ check_harbporp_positivemin <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
-    message("Parameter Porpoise positive minutes, measurement(s) is outside range please check for outliers!")
+    return(fig)
+    message("WARNING: Parameter Porpoise positive minutes, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(DT::datatable(extreme.outliers))
+    return(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1884,7 +1884,7 @@ check_harbporp_positivemin <- function(data) {
             axis.text.x=element_blank(),
             axis.ticks.x=element_blank())
     fig <- ggplotly(p)
-    print(fig)
+    return(fig)
     message("Parameter Porpoise positive minutes, measurement(s) is within range")
   }
 }
