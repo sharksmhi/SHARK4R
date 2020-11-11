@@ -168,6 +168,60 @@ check_bacterial_carbon <- function(data) {
 #' @return ggplot and tibble of data with outliers 
 #' @export
 
+check_chlorophyll_conc <- function(data) {
+  mild.threshold.upper = 6.25                                  
+  extreme.threshold.upper = 9.4              
+  
+  if (any(data$parameter=="Chlorophyll-a") == FALSE) {
+    message("Parameter Chlorophyll-a not found")
+  }
+  if (any(data$value[which(data$parameter=="Chlorophyll-a")] > extreme.threshold.upper)) {
+    data_vis = data %>% 
+      filter(parameter == "Chlorophyll-a") %>% 
+      select(value)
+    p = ggplot(data_vis,aes(y = value))+
+      geom_boxplot(outlier.colour = "red")+
+      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
+      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
+      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
+      theme_bw()+
+      theme(axis.title.x=element_blank(),
+            axis.text.x=element_blank(),
+            axis.ticks.x=element_blank())
+    fig <- ggplotly(p)
+    print(fig)
+    message("Parameter Chlorophyll-a concentration, measurement(s) is outside range please check for outliers!")
+    extreme.outliers = data %>%
+      filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
+      select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
+    print(extreme.outliers)
+  }
+  else if (any(data$parameter=="Chlorophyll-a") == TRUE) {
+    data_vis = data %>% 
+      filter(parameter == "Chlorophyll-a") %>% 
+      select(value)
+    p = ggplot(data_vis,aes(y = value))+
+      geom_boxplot(outlier.colour = "red")+
+      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
+      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
+      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
+      theme_bw()+
+      theme(axis.title.x=element_blank(),
+            axis.text.x=element_blank(),
+            axis.ticks.x=element_blank())
+    fig <- ggplotly(p)
+    print(fig)
+    message("Parameter Chlorophyll-a concentration, measurement(s) is within range")
+  }
+}
+
+#' Check range of data for specific parameters
+#' Uses data from national marine monitoring for the last 5 years to identify outliers 
+#' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
+#' @param data for tibble be be checked
+#' @return ggplot and tibble of data with outliers 
+#' @export
+
 check_picoplankton_abundance <- function(data) {
   mild.threshold.upper = 85155831                                  
   extreme.threshold.upper = 133564616              

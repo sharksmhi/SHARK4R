@@ -87,6 +87,35 @@ for (i in unique(datatype$Parameter)) {
 
 ```
 
+```{r chl, echo=FALSE, include = TRUE}
+datatype = readfile %>% 
+  filter(Datatyp == "Chlorophyll") %>% 
+  select(Parameter, Mätvärde)
+message("Chlorophyll")
+for (i in unique(datatype$Parameter)) {
+  print(range(datatype$Mätvärde[which(datatype$Parameter==i)]))
+  print(quantile(datatype$Mätvärde[which(datatype$Parameter==i)]))
+  lowerq = quantile(datatype$Mätvärde[which(datatype$Parameter==i)])[2]
+  upperq = quantile(datatype$Mätvärde[which(datatype$Parameter==i)])[4]
+  iqr = upperq - lowerq
+  mild.threshold.upper = (iqr * 1.5) + upperq
+  mild.threshold.lower = lowerq - (iqr * 1.5)
+  extreme.threshold.upper = (iqr * 3) + upperq
+  extreme.threshold.lower = lowerq - (iqr * 3)
+  print(data.frame(PARAMETER = i,mild.threshold.upper,mild.threshold.lower,extreme.threshold.upper,extreme.threshold.lower))
+  data_vis = datatype %>% 
+    filter(Parameter == i) %>% 
+    select(Mätvärde)
+  p = ggplot(data_vis,aes(y = Mätvärde, x = i))+
+    geom_boxplot(outlier.colour = "red")+
+    geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
+    geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
+    ggtitle(label = i)+
+    theme_bw()
+  print(p)
+}
+```
+
 ```{r pico, echo=FALSE, include = TRUE}
 datatype = readfile %>% 
   filter(Datatyp == "Picoplankton") %>% 
@@ -202,36 +231,6 @@ for (i in unique(datatype$Parameter)) {
   print(p)
 }
 ```
-
-```{r chl, echo=FALSE, include = TRUE}
-datatype = readfile %>% 
-  filter(Datatyp == "Chlorophyll") %>% 
-  select(Parameter, Mätvärde)
-message("Chlorophyll")
-for (i in unique(datatype$Parameter)) {
-  print(range(datatype$Mätvärde[which(datatype$Parameter==i)]))
-  print(quantile(datatype$Mätvärde[which(datatype$Parameter==i)]))
-  lowerq = quantile(datatype$Mätvärde[which(datatype$Parameter==i)])[2]
-  upperq = quantile(datatype$Mätvärde[which(datatype$Parameter==i)])[4]
-  iqr = upperq - lowerq
-  mild.threshold.upper = (iqr * 1.5) + upperq
-  mild.threshold.lower = lowerq - (iqr * 1.5)
-  extreme.threshold.upper = (iqr * 3) + upperq
-  extreme.threshold.lower = lowerq - (iqr * 3)
-  print(data.frame(PARAMETER = i,mild.threshold.upper,mild.threshold.lower,extreme.threshold.upper,extreme.threshold.lower))
-  data_vis = datatype %>% 
-    filter(Parameter == i) %>% 
-    select(Mätvärde)
-  p = ggplot(data_vis,aes(y = Mätvärde, x = i))+
-    geom_boxplot(outlier.colour = "red")+
-    geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-    geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-    ggtitle(label = i)+
-    theme_bw()
-  print(p)
-}
-```
-
 
 ```{r sealpath, echo=FALSE, include = TRUE}
 datatype = readfile %>% 

@@ -33,7 +33,7 @@ myfile = shark_read_deliv(params$targetDataset)
 Uses the check_fields() function to control if all required fields are present.
 
 ```{r checkfields, echo = TRUE}
-check_deliv_PhysicalChemical(myfile)
+check_deliv_Phytoplankton(myfile)
 ```
 
 ## Overview of data
