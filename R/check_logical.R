@@ -27,7 +27,10 @@ check_value_logical <- function(data) {
     message("Expected numerical value is formatted as numerical and no character values were found")
   }
 }
-
+#' Check logical assumptions of data for specific variables and parameters
+#' @param data for tibble be be checked
+#' @return logical test with true or false results 
+#' @export
 check_epibenthos_totcover_logical <- function(data) {
 
   if (any(data$parameter=="Total cover of all species (%)") == FALSE) {
@@ -44,7 +47,10 @@ check_epibenthos_totcover_logical <- function(data) {
     message("Parameter Total cover of all species (%), measurement(s) is between 0-100%")
   }
 }
-
+#' Check logical assumptions of data for specific variables and parameters
+#' @param data for tibble be be checked
+#' @return logical test with true or false results 
+#' @export
 check_epibenthos_coverpercent_logical <- function(data) {
   
   if (any(data$parameter=="Cover (%)") == FALSE) {
@@ -61,7 +67,10 @@ check_epibenthos_coverpercent_logical <- function(data) {
     message("Parameter Cover (%), measurement(s) is between 0-100%")
   }
 }
-
+#' Check logical assumptions of data for specific variables and parameters
+#' @param data for tibble be be checked
+#' @return logical test with true or false results 
+#' @export
 check_epibenthos_cover_logical <- function(data) {
   
   if (any(data$parameter=="Cover") == FALSE) {
@@ -78,7 +87,10 @@ check_epibenthos_cover_logical <- function(data) {
     message("Parameter Cover, measurement(s) is between 0-100%")
   }
 }
-
+#' Check logical assumptions of data for specific variables and parameters
+#' @param data for tibble be be checked
+#' @return logical test with true or false results 
+#' @export
 check_epibenthos_coverclass_logical <- function(data) {
   
   if (any(data$parameter=="Cover class") == FALSE) {
@@ -95,7 +107,10 @@ check_epibenthos_coverclass_logical <- function(data) {
     message("Parameter Cover class, measurement(s) is between 0-10")
   }
 }
-
+#' Check logical assumptions of data for specific variables and parameters
+#' @param data for tibble be be checked
+#' @return logical test with true or false results 
+#' @export
 check_epibenthos_sedimentdepos_logical <- function(data) {
   
   if (any(data$parameter=="Sediment deposition cover (%)") == FALSE) {
@@ -112,7 +127,10 @@ check_epibenthos_sedimentdepos_logical <- function(data) {
     message("Parameter Sediment deposition cover (%), measurement(s) is between 0-100%")
   }
 }
-
+#' Check logical assumptions of data for specific variables and parameters
+#' @param data for tibble be be checked
+#' @return logical test with true or false results 
+#' @export
 check_epibenthos_abundclass_logical <- function(data) {
   
   if (any(data$parameter=="Abundance class") == FALSE) {
@@ -129,7 +147,10 @@ check_epibenthos_abundclass_logical <- function(data) {
     message("Parameter Abundance class, measurement(s) is between 0-10")
   }
 }
-
+#' Check logical assumptions of data for specific variables and parameters
+#' @param data for tibble be be checked
+#' @return logical test with true or false results 
+#' @export
 check_zoobenthos_BQIm_logical <- function(data) {
   
   if (any(data$parameter=="BQIm") == FALSE) {
@@ -147,7 +168,10 @@ check_zoobenthos_BQIm_logical <- function(data) {
     message("Parameter BQIm, measurement(s) follow logical assumption of abundance < 0 then BQIm should be < 0")
   }
 }
-
+#' Check logical assumptions of data for specific variables and parameters
+#' @param data for tibble be be checked
+#' @return logical test with true or false results 
+#' @export
 check_zoobenthos_wetweight_logical <- function(data) {
   
   if (any(data$parameter=="Wet weight") == FALSE) {

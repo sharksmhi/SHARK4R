@@ -4,7 +4,7 @@ author: "Markus Lindh"
 date: '2020-11-07'
 output: html_document
 params:
-  targetDataset: "SHARK_Chlorophyll_2007_SMHI_LVVF_version_2020-10-27.zip" # Name of dataset in folder, please write the name exactly as it is in the current source data folder
+  targetDataset: "NAME" # Name of dataset in folder, please write the name exactly as it is in the current source data folder
 ---
 
 ```{r setup, include=FALSE}
@@ -49,6 +49,14 @@ Uses plot_map_leaflet to render an interactive leaflet map of sampled stations i
 
 ```{r plotmap, echo=FALSE}
 plot_map_leaflet(myfile)
+```
+
+## Check station name and geographical bounding box
+
+Uses check_stations() to control if station name is found in the SMHI curated list and location is within preset distance limit
+
+```{r checkstations, echo = TRUE}
+# check_stations(myfile)
 ```
 
 ## Check onland
