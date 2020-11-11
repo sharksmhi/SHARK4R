@@ -31,7 +31,7 @@ check_bacterial_production <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Bacterial production", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -86,7 +86,7 @@ check_bacterial_concentration <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Bacterial concentration", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -140,7 +140,7 @@ check_bacterial_carbon <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Bacterial cell carbon content", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -192,9 +192,9 @@ check_chlorophyll_conc <- function(data) {
     print(fig)
     message("Parameter Chlorophyll-a concentration, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
-      filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
+      filter(parameter == "Chlorophyll-a", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Chlorophyll-a") == TRUE) {
     data_vis = data %>% 
@@ -248,7 +248,7 @@ check_picoplankton_abundance <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -302,7 +302,7 @@ check_picoplankton_biovol <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -356,7 +356,7 @@ check_picoplankton_carbon <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -410,7 +410,7 @@ check_picoplankton_counted <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -464,7 +464,7 @@ check_zooplankton_abund <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -518,7 +518,7 @@ check_zooplankton_counted <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -572,7 +572,7 @@ check_zooplankton_length_mean <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Length (mean)", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -626,7 +626,7 @@ check_zooplankton_length_median <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Length (median)", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -680,7 +680,7 @@ check_zooplankton_wetweight <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Wet weight", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -734,7 +734,7 @@ check_zooplankton_carbon <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Carbon content", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -788,7 +788,7 @@ check_zooplankton_wetweight_volume <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Carbon content", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -842,7 +842,7 @@ check_zooplankton_wetweight_area <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Wet weight/area", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -896,7 +896,7 @@ check_phytoplankton_abund <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -950,7 +950,7 @@ check_phytoplankton_biovol <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Biovolume concentration", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1004,7 +1004,7 @@ check_phytoplankton_carbon <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Carbon concentration", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1058,7 +1058,7 @@ check_phytoplankton_carbon <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1112,7 +1112,7 @@ check_primaryproduction_carbonprod <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Carbon production", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1166,7 +1166,7 @@ check_primaryproduction_carbonprodlight <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Carbon prod in light", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1220,7 +1220,7 @@ check_primaryproduction_carbonprod_hour <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Carbon production/hour", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1274,7 +1274,7 @@ check_epibenthos_counted <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1328,7 +1328,7 @@ check_epibenthos_dryweight <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Dry weight", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1382,7 +1382,7 @@ check_epibenthos_specdistr_maxdepth <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Dry weight", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1436,7 +1436,7 @@ check_epibenthos_specdistr_mindepth <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Species distribution min depth", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1490,7 +1490,7 @@ check_harbourseal_counted <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Species distribution min depth", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1544,7 +1544,7 @@ check_greyseal_counted <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Species distribution min depth", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1598,7 +1598,7 @@ check_zoobenthos_BQIm <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "BQIm", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1652,7 +1652,7 @@ check_zoobenthos_abund <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1706,7 +1706,7 @@ check_zoobenthos_counted <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1760,7 +1760,7 @@ check_zoobenthos_wetweight <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1814,7 +1814,7 @@ check_ringedseal_calccounted <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
@@ -1868,7 +1868,7 @@ check_harbporp_positivemin <- function(data) {
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
-    print(extreme.outliers)
+    print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
     data_vis = data %>% 
