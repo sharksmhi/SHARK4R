@@ -1,0 +1,291 @@
+---
+title: "_check_data: `r params$targetDataset`"
+author: "Markus Lindh"
+date: '2020-11-07'
+output: html_document
+params:
+  targetDataset: "SHARK_Bacterioplankton_ABU_2018_UMSC_Bactabund_version_2020-10-27.zip" # Name of dataset in folder, please write the name exactly as it is in the current source data folder
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Check data
+
+This is an R Markdown document that checks data that has passed initial delivery QC and is now in the test phase.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## Load library and data
+
+```{r loadlibdata, echo=FALSE, include = FALSE}
+scriptstart = Sys.time()
+library(SHARK4R)
+library(tidyverse)
+library(DT)
+setwd("C:/__R/_test_SHARK4R/")
+myfile = shark_read_zip(params$targetDataset)
+```
+
+## Set conditions
+```{r runoncondition, echo = FALSE, include = FALSE}
+# execute code depending on datatype
+do_it_bact = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'Bacterioplankton'
+do_it_chl = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'Chlorophyll'
+do_it_epi = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'Epibenthos'
+do_it_grey = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'GreySeal'
+do_it_harbp = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'HarbourPorpoise'
+do_it_harbs = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'HarbourSeal'
+do_it_phychem = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'PhysicalChemical'
+do_it_phyto = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'Phytoplankton'
+do_it_pico = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'Picoplankton'
+do_it_pp = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'PrimaryProduction'
+do_it_ring = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'RingedSeal'
+do_it_sealpath = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'SealPathology'
+do_it_sed = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'Sedimentation'
+do_it_zoob = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'Zoobenthos'
+do_it_zoop = sub("^[^_]*_([^_]*).*", "\\1", params$targetDataset) == 'Zooplankton'
+```
+
+## Check fields
+
+Uses check_fields() function to control if all required fields are present.
+
+```{r checkfields_a, echo=TRUE}
+check_datatype(myfile)
+```
+
+```{r checkfields_b, eval = do_it_bact, echo=TRUE}
+check_Bacterioplankton(myfile)
+```
+
+```{r checkfields_c, eval =do_it_chl, echo=TRUE}
+check_Chlorophyll(myfile)
+```
+
+```{r checkfields_d, eval = do_it_epi, echo=TRUE}
+check_Epibenthos(myfile)
+check_EpibenthosDropvideo(myfile)
+```
+
+```{r checkfields_e, eval = do_it_grey, echo=TRUE}
+check_GreySeal(myfile)
+```
+
+```{r checkfields_f, eval = do_it_harbp, echo=TRUE}
+check_HarbourPorpoise(myfile)
+```
+
+```{r checkfields_g, eval = do_it_harbs, echo=TRUE}
+check_HarbourSeal(myfile)
+```
+
+```{r checkfields_h, eval = do_it_phychem, echo=TRUE}
+check_PhysicalChemical(myfile)
+```
+
+```{r checkfields_i, eval = do_it_phyto, echo=TRUE}
+check_Phytoplankton(myfile)
+```
+
+```{r checkfields_j, eval = do_it_pico, echo=TRUE}
+check_Picoplankton(myfile)
+```
+
+```{r checkfields_k, eval = do_it_pp, echo=TRUE}
+check_PrimaryProduction(myfile)
+```
+
+```{r checkfields_l, eval = do_it_ring, echo=TRUE}
+check_RingedSeal(myfile)
+```
+
+```{r checkfields_m, eval = do_it_sed, echo=TRUE}
+check_Sedimentation(myfile)
+```
+
+```{r checkfields_n, eval = do_it_sealpath, echo=TRUE}
+check_SealPathology(myfile)
+```
+
+```{r checkfields_o, eval = do_it_zoob, echo=TRUE}
+check_Zoobenthos(myfile)
+```
+
+```{r checkfields_p, eval = do_it_zoop, echo=TRUE}
+check_Zooplankton(myfile)
+```
+
+## Overview of data
+
+```{r overview, echo=FALSE}
+glimpse(myfile)
+DT::datatable(myfile)
+```
+
+## Check map
+
+Uses plot_map_leaflet to render an interactive leaflet map of sampled stations in the data.
+
+```{r plotmap, echo=FALSE}
+plot_map_leaflet(myfile)
+```
+
+## Check station name and geographical bounding box
+
+Uses check_stations() to control if station name is found in the SMHI curated list and location is within preset distance limit
+
+```{r checkstations, echo = TRUE}
+# check_stations(myfile)
+```
+
+## Check onland
+
+Uses check_onland() to control if any locations are on land.
+
+```{r checkonland, echo = TRUE}
+# check_onland(myfile)
+```
+
+## Check depth
+
+Uses check_depth() to control if any sample depths are incorrect.
+
+```{r checkdepth, echo = TRUE}
+# check_depth(myfile)
+```
+
+## Check outliers
+
+Uses check_outliers() function to control if all values are within range.
+
+```{r checkoutliers_a, eval = do_it_bact, echo=TRUE}
+check_bacterial_carbon(myfile)
+check_bacterial_concentration(myfile)
+check_bacterial_production(myfile)
+```
+
+```{r checkoutliers_b, eval = do_it_chl, echo=TRUE}
+check_chlorophyll_conc(myfile)
+```
+
+```{r checkoutliers_c, eval = do_it_epi, echo=TRUE}
+check_epibenthos_counted(myfile)
+check_epibenthos_dryweight(myfile)
+check_epibenthos_specdistr_maxdepth(myfile)
+check_epibenthos_specdistr_mindepth(myfile)
+```
+
+```{r checkoutliers_d, eval = do_it_grey, echo=TRUE}
+check_greyseal_counted(myfile)
+```
+
+```{r checkoutliers_e, eval = do_it_harbp, echo=TRUE}
+check_harbporp_positivemin(myfile)
+```
+
+```{r checkoutliers_f, eval = do_it_harbs, echo=TRUE}
+check_harbourseal_counted(myfile)
+```
+
+```{r checkoutliers_g, eval = do_it_phychem, echo=TRUE}
+#check_phychem_(myfile)
+```
+
+```{r checkoutliers_h, eval = do_it_phyto, echo=TRUE}
+check_phytoplankton_abund(myfile)
+check_phytoplankton_biovol(myfile)
+check_phytoplankton_carbon(myfile)
+```
+
+```{r checkoutliers_i, eval = do_it_pico, echo=TRUE}
+check_picoplankton_abundance(myfile)
+check_picoplankton_biovol(myfile)
+check_picoplankton_carbon(myfile)
+check_picoplankton_counted(myfile)
+```
+
+```{r checkoutliers_j, eval = do_it_pp, echo=TRUE}
+check_primaryproduction_carbonprod(myfile)
+check_primaryproduction_carbonprod_hour(myfile)
+check_primaryproduction_carbonprodlight(myfile)
+```
+
+```{r checkoutliers_k, eval = do_it_ring, echo=TRUE}
+check_ringedseal_calccounted(myfile)
+```
+
+```{r checkoutliers_l, eval = do_it_sealpath, echo=TRUE}
+#check_sealpathology_(myfile)
+```
+
+```{r checkoutliers_m, eval = do_it_sed, echo=TRUE}
+#check_sedimentation_(myfile)
+```
+
+```{r checkoutliers_n, eval = do_it_zoob, echo=TRUE}
+check_zoobenthos_abund(myfile)
+check_zoobenthos_BQIm(myfile)
+check_zoobenthos_counted(myfile)
+check_zoobenthos_wetweight(myfile)
+```
+
+```{r checkoutliers_o, eval = do_it_zoop, echo=TRUE}
+check_zooplankton_abund(myfile)
+check_zooplankton_carbon(myfile)
+check_zooplankton_counted(myfile)
+check_zooplankton_length_mean(myfile)
+check_zooplankton_length_median(myfile)
+check_zooplankton_wetweight(myfile)
+check_zooplankton_wetweight_area(myfile)
+check_zooplankton_wetweight_volume(myfile)
+```
+
+## Check logical
+
+Uses check_logical() function to control if data follows logical assumptions.
+
+```{r checklogical_a, echo=TRUE}
+check_value_logical(myfile)
+```
+
+```{r checklogical_b, eval = do_it_epi, echo=TRUE}
+check_value_logical(myfile)
+check_epibenthos_abundclass_logical(myfile)
+check_epibenthos_cover_logical(myfile)
+check_epibenthos_coverclass_logical(myfile)
+check_epibenthos_coverpercent_logical(myfile)
+check_epibenthos_sedimentdepos_logical(myfile)
+check_epibenthos_totcover_logical(myfile)
+```
+
+```{r checklogical_c, eval = do_it_zoob, echo=TRUE}
+check_zoobenthos_BQIm_logical(myfile)
+check_zoobenthos_wetweight_logical(myfile)
+```
+
+## Check codes
+
+Uses check_codes() function to control if data follows the SMHI codelist.
+
+```{r checkcode, echo=TRUE}
+check_code_proj(myfile)
+```
+
+## Reproducibility
+
+```{r reproducibility}
+# Date time
+Sys.time()
+
+# Here we store the session info for this script
+sessioninfo::session_info()
+```
+
+## Runtime of script
+
+```{r runtime, echo = FALSE}
+scriptend = Sys.time()
+print(scriptend-scriptstart)
+```
