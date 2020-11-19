@@ -4,7 +4,8 @@ author: "Markus Lindh"
 date: '2020-11-07'
 output: html_document
 params:
-  targetDataset: "SHARK_Bacterioplankton_ABU_2018_UMSC_Bactabund_version_2020-10-27.zip" # Name of dataset in folder, please write the name exactly as it is in the current source data folder
+  targetDirectory: "PATH" # Directory path to your local or remote folder containing input data
+  targetDataset: "NAME" # Name of dataset in folder, please write the name exactly as it is in the current source data folder. Instructions on how to perform batch jobs of running multiple datasets from a directory will be added
 ---
 
 ```{r setup, include=FALSE}
@@ -24,7 +25,7 @@ scriptstart = Sys.time()
 library(SHARK4R)
 library(tidyverse)
 library(DT)
-setwd("C:/__R/_test_SHARK4R/")
+setwd(params$targetDirectory)
 myfile = shark_read_zip(params$targetDataset)
 ```
 
@@ -271,6 +272,15 @@ Uses check_codes() function to control if data follows the SMHI codelist.
 
 ```{r checkcode, echo=TRUE}
 check_code_proj(myfile)
+```
+
+## Match taxa
+
+Uses match_dyntaxa_taxa() to find and match taxa names provided in the data against the Dyntaxa database. In addition to the Dyntaxa match it is recommended to run the match_taxa() function to match against the WoRMS database.
+
+```{r matchtaxa, echo=TRUE}
+match_dyntaxa(myfile$scientific_name)
+# match_taxa(myfile$scientific_name)
 ```
 
 ## Reproducibility
