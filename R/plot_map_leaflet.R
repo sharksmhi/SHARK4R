@@ -10,10 +10,11 @@
 plot_map_leaflet <- function(data) {
   coord <- data %>% 
     select(station_name, sample_longitude_dd, sample_latitude_dd) %>% 
-    rename(STATION = station_name, LON = sample_longitude_dd, LAT = sample_latitude_dd)
+    rename(STATION = station_name, LON = sample_longitude_dd, LAT = sample_latitude_dd) %>% 
+    distinct()
   m <- leaflet(coord) %>%
     addProviderTiles("Esri.OceanBasemap") %>%
-    addCircleMarkers(~LON, ~LAT, popup = ~STATION, radius = 3, weight = 1, fillColor = "#FF368B", color = "#FF368B", opacity = 1, fillOpacity = 0.1, clusterOptions = markerClusterOptions()) %>% 
+    addCircleMarkers(~LON, ~LAT, popup = ~STATION, radius = 3, weight = 1, fillColor = "#FF368B", color = "#FF368B", opacity = 1, fillOpacity = 0.1) %>% 
     setView(lng = 18, lat = 60, zoom = 4)
 return(m)
 }
@@ -30,10 +31,11 @@ return(m)
 plot_map_leaflet_deliv <- function(data) {
   coord <- data %>% 
     select(STATN, LONGI, LATIT) %>% 
-    rename(STATION = STATN, LON = LONGI, LAT = LATIT)
+    rename(STATION = STATN, LON = LONGI, LAT = LATIT) %>% 
+    distinct()
   m <- leaflet(coord) %>%
     addProviderTiles("Esri.OceanBasemap") %>%
-    addCircleMarkers(~LONG, ~LAT, popup = ~STATION, radius = 3, weight = 1, fillColor = "#FF368B", color = "#FF368B", opacity = 1, fillOpacity = 0.1, clusterOptions = markerClusterOptions())%>% 
+    addCircleMarkers(~LONG, ~LAT, popup = ~STATION, radius = 3, weight = 1, fillColor = "#FF368B", color = "#FF368B", opacity = 1, fillOpacity = 0.1)%>% 
     setView(lng = 18, lat = 60, zoom = 4) 
   return(m)
 }
