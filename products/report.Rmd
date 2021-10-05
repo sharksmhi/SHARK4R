@@ -244,6 +244,11 @@ check_zooplankton_wetweight_volume(myfile)
 
 Uses check_logical() function to control if data follows logical assumptions.
 
+```{r checkzeroes, echo = TRUE}
+check_zero_value(myfile)
+```
+
+
 ```{r checklogical_a, echo=TRUE}
 check_value_logical(myfile)
 ```
