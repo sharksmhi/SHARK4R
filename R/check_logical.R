@@ -27,6 +27,26 @@ check_value_logical <- function(data) {
     message("Expected numerical value is formatted as numerical and no character values were found")
   }
 }
+
+#' Check logical assumptions of data for specific variables and parameters
+#' @param data for tibble be be checked
+#' @return logical test with true or false results 
+#' @export
+
+check_zero_value <- function(data) {
+  
+  if (any(data$value == 0)) {
+    message("ERROR: Value contain zeroes (0). Please check zero values!")
+    zero_values = data %>%
+      filter(value == 0) %>% 
+      select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
+    print(DT::datatable(zero_values))
+  }
+  else if (any(data$value == 0)) {
+    message("No zero values were found")
+  }
+}
+
 #' Check logical assumptions of data for specific variables and parameters
 #' @param data for tibble be be checked
 #' @return logical test with true or false results 
