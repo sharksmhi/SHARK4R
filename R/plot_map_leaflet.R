@@ -8,17 +8,18 @@
 #' @return HTML widget object.
 #' @export
 plot_map_leaflet <- function(data) {
-  coord <- data %>% 
+  coord = data %>% 
     select(station_name, sample_longitude_dd, sample_latitude_dd) %>% 
     rename(STATION = station_name, LON = sample_longitude_dd, LAT = sample_latitude_dd) %>% 
     distinct()
-  m <- leaflet(coord) %>%
-    addProviderTiles("Esri.OceanBasemap") %>%
-    addCircleMarkers(~LON, ~LAT, popup = ~STATION, radius = 3, weight = 1, fillColor = "#FF368B", color = "#FF368B", opacity = 1, fillOpacity = 0.1) %>% 
-    setView(lng = 18, lat = 60, zoom = 4)
-return(m)
+  
+  m = leaflet() %>%
+    addProviderTiles("Esri.OceanBasemap",
+                     options = providerTileOptions(noWrap = TRUE)
+    ) %>%
+    addMarkers(data = coord, popup = ~STATION)
+  return(m)
 }
-
 #' Create a Leaflet map.
 #'
 #' @param data The data frame.
@@ -33,9 +34,11 @@ plot_map_leaflet_deliv <- function(data) {
     select(STATN, LONGI, LATIT) %>% 
     rename(STATION = STATN, LON = LONGI, LAT = LATIT) %>% 
     distinct()
-  m <- leaflet(coord) %>%
-    addProviderTiles("Esri.OceanBasemap") %>%
-    addCircleMarkers(~LONG, ~LAT, popup = ~STATION, radius = 3, weight = 1, fillColor = "#FF368B", color = "#FF368B", opacity = 1, fillOpacity = 0.1)%>% 
-    setView(lng = 18, lat = 60, zoom = 4) 
+  
+  m = leaflet() %>%
+    addProviderTiles("Esri.OceanBasemap",
+                     options = providerTileOptions(noWrap = TRUE)
+    ) %>%
+    addMarkers(data = coord, popup = ~STATION)
   return(m)
 }
