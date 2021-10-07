@@ -142,7 +142,9 @@ plot_map_leaflet(myfile)
 Uses check_stations() to control if station name is found in the SMHI curated list and location is within preset distance limit
 
 ```{r checkstations, echo = TRUE}
-check_stations(myfile)
+# match_stations(myfile)
+
+# check_station_distance(myfile)
 ```
 
 ## Check onland
@@ -150,7 +152,7 @@ check_stations(myfile)
 Uses check_onland() to control if any locations are on land.
 
 ```{r checkonland, echo = TRUE}
-check_onland(myfile)
+# check_onland(myfile)
 ```
 
 ## Check depth
@@ -158,7 +160,7 @@ check_onland(myfile)
 Uses check_depth() to control if any sample depths are incorrect.
 
 ```{r checkdepth, echo = TRUE}
-check_depth(myfile)
+# check_depth(myfile)
 ```
 
 ## Check outliers
@@ -195,7 +197,7 @@ check_harbourseal_counted(myfile)
 ```
 
 ```{r checkoutliers_g, eval = do_it_phychem, echo=TRUE}
-check_phychem_(myfile)
+# check_phychem_(myfile)
 ```
 
 ```{r checkoutliers_h, eval = do_it_phyto, echo=TRUE}
@@ -222,11 +224,11 @@ check_ringedseal_calccounted(myfile)
 ```
 
 ```{r checkoutliers_l, eval = do_it_sealpath, echo=TRUE}
-check_sealpathology_(myfile)
+# check_sealpathology_(myfile)
 ```
 
 ```{r checkoutliers_m, eval = do_it_sed, echo=TRUE}
-check_sedimentation_(myfile)
+# check_sedimentation_(myfile)
 ```
 
 ```{r checkoutliers_n, eval = do_it_zoob, echo=TRUE}
@@ -271,8 +273,8 @@ check_epibenthos_totcover_logical(myfile)
 ```
 
 ```{r checklogical_c, eval = do_it_zoob, echo=TRUE}
-check_zoobenthos_BQIm_logical(myfile)
-check_zoobenthos_wetweight_logical(myfile)
+# check_zoobenthos_BQIm_logical(myfile)
+# check_zoobenthos_wetweight_logical(myfile)
 ```
 
 ## Check codes
@@ -290,7 +292,7 @@ Uses match_dyntaxa_taxa() to find and match taxa names provided in the data agai
 ```{r matchtaxa, echo=TRUE}
 match_dyntaxa(myfile$scientific_name)
 
-match_taxa(myfile$scientific_name)
+# match_taxa(myfile$scientific_name)
 ```
 
 ## Reproducibility
