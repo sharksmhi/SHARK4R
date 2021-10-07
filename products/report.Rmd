@@ -28,8 +28,8 @@ myfile = shark_read_zip(params$targetDataset)
 
 ## Name of dataset checked
 
-```{r datasetname}
-datasetname = paste("Processing dataset:", myfile$dataset_file_name, sep=" ")
+```{r datasetname, echo=FALSE}
+return(paste("Processing dataset:", unique(myfile$dataset_file_name), sep=" "))
 ```
 
 ## Set conditions

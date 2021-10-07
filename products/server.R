@@ -54,7 +54,7 @@ shinyServer(function(input, output) {
         
         content = function(file) {
             
-            withProgress(message = 'Rendering, please wait!', {
+            withProgress(message = 'Rendering report, please wait!', {
             
             # Copy the report file to a temporary directory before processing it, in
             # case we don't have write permissions to the current working dir (which
