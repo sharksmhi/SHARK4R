@@ -535,20 +535,6 @@ check_primaryproduction_carbonprod <- function(data) {
     message("Parameter Carbon production not found")
   }
   if (any(data$value[which(data$parameter=="Carbon production")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
-      filter(parameter == "Carbon production") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter Carbon production, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Carbon production", value > extreme.threshold.upper) %>% 
@@ -556,20 +542,6 @@ check_primaryproduction_carbonprod <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "Carbon production") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter Carbon production, measurement(s) is within range")
   }
 }
@@ -589,20 +561,6 @@ check_primaryproduction_carbonprodlight <- function(data) {
     message("Parameter Carbon prod in light not found")
   }
   if (any(data$value[which(data$parameter=="Carbon prod in light")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
-      filter(parameter == "Carbon prod in light") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter Carbon prod in light, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Carbon prod in light", value > extreme.threshold.upper) %>% 
@@ -610,20 +568,6 @@ check_primaryproduction_carbonprodlight <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "Carbon prod in light") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter Carbon prod in light, measurement(s) is within range")
   }
 }
@@ -643,20 +587,6 @@ check_primaryproduction_carbonprod_hour <- function(data) {
     message("Parameter Carbon production/hour not found")
   }
   if (any(data$value[which(data$parameter=="Carbon production/hour")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
-      filter(parameter == "Carbon production/hour") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter Carbon production/hour, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Carbon production/hour", value > extreme.threshold.upper) %>% 
@@ -664,20 +594,6 @@ check_primaryproduction_carbonprod_hour <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "Carbon production/hour") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter Carbon production/hour, measurement(s) is within range")
   }
 }
@@ -697,20 +613,6 @@ check_epibenthos_counted <- function(data) {
     message("Parameter # counted not found")
   }
   if (any(data$value[which(data$parameter=="# counted")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
-      filter(parameter == "# counted") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter # counted, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
@@ -718,20 +620,6 @@ check_epibenthos_counted <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "# counted") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter # counted, measurement(s) is within range")
   }
 }
@@ -752,19 +640,6 @@ check_epibenthos_dryweight <- function(data) {
   }
   if (any(data$value[which(data$parameter=="Dry weight")] > extreme.threshold.upper)) {
     data_vis = data %>% 
-      filter(parameter == "Dry weight") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter Dry weight, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Dry weight", value > extreme.threshold.upper) %>% 
@@ -772,20 +647,6 @@ check_epibenthos_dryweight <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "Dry weight") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter Dry weight, measurement(s) is within range")
   }
 }
@@ -805,20 +666,6 @@ check_epibenthos_specdistr_maxdepth <- function(data) {
     message("Parameter Species distribution max depth not found")
   }
   if (any(data$value[which(data$parameter=="Species distribution max depth")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
-      filter(parameter == "Species distribution max depth") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter Species distribution max depth, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Dry weight", value > extreme.threshold.upper) %>% 
@@ -826,20 +673,6 @@ check_epibenthos_specdistr_maxdepth <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "Species distribution max depth") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter Species distribution max depth, measurement(s) is within range")
   }
 }
@@ -859,20 +692,6 @@ check_epibenthos_specdistr_mindepth <- function(data) {
     message("Parameter Species distribution min depth not found")
   }
   if (any(data$value[which(data$parameter=="Species distribution min depth")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
-      filter(parameter == "Species distribution min depth") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter Species distribution min depth, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Species distribution min depth", value > extreme.threshold.upper) %>% 
@@ -880,20 +699,6 @@ check_epibenthos_specdistr_mindepth <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "Species distribution min depth") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter Species distribution min depth, measurement(s) is within range")
   }
 }
@@ -913,20 +718,6 @@ check_harbourseal_counted <- function(data) {
     message("Parameter # counted not found")
   }
   if (any(data$value[which(data$parameter=="# counted")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
-      filter(parameter == "# counted") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter # counted, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Species distribution min depth", value > extreme.threshold.upper) %>% 
@@ -934,20 +725,6 @@ check_harbourseal_counted <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "# counted") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter # counted, measurement(s) is within range")
   }
 }
@@ -967,20 +744,6 @@ check_greyseal_counted <- function(data) {
     message("Parameter # counted not found")
   }
   if (any(data$value[which(data$parameter=="# counted")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
-      filter(parameter == "# counted") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter # counted, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Species distribution min depth", value > extreme.threshold.upper) %>% 
@@ -988,20 +751,6 @@ check_greyseal_counted <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "# counted") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter # counted, measurement(s) is within range")
   }
 }
@@ -1021,20 +770,6 @@ check_zoobenthos_BQIm <- function(data) {
     message("Parameter BQIm not found")
   }
   if (any(data$value[which(data$parameter=="BQIm")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
-      filter(parameter == "BQIm") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter BQIm, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "BQIm", value > extreme.threshold.upper) %>% 
@@ -1042,20 +777,6 @@ check_zoobenthos_BQIm <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "BQIm") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter BQIm, measurement(s) is within range")
   }
 }
@@ -1075,20 +796,6 @@ check_zoobenthos_abund <- function(data) {
     message("Parameter Abundance not found")
   }
   if (any(data$value[which(data$parameter=="Abundance")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
-      filter(parameter == "Abundance") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter Abundance, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Abundance", value > extreme.threshold.upper) %>% 
@@ -1096,20 +803,6 @@ check_zoobenthos_abund <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "Abundance") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter Abundance, measurement(s) is within range")
   }
 }
@@ -1129,20 +822,6 @@ check_zoobenthos_counted <- function(data) {
     message("Parameter # counted not found")
   }
   if (any(data$value[which(data$parameter=="# counted")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
-      filter(parameter == "# counted") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter # counted, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
@@ -1150,20 +829,6 @@ check_zoobenthos_counted <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "# counted") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter # counted, measurement(s) is within range")
   }
 }
@@ -1183,20 +848,6 @@ check_zoobenthos_wetweight <- function(data) {
     message("Parameter Wet weight not found")
   }
   if (any(data$value[which(data$parameter=="Wet weight")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
-      filter(parameter == "Wet weight") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter Wet weight, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
@@ -1204,20 +855,6 @@ check_zoobenthos_wetweight <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "Wet weight") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter Wet weight, measurement(s) is within range")
   }
 }
@@ -1237,20 +874,6 @@ check_ringedseal_calccounted <- function(data) {
     message("Parameter Calculated # counted not found")
   }
   if (any(data$value[which(data$parameter=="Calculated # counted")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
-      filter(parameter == "Calculated # counted") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter Calculated # counted, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
@@ -1258,20 +881,6 @@ check_ringedseal_calccounted <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "Calculated # counted") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter Calculated # counted, measurement(s) is within range")
   }
 }
@@ -1291,20 +900,6 @@ check_harbporp_positivemin <- function(data) {
     message("Parameter Porpoise positive minutes not found")
   }
   if (any(data$value[which(data$parameter=="Porpoise positive minutes")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
-      filter(parameter == "Porpoise positive minutes") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("WARNING: Parameter Porpoise positive minutes, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "# counted", value > extreme.threshold.upper) %>% 
@@ -1312,20 +907,6 @@ check_harbporp_positivemin <- function(data) {
     print(DT::datatable(extreme.outliers))
   }
   else if (any(data$parameter=="Bacterial production") == TRUE) {
-    data_vis = data %>% 
-      filter(parameter == "Porpoise positive minutes") %>% 
-      select(value)
-    p = ggplot(data_vis,aes(y = value))+
-      geom_boxplot(outlier.colour = "red")+
-      geom_hline(yintercept = mild.threshold.upper, colour = "yellow")+
-      geom_hline(yintercept = extreme.threshold.upper, colour = "red")+
-      ggtitle(label = NULL, subtitle = "yellow line = mild outlier \n red line = extreme outlier")+
-      theme_bw()+
-      theme(axis.title.x=element_blank(),
-            axis.text.x=element_blank(),
-            axis.ticks.x=element_blank())
-    fig <- ggplotly(p)
-    print(fig)
     message("Parameter Porpoise positive minutes, measurement(s) is within range")
   }
 }
