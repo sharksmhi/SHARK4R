@@ -198,7 +198,7 @@ check_harbourseal_counted(myfile)
 ```
 
 ```{r checkoutliers_g, eval = do_it_phychem, echo=FALSE}
-# check_phychem_(myfile)
+check_phychem_(myfile)
 ```
 
 ```{r checkoutliers_h, eval = do_it_phyto, echo=FALSE}
@@ -225,11 +225,11 @@ check_ringedseal_calccounted(myfile)
 ```
 
 ```{r checkoutliers_l, eval = do_it_sealpath, echo=FALSE}
-# check_sealpathology_(myfile)
+check_sealpathology_(myfile)
 ```
 
 ```{r checkoutliers_m, eval = do_it_sed, echo=FALSE}
-# check_sedimentation_(myfile)
+check_sedimentation_(myfile)
 ```
 
 ```{r checkoutliers_n, eval = do_it_zoob, echo=FALSE}
@@ -274,8 +274,8 @@ check_epibenthos_totcover_logical(myfile)
 ```
 
 ```{r checklogical_c, eval = do_it_zoob, echo=FALSE}
-# check_zoobenthos_BQIm_logical(myfile)
-# check_zoobenthos_wetweight_logical(myfile)
+check_zoobenthos_BQIm_logical(myfile)
+check_zoobenthos_wetweight_logical(myfile)
 ```
 
 ## Check codes
@@ -293,7 +293,7 @@ Uses match_dyntaxa_taxa() to find and match taxa names provided in the data agai
 ```{r matchtaxa, echo=FALSE}
 match_dyntaxa(myfile$scientific_name)
 
-# match_taxa(myfile$scientific_name)
+match_wormstaxa(myfile$scientific_name, ask = FALSE)
 ```
 
 ## Reproducibility
