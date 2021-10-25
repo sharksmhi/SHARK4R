@@ -2,8 +2,7 @@
 % Please edit documentation in R/check_outliers.R
 \name{check_harbporp_positivemin}
 \alias{check_harbporp_positivemin}
-\title{Check range of data for specific parameters
-Uses data from national marine monitoring for the last 5 years to identify outliers
+\title{Uses data from national marine monitoring for the last 5 years to identify outliers
 Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype}
 \usage{
 check_harbporp_positivemin(data)
@@ -12,10 +11,9 @@ check_harbporp_positivemin(data)
 \item{data}{for tibble be be checked}
 }
 \value{
-ggplot and tibble of data with outliers
+tibble of data with outliers
 }
 \description{
-Check range of data for specific parameters
 Uses data from national marine monitoring for the last 5 years to identify outliers
 Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 }

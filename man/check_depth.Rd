@@ -4,51 +4,14 @@
 \alias{check_depth}
 \title{Check which points have potentially invalid depths.}
 \usage{
-check_depth(data, report = FALSE, depthmargin = 0, shoremargin = NA,
-  bathymetry = NULL)
+check_depth(data)
 }
 \arguments{
 \item{data}{The data frame.}
-
-\item{report}{If TRUE, errors are returned instead of records.}
-
-\item{depthmargin}{How much can the given depth deviate from the bathymetry
-in the rasters (in meters).}
-
-\item{shoremargin}{How far offshore (in meters) should a record be to have a
-bathymetry greater than 0. If \code{NA} (default) then this test is
-ignored.}
-
-\item{bathymetry}{Raster* object that you want to use to check the depth
-against. If \code{NULL} (default) then the bathymetry from the xylookup
-service is used.}
 }
 \value{
 Problematic records or an errors report.
 }
 \description{
 Check which points have potentially invalid depths.
-}
-\details{
-Multiple checks are performed in this function: \enumerate{ \item
-missing depth column (warning) \item empty depth column (warning) \item
-depth values that can't be converted to numbers (error) \item depth values
-that are larger than the depth value in the bathymetry layer, after
-applying the provided \code{depthmargin} (error) \item depth values that
-are negative for off shore points, after applying the provided
-\code{shoremargin} (error) \item minimum depth greater than maximum depth
-(error) }
-}
-\examples{
-\dontrun{
-notok <- check_depth(abra, report = FALSE)
-print(nrow(notok))
-r <- check_depth(abra, report = TRUE, depthmargin = 100, shoremargin = 100)
-print(r)
-plot_map_leaflet(abra[r$row,], popup = "id")
-}
-}
-\seealso{
-\code{\link{check_onland}} \code{\link{check_outliers_dataset}}
-\code{\link{check_outliers_species}} \code{\link{lookup_xy}}
 }

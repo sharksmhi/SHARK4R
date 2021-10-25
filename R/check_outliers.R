@@ -1,8 +1,7 @@
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_bacterial_production <- function(data) {
@@ -10,24 +9,22 @@ check_bacterial_production <- function(data) {
   extreme.threshold.upper = 1200706084              
   
   if (any(data$value[which(data$parameter=="Bacterial production")] > extreme.threshold.upper)) {
-    data_vis = data %>% 
     message("WARNING: Parameter Bacterial Production, measurement(s) is outside range please check for outliers!")
     extreme.outliers = data %>%
       filter(parameter == "Bacterial production", value > extreme.threshold.upper) %>% 
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  
+  else {
     message("Parameter Bacterial Production, measurement(s) is within range")
   }
-  
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_bacterial_concentration <- function(data) {
@@ -41,16 +38,15 @@ check_bacterial_concentration <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Bacterial concentration, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_bacterial_carbon <- function(data) {
@@ -64,16 +60,15 @@ check_bacterial_carbon <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Bacterial cell carbon content, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_chlorophyll_conc <- function(data) {
@@ -87,16 +82,15 @@ check_chlorophyll_conc <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Chlorophyll-a") == TRUE) {
+  else {
     message("Parameter Chlorophyll-a concentration, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_picoplankton_abundance <- function(data) {
@@ -110,16 +104,15 @@ check_picoplankton_abundance <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Abundance, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_picoplankton_biovol <- function(data) {
@@ -133,16 +126,15 @@ check_picoplankton_biovol <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Biovolume concentration, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_picoplankton_carbon <- function(data) {
@@ -156,16 +148,15 @@ check_picoplankton_carbon <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Carbon concentration, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_picoplankton_counted <- function(data) {
@@ -179,16 +170,15 @@ check_picoplankton_counted <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter # counted, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_zooplankton_abund <- function(data) {
@@ -202,16 +192,15 @@ check_zooplankton_abund <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Abundance, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_zooplankton_counted <- function(data) {
@@ -225,16 +214,15 @@ check_zooplankton_counted <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter # counted, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_zooplankton_length_mean <- function(data) {
@@ -248,16 +236,15 @@ check_zooplankton_length_mean <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Length (mean), measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_zooplankton_length_median <- function(data) {
@@ -271,16 +258,15 @@ check_zooplankton_length_median <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Length (median), measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_zooplankton_wetweight <- function(data) {
@@ -294,16 +280,15 @@ check_zooplankton_wetweight <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Wet weight, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_zooplankton_carbon <- function(data) {
@@ -317,16 +302,15 @@ check_zooplankton_carbon <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Carbon content, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_zooplankton_wetweight_volume <- function(data) {
@@ -340,16 +324,15 @@ check_zooplankton_wetweight_volume <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Wet weight/volume, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_zooplankton_wetweight_area <- function(data) {
@@ -363,16 +346,15 @@ check_zooplankton_wetweight_area <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Wet weight/area, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_phytoplankton_abund <- function(data) {
@@ -386,16 +368,15 @@ check_phytoplankton_abund <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Abundance") == TRUE) {
+  else {
     message("Parameter Abundance, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_phytoplankton_biovol <- function(data) {
@@ -409,16 +390,15 @@ check_phytoplankton_biovol <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Biovolume concentration, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_phytoplankton_carbon <- function(data) {
@@ -432,16 +412,15 @@ check_phytoplankton_carbon <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Carbon concentration, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_phytoplankton_carbon <- function(data) {
@@ -455,16 +434,15 @@ check_phytoplankton_carbon <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter # counted, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_primaryproduction_carbonprod <- function(data) {
@@ -478,16 +456,15 @@ check_primaryproduction_carbonprod <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Carbon production, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_primaryproduction_carbonprodlight <- function(data) {
@@ -501,16 +478,15 @@ check_primaryproduction_carbonprodlight <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Carbon prod in light, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_primaryproduction_carbonprod_hour <- function(data) {
@@ -524,16 +500,15 @@ check_primaryproduction_carbonprod_hour <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Carbon production/hour, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_epibenthos_counted <- function(data) {
@@ -547,16 +522,15 @@ check_epibenthos_counted <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter # counted, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_epibenthos_dryweight <- function(data) {
@@ -571,16 +545,15 @@ check_epibenthos_dryweight <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Dry weight, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_epibenthos_specdistr_maxdepth <- function(data) {
@@ -594,16 +567,15 @@ check_epibenthos_specdistr_maxdepth <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Species distribution max depth, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_epibenthos_specdistr_mindepth <- function(data) {
@@ -617,16 +589,15 @@ check_epibenthos_specdistr_mindepth <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Species distribution min depth, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_harbourseal_counted <- function(data) {
@@ -640,16 +611,15 @@ check_harbourseal_counted <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter # counted, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_greyseal_counted <- function(data) {
@@ -663,16 +633,15 @@ check_greyseal_counted <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter # counted, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_zoobenthos_BQIm <- function(data) {
@@ -686,16 +655,15 @@ check_zoobenthos_BQIm <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter BQIm, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_zoobenthos_abund <- function(data) {
@@ -709,16 +677,15 @@ check_zoobenthos_abund <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Abundance, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_zoobenthos_counted <- function(data) {
@@ -732,16 +699,15 @@ check_zoobenthos_counted <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter # counted, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_zoobenthos_wetweight <- function(data) {
@@ -755,16 +721,15 @@ check_zoobenthos_wetweight <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Wet weight, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_ringedseal_calccounted <- function(data) {
@@ -778,16 +743,15 @@ check_ringedseal_calccounted <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Calculated # counted, measurement(s) is within range")
   }
 }
 
-#' Check range of data for specific parameters
 #' Uses data from national marine monitoring for the last 5 years to identify outliers 
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 #' @param data for tibble be be checked
-#' @return ggplot and tibble of data with outliers 
+#' @return tibble of data with outliers 
 #' @export
 
 check_harbporp_positivemin <- function(data) {
@@ -801,7 +765,7 @@ check_harbporp_positivemin <- function(data) {
       select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
     return(DT::datatable(extreme.outliers))
   }
-  else (any(data$parameter=="Bacterial production") == TRUE) {
+  else {
     message("Parameter Porpoise positive minutes, measurement(s) is within range")
   }
 }
