@@ -143,7 +143,7 @@ plot_map_leaflet(myfile)
 Uses check_stations() to control if station name is found in the SMHI curated list and location is within preset distance limit
 
 ```{r checkstations, echo = FALSE}
-match_stations(myfile)
+# match_station(myfile)
 
 nominal_station(myfile)
 
@@ -257,7 +257,11 @@ check_zooplankton_wetweight_volume(myfile)
 Uses check_logical() function to control if data follows logical assumptions.
 
 ```{r checkzeroes, echo=FALSE}
-check_zero_value(myfile)
+# check_zero_value(myfile)
+```
+
+```{r checkzeropositions, echo=FALSE}
+# check_zero_positions(myfile)
 ```
 
 ```{r checklogical_a, echo=FALSE}

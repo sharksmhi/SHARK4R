@@ -37,6 +37,25 @@ check_zero_value <- function(data) {
   }
 }
 
+#' Check logical assumptions of data for station positions
+#' @param data for tibble be be checked
+#' @return logical test with true or false results 
+#' @export
+
+check_zero_positions <- function(data) {
+  
+  if (any(data$sample_longitude_dd == 0)) {
+    message("ERROR: Positions contain zeroes (0). Please check station coordinates with zero values!")
+    zero_positions = data %>%
+      filter(value == 0) %>% 
+      select(station_name, sample_date, sample_id, shark_sample_id_md5, sample_min_depth_m, sample_max_depth_m, value)
+    return(DT::datatable(zero_positions))
+  }
+  else {
+    message("No zero positions were found")
+  }
+}
+
 #' Check logical assumptions of data for specific variables and parameters
 #' @param data for tibble be be checked
 #' @return logical test with true or false results 
