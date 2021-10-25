@@ -1,3 +1,29 @@
+#' Check if stations are reported as nominal position or not
+#' Function makes an estimated guess whether stations are nominal
+#' @param names Vector of latitude and longitude positions.
+#' @return Data frame with station name and latitude and longitude positions.
+#' @export
+
+nominal_station <- function(data) {
+    eventdate = data %>% 
+      select(sample_date) %>% 
+      rename(DATE = sample_date) %>% 
+      distinct()
+      
+    coord = data %>% 
+      select(station_name, sample_longitude_dd, sample_latitude_dd) %>% 
+      rename(STATION = station_name, LON = sample_longitude_dd, LAT = sample_latitude_dd) %>% 
+      distinct()
+
+    if (length(eventdate)>length(coord)) {
+    message("WARNING: Suspected nominal positions reported! Is this correct?")
+    return(coord)
+  }
+  else {
+    message("Positions are not suspected to be nominal")
+  }
+}
+  
 #' Station matching using SMHI station list "stations.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/stationsregister/composer/)
 #' matches reported station name in data with curated station list
 #' @param names Vector of station names.
