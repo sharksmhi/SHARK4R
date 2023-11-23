@@ -1,9 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # SHARK4R
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/SMHI_Logo.svg/500px-SMHI_Logo.svg.png)
