@@ -230,7 +230,7 @@ download_file <- function(dataset_name) {
 read_data <- function(temp, filtered_datasets, dataset_name) {
   dataset_file_name <- filtered_datasets$dataset_file_name[filtered_datasets$dataset_name == dataset_name]
   
-  data_ix <- read_delim(unz(temp, "shark_data.txt"),
+  data_ix <- read_tsv(unz(temp, "shark_data.txt"),
                         locale = locale(encoding = "ISO8859-1"),
                         col_types = cols(),
                         progress = FALSE)
