@@ -38,7 +38,7 @@ with the ```load_dataset_names()``` function. Data can be checked for
 available updates. The higher taxonomy for biological data is loaded
 from file, but can be updated through the World Register of Marine
 Species (WoRMS) and SLU Artdatabanken APIs, using the functions
-```update_worms_taxonomy()``` and ```update_worms_taxonomy()```.
+```update_worms_taxonomy()``` and ```update_dyntaxa_taxonomy()```.
 
 ## Check required fields
 
