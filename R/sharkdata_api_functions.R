@@ -572,10 +572,10 @@ update_data <- function(data) {
     # Automatically convert columns to appropriate types
     updated_data <- type_convert(data, col_types = cols())
     
-    return(data)
   } else {
     message("Data are already up to date")
   }
+  return(data)
 }
 
 #' Function to filter outdated datasets
