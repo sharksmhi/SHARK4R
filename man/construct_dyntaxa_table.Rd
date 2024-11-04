@@ -10,6 +10,8 @@ construct_dyntaxa_table(parent_ids, subscription_key, shark_output = TRUE)
 \item{parent_ids}{A list containing parent taxon IDs for which taxonomy information is requested.}
 
 \item{subscription_key}{A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at \href{https://api-portal.artdatabanken.se/}{Artdatabanken}.}
+
+\item{shark_output}{Logical. If TRUE, the function will return selected column headers that match SHARK output. If FALSE, all columns are returned. Default is TRUE.}
 }
 \value{
 A data frame representing the constructed taxonomy table.

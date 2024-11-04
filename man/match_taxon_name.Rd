@@ -7,6 +7,7 @@
 match_taxon_name(
   taxon_names,
   subscription_key,
+  multiple_options = FALSE,
   searchFields = "Both",
   isRecommended = "NotSet",
   isOkForObservationSystems = "NotSet",
@@ -19,6 +20,8 @@ match_taxon_name(
 \item{taxon_names}{A vector of taxon names to match.}
 
 \item{subscription_key}{A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at \href{https://api-portal.artdatabanken.se/}{Artdatabanken}.}
+
+\item{multiple_options}{Logical. If TRUE, the function will return multiple matching names. Default is FALSE, selecting the first match.}
 
 \item{searchFields}{A character string indicating the search fields. Defaults to 'Both'.}
 

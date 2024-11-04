@@ -154,7 +154,7 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key) {
 #'
 #' @param parent_ids A list containing parent taxon IDs for which taxonomy information is requested.
 #' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
-#'
+#' @param shark_output Logical. If TRUE, the function will return selected column headers that match SHARK output. If FALSE, all columns are returned. Default is TRUE.
 #' @return A data frame representing the constructed taxonomy table.
 #'
 #' @export
@@ -365,6 +365,7 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids, subscription_key) {
 #'
 #' @param taxon_names A vector of taxon names to match.
 #' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
+#' @param multiple_options Logical. If TRUE, the function will return multiple matching names. Default is FALSE, selecting the first match.
 #' @param searchFields A character string indicating the search fields. Defaults to 'Both'.
 #' @param isRecommended A character string indicating whether the taxon is recommended. Defaults to 'NotSet'.
 #' @param isOkForObservationSystems A character string indicating whether the taxon is suitable for observation systems. Defaults to 'NotSet'.
@@ -385,7 +386,7 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids, subscription_key) {
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-match_taxon_name <- function(taxon_names, subscription_key, searchFields = 'Both', isRecommended = 'NotSet', 
+match_taxon_name <- function(taxon_names, subscription_key, multiple_options = FALSE, searchFields = 'Both', isRecommended = 'NotSet', 
                           isOkForObservationSystems = 'NotSet', culture = 'sv_SE', 
                           page = 1, pageSize = 100) {
   
@@ -418,11 +419,19 @@ match_taxon_name <- function(taxon_names, subscription_key, searchFields = 'Both
     )
     
     if (length(result$responseBody$data) > 0) {
-      taxon_id <- result$responseBody$data$taxonInformation$taxonId[1]
-      name <- result$responseBody$data$name[1]
-      return(data.frame(search_pattern = result$taxon_name, taxon_id = taxon_id, best_match = name))
+      if (multiple_options) {
+        name <- result$responseBody$data$name[result$responseBody$data$name == result$taxon_name]
+        taxon_id <- result$responseBody$data$taxonInformation$taxonId[result$responseBody$data$name == result$taxon_name]
+        author <- result$responseBody$data$author[result$responseBody$data$name == result$taxon_name]
+        return(data.frame(search_pattern = result$taxon_name, taxon_id = taxon_id, best_match = name, author = author))
+      } else {
+        taxon_id <- result$responseBody$data$taxonInformation$taxonId[1]
+        name <- result$responseBody$data$name[1]
+        author <- result$responseBody$data$author[1]
+        return(data.frame(search_pattern = result$taxon_name, taxon_id = taxon_id, best_match = name, author = author))
+      }
     } else {
-      return(data.frame(search_pattern = result$taxon_name, taxon_id = NA, best_match = NA))
+      return(data.frame(search_pattern = result$taxon_name, taxon_id = NA, best_match = NA, author = NA))
     }
   })
   
