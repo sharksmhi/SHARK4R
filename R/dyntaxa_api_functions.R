@@ -393,6 +393,28 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
   # Make sure there are no NA
   taxon_names <- taxon_names[!is.na(taxon_names)]
   
+  # Original list of taxon names for comparison
+  original_taxon_names <- taxon_names
+  
+  # Regular expression to allow alphanumeric characters, spaces, and accented characters (å, ä, ö, ë, etc.)
+  if (any(grepl("[^a-zA-Z0-9 åäöÅÄÖéèêëÉÈÊËùúûüÙÚÛÜçÇáàâñÑ./()'\\-]", taxon_names))) {
+    warning("Some taxon names contain special characters, which may cause API issues.")
+    
+    # Remove special characters
+    taxon_names <- gsub("[^a-zA-Z0-9 åäöÅÄÖéèêëÉÈÊËùúûüÙÚÛÜçÇáàâñÑ./()'\\-]", "", taxon_names)
+    
+    # Find and report modified names
+    modified_names <- original_taxon_names[original_taxon_names != taxon_names]
+    
+    if (length(modified_names) > 0) {
+      message("The following taxon names were modified due to special characters: ")
+      print(modified_names)
+    }
+  }
+  
+  # Remove empty names
+  taxon_names <- taxon_names[!taxon_names == ""]
+  
   url <- "https://api.artdatabanken.se/taxonservice/v1/taxa/names"
   headers <- c(
     'Cache-Control' = 'no-cache',
