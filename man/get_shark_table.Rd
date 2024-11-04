@@ -71,7 +71,7 @@ A \code{data.frame} containing the retrieved data, with column names based on th
 Columns are filled with \code{NA} when rows have differing lengths.
 }
 \description{
-The \code{get_shark_data} function retrieves data from the SHARK database hosted by SMHI, with options
+The \code{get_shark_table} function retrieves data from the SHARK database hosted by SMHI, with options
 to filter based on year range, months, and data types. It sends a POST request to
 the SHARK API and returns the results as a structured \code{data.frame}.
 }
@@ -83,7 +83,7 @@ If rows have differing lengths, \code{rbind.fill} fills missing columns with \co
 \examples{
 \dontrun{
   # Retrieve chlorophyll data for April to June from 2019 to 2020
-  shark_data <- get_shark_data(from_year = 2019, to_year = 2020,
+  shark_data <- get_shark_table(from_year = 2019, to_year = 2020,
                                months = c(4, 5, 6), data_types = c("Chlorophyll"))
   View(shark_data)
 }

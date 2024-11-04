@@ -1,6 +1,6 @@
 #' Retrieve and Format SHARK Data from SMHI API
 #'
-#' The `get_shark_data` function retrieves data from the SHARK database hosted by SMHI, with options
+#' The `get_shark_table` function retrieves data from the SHARK database hosted by SMHI, with options
 #' to filter based on year range, months, and data types. It sends a POST request to
 #' the SHARK API and returns the results as a structured `data.frame`.
 #'
@@ -64,13 +64,13 @@
 #' @import httr
 #' @import jsonlite
 #' @import dplyr
-#' @import purr
+#' @import purrr
 #' @import tidyr
 #'
 #' @examples
 #' \dontrun{
 #'   # Retrieve chlorophyll data for April to June from 2019 to 2020
-#'   shark_data <- get_shark_data(from_year = 2019, to_year = 2020,
+#'   shark_data <- get_shark_table(from_year = 2019, to_year = 2020,
 #'                                months = c(4, 5, 6), data_types = c("Chlorophyll"))
 #'   View(shark_data)
 #' }
