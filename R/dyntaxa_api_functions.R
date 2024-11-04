@@ -169,7 +169,7 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key) {
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-construct_dyntaxa_table <- function(parent_ids, subscription_key) {
+construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output = TRUE) {
   if (!is.list(parent_ids)) {
     parent_ids <- list(parent_ids)
   }
@@ -200,6 +200,7 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key) {
         selected <- taxa %>%
           filter(taxon_id == single[id])
         taxon_id <- selected$taxon_id
+        parent_id <- selected$parent_id
         name <- selected$name
         rank <- selected$rank
         hierarchy <- selected$hierarchy
@@ -210,6 +211,7 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key) {
         
         taxa_ix <- get_dyntaxa_records(single[id], subscription_key)
         taxon_id <- taxa_ix$taxonId
+        parent_id <- taxa_ix$parentId
         name <- taxa_ix$names %>%
           map_df(as.data.frame) %>%
           filter(nameShort == "sci" & isRecommended == TRUE) %>%
@@ -240,14 +242,14 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key) {
       
       taxa_i <- bind_rows(
         taxa_i,
-        data.frame(taxon_id, name, rank, author, hierarchy, guid)
+        data.frame(taxon_id, parent_id, name, rank, author, hierarchy, guid)
       )
     }
     
     taxa_i <- taxa_i %>%
       distinct() %>%
       pivot_wider(names_from = rank, values_from = name) %>%
-      left_join(., taxa_i, by = c("taxon_id", "hierarchy", "guid", "author"))
+      left_join(., taxa_i, by = c("taxon_id", "parent_id", "hierarchy", "guid", "author"))
     
     shark_taxonomy <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
     taxa_i <- taxa_i %>%
@@ -264,9 +266,14 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key) {
   close(pb)
   
   taxa_filtered <- taxa %>%
-    select(taxon_id, name, rank, author, any_of(shark_taxonomy), hierarchy, guid) %>%
-    filter(rank %in% shark_taxonomy) %>%
+    select(taxon_id, parent_id, name, rank, author, any_of(shark_taxonomy), hierarchy, guid) %>%
     distinct()
+  
+  if (shark_output) {
+    taxa_filtered <- taxa_filtered %>%
+      filter(rank %in% shark_taxonomy) %>%
+      select(-parent_id)
+  }
   
   # Print the counters, for debugging
   cat("Cached taxa requests:", if_counter, "\n")

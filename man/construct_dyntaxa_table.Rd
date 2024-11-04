@@ -4,7 +4,7 @@
 \alias{construct_dyntaxa_table}
 \title{Construct Dyntaxa taxonomy table from API}
 \usage{
-construct_dyntaxa_table(parent_ids, subscription_key)
+construct_dyntaxa_table(parent_ids, subscription_key, shark_output = TRUE)
 }
 \arguments{
 \item{parent_ids}{A list containing parent taxon IDs for which taxonomy information is requested.}
