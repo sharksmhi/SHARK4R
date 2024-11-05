@@ -155,6 +155,7 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key) {
 #' @param parent_ids A list containing parent taxon IDs for which taxonomy information is requested.
 #' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
 #' @param shark_output Logical. If TRUE, the function will return selected column headers that match SHARK output. If FALSE, all columns are returned. Default is TRUE.
+#' @param is_recommended Logical. If TRUE, the function will return only recommended (accepted) names. If FALSE, all names are returned. Default is TRUE.
 #' @return A data frame representing the constructed taxonomy table.
 #'
 #' @export
@@ -169,7 +170,7 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key) {
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output = TRUE) {
+construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output = TRUE, is_recommended = TRUE) {
   if (!is.list(parent_ids)) {
     parent_ids <- list(parent_ids)
   }
@@ -210,48 +211,98 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
         else_counter <- else_counter + 1 # For debugging
         
         taxa_ix <- get_dyntaxa_records(single[id], subscription_key)
-        taxon_id <- taxa_ix$taxonId
         parent_id <- taxa_ix$parentId
-        name <- taxa_ix$names %>%
-          map_df(as.data.frame) %>%
-          filter(nameShort == "sci" & isRecommended == TRUE) %>%
-          slice(1) %>%
-          pull(name)
-        author <- taxa_ix$names %>%
-          map_df(as.data.frame) %>%
-          filter(nameShort == "sci" & isRecommended == TRUE) %>%
-          slice(1) %>%
-          pull(author)
         rank <- taxa_ix$category.value
-        hierarchy <- ifelse(
-          length(taxa_i) > 0,
-          paste(paste(taxa_i$name, collapse = " - "), name, sep = " - "),
-          paste0(taxa_ix$names %>%
-                   map_df(as.data.frame) %>%
-                   filter(nameShort == "sci" & isRecommended == TRUE) %>%
-                   slice(1) %>%
-                   pull(name))) 
-        guid <- taxa_ix$names %>%
-          map_df(as.data.frame) %>%
-          filter(nameShort == "Guid" & isRecommended == TRUE) %>%
-          slice(1) %>%
-          pull(name)
-        guid <- ifelse(length(guid) == 0, NA, guid)
-        author <- ifelse(length(author) == 0, NA, author)
-      }
+        
+        if (!is_recommended) {
+          taxon_id_recommended <- taxa_ix$taxonId
+          
+          taxon_id <- taxa_ix$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci") %>%
+            pull(id)
+          name <- taxa_ix$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci") %>%
+            pull(name)
+          author <- taxa_ix$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci") %>%
+            pull(author)
+          recommended <- taxa_ix$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci") %>%
+            pull(isRecommended)
+          usage_value <- taxa_ix$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci") %>%
+            pull(usage.name)
+          hierarchy <- ifelse(
+            length(taxa_i) > 0,
+            paste(paste(taxa_i$name, collapse = " - "), name, sep = " - "),
+            paste0(taxa_ix$names %>%
+                     map_df(as.data.frame) %>%
+                     filter(nameShort == "sci") %>%
+                     pull(name))) 
+        } else {
+          taxon_id <- taxa_ix$taxonId
+          
+          name <- taxa_ix$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci" & isRecommended == TRUE) %>%
+            slice(1) %>%
+            pull(name)
+          
+          
+          author <- taxa_ix$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci" & isRecommended == TRUE) %>%
+            slice(1) %>%
+            pull(author)
+          
+          hierarchy <- ifelse(
+            length(taxa_i) > 0,
+            paste(paste(taxa_i$name, collapse = " - "), name, sep = " - "),
+            paste0(taxa_ix$names %>%
+                     map_df(as.data.frame) %>%
+                     filter(nameShort == "sci" & isRecommended == TRUE) %>%
+                     slice(1) %>%
+                     pull(name))) 
+          usage_value <- taxa_ix$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci" & isRecommended == TRUE) %>%
+            slice(1) %>%
+            pull(usage.value)
+          recommended <- taxa_ix$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci" & isRecommended == TRUE) %>%
+            slice(1) %>%
+            pull(isRecommended)
+          author <- ifelse(length(author) == 0, NA, author)
+        }
+      
+      taxa_temp <- data.frame(taxon_id, parent_id, name, rank, author, hierarchy, recommended, usage_value) %>%
+        mutate(taxon_id = ifelse(recommended, taxon_id_recommended, taxon_id)) %>%
+        mutate(taxonId = ifelse(recommended, paste0("urn:lsid:dyntaxa.se:Taxon:", taxon_id),  paste0("urn:lsid:dyntaxa.se:TaxonName:", taxon_id)))
       
       taxa_i <- bind_rows(
-        taxa_i,
-        data.frame(taxon_id, parent_id, name, rank, author, hierarchy, guid)
-      )
+        taxa_i,taxa_temp)
+      
+      }
+
     }
     
     taxa_i <- taxa_i %>%
       distinct() %>%
       pivot_wider(names_from = rank, values_from = name) %>%
-      left_join(., taxa_i, by = c("taxon_id", "parent_id", "hierarchy", "guid", "author"))
+      left_join(., taxa_i, by = c("taxon_id", "parent_id", "hierarchy", "author", "recommended", "usage_value", "taxonId"))
     
-    shark_taxonomy <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
+    if (shark_output) {
+      shark_taxonomy <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species") 
+    } else {
+      shark_taxonomy <- c("Kingdom", "Subkingdom", "Infrakingdom", "Superphylum", "Phylum", "Subphylum", "Infraphylum", "Class", "Superclass", "Order", "Family", "Genus", "Species") 
+    }
+    
     taxa_i <- taxa_i %>%
       mutate(across(all_of(shark_taxonomy[shark_taxonomy %in% taxa_i$rank]), fill_na_below_first_non_na))
     
@@ -266,13 +317,13 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
   close(pb)
   
   taxa_filtered <- taxa %>%
-    select(taxon_id, parent_id, name, rank, author, any_of(shark_taxonomy), hierarchy, guid) %>%
     distinct()
   
   if (shark_output) {
     taxa_filtered <- taxa_filtered %>%
+      filter(recommended) %>%
       filter(rank %in% shark_taxonomy) %>%
-      select(-parent_id)
+      select(taxon_id, name, rank, author, any_of(shark_taxonomy), hierarchy)
   }
   
   # Print the counters, for debugging
@@ -396,12 +447,12 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
   # Original list of taxon names for comparison
   original_taxon_names <- taxon_names
   
-  # Regular expression to allow alphanumeric characters, spaces, and accented characters (å, ä, ö, ë, etc.)
-  if (any(grepl("[^a-zA-Z0-9 åäöÅÄÖéèêëÉÈÊËùúûüÙÚÛÜçÇáàâñÑ./()'\\-]", taxon_names))) {
+  # Regular expression to allow alphanumeric characters, spaces, and accented characters
+  if (any(grepl("[^a-zA-Z0-9 ./()'\\-]", taxon_names))) {
     warning("Some taxon names contain special characters, which may cause API issues.")
     
     # Remove special characters
-    taxon_names <- gsub("[^a-zA-Z0-9 åäöÅÄÖéèêëÉÈÊËùúûüÙÚÛÜçÇáàâñÑ./()'\\-]", "", taxon_names)
+    taxon_names <- gsub("[^a-zA-Z0-9 ./()'\\-]", "", taxon_names)
     
     # Find and report modified names
     modified_names <- original_taxon_names[original_taxon_names != taxon_names]
