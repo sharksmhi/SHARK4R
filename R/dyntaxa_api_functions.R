@@ -155,7 +155,7 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key) {
 #' @param parent_ids A list containing parent taxon IDs for which taxonomy information is requested.
 #' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
 #' @param shark_output Logical. If TRUE, the function will return selected column headers that match SHARK output. If FALSE, all columns are returned. Default is TRUE.
-#' @param is_recommended Logical. If TRUE, the function will return only recommended (accepted) names. If FALSE, all names are returned. Default is TRUE.
+#' @param recommended_only Logical. If TRUE, the function will return only recommended (accepted) names. If FALSE, all names are returned. Default is TRUE.
 #' @return A data frame representing the constructed taxonomy table.
 #'
 #' @export
@@ -170,7 +170,7 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key) {
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output = TRUE, is_recommended = TRUE) {
+construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output = TRUE, recommended_only = TRUE) {
   if (!is.list(parent_ids)) {
     parent_ids <- list(parent_ids)
   }
@@ -329,7 +329,7 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
   taxa_filtered <- taxa %>%
     distinct()
   
-  if (is_recommended) {
+  if (recommended_only) {
     taxa_filtered <- taxa_filtered %>%
       filter(recommended)
   }
@@ -339,6 +339,20 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
       filter(recommended) %>%
       filter(rank %in% shark_taxonomy) %>%
       select(taxon_id, name, rank, author, any_of(shark_taxonomy), hierarchy)
+  } else {
+    taxa_filtered <- taxa_filtered %>%
+      mutate(parentNameUsageID =  paste0("urn:lsid:dyntaxa.se:Taxon:", parent_id),
+             nomenclaturalStatus = NA,
+             taxonRemarks = NA) %>%
+      rename(acceptedNameUsageID = taxonId_recommended,
+             scientificName = name,
+             taxonRank = rank,
+             scientificNameAuthorship = author,
+             taxonomicStatus = usage_value) %>%
+      rename_with(tolower, all_of(shark_taxonomy)) %>% 
+      select(-taxon_id, -parent_id, -recommended, -taxon_id_recommended, -name_recommended) %>%
+      relocate(taxonId, acceptedNameUsageID, parentNameUsageID, scientificName, taxonRank, scientificNameAuthorship, taxonomicStatus, nomenclaturalStatus, taxonRemarks) %>%
+      relocate(hierarchy, .after = last_col())
   }
   
   # Print the counters, for debugging
