@@ -350,9 +350,7 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
              scientificNameAuthorship = author,
              taxonomicStatus = usage_value) %>%
       rename_with(tolower, all_of(shark_taxonomy)) %>% 
-      select(-taxon_id, -parent_id, -recommended, -taxon_id_recommended, -name_recommended) %>%
-      relocate(taxonId, acceptedNameUsageID, parentNameUsageID, scientificName, taxonRank, scientificNameAuthorship, taxonomicStatus, nomenclaturalStatus, taxonRemarks) %>%
-      relocate(hierarchy, .after = last_col())
+      select(taxonId, acceptedNameUsageID, parentNameUsageID, scientificName, taxonRank, scientificNameAuthorship, taxonomicStatus, nomenclaturalStatus, taxonRemarks, kingdom, phylum, class, order, family, genus, species, hierarchy) 
   }
   
   # Print the counters, for debugging
