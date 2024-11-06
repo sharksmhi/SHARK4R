@@ -300,20 +300,16 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
         mutate(taxonId_recommended = paste0("urn:lsid:dyntaxa.se:Taxon:", taxon_id_recommended)) 
       
       taxa_i <- bind_rows(
-        taxa_i,taxa_temp)
+        taxa_i,taxa_temp) %>%
+        distinct()
     }
     
     taxa_i <- taxa_i %>%
-      distinct() %>%
       pivot_wider(names_from = rank, values_from = name_recommended) %>%
       left_join(., taxa_i, by = c("taxon_id", "name", "parent_id", "hierarchy", "author", "recommended", "usage_value", "taxonId", "taxonId_recommended", "taxon_id_recommended"))
     
-    if (shark_output) {
-      shark_taxonomy <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species") 
-    } else {
-      shark_taxonomy <- c("Kingdom", "Subkingdom", "Infrakingdom", "Superphylum", "Phylum", "Subphylum", "Infraphylum", "Class", "Superclass", "Order", "Family", "Genus", "Species") 
-    }
-
+    shark_taxonomy <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species") 
+    
     taxa_i <- taxa_i %>%
       mutate(across(all_of(shark_taxonomy[shark_taxonomy %in% taxa_i$rank]), fill_na_below_first_non_na))
     
@@ -349,8 +345,8 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
              taxonRank = rank,
              scientificNameAuthorship = author,
              taxonomicStatus = usage_value) %>%
-      rename_with(tolower, all_of(shark_taxonomy)) %>% 
-      select(taxonId, acceptedNameUsageID, parentNameUsageID, scientificName, taxonRank, scientificNameAuthorship, taxonomicStatus, nomenclaturalStatus, taxonRemarks, kingdom, phylum, class, order, family, genus, species, hierarchy) 
+      rename_with(tolower, any_of(shark_taxonomy)) %>% 
+      select(taxonId, acceptedNameUsageID, parentNameUsageID, scientificName, taxonRank, scientificNameAuthorship, taxonomicStatus, nomenclaturalStatus, taxonRemarks, any_of(tolower(shark_taxonomy)), hierarchy) 
   }
   
   # Print the counters, for debugging
