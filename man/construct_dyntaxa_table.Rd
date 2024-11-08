@@ -8,7 +8,8 @@ construct_dyntaxa_table(
   parent_ids,
   subscription_key,
   shark_output = TRUE,
-  recommended_only = TRUE
+  recommended_only = TRUE,
+  add_genus_children = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ construct_dyntaxa_table(
 \item{shark_output}{Logical. If TRUE, the function will return selected column headers that match SHARK output. If FALSE, all columns are returned. Default is TRUE.}
 
 \item{recommended_only}{Logical. If TRUE, the function will return only recommended (accepted) names. If FALSE, all names are returned. Default is TRUE.}
+
+\item{add_genus_children}{Logical. If TRUE, the output will include children from all valid genera taxon_ids present in \code{parent_ids}. Default is FALSE.}
 }
 \value{
 A data frame representing the constructed taxonomy table.

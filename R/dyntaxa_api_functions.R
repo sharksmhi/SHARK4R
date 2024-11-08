@@ -138,6 +138,163 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key) {
   return(results)
 }
 
+#' Get children hierarchies for specified taxon IDs from SLU Artdatabanken API (Dyntaxa)
+#'
+#' This function queries the SLU Artdatabanken API (Dyntaxa) to retrieve children taxon hierarchy information for the specified taxon IDs.
+#' It constructs a request with the provided taxon IDs, sends the request to the SLU Artdatabanken API, and
+#' processes the response to return a data frame of taxon children.
+#'
+#' Please read the [conditions](https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/) and [register](https://api-portal.artdatabanken.se/) before using the API.
+#' 
+#' Data collected through the API is stored at SLU Artdatabanken.
+#' 
+#' Genom att anvanda denna applikation atar jag mig att folja regler for 
+#' anvandning av SLU Artdatabankens information, inklusive att respektera tredje 
+#' mans upphovsratt. Detta atagande gors aven direkt mot SLU. Vid brott mot 
+#' detta kan jag forlora ratten att anvanda applikationen
+#'
+#' @param taxon_ids A vector of numeric taxon IDs for which children taxon IDs are requested.
+#' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
+#' @param levels Integer. Default is 1
+#' @param main_children Logical. Default is TRUE.
+#' 
+#' @return A data frame containing children taxon information corresponding to the specified taxon IDs.
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # Get children taxon hierarchy for taxon IDs 1010608 and 5000062
+#' children_hierarchy <- get_dyntaxa_children_hierarchy(c(1010608, 5000062), "your_subscription_key")
+#' print(children_hierarchy)
+#' }
+#'
+#' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
+#'
+get_dyntaxa_children_hierarchy <- function(taxon_ids, subscription_key, levels = 1, main_children = TRUE) {
+  if (length(taxon_ids) == 0) {
+    stop("taxon_ids should not be empty.")
+  }
+  
+  if (any(is.na(taxon_ids))) {
+    stop("taxon_ids should not contain NA.")
+  }
+  
+  url <- paste0("https://api.artdatabanken.se/taxonservice/v1/taxa/", taxon_ids, "/childhierarchy?levels=", levels, "&onlyMainChildren=", main_children)
+  
+  headers <- c(
+    'Cache-Control' = 'no-cache',
+    'Ocp-Apim-Subscription-Key' = subscription_key
+  )
+  
+  # Set up the progress bar
+  pb <- txtProgressBar(min = 0, max = length(taxon_ids), style = 3)
+  
+  # Perform GET requests and check status
+  responses <- lapply(seq_along(url), function(i) {
+    setTxtProgressBar(pb, i)
+    res <- GET(url[i], add_headers(headers))
+    
+    # Check if the response is successful
+    if (http_status(res)$category == "Success") {
+      return(res)
+    } else {
+      stop(paste("Error:", http_status(res)$reason))
+    }
+  })
+  
+  # Extract and parse JSON content from each successful response
+  results <- map(responses, function(response) {
+    # Extract and parse the JSON content
+    json_content <- content(response, "text", encoding = "UTF-8")
+    parsed_data <- fromJSON(json_content, flatten = TRUE)
+    as_tibble(parsed_data)
+  })
+  
+  # Combine all parsed tibbles into one
+  results <- bind_rows(results)
+  
+  return(results)
+}
+
+#' Get children taxon IDs for specified taxon IDs from SLU Artdatabanken API (Dyntaxa)
+#'
+#' This function queries the SLU Artdatabanken API (Dyntaxa) to retrieve children taxon IDs for the specified taxon IDs.
+#' It constructs a request with the provided taxon IDs, sends the request to the SLU Artdatabanken API, and
+#' processes the response to return a list of children taxon IDs.
+#'
+#' Please read the [conditions](https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/) and [register](https://api-portal.artdatabanken.se/) before using the API.
+#' 
+#' Data collected through the API is stored at SLU Artdatabanken.
+#' 
+#' Genom att anvanda denna applikation atar jag mig att folja regler for 
+#' anvandning av SLU Artdatabankens information, inklusive att respektera tredje 
+#' mans upphovsratt. Detta atagande gors aven direkt mot SLU. Vid brott mot 
+#' detta kan jag forlora ratten att anvanda applikationen
+#'
+#' @param taxon_ids A vector of numeric taxon IDs for which children taxon IDs are requested.
+#' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
+#' @param main_children Logical. Default is TRUE.
+#' @param verbose Logical. Default is TRUE.
+#'
+#' @return A list containing children taxon IDs corresponding to the specified taxon IDs.
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # Get children taxon IDs for taxon IDs 1010608 and 5000062
+#' children_ids <- get_dyntaxa_children_ids(c(1010608, 5000062), "your_subscription_key")
+#' print(children_ids)
+#' }
+#'
+#' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
+#'
+get_dyntaxa_children_ids <- function(taxon_ids, subscription_key, main_children = TRUE, verbose = TRUE) {
+  if (length(taxon_ids) == 0) {
+    stop("taxon_ids should not be empty.")
+  }
+  
+  if (any(is.na(taxon_ids))) {
+    stop("taxon_ids should not contain NA.")
+  }
+  
+  url <- paste0("https://api.artdatabanken.se/taxonservice/v1/taxa/", taxon_ids, "/childids?useMainChildren=", main_children)
+  
+  headers <- c(
+    'Cache-Control' = 'no-cache',
+    'Ocp-Apim-Subscription-Key' = subscription_key
+  )
+  
+  # Set up the progress bar
+  if (verbose) {pb <- txtProgressBar(min = 0, max = length(taxon_ids), style = 3)}
+  
+  responses <- lapply(seq_along(url), function(i) {
+    if (verbose) {setTxtProgressBar(pb, i)}
+    return(GET(url[i], add_headers(headers)))
+  })
+  
+  # Close the progress bar
+  if (verbose) {
+    close(pb)
+  }
+  
+  results <- lapply(responses, function(response) {
+    if (http_status(response)$category == "Success") {
+      result <- content(response, "text")
+      parsed_result <- c(fromJSON(result)$taxonIds)
+      parsed_result <- parsed_result[parsed_result != 0]  # Remove root
+      return(parsed_result)
+    } else {
+      stop(paste("Error:", http_status(response)$reason))
+    }
+  })
+  
+  results <- Map(function(vec, val) c(vec, val), results, taxon_ids)
+  
+  return(results)
+}
+
 #' Construct Dyntaxa taxonomy table from API
 #'
 #' This function constructs a taxonomy table based on Dyntaxa parent taxon IDs.
@@ -156,6 +313,8 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key) {
 #' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
 #' @param shark_output Logical. If TRUE, the function will return selected column headers that match SHARK output. If FALSE, all columns are returned. Default is TRUE.
 #' @param recommended_only Logical. If TRUE, the function will return only recommended (accepted) names. If FALSE, all names are returned. Default is TRUE.
+#' @param add_genus_children Logical. If TRUE, the output will include children from all valid genera taxon_ids present in `parent_ids`. Default is FALSE.
+#' 
 #' @return A data frame representing the constructed taxonomy table.
 #'
 #' @export
@@ -170,7 +329,7 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key) {
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output = TRUE, recommended_only = TRUE) {
+construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output = TRUE, recommended_only = TRUE, add_genus_children = FALSE) {
   if (!is.list(parent_ids)) {
     parent_ids <- list(parent_ids)
   }
@@ -202,6 +361,7 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
           filter(taxon_id == single[id])
         taxon_id <- selected$taxon_id
         parent_id <- selected$parent_id
+        parent_name <- selected$parent_name
         name <- selected$name
         name_recommended <- selected$name_recommended
         recommended <- selected$recommended
@@ -217,6 +377,7 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
         taxa_ix <- get_dyntaxa_records(single[id], subscription_key)
         parent_id <- taxa_ix$parentId
         rank <- taxa_ix$category.value
+        parent_name <- NA
         
         if (!shark_output) {
           taxon_id_recommended <- taxa_ix$taxonId
@@ -267,6 +428,8 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
           
           name_recommended <- name
           
+          parent_name <- NA
+          
           author <- taxa_ix$names %>%
             map_df(as.data.frame) %>%
             filter(nameShort == "sci" & isRecommended == TRUE) %>%
@@ -294,7 +457,7 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
           author <- ifelse(length(author) == 0, NA, author)
         }
       }
-      taxa_temp <- data.frame(taxon_id, parent_id, name, rank, author, hierarchy, recommended, usage_value, taxon_id_recommended, name_recommended) %>%
+      taxa_temp <- data.frame(taxon_id, parent_id, parent_name, name, rank, author, hierarchy, recommended, usage_value, taxon_id_recommended, name_recommended) %>%
         mutate(taxon_id = ifelse(recommended, taxon_id_recommended, taxon_id)) %>%
         mutate(taxonId = ifelse(recommended, paste0("urn:lsid:dyntaxa.se:Taxon:", taxon_id),  paste0("urn:lsid:dyntaxa.se:TaxonName:", taxon_id))) %>%
         mutate(taxonId_recommended = paste0("urn:lsid:dyntaxa.se:Taxon:", taxon_id_recommended)) 
@@ -303,11 +466,126 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
         taxa_i,taxa_temp) %>%
         distinct()
     }
+    if (add_genus_children) {
+      genus <- taxa_i %>%
+        filter(rank == "Genus" & recommended)
+      
+      if (nrow(genus > 0)) {
+        children_ids <- get_dyntaxa_children_ids(genus$taxon_id, subscription_key, verbose = FALSE)
+        
+        children_records <- get_dyntaxa_records(unlist(children_ids), subscription_key)
+        
+        children_additions <- data.frame(
+          taxon_id = integer(0),
+          parent_id = integer(0),
+          parent_name = character(0),
+          name = character(0),
+          rank = character(0),
+          author = character(0),
+          hierarchy = character(0),
+          recommended = logical(0),
+          usage_value = character(0),
+          taxon_id_recommended = integer(0),
+          name_recommended = character(0),
+          taxonId = character(0),
+          taxonId_recommended = character(0)
+        )
+        
+        for (j in 1:nrow(children_records)) {
+
+          children_record <- children_records %>%
+            filter(taxonId == children_records$taxonId[j])
+          
+          if (nrow(children_record) == 0 | !children_record$status.value == "Accepted") {
+            next
+          }
+          
+          taxon_id_recommended <- children_record$taxonId
+          rank <- children_record$category.value
+          parent <- children_record$parentId
+          
+          taxon_id <- children_record$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci") %>%
+            pull(id)
+          
+          recommended <- children_record$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci") %>%
+            pull(isRecommended)
+          
+          name_recommended <- children_record$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci" & isRecommended == TRUE) %>%
+            pull(name)
+          
+          name <- children_record$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci") %>%
+            pull(name)
+          
+          usage_value <- children_record$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci") %>%
+            pull(usage.name)
+          
+          author <- children_record$names %>%
+            map_df(as.data.frame) %>%
+            filter(nameShort == "sci") %>%
+            pull(author)
+          
+          if (rank == "Hybrid") {
+            next
+          }
+          
+          if (rank %in% c("Genus", "Species", "SpeciesComplex", "CollectiveTaxon")) {
+            hierarchy <- paste(genus$hierarchy, name_recommended, sep = " - ")
+            parent_name <- NA
+            
+            if (rank == "CollectiveTaxon") {
+              parent_name <- name_recommended
+            }
+            
+          } else {
+            parent_info <- children_additions %>%
+              filter(taxon_id_recommended == parent & recommended)
+            
+            parent_name <- unique(parent_info$name)
+            
+            if (length(parent_name) == 0) {
+              records <- get_dyntaxa_records(parent, subscription_key)
+              
+              parent_name<-records$names %>%
+                map_df(as.data.frame) %>%
+                filter(nameShort == "sci" & isRecommended) %>%
+                pull(name)
+            }
+            
+            hierarchy <- paste(genus$hierarchy, parent_name, name_recommended, sep = " - ")
+          }
+          
+          taxa_recommended <- data.frame(taxon_id_recommended, parent_id = parent, parent_name, taxon_id, recommended, usage_value, name, author, name_recommended, rank, hierarchy) %>%
+            mutate(taxonId = ifelse(recommended, paste0("urn:lsid:dyntaxa.se:Taxon:", taxon_id_recommended),  paste0("urn:lsid:dyntaxa.se:TaxonName:", taxon_id))) %>%
+            mutate(taxonId_recommended = paste0("urn:lsid:dyntaxa.se:Taxon:", taxon_id_recommended))
+          
+          children_additions <- bind_rows(children_additions, taxa_recommended) %>%
+            filter(!rank == "Genus") %>%
+            filter(!taxonId %in% taxa_i$taxonId)
+        }
+        
+        taxa_i <- bind_rows(taxa_i, children_additions)
+      }
+    }
     
     taxa_i <- taxa_i %>%
       pivot_wider(names_from = rank, values_from = name_recommended) %>%
-      left_join(., taxa_i, by = c("taxon_id", "name", "parent_id", "hierarchy", "author", "recommended", "usage_value", "taxonId", "taxonId_recommended", "taxon_id_recommended"))
+      left_join(., taxa_i, by = c("taxon_id", "name", "parent_id", "parent_name", "hierarchy", "author", "recommended", "usage_value", "taxonId", "taxonId_recommended", "taxon_id_recommended"))
     
+    if ("Species" %in% colnames(taxa_i)) {
+      taxa_i <- taxa_i %>%
+        mutate(Species = ifelse(!is.na(parent_name), parent_name, Species))
+    }
+
     shark_taxonomy <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species") 
     
     taxa_i <- taxa_i %>%
@@ -322,21 +600,19 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
   # Close progress bar
   close(pb)
   
-  taxa_filtered <- taxa %>%
-    distinct()
-  
   if (recommended_only) {
-    taxa_filtered <- taxa_filtered %>%
+    taxa <- taxa %>%
       filter(recommended)
   }
   
   if (shark_output) {
-    taxa_filtered <- taxa_filtered %>%
+    taxa_filtered <- taxa %>%
       filter(recommended) %>%
       filter(rank %in% shark_taxonomy) %>%
-      select(taxon_id, name, rank, author, any_of(shark_taxonomy), hierarchy)
+      select(taxon_id, name, rank, author, any_of(shark_taxonomy), hierarchy) %>%
+      distinct()
   } else {
-    taxa_filtered <- taxa_filtered %>%
+    taxa_filtered <- taxa %>%
       mutate(parentNameUsageID =  paste0("urn:lsid:dyntaxa.se:Taxon:", parent_id),
              nomenclaturalStatus = NA,
              taxonRemarks = NA) %>%
@@ -346,7 +622,8 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
              scientificNameAuthorship = author,
              taxonomicStatus = usage_value) %>%
       rename_with(tolower, any_of(shark_taxonomy)) %>% 
-      select(taxonId, acceptedNameUsageID, parentNameUsageID, scientificName, taxonRank, scientificNameAuthorship, taxonomicStatus, nomenclaturalStatus, taxonRemarks, any_of(tolower(shark_taxonomy)), hierarchy) 
+      select(taxonId, acceptedNameUsageID, parentNameUsageID, scientificName, taxonRank, scientificNameAuthorship, taxonomicStatus, nomenclaturalStatus, taxonRemarks, any_of(tolower(shark_taxonomy)), hierarchy) %>%
+      distinct()
   }
   
   # Print the counters, for debugging
@@ -365,11 +642,17 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
 #'
 #' @keywords internal
 fill_na_below_first_non_na <- function(x) {
-  non_na_values <- x[!is.na(x)]
-  if (length(non_na_values) > 0) {
-    first_non_na_index <- which(!is.na(x))[1]
-    x[first_non_na_index:length(x)] <- non_na_values[1]
+  # Find the index of the first non-NA value
+  first_non_na_index <- which(!is.na(x))[1]
+  
+  # If there's a non-NA value, fill NA values below it
+  if (!is.na(first_non_na_index)) {
+    non_na_value <- x[first_non_na_index]
+    
+    # Only replace NA values below the first non-NA value
+    x[is.na(x) & seq_along(x) > first_non_na_index] <- non_na_value
   }
+  
   return(x)
 }
 
