@@ -745,7 +745,7 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids, subscription_key) {
 #'
 match_taxon_name <- function(taxon_names, subscription_key, multiple_options = FALSE, searchFields = 'Both', isRecommended = 'NotSet', 
                           isOkForObservationSystems = 'NotSet', culture = 'sv_SE', 
-                          page = 1, pageSize = 100) {
+                          page = 1, pageSize = 100, verbose = TRUE) {
   
   # Make sure there are no NA
   taxon_names <- taxon_names[!is.na(taxon_names)]
@@ -765,9 +765,16 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
     'Ocp-Apim-Subscription-Key' = subscription_key
   )
   
-  result_list <- map(taxon_names, ~{
+  # Initialize progress bar if verbose is TRUE
+  if (verbose) {
+    pb <- txtProgressBar(min = 0, max = length(taxon_names), style = 3)
+  }
+  
+  # Loop over taxon_names and collect results
+  result_list <- map(seq_along(taxon_names), ~{
+    taxon_name <- taxon_names[.x]
     query <- list(
-      searchString = .x,
+      searchString = taxon_name,
       searchFields = searchFields,
       isRecommended = isRecommended,
       isOkForObservationSystems = isOkForObservationSystems,
@@ -778,12 +785,18 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
     
     response <- GET(url, query = query, add_headers(.headers = headers))
     
+    # Update the progress bar
+    if (verbose) {
+      setTxtProgressBar(pb, .x)
+    }
+    
     result <- list(
-      taxon_name = .x,
+      taxon_name = taxon_name,
       statusCode = status_code(response),
       responseBody = fromJSON(content(response, "text"))
     )
     
+    # Process response and extract relevant data
     if (length(result$responseBody$data) > 0) {
       if (multiple_options) {
         name <- result$responseBody$data$name[result$responseBody$data$name == result$taxon_name]
@@ -800,6 +813,11 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
       return(data.frame(search_pattern = result$taxon_name, taxon_id = NA, best_match = NA, author = NA))
     }
   })
+  
+  # Close the progress bar
+  if (verbose) {
+    close(pb)
+  }
   
   result_df <- do.call(rbind, result_list)
   return(result_df)

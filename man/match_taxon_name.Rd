@@ -13,7 +13,8 @@ match_taxon_name(
   isOkForObservationSystems = "NotSet",
   culture = "sv_SE",
   page = 1,
-  pageSize = 100
+  pageSize = 100,
+  verbose = TRUE
 )
 }
 \arguments{
