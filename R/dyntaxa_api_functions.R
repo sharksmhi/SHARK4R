@@ -802,15 +802,19 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
         name <- result$responseBody$data$name[result$responseBody$data$name == result$taxon_name]
         taxon_id <- result$responseBody$data$taxonInformation$taxonId[result$responseBody$data$name == result$taxon_name]
         author <- result$responseBody$data$author[result$responseBody$data$name == result$taxon_name]
-        return(data.frame(search_pattern = result$taxon_name, taxon_id = taxon_id, best_match = name, author = author))
+        valid_name <- result$responseBody$data$taxonInformation$recommendedScientificName[result$responseBody$data$name == result$taxon_name]
+        valid_taxon_id <- result$responseBody$data$taxonInformation$recommendedSwedishNameId[result$responseBody$data$name == result$taxon_name]
+        return(data.frame(search_pattern = result$taxon_name, taxon_id = taxon_id, best_match = name, author = author, valid_name = valid_name, valid_taxon_id = valid_taxon_id))
       } else {
         taxon_id <- result$responseBody$data$taxonInformation$taxonId[1]
         name <- result$responseBody$data$name[1]
         author <- result$responseBody$data$author[1]
-        return(data.frame(search_pattern = result$taxon_name, taxon_id = taxon_id, best_match = name, author = author))
+        valid_name <- result$responseBody$data$taxonInformation$recommendedScientificName[1]
+        valid_taxon_id <- result$responseBody$data$taxonInformation$recommendedSwedishNameId[1]
+        return(data.frame(search_pattern = result$taxon_name, taxon_id = taxon_id, best_match = name, author = author, valid_name = valid_name, valid_taxon_id = valid_taxon_id))
       }
     } else {
-      return(data.frame(search_pattern = result$taxon_name, taxon_id = NA, best_match = NA, author = NA))
+      return(data.frame(search_pattern = result$taxon_name, taxon_id = NA, best_match = NA, author = NA, valid_name = NA, valid_taxon_id = NA))
     }
   })
   
