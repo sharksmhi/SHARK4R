@@ -799,6 +799,11 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
     result$responseBody$data <- result$responseBody$data %>%
       filter(status$value == "Accepted")
     
+    if (length(result$responseBody$data) > 0) {
+      result$responseBody$data <- result$responseBody$data %>%
+        filter(status$value == "Accepted")
+    }
+    
     # Process response and extract relevant data
     if (length(result$responseBody$data) > 0) {
       if (multiple_options) {
