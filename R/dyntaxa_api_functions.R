@@ -828,6 +828,7 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
     close(pb)
   }
   
-  result_df <- do.call(rbind, result_list)
+  result_df <- do.call(rbind, result_list) %>%
+    distinct()
   return(result_df)
 }
