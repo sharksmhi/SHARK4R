@@ -803,6 +803,13 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
         taxon_id <- result$responseBody$data$taxonInformation$taxonId[tolower(result$responseBody$data$name) == tolower(result$taxon_name)]
         author <- result$responseBody$data$author[tolower(result$responseBody$data$name) == tolower(result$taxon_name)]
         valid_name <- result$responseBody$data$taxonInformation$recommendedScientificName[tolower(result$responseBody$data$name) == tolower(result$taxon_name)]
+        
+        # Set any empty variables to NA
+        if (length(name) == 0) name <- NA
+        if (length(taxon_id) == 0) taxon_id <- NA
+        if (length(author) == 0) author <- NA
+        if (length(valid_name) == 0) valid_name <- NA
+        
         return(data.frame(search_pattern = result$taxon_name, taxon_id = taxon_id, best_match = name, author = author, valid_name = valid_name))
       } else {
         taxon_id <- result$responseBody$data$taxonInformation$taxonId[1]
