@@ -15,6 +15,10 @@ year_filter(datasets, year)
 A filtered data frame.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function was deprecated because SHARKdata has now been replaced by the \href{https://shark.smhi.se/}{SHARK API}. Use \code{\link[=get_shark_table]{get_shark_table()}} instead.
+
 This internal function filters datasets based on the specified year.
 }
 \keyword{internal}

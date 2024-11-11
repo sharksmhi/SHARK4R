@@ -64,7 +64,7 @@ Default is \code{"sharkweb_overview"}.}
 
 \item{months}{Integer vector. The months to retrieve data for, e.g., \code{c(4, 5, 6)} for April to June.}
 
-\item{data_types}{Character vector. Specifies data types to filter, such as \code{"Chlorophyll"} or \code{"Epibenthos"}.}
+\item{data_types}{Character vector. Specifies data types to filter, such as \code{"Chlorophyll"} or \code{"Epibenthos"}. See \link{get_shark_options} for available data types.}
 }
 \value{
 A \code{data.frame} containing the retrieved data, with column names based on the API's \code{headers}.
@@ -88,4 +88,7 @@ If rows have differing lengths, \code{rbind.fill} fills missing columns with \co
   View(shark_data)
 }
 
+}
+\seealso{
+\code{\link{get_shark_options}}
 }

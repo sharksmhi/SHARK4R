@@ -1,5 +1,9 @@
 # SHARK4R
 
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
+
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/SMHI_Logo.svg/500px-SMHI_Logo.svg.png)
 
 This R package is equipped with a client application designed for integration 

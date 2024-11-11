@@ -13,6 +13,10 @@ update_data(data)
 A data frame with updated data if available.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function was deprecated because SHARKdata has now been replaced by the \href{https://shark.smhi.se/}{SHARK API}. Use \code{\link[=get_shark_table]{get_shark_table()}} instead.
+
 This function updates the data if an updated version is available at \href{https://sharkdata.smhi.se/}{SHARKdata} by downloading the latest datasets.
 }
 \examples{
@@ -29,3 +33,4 @@ updated_data <- update_data(data)
 \seealso{
 \code{\link{load_dataset_names}}, \code{\link{download_sharkdata}}, \code{\link{check_data_version}}, \href{https://sharkdata.smhi.se/}{SHARKdata}, \href{https://sharkweb.smhi.se/}{SHARKweb}
 }
+\keyword{internal}

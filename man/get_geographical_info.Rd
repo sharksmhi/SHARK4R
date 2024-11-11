@@ -15,6 +15,10 @@ get_geographical_info(latitude_dd, longitude_dd)
 A data frame containing the original coordinates with the added geographical information location_type_area, location_svar_sea_area_name and location_sea_basin.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function was deprecated because SHARKdata has now been replaced by the \href{https://shark.smhi.se/}{SHARK API}. Use \code{\link[=get_shark_table]{get_shark_table()}} instead.
+
 This function enriches the provided data with geographical information based on latitude and longitude coordinates in the Baltic Sea, Kattegat and Skagerrak.
 }
 \details{
@@ -32,3 +36,4 @@ dataset_with_geo_info <- get_geographical_info(latitude, longitude)
 \seealso{
 \href{https://sharkdata.smhi.se/}{SHARKdata}, \href{https://sharkweb.smhi.se/}{SHARKweb}
 }
+\keyword{internal}

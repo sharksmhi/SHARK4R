@@ -13,6 +13,10 @@ check_data_version(dataset_file_name)
 A data frame indicating the status of dataset versions, including whether they are up to date.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function was deprecated because SHARKdata has now been replaced by the \href{https://shark.smhi.se/}{SHARK API}. Use \code{\link[=get_shark_table]{get_shark_table()}} instead.
+
 This function checks the status of dataset versions by comparing them with the latest available versions.
 }
 \details{
@@ -32,3 +36,4 @@ status_list <- check_data_version(data$dataset_file_name)
 \seealso{
 \code{\link{load_dataset_names}}, \code{\link{download_sharkdata}}, \code{\link{update_data}}, \href{https://sharkdata.smhi.se/}{SHARKdata}, \href{https://sharkweb.smhi.se/}{SHARKweb}
 }
+\keyword{internal}
