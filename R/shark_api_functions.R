@@ -52,7 +52,7 @@
 #'
 #' @param months Integer vector. The months to retrieve data for, e.g., `c(4, 5, 6)` for April to June.
 #'
-#' @param data_types Character vector. Specifies data types to filter, such as `"Chlorophyll"` or `"Epibenthos"`.
+#' @param data_types Character vector. Specifies data types to filter, such as `"Chlorophyll"` or `"Epibenthos"`. See \link{get_shark_options} for available data types.
 #'
 #' @return A `data.frame` containing the retrieved data, with column names based on the API's `headers`.
 #' Columns are filled with `NA` when rows have differing lengths.
@@ -60,6 +60,8 @@
 #' @details This function constructs a JSON body with specified parameters and sends a POST request
 #' to the SHARK API. The API returns data in JSON format, which is then parsed into a `data.frame`.
 #' If rows have differing lengths, `rbind.fill` fills missing columns with `NA`.
+#'
+#' @seealso \code{\link{get_shark_options}}
 #'
 #' @import httr
 #' @import jsonlite
@@ -152,5 +154,50 @@ get_shark_table <- function(table_view = "sharkweb_overview", limit = 200, offse
   } else {
     # Return the error message
     stop("Failed to retrieve data: ", status_code(response))
+  }
+}
+#' Retrieve Available Search Options from SHARK API
+#'
+#' The `get_shark_options` function retrieves available search options from the SHARK database hosted by SMHI.
+#' It sends a GET request to the SHARK API and returns the results as a structured `data.frame`.
+#'
+#' @return A `data.frame` containing the available search options from the SHARK API.
+#'
+#' @details This function sends a GET request to the SHARK API options endpoint to retrieve available search filters and options
+#' for querying the database. The API returns data in JSON format, which is then parsed into a `data.frame`.
+#'
+#' @import httr
+#' @import jsonlite
+#'
+#' @seealso \code{\link{get_shark_table}}
+#'
+#' @examples
+#' \dontrun{
+#'   # Retrieve available search options
+#'   shark_options <- get_shark_options()
+#'   View(shark_options)
+#'   
+#'   # View available datatypes
+#'   data_types <- unlist(shark_options$dataTypes)
+#'   print(data_types)
+#' }
+#'
+#' @export
+get_shark_options <- function() {
+  # Define the URL for options
+  url <- "https://shark.smhi.se/api/options"
+  
+  # Make the GET request
+  response <- GET(url, add_headers("accept" = "application/json"))
+  
+  # Check if the request was successful
+  if (status_code(response) == 200) {
+    # Parse the JSON response content
+    shark_options <- content(response, as = "parsed", type = "application/json")
+    
+    return(shark_options)
+  } else {
+    # Return the error message if the request failed
+    stop("Failed to retrieve options: ", status_code(response))
   }
 }
