@@ -60,6 +60,7 @@ check_zero_positions <- function(data) {
 #' @param data for tibble be be checked
 #' @return logical test with true or false results 
 #' @export
+#' @importFrom DT datatable
 check_epibenthos_totcover_logical <- function(data) {
 
   if (any(data$value[which(data$parameter=="Total cover of all species (%)")] > 100)) {

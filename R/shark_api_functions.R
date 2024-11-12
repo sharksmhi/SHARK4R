@@ -63,11 +63,13 @@
 #'
 #' @seealso \code{\link{get_shark_options}}
 #'
-#' @import httr
-#' @import jsonlite
-#' @import dplyr
-#' @import purrr
-#' @import tidyr
+#' @importFrom httr POST content status_code
+#' @importFrom jsonlite toJSON
+#' @importFrom tidyr unnest
+#' @importFrom dplyr mutate everything across
+#' @importFrom purrr map_dfr map
+#' @importFrom tibble as_tibble
+#' @importFrom magrittr %>%
 #'
 #' @examples
 #' \dontrun{
@@ -166,8 +168,7 @@ get_shark_table <- function(table_view = "sharkweb_overview", limit = 200, offse
 #' @details This function sends a GET request to the SHARK API options endpoint to retrieve available search filters and options
 #' for querying the database. The API returns data in JSON format, which is then parsed into a `data.frame`.
 #'
-#' @import httr
-#' @import jsonlite
+#' @importFrom httr GET content status_code
 #'
 #' @seealso \code{\link{get_shark_table}}
 #'

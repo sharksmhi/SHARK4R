@@ -2,6 +2,10 @@
 #' Uses readxl to read excel files with standardized delivery format 
 #' @param filename path to file to be read
 #' @return Data frame of file
+#' @importFrom dplyr mutate_all mutate_at
+#' @importFrom utils type.convert
+#' @importFrom lubridate ymd
+#' @importFrom readxl read_xlsx
 #' @export
 
 shark_read_deliv <- function(filename, skip = 2, sheet = 2) {
@@ -25,6 +29,10 @@ shark_read_deliv <- function(filename, skip = 2, sheet = 2) {
 #' Uses readxl to read excel files with standardized delivery format 
 #' @param filename path to file to be read
 #' @return Data frame of file
+#' @importFrom dplyr mutate_all mutate_at
+#' @importFrom utils type.convert
+#' @importFrom lubridate ymd
+#' @importFrom readxl read_xls
 #' @export
 
 shark_read_deliv_xls <- function(filename, skip = 2, sheet = 2) {

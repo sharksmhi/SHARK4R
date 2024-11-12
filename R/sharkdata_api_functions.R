@@ -16,6 +16,9 @@
 #' all_dataset_names <- load_sharkdata()
 #' }
 #'
+#' @importFrom lifecycle deprecate_warn
+#' @importFrom jsonlite fromJSON
+#'
 #' @keywords internal
 #' 
 #' @export
@@ -42,6 +45,8 @@ load_sharkdata <- function() {
 #' \dontrun{
 #' all_dataset_types <- load_dataset_types()
 #' }
+#'
+#' @importFrom lifecycle deprecate_warn
 #'
 #' @keywords internal
 #'
@@ -80,6 +85,10 @@ load_dataset_types <- function() {
 #'
 #' @keywords internal
 #'
+#' @importFrom lifecycle deprecate_warn
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter
+#'
 #' @export
 load_dataset_names <- function(dataset_type, year = NA, data_deliverer = NA) {
   lifecycle::deprecate_warn("0.1.0", "load_sharkdata()", "get_shark_options()", "The SHARKdata API has been replaced by the SHARK API.")
@@ -107,6 +116,9 @@ load_dataset_names <- function(dataset_type, year = NA, data_deliverer = NA) {
 #' @param year The year to filter datasets.
 #' @return A filtered data frame.
 #'
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter
+#'
 #' @keywords internal
 year_filter <- function(datasets, year) {
   if (!any(is.na(year))) {
@@ -128,6 +140,9 @@ year_filter <- function(datasets, year) {
 #' @param datasets The input datasets to filter.
 #' @param data_deliverer The data deliverer to filter datasets.
 #' @return A filtered data frame.
+#'
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter
 #'
 #' @keywords internal
 data_deliverer_filter <- function(datasets, data_deliverer) {
@@ -172,6 +187,12 @@ data_deliverer_filter <- function(datasets, data_deliverer) {
 #' }
 #'
 #' @keywords internal
+#'
+#' @importFrom lifecycle deprecate_warn
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter mutate across everything bind_rows left_join
+#' @importFrom utils txtProgressBar setTxtProgressBar
+#' @importFrom readr type_convert cols
 #'
 #' @export
 download_sharkdata <- function(dataset_names) {
@@ -254,6 +275,8 @@ download_sharkdata <- function(dataset_names) {
 #' @param dataset_name The name of the dataset to download.
 #' @return A temporary file path.
 #'
+#' @importFrom utils download.file
+#'
 #' @keywords internal
 download_file <- function(dataset_name) {
   temp <- tempfile()
@@ -280,6 +303,8 @@ download_file <- function(dataset_name) {
 #' @param filtered_datasets The filtered datasets.
 #' @param dataset_name The name of the dataset.
 #' @return A data frame containing the read and converted data.
+#'
+#' @importFrom readr read_tsv
 #'
 #' @keywords internal
 read_data <- function(temp, filtered_datasets, dataset_name) {
@@ -328,6 +353,9 @@ validate_dataset_names <- function(filtered_datasets, dataset_names) {
 #'
 #' @seealso \code{\link{load_worms_taxonomy}}, \code{\link{update_dyntaxa_taxonomy}}, \code{\link{update_worms_taxonomy}}, [SHARKdata](https://sharkdata.smhi.se/), [SHARKweb](https://sharkweb.smhi.se/)
 #'
+#' @importFrom dplyr filter
+#' @importFrom magrittr %>%
+#'
 #' @keywords internal
 load_dyntaxa_taxonomy <- function(dyntaxa_id_input) {
   shark_species_list <- read_species_list()
@@ -349,6 +377,11 @@ load_dyntaxa_taxonomy <- function(dyntaxa_id_input) {
 #'
 #' @param filename The name of the file containing the species list.
 #' @return A data frame containing the species list with converted columns.
+#'
+#' @importFrom readr read_delim locale
+#' @importFrom dplyr select rename
+#' @importFrom readr cols
+#' @importFrom magrittr %>%
 #'
 #' @keywords internal
 read_species_list <- function(filename) {
@@ -386,6 +419,10 @@ read_species_list <- function(filename) {
 #' @param shark_species_list A data frame containing shark species information.
 #' @return A data frame containing gathered species information.
 #'
+#' @importFrom dplyr select filter mutate distinct
+#' @importFrom magrittr %>%
+#' @importFrom stringr word
+#'
 #' @keywords internal
 gather_species_info <- function(shark_species_list) {
   species <- shark_species_list %>%
@@ -418,6 +455,9 @@ gather_species_info <- function(shark_species_list) {
 #' @param species A data frame containing gathered species information.
 #' @return A data frame containing the shark species list with added species information.
 #'
+#' @importFrom dplyr left_join relocate select
+#' @importFrom magrittr %>%
+#'
 #' @keywords internal
 add_species_info <- function(shark_species_list, species) {
   shark_species_list <- shark_species_list %>%
@@ -441,6 +481,11 @@ add_species_info <- function(shark_species_list, species) {
 #' @return A data frame containing higher taxonomy information.
 #'
 #' @seealso \code{\link{load_dyntaxa_taxonomy}}, \code{\link{update_dyntaxa_taxonomy}}, \code{\link{update_worms_taxonomy}}, [SHARKdata](https://sharkdata.smhi.se/), [SHARKweb](https://sharkweb.smhi.se/)
+#'
+#' @importFrom dplyr rename filter select
+#' @importFrom readr cols
+#' @importFrom magrittr %>%
+#' @importFrom readr read_delim
 #'
 #' @keywords internal
 load_worms_taxonomy <- function(aphia_id_input) {
@@ -481,6 +526,9 @@ load_worms_taxonomy <- function(aphia_id_input) {
 #' @param taxa_worms A data frame containing WoRMS species information.
 #' @return A data frame containing gathered WoRMS species information.
 #'
+#' @importFrom dplyr rename filter select
+#' @importFrom magrittr %>%
+#'
 #' @keywords internal
 gather_worms_species_info <- function(taxa_worms) {
   species <- taxa_worms %>%
@@ -503,6 +551,9 @@ gather_worms_species_info <- function(taxa_worms) {
 #' @param taxa_worms A data frame containing WoRMS taxonomy information.
 #' @param species A data frame containing gathered WoRMS species information.
 #' @return A data frame containing the taxa_worms with added WoRMS species information.
+#'
+#' @importFrom dplyr left_join relocate select
+#' @importFrom magrittr %>%
 #'
 #' @keywords internal
 add_worms_species_info <- function(taxa_worms, species) {
@@ -542,6 +593,12 @@ add_worms_species_info <- function(taxa_worms, species) {
 #' }
 #' 
 #' @keywords internal
+#' 
+#' @importFrom dplyr mutate distinct group_by left_join select rename ungroup
+#' @importFrom magrittr %>%
+#' @importFrom lifecycle deprecate_warn
+#' @importFrom sf st_read st_set_crs st_transform st_as_sf st_crs st_join
+#' @importFrom readr read_delim
 #' 
 #' @export
 get_geographical_info <- function(latitude_dd, longitude_dd) {
@@ -622,6 +679,10 @@ get_geographical_info <- function(latitude_dd, longitude_dd) {
 #' 
 #' @keywords internal
 #' 
+#' @importFrom lifecycle deprecate_warn
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter
+#' 
 #' @export
 check_data_version <- function(dataset_file_name) {
   lifecycle::deprecate_warn("0.1.0", "check_data_version()", "get_shark_table()", "The SHARKdata API has been replaced by the SHARK API.")
@@ -665,6 +726,11 @@ check_data_version <- function(dataset_file_name) {
 #' }
 #'
 #' @keywords internal
+#'
+#' @importFrom lifecycle deprecate_warn
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter mutate across everything bind_rows
+#' @importFrom readr type_convert
 #'
 #' @export
 update_data <- function(data) {
@@ -711,6 +777,9 @@ update_data <- function(data) {
 #' @param data A data frame containing the current data.
 #' @param datasets_to_update A data frame containing information about datasets that need to be updated.
 #' @return A filtered data frame excluding outdated datasets.
+#'
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter
 #'
 #' @keywords internal
 filter_outdated_datasets <- function(data, datasets_to_update) {

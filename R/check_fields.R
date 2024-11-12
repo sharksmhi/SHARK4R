@@ -6,6 +6,9 @@
 #' @param data The data frame.
 #' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
 #' @return Any warnings or errors.
+#' 
+#' @importFrom tibble tibble
+#' 
 #' @export
 
 check_datatype <- function(data, level = "error") {

@@ -28,6 +28,9 @@
 #' print(taxon_info)
 #' }
 #'
+#' @importFrom httr POST content status_code
+#' @importFrom jsonlite toJSON
+#'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
 get_dyntaxa_records <- function(taxon_ids, subscription_key) {
@@ -95,6 +98,10 @@ get_dyntaxa_records <- function(taxon_ids, subscription_key) {
 #' parent_ids <- get_dyntaxa_parent_ids(c(238366, 1010380), "your_subscription_key")
 #' print(parent_ids)
 #' }
+#'
+#' @importFrom httr POST content http_status add_headers
+#' @importFrom jsonlite fromJSON
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
@@ -169,6 +176,11 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key) {
 #' print(children_hierarchy)
 #' }
 #'
+#' @importFrom httr POST content http_status add_headers
+#' @importFrom jsonlite fromJSON
+#' @importFrom utils txtProgressBar setTxtProgressBar
+#' @importFrom purrr map
+#'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
 get_dyntaxa_children_hierarchy <- function(taxon_ids, subscription_key, levels = 1, main_children = TRUE) {
@@ -240,6 +252,11 @@ get_dyntaxa_children_hierarchy <- function(taxon_ids, subscription_key, levels =
 #' @return A list containing children taxon IDs corresponding to the specified taxon IDs.
 #'
 #' @export
+#'
+#' @importFrom httr POST content http_status add_headers
+#' @importFrom jsonlite fromJSON
+#' @importFrom utils txtProgressBar setTxtProgressBar
+#' @importFrom purrr map
 #'
 #' @examples
 #' \dontrun{
@@ -326,6 +343,12 @@ get_dyntaxa_children_ids <- function(taxon_ids, subscription_key, main_children 
 #' taxonomy_table <- construct_dyntaxa_table(parent_ids, "your_subscription_key")
 #' print(taxonomy_table)
 #' }
+#'
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter select mutate left_join distinct bind_rows pull across rename_with slice
+#' @importFrom tidyr pivot_wider all_of
+#' @importFrom purrr map_df
+#' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
@@ -685,6 +708,9 @@ fill_na_below_first_non_na <- function(x) {
 #' print(updated_taxonomy)
 #' }
 #'
+#' @importFrom magrittr %>%
+#' @importFrom dplyr select rename
+#'
 #' @seealso \code{\link{download_sharkdata}}, \code{\link{update_worms_taxonomy}}, [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
 update_dyntaxa_taxonomy <- function(dyntaxa_ids, subscription_key) {
@@ -733,6 +759,12 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids, subscription_key) {
 #' @return A data frame containing the search pattern, taxon ID, and best match for each taxon name.
 #'
 #' @export
+#'
+#' @importFrom httr GET content status_code add_headers
+#' @importFrom jsonlite toJSON
+#' @importFrom purrr map
+#' @importFrom utils txtProgressBar setTxtProgressBar
+#' @importFrom magrittr %>%
 #'
 #' @examples
 #' \dontrun{

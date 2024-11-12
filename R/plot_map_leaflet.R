@@ -7,6 +7,7 @@
 #'   many elements as there are rows, by default the row names are shown.
 #' @return HTML widget object.
 #' @export
+#' @importFrom leaflet leaflet addProviderTiles providerTileOptions addMarkers
 plot_map_leaflet <- function(data) {
   coord = data %>% 
     select(station_name, sample_longitude_dd, sample_latitude_dd) %>% 

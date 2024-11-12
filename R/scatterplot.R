@@ -3,6 +3,7 @@
 #' @param data for tibble be be checked
 #' @return plotly plot 
 #' @export scatterplot
+#' @importFrom plotly plot_ly layout
 ## TODO:changing axis layout to logarithmic scale would be useful 
 
 scatterplot <- function(data, ...) {
