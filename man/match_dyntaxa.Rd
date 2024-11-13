@@ -9,8 +9,6 @@ match_dyntaxa(names)
 }
 \arguments{
 \item{names}{Vector of scientific names.}
-
-\item{ask}{Ask user in case of multiple matches.}
 }
 \value{
 Data frame with scientific name, scientific name ID and match type.

@@ -4,16 +4,13 @@
 \alias{plot_map_leaflet_deliv}
 \title{Create a Leaflet map.}
 \usage{
-plot_map_leaflet_deliv(data)
+plot_map_leaflet_deliv(data, provider = "Esri.OceanBasemap")
 }
 \arguments{
 \item{data}{The data frame.}
 
 \item{provider}{Tile provider, see
-https://leaflet-extras.github.io/leaflet-providers/preview/.}
-
-\item{popup}{The field to display as a popup or a character vector with as
-many elements as there are rows, by default the row names are shown.}
+https://leaflet-extras.github.io/leaflet-providers/preview/. Default is \code{Esri.OceanBasemap}.}
 }
 \value{
 HTML widget object.

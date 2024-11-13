@@ -21,8 +21,7 @@
 #' ok <- check_onland(abra, report = FALSE, buffer = 100)
 #' print(nrow(ok))
 #' }
-#' @seealso \code{\link{check_depth}} \code{\link{check_outliers_dataset}}
-#'   \code{\link{check_outliers_species}} \code{\link{lookup_xy}}
+#' @seealso \code{\link{check_depth}}  \code{\link{lookup_xy}}
 #' @export
 #' @importFrom tibble data_frame
 #' @importFrom sp proj4string CRS coordinates spTransform over
@@ -47,8 +46,8 @@ check_onland <- function(data, land = NULL, report = FALSE, buffer=0, offline = 
 
   if(offline) {
     sp <- data %>% select(sample_longitude_dd, sample_latitude_dd)
-    coordinates(sp) <- ~ sample_longitude_dd + sample_latitude_dd
-    proj4string(sp) <- CRS("+init=epsg:4326")
+    sp::coordinates(sp) <- ~ sample_longitude_dd + sample_latitude_dd
+    sp::proj4string(sp) <- CRS("+init=epsg:4326")
     sp <- spTransform(sp, proj4string(land))
     i <- which(!is.na(over(sp, land)))
   } else {

@@ -755,6 +755,7 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids, subscription_key) {
 #' @param culture A character string indicating the culture. Defaults to 'sv_SE'.
 #' @param page An integer specifying the page number for pagination. Defaults to 1.
 #' @param pageSize An integer specifying the page size for pagination. Defaults to 100.
+#' @param verbose Logical. Print progress bar. Default is TRUE.
 #'
 #' @return A data frame containing the search pattern, taxon ID, and best match for each taxon name.
 #'

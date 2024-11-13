@@ -35,6 +35,8 @@ match_taxon_name(
 \item{page}{An integer specifying the page number for pagination. Defaults to 1.}
 
 \item{pageSize}{An integer specifying the page size for pagination. Defaults to 100.}
+
+\item{verbose}{Logical. Print progress bar. Default is TRUE.}
 }
 \value{
 A data frame containing the search pattern, taxon ID, and best match for each taxon name.

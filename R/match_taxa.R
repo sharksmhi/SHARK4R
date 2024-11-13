@@ -1,7 +1,6 @@
 #' Taxon matching using Dyntaxa (https://www.dyntaxa.se/)
 #' matches latin name in data with Dyntaxa taxon list
 #' @param names Vector of scientific names.
-#' @param ask Ask user in case of multiple matches.
 #' @return Data frame with scientific name, scientific name ID and match type.
 #' @export
 

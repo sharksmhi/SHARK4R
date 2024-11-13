@@ -1,3 +1,6 @@
+#' @importFrom rappdirs user_cache_dir
+#' @importFrom digest digest
+
 missing_fields <- function(data, fields) {
   missing <- !(fields %in% names(data))
   return(fields[missing])

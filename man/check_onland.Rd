@@ -39,6 +39,5 @@ print(nrow(ok))
 }
 }
 \seealso{
-\code{\link{check_depth}} \code{\link{check_outliers_dataset}}
-\code{\link{check_outliers_species}} \code{\link{lookup_xy}}
+\code{\link{check_depth}}  \code{\link{lookup_xy}}
 }
