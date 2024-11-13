@@ -1,10 +1,11 @@
-#' #' @description
+#' Taxon matching using Dyntaxa (https://www.dyntaxa.se/)
+#' 
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #' 
 #' This function was deprecated because it can now be replaced by using the
 #' [Dyntaxa API](https://api-portal.artdatabanken.se/). Use [match_taxon_name()] instead.
 #'
-#' Taxon matching using Dyntaxa (https://www.dyntaxa.se/)
 #' matches latin name in data with Dyntaxa taxon list
 #' @param names Vector of scientific names.
 #' @return Data frame with scientific name, scientific name ID and match type.
