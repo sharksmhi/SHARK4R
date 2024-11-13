@@ -87,14 +87,16 @@ get_shark_table <- function(table_view = "sharkweb_overview", limit = 200, offse
   if (prod) {
     url <- "https://shark.smhi.se/api/sample/table"
   } else {
-    url <- "https://sharkweb-e6-tst.smhi.se/api/sample/table"
+    url <- "https://shark-tst.smhi.se/api/sample/table"
   }
   
+  url_short <- gsub("api/sample/table", "", url)
+  
   # Check if the URL is reachable
-  url_response <- try(GET(gsub("api/sample/table", "", url)), silent = TRUE)
+  url_response <- try(GET(url_short), silent = TRUE)
   
   if (inherits(url_response, "try-error") || http_error(url_response)) {
-    stop("The SHARK ", ifelse(prod, "PROD", "TEST"), " server cannot be reached.")
+    stop("The SHARK ", ifelse(prod, "PROD", "TEST"), " server cannot be reached: ", url_short, ". Please check network connection.")
   }
 
   # Create the JSON body as a list
@@ -203,14 +205,16 @@ get_shark_options <- function(prod = TRUE) {
   if (prod) {
     url <- "https://shark.smhi.se/api/options"
   } else {
-    url <- "https://sharkweb-e6-tst.smhi.se/api/options"
+    url <- "https://shark-tst.smhi.se/api/options"
   }
   
+  url_short <- gsub("api/options", "", url)
+  
   # Check if the URL is reachable
-  url_response <- try(GET(gsub("api/options", "", url)), silent = TRUE)
+  url_response <- try(GET(url_short), silent = TRUE)
   
   if (inherits(url_response, "try-error") || http_error(url_response)) {
-    stop("The SHARK ", ifelse(prod, "PROD", "TEST"), " server cannot be reached.")
+    stop("The SHARK ", ifelse(prod, "PROD", "TEST"), " server cannot be reached: ", url_short, ". Please check network connection.")
   }
   
   # Make the GET request
