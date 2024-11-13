@@ -12,7 +12,8 @@ get_shark_table(
   from_year = 2019,
   to_year = 2020,
   months = c(4, 5, 6),
-  data_types = c("Chlorophyll", "Epibenthos")
+  data_types = c("Chlorophyll", "Epibenthos"),
+  prod = TRUE
 )
 }
 \arguments{
@@ -65,6 +66,8 @@ Default is \code{"sharkweb_overview"}.}
 \item{months}{Integer vector. The months to retrieve data for, e.g., \code{c(4, 5, 6)} for April to June.}
 
 \item{data_types}{Character vector. Specifies data types to filter, such as \code{"Chlorophyll"} or \code{"Epibenthos"}. See \link{get_shark_options} for available data types.}
+
+\item{prod}{Logical. Query against PROD or TEST (SMHI internal) server. Default is TRUE (PROD).}
 }
 \value{
 A \code{data.frame} containing the retrieved data, with column names based on the API's \code{headers}.

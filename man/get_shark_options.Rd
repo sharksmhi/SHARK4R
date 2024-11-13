@@ -4,7 +4,10 @@
 \alias{get_shark_options}
 \title{Retrieve Available Search Options from SHARK API}
 \usage{
-get_shark_options()
+get_shark_options(prod = TRUE)
+}
+\arguments{
+\item{prod}{Logical. Query against PROD or TEST (SMHI internal) server. Default is TRUE (PROD).}
 }
 \value{
 A \code{data.frame} containing the available search options from the SHARK API.

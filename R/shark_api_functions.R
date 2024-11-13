@@ -47,12 +47,10 @@
 #' }
 #'
 #' @param from_year Integer. The starting year for the data to retrieve. Default is `2019`.
-#'
 #' @param to_year Integer. The ending year for the data to retrieve. Default is `2020`.
-#'
 #' @param months Integer vector. The months to retrieve data for, e.g., `c(4, 5, 6)` for April to June.
-#'
 #' @param data_types Character vector. Specifies data types to filter, such as `"Chlorophyll"` or `"Epibenthos"`. See \link{get_shark_options} for available data types.
+#' @param prod Logical. Query against PROD or TEST (SMHI internal) server. Default is TRUE (PROD).
 #'
 #' @return A `data.frame` containing the retrieved data, with column names based on the API's `headers`.
 #' Columns are filled with `NA` when rows have differing lengths.
@@ -63,7 +61,7 @@
 #'
 #' @seealso \code{\link{get_shark_options}}
 #'
-#' @importFrom httr POST content status_code
+#' @importFrom httr GET POST content status_code http_error
 #' @importFrom jsonlite toJSON
 #' @importFrom tidyr unnest
 #' @importFrom dplyr mutate everything across
@@ -82,10 +80,22 @@
 #' @export
 get_shark_table <- function(table_view = "sharkweb_overview", limit = 200, offset = 0,
                             header_lang = "internal_key", from_year = 2019, to_year = 2020,
-                            months = c(4, 5, 6), data_types = c("Chlorophyll", "Epibenthos")) {
+                            months = c(4, 5, 6), data_types = c("Chlorophyll", "Epibenthos"),
+                            prod = TRUE) {
   
   # Define the URL
-  url <- "https://shark.smhi.se/api/sample/table"
+  if (prod) {
+    url <- "https://shark.smhi.se/api/sample/table"
+  } else {
+    url <- "https://sharkweb-e6-tst.smhi.se/api/sample/table"
+  }
+  
+  # Check if the URL is reachable
+  url_response <- try(GET(gsub("api/sample/table", "", url)), silent = TRUE)
+  
+  if (inherits(url_response, "try-error") || http_error(url_response)) {
+    stop("The SHARK ", ifelse(prod, "PROD", "TEST"), " server cannot be reached.")
+  }
 
   # Create the JSON body as a list
   body <- list(
@@ -163,6 +173,8 @@ get_shark_table <- function(table_view = "sharkweb_overview", limit = 200, offse
 #' The `get_shark_options` function retrieves available search options from the SHARK database hosted by SMHI.
 #' It sends a GET request to the SHARK API and returns the results as a structured `data.frame`.
 #'
+#' @param prod Logical. Query against PROD or TEST (SMHI internal) server. Default is TRUE (PROD).
+#'
 #' @return A `data.frame` containing the available search options from the SHARK API.
 #'
 #' @details This function sends a GET request to the SHARK API options endpoint to retrieve available search filters and options
@@ -184,9 +196,22 @@ get_shark_table <- function(table_view = "sharkweb_overview", limit = 200, offse
 #' }
 #'
 #' @export
-get_shark_options <- function() {
+get_shark_options <- function(prod = TRUE) {
   # Define the URL for options
   url <- "https://shark.smhi.se/api/options"
+  
+  if (prod) {
+    url <- "https://shark.smhi.se/api/options"
+  } else {
+    url <- "https://sharkweb-e6-tst.smhi.se/api/options"
+  }
+  
+  # Check if the URL is reachable
+  url_response <- try(GET(gsub("api/options", "", url)), silent = TRUE)
+  
+  if (inherits(url_response, "try-error") || http_error(url_response)) {
+    stop("The SHARK ", ifelse(prod, "PROD", "TEST"), " server cannot be reached.")
+  }
   
   # Make the GET request
   response <- GET(url, add_headers("accept" = "application/json"))
