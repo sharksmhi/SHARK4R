@@ -2,8 +2,8 @@
 % Please edit documentation in R/match_taxa.R
 \name{match_dyntaxa}
 \alias{match_dyntaxa}
-\title{Taxon matching using Dyntaxa (https://www.dyntaxa.se/)
-matches latin name in data with Dyntaxa taxon list}
+\title{#' @description
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 \usage{
 match_dyntaxa(names)
 }
@@ -14,6 +14,11 @@ match_dyntaxa(names)
 Data frame with scientific name, scientific name ID and match type.
 }
 \description{
+This function was deprecated because it can now be replaced by using the
+\href{https://api-portal.artdatabanken.se/}{Dyntaxa API}. Use \code{\link[=match_taxon_name]{match_taxon_name()}} instead.
+}
+\details{
 Taxon matching using Dyntaxa (https://www.dyntaxa.se/)
 matches latin name in data with Dyntaxa taxon list
 }
+\keyword{internal}
