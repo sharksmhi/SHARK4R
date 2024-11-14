@@ -5,53 +5,71 @@
 \title{Retrieve and Format SHARK Data from SMHI API}
 \usage{
 get_shark_table(
-  table_view = "sharkweb_overview",
-  limit = 200,
+  tableView = "sharkweb_overview",
+  limit = 0,
+  headerLang = "internal_key",
+  fromYear = 2019,
+  toYear = 2020,
+  months = c(),
+  dataTypes = c(),
+  parameters = c(),
+  orderers = c(),
+  qualityFlags = c(),
+  deliverers = c(),
+  projects = c(),
+  datasets = c(),
+  minSamplingDepth = "",
+  maxSamplingDepth = "",
+  checkStatus = "",
+  redListedCategory = c(),
+  taxonName = c(),
+  stationName = c(),
+  vattenDistrikt = c(),
+  seaBasins = c(),
+  counties = c(),
+  municipalities = c(),
+  waterCategories = c(),
+  typOmraden = c(),
+  helcomOspar = c(),
+  seaAreas = c(),
   offset = 0,
-  header_lang = "internal_key",
-  from_year = 2019,
-  to_year = 2020,
-  months = c(4, 5, 6),
-  data_types = c("Chlorophyll", "Epibenthos"),
   prod = TRUE
 )
 }
 \arguments{
-\item{table_view}{Character. Specifies the view of the table to retrieve. Options include:
-\itemize{
-\item \code{"sharkweb_overview"}
-\item \code{"sharkweb_all"}
-\item \code{"sharkdata_bacterioplankton"}
-\item \code{"sharkdata_chlorophyll"}
-\item \code{"sharkdata_epibenthos"}
-\item \code{"sharkdata_greyseal"}
-\item \code{"sharkdata_harbourporpoise"}
-\item \code{"sharkdata_harbourseal"}
-\item \code{"sharkdata_jellyfish"}
-\item \code{"sharkdata_physicalchemical_columns"}
-\item \code{"sharkdata_phytoplankton"}
-\item \code{"sharkdata_picoplankton"}
-\item \code{"sharkdata_planktonbarcoding"}
-\item \code{"sharkdata_primaryproduction"}
-\item \code{"sharkdata_ringedseal"}
-\item \code{"sharkdata_sealpathology"}
-\item \code{"sharkdata_sedimentation"}
-\item \code{"sharkdata_zoobenthos"}
-\item \code{"sharkdata_zooplankton"}
-\item \code{"report_sum_year_param"}
-\item \code{"report_sum_year_param_taxon"}
-\item \code{"report_sampling_per_station"}
-\item \code{"report_obs_taxon"}
-\item \code{"report_stations"}
-\item \code{"report_taxon"}
+\item{tableView}{Character. Specifies the view of the table to retrieve. Options include:
+\describe{
+\item{"sharkweb_overview"}{}
+\item{"sharkweb_all"}{}
+\item{"sharkdata_bacterioplankton"}{}
+\item{"sharkdata_chlorophyll"}{}
+\item{"sharkdata_epibenthos"}{}
+\item{"sharkdata_greyseal"}{}
+\item{"sharkdata_harbourporpoise"}{}
+\item{"sharkdata_harbourseal"}{}
+\item{"sharkdata_jellyfish"}{}
+\item{"sharkdata_physicalchemical_columns"}{}
+\item{"sharkdata_phytoplankton"}{}
+\item{"sharkdata_picoplankton"}{}
+\item{"sharkdata_planktonbarcoding"}{}
+\item{"sharkdata_primaryproduction"}{}
+\item{"sharkdata_ringedseal"}{}
+\item{"sharkdata_sealpathology"}{}
+\item{"sharkdata_sedimentation"}{}
+\item{"sharkdata_zoobenthos"}{}
+\item{"sharkdata_zooplankton"}{}
+\item{"report_sum_year_param"}{}
+\item{"report_sum_year_param_taxon"}{}
+\item{"report_sampling_per_station"}{}
+\item{"report_obs_taxon"}{}
+\item{"report_stations"}{}
+\item{"report_taxon"}{}
 }
 Default is \code{"sharkweb_overview"}.}
 
-\item{limit}{Integer. Maximum number of records to retrieve per request. Default is \code{200}.}
+\item{limit}{Integer. Maximum number of records to retrieve per request. Default is \code{0} (all records).}
 
-\item{offset}{Integer. The starting point for data retrieval, useful for pagination. Default is \code{0}.}
-
-\item{header_lang}{Character. Language option for column headers. Possible values:
+\item{headerLang}{Character. Language option for column headers. Possible values:
 \itemize{
 \item \code{"sv"}: Swedish
 \item \code{"en"}: English
@@ -59,13 +77,55 @@ Default is \code{"sharkweb_overview"}.}
 \item \code{"internal_key"}: Internal key (default)
 }}
 
-\item{from_year}{Integer. The starting year for the data to retrieve. Default is \code{2019}.}
+\item{fromYear}{Integer. The starting year for the data to retrieve. Default is \code{2019}.}
 
-\item{to_year}{Integer. The ending year for the data to retrieve. Default is \code{2020}.}
+\item{toYear}{Integer. The ending year for the data to retrieve. Default is \code{2020}.}
 
 \item{months}{Integer vector. The months to retrieve data for, e.g., \code{c(4, 5, 6)} for April to June.}
 
-\item{data_types}{Character vector. Specifies data types to filter, such as \code{"Chlorophyll"} or \code{"Epibenthos"}. See \link{get_shark_options} for available data types.}
+\item{dataTypes}{Character vector. Specifies data types to filter, such as \code{"Chlorophyll"} or \code{"Epibenthos"}.}
+
+\item{parameters}{Character vector. Optional vector of parameters to filter results, such as \code{"Chlorophyll-a"}.}
+
+\item{orderers}{Character vector. Optional vector of orderers to filter data by specific individuals or organizations.}
+
+\item{qualityFlags}{Character vector. Optional vector of quality flags to filter data.}
+
+\item{deliverers}{Character vector. Optional vector of deliverers to filter data by data providers.}
+
+\item{projects}{Character vector. Optional vector of projects to filter data by specific research or monitoring projects.}
+
+\item{datasets}{Character vector. Optional vector of datasets to filter data by specific dataset names.}
+
+\item{minSamplingDepth}{Numeric. Optional minimum depth (in meters) for sampling data to filter results.}
+
+\item{maxSamplingDepth}{Numeric. Optional maximum depth (in meters) for sampling data to filter results.}
+
+\item{checkStatus}{Character string. Optional status check to filter results.}
+
+\item{redListedCategory}{Character vector. Optional vector of red-listed taxa for conservation filtering.}
+
+\item{taxonName}{Character vector. Optional vector of taxa names for filtering specific species or taxa.}
+
+\item{stationName}{Character vector. Optional vector of station names to retrieve data from specific stations.}
+
+\item{vattenDistrikt}{Character vector. Optional vector of water district names to filter data by Swedish water districts.}
+
+\item{seaBasins}{Character vector. Optional vector of sea basin names to filter data by different sea areas.}
+
+\item{counties}{Character vector. Optional vector of counties to filter data within specific administrative regions in Sweden.}
+
+\item{municipalities}{Character vector. Optional vector of municipalities to filter data within specific local administrative regions.}
+
+\item{waterCategories}{Character vector. Optional vector of water categories to filter from.}
+
+\item{typOmraden}{Character vector. Optional vector of type areas to filter data by specific areas.}
+
+\item{helcomOspar}{Character vector. Optional vector of HELCOM or OSPAR areas for regional filtering.}
+
+\item{seaAreas}{Character vector. Optional vector of sea area codes for filtering by specific sea areas}
+
+\item{offset}{Integer. The starting point for data retrieval, useful for pagination. Default is \code{0}.}
 
 \item{prod}{Logical. Query against PROD or TEST (SMHI internal) server. Default is TRUE (PROD).}
 }
@@ -77,6 +137,7 @@ Columns are filled with \code{NA} when rows have differing lengths.
 The \code{get_shark_table} function retrieves data from the SHARK database hosted by SMHI, with options
 to filter based on year range, months, and data types. It sends a POST request to
 the SHARK API and returns the results as a structured \code{data.frame}.
+To view available filter options, see \code{\link{get_shark_options}}.
 }
 \details{
 This function constructs a JSON body with specified parameters and sends a POST request
@@ -86,8 +147,8 @@ If rows have differing lengths, \code{rbind.fill} fills missing columns with \co
 \examples{
 \dontrun{
   # Retrieve chlorophyll data for April to June from 2019 to 2020
-  shark_data <- get_shark_table(from_year = 2019, to_year = 2020,
-                               months = c(4, 5, 6), data_types = c("Chlorophyll"))
+  shark_data <- get_shark_table(fromYear = 2019, toYear = 2020,
+                                months = c(4, 5, 6), dataTypes = c("Chlorophyll"))
   View(shark_data)
 }
 
