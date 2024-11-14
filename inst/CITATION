@@ -1,0 +1,22 @@
+bibentry(
+  bibtype = "Manual",
+  title = "SHARK4R",
+  author = c(
+    person(given = "Markus",
+           family = "Lindh",
+           role = c("aut", "cre"),
+           email = "first.last@example.com",
+           comment = c(ORCID = "https://orcid.org/0000-0002-7120-4145")),
+    person("Anders", "Torstensson",
+           role = c("aut"),
+           email = "first.last@example.com",
+           comment = c(affiliation = "Swedish Meteorological and Hydrological Institute",
+                       ORCID = "0000-0002-8283-656X")),
+     person(given="SHARK",
+     email="shark@smhi.se",
+     role = "cph")),
+  year = "2024",
+  note = "R package version 0.1.0",
+  url = "https://sharksmhi.github.io/SHARK4R/",
+  textVersion = paste("Markus Lindh, Anders Torstensson, SHARK (2024). SHARK4R. R package version 0.1.0. https://sharksmhi.github.io/SHARK4R/")
+)
