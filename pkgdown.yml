@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   retrieve_shark_data: retrieve_shark_data.html
   retrieve_taxonomic_data: retrieve_taxonomic_data.html
-last_built: 2024-11-15T12:00Z
+last_built: 2024-11-15T12:46Z
 urls:
   reference: https://sharksmhi.github.io/SHARK4R/reference
   article: https://sharksmhi.github.io/SHARK4R/articles
