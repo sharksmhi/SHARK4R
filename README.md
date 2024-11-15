@@ -5,11 +5,9 @@
 [![R-CMD-check](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/SMHI_Logo.svg/500px-SMHI_Logo.svg.png)
-
 This R package is equipped with a client application designed for integration 
 with API functions. It facilitates access to various databases, 
-including [SHARKdata](https://sharkdata.smhi.se/), 
+including [SHARK](https://shark.smhi.se/), 
 [SLU Artdatabanken (Dyntaxa)](https://api-portal.artdatabanken.se/), and 
 [WoRMS](http://www.marinespecies.org/rest/). The package serves a dual purpose, 
 supporting both data analysis and automatic quality control of physical, 
@@ -37,11 +35,10 @@ library(SHARK4R)
 
 ## Download data from SHARKdata
 
-```download_sharkdata()``` can be used to call the SHARKdata API to download
-datasets specified in the arguments. Available datasets can be listed
-with the ```load_dataset_names()``` function. Data can be checked for
-available updates. The higher taxonomy for biological data is loaded
-from file, but can be updated through the World Register of Marine
+```get_shark_table()``` can be used to call the SHARK API to retrieve
+data specified in the arguments. Available filtration options can be listed
+with the ```get_shark_options()``` function. The higher taxonomy for biological data is loaded
+from the database, but can be updated through the World Register of Marine
 Species (WoRMS) and SLU Artdatabanken APIs, using the functions
 ```update_worms_taxonomy()``` and ```update_dyntaxa_taxonomy()```.
 
