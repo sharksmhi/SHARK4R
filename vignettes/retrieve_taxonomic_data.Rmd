@@ -6,7 +6,6 @@ output:
 vignette: >
   %\VignetteIndexEntry{Retrieve Taxonomic Data From Dyntaxa}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ## Getting Started
@@ -49,7 +48,7 @@ print(shark_taxon)
 
 #### Dyntaxa API Key
 
-Dyntaxa requires a subscription key to access its API. To obtain your own key, sign up for the taxonomy product at the [SLU Swedish Species Information Centre´s Developer Portal](https://api-portal.artdatabanken.se/) to get your own key. In the example below, the key is retrieved from an environment variable.
+Dyntaxa requires a subscription key to access its API. To obtain your own key, sign up for the taxonomy product at the [SLU Swedish Species Information CentreÂ´s Developer Portal](https://api-portal.artdatabanken.se/) to get your own key. In the example below, the key is retrieved from an environment variable.
 
 ```{r}
 # Retrieve the API key
