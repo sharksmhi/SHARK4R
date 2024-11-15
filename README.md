@@ -22,7 +22,7 @@ Intergovernmental Oceanographic Commission of UNESCO.
 # Installation of R package
 
 ## Installing SHARK4R requires the `devtools`` package:
-```
+```r
 # install.packages("devtools")
 devtools::install_github("sharksmhi/SHARK4R", dependencies = TRUE)
 ```
