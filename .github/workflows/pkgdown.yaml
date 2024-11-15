@@ -20,6 +20,7 @@ jobs:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      DYNTAXA_KEY: ${{ secrets.DYNTAXA_KEY }}  # Add DYNTAXA_KEY as an environment variable
     permissions:
       contents: write
     steps:
