@@ -1,8 +1,9 @@
 # SHARK4R <a href="https://sharksmhi.github.io/SHARK4R/"><img src="man/figures/logo.png" align="right" height="139" alt="SHARK4R website" /></a>
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14169399.svg)](https://doi.org/10.5281/zenodo.14169399)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 This R package is equipped with a client application designed for integration 
@@ -11,50 +12,54 @@ including [SHARK](https://shark.smhi.se/),
 [SLU Artdatabanken (Dyntaxa)](https://api-portal.artdatabanken.se/), and 
 [WoRMS](http://www.marinespecies.org/rest/). The package serves a dual purpose, 
 supporting both data analysis and automatic quality control of physical, 
-chemical, and marine biological data. Developed by Sh at SMHI, modified 
-from <https://iobis.github.io/obistools>
-
-Provoost P and Bosch S (2018). "obistools: Tools for data enhancement
-and quality control." Ocean Biogeographic Information System.
-Intergovernmental Oceanographic Commission of UNESCO.
-<https://cran.r-project.org/package=obistools>.
+chemical, and marine biological data. Developed by SMHI, quality control functions 
+modified from <https://iobis.github.io/obistools>
 
 # Installation of R package
 
-## Installing SHARK4R requires the `devtools`` package:
+## Installing SHARK4R requires the `devtools` package:
 ```r
 # install.packages("devtools")
 devtools::install_github("sharksmhi/SHARK4R", dependencies = TRUE)
 ```
-# Running the R package SHARK4R programs
 
-## Download data from SHARK
+## Documentation and Tutorials
 
-```get_shark_table()``` can be used to call the SHARK API to retrieve
-data specified in the arguments. Available filtration options can be listed
-with the ```get_shark_options()``` function. The higher taxonomy for biological data is loaded
-from the database, but can be updated through the World Register of Marine
-Species (WoRMS) and SLU Artdatabanken APIs, using the functions
-```update_worms_taxonomy()``` and ```update_dyntaxa_taxonomy()```.
+### Download Data Using SHARK
 
-## Check required fields
+Explore the features and capabilities of `SHARK4R` through these tutorial:
+
+- [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html)
+- [Retrieve Taxonomic Data From Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_taxonomic_data.html)
+
+### Reference
+
+For a detailed overview of all available `SHARK4R` functions, please visit the reference section:
+
+- [Function Reference](https://sharksmhi.github.io/SHARK4R/reference/index.html)
+
+### Quality Control
+
+Listed functions can be used for quality control of SHARK data.
+
+#### Check required fields
 
 ```check_datatype()``` will check if all global SHARK required fields are
 present in an occurrence table and if any values are missing. These
 functions returns a dataframe of errors (if any).
 
-## Plot points on a map
+#### Plot points on a map
 
 ```plot_map()``` will generate a ggplot2 map of occurrence records,
 ```plot_map_leaflet()``` creates a zoomable interactive Leaflet map.
 
-## Check points on land
+#### Check points on land
 
 ```check_onland()``` uses the xylookup web service which internally uses land
 polygons from OpenStreetMap to check if any points are located on land.
 Other shapefiles can be used as well.
 
-## Check depth
+#### Check depth
 
 ```check_depth()``` uses the xylookup web service to identify which records have
 potentially invalid depths. Multiple checks are performed in this
@@ -65,7 +70,7 @@ provided depthmargin (error) depth values that are negative for off
 shore points, after applying the provided shoremargin (error) minimum
 depth greater than maximum depth (error)
 
-## Check outliers
+#### Check outliers
 
 ```check_outliers_dataset()``` use the qc-service web service to identify which
 records are statistical outliers. For species outlier checks are
@@ -78,8 +83,17 @@ in the report provides all relevant statistics on which the outlier
 analysis is based. The report also gives an overview of these outliers.
 Outliers can be plotted with ```plot_outliers(report)```
 
-## Taxon matching
+## Repository
 
-```match_taxa()``` performs interactive taxon matching with the World Register
-of Marine Species (WoRMS; <http://www.marinespecies.org/index.php>).
-```match_taxon_name()``` matches taxa names through the SLU Artdatabanken API (Dyntaxa) and provides taxon_ids.
+For more details and the latest updates, visit the [GitHub repository](https://github.com/sharksmhi/SHARK4R/).
+
+## License
+
+This package is licensed under the MIT License.
+
+## References
+
+Provoost P and Bosch S (2018). "obistools: Tools for data enhancement
+and quality control." Ocean Biogeographic Information System.
+Intergovernmental Oceanographic Commission of UNESCO.
+<https://cran.r-project.org/package=obistools>.
