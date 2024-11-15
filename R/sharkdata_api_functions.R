@@ -1,5 +1,10 @@
 #' Load all dataset names available at SHARKdata from SMHI
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' This function loads all datasets listed in SHARK at SMHI by calling the [SHARKdata API](https://sharkdata.smhi.se/).
 #'
 #' @return A data frame containing all datasets available in SHARKdata
@@ -11,12 +16,24 @@
 #' all_dataset_names <- load_sharkdata()
 #' }
 #'
+#' @importFrom lifecycle deprecate_warn
+#' @importFrom jsonlite fromJSON
+#'
+#' @keywords internal
+#' 
 #' @export
 load_sharkdata <- function() {
+  lifecycle::deprecate_warn("0.1.0", "load_sharkdata()", "get_shark_options()", "The SHARKdata API has been replaced by the SHARK API.")
+  
   fromJSON('https://sharkdata.smhi.se/datasets/list.json')
 }
 
 #' List available dataset types in SHARKdata
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
 #'
 #' This function lists the available dataset types from the [SHARKdata API](https://sharkdata.smhi.se/).
 #'
@@ -29,14 +46,24 @@ load_sharkdata <- function() {
 #' all_dataset_types <- load_dataset_types()
 #' }
 #'
+#' @importFrom lifecycle deprecate_warn
+#'
+#' @keywords internal
+#'
 #' @export
 load_dataset_types <- function() {
+  lifecycle::deprecate_warn("0.1.0", "load_sharkdata()", "get_shark_options()", "The SHARKdata API has been replaced by the SHARK API.")
   datasets <- load_sharkdata()
   dataset_types <- unique(datasets$datatype)
   return(dataset_types)
 }
 
 #' Load dataset names from SHARKdata based on type, year, and data deliverer
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
 #'
 #' This function gets dataset names fron the [SHARKdata API](https://sharkdata.smhi.se/) based on the specified data type, year, and data deliverer.
 #'
@@ -56,8 +83,16 @@ load_dataset_types <- function() {
 #' load_dataset_names("Phytoplankton", year = 2012:2020, data_deliverer = c("SMHI", "UMSC"))
 #' }
 #'
+#' @keywords internal
+#'
+#' @importFrom lifecycle deprecate_warn
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter
+#'
 #' @export
 load_dataset_names <- function(dataset_type, year = NA, data_deliverer = NA) {
+  lifecycle::deprecate_warn("0.1.0", "load_sharkdata()", "get_shark_options()", "The SHARKdata API has been replaced by the SHARK API.")
+  
   datasets <- load_sharkdata()
   
   filtered_datasets <- datasets %>%
@@ -70,11 +105,19 @@ load_dataset_names <- function(dataset_type, year = NA, data_deliverer = NA) {
 
 #' Filter datasets based on year
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' This internal function filters datasets based on the specified year.
 #'
 #' @param datasets The input datasets to filter.
 #' @param year The year to filter datasets.
 #' @return A filtered data frame.
+#'
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter
 #'
 #' @keywords internal
 year_filter <- function(datasets, year) {
@@ -87,11 +130,19 @@ year_filter <- function(datasets, year) {
 
 #' Filter datasets based on data deliverer
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' This internal function filters datasets based on the specified data deliverer.
 #'
 #' @param datasets The input datasets to filter.
 #' @param data_deliverer The data deliverer to filter datasets.
 #' @return A filtered data frame.
+#'
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter
 #'
 #' @keywords internal
 data_deliverer_filter <- function(datasets, data_deliverer) {
@@ -103,6 +154,11 @@ data_deliverer_filter <- function(datasets, data_deliverer) {
 }
 
 #' Download and process SHARKdata datasets
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
 #'
 #' This function downloads and processes datasets from the [SHARKdata API](https://sharkdata.smhi.se/) based on the specified dataset names.
 #'
@@ -130,8 +186,18 @@ data_deliverer_filter <- function(datasets, data_deliverer) {
 #' print(data)
 #' }
 #'
+#' @keywords internal
+#'
+#' @importFrom lifecycle deprecate_warn
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter mutate across everything bind_rows left_join
+#' @importFrom utils txtProgressBar setTxtProgressBar
+#' @importFrom readr type_convert cols
+#'
 #' @export
 download_sharkdata <- function(dataset_names) {
+  lifecycle::deprecate_warn("0.1.0", "download_sharkdata()", "get_shark_table()", "The SHARKdata API has been replaced by the SHARK API.")
+  
   datasets <- load_sharkdata()
   filtered_datasets <- datasets %>%
     filter(dataset_name %in% dataset_names)
@@ -199,10 +265,17 @@ download_sharkdata <- function(dataset_names) {
 
 #' Helper function to download file
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' This internal function downloads a file based on the specified dataset name.
 #'
 #' @param dataset_name The name of the dataset to download.
 #' @return A temporary file path.
+#'
+#' @importFrom utils download.file
 #'
 #' @keywords internal
 download_file <- function(dataset_name) {
@@ -219,12 +292,19 @@ download_file <- function(dataset_name) {
 
 #' Helper function to read data
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' This internal function reads and converts data from a temporary file.
 #'
 #' @param temp The temporary file path.
 #' @param filtered_datasets The filtered datasets.
 #' @param dataset_name The name of the dataset.
 #' @return A data frame containing the read and converted data.
+#'
+#' @importFrom readr read_tsv
 #'
 #' @keywords internal
 read_data <- function(temp, filtered_datasets, dataset_name) {
@@ -243,6 +323,11 @@ read_data <- function(temp, filtered_datasets, dataset_name) {
 #'
 #' This internal function validates whether all specified dataset names are in the database.
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' @param filtered_datasets A data frame of filtered datasets.
 #' @param dataset_names A vector of dataset names to validate.
 #' @return NULL. It stops the execution with an error message if validation fails.
@@ -256,12 +341,20 @@ validate_dataset_names <- function(filtered_datasets, dataset_names) {
 
 #' Load higher taxonomy from Dyntaxa file
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' This internal function loads higher taxonomy information from the Dyntaxa file.
 #'
 #' @param dyntaxa_id_input A vector of Dyntaxa IDs to filter the higher taxonomy.
 #' @return A data frame containing higher taxonomy information.
 #'
 #' @seealso \code{\link{load_worms_taxonomy}}, \code{\link{update_dyntaxa_taxonomy}}, \code{\link{update_worms_taxonomy}}, [SHARKdata](https://sharkdata.smhi.se/), [SHARKweb](https://sharkweb.smhi.se/)
+#'
+#' @importFrom dplyr filter
+#' @importFrom magrittr %>%
 #'
 #' @keywords internal
 load_dyntaxa_taxonomy <- function(dyntaxa_id_input) {
@@ -275,10 +368,20 @@ load_dyntaxa_taxonomy <- function(dyntaxa_id_input) {
 
 #' Read and convert species list
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' This internal function reads and converts a species list from the specified file.
 #'
 #' @param filename The name of the file containing the species list.
 #' @return A data frame containing the species list with converted columns.
+#'
+#' @importFrom readr read_delim locale
+#' @importFrom dplyr select rename
+#' @importFrom readr cols
+#' @importFrom magrittr %>%
 #'
 #' @keywords internal
 read_species_list <- function(filename) {
@@ -306,10 +409,19 @@ read_species_list <- function(filename) {
 
 #' Gather species information
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' This internal function gathers species information from the shark species list.
 #'
 #' @param shark_species_list A data frame containing shark species information.
 #' @return A data frame containing gathered species information.
+#'
+#' @importFrom dplyr select filter mutate distinct
+#' @importFrom magrittr %>%
+#' @importFrom stringr word
 #'
 #' @keywords internal
 gather_species_info <- function(shark_species_list) {
@@ -332,11 +444,19 @@ gather_species_info <- function(shark_species_list) {
 
 #' Helper function to add species information to species list
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' This internal function adds species information to the shark species list.
 #'
 #' @param shark_species_list A data frame containing shark species information.
 #' @param species A data frame containing gathered species information.
 #' @return A data frame containing the shark species list with added species information.
+#'
+#' @importFrom dplyr left_join relocate select
+#' @importFrom magrittr %>%
 #'
 #' @keywords internal
 add_species_info <- function(shark_species_list, species) {
@@ -350,12 +470,22 @@ add_species_info <- function(shark_species_list, species) {
 
 #' Load higher taxonomy from WoRMS file
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' This internal function loads higher taxonomy information from the stored WoRMS taxonomy file.
 #'
 #' @param aphia_id_input A vector of Aphia IDs to filter the higher taxonomy.
 #' @return A data frame containing higher taxonomy information.
 #'
 #' @seealso \code{\link{load_dyntaxa_taxonomy}}, \code{\link{update_dyntaxa_taxonomy}}, \code{\link{update_worms_taxonomy}}, [SHARKdata](https://sharkdata.smhi.se/), [SHARKweb](https://sharkweb.smhi.se/)
+#'
+#' @importFrom dplyr rename filter select
+#' @importFrom readr cols
+#' @importFrom magrittr %>%
+#' @importFrom readr read_delim
 #'
 #' @keywords internal
 load_worms_taxonomy <- function(aphia_id_input) {
@@ -386,10 +516,18 @@ load_worms_taxonomy <- function(aphia_id_input) {
 
 #' Gather WoRMS species information
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' This internal function gathers WoRMS species information from the taxa_worms data frame.
 #'
 #' @param taxa_worms A data frame containing WoRMS species information.
 #' @return A data frame containing gathered WoRMS species information.
+#'
+#' @importFrom dplyr rename filter select
+#' @importFrom magrittr %>%
 #'
 #' @keywords internal
 gather_worms_species_info <- function(taxa_worms) {
@@ -403,11 +541,19 @@ gather_worms_species_info <- function(taxa_worms) {
 
 #' Function to add WoRMS species information to taxa list
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' This internal function adds WoRMS species information to the taxa_worms data frame.
 #'
 #' @param taxa_worms A data frame containing WoRMS taxonomy information.
 #' @param species A data frame containing gathered WoRMS species information.
 #' @return A data frame containing the taxa_worms with added WoRMS species information.
+#'
+#' @importFrom dplyr left_join relocate select
+#' @importFrom magrittr %>%
 #'
 #' @keywords internal
 add_worms_species_info <- function(taxa_worms, species) {
@@ -420,6 +566,11 @@ add_worms_species_info <- function(taxa_worms, species) {
 }
 
 #' Get geographical information from coordinates
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
 #'
 #' This function enriches the provided data with geographical information based on latitude and longitude coordinates in the Baltic Sea, Kattegat and Skagerrak.
 #'
@@ -441,9 +592,19 @@ add_worms_species_info <- function(taxa_worms, species) {
 #' dataset_with_geo_info <- get_geographical_info(latitude, longitude)
 #' }
 #' 
+#' @keywords internal
+#' 
+#' @importFrom dplyr mutate distinct group_by left_join select rename ungroup
+#' @importFrom magrittr %>%
+#' @importFrom lifecycle deprecate_warn
+#' @importFrom sf st_read st_set_crs st_transform st_as_sf st_crs st_join
+#' @importFrom readr read_delim
+#' 
 #' @export
 get_geographical_info <- function(latitude_dd, longitude_dd) {
 
+  lifecycle::deprecate_warn("0.1.0", "get_geographical_info()", "get_shark_table()", "The SHARKdata API has been replaced by the SHARK API.")
+  
   # Read shapefiles and list of basin names
   layer <- st_read(system.file("extdata/sharkweb_shapefiles", "Havsomr_SVAR_2016_3b_CP1252.shp", package = "SHARK4R"), 
                    options = "ENCODING=WINDOWS-1252", 
@@ -490,6 +651,11 @@ get_geographical_info <- function(latitude_dd, longitude_dd) {
 
 #' Check if dataset versions are up to date
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' This function checks the status of dataset versions by comparing them with the latest available versions.
 #'
 #' @param dataset_file_name A character vector containing the dataset file names (with the .zip extension).
@@ -511,8 +677,16 @@ get_geographical_info <- function(latitude_dd, longitude_dd) {
 #' status_list <- check_data_version(data$dataset_file_name)
 #' }
 #' 
+#' @keywords internal
+#' 
+#' @importFrom lifecycle deprecate_warn
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter
+#' 
 #' @export
 check_data_version <- function(dataset_file_name) {
+  lifecycle::deprecate_warn("0.1.0", "check_data_version()", "get_shark_table()", "The SHARKdata API has been replaced by the SHARK API.")
+  
   dataset_name <- gsub("_version_.*", "", dataset_file_name)
   
   # Load available datasets
@@ -528,6 +702,11 @@ check_data_version <- function(dataset_file_name) {
 }
 
 #' Function to update data if a more recent version is available at SHARKdata
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
 #'
 #' This function updates the data if an updated version is available at [SHARKdata](https://sharkdata.smhi.se/) by downloading the latest datasets.
 #'
@@ -546,8 +725,16 @@ check_data_version <- function(dataset_file_name) {
 #' updated_data <- update_data(data)
 #' }
 #'
+#' @keywords internal
+#'
+#' @importFrom lifecycle deprecate_warn
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter mutate across everything bind_rows
+#' @importFrom readr type_convert
+#'
 #' @export
 update_data <- function(data) {
+  lifecycle::deprecate_warn("0.1.0", "update_data()", "get_shark_table()", "The SHARKdata API has been replaced by the SHARK API.")
   
   status_list <- check_data_version(data$dataset_file_name)
   
@@ -580,11 +767,19 @@ update_data <- function(data) {
 
 #' Function to filter outdated datasets
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because SHARKdata has now been replaced by the [SHARK API](https://shark.smhi.se/). Use [get_shark_table()] instead.
+#'
 #' This internal function filters out outdated datasets from the current data based on the provided list of datasets to update.
 #'
 #' @param data A data frame containing the current data.
 #' @param datasets_to_update A data frame containing information about datasets that need to be updated.
 #' @return A filtered data frame excluding outdated datasets.
+#'
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter
 #'
 #' @keywords internal
 filter_outdated_datasets <- function(data, datasets_to_update) {

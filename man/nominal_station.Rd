@@ -8,7 +8,7 @@ Function makes an estimated guess whether stations are nominal}
 nominal_station(data)
 }
 \arguments{
-\item{names}{Vector of latitude and longitude positions.}
+\item{data}{Data frame.}
 }
 \value{
 Data frame with station name and latitude and longitude positions.

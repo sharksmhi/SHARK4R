@@ -16,6 +16,12 @@
 #' print(updated_taxonomy)
 #' }
 #'
+#' @importFrom worrms wm_classification
+#' @importFrom dplyr select mutate rename bind_rows relocate any_of last_col last
+#' @importFrom tidyr pivot_wider
+#' @importFrom magrittr %>%
+#' @importFrom stats na.omit
+#'
 #' @seealso \code{\link{download_sharkdata}}, \code{\link{update_dyntaxa_taxonomy}}, [WoRMS API Documentation](http://www.marinespecies.org/rest/)
 #'
 update_worms_taxonomy <- function(aphiaid) {

@@ -9,6 +9,10 @@ shark_read_deliv_xls(filename, skip = 2, sheet = 2)
 }
 \arguments{
 \item{filename}{path to file to be read}
+
+\item{skip}{Minimum number of rows to skip before reading anything, be it column names or data. Leading empty rows are automatically skipped, so this is a lower bound. Ignored if range is given. Default is 2.}
+
+\item{sheet}{Sheet to read. Either a string (the name of a sheet), or an integer (the position of the sheet). Ignored if the sheet is specified via range. If neither argument specifies the sheet, defaults to the second sheet.}
 }
 \value{
 Data frame of file

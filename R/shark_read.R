@@ -1,7 +1,13 @@
 #' Read .xlsx files delivered to SHARK
 #' Uses readxl to read excel files with standardized delivery format 
 #' @param filename path to file to be read
+#' @param skip Minimum number of rows to skip before reading anything, be it column names or data. Leading empty rows are automatically skipped, so this is a lower bound. Ignored if range is given. Default is 2.
+#' @param sheet Sheet to read. Either a string (the name of a sheet), or an integer (the position of the sheet). Ignored if the sheet is specified via range. If neither argument specifies the sheet, defaults to the second sheet.
 #' @return Data frame of file
+#' @importFrom dplyr mutate_all mutate_at
+#' @importFrom utils type.convert
+#' @importFrom lubridate ymd
+#' @importFrom readxl read_xlsx
 #' @export
 
 shark_read_deliv <- function(filename, skip = 2, sheet = 2) {
@@ -24,7 +30,13 @@ shark_read_deliv <- function(filename, skip = 2, sheet = 2) {
 #' Read .xls files delivered to SHARK
 #' Uses readxl to read excel files with standardized delivery format 
 #' @param filename path to file to be read
+#' @param skip Minimum number of rows to skip before reading anything, be it column names or data. Leading empty rows are automatically skipped, so this is a lower bound. Ignored if range is given. Default is 2.
+#' @param sheet Sheet to read. Either a string (the name of a sheet), or an integer (the position of the sheet). Ignored if the sheet is specified via range. If neither argument specifies the sheet, defaults to the second sheet.
 #' @return Data frame of file
+#' @importFrom dplyr mutate_all mutate_at
+#' @importFrom utils type.convert
+#' @importFrom lubridate ymd
+#' @importFrom readxl read_xls
 #' @export
 
 shark_read_deliv_xls <- function(filename, skip = 2, sheet = 2) {
@@ -46,7 +58,8 @@ shark_read_deliv_xls <- function(filename, skip = 2, sheet = 2) {
 
 #' Read tab delimited files downloaded from SHARK
 #' Uses read_delim to read tab delimited files with standardized export format from SHARK
-#' @param filename path to file to be read
+#' @param filename Path to file to be read
+#' @param type File extension. Default is `.txt`.
 #' @return Data frame of file
 #' @export
 
@@ -71,7 +84,8 @@ shark_read <- function(filename, type = "txt") {
 
 #' Read zip archive and unzip tab delimited files downloaded from SHARK
 #' Uses unzip (unz) and read_delim to unzip archive and read tab delimited files with standardized export format from SHARK
-#' @param filename path to file to be read
+#' @param zipname path to file to be read
+#' @param type File extension. Default is `.zip`.
 #' @return Data frame of file
 #' @export
 

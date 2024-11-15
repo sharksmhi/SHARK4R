@@ -1,8 +1,10 @@
 #' Scatterplot of user-defined variables and parameters with x- and y-axes automatic selection
 #' Interactive plotly plot
 #' @param data for tibble be be checked
+#' @param ... Additional parameters
 #' @return plotly plot 
 #' @export scatterplot
+#' @importFrom plotly plot_ly layout
 ## TODO:changing axis layout to logarithmic scale would be useful 
 
 scatterplot <- function(data, ...) {

@@ -10,6 +10,10 @@ load_sharkdata()
 A data frame containing all datasets available in SHARKdata
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function was deprecated because SHARKdata has now been replaced by the \href{https://shark.smhi.se/}{SHARK API}. Use \code{\link[=get_shark_table]{get_shark_table()}} instead.
+
 This function loads all datasets listed in SHARK at SMHI by calling the \href{https://sharkdata.smhi.se/}{SHARKdata API}.
 }
 \examples{
@@ -21,3 +25,4 @@ all_dataset_names <- load_sharkdata()
 \seealso{
 \code{\link{load_dataset_types}}, \code{\link{load_dataset_names}}, \href{https://sharkdata.smhi.se/}{SHARKdata}, \href{https://sharkweb.smhi.se/}{SHARKweb}
 }
+\keyword{internal}

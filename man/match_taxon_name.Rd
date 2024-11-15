@@ -7,18 +7,22 @@
 match_taxon_name(
   taxon_names,
   subscription_key,
+  multiple_options = FALSE,
   searchFields = "Both",
   isRecommended = "NotSet",
   isOkForObservationSystems = "NotSet",
   culture = "sv_SE",
   page = 1,
-  pageSize = 100
+  pageSize = 100,
+  verbose = TRUE
 )
 }
 \arguments{
 \item{taxon_names}{A vector of taxon names to match.}
 
 \item{subscription_key}{A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at \href{https://api-portal.artdatabanken.se/}{Artdatabanken}.}
+
+\item{multiple_options}{Logical. If TRUE, the function will return multiple matching names. Default is FALSE, selecting the first match.}
 
 \item{searchFields}{A character string indicating the search fields. Defaults to 'Both'.}
 
@@ -31,6 +35,8 @@ match_taxon_name(
 \item{page}{An integer specifying the page number for pagination. Defaults to 1.}
 
 \item{pageSize}{An integer specifying the page size for pagination. Defaults to 100.}
+
+\item{verbose}{Logical. Print progress bar. Default is TRUE.}
 }
 \value{
 A data frame containing the search pattern, taxon ID, and best match for each taxon name.

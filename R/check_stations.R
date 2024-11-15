@@ -1,6 +1,6 @@
 #' Check if stations are reported as nominal position or not
 #' Function makes an estimated guess whether stations are nominal
-#' @param names Vector of latitude and longitude positions.
+#' @param data Data frame.
 #' @return Data frame with station name and latitude and longitude positions.
 #' @export
 
@@ -52,11 +52,10 @@ match_station <- function(names) {
 #' Station distance check using SMHI station list "stations.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/stationsregister/composer/)
 #' matches reported station name in data with curated station list and checks if it is within preset distance
 #' @param names Vector of station names.
-#' @param latitude and longitude
 #' @return Data frame with station name and logical value within/outside preset distance limits.
 #' @export
 
-check_station_distance<- function(names, lat, lon) {
+check_station_distance<- function(names) {
   
   station_db <- read_delim(system.file("extdata", "stations.txt", package = "SHARK4R"), delim ="\t", guess_max = 2000, col_names = T, locale = readr::locale(encoding = "latin1"))
   

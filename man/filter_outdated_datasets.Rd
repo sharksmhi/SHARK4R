@@ -15,6 +15,10 @@ filter_outdated_datasets(data, datasets_to_update)
 A filtered data frame excluding outdated datasets.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function was deprecated because SHARKdata has now been replaced by the \href{https://shark.smhi.se/}{SHARK API}. Use \code{\link[=get_shark_table]{get_shark_table()}} instead.
+
 This internal function filters out outdated datasets from the current data based on the provided list of datasets to update.
 }
 \keyword{internal}

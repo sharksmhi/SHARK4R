@@ -17,6 +17,10 @@ load_dataset_names(dataset_type, year = NA, data_deliverer = NA)
 A data frame containing filtered dataset names.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function was deprecated because SHARKdata has now been replaced by the \href{https://shark.smhi.se/}{SHARK API}. Use \code{\link[=get_shark_table]{get_shark_table()}} instead.
+
 This function gets dataset names fron the \href{https://sharkdata.smhi.se/}{SHARKdata API} based on the specified data type, year, and data deliverer.
 }
 \examples{
@@ -32,3 +36,4 @@ load_dataset_names("Phytoplankton", year = 2012:2020, data_deliverer = c("SMHI",
 \seealso{
 \code{\link{load_sharkdata}}, \code{\link{load_dataset_types}}, \href{https://sharkdata.smhi.se/}{SHARKdata}, \href{https://sharkweb.smhi.se/}{SHARKweb}
 }
+\keyword{internal}

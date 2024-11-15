@@ -15,6 +15,11 @@ validate_dataset_names(filtered_datasets, dataset_names)
 NULL. It stops the execution with an error message if validation fails.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function was deprecated because SHARKdata has now been replaced by the \href{https://shark.smhi.se/}{SHARK API}. Use \code{\link[=get_shark_table]{get_shark_table()}} instead.
+}
+\details{
 This internal function validates whether all specified dataset names are in the database.
 }
 \keyword{internal}

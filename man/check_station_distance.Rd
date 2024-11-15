@@ -5,12 +5,10 @@
 \title{Station distance check using SMHI station list "stations.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/stationsregister/composer/)
 matches reported station name in data with curated station list and checks if it is within preset distance}
 \usage{
-check_station_distance(names, lat, lon)
+check_station_distance(names)
 }
 \arguments{
 \item{names}{Vector of station names.}
-
-\item{latitude}{and longitude}
 }
 \value{
 Data frame with station name and logical value within/outside preset distance limits.

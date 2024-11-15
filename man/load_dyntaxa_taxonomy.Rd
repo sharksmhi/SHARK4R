@@ -13,6 +13,10 @@ load_dyntaxa_taxonomy(dyntaxa_id_input)
 A data frame containing higher taxonomy information.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function was deprecated because SHARKdata has now been replaced by the \href{https://shark.smhi.se/}{SHARK API}. Use \code{\link[=get_shark_table]{get_shark_table()}} instead.
+
 This internal function loads higher taxonomy information from the Dyntaxa file.
 }
 \seealso{

@@ -8,7 +8,9 @@ Uses unzip (unz) and read_delim to unzip archive and read tab delimited files wi
 shark_read_zip(zipname, type = "zip")
 }
 \arguments{
-\item{filename}{path to file to be read}
+\item{zipname}{path to file to be read}
+
+\item{type}{File extension. Default is \code{.zip}.}
 }
 \value{
 Data frame of file

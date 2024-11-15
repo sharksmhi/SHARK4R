@@ -4,12 +4,27 @@
 \alias{construct_dyntaxa_table}
 \title{Construct Dyntaxa taxonomy table from API}
 \usage{
-construct_dyntaxa_table(parent_ids, subscription_key)
+construct_dyntaxa_table(
+  parent_ids,
+  subscription_key,
+  shark_output = TRUE,
+  recommended_only = TRUE,
+  add_genus_children = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{parent_ids}{A list containing parent taxon IDs for which taxonomy information is requested.}
 
 \item{subscription_key}{A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at \href{https://api-portal.artdatabanken.se/}{Artdatabanken}.}
+
+\item{shark_output}{Logical. If TRUE, the function will return selected column headers that match SHARK output. If FALSE, all columns are returned. Default is TRUE.}
+
+\item{recommended_only}{Logical. If TRUE, the function will return only recommended (accepted) names. If FALSE, all names are returned. Default is TRUE.}
+
+\item{add_genus_children}{Logical. If TRUE, the output will include children from all valid genera taxon_ids present in \code{parent_ids}. Default is FALSE.}
+
+\item{verbose}{Logical. Default is TRUE.}
 }
 \value{
 A data frame representing the constructed taxonomy table.

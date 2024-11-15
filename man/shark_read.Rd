@@ -8,7 +8,9 @@ Uses read_delim to read tab delimited files with standardized export format from
 shark_read(filename, type = "txt")
 }
 \arguments{
-\item{filename}{path to file to be read}
+\item{filename}{Path to file to be read}
+
+\item{type}{File extension. Default is \code{.txt}.}
 }
 \value{
 Data frame of file

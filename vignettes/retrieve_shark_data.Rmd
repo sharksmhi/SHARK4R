@@ -1,0 +1,66 @@
+---
+title: "Retrieve Data From SHARK"
+output:
+  rmarkdown::html_document
+vignette: >
+  %\VignetteIndexEntry{Retrieve Data From SHARK}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Getting Started
+
+#### Installation
+
+You can install the package from GitHub using the `devtools` package:
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("sharksmhi/SHARK4R",
+                         dependencies = TRUE)
+```
+
+Load the `SHARK4R` library:
+```{r}
+library(SHARK4R)
+```
+
+## Retrieve Data Using SHARK4R
+
+#### Retrieve Data Table
+
+Data can be retrieved with the same filtering options available in [SHARK](https://shark.smhi.se/). To see the available filtering options, please refer to [`get_shark_options`](../reference/get_shark_options.html) and the information below.
+
+```{r}
+# Retrieve chlorophyll data for April to June from 2019 to 2020
+shark_data <- get_shark_table(fromYear = 2019, 
+                              toYear = 2020,
+                              months = c(4, 5, 6), 
+                              dataTypes = c("Chlorophyll"),
+                              limit = 200)
+
+# Print data
+print(shark_data)
+```
+
+### Get SHARK API Options
+
+Filtering options, including data types, dataset names, stations, taxa, and more, can be retrieved using the [`get_shark_options`](../reference/get_shark_options.html) function.
+
+```{r}
+# Retrieve available search options
+shark_options <- get_shark_options()
+
+# List the names of the available options
+names(shark_options)
+
+# View available datatypes
+dataTypes <- unlist(shark_options$dataTypes)
+print(dataTypes)
+```
+
+## Citation
+
+```{r, echo=FALSE}
+# Print citation
+citation("SHARK4R")
+```

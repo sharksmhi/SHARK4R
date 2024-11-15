@@ -1,11 +1,22 @@
 #' Taxon matching using Dyntaxa (https://www.dyntaxa.se/)
+#' 
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#' 
+#' This function was deprecated because it can now be replaced by using the
+#' [Dyntaxa API](https://api-portal.artdatabanken.se/). Use [match_taxon_name()] instead.
+#'
 #' matches latin name in data with Dyntaxa taxon list
 #' @param names Vector of scientific names.
-#' @param ask Ask user in case of multiple matches.
 #' @return Data frame with scientific name, scientific name ID and match type.
+#' 
+#' @keywords internal
+#' 
 #' @export
 
 match_dyntaxa <- function(names) {
+  
+  lifecycle::deprecate_warn("0.1.0", "match_dyntaxa()", "match_taxon_name()", "Replaced by API functionality")
   
   f <- as.factor(names)
   indices <- as.numeric(f)

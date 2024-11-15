@@ -9,6 +9,8 @@ scatterplot(data, ...)
 }
 \arguments{
 \item{data}{for tibble be be checked}
+
+\item{...}{Additional parameters}
 }
 \value{
 plotly plot

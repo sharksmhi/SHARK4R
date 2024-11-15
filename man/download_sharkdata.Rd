@@ -13,6 +13,10 @@ download_sharkdata(dataset_names)
 A processed data frame containing the SHARKdata datasets.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function was deprecated because SHARKdata has now been replaced by the \href{https://shark.smhi.se/}{SHARK API}. Use \code{\link[=get_shark_table]{get_shark_table()}} instead.
+
 This function downloads and processes datasets from the \href{https://sharkdata.smhi.se/}{SHARKdata API} based on the specified dataset names.
 }
 \details{
@@ -39,3 +43,4 @@ print(data)
 \seealso{
 \code{\link{load_dataset_names}}, \code{\link{update_dyntaxa_taxonomy}}, \code{\link{update_worms_taxonomy}}, \href{https://sharkdata.smhi.se/}{SHARKdata}, \href{https://sharkweb.smhi.se/}{SHARKweb}
 }
+\keyword{internal}
