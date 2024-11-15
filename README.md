@@ -21,19 +21,14 @@ Intergovernmental Oceanographic Commission of UNESCO.
 
 # Installation of R package
 
-## Installing SHARK4R requires the devtools package:
+## Installing SHARK4R requires the `devtools`` package:
 ```
-install.packages("devtools")
-
-library(devtools)
-
-install_github("sharksmhi/SHARK4R")
-
-library(SHARK4R)
+# install.packages("devtools")
+devtools::install_github("sharksmhi/SHARK4R", dependencies = TRUE)
 ```
 # Running the R package SHARK4R programs
 
-## Download data from SHARKdata
+## Download data from SHARK
 
 ```get_shark_table()``` can be used to call the SHARK API to retrieve
 data specified in the arguments. Available filtration options can be listed
