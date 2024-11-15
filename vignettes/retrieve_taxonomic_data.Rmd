@@ -1,0 +1,130 @@
+---
+title: "Retrieve Taxonomic Data From Dyntaxa"
+output:
+  rmarkdown::html_document:
+    encoding: UTF-8
+vignette: >
+  %\VignetteIndexEntry{Retrieve Taxonomic Data From Dyntaxa}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Getting Started
+
+#### Installation
+
+You can install the package from GitHub using the `devtools` package:
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("sharksmhi/SHARK4R",
+                         dependencies = TRUE)
+```
+
+Load the `SHARK4R` library:
+```{r}
+library(SHARK4R)
+library(tibble)
+```
+
+## Retrieve Taxonomic Data From SHARK
+
+#### Retrieve Taxonony Table
+
+Taxon tables can be retrieved with the same filtering options available in [SHARK](https://shark.smhi.se/). To see the available filtering options, please refer to [`get_shark_options`](../reference/get_shark_options.html) and the information below.
+
+```{r}
+# Retrieve chlorophyll data for April to June from 2019 to 2020
+shark_taxon <- get_shark_table(tableView = "report_taxon",
+                               limit = 200,
+                               fromYear = 2019,
+                               toYear = 2020,
+                               months = c(),
+                               dataTypes = "Phytoplankton")
+
+# Print data
+print(shark_taxon)
+```
+
+## Retrieve Dyntaxa Data
+
+#### Dyntaxa API Key
+
+Dyntaxa requires a subscription key to access its API. To obtain your own key, sign up for the taxonomy product at the [SLU Swedish Species Information Centre´s Developer Portal](https://api-portal.artdatabanken.se/) to get your own key. In the example below, the key is retrieved from an environment variable.
+
+```{r}
+# Retrieve the API key
+dyntaxa_key <- Sys.getenv("DYNTAXA_KEY")
+```
+
+#### Match taxon names
+
+```{r}
+# Randomly select 10 taxa from shark_taxon$scientific_name
+taxon_names <- sample(shark_taxon$scientific_name, size = 10)
+
+# Match taxon_names with Dyntaxa API
+matches <- match_taxon_name(taxon_names, 
+                            dyntaxa_key, 
+                            multiple_options = FALSE,
+                            verbose = FALSE)
+
+# List the names of the available options
+tibble(matches)
+```
+
+#### Retrieve Taxonomic information
+
+Taxonomic records can be retrieved for indivudual taxa using the [`get_dyntaxa_records`](../reference/get_dyntaxa_records.html) function.
+
+```{r}
+# Get all Dyntaxa IDs
+dyntaxa_id <- unique(matches$taxon_id)
+
+# Remove potential NAs
+dyntaxa_id <- dyntaxa_id[!is.na(dyntaxa_id)]
+
+# Get Dyntaxa records
+dyntaxa_records <- get_dyntaxa_records(dyntaxa_id,
+                                       dyntaxa_key)
+
+# Print records
+tibble(dyntaxa_records)
+```
+
+#### Retrieve Parent IDs
+
+All parent taxa above the Dyntaxa ID can be retrieved using the [`get_dyntaxa_parent_ids`](../reference/get_dyntaxa_parent_ids.html) function.
+
+```{r}
+# Get all parents
+parents_id <- get_dyntaxa_parent_ids(dyntaxa_id, 
+                                     dyntaxa_key,
+                                     verbose = FALSE)
+
+# List the names of the available options
+print(parents_id)
+```
+
+#### Construct Complete Taxonomic Table
+
+A complete taxonomic table, including related taxa, can be constructed using the [`construct_dyntaxa_table`](../reference/construct_dyntaxa_table.html) function. Synonms can be included using the `recommended_only` parameter.
+
+```{r}
+# Retrieve complete taxonomic table (including parents and all descendants below genus level)
+taxonomy_table <- construct_dyntaxa_table(parents_id, 
+                                          dyntaxa_key, 
+                                          shark_output = TRUE, 
+                                          recommended_only = FALSE, 
+                                          add_genus_children = TRUE,
+                                          verbose = FALSE)
+
+# Print the taxonomy table as a tibble
+tibble(taxonomy_table)
+```
+
+## Citation
+
+```{r, echo=FALSE}
+# Print citation
+citation("SHARK4R")
+```
