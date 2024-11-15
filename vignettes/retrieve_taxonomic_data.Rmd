@@ -82,12 +82,12 @@ dyntaxa_id <- unique(matches$taxon_id)
 # Remove potential NAs
 dyntaxa_id <- dyntaxa_id[!is.na(dyntaxa_id)]
 
-# Get Dyntaxa records
-dyntaxa_records <- get_dyntaxa_records(dyntaxa_id,
-                                       dyntaxa_key)
-
-# Print records
-tibble(dyntaxa_records)
+# # Get Dyntaxa records
+# dyntaxa_records <- get_dyntaxa_records(dyntaxa_id,
+#                                        dyntaxa_key)
+# 
+# # Print records
+# tibble(dyntaxa_records)
 ```
 
 #### Retrieve Parent IDs
