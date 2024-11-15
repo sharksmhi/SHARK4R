@@ -8,7 +8,8 @@ get_dyntaxa_children_hierarchy(
   taxon_ids,
   subscription_key,
   levels = 1,
-  main_children = TRUE
+  main_children = TRUE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ get_dyntaxa_children_hierarchy(
 \item{levels}{Integer. Default is 1}
 
 \item{main_children}{Logical. Default is TRUE.}
+
+\item{verbose}{Logical. Default is TRUE.}
 }
 \value{
 A data frame containing children taxon information corresponding to the specified taxon IDs.

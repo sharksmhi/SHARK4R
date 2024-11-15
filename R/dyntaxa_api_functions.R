@@ -87,6 +87,7 @@ get_dyntaxa_records <- function(taxon_ids, subscription_key) {
 #'
 #' @param taxon_ids A vector of numeric taxon IDs for which parent taxon IDs are requested.
 #' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
+#' @param verbose Logical. Default is TRUE.
 #'
 #' @return A list containing parent taxon IDs corresponding to the specified taxon IDs.
 #'
@@ -105,7 +106,7 @@ get_dyntaxa_records <- function(taxon_ids, subscription_key) {
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key) {
+get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key, verbose = TRUE) {
   if (length(taxon_ids) == 0) {
     stop("taxon_ids should not be empty.")
   }
@@ -122,10 +123,10 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key) {
   )
   
   # Set up the progress bar
-  pb <- txtProgressBar(min = 0, max = length(taxon_ids), style = 3)
+  if (verbose) {pb <- txtProgressBar(min = 0, max = length(taxon_ids), style = 3)}
   
   responses <- lapply(seq_along(url), function(i) {
-    setTxtProgressBar(pb, i)
+    if (verbose) {setTxtProgressBar(pb, i)}
     return(GET(url[i], add_headers(headers)))
   })
   
@@ -164,6 +165,7 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key) {
 #' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
 #' @param levels Integer. Default is 1
 #' @param main_children Logical. Default is TRUE.
+#' @param verbose Logical. Default is TRUE.
 #' 
 #' @return A data frame containing children taxon information corresponding to the specified taxon IDs.
 #'
@@ -183,7 +185,7 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key) {
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-get_dyntaxa_children_hierarchy <- function(taxon_ids, subscription_key, levels = 1, main_children = TRUE) {
+get_dyntaxa_children_hierarchy <- function(taxon_ids, subscription_key, levels = 1, main_children = TRUE, verbose = TRUE) {
   if (length(taxon_ids) == 0) {
     stop("taxon_ids should not be empty.")
   }
@@ -200,11 +202,11 @@ get_dyntaxa_children_hierarchy <- function(taxon_ids, subscription_key, levels =
   )
   
   # Set up the progress bar
-  pb <- txtProgressBar(min = 0, max = length(taxon_ids), style = 3)
+  if (verbose) {pb <- txtProgressBar(min = 0, max = length(taxon_ids), style = 3)}
   
   # Perform GET requests and check status
   responses <- lapply(seq_along(url), function(i) {
-    setTxtProgressBar(pb, i)
+    if (verbose) {setTxtProgressBar(pb, i)}
     res <- GET(url[i], add_headers(headers))
     
     # Check if the response is successful
@@ -331,6 +333,7 @@ get_dyntaxa_children_ids <- function(taxon_ids, subscription_key, main_children 
 #' @param shark_output Logical. If TRUE, the function will return selected column headers that match SHARK output. If FALSE, all columns are returned. Default is TRUE.
 #' @param recommended_only Logical. If TRUE, the function will return only recommended (accepted) names. If FALSE, all names are returned. Default is TRUE.
 #' @param add_genus_children Logical. If TRUE, the output will include children from all valid genera taxon_ids present in `parent_ids`. Default is FALSE.
+#' @param verbose Logical. Default is TRUE.
 #' 
 #' @return A data frame representing the constructed taxonomy table.
 #'
@@ -352,7 +355,7 @@ get_dyntaxa_children_ids <- function(taxon_ids, subscription_key, main_children 
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output = TRUE, recommended_only = TRUE, add_genus_children = FALSE) {
+construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output = TRUE, recommended_only = TRUE, add_genus_children = FALSE, verbose = TRUE) {
   if (!is.list(parent_ids)) {
     parent_ids <- list(parent_ids)
   }
@@ -364,7 +367,7 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
   taxa <- data.frame()
   
   # Set up progress bar
-  pb <- txtProgressBar(min = 0, max = length(parent_ids), style = 3)
+  if (verbose) {pb <- txtProgressBar(min = 0, max = length(parent_ids), style = 3)}
   
   # Initialize counters
   if_counter <- 0
@@ -617,11 +620,11 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
     taxa <- bind_rows(taxa, taxa_i) 
 
     # Update progress bar at the end of each iteration
-    setTxtProgressBar(pb, i)
+    if (verbose) {setTxtProgressBar(pb, i)}
   }
   
   # Close progress bar
-  close(pb)
+  if (verbose) {close(pb)}
   
   if (recommended_only) {
     taxa <- taxa %>%
@@ -650,8 +653,10 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
   }
   
   # Print the counters, for debugging
-  cat("Cached taxa requests:", if_counter, "\n")
-  cat("Unique taxa requests:", else_counter, "\n")
+  if (verbose) {
+    cat("Cached taxa requests:", if_counter, "\n")
+    cat("Unique taxa requests:", else_counter, "\n")
+    }
   
   return(taxa_filtered)
 }

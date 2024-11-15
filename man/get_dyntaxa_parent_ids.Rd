@@ -4,12 +4,14 @@
 \alias{get_dyntaxa_parent_ids}
 \title{Get parent taxon IDs for specified taxon IDs from SLU Artdatabanken API (Dyntaxa)}
 \usage{
-get_dyntaxa_parent_ids(taxon_ids, subscription_key)
+get_dyntaxa_parent_ids(taxon_ids, subscription_key, verbose = TRUE)
 }
 \arguments{
 \item{taxon_ids}{A vector of numeric taxon IDs for which parent taxon IDs are requested.}
 
 \item{subscription_key}{A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at \href{https://api-portal.artdatabanken.se/}{Artdatabanken}.}
+
+\item{verbose}{Logical. Default is TRUE.}
 }
 \value{
 A list containing parent taxon IDs corresponding to the specified taxon IDs.
