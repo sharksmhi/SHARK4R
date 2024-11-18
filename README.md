@@ -6,18 +6,20 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
+## Data Analysis, Quality Control, and Data Retrieval for Physical, Chemical, and Marine Biological Data from SHARK and Nordic Microalgae
+
 This R package is equipped with a client application designed for integration 
 with API functions. It facilitates access to various databases, 
 including [SHARK](https://shark.smhi.se/), 
-[SLU Artdatabanken (Dyntaxa)](https://api-portal.artdatabanken.se/), and 
+[SLU Artdatabanken (Dyntaxa)](https://api-portal.artdatabanken.se/), [Nordic Microalgae](https://nordicmicroalgae.org/) and 
 [WoRMS](http://www.marinespecies.org/rest/). The package serves a dual purpose, 
 supporting both data analysis and automatic quality control of physical, 
 chemical, and marine biological data. Developed by SMHI, quality control functions 
 modified from <https://iobis.github.io/obistools>
 
-# Installation of R package
+## Installation
 
-## Installing SHARK4R requires the `devtools` package:
+### Installing SHARK4R requires the `devtools` package:
 ```r
 # install.packages("devtools")
 devtools::install_github("sharksmhi/SHARK4R", dependencies = TRUE)
@@ -31,6 +33,7 @@ Explore the features and capabilities of `SHARK4R` through these tutorial:
 
 - [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html)
 - [Retrieve Taxonomic Data From Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_taxonomic_data.html)
+- [Retrieve Data From Nordic Microalgae](https://sharksmhi.github.io/SHARK4R/articles/retrieve_nordic_microalgae_data.html)
 
 ### Reference
 
