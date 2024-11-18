@@ -6,15 +6,14 @@ reference:
 - title: Retrieve Data
 
 - subtitle: SHARK
+  desc: These functions are used to retireve data from the SHARK API
   contents:
   - get_shark_options
-  - get_shark_table
+  - get_shark_data
   - get_shark_table_counts
-  - pkgdown_sitrep
 
 - subtitle: Dyntaxa
-  desc: These functions are useful for rapid iteration when you're working on a
-    specific part of your site.
+  desc: These functions are used to retireve data from the Dyntaxa API
   contents:
   - construct_dyntaxa_table
   - get_dyntaxa_children_hierarchy
@@ -25,6 +24,7 @@ reference:
   - update_dyntaxa_taxonomy
 
 - subtitle: Nordic Microalgae
+  desc: These functions are used to retireve data from the Nordic Microalgae API
   contents:
   - get_nua_external_links
   - get_nua_harmfulness
@@ -32,6 +32,7 @@ reference:
   - get_nua_taxa
 
 - subtitle: WoRMS
+  desc: These functions are used to retireve data from the WoRMS API
   contents:
   - update_worms_taxonomy
 
