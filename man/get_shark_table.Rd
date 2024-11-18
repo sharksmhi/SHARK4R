@@ -32,8 +32,8 @@ get_shark_table(
   typOmraden = c(),
   helcomOspar = c(),
   seaAreas = c(),
-  offset = 0,
-  prod = TRUE
+  prod = TRUE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -124,8 +124,6 @@ Default is \code{"sharkweb_overview"}.}
 \item{helcomOspar}{Character vector. Optional vector of HELCOM or OSPAR areas for regional filtering.}
 
 \item{seaAreas}{Character vector. Optional vector of sea area codes for filtering by specific sea areas}
-
-\item{offset}{Integer. The starting point for data retrieval, useful for pagination. Default is \code{0}.}
 
 \item{prod}{Logical. Query against PROD or TEST (SMHI internal) server. Default is TRUE (PROD).}
 }

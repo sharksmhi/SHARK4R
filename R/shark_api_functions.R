@@ -67,7 +67,6 @@
 #' @param typOmraden Character vector. Optional vector of type areas to filter data by specific areas.
 #' @param helcomOspar Character vector. Optional vector of HELCOM or OSPAR areas for regional filtering.
 #' @param seaAreas Character vector. Optional vector of sea area codes for filtering by specific sea areas
-#' @param offset Integer. The starting point for data retrieval, useful for pagination. Default is `0`.
 #' @param prod Logical. Query against PROD or TEST (SMHI internal) server. Default is TRUE (PROD).
 #'
 #' @return A `data.frame` containing the retrieved data, with column names based on the API's `headers`.
@@ -104,7 +103,7 @@ get_shark_table <- function(tableView = "sharkweb_overview", limit = 0, headerLa
                             redListedCategory = c(), taxonName = c(), stationName = c(),
                             vattenDistrikt = c(), seaBasins = c(), counties = c(),
                             municipalities = c(), waterCategories = c(), typOmraden = c(),
-                            helcomOspar = c(), seaAreas = c(), offset = 0, prod = TRUE) {
+                            helcomOspar = c(), seaAreas = c(), prod = TRUE, verbose = TRUE) {
   
   # Define the URL
   url <- if (prod) "https://shark.smhi.se/api/sample/table" else "https://shark-tst.smhi.se/api/sample/table"
@@ -123,21 +122,27 @@ get_shark_table <- function(tableView = "sharkweb_overview", limit = 0, headerLa
                                     projects = projects, datasets = datasets, minSamplingDepth = minSamplingDepth, 
                                     maxSamplingDepth = maxSamplingDepth, checkStatus = checkStatus,
                                     redListedCategory = redListedCategory, taxonName = taxonName, 
-                                    stationName = stationName,vattenDistrikt = vattenDistrikt, 
+                                    stationName = stationName, vattenDistrikt = vattenDistrikt, 
                                     seaBasins = seaBasins, counties = counties, municipalities = municipalities, 
                                     waterCategories = waterCategories, typOmraden = typOmraden, 
                                     helcomOspar = helcomOspar, seaAreas = seaAreas, prod = prod)
   }
   
   # Initialize variables
-  batch_size <- 500
-  all_data <- list()
+  batch_size <- 1000
+  all_rows <- list()
   total_retrieved <- 0
+  
+  # Set up the progress bar
+  if (verbose) {pb <- txtProgressBar(min = 0, max = limit, style = 3)}
   
   # Loop to fetch data in batches
   while (total_retrieved < limit) {
     # Calculate remaining rows to fetch
     remaining <- min(batch_size, limit - total_retrieved)
+    
+    # Update progress bar
+    if (verbose) {setTxtProgressBar(pb, total_retrieved + batch_size)}
     
     # Create the JSON body as a list
     body <- list(
@@ -189,33 +194,34 @@ get_shark_table <- function(tableView = "sharkweb_overview", limit = 0, headerLa
       # Parse the JSON response content
       shark_data <- content(response, as = "parsed", type = "application/json")
       
-      # Extract headers and rows
-      headers <- unlist(shark_data$headers)
-      
-      # Process rows by binding each row to the headers, filling with NA where necessary
-      data <- map_dfr(shark_data$rows, ~{
-        row <- as.data.frame(t(.), stringsAsFactors = FALSE)
-        names(row) <- headers
-        row
-      }) %>%
-        as_tibble() %>%
-        # Replace NULLs with NA and unnest list-columns
-        mutate(across(everything(), ~ map(.x, ~ if (is.null(.x)) NA else .x))) %>%
-        unnest(cols = everything())
-      
-      # Add the data to the list
-      all_data[[length(all_data) + 1]] <- data
-      total_retrieved <- total_retrieved + nrow(data)
+      # Extract rows and store them
+      all_rows <- append(all_rows, shark_data$rows)
+      total_retrieved <- total_retrieved + length(shark_data$rows)
       
       # Stop if no more rows are returned
-      if (nrow(data) < batch_size) break
+      if (length(shark_data$rows) < batch_size) break
     } else {
       stop("Failed to retrieve data: ", status_code(response))
     }
   }
   
-  # Combine all data into a single data.frame
-  return(bind_rows(all_data))
+  # Close the progress bar
+  if (verbose) {
+    close(pb)
+  }
+  
+  # Combine all rows into a single data.frame after the loop
+  combined_data <- map_dfr(all_rows, ~{
+    row <- as.data.frame(t(.), stringsAsFactors = FALSE)
+    names(row) <- headers
+    row
+  }) %>%
+    as_tibble() %>%
+    # Replace NULLs and blanks ("") with NA, and unnest list-columns
+    mutate(across(everything(), ~ map(.x, ~ if (is.null(.x) || .x == "") NA else .x))) %>%
+    unnest(cols = everything())
+  
+  return(combined_data)
 }
 #' Retrieve Available Search Options from SHARK API
 #'
