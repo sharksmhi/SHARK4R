@@ -2,7 +2,7 @@
 % Please edit documentation in R/shark_api_functions.R
 \name{get_shark_table}
 \alias{get_shark_table}
-\title{Retrieve and Format SHARK Data from SMHI API}
+\title{Retrieve SHARK Table Data}
 \usage{
 get_shark_table(
   tableView = "sharkweb_overview",
@@ -132,10 +132,12 @@ A \code{data.frame} containing the retrieved data, with column names based on th
 Columns are filled with \code{NA} when rows have differing lengths.
 }
 \description{
-The \code{get_shark_table} function retrieves data from the SHARK database hosted by SMHI, with options
-to filter based on year range, months, and data types. It sends a POST request to
-the SHARK API and returns the results as a structured \code{data.frame}.
-To view available filter options, see \code{\link{get_shark_options}}.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+The \code{get_shark_table} function efficiently retrieves smaller datasets (< 10^5 rows)
+from the SHARK database hosted by SMHI, similar to the table view available at
+\url{https://shark.smhi.se/}. For larger requests, use \code{\link{get_shark_data}}
+instead. To explore the available filter options, see \code{\link{get_shark_options}}.
 }
 \details{
 This function constructs a JSON body with specified parameters and sends a POST request
@@ -154,3 +156,4 @@ If rows have differing lengths, \code{rbind.fill} fills missing columns with \co
 \seealso{
 \code{\link{get_shark_options}}
 }
+\keyword{internal}

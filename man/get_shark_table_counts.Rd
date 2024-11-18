@@ -114,17 +114,9 @@ Default is \code{"sharkweb_overview"}.}
 
 \item{prod}{Logical. Query against PROD or TEST (SMHI internal) server. Default is \code{TRUE} (PROD).}
 }
-\value{
-A \code{data.frame} containing the retrieved data, with column names based on the API's \code{headers}.
-Missing columns in rows with differing lengths are filled with \code{NA}.
-}
 \description{
 The \code{get_shark_table_counts} function retrieves the row counts of data records from various SHARK data tables.
 To view available filter options, see \code{\link{get_shark_options}}.
-}
-\details{
-This function constructs a JSON body using the specified parameters and sends a POST request
-to the SHARK API. The returned JSON data is parsed into a \code{data.frame}. Rows with differing lengths are handled by filling missing columns with \code{NA}.
 }
 \examples{
 \dontrun{
