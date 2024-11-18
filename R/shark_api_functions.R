@@ -132,6 +132,7 @@ get_shark_table <- function(tableView = "sharkweb_overview", limit = 0, headerLa
   batch_size <- 1000
   all_rows <- list()
   total_retrieved <- 0
+  headers <- NULL
   
   # Set up the progress bar
   if (verbose) {pb <- txtProgressBar(min = 0, max = limit, style = 3)}
@@ -193,6 +194,11 @@ get_shark_table <- function(tableView = "sharkweb_overview", limit = 0, headerLa
     if (status_code(response) == 200) {
       # Parse the JSON response content
       shark_data <- content(response, as = "parsed", type = "application/json")
+      
+      # Extract headers from the first response
+      if (is.null(headers)) {
+        headers <- unlist(shark_data$headers)
+      }
       
       # Extract rows and store them
       all_rows <- append(all_rows, shark_data$rows)
