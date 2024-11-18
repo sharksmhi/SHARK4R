@@ -39,31 +39,31 @@ get_shark_data(
 \arguments{
 \item{tableView}{Character. Specifies the view of the table to retrieve. Options include:
 \describe{
-\item{"sharkweb_overview"}{Overview of SHARK data.}
-\item{"sharkweb_all"}{All data in SHARK.}
-\item{"sharkdata_bacterioplankton"}{Bacterioplankton data.}
-\item{"sharkdata_chlorophyll"}{Chlorophyll data.}
-\item{"sharkdata_epibenthos"}{Epibenthos data.}
-\item{"sharkdata_greyseal"}{Grey seal data.}
-\item{"sharkdata_harbourporpoise"}{Harbour porpoise data.}
-\item{"sharkdata_harbourseal"}{Harbour seal data.}
-\item{"sharkdata_jellyfish"}{Jellyfish data.}
-\item{"sharkdata_physicalchemical_columns"}{Physical and chemical columns data.}
-\item{"sharkdata_phytoplankton"}{Phytoplankton data.}
-\item{"sharkdata_picoplankton"}{Picoplankton data.}
-\item{"sharkdata_planktonbarcoding"}{Plankton barcoding data.}
-\item{"sharkdata_primaryproduction"}{Primary production data.}
-\item{"sharkdata_ringedseal"}{Ringed seal data.}
-\item{"sharkdata_sealpathology"}{Seal pathology data.}
-\item{"sharkdata_sedimentation"}{Sedimentation data.}
-\item{"sharkdata_zoobenthos"}{Zoobenthos data.}
-\item{"sharkdata_zooplankton"}{Zooplankton data.}
-\item{"report_sum_year_param"}{Report summary by year and parameter.}
-\item{"report_sum_year_param_taxon"}{Report summary by year, parameter, and taxon.}
-\item{"report_sampling_per_station"}{Report on sampling per station.}
-\item{"report_obs_taxon"}{Observation report by taxon.}
-\item{"report_stations"}{Stations report.}
-\item{"report_taxon"}{Taxon report.}
+\item{"sharkweb_overview"}{}
+\item{"sharkweb_all"}{}
+\item{"sharkdata_bacterioplankton"}{}
+\item{"sharkdata_chlorophyll"}{}
+\item{"sharkdata_epibenthos"}{}
+\item{"sharkdata_greyseal"}{}
+\item{"sharkdata_harbourporpoise"}{}
+\item{"sharkdata_harbourseal"}{}
+\item{"sharkdata_jellyfish"}{}
+\item{"sharkdata_physicalchemical_columns"}{}
+\item{"sharkdata_phytoplankton"}{}
+\item{"sharkdata_picoplankton"}{}
+\item{"sharkdata_planktonbarcoding"}{}
+\item{"sharkdata_primaryproduction"}{}
+\item{"sharkdata_ringedseal"}{}
+\item{"sharkdata_sealpathology"}{}
+\item{"sharkdata_sedimentation"}{}
+\item{"sharkdata_zoobenthos"}{}
+\item{"sharkdata_zooplankton"}{}
+\item{"report_sum_year_param"}{}
+\item{"report_sum_year_param_taxon"}{}
+\item{"report_sampling_per_station"}{}
+\item{"report_obs_taxon"}{}
+\item{"report_stations"}{}
+\item{"report_taxon"}{}
 }
 Default is \code{"sharkweb_overview"}.}
 
