@@ -127,78 +127,95 @@ get_shark_table <- function(tableView = "sharkweb_overview", limit = 0, headerLa
                                     seaBasins = seaBasins, counties = counties, municipalities = municipalities, 
                                     waterCategories = waterCategories, typOmraden = typOmraden, 
                                     helcomOspar = helcomOspar, seaAreas = seaAreas, prod = prod)
-                                    
   }
   
-  # Create the JSON body as a list
-  body <- list(
-    params = list(
-      tableView = tableView,
-      limit = limit,
-      offset = offset,
-      headerLang = headerLang
-    ),
-    query = list(
-      bounds = list(),
-      fromYear = fromYear,
-      toYear = toYear,
-      months = months,
-      dataTypes = dataTypes,
-      parameters = parameters,
-      checkStatus = checkStatus,
-      qualityFlags = qualityFlags,
-      deliverers = deliverers,
-      orderers = orderers,
-      projects = projects,
-      datasets = datasets,
-      minSamplingDepth = minSamplingDepth,
-      maxSamplingDepth = maxSamplingDepth,
-      redListedCategory = redListedCategory,
-      taxonName = taxonName,
-      stationName = stationName,
-      vattenDistrikt = vattenDistrikt,
-      seaBasins = seaBasins,
-      counties = counties,
-      municipalities = municipalities,
-      waterCategories = waterCategories,
-      typOmraden = typOmraden,
-      helcomOspar = helcomOspar,
-      seaAreas = seaAreas
+  # Initialize variables
+  batch_size <- 500
+  all_data <- list()
+  total_retrieved <- 0
+  
+  # Loop to fetch data in batches
+  while (total_retrieved < limit) {
+    # Calculate remaining rows to fetch
+    remaining <- min(batch_size, limit - total_retrieved)
+    
+    # Create the JSON body as a list
+    body <- list(
+      params = list(
+        tableView = tableView,
+        limit = remaining,
+        offset = total_retrieved,
+        headerLang = headerLang
+      ),
+      query = list(
+        bounds = list(),
+        fromYear = fromYear,
+        toYear = toYear,
+        months = months,
+        dataTypes = dataTypes,
+        parameters = parameters,
+        checkStatus = checkStatus,
+        qualityFlags = qualityFlags,
+        deliverers = deliverers,
+        orderers = orderers,
+        projects = projects,
+        datasets = datasets,
+        minSamplingDepth = minSamplingDepth,
+        maxSamplingDepth = maxSamplingDepth,
+        redListedCategory = redListedCategory,
+        taxonName = taxonName,
+        stationName = stationName,
+        vattenDistrikt = vattenDistrikt,
+        seaBasins = seaBasins,
+        counties = counties,
+        municipalities = municipalities,
+        waterCategories = waterCategories,
+        typOmraden = typOmraden,
+        helcomOspar = helcomOspar,
+        seaAreas = seaAreas
+      )
     )
-  )
-  
-  # Convert body to JSON
-  body_json <- toJSON(body, auto_unbox = TRUE)
-  
-  # Make the POST request
-  response <- POST(url,
-                   add_headers("accept" = "application/json", "Content-Type" = "application/json"),
-                   body = body_json)
-  
-  # Check if the request was successful
-  if (status_code(response) == 200) {
-    # Parse the JSON response content
-    shark_data <- content(response, as = "parsed", type = "application/json")
     
-    # Extract headers and rows
-    headers <- unlist(shark_data$headers)
+    # Convert body to JSON
+    body_json <- toJSON(body, auto_unbox = TRUE)
     
-    # Process rows by binding each row to the headers, filling with NA where necessary
-    data <- map_dfr(shark_data$rows, ~{
-      row <- as.data.frame(t(.), stringsAsFactors = FALSE)
-      names(row) <- headers
-      row
-    }) %>%
-      as_tibble() %>%
-      # Replace NULLs with NA and unnest list-columns
-      mutate(across(everything(), ~ map(.x, ~ if (is.null(.x)) NA else .x))) %>%
-      unnest(cols = everything())
+    # Make the POST request
+    response <- POST(url,
+                     add_headers("accept" = "application/json", "Content-Type" = "application/json"),
+                     body = body_json)
     
-    return(data)
-  } else {
-    # Return the error message
-    stop("Failed to retrieve data: ", status_code(response))
+    # Check if the request was successful
+    if (status_code(response) == 200) {
+      # Parse the JSON response content
+      shark_data <- content(response, as = "parsed", type = "application/json")
+      
+      # Extract headers and rows
+      headers <- unlist(shark_data$headers)
+      
+      # Process rows by binding each row to the headers, filling with NA where necessary
+      data <- map_dfr(shark_data$rows, ~{
+        row <- as.data.frame(t(.), stringsAsFactors = FALSE)
+        names(row) <- headers
+        row
+      }) %>%
+        as_tibble() %>%
+        # Replace NULLs with NA and unnest list-columns
+        mutate(across(everything(), ~ map(.x, ~ if (is.null(.x)) NA else .x))) %>%
+        unnest(cols = everything())
+      
+      # Add the data to the list
+      all_data[[length(all_data) + 1]] <- data
+      total_retrieved <- total_retrieved + nrow(data)
+      
+      # Stop if no more rows are returned
+      if (nrow(data) < batch_size) break
+    } else {
+      stop("Failed to retrieve data: ", status_code(response))
+    }
   }
+  
+  # Combine all data into a single data.frame
+  return(bind_rows(all_data))
 }
 #' Retrieve Available Search Options from SHARK API
 #'
