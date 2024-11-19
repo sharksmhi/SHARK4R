@@ -1,6 +1,6 @@
 bibentry(
   bibtype = "Manual",
-  title = "SHARK4R: Data Analysis, Quality Control, and Data Retrieval for Physical, Chemical, and Marine Biological Data from SHARK or the Plankton Toolbox",
+  title = "SHARK4R: Data Analysis, Quality Control, and Data Retrieval for Physical, Chemical, and Marine Biological Data from SHARK and Nordic Microalgae",
   author = c(
     person(given = "Markus",
            family = "Lindh",
@@ -16,7 +16,7 @@ bibentry(
      email="shark@smhi.se",
      role = "cph")),
   year = "2024",
-  note = "R package version 0.1.0",
+  note = "R package version 0.1.1",
   url = "https://doi.org/10.5281/zenodo.14169399",
-  textVersion = paste("Markus Lindh, Anders Torstensson, SHARK (2024). SHARK4R: Data Analysis, Quality Control, and Data Retrieval for Physical, Chemical, and Marine Biological Data from SHARK or the Plankton Toolbox. R package version 0.1.0. https://doi.org/10.5281/zenodo.14169399")
+  textVersion = paste("Markus Lindh, Anders Torstensson, SHARK (2024). SHARK4R: Data Analysis, Quality Control, and Data Retrieval for Physical, Chemical, and Marine Biological Data from SHARK and Nordic Microalgae. R package version 0.1.1. https://doi.org/10.5281/zenodo.14169399")
 )

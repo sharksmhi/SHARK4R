@@ -1,0 +1,103 @@
+---
+title: "Retrieve Data From Nordic Microalgae"
+output:
+  rmarkdown::html_document
+vignette: >
+  %\VignetteIndexEntry{Retrieve Data From Nordic Microalgae}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Nordic Microalgae
+
+[Nordic Microalgae](https://nordicmicroalgae.org/) is an online platform providing high-quality images, illustrations, and detailed information about aquatic microalgae and related organisms in the Nordic region, including phytoplankton, microzooplankton, and benthic microalgae. It features a comprehensive species checklist, up-to-date taxonomic data linked to WoRMS and AlgaeBase, and supplementary resources such as biovolume lists and occurrence maps. Established in 1996 and supported by long-term funding from the Swedish Research Council through the Swedish Biodiversity Data Infrastructure (SBDI).
+
+All data on Nordic Microalgae is accessible through our [API](https://nordicmicroalgae.org/api/). Below are examples demonstrating how to extract data using the SHARK4R package.
+
+## Getting Started
+
+#### Installation
+
+You can install the package from GitHub using the `devtools` package:
+
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("sharksmhi/SHARK4R",
+                         dependencies = TRUE)
+```
+
+Load the `SHARK4R` and `tibble` libraries:
+```{r}
+library(SHARK4R)
+library(tibble)
+```
+
+## Retrieve Data Using SHARK4R
+
+### Retrieve Complete Nordic Microalgae Taxon Table
+
+A complete Nordic Microalgae taxa list can be retrieved through the API.
+
+```{r}
+# Get taxa information
+taxa <- get_nua_taxa(unparsed = FALSE)
+
+# Print data
+tibble(taxa)
+```
+
+The full taxonomic information can be accessed as an unparsed list by enabling the `unparsed` parameter.
+
+### Get Nordic Microalgae External Links or Facts
+
+Each taxon sheet on Nordic Microalgae contains facts, such as links to external webpages (e.g. AlgaeBase, WoRMS and Dyntaxa). These links can be retrieved through the API.
+
+```{r}
+# Randomly select 10 taxa from shark_taxon$scientific_name
+slugs <- sample(taxa$slug, size = 10)
+
+# Get external links
+external_links <- get_nua_external_links(slugs, 
+                                         verbose = FALSE, 
+                                         unparsed = FALSE)
+
+# Print list
+tibble(external_links)
+```
+
+The full list of facts can be accessed as an unparsed list by setting the `unparsed` parameter to `TRUE`.
+
+### Get Nordic Microalgae Harmfulness Information
+
+Taxa listed in the [IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae](https://www.marinespecies.org/hab/) contain information about harmfulness. This information can be retrieved through the API.
+
+```{r}
+# Get external links
+harmfulness <- get_nua_harmfulness(c("dinophysis-acuta", 
+                                     "alexandrium-ostenfeldii"), 
+                                   verbose = FALSE)
+
+# Print list
+tibble(harmfulness)
+```
+
+### Get Nordic Microalgae Media Links
+
+Links to all images present on Nordic Microalgae can be retrieved through the API. The images are available in four sizes: original (o), small (s), medium (m), and large (l).
+
+```{r}
+# Get all media links
+media <- get_nua_media_links(unparsed = FALSE)
+
+# Print list
+tibble(media)
+```
+
+Complete media information can be retrieved as an unparsed list by setting the `unparsed` parameter to `TRUE`.
+
+## Citation
+
+```{r, echo=FALSE}
+# Print citation
+citation("SHARK4R")
+```
