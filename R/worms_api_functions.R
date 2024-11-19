@@ -1,7 +1,7 @@
 #' Update taxonomy from SHARKdata datasets via WoRMS API
 #'
 #' This function collects WoRMS (World Register of Marine Species) taxonomy information for a given set of Aphia IDs.
-#' The data is organized into a full taxonomic table that can be joined with data downloaded from [SHARKdata](https://sharkdata.smhi.se/)
+#' The data is organized into a full taxonomic table that can be joined with data downloaded from [SHARK](https://shark.smhi.se/).
 #'
 #' @param aphiaid A numeric vector containing Aphia IDs for which WoRMS taxonomy needs to be updated.
 #'
@@ -15,6 +15,8 @@
 #' updated_taxonomy <- update_worms_taxonomy(c(149619, 149122, 11))
 #' print(updated_taxonomy)
 #' }
+#'
+#' @seealso https://cran.r-project.org/web/packages/worrms/index.html
 #'
 #' @importFrom worrms wm_classification
 #' @importFrom dplyr select mutate rename bind_rows relocate any_of last_col last
@@ -62,12 +64,13 @@ update_worms_taxonomy <- function(aphiaid) {
 }
 #' Retrieve WoRMS Records
 #'
-#' This function retrieves records from the WoRMS (World Register of Marine Species) database for a given list of Aphia IDs.
+#' This function retrieves records from the WoRMS (World Register of Marine Species) database using the `worrms` R package for a given list of Aphia IDs.
 #' If the retrieval fails, it retries a specified number of times before stopping.
 #'
 #' @param aphia_id A vector of Aphia IDs for which records should be retrieved.
 #' @param max_retries An integer specifying the maximum number of retry attempts for each Aphia ID in case of failure. Default is 3.
 #' @param sleep_time A numeric value specifying the time (in seconds) to wait between retry attempts. Default is 10 seconds.
+#' @param verbose A logical indicating whether to print progress messages. Default is TRUE.
 #'
 #' @return A data frame containing the retrieved WoRMS records for the provided Aphia IDs. Each row corresponds to one Aphia ID.
 #' 
@@ -86,14 +89,23 @@ update_worms_taxonomy <- function(aphiaid) {
 #'
 #' @importFrom dplyr bind_rows
 #' @importFrom worrms wm_record
+#' @importFrom utils txtProgressBar setTxtProgressBar
+#' 
+#' @seealso \url{https://cran.r-project.org/web/packages/worrms/index.html}
 #' 
 #' @export
-get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10) {
+get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbose = TRUE) {
   worms_records <- list()
+  
+  # Set up progress bar
+  if (verbose) {pb <- txtProgressBar(min = 0, max = length(aphia_id), style = 3)}
   
   for (id in seq_along(aphia_id)) {
     attempt <- 1
     worms_record <- NULL  # Initialize for the current aphia_id
+    
+    # Update progress bar
+    if (verbose) {setTxtProgressBar(pb, id)}
     
     while (attempt <= max_retries) {
       tryCatch({
@@ -118,11 +130,13 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10) {
     }
   }
   
+  if (verbose) {close(pb)}
+  
   worms_records
 }
 #' Retrieve WoRMS Records by Taxonomic Names with Retry Logic
 #'
-#' This function retrieves records from the WoRMS database for a vector of taxonomic names.
+#' This function retrieves records from the WoRMS database using the `worrms` R package for a vector of taxonomic names.
 #' It includes retry logic to handle temporary failures and ensures all names are processed.
 #'
 #' @param taxa_names A vector of taxonomic names for which to retrieve records.
@@ -131,7 +145,7 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10) {
 #' @param max_retries An integer specifying the maximum number of retries for the request in case of failure. Default is 3.
 #' @param sleep_time A numeric value specifying the number of seconds to wait before retrying a failed request. Default is 10.
 #' @param marine_only A logical value indicating whether to restrict the results to marine taxa only. Default is `FALSE`.
-#' @param verbose Logical. Default is TRUE.
+#' @param verbose A logical indicating whether to print progress messages. Default is TRUE.
 #'
 #' @return A data frame containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
 #'
@@ -151,22 +165,37 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10) {
 #'
 #' @importFrom dplyr bind_rows
 #' @importFrom worrms wm_records_names
+#' @importFrom utils txtProgressBar setTxtProgressBar
+#'
+#' @seealso \url{https://cran.r-project.org/web/packages/worrms/index.html}
 #'
 #' @export
-get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = TRUE, max_retries = 3, sleep_time = 10, marine_only = FALSE, verbose = TRUE) {
+get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = TRUE, 
+                                   max_retries = 3, sleep_time = 10, marine_only = TRUE, 
+                                   verbose = TRUE) {
   worms_records <- list()  # Initialize an empty list to collect records for each name
   
-  for (name in taxa_names) {
+  # Set up progress bar
+  if (verbose) {pb <- txtProgressBar(min = 0, max = length(taxa_names), style = 3)}
+  
+  no_content_messages <- c()  # Store "No content" messages
+  
+  for (i in seq_along(taxa_names)) {
     attempt <- 1
     worms_record <- NULL  # Reset for the current taxon name
     success <- FALSE      # Track whether retrieval was successful
     
+    # Update progress bar
+    if (verbose) {setTxtProgressBar(pb, i)}
+    
     while (attempt <= max_retries && !success) {
       tryCatch({
-        worms_record <- data.frame(name,
-                                   wm_records_name(name, 
-                                                   fuzzy = fuzzy,
-                                                   marine_only = marine_only))
+        worms_record <- data.frame(
+          name = taxa_names[i],
+          wm_records_name(taxa_names[i], 
+                          fuzzy = fuzzy,
+                          marine_only = marine_only)
+        )
         
         if (best_match_only) {
           worms_record <- worms_record[1,]
@@ -180,15 +209,14 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
         
         # Check for 204 "No Content" response
         if (grepl("204", error_message)) {
-          if(verbose) {message("No WoRMS content for '", name, "' - Proceeding with NA.")}
-          worms_record <<- data.frame(name = name, status = "no content", stringsAsFactors = FALSE)
+          no_content_messages <<- c(no_content_messages, 
+                                    paste0("No WoRMS content for '", taxa_names[i], "'"))
+          worms_record <<- data.frame(name = taxa_names[i], status = "no content", stringsAsFactors = FALSE)
           success <<- TRUE  # Mark success to prevent further retries
         } else if (attempt == max_retries) {
-          stop("Error occurred while retrieving WoRMS record for '", name, 
+          stop("Error occurred while retrieving WoRMS record for '", taxa_names[i], 
                "' after ", max_retries, " attempts: ", error_message)
         } else {
-          if(verbose) {message("Attempt ", attempt, " failed for '", name, "': ", 
-                  error_message, " - Retrying...")}
           Sys.sleep(sleep_time)
         }
       })
@@ -198,11 +226,180 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
     
     # If still NULL after retries, insert NA
     if (is.null(worms_record)) {
-      worms_record <- data.frame(name = name, status = "Failed", stringsAsFactors = FALSE)
+      worms_record <- data.frame(name = taxa_names[i], status = "Failed", stringsAsFactors = FALSE)
     }
     
     worms_records <- bind_rows(worms_records, worms_record)  # Combine results into a single data frame
   }
   
+  if (verbose) {close(pb)}
+  
+  # Print all "No content" messages after progress bar finishes
+  if (verbose && length(no_content_messages) > 0) {
+    cat(paste(no_content_messages, collapse = "\n"), "\n")
+  }
+  
   worms_records
+}
+#' Assign Plankton Group to Scientific Names
+#' 
+#' This function assigns plankton groups (e.g., Diatoms, Dinoflagellates, Cyanobacteria, or Other) 
+#' to a list of scientific names or Aphia IDs by retrieving species information from the 
+#' World Register of Marine Species (WoRMS). The function checks both Aphia IDs and scientific names, 
+#' handles missing records, and assigns the appropriate plankton group based on taxonomic classification in WoRMS.
+#'
+#' @param scientific_names A character vector of scientific names of marine species.
+#' @param aphia_ids A numeric vector of Aphia IDs corresponding to the scientific names. If provided, it improves the accuracy of the matching process. The length of `aphia_ids` must match the length of `scientific_names`. Defaults to `NULL`, in which case the function will attempt to assign plankton groups based only on the scientific names.
+#' @param diatom_class A character string representing the diatom class. Default is "Bacillariophyceae".
+#' @param dinoflagellate_class A character string representing the dinoflagellate class. Default is "Dinophyceae".
+#' @param cyanobacteria_class A character string representing the cyanobacteria class. Default is "Cyanophyceae".
+#' @param cyanobacteria_phylum A character string representing the cyanobacteria phylum. Default is "Cyanobacteria".
+#' @param match_first_word A logical value indicating whether to match the first word of the scientific name if the Aphia ID is missing. Default is TRUE.
+#' @param marine_only A logical value indicating whether to restrict the results to marine taxa only. Default is `FALSE`.
+#' @param verbose A logical value indicating whether to print progress messages. Default is TRUE.
+#'
+#' @return A data frame with two columns: `scientific_name` and `plankton_group`, where the plankton group is assigned based on taxonomic classification.
+#'
+#' @details The `aphia_ids` parameter is not necessary but, if provided, will improve the certainty of the 
+#'   matching process. If `aphia_ids` are available, they will be used directly to retrieve more accurate 
+#'   WoRMS records. If missing, the function will attempt to match the scientific names to Aphia IDs by 
+#'   querying WoRMS using the scientific name(s), with an additional fallback mechanism to match based on the 
+#'   first word of the scientific name.
+#'
+#' @examples
+#' # Assign plankton groups to a list of species
+#' result <- assign_plankton_groups(
+#'   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
+#'   aphia_ids = c(840626, 149013, 160566, NA)
+#' )
+#'
+#' @importFrom dplyr bind_rows case_when distinct filter left_join mutate select
+#' @importFrom stringr word
+#' @importFrom magrittr %>%
+#' 
+#' @seealso \url{https://cran.r-project.org/web/packages/worrms/index.html}
+#' 
+#' @export
+assign_plankton_groups <- function(scientific_names, aphia_ids = NULL, diatom_class = "Bacillariophyceae", 
+                                   dinoflagellate_class = "Dinophyceae", cyanobacteria_class = "Cyanophyceae", 
+                                   cyanobacteria_phylum = "Cyanobacteria", match_first_word = TRUE, 
+                                   marine_only = FALSE, verbose = TRUE) {
+  # Ensure input lengths match
+  if (!length(aphia_ids) == length(scientific_names) | is.null(aphia_ids)) {
+    stop("'aphia_ids' and 'scientific_names' must have the same length.")
+  }
+  
+  # Create a data frame to store input data
+  if (is.null(aphia_ids)) {
+    input_data <- data.frame(aphia_id = NA, scientific_name = scientific_names)
+  } else {
+    input_data <- data.frame(aphia_id = aphia_ids, scientific_name = scientific_names)
+  }
+  
+  # Remove duplicates
+  unique_data <- distinct(input_data)
+  
+  # Extract unique non-NA AphiaIDs
+  valid_aphia_ids <- unique_data$aphia_id[!is.na(unique_data$aphia_id)]
+  
+  # Retrieve WoRMS records based on AphiaID
+  if (length(valid_aphia_ids) > 0) {
+    if (verbose) cat("Retrieving", length(valid_aphia_ids), "WoRMS records from input 'aphia_ids'.\n")
+    aphia_records <- get_worms_records(valid_aphia_ids, verbose = verbose)
+  } else {
+    aphia_records <- data.frame(AphiaID = NA)
+  }
+  
+  # Handle entries with missing AphiaIDs
+  missing_aphia_data <- unique_data[is.na(unique_data$aphia_id),]
+  if (verbose) cat("Retrieving", nrow(missing_aphia_data), "WoRMS records from input 'scientific_names'.\n")
+  missing_aphia_records <- get_worms_records_name(missing_aphia_data$scientific_name, 
+                                                  marine_only = marine_only,
+                                                  verbose = verbose)
+  
+  # Merge records into input data
+  matched_aphia_data <- unique_data %>%
+    left_join(distinct(aphia_records), by = c("aphia_id" = "AphiaID")) %>%
+    filter(!is.na(aphia_id))
+  
+  matched_missing_data <- missing_aphia_data %>%
+    left_join(missing_aphia_records, by = c("scientific_name" = "name")) %>%
+    mutate(aphia_id = AphiaID)
+  
+  combined_data <- bind_rows(matched_aphia_data, matched_missing_data)
+  
+  # Handle still-missing entries
+  unresolved_data <- combined_data %>%
+    filter(is.na(aphia_id))
+  
+  if (match_first_word & nrow(unresolved_data) > 0) {
+    first_words <- word(unresolved_data$scientific_name, 1)
+    if (verbose) cat("Retrieving", length(first_words), "WoRMS records from the first word of 'scientific_names'.\n")
+    first_word_records <- data.frame(
+      scientific_name = unresolved_data$scientific_name,
+      get_worms_records_name(first_words, 
+                             marine_only = marine_only,
+                             verbose = verbose)
+    ) %>%
+      filter(!is.na(AphiaID)) %>%
+      mutate(aphia_id = AphiaID)
+    
+    combined_data <- combined_data %>%
+      filter(!scientific_name %in% first_word_records$scientific_name) %>%
+      bind_rows(first_word_records)
+  }
+  
+  # Handle deleted records
+  deleted_records <- combined_data %>%
+    filter(status == "deleted")
+  
+  if (nrow(deleted_records) > 0) {
+    if (verbose) cat("Retrieving", nrow(deleted_records), "valid 'aphia_id' records from deleted entries.\n")
+    valid_deleted_records <- data.frame(
+      aphia_id = deleted_records$valid_AphiaID,
+      scientific_name = deleted_records$scientific_name,
+      get_worms_records(deleted_records$valid_AphiaID, verbose = verbose)
+    )
+  } else {
+    valid_deleted_records <- data.frame()
+  }
+  
+  combined_data <- combined_data %>%
+    filter(!scientific_name %in% valid_deleted_records$scientific_name) %>%
+    bind_rows(valid_deleted_records)
+  
+  classes <- unique(combined_data$class)
+  other_classes <- classes[!classes %in% c(diatom_class, dinoflagellate_class, cyanobacteria_class)]
+  
+  # Assign plankton groups
+  class_mapping <- combined_data %>%
+    select(aphia_id, scientific_name, class, phylum) %>%
+    mutate(plankton_group = case_when(
+      class %in% diatom_class ~ "Diatoms",
+      class %in% dinoflagellate_class ~ "Dinoflagellates",
+      class %in% cyanobacteria_class ~ "Cyanobacteria",
+      phylum %in% cyanobacteria_phylum ~ "Cyanobacteria",
+      class %in% other_classes & !(phylum %in% cyanobacteria_phylum | is.na(phylum)) ~ "Other",
+      TRUE ~ NA_character_
+    ))
+  
+  # Handle unknown classifications
+  unknown_classifications <- class_mapping %>%
+    filter(is.na(plankton_group))
+  
+  for (group in seq_along(unknown_classifications$scientific_name)) {
+    message("No plankton group found for '", unknown_classifications$scientific_name[group], "', placing in 'Other'.")
+  }
+  
+  class_mapping <- class_mapping %>%
+    mutate(plankton_group = ifelse(is.na(plankton_group), "Other", plankton_group)) %>%
+    select(scientific_name, plankton_group) %>%
+    distinct()
+  
+  # Finalize output
+  final_output <- input_data %>%
+    left_join(class_mapping, by = "scientific_name", relationship = "many-to-many") %>%
+    select(-aphia_id)
+  
+  return(final_output)
 }
