@@ -2,7 +2,7 @@
 % Please edit documentation in R/shark_api_functions.R
 \name{get_shark_table}
 \alias{get_shark_table}
-\title{Retrieve and Format SHARK Data from SMHI API}
+\title{Retrieve SHARK Table Data}
 \usage{
 get_shark_table(
   tableView = "sharkweb_overview",
@@ -32,8 +32,8 @@ get_shark_table(
   typOmraden = c(),
   helcomOspar = c(),
   seaAreas = c(),
-  offset = 0,
-  prod = TRUE
+  prod = TRUE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -125,8 +125,6 @@ Default is \code{"sharkweb_overview"}.}
 
 \item{seaAreas}{Character vector. Optional vector of sea area codes for filtering by specific sea areas}
 
-\item{offset}{Integer. The starting point for data retrieval, useful for pagination. Default is \code{0}.}
-
 \item{prod}{Logical. Query against PROD or TEST (SMHI internal) server. Default is TRUE (PROD).}
 }
 \value{
@@ -134,10 +132,15 @@ A \code{data.frame} containing the retrieved data, with column names based on th
 Columns are filled with \code{NA} when rows have differing lengths.
 }
 \description{
-The \code{get_shark_table} function retrieves data from the SHARK database hosted by SMHI, with options
-to filter based on year range, months, and data types. It sends a POST request to
-the SHARK API and returns the results as a structured \code{data.frame}.
-To view available filter options, see \code{\link{get_shark_options}}.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function has been deprecated due to inefficiency in handling large datasets.
+Users are encouraged to use \code{\link{get_shark_data}} for such cases.
+However, the \code{get_shark_table} function remains effective for retrieving smaller
+datasets (< 10^5 rows) from the SHARK database hosted by SMHI. Its functionality
+is similar to the table view available at \url{https://shark.smhi.se/}.
+For larger requests, switch to \code{\link{get_shark_data}}, and to explore available
+filter options, see \code{\link{get_shark_options}}.
 }
 \details{
 This function constructs a JSON body with specified parameters and sends a POST request
@@ -156,3 +159,4 @@ If rows have differing lengths, \code{rbind.fill} fills missing columns with \co
 \seealso{
 \code{\link{get_shark_options}}
 }
+\keyword{internal}
