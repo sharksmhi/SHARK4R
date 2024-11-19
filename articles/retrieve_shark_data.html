@@ -8,8 +8,8 @@
 <title>Retrieve Data From SHARK • SHARK4R</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Retrieve Data From SHARK">
 </head>
 <body>
@@ -58,7 +58,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve Data From SHARK</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.0.1.0/vignettes/retrieve_shark_data.Rmd" class="external-link"><code>vignettes/retrieve_shark_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/vignettes/retrieve_shark_data.Rmd" class="external-link"><code>vignettes/retrieve_shark_data.Rmd</code></a></small>
       <div class="d-none name"><code>retrieve_shark_data.Rmd</code></div>
     </div>
 
@@ -92,15 +92,15 @@ options, please refer to <a href="../reference/get_shark_options.html"><code>get
 and the information below.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve chlorophyll data for April to June from 2019 to 2020</span></span>
-<span><span class="va">shark_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_shark_table.html">get_shark_table</a></span><span class="op">(</span>fromYear <span class="op">=</span> <span class="fl">2019</span>, </span>
-<span>                              toYear <span class="op">=</span> <span class="fl">2020</span>,</span>
-<span>                              months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span>, </span>
-<span>                              dataTypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Chlorophyll"</span><span class="op">)</span>,</span>
-<span>                              limit <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+<span><span class="va">shark_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_shark_data.html">get_shark_data</a></span><span class="op">(</span>fromYear <span class="op">=</span> <span class="fl">2019</span>, </span>
+<span>                             toYear <span class="op">=</span> <span class="fl">2020</span>,</span>
+<span>                             months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span>, </span>
+<span>                             dataTypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Chlorophyll"</span><span class="op">)</span>,</span>
+<span>                             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">shark_data</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 200 × 72</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 263 × 72</span></span></span>
 <span><span class="co">##    delivery_datatype check_status_sv data_checked_by_sv visit_year visit_month</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Chlorophyll       Klar            Leverantör               <span style="text-decoration: underline;">2</span>020           6</span></span>
@@ -113,13 +113,13 @@ and the information below.</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Chlorophyll       Klar            Leverantör               <span style="text-decoration: underline;">2</span>020           6</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Chlorophyll       Klar            Leverantör               <span style="text-decoration: underline;">2</span>020           6</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> Chlorophyll       Klar            Leverantör               <span style="text-decoration: underline;">2</span>020           6</span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 190 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 253 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 67 more variables: station_name &lt;chr&gt;, reported_station_name &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   sample_location_id &lt;chr&gt;, station_id &lt;chr&gt;, sample_project_name_sv &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   sample_orderer_name_sv &lt;chr&gt;, visit_id &lt;chr&gt;, visit_date &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   sample_location_id &lt;int&gt;, station_id &lt;int&gt;, sample_project_name_sv &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   sample_orderer_name_sv &lt;chr&gt;, visit_id &lt;int&gt;, visit_date &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   shark_sample_id_md5 &lt;chr&gt;, sample_date &lt;chr&gt;, sample_time &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   sample_enddate &lt;chr&gt;, sample_endtime &lt;chr&gt;, sample_latitude_dm &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   sample_longitude_dm &lt;chr&gt;, sample_latitude_dd &lt;chr&gt;, …</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;">#   sample_enddate &lt;lgl&gt;, sample_endtime &lt;lgl&gt;, sample_latitude_dm &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   sample_longitude_dm &lt;chr&gt;, sample_latitude_dd &lt;dbl&gt;, …</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="get-shark-api-options">Get SHARK API Options<a class="anchor" aria-label="anchor" href="#get-shark-api-options"></a>
@@ -150,8 +150,8 @@ function.</p>
 <span><span class="co">##  [4] "Grey seal"             "Harbour Porpoise"      "Harbour seal"         </span></span>
 <span><span class="co">##  [7] "Jellyfish"             "Physical and Chemical" "Phytoplankton"        </span></span>
 <span><span class="co">## [10] "Picoplankton"          "PlanktonBarcoding"     "Primary production"   </span></span>
-<span><span class="co">## [13] "Profile"               "Ringed seal"           "Sedimentation"        </span></span>
-<span><span class="co">## [16] "Zoobenthos"            "Zooplankton"</span></span></code></pre>
+<span><span class="co">## [13] "Profile"               "Ringed seal"           "Seal pathology"       </span></span>
+<span><span class="co">## [16] "Sedimentation"         "Zoobenthos"            "Zooplankton"</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
