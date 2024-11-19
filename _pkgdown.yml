@@ -124,7 +124,7 @@ reference:
   - check_zooplankton_wetweight_area
   - check_zooplankton_wetweight_volume
   
-  - subtitle: MISC
+- subtitle: MISC
   contents:
   - lookup_xy
   - match_station
