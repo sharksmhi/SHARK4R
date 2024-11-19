@@ -1,11 +1,16 @@
-#' Retrieve and Format SHARK Data from SMHI API
+#' Retrieve SHARK Table Data
 #'
-#' The `get_shark_table` function retrieves data from the SHARK database hosted by SMHI, with options
-#' to filter based on year range, months, and data types. It sends a POST request to
-#' the SHARK API and returns the results as a structured `data.frame`.
-#' To view available filter options, see \code{\link{get_shark_options}}.
+#' @description
+#' `r lifecycle::badge("deprecated")`
 #'
-#' @param tableView Character. Specifies the view of the table to retrieve. Options include:
+#' This function has been deprecated due to inefficiency in handling large datasets. 
+#' Users are encouraged to use \code{\link{get_shark_data}} for such cases. 
+#' However, the `get_shark_table` function remains effective for retrieving smaller 
+#' datasets (< 10^5 rows) from the SHARK database hosted by SMHI. Its functionality 
+#' is similar to the table view available at \url{https://shark.smhi.se/}. 
+#' For larger requests, switch to \code{\link{get_shark_data}}, and to explore available 
+#' filter options, see \code{\link{get_shark_options}}.
+#'
 #' @param tableView Character. Specifies the view of the table to retrieve. Options include:
 #'   \describe{
 #'     \item{"sharkweb_overview"}{}
@@ -67,7 +72,6 @@
 #' @param typOmraden Character vector. Optional vector of type areas to filter data by specific areas.
 #' @param helcomOspar Character vector. Optional vector of HELCOM or OSPAR areas for regional filtering.
 #' @param seaAreas Character vector. Optional vector of sea area codes for filtering by specific sea areas
-#' @param offset Integer. The starting point for data retrieval, useful for pagination. Default is `0`.
 #' @param prod Logical. Query against PROD or TEST (SMHI internal) server. Default is TRUE (PROD).
 #'
 #' @return A `data.frame` containing the retrieved data, with column names based on the API's `headers`.
@@ -86,6 +90,7 @@
 #' @importFrom purrr map_dfr map
 #' @importFrom tibble as_tibble
 #' @importFrom magrittr %>%
+#' @importFrom lifecycle deprecate_warn
 #'
 #' @examples
 #' \dontrun{
@@ -95,6 +100,8 @@
 #'   View(shark_data)
 #' }
 #'
+#' @keywords internal
+#' 
 #' @export
 get_shark_table <- function(tableView = "sharkweb_overview", limit = 0, headerLang = "internal_key", 
                             fromYear = 2019, toYear = 2020, months = c(), dataTypes = c(),
@@ -104,7 +111,9 @@ get_shark_table <- function(tableView = "sharkweb_overview", limit = 0, headerLa
                             redListedCategory = c(), taxonName = c(), stationName = c(),
                             vattenDistrikt = c(), seaBasins = c(), counties = c(),
                             municipalities = c(), waterCategories = c(), typOmraden = c(),
-                            helcomOspar = c(), seaAreas = c(), offset = 0, prod = TRUE) {
+                            helcomOspar = c(), seaAreas = c(), prod = TRUE, verbose = TRUE) {
+  
+  lifecycle::deprecate_warn("0.1.1", "get_shark_table()", "get_shark_data()")
   
   # Define the URL
   url <- if (prod) "https://shark.smhi.se/api/sample/table" else "https://shark-tst.smhi.se/api/sample/table"
@@ -123,82 +132,117 @@ get_shark_table <- function(tableView = "sharkweb_overview", limit = 0, headerLa
                                     projects = projects, datasets = datasets, minSamplingDepth = minSamplingDepth, 
                                     maxSamplingDepth = maxSamplingDepth, checkStatus = checkStatus,
                                     redListedCategory = redListedCategory, taxonName = taxonName, 
-                                    stationName = stationName,vattenDistrikt = vattenDistrikt, 
+                                    stationName = stationName, vattenDistrikt = vattenDistrikt, 
                                     seaBasins = seaBasins, counties = counties, municipalities = municipalities, 
                                     waterCategories = waterCategories, typOmraden = typOmraden, 
                                     helcomOspar = helcomOspar, seaAreas = seaAreas, prod = prod)
-                                    
   }
   
-  # Create the JSON body as a list
-  body <- list(
-    params = list(
-      tableView = tableView,
-      limit = limit,
-      offset = offset,
-      headerLang = headerLang
-    ),
-    query = list(
-      bounds = list(),
-      fromYear = fromYear,
-      toYear = toYear,
-      months = months,
-      dataTypes = dataTypes,
-      parameters = parameters,
-      checkStatus = checkStatus,
-      qualityFlags = qualityFlags,
-      deliverers = deliverers,
-      orderers = orderers,
-      projects = projects,
-      datasets = datasets,
-      minSamplingDepth = minSamplingDepth,
-      maxSamplingDepth = maxSamplingDepth,
-      redListedCategory = redListedCategory,
-      taxonName = taxonName,
-      stationName = stationName,
-      vattenDistrikt = vattenDistrikt,
-      seaBasins = seaBasins,
-      counties = counties,
-      municipalities = municipalities,
-      waterCategories = waterCategories,
-      typOmraden = typOmraden,
-      helcomOspar = helcomOspar,
-      seaAreas = seaAreas
+  # Warn if the request is too large
+  if (limit > 10^5) {
+    warning("Your request contains ", limit, " rows and will take significant time to retrieve using `get_shark_table`. Please use `get_shark_data` instead.")
+  }
+  
+  # Initialize variables
+  batch_size <- 1000
+  all_rows <- list()
+  total_retrieved <- 0
+  headers <- NULL
+  
+  # Set up the progress bar
+  if (verbose) {pb <- txtProgressBar(min = 0, max = limit, style = 3)}
+  
+  # Loop to fetch data in batches
+  while (total_retrieved < limit) {
+    # Calculate remaining rows to fetch
+    remaining <- min(batch_size, limit - total_retrieved)
+    
+    # Update progress bar
+    if (verbose) {setTxtProgressBar(pb, total_retrieved + batch_size)}
+    
+    # Create the JSON body as a list
+    body <- list(
+      params = list(
+        tableView = tableView,
+        limit = remaining,
+        offset = total_retrieved,
+        headerLang = headerLang
+      ),
+      query = list(
+        bounds = list(),
+        fromYear = fromYear,
+        toYear = toYear,
+        months = months,
+        dataTypes = dataTypes,
+        parameters = parameters,
+        checkStatus = checkStatus,
+        qualityFlags = qualityFlags,
+        deliverers = deliverers,
+        orderers = orderers,
+        projects = projects,
+        datasets = datasets,
+        minSamplingDepth = minSamplingDepth,
+        maxSamplingDepth = maxSamplingDepth,
+        redListedCategory = redListedCategory,
+        taxonName = taxonName,
+        stationName = stationName,
+        vattenDistrikt = vattenDistrikt,
+        seaBasins = seaBasins,
+        counties = counties,
+        municipalities = municipalities,
+        waterCategories = waterCategories,
+        typOmraden = typOmraden,
+        helcomOspar = helcomOspar,
+        seaAreas = seaAreas
+      )
     )
-  )
-  
-  # Convert body to JSON
-  body_json <- toJSON(body, auto_unbox = TRUE)
-  
-  # Make the POST request
-  response <- POST(url,
-                   add_headers("accept" = "application/json", "Content-Type" = "application/json"),
-                   body = body_json)
-  
-  # Check if the request was successful
-  if (status_code(response) == 200) {
-    # Parse the JSON response content
-    shark_data <- content(response, as = "parsed", type = "application/json")
     
-    # Extract headers and rows
-    headers <- unlist(shark_data$headers)
+    # Convert body to JSON
+    body_json <- toJSON(body, auto_unbox = TRUE)
     
-    # Process rows by binding each row to the headers, filling with NA where necessary
-    data <- map_dfr(shark_data$rows, ~{
-      row <- as.data.frame(t(.), stringsAsFactors = FALSE)
-      names(row) <- headers
-      row
-    }) %>%
-      as_tibble() %>%
-      # Replace NULLs with NA and unnest list-columns
-      mutate(across(everything(), ~ map(.x, ~ if (is.null(.x)) NA else .x))) %>%
-      unnest(cols = everything())
+    # Make the POST request
+    response <- POST(url,
+                     add_headers("accept" = "application/json", "Content-Type" = "application/json"),
+                     body = body_json)
     
-    return(data)
-  } else {
-    # Return the error message
-    stop("Failed to retrieve data: ", status_code(response))
+    # Check if the request was successful
+    if (status_code(response) == 200) {
+      # Parse the JSON response content
+      shark_data <- content(response, as = "parsed", type = "application/json")
+      
+      # Extract headers from the first response
+      if (is.null(headers)) {
+        headers <- unlist(shark_data$headers)
+      }
+      
+      # Extract rows and store them
+      all_rows <- append(all_rows, shark_data$rows)
+      total_retrieved <- total_retrieved + length(shark_data$rows)
+      
+      # Stop if no more rows are returned
+      if (length(shark_data$rows) < batch_size) break
+    } else {
+      stop("Failed to retrieve data: ", status_code(response))
+    }
   }
+  
+  # Close the progress bar
+  if (verbose) {
+    close(pb)
+  }
+  
+  # Combine all rows into a single data.frame after the loop
+  combined_data <- map_dfr(all_rows, ~{
+    row <- as.data.frame(t(.), stringsAsFactors = FALSE)
+    names(row) <- headers
+    row
+  }) %>%
+    as_tibble() %>%
+    # Replace NULLs and blanks ("") with NA, and unnest list-columns
+    mutate(across(everything(), ~ map(.x, ~ if (is.null(.x) || .x == "") NA else .x))) %>%
+    unnest(cols = everything())
+  
+  return(combined_data)
 }
 #' Retrieve Available Search Options from SHARK API
 #'
@@ -321,12 +365,6 @@ get_shark_options <- function(prod = TRUE) {
 #' @param seaAreas Character vector. Optional. Sea area codes for filtering by specific sea areas.
 #' @param prod Logical. Query against PROD or TEST (SMHI internal) server. Default is `TRUE` (PROD).
 #'
-#' @return A `data.frame` containing the retrieved data, with column names based on the API's `headers`.
-#'   Missing columns in rows with differing lengths are filled with `NA`.
-#'
-#' @details This function constructs a JSON body using the specified parameters and sends a POST request
-#'   to the SHARK API. The returned JSON data is parsed into a `data.frame`. Rows with differing lengths are handled by filling missing columns with `NA`.
-#'
 #' @seealso \code{\link{get_shark_options}}
 #'
 #' @importFrom httr GET POST content status_code http_error
@@ -412,5 +450,188 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
   } else {
     # Return the error message
     stop("Failed to retrieve data: ", status_code(response))
+  }
+}
+#' Retrieve Data from SHARK API
+#'
+#' The `get_shark_data` function retrieves data from the SHARK database hosted by SMHI. The function sends a POST request 
+#' to the SHARK API with customizable filters, including year, month, taxon name, water category, and more, and returns the 
+#' retrieved data as a structured `data.frame`. To view available filter options, see \code{\link{get_shark_options}}.
+#'
+#' @param tableView Character. Specifies the view of the table to retrieve. Options include:
+#'   \describe{
+#'     \item{"sharkweb_overview"}{}
+#'     \item{"sharkweb_all"}{}
+#'     \item{"sharkdata_bacterioplankton"}{}
+#'     \item{"sharkdata_chlorophyll"}{}
+#'     \item{"sharkdata_epibenthos"}{}
+#'     \item{"sharkdata_greyseal"}{}
+#'     \item{"sharkdata_harbourporpoise"}{}
+#'     \item{"sharkdata_harbourseal"}{}
+#'     \item{"sharkdata_jellyfish"}{}
+#'     \item{"sharkdata_physicalchemical_columns"}{}
+#'     \item{"sharkdata_phytoplankton"}{}
+#'     \item{"sharkdata_picoplankton"}{}
+#'     \item{"sharkdata_planktonbarcoding"}{}
+#'     \item{"sharkdata_primaryproduction"}{}
+#'     \item{"sharkdata_ringedseal"}{}
+#'     \item{"sharkdata_sealpathology"}{}
+#'     \item{"sharkdata_sedimentation"}{}
+#'     \item{"sharkdata_zoobenthos"}{}
+#'     \item{"sharkdata_zooplankton"}{}
+#'     \item{"report_sum_year_param"}{}
+#'     \item{"report_sum_year_param_taxon"}{}
+#'     \item{"report_sampling_per_station"}{}
+#'     \item{"report_obs_taxon"}{}
+#'     \item{"report_stations"}{}
+#'     \item{"report_taxon"}{}
+#'   }
+#'   Default is `"sharkweb_overview"`.
+#' @param headerLang Character. Language option for column headers. Possible values:
+#'   \itemize{
+#'     \item `"sv"`: Swedish.
+#'     \item `"en"`: English.
+#'     \item `"short"`: Shortened version.
+#'     \item `"internal_key"`: Internal key (default).
+#'   }
+#' @param hideEmptyColumns Logical. Whether to hide empty columns. Default is `FALSE`.
+#' @param fromYear Integer. Starting year for data retrieval. Default is `2019`.
+#' @param toYear Integer. Ending year for data retrieval. Default is `2020`.
+#' @param months Integer vector. The months to retrieve data for, e.g., `c(4, 5, 6)` for April to June.
+#' @param dataTypes Character vector. Specifies data types to filter, such as `"Chlorophyll"`, `"Epibenthos"`, etc.
+#' @param parameters Character vector. Optional parameters to filter the results by, such as `"Chlorophyll-a"`.
+#' @param checkStatus Character string. Optional status check to filter results.
+#' @param qualityFlags Character vector. Quality flags to filter the data.
+#' @param deliverers Character vector. Specifies the data deliverers to filter by.
+#' @param orderers Character vector. Orderers to filter by specific organizations or individuals.
+#' @param projects Character vector. Projects to filter data by specific research or monitoring projects.
+#' @param datasets Character vector. Datasets to filter data by specific datasets.
+#' @param minSamplingDepth Numeric. Minimum sampling depth (in meters) to filter the data.
+#' @param maxSamplingDepth Numeric. Maximum sampling depth (in meters) to filter the data.
+#' @param redListedCategory Character vector. Red-listed taxa for conservation filtering.
+#' @param taxonName Character vector. Optional vector of taxa names to filter by.
+#' @param stationName Character vector. Station names to filter data by specific stations.
+#' @param vattenDistrikt Character vector. Water district names to filter by Swedish water districts.
+#' @param seaBasins Character vector. Sea basins to filter by.
+#' @param counties Character vector. Counties to filter by specific administrative regions.
+#' @param municipalities Character vector. Municipalities to filter by.
+#' @param waterCategories Character vector. Water categories to filter by.
+#' @param typOmraden Character vector. Type areas to filter by.
+#' @param helcomOspar Character vector. HELCOM or OSPAR areas for regional filtering.
+#' @param seaAreas Character vector. Sea area codes to filter by specific sea areas.
+#' @param prod Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is `TRUE` (PROD).
+#' @param verbose Logical. Whether to display progress information. Default is `TRUE`.
+#' 
+#' @return A `data.frame` containing the retrieved SHARK data, with column names based on the API's response.
+#' 
+#' @details This function sends a POST request to the SHARK API with the specified filters. The response is parsed as JSON and then converted into a `data.frame`. 
+#' The function handles the dynamic construction of the query body to filter the data based on the provided parameters.
+#' 
+#' @seealso \code{\link{get_shark_options}}
+#'
+#' @importFrom httr GET POST content status_code http_error progress
+#' @importFrom jsonlite toJSON
+#' @importFrom dplyr mutate everything across
+#' @importFrom tibble as_tibble
+#'
+#' @examples
+#' \dontrun{
+#'   # Retrieve chlorophyll data from 2019 to 2020 for April to June
+#'   shark_data <- get_shark_data(fromYear = 2019, toYear = 2020,
+#'                                months = c(4, 5, 6), dataTypes = c("Chlorophyll"))
+#'   View(shark_data)
+#' }
+#'
+#' @export
+get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "internal_key", hideEmptyColumns = FALSE, 
+                           fromYear = 2019, toYear = 2020, months = c(), dataTypes = c(), parameters = c(), 
+                           checkStatus = "", qualityFlags = c(), deliverers = c(), orderers = c(), 
+                           projects = c(), datasets = c(), minSamplingDepth = "", maxSamplingDepth = "", 
+                           redListedCategory = c(), taxonName = c(), stationName = c(), vattenDistrikt = c(), 
+                           seaBasins = c(), counties = c(), municipalities = c(), waterCategories = c(), 
+                           typOmraden = c(), helcomOspar = c(), seaAreas = c(), prod = TRUE, verbose = TRUE) {
+  
+  # Define the URL
+  url <- if (prod) "https://shark.smhi.se/api/sample/download" else "https://shark-tst.smhi.se/api/sample/download"
+  url_short <- gsub("api/sample/download", "", url)
+  
+  # Check if the URL is reachable
+  url_response <- try(GET(url_short), silent = TRUE)
+  if (inherits(url_response, "try-error") || http_error(url_response)) {
+    stop("The SHARK ", ifelse(prod, "PROD", "TEST"), " server cannot be reached: ", url_short, ". Please check network connection.")
+  }
+  
+  # Set download parameters
+  delimiters <- "point-tab"
+  lineEnd <- "win"
+  encoding <- "utf_8"
+  content_encoding <- "UTF-8"
+  
+  # Create the JSON body as a list
+  body <- list(
+    params = list(
+      tableView = tableView,
+      delimiters = delimiters,
+      lineEnd = lineEnd,
+      encoding = encoding,
+      headerLang = headerLang,
+      hideEmptyColumns = hideEmptyColumns
+    ),
+    query = list(
+      bounds = list(),
+      fromYear = fromYear,
+      toYear = toYear,
+      months = months,
+      dataTypes = dataTypes,
+      parameters = parameters,
+      checkStatus = checkStatus,
+      qualityFlags = qualityFlags,
+      deliverers = deliverers,
+      orderers = orderers,
+      projects = projects,
+      datasets = datasets,
+      minSamplingDepth = minSamplingDepth,
+      maxSamplingDepth = maxSamplingDepth,
+      redListedCategory = redListedCategory,
+      taxonName = taxonName,
+      stationName = stationName,
+      vattenDistrikt = vattenDistrikt,
+      seaBasins = seaBasins,
+      counties = counties,
+      municipalities = municipalities,
+      waterCategories = waterCategories,
+      typOmraden = typOmraden,
+      helcomOspar = helcomOspar,
+      seaAreas = seaAreas
+    )
+  )
+  
+  # Convert body to JSON
+  body_json <- toJSON(body, auto_unbox = TRUE)
+  
+  # Send the POST request
+  response <- POST(url,
+                   add_headers("accept" = "application/json", "Content-Type" = "application/json"),
+                   body = body_json,
+                   if (verbose) {
+                     progress()
+                   })
+  
+  # Check the response status
+  if (status_code(response) == 200) {
+    # Parse the response content
+    shark_data <- content(response, as = "text", encoding = content_encoding)
+    
+    # Read content
+    parsed_table <- read.table(text = shark_data, 
+                               sep = "\t", 
+                               header = TRUE, 
+                               encoding = content_encoding,
+                               fill = TRUE)
+    
+    return(as_tibble(parsed_table))
+  } else {
+    stop("Failed to retrieve data: HTTP Status ", status_code(response), "\n", 
+         content(response, as = "text", encoding = "UTF-8"))
   }
 }
