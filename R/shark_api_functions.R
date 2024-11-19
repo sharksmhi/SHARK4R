@@ -3,10 +3,13 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #'
-#' The `get_shark_table` function efficiently retrieves smaller datasets (< 10^5 rows) 
-#' from the SHARK database hosted by SMHI, similar to the table view available at 
-#' \url{https://shark.smhi.se/}. For larger requests, use \code{\link{get_shark_data}} 
-#' instead. To explore the available filter options, see \code{\link{get_shark_options}}.
+#' This function has been deprecated due to inefficiency in handling large datasets. 
+#' Users are encouraged to use \code{\link{get_shark_data}} for such cases. 
+#' However, the `get_shark_table` function remains effective for retrieving smaller 
+#' datasets (< 10^5 rows) from the SHARK database hosted by SMHI. Its functionality 
+#' is similar to the table view available at \url{https://shark.smhi.se/}. 
+#' For larger requests, switch to \code{\link{get_shark_data}}, and to explore available 
+#' filter options, see \code{\link{get_shark_options}}.
 #'
 #' @param tableView Character. Specifies the view of the table to retrieve. Options include:
 #'   \describe{

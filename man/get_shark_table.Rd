@@ -134,10 +134,13 @@ Columns are filled with \code{NA} when rows have differing lengths.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-The \code{get_shark_table} function efficiently retrieves smaller datasets (< 10^5 rows)
-from the SHARK database hosted by SMHI, similar to the table view available at
-\url{https://shark.smhi.se/}. For larger requests, use \code{\link{get_shark_data}}
-instead. To explore the available filter options, see \code{\link{get_shark_options}}.
+This function has been deprecated due to inefficiency in handling large datasets.
+Users are encouraged to use \code{\link{get_shark_data}} for such cases.
+However, the \code{get_shark_table} function remains effective for retrieving smaller
+datasets (< 10^5 rows) from the SHARK database hosted by SMHI. Its functionality
+is similar to the table view available at \url{https://shark.smhi.se/}.
+For larger requests, switch to \code{\link{get_shark_data}}, and to explore available
+filter options, see \code{\link{get_shark_options}}.
 }
 \details{
 This function constructs a JSON body with specified parameters and sends a POST request
