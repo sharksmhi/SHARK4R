@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/retrieve_shark_data.html">Retrieve Data From SHARK</a></li>
+<li><a class="dropdown-item" href="../articles/retrieve_nordic_microalgae_data.html">Retrieve Data From Nordic Microalgae</a></li>
+    <li><a class="dropdown-item" href="../articles/retrieve_shark_data.html">Retrieve Data From SHARK</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_taxonomic_data.html">Retrieve Taxonomic Data From Dyntaxa</a></li>
   </ul>
 </li>
@@ -65,6 +66,20 @@
     
     
 <div class="section level2">
+<h2 id="dyntaxa">Dyntaxa<a class="anchor" aria-label="anchor" href="#dyntaxa"></a>
+</h2>
+<p>Dyntaxa is a taxonomic database of Swedish organisms hosted at <a href="https://www.slu.se/artdatabanken/" class="external-link">SLU Artdatabanken</a>,
+providing information on their names and relationships. The database
+includes details such as the current classification, recommended names,
+and commonly used synonymous or misapplied names. Dyntaxa is
+continuously updated with new species for Sweden, new Swedish names,
+synonymous scientific names, and new data on relationships. The data in
+Dyntaxa serves as the foundation and framework for taxonomic information
+in <a href="https://shark.smhi.se/" class="external-link">SHARK</a>. It can be accessed via a
+<a href="https://artfakta.se/" class="external-link">web interface</a> or through the <a href="https://api-portal.artdatabanken.se/" class="external-link">API</a>, as demonstrated in
+this tutorial using <code>SHARK4R</code>.</p>
+</div>
+<div class="section level2">
 <h2 id="getting-started">Getting Started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
 </h2>
 <div class="section level4">
@@ -76,7 +91,7 @@
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"sharksmhi/SHARK4R"</span>,</span>
 <span>                         dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>Load the <code>SHARK4R</code> library:</p>
+<p>Load the <code>SHARK4R</code> and <code>tibble</code> libraries:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sharksmhi/SHARK4R" class="external-link">SHARK4R</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span></code></pre></div>
@@ -134,8 +149,8 @@ and the information below.</p>
 </h4>
 <p>Dyntaxa requires a subscription key to access its API. To obtain your
 own key, sign up for the taxonomy product at the <a href="https://api-portal.artdatabanken.se/" class="external-link">SLU Swedish Species
-Information Centre´s Developer Portal</a> to get your own key. In the
-example below, the key is retrieved from an environment variable.</p>
+Information Centre´s Developer Portal</a>. In the example below, the key
+is retrieved from an environment variable.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve the API key</span></span>
 <span><span class="va">dyntaxa_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"DYNTAXA_KEY"</span><span class="op">)</span></span></code></pre></div>
@@ -298,16 +313,16 @@ function. Synonms can be included using the
 <span><span class="co">## </span></span>
 <span><span class="co">##   Markus Lindh, Anders Torstensson, SHARK (2024). SHARK4R: Data</span></span>
 <span><span class="co">##   Analysis, Quality Control, and Data Retrieval for Physical, Chemical,</span></span>
-<span><span class="co">##   and Marine Biological Data from SHARK or the Plankton Toolbox. R</span></span>
-<span><span class="co">##   package version 0.1.0. https://doi.org/10.5281/zenodo.14169399</span></span>
+<span><span class="co">##   and Marine Biological Data from SHARK and Nordic Microalgae. R</span></span>
+<span><span class="co">##   package version 0.1.1. https://doi.org/10.5281/zenodo.14169399</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##   @Manual{,</span></span>
-<span><span class="co">##     title = {SHARK4R: Data Analysis, Quality Control, and Data Retrieval for Physical, Chemical, and Marine Biological Data from SHARK or the Plankton Toolbox},</span></span>
+<span><span class="co">##     title = {SHARK4R: Data Analysis, Quality Control, and Data Retrieval for Physical, Chemical, and Marine Biological Data from SHARK and Nordic Microalgae},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson and {SHARK}},</span></span>
 <span><span class="co">##     year = {2024},</span></span>
-<span><span class="co">##     note = {R package version 0.1.0},</span></span>
+<span><span class="co">##     note = {R package version 0.1.1},</span></span>
 <span><span class="co">##     url = {https://doi.org/10.5281/zenodo.14169399},</span></span>
 <span><span class="co">##   }</span></span></code></pre>
 </div>

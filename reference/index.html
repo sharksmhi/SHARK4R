@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +18,8 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/retrieve_shark_data.html">Retrieve Data From SHARK</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/retrieve_nordic_microalgae_data.html">Retrieve Data From Nordic Microalgae</a></li>
+    <li><a class="dropdown-item" href="../articles/retrieve_shark_data.html">Retrieve Data From SHARK</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_taxonomic_data.html">Retrieve Taxonomic Data From Dyntaxa</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -35,8 +36,154 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="retrieve-data">Retrieve Data<a class="anchor" aria-label="anchor" href="#retrieve-data"></a></h2>
 
+
+
+
+    </div><div class="section level2">
+
+      <h3 id="shark">SHARK<a class="anchor" aria-label="anchor" href="#shark"></a></h3>
+      <div class="section-desc"><p>These functions are used to retireve data from the SHARK API</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="get_shark_options.html">get_shark_options()</a></code>
+
+        </dt>
+        <dd>Retrieve Available Search Options from SHARK API</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_shark_data.html">get_shark_data()</a></code>
+
+        </dt>
+        <dd>Retrieve Data from SHARK API</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_shark_table_counts.html">get_shark_table_counts()</a></code>
+
+        </dt>
+        <dd>Retrieve SHARK Data Table Row Counts</dd>
+      </dl></div><div class="section level2">
+
+      <h3 id="dyntaxa">Dyntaxa<a class="anchor" aria-label="anchor" href="#dyntaxa"></a></h3>
+      <div class="section-desc"><p>These functions are used to retireve data from the Dyntaxa API</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="construct_dyntaxa_table.html">construct_dyntaxa_table()</a></code>
+
+        </dt>
+        <dd>Construct Dyntaxa taxonomy table from API</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_dyntaxa_children_hierarchy.html">get_dyntaxa_children_hierarchy()</a></code>
+
+        </dt>
+        <dd>Get children hierarchies for specified taxon IDs from SLU Artdatabanken API (Dyntaxa)</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_dyntaxa_children_ids.html">get_dyntaxa_children_ids()</a></code>
+
+        </dt>
+        <dd>Get children taxon IDs for specified taxon IDs from SLU Artdatabanken API (Dyntaxa)</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_dyntaxa_parent_ids.html">get_dyntaxa_parent_ids()</a></code>
+
+        </dt>
+        <dd>Get parent taxon IDs for specified taxon IDs from SLU Artdatabanken API (Dyntaxa)</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_dyntaxa_records.html">get_dyntaxa_records()</a></code>
+
+        </dt>
+        <dd>Get taxonomic information from SLU Artdatabanken API for specified taxon IDs</dd>
+      </dl><dl><dt>
+
+          <code><a href="match_taxon_name.html">match_taxon_name()</a></code>
+
+        </dt>
+        <dd>Match Dyntaxa taxon names via API</dd>
+      </dl><dl><dt>
+
+          <code><a href="update_dyntaxa_taxonomy.html">update_dyntaxa_taxonomy()</a></code>
+
+        </dt>
+        <dd>Update taxonomy from SHARKdata datasets via SLU Artdatabanken API (Dyntaxa)</dd>
+      </dl></div><div class="section level2">
+
+      <h3 id="nordic-microalgae">Nordic Microalgae<a class="anchor" aria-label="anchor" href="#nordic-microalgae"></a></h3>
+      <div class="section-desc"><p>These functions are used to retireve data from the Nordic Microalgae API</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="get_nua_external_links.html">get_nua_external_links()</a></code>
+
+        </dt>
+        <dd>Retrieve External Links or Facts for Taxa from Nordic Microalgae</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_nua_harmfulness.html">get_nua_harmfulness()</a></code>
+
+        </dt>
+        <dd>Retrieve Harmfulness for Taxa from Nordic Microalgae</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_nua_media_links.html">get_nua_media_links()</a></code>
+
+        </dt>
+        <dd>Retrieve and Extract Media URLs from Nordic Microalgae</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_nua_taxa.html">get_nua_taxa()</a></code>
+
+        </dt>
+        <dd>Retrieve Taxa Information from Nordic Microalgae</dd>
+      </dl></div><div class="section level2">
+
+      <h3 id="worms">WoRMS<a class="anchor" aria-label="anchor" href="#worms"></a></h3>
+      <div class="section-desc"><p>These functions are used to retireve data from the WoRMS API</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="update_worms_taxonomy.html">update_worms_taxonomy()</a></code>
+
+        </dt>
+        <dd>Update taxonomy from SHARKdata datasets via WoRMS API</dd>
+      </dl></div><div class="section level2">
+      <h2 id="quality-control">Quality Control<a class="anchor" aria-label="anchor" href="#quality-control"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+      <h3 id="data-checks">Data Checks<a class="anchor" aria-label="anchor" href="#data-checks"></a></h3>
 
 
 
@@ -171,6 +318,12 @@
 
         </dt>
         <dd>Check matches of reported project (PROJ) codes in SMHIs codelist</dd>
+      </dl><dl><dt>
+
+          <code><a href="check_data_version.html">check_data_version()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Check if dataset versions are up to date</dd>
       </dl><dl><dt>
 
           <code><a href="check_datatype.html">check_datatype()</a></code>
@@ -537,55 +690,18 @@
 
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
 
-          <code><a href="construct_dyntaxa_table.html">construct_dyntaxa_table()</a></code>
+      <h3 id="misc">MISC<a class="anchor" aria-label="anchor" href="#misc"></a></h3>
 
-        </dt>
-        <dd>Construct Dyntaxa taxonomy table from API</dd>
-      </dl><dl><dt>
 
-          <code><a href="get_dyntaxa_children_hierarchy.html">get_dyntaxa_children_hierarchy()</a></code>
 
-        </dt>
-        <dd>Get children hierarchies for specified taxon IDs from SLU Artdatabanken API (Dyntaxa)</dd>
-      </dl><dl><dt>
+    </div><div class="section level2">
 
-          <code><a href="get_dyntaxa_children_ids.html">get_dyntaxa_children_ids()</a></code>
 
-        </dt>
-        <dd>Get children taxon IDs for specified taxon IDs from SLU Artdatabanken API (Dyntaxa)</dd>
-      </dl><dl><dt>
 
-          <code><a href="get_dyntaxa_parent_ids.html">get_dyntaxa_parent_ids()</a></code>
 
-        </dt>
-        <dd>Get parent taxon IDs for specified taxon IDs from SLU Artdatabanken API (Dyntaxa)</dd>
-      </dl><dl><dt>
-
-          <code><a href="get_dyntaxa_records.html">get_dyntaxa_records()</a></code>
-
-        </dt>
-        <dd>Get taxonomic information from SLU Artdatabanken API for specified taxon IDs</dd>
-      </dl><dl><dt>
-
-          <code><a href="get_shark_data.html">get_shark_data()</a></code>
-
-        </dt>
-        <dd>Retrieve Data from SHARK API</dd>
-      </dl><dl><dt>
-
-          <code><a href="get_shark_options.html">get_shark_options()</a></code>
-
-        </dt>
-        <dd>Retrieve Available Search Options from SHARK API</dd>
-      </dl><dl><dt>
-
-          <code><a href="get_shark_table_counts.html">get_shark_table_counts()</a></code>
-
-        </dt>
-        <dd>Retrieve SHARK Data Table Row Counts</dd>
-      </dl><dl><dt>
+      <dl><dt>
 
           <code><a href="lookup_xy.html">lookup_xy()</a></code>
 
@@ -597,12 +713,6 @@
 
         </dt>
         <dd>Station matching using SMHI station list "stations.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/stationsregister/composer/) matches reported station name in data with curated station list</dd>
-      </dl><dl><dt>
-
-          <code><a href="match_taxon_name.html">match_taxon_name()</a></code>
-
-        </dt>
-        <dd>Match Dyntaxa taxon names via API</dd>
       </dl><dl><dt>
 
           <code><a href="match_wormstaxa.html">match_wormstaxa()</a></code>
@@ -657,20 +767,152 @@
 
         </dt>
         <dd>Read zip archive and unzip tab delimited files downloaded from SHARK Uses unzip (unz) and read_delim to unzip archive and read tab delimited files with standardized export format from SHARK</dd>
+      </dl></div><div class="section level2">
+      <h2 id="deprecated-functions">Deprecated functions<a class="anchor" aria-label="anchor" href="#deprecated-functions"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="add_species_info.html">add_species_info()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Helper function to add species information to species list</dd>
       </dl><dl><dt>
 
-          <code><a href="update_dyntaxa_taxonomy.html">update_dyntaxa_taxonomy()</a></code>
-
+          <code><a href="add_worms_species_info.html">add_worms_species_info()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
-        <dd>Update taxonomy from SHARKdata datasets via SLU Artdatabanken API (Dyntaxa)</dd>
+        <dd>Function to add WoRMS species information to taxa list</dd>
       </dl><dl><dt>
 
-          <code><a href="update_worms_taxonomy.html">update_worms_taxonomy()</a></code>
-
+          <code><a href="check_data_version.html">check_data_version()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
-        <dd>Update taxonomy from SHARKdata datasets via WoRMS API</dd>
+        <dd>Check if dataset versions are up to date</dd>
+      </dl><dl><dt>
+
+          <code><a href="data_deliverer_filter.html">data_deliverer_filter()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Filter datasets based on data deliverer</dd>
+      </dl><dl><dt>
+
+          <code><a href="download_file.html">download_file()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Helper function to download file</dd>
+      </dl><dl><dt>
+
+          <code><a href="download_sharkdata.html">download_sharkdata()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Download and process SHARKdata datasets</dd>
+      </dl><dl><dt>
+
+          <code><a href="filter_outdated_datasets.html">filter_outdated_datasets()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Function to filter outdated datasets</dd>
+      </dl><dl><dt>
+
+          <code><a href="gather_species_info.html">gather_species_info()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Gather species information</dd>
+      </dl><dl><dt>
+
+          <code><a href="gather_worms_species_info.html">gather_worms_species_info()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Gather WoRMS species information</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_geographical_info.html">get_geographical_info()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Get geographical information from coordinates</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_shark_table.html">get_shark_table()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Retrieve SHARK Table Data</dd>
+      </dl><dl><dt>
+
+          <code><a href="load_dataset_names.html">load_dataset_names()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Load dataset names from SHARKdata based on type, year, and data deliverer</dd>
+      </dl><dl><dt>
+
+          <code><a href="load_dataset_types.html">load_dataset_types()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>List available dataset types in SHARKdata</dd>
+      </dl><dl><dt>
+
+          <code><a href="load_dyntaxa_taxonomy.html">load_dyntaxa_taxonomy()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Load higher taxonomy from Dyntaxa file</dd>
+      </dl><dl><dt>
+
+          <code><a href="load_sharkdata.html">load_sharkdata()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Load all dataset names available at SHARKdata from SMHI</dd>
+      </dl><dl><dt>
+
+          <code><a href="load_worms_taxonomy.html">load_worms_taxonomy()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Load higher taxonomy from WoRMS file</dd>
+      </dl><dl><dt>
+
+          <code><a href="match_dyntaxa.html">match_dyntaxa()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Taxon matching using Dyntaxa (https://www.dyntaxa.se/)</dd>
+      </dl><dl><dt>
+
+          <code><a href="read_data.html">read_data()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Helper function to read data</dd>
+      </dl><dl><dt>
+
+          <code><a href="read_species_list.html">read_species_list()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Read and convert species list</dd>
+      </dl><dl><dt>
+
+          <code><a href="update_data.html">update_data()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Function to update data if a more recent version is available at SHARKdata</dd>
+      </dl><dl><dt>
+
+          <code><a href="validate_dataset_names.html">validate_dataset_names()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Helper function to validate dataset names</dd>
+      </dl><dl><dt>
+
+          <code><a href="year_filter.html">year_filter()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Filter datasets based on year</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
