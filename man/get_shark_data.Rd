@@ -33,6 +33,8 @@ get_shark_data(
   helcomOspar = c(),
   seaAreas = c(),
   prod = TRUE,
+  save_data = FALSE,
+  file_path = NULL,
   verbose = TRUE
 )
 }
@@ -126,6 +128,10 @@ Default is \code{"sharkweb_overview"}.}
 \item{seaAreas}{Character vector. Sea area codes to filter by specific sea areas.}
 
 \item{prod}{Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is \code{TRUE} (PROD).}
+
+\item{save_data}{Logical. If TRUE, the data will be saved to a specified file in UTF-8 encoding. If FALSE, a temporary file will be created instead.}
+
+\item{file_path}{Character. The file path where the data should be saved. Required if \code{save_data} is TRUE. Ignored if \code{save_data} is FALSE.}
 
 \item{verbose}{Logical. Whether to display progress information. Default is \code{TRUE}.}
 }

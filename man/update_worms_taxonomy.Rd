@@ -14,7 +14,7 @@ A data frame containing updated WoRMS taxonomy information.
 }
 \description{
 This function collects WoRMS (World Register of Marine Species) taxonomy information for a given set of Aphia IDs.
-The data is organized into a full taxonomic table that can be joined with data downloaded from \href{https://sharkdata.smhi.se/}{SHARKdata}
+The data is organized into a full taxonomic table that can be joined with data downloaded from \href{https://shark.smhi.se/}{SHARK}.
 }
 \examples{
 \dontrun{
@@ -25,5 +25,7 @@ print(updated_taxonomy)
 
 }
 \seealso{
+https://cran.r-project.org/web/packages/worrms/index.html
+
 \code{\link{download_sharkdata}}, \code{\link{update_dyntaxa_taxonomy}}, \href{http://www.marinespecies.org/rest/}{WoRMS API Documentation}
 }

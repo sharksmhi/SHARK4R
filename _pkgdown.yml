@@ -34,6 +34,9 @@ reference:
 - subtitle: WoRMS
   desc: These functions are used to retireve data from the WoRMS API
   contents:
+  - assign_plankton_groups
+  - get_worms_records
+  - get_worms_records_name
   - update_worms_taxonomy
 
 - title: Quality Control
