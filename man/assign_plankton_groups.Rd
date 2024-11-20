@@ -19,7 +19,7 @@ assign_plankton_groups(
 \arguments{
 \item{scientific_names}{A character vector of scientific names of marine species.}
 
-\item{aphia_ids}{A numeric vector of Aphia IDs corresponding to the scientific names. If provided, it improves the accuracy of the matching process. The length of \code{aphia_ids} must match the length of \code{scientific_names}. Defaults to \code{NULL}, in which case the function will attempt to assign plankton groups based only on the scientific names.}
+\item{aphia_ids}{A numeric vector of Aphia IDs corresponding to the scientific names. If provided, it improves the accuracy and speed of the matching process. The length of \code{aphia_ids} must match the length of \code{scientific_names}. Defaults to \code{NULL}, in which case the function will attempt to assign plankton groups based only on the scientific names.}
 
 \item{diatom_class}{A character string representing the diatom class. Default is "Bacillariophyceae".}
 
@@ -39,7 +39,7 @@ assign_plankton_groups(
 A data frame with two columns: \code{scientific_name} and \code{plankton_group}, where the plankton group is assigned based on taxonomic classification.
 }
 \description{
-This function assigns plankton groups (e.g., Diatoms, Dinoflagellates, Cyanobacteria, or Other)
+This function assigns plankton groups (Diatoms, Dinoflagellates, Cyanobacteria, or Other)
 to a list of scientific names or Aphia IDs by retrieving species information from the
 World Register of Marine Species (WoRMS). The function checks both Aphia IDs and scientific names,
 handles missing records, and assigns the appropriate plankton group based on taxonomic classification in WoRMS.

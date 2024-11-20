@@ -211,7 +211,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
         if (grepl("204", error_message)) {
           no_content_messages <<- c(no_content_messages, 
                                     paste0("No WoRMS content for '", taxa_names[i], "'"))
-          worms_record <<- data.frame(name = taxa_names[i], status = "no content", stringsAsFactors = FALSE)
+          worms_record <<- data.frame(name = taxa_names[i], status = "no content", AphiaID = NA, stringsAsFactors = FALSE)
           success <<- TRUE  # Mark success to prevent further retries
         } else if (attempt == max_retries) {
           stop("Error occurred while retrieving WoRMS record for '", taxa_names[i], 
@@ -243,13 +243,13 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 }
 #' Assign Plankton Group to Scientific Names
 #' 
-#' This function assigns plankton groups (e.g., Diatoms, Dinoflagellates, Cyanobacteria, or Other) 
+#' This function assigns plankton groups (Diatoms, Dinoflagellates, Cyanobacteria, or Other) 
 #' to a list of scientific names or Aphia IDs by retrieving species information from the 
 #' World Register of Marine Species (WoRMS). The function checks both Aphia IDs and scientific names, 
 #' handles missing records, and assigns the appropriate plankton group based on taxonomic classification in WoRMS.
 #'
 #' @param scientific_names A character vector of scientific names of marine species.
-#' @param aphia_ids A numeric vector of Aphia IDs corresponding to the scientific names. If provided, it improves the accuracy of the matching process. The length of `aphia_ids` must match the length of `scientific_names`. Defaults to `NULL`, in which case the function will attempt to assign plankton groups based only on the scientific names.
+#' @param aphia_ids A numeric vector of Aphia IDs corresponding to the scientific names. If provided, it improves the accuracy and speed of the matching process. The length of `aphia_ids` must match the length of `scientific_names`. Defaults to `NULL`, in which case the function will attempt to assign plankton groups based only on the scientific names.
 #' @param diatom_class A character string representing the diatom class. Default is "Bacillariophyceae".
 #' @param dinoflagellate_class A character string representing the dinoflagellate class. Default is "Dinophyceae".
 #' @param cyanobacteria_class A character string representing the cyanobacteria class. Default is "Cyanophyceae".
@@ -285,7 +285,7 @@ assign_plankton_groups <- function(scientific_names, aphia_ids = NULL, diatom_cl
                                    cyanobacteria_phylum = "Cyanobacteria", match_first_word = TRUE, 
                                    marine_only = FALSE, verbose = TRUE) {
   # Ensure input lengths match
-  if (!length(aphia_ids) == length(scientific_names) | is.null(aphia_ids)) {
+  if (!length(aphia_ids) == length(scientific_names) & !is.null(aphia_ids)) {
     stop("'aphia_ids' and 'scientific_names' must have the same length.")
   }
   
@@ -334,7 +334,7 @@ assign_plankton_groups <- function(scientific_names, aphia_ids = NULL, diatom_cl
   
   if (match_first_word & nrow(unresolved_data) > 0) {
     first_words <- word(unresolved_data$scientific_name, 1)
-    if (verbose) cat("Retrieving", length(first_words), "WoRMS records from the first word of 'scientific_names'.\n")
+    if (verbose) cat("Retrieving", length(first_words), "WoRMS records from the first word in 'scientific_names'.\n")
     first_word_records <- data.frame(
       scientific_name = unresolved_data$scientific_name,
       get_worms_records_name(first_words, 

@@ -16,7 +16,7 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
                          "match_type", "STATN", "LONGI", "LATIT",
                          "author", "guid", "name", "Kingdom", "Phylum", "Class", "Order", "Family", 
                          "Genus", "Species", "hierarchy", "AphiaID", "worms_hierarchy", "taxon_hierarchy",
-                         "up_to_date", "Data_field", "DT"))
+                         "up_to_date", "Data_field", "DT", "phylum", "plankton_group"))
 
 .onLoad <- function(libname, pkgname){
   clear_cache(age=36)

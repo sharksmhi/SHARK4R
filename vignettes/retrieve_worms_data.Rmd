@@ -1,0 +1,140 @@
+---
+title: "Retrieve Data From WoRMS"
+output:
+  rmarkdown::html_document
+vignette: >
+  %\VignetteIndexEntry{Retrieve Data From WoRMS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## WoRMS
+
+The World Register of Marine Species (WoRMS) is a comprehensive database providing authoritative lists of marine organism names, managed by taxonomic experts. It combines data from the Aphia database and other sources like AlgaeBase and FishBase, offering species names, higher classifications, and additional data. WoRMS is continuously updated and maintained by taxonomists. In this tutorial, we source the R package [`worrms`](https://cran.r-project.org/web/packages/worrms/index.html) to access WoRMS data for our function.
+
+## Getting Started
+
+#### Installation
+
+You can install the package from GitHub using the `devtools` package:
+
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("sharksmhi/SHARK4R",
+                         dependencies = TRUE)
+```
+
+Load the `SHARK4R` and `dplyr` libraries:
+```{r, message=FALSE}
+library(dplyr)
+library(SHARK4R)
+```
+
+## Retrieve Data Using SHARK4R
+
+### Retrieve Phytoplankton Data From SHARK
+
+Phytoplankton data, including scientific names and AphiaIDs, are downloaded from SHARK. To see more download options, please visit the [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html) tutorial.
+
+```{r}
+# Retrieve chlorophyll data for April to June from 2019 to 2020
+shark_data <- get_shark_data(fromYear = 2020, 
+                             toYear = 2020,
+                             months = 4, 
+                             dataTypes = c("Phytoplankton"),
+                             verbose = FALSE)
+```
+
+### Match Taxa Names
+
+Taxon names can be matched with the WoRMS API to retrieve Aphia IDs and corresponding taxonomic information. The [`get_worms_records_name`](../reference/get_worms_records_name.html) function incorporates retry logic to handle temporary failures, ensuring that all names are processed successfully.
+
+```{r}
+# Find taxa without Aphia ID
+no_aphia_id <- shark_data %>%
+  filter(is.na(aphia_id))
+
+# Randomly select taxa with missing aphia_id
+taxa_names <- sample(unique(no_aphia_id$scientific_name), 
+                     size = 10,
+                     replace = TRUE)
+
+# Match taxa names with WoRMS
+worms_records <- get_worms_records_name(unique(taxa_names),
+                                        fuzzy = TRUE,
+                                        best_match_only = TRUE,
+                                        marine_only = TRUE,
+                                        verbose = FALSE)
+
+# Print result as tibble
+tibble(worms_records)
+```
+
+### Get WoRMS records from AphiaID
+
+Taxonomic records can also be retrieved using Aphia IDs, employing the same retry and error-handling logic as the [`get_worms_records_name`](../reference/get_worms_records_name.html) function.
+
+```{r}
+# Randomly select ten Aphia IDs
+aphia_ids <- sample(unique(shark_data$aphia_id), 
+                    size = 10)
+
+# Remove NAs
+aphia_ids <- aphia_ids[!is.na(aphia_ids)]
+
+# Retrieve records
+worms_records <- get_worms_records(aphia_ids,
+                                   verbose = FALSE)
+
+# Print result as tibble
+tibble(worms_records)
+```
+
+### Update WoRMS Taxonomy
+
+SHARK sources taxonomic information from [Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_taxonomic_data.html), which is reflected in columns starting with `taxon_xxxxx`. Equivalent columns based on WoRMS can be retrieved using the [`update_worms_taxonomy`](../reference/update_worms_taxonomy.html) function.
+
+```{r}
+# Retrieve taxonomic table
+updated_taxonomy <- update_worms_taxonomy(aphia_ids)
+
+# Print result as tibble
+tibble(updated_taxonomy)
+
+# Enrich data with data from WoRMS
+shark_data_with_worms <- shark_data %>%
+  left_join(updated_taxonomy, by = c("aphia_id", "scientific_name"))
+```
+
+### Assign Plankton Groups
+
+Phytoplankton data are often categorized into major groups such as Dinoflagellates, Diatoms, Cyanobacteria, and Others. This grouping can be achieved by referencing information from WoRMS and assigning taxa to these groups based on their taxonomic classification, as demonstrated in the example below.
+
+```{r}
+# Example names and Aphia IDs, with missing ID for Octactis speculum
+scientific_name <- c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum")
+aphia_id <- c(840626, 149013, 160566, NA)
+
+# Assign groups by providing both scientific name and Aphia ID
+plankton_groups <- assign_plankton_groups(scientific_name,
+                                          aphia_id,
+                                          verbose = FALSE)
+
+# Print result
+head(plankton_groups)
+
+# Match only with scientific name
+plankton_groups_name <- assign_plankton_groups(scientific_name,
+                                               verbose = FALSE)
+
+# Print result
+head(plankton_groups_name)
+```
+
+
+## Citation
+
+```{r, echo=FALSE}
+# Print citation
+citation("SHARK4R")
+```
