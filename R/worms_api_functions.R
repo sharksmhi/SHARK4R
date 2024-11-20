@@ -164,7 +164,7 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
 #' @seealso [wm_records_names()] for retrieving records by taxonomic names from the WoRMS database.
 #'
 #' @importFrom dplyr bind_rows
-#' @importFrom worrms wm_records_names
+#' @importFrom worrms wm_records_name
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #'
 #' @seealso \url{https://cran.r-project.org/web/packages/worrms/index.html}
