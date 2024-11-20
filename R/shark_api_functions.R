@@ -520,6 +520,8 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @param helcomOspar Character vector. HELCOM or OSPAR areas for regional filtering.
 #' @param seaAreas Character vector. Sea area codes to filter by specific sea areas.
 #' @param prod Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is `TRUE` (PROD).
+#' @param save_data Logical. If TRUE, the data will be saved to a specified file in UTF-8 encoding. If FALSE, a temporary file will be created instead.
+#' @param file_path Character. The file path where the data should be saved. Required if `save_data` is TRUE. Ignored if `save_data` is FALSE.
 #' @param verbose Logical. Whether to display progress information. Default is `TRUE`.
 #' 
 #' @return A `data.frame` containing the retrieved SHARK data, with column names based on the API's response.
@@ -529,10 +531,11 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' 
 #' @seealso \code{\link{get_shark_options}}
 #'
-#' @importFrom httr GET POST content status_code http_error progress
+#' @importFrom httr GET POST status_code http_error progress write_disk
 #' @importFrom jsonlite toJSON
 #' @importFrom dplyr mutate everything across
 #' @importFrom tibble as_tibble
+#' @importFrom utils read.table
 #'
 #' @examples
 #' \dontrun{
@@ -549,7 +552,23 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
                            projects = c(), datasets = c(), minSamplingDepth = "", maxSamplingDepth = "", 
                            redListedCategory = c(), taxonName = c(), stationName = c(), vattenDistrikt = c(), 
                            seaBasins = c(), counties = c(), municipalities = c(), waterCategories = c(), 
-                           typOmraden = c(), helcomOspar = c(), seaAreas = c(), prod = TRUE, verbose = TRUE) {
+                           typOmraden = c(), helcomOspar = c(), seaAreas = c(), prod = TRUE, save_data = FALSE, 
+                           file_path = NULL, verbose = TRUE) {
+  
+  # Set up file path to .txt file
+  if (save_data) {
+    if (!is.null(file_path)) {
+      file <- file_path
+    } else {
+      stop("Please specify 'file_path' when 'save_data' is TRUE")
+    }
+  } else {
+    file <- tempfile(fileext = ".tsv")
+  }
+  
+  if (!save_data & !is.null(file_path)) {
+    stop("To save the data, set 'save_data' to TRUE and specify a valid 'file_path': ", file_path)
+  }
   
   # Define the URL
   url <- if (prod) "https://shark.smhi.se/api/sample/download" else "https://shark-tst.smhi.se/api/sample/download"
@@ -610,27 +629,37 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
   body_json <- toJSON(body, auto_unbox = TRUE)
   
   # Send the POST request
-  response <- POST(url,
-                   add_headers("accept" = "application/json", "Content-Type" = "application/json"),
-                   body = body_json,
-                   if (verbose) {
-                     progress()
-                   })
+  response <- POST(
+    url,
+    add_headers("accept" = "application/json", "Content-Type" = "application/json"),
+    body = body_json,
+    write_disk(file, overwrite = TRUE),
+    if (verbose) {
+      progress()
+    }
+  )
   
-  # Check the response status
+  # Check response status
   if (status_code(response) == 200) {
-    # Parse the response content
-    shark_data <- content(response, as = "text", encoding = content_encoding)
+    # Load the file into R as a data frame
+    parsed_table <- read.table(
+      file = file, 
+      sep = "\t", 
+      header = TRUE, 
+      encoding = content_encoding, 
+      fill = TRUE,
+      comment.char = ""
+    )
     
-    # Read content
-    parsed_table <- read.table(text = shark_data, 
-                               sep = "\t", 
-                               header = TRUE, 
-                               encoding = content_encoding,
-                               fill = TRUE)
+    if (!save_data) {
+      # Clean up temporary file
+      unlink(file)
+    }
     
     return(as_tibble(parsed_table))
   } else {
+    # Clean up temporary file in case of an error
+    unlink(file)
     stop("Failed to retrieve data: HTTP Status ", status_code(response), "\n", 
          content(response, as = "text", encoding = "UTF-8"))
   }
