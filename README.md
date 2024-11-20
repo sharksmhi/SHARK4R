@@ -27,12 +27,17 @@ devtools::install_github("sharksmhi/SHARK4R", dependencies = TRUE)
 
 ## Documentation and Tutorials
 
-### Download Data Using SHARK
+### Website
+
+For detailed information, please visit the project's [webpage](https://sharksmhi.github.io/SHARK4R/).
+
+### Tutorials
 
 Explore the features and capabilities of `SHARK4R` through these tutorial:
 
 - [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html)
 - [Retrieve Taxonomic Data From Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_taxonomic_data.html)
+- [Retrieve Data From WoRMS](https://sharksmhi.github.io/SHARK4R/articles/retrieve_worms_data.html)
 - [Retrieve Data From Nordic Microalgae](https://sharksmhi.github.io/SHARK4R/articles/retrieve_nordic_microalgae_data.html)
 
 ### Reference
