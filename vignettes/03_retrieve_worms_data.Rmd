@@ -116,9 +116,9 @@ scientific_name <- c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis
 aphia_id <- c(840626, 149013, 160566, NA)
 
 # Assign groups by providing both scientific name and Aphia ID
-plankton_groups <- assign_plankton_groups(scientific_name,
-                                          aphia_id,
-                                          verbose = FALSE)
+plankton_groups <- assign_phytoplankton_group(scientific_name,
+                                              aphia_id,
+                                              verbose = FALSE)
 
 # Print result
 head(plankton_groups)
