@@ -563,10 +563,8 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
                            projects = c(), datasets = c(), minSamplingDepth = "", maxSamplingDepth = "", 
                            redListedCategory = c(), taxonName = c(), stationName = c(), vattenDistrikt = c(), 
                            seaBasins = c(), counties = c(), municipalities = c(), waterCategories = c(), 
-                           typOmraden = c(), helcomOspar = c(), seaAreas = c(), hideEmptyColumns = FALSE, prod = TRUE,
-                           verbose = TRUE) {
-  
-  
+                           typOmraden = c(), helcomOspar = c(), seaAreas = c(), hideEmptyColumns = FALSE, 
+                           prod = TRUE, verbose = TRUE) {
   
   # Set up file path to .txt file
   if (save_data) {
@@ -592,21 +590,27 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
   if (inherits(url_response, "try-error") || http_error(url_response)) {
     stop("The SHARK ", ifelse(prod, "PROD", "TEST"), " server cannot be reached: ", url_short, ". Please check network connection.")
   }
-  
-  # Set download parameters
-  delimiters <- delimiters
-  lineEnd <- lineEnd
-  encoding <- encoding
 
   # Encoding translation
   encoding_map <- c("cp1252" = "windows-1252", 
                     "utf_8" = "UTF-8", 
                     "utf_16" = "UTF-16", 
-                    "latin_1" = "ISO-8859-1") # ISO-8859-1
+                    "latin_1" = "ISO-8859-1")
   
-  # Check if the provided encoding is valid, if not, default to UTF-8
+  if (!encoding %in% c("cp1252", "utf_8", "utf_16", "latin_1")) {
+    warning("'encoding' must be one of 'cp1252', 'utf_8', 'utf_16', or 'latin_1'. Defaulting to 'utf_8'.")
+    
+    encoding<-"utf_8"
+  }
+  
+  # Check if the provided encoding is valid
   content_encoding <- encoding_map[[encoding]]
-  if (is.null(content_encoding)) content_encoding <- "UTF-8"
+
+  if (!delimiters %in% c("point-tab", "point-semi")) {
+    warning("'delimiters' must be one of 'point-tab' or 'point-semi'. Defaulting to 'point-tab'.")
+    
+    delimiters<-"point-tab"
+  }
   
   # Map 'delimiters' input to actual separator
   sep_char <- switch(
@@ -615,6 +619,12 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     "point-semi" = ";",   # Semicolon-separated
     stop("Invalid 'delimiters' value. Use 'point-tab' or 'point-semi'.")
   )
+  
+  if (!lineEnd %in% c("win", "unix")) {
+    warning("'lineEnd' must be one of 'win' or 'unix'. Defaulting to 'win'.")
+    
+    lineEnd<-"win"
+  }
   
   # Create the JSON body as a list
   body <- list(

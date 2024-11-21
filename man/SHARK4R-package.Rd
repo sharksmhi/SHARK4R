@@ -4,7 +4,7 @@
 \name{SHARK4R-package}
 \alias{SHARK4R}
 \alias{SHARK4R-package}
-\title{SHARK4R: SHARK4R: Data Analysis, Quality Control, and Data Retrieval for Physical, Chemical, and Marine Biological Data from SHARK and Nordic Microalgae}
+\title{SHARK4R: SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
@@ -20,11 +20,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Markus Lindh \email{first.last@example.com} (\href{https://orcid.org/0000-0002-7120-4145}{ORCID})
+\strong{Maintainer}: Anders Torstensson \email{anders.torstensson@smhi.se} (\href{https://orcid.org/0000-0002-8283-656X}{ORCID}) (Swedish Meteorological and Hydrological Institute)
 
 Authors:
 \itemize{
-  \item Anders Torstensson \email{first.last@example.com} (\href{https://orcid.org/0000-0002-8283-656X}{ORCID}) (Swedish Meteorological and Hydrological Institute)
+  \item Markus Lindh (\href{https://orcid.org/0000-0002-7120-4145}{ORCID}) (Swedish Meteorological and Hydrological Institute)
 }
 
 Other contributors:

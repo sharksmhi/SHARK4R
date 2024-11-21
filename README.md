@@ -1,4 +1,4 @@
-# SHARK4R <a href="https://sharksmhi.github.io/SHARK4R/"><img src="man/figures/logo.png" align="right" height="139" alt="SHARK4R website" /></a>
+# SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae <a href="https://sharksmhi.github.io/SHARK4R/"><img src="man/figures/logo.png" align="right" height="139" alt="SHARK4R website" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml)
@@ -6,7 +6,7 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-## Data Analysis, Quality Control, and Data Retrieval for Physical, Chemical, and Marine Biological Data from SHARK and Nordic Microalgae
+## Overview
 
 This R package is equipped with a client application designed for integration 
 with API functions. It facilitates access to various databases, 
@@ -19,7 +19,7 @@ modified from <https://iobis.github.io/obistools>
 
 ## Installation
 
-### Installing SHARK4R requires the `devtools` package:
+Installing SHARK4R requires the `devtools` package:
 ```r
 # install.packages("devtools")
 devtools::install_github("sharksmhi/SHARK4R", dependencies = TRUE)
@@ -27,12 +27,17 @@ devtools::install_github("sharksmhi/SHARK4R", dependencies = TRUE)
 
 ## Documentation and Tutorials
 
-### Download Data Using SHARK
+### Website
+
+For detailed information, please visit the project's [webpage](https://sharksmhi.github.io/SHARK4R/).
+
+### Tutorials
 
 Explore the features and capabilities of `SHARK4R` through these tutorial:
 
 - [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html)
 - [Retrieve Taxonomic Data From Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_taxonomic_data.html)
+- [Retrieve Data From WoRMS](https://sharksmhi.github.io/SHARK4R/articles/retrieve_worms_data.html)
 - [Retrieve Data From Nordic Microalgae](https://sharksmhi.github.io/SHARK4R/articles/retrieve_nordic_microalgae_data.html)
 
 ### Reference
