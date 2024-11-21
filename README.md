@@ -1,4 +1,4 @@
-# SHARK4R <a href="https://sharksmhi.github.io/SHARK4R/"><img src="man/figures/logo.png" align="right" height="139" alt="SHARK4R website" /></a>
+# SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae <a href="https://sharksmhi.github.io/SHARK4R/"><img src="man/figures/logo.png" align="right" height="139" alt="SHARK4R website" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml)
@@ -6,7 +6,7 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-## Data Analysis, Quality Control, and Data Retrieval for Physical, Chemical, and Marine Biological Data from SHARK and Nordic Microalgae
+## Overview
 
 This R package is equipped with a client application designed for integration 
 with API functions. It facilitates access to various databases, 
@@ -19,7 +19,7 @@ modified from <https://iobis.github.io/obistools>
 
 ## Installation
 
-### Installing SHARK4R requires the `devtools` package:
+Installing SHARK4R requires the `devtools` package:
 ```r
 # install.packages("devtools")
 devtools::install_github("sharksmhi/SHARK4R", dependencies = TRUE)
