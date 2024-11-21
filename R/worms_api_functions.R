@@ -95,7 +95,8 @@ update_worms_taxonomy <- function(aphiaid) {
 #' 
 #' @export
 get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbose = TRUE) {
-  worms_records <- list()
+  worms_records <- list()  # Initialize an empty list to collect records for each ID
+  no_content_messages <- c()  # Store "No content" messages
   
   # Set up progress bar
   if (verbose) {pb <- txtProgressBar(min = 0, max = length(aphia_id), style = 3)}
@@ -103,21 +104,37 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
   for (id in seq_along(aphia_id)) {
     attempt <- 1
     worms_record <- NULL  # Initialize for the current aphia_id
+    success <- FALSE  # Track whether retrieval was successful
     
     # Update progress bar
     if (verbose) {setTxtProgressBar(pb, id)}
     
-    while (attempt <= max_retries) {
+    while (attempt <= max_retries && !success) {
       tryCatch({
         worms_record <- wm_record(aphia_id[id])
-        if (!is.null(worms_record)) break  # Exit retry loop if successful
+        
+        if (!is.null(worms_record)) {
+          success <- TRUE  # Exit retry loop if successful
+        }
       }, error = function(err) {
-        if (attempt == max_retries) {
-          stop("Error occurred while retrieving WoRMS records for ID ", aphia_id[id], 
-               " after ", max_retries, " attempts: ", conditionMessage(err))
+        error_message <- conditionMessage(err)
+        
+        # Check for 204 "No Content" response
+        if (grepl("204", error_message)) {
+          no_content_messages <<- c(no_content_messages, 
+                                    paste0("No WoRMS content for AphiaID '", aphia_id[id], "'"))
+          worms_record <<- data.frame(
+            AphiaID = aphia_id[id],
+            status = "no content",
+            stringsAsFactors = FALSE
+          )
+          success <<- TRUE  # Mark success to prevent further retries
+        } else if (attempt == max_retries) {
+          stop("Error occurred while retrieving WoRMS record for AphiaID ", aphia_id[id],
+               " after ", max_retries, " attempts: ", error_message)
         } else {
-          message("Attempt ", attempt, " failed for ID ", aphia_id[id], ": ", 
-                  conditionMessage(err), " - Retrying...")
+          message("Attempt ", attempt, " failed for AphiaID ", aphia_id[id], ": ", 
+                  error_message, " - Retrying...")
           Sys.sleep(sleep_time)
         }
       })
@@ -125,12 +142,24 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
       attempt <- attempt + 1
     }
     
-    if (!is.null(worms_record)) {
-      worms_records <- bind_rows(worms_records, worms_record)
+    # If still NULL after retries, insert a placeholder record
+    if (is.null(worms_record)) {
+      worms_record <- data.frame(
+        AphiaID = aphia_id[id],
+        status = "Failed",
+        stringsAsFactors = FALSE
+      )
     }
+    
+    worms_records <- bind_rows(worms_records, worms_record)  # Combine results
   }
   
   if (verbose) {close(pb)}
+  
+  # Print all "No content" messages after progress bar finishes
+  if (verbose && length(no_content_messages) > 0) {
+    cat(paste(no_content_messages, collapse = "\n"), "\n")
+  }
   
   worms_records
 }
@@ -267,11 +296,13 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #'   first word of the scientific name.
 #'
 #' @examples
+#' \dontrun{
 #' # Assign plankton groups to a list of species
 #' result <- assign_plankton_groups(
 #'   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
 #'   aphia_ids = c(840626, 149013, 160566, NA)
 #' )
+#'}
 #'
 #' @importFrom dplyr bind_rows case_when distinct filter left_join mutate select
 #' @importFrom stringr word
@@ -305,22 +336,46 @@ assign_plankton_groups <- function(scientific_names, aphia_ids = NULL, diatom_cl
   # Retrieve WoRMS records based on AphiaID
   if (length(valid_aphia_ids) > 0) {
     if (verbose) cat("Retrieving", length(valid_aphia_ids), "WoRMS records from input 'aphia_ids'.\n")
-    aphia_records <- get_worms_records(valid_aphia_ids, verbose = verbose)
+    aphia_records <- get_worms_records(valid_aphia_ids, verbose = verbose) %>% 
+      mutate(class = ifelse(status == "no content", NA, class),
+             phylum = ifelse(status == "no content", NA, phylum))
   } else {
-    aphia_records <- data.frame(AphiaID = NA)
+    aphia_records <- data.frame(AphiaID = NA_integer_, 
+                                status = NA_character_, 
+                                class = NA_character_, 
+                                phylum = NA_character_, 
+                                stringsAsFactors = FALSE)
   }
   
-  # Handle entries with missing AphiaIDs
-  missing_aphia_data <- unique_data[is.na(unique_data$aphia_id),]
-  if (verbose) cat("Retrieving", nrow(missing_aphia_data), "WoRMS records from input 'scientific_names'.\n")
-  missing_aphia_records <- get_worms_records_name(missing_aphia_data$scientific_name, 
-                                                  marine_only = marine_only,
-                                                  verbose = verbose)
+  # List IDs without content
+  no_content <- aphia_records %>%
+    filter(status == "no content")
   
+  # List IDs with content
+  aphia_records <- aphia_records %>%
+    filter(!status == "no content")
+  
+  # Handle entries with missing AphiaIDs
+  missing_aphia_data <- unique_data[is.na(unique_data$aphia_id) | unique_data$aphia_id %in% no_content$AphiaID,]
+  if (nrow(missing_aphia_data) > 0) {
+    if (verbose) cat("Retrieving", nrow(missing_aphia_data), "WoRMS records from input 'scientific_names'.\n")
+    missing_aphia_records <- get_worms_records_name(missing_aphia_data$scientific_name, 
+                                                    marine_only = marine_only,
+                                                    verbose = verbose) %>% 
+      mutate(class = ifelse(status == "no content", NA, class),
+             phylum = ifelse(status == "no content", NA, phylum))
+  } else {
+    missing_aphia_records <- data.frame(name = NA_character_,
+                                        AphiaID = NA_integer_,
+                                        class = NA_character_,
+                                        phylum = NA_character_,
+                                        stringsAsFactors = FALSE)
+  }
+
   # Merge records into input data
   matched_aphia_data <- unique_data %>%
     left_join(distinct(aphia_records), by = c("aphia_id" = "AphiaID")) %>%
-    filter(!is.na(aphia_id))
+    filter(!is.na(aphia_id) & !is.na(status))
   
   matched_missing_data <- missing_aphia_data %>%
     left_join(missing_aphia_records, by = c("scientific_name" = "name")) %>%

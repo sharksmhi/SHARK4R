@@ -52,11 +52,13 @@ querying WoRMS using the scientific name(s), with an additional fallback mechani
 first word of the scientific name.
 }
 \examples{
+\dontrun{
 # Assign plankton groups to a list of species
 result <- assign_plankton_groups(
   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
   aphia_ids = c(840626, 149013, 160566, NA)
 )
+}
 
 }
 \seealso{
