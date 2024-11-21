@@ -143,4 +143,3 @@ reference:
 - title: Deprecated functions
   contents:
   - has_lifecycle("deprecated")
-  

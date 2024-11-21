@@ -300,8 +300,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #' # Assign plankton groups to a list of species
 #' result <- assign_phytoplankton_group(
 #'   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
-#'   aphia_ids = c(840626, 149013, 160566, NA)
-#' )
+#'   aphia_ids = c(840626, 149013, 160566, NA))
 #'}
 #'
 #' @importFrom dplyr bind_rows case_when distinct filter left_join mutate select

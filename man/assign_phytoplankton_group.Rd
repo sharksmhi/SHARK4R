@@ -56,8 +56,7 @@ first word of the scientific name.
 # Assign plankton groups to a list of species
 result <- assign_phytoplankton_group(
   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
-  aphia_ids = c(840626, 149013, 160566, NA)
-)
+  aphia_ids = c(840626, 149013, 160566, NA))
 }
 
 }

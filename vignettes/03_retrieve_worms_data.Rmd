@@ -34,10 +34,10 @@ library(SHARK4R)
 
 ### Retrieve Phytoplankton Data From SHARK
 
-Phytoplankton data, including scientific names and AphiaIDs, are downloaded from SHARK. To see more download options, please visit the [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html) tutorial.
+Phytoplankton data, including scientific names and AphiaIDs, are downloaded from SHARK. To see more download options, please visit the [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/01_retrieve_shark_data.html) tutorial.
 
 ```{r}
-# Retrieve chlorophyll data for April to June from 2019 to 2020
+# Retrieve all phytoplankton data from April 2020
 shark_data <- get_shark_data(fromYear = 2020, 
                              toYear = 2020,
                              months = 4, 
@@ -92,7 +92,7 @@ tibble(worms_records)
 
 ### Update WoRMS Taxonomy
 
-SHARK sources taxonomic information from [Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_taxonomic_data.html), which is reflected in columns starting with `taxon_xxxxx`. Equivalent columns based on WoRMS can be retrieved using the [`update_worms_taxonomy`](../reference/update_worms_taxonomy.html) function.
+SHARK sources taxonomic information from [Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/02_retrieve_dyntaxa_data.html), which is reflected in columns starting with `taxon_xxxxx`. Equivalent columns based on WoRMS can be retrieved using the [`update_worms_taxonomy`](../reference/update_worms_taxonomy.html) function.
 
 ```{r}
 # Retrieve taxonomic table
