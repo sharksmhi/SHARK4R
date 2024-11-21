@@ -7,12 +7,13 @@
 assign_phytoplankton_group(
   scientific_names,
   aphia_ids = NULL,
-  diatom_class = "Bacillariophyceae",
+  diatom_class = c("Bacillariophyceae", "Coscinodiscophyceae", "Mediophyceae"),
   dinoflagellate_class = "Dinophyceae",
   cyanobacteria_class = "Cyanophyceae",
   cyanobacteria_phylum = "Cyanobacteria",
   match_first_word = TRUE,
   marine_only = FALSE,
+  return_class = FALSE,
   verbose = TRUE
 )
 }
@@ -21,17 +22,19 @@ assign_phytoplankton_group(
 
 \item{aphia_ids}{A numeric vector of Aphia IDs corresponding to the scientific names. If provided, it improves the accuracy and speed of the matching process. The length of \code{aphia_ids} must match the length of \code{scientific_names}. Defaults to \code{NULL}, in which case the function will attempt to assign plankton groups based only on the scientific names.}
 
-\item{diatom_class}{A character string representing the diatom class. Default is "Bacillariophyceae".}
+\item{diatom_class}{A character string or vector representing the diatom class. Default is "Bacillariophyceae", "Coscinodiscophyceae" and "Mediophyceae".}
 
-\item{dinoflagellate_class}{A character string representing the dinoflagellate class. Default is "Dinophyceae".}
+\item{dinoflagellate_class}{A character string or vector representing the dinoflagellate class. Default is "Dinophyceae".}
 
-\item{cyanobacteria_class}{A character string representing the cyanobacteria class. Default is "Cyanophyceae".}
+\item{cyanobacteria_class}{A character string or vector representing the cyanobacteria class. Default is "Cyanophyceae".}
 
-\item{cyanobacteria_phylum}{A character string representing the cyanobacteria phylum. Default is "Cyanobacteria".}
+\item{cyanobacteria_phylum}{A character string or vector representing the cyanobacteria phylum. Default is "Cyanobacteria".}
 
 \item{match_first_word}{A logical value indicating whether to match the first word of the scientific name if the Aphia ID is missing. Default is TRUE.}
 
 \item{marine_only}{A logical value indicating whether to restrict the results to marine taxa only. Default is \code{FALSE}.}
+
+\item{return_class}{A logical value indicating whether to include class information in the result. Default is \code{FALSE}.}
 
 \item{verbose}{A logical value indicating whether to print progress messages. Default is TRUE.}
 }

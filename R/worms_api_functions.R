@@ -279,12 +279,13 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #'
 #' @param scientific_names A character vector of scientific names of marine species.
 #' @param aphia_ids A numeric vector of Aphia IDs corresponding to the scientific names. If provided, it improves the accuracy and speed of the matching process. The length of `aphia_ids` must match the length of `scientific_names`. Defaults to `NULL`, in which case the function will attempt to assign plankton groups based only on the scientific names.
-#' @param diatom_class A character string representing the diatom class. Default is "Bacillariophyceae".
-#' @param dinoflagellate_class A character string representing the dinoflagellate class. Default is "Dinophyceae".
-#' @param cyanobacteria_class A character string representing the cyanobacteria class. Default is "Cyanophyceae".
-#' @param cyanobacteria_phylum A character string representing the cyanobacteria phylum. Default is "Cyanobacteria".
+#' @param diatom_class A character string or vector representing the diatom class. Default is "Bacillariophyceae", "Coscinodiscophyceae" and "Mediophyceae".
+#' @param dinoflagellate_class A character string or vector representing the dinoflagellate class. Default is "Dinophyceae".
+#' @param cyanobacteria_class A character string or vector representing the cyanobacteria class. Default is "Cyanophyceae".
+#' @param cyanobacteria_phylum A character string or vector representing the cyanobacteria phylum. Default is "Cyanobacteria".
 #' @param match_first_word A logical value indicating whether to match the first word of the scientific name if the Aphia ID is missing. Default is TRUE.
 #' @param marine_only A logical value indicating whether to restrict the results to marine taxa only. Default is `FALSE`.
+#' @param return_class A logical value indicating whether to include class information in the result. Default is `FALSE`.
 #' @param verbose A logical value indicating whether to print progress messages. Default is TRUE.
 #'
 #' @return A data frame with two columns: `scientific_name` and `plankton_group`, where the plankton group is assigned based on taxonomic classification.
@@ -310,10 +311,11 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #' @seealso \url{https://cran.r-project.org/web/packages/worrms/index.html}
 #' 
 #' @export
-assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL, diatom_class = "Bacillariophyceae", 
+assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL, 
+                                       diatom_class = c("Bacillariophyceae", "Coscinodiscophyceae", "Mediophyceae"),
                                        dinoflagellate_class = "Dinophyceae", cyanobacteria_class = "Cyanophyceae", 
                                        cyanobacteria_phylum = "Cyanobacteria", match_first_word = TRUE, 
-                                       marine_only = FALSE, verbose = TRUE) {
+                                       marine_only = FALSE, return_class = FALSE, verbose = TRUE) {
   # Ensure input lengths match
   if (!length(aphia_ids) == length(scientific_names) & !is.null(aphia_ids)) {
     stop("'aphia_ids' and 'scientific_names' must have the same length.")
@@ -336,8 +338,8 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL, diato
   if (length(valid_aphia_ids) > 0) {
     if (verbose) cat("Retrieving", length(valid_aphia_ids), "WoRMS records from input 'aphia_ids'.\n")
     aphia_records <- get_worms_records(valid_aphia_ids, verbose = verbose) %>% 
-      mutate(class = ifelse(status == "no content", NA, class),
-             phylum = ifelse(status == "no content", NA, phylum))
+      mutate(class = as.character(ifelse(status == "no content", NA, class)),
+             phylum = as.character(ifelse(status == "no content", NA, phylum)))
   } else {
     aphia_records <- data.frame(AphiaID = NA_integer_, 
                                 status = NA_character_, 
@@ -361,8 +363,8 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL, diato
     missing_aphia_records <- get_worms_records_name(missing_aphia_data$scientific_name, 
                                                     marine_only = marine_only,
                                                     verbose = verbose) %>% 
-      mutate(class = ifelse(status == "no content", NA, class),
-             phylum = ifelse(status == "no content", NA, phylum))
+      mutate(class = as.character(ifelse(status == "no content", NA, class)),
+             phylum = as.character(ifelse(status == "no content", NA, phylum)))
   } else {
     missing_aphia_records <- data.frame(name = NA_character_,
                                         AphiaID = NA_integer_,
@@ -445,10 +447,17 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL, diato
     message("No plankton group found for '", unknown_classifications$scientific_name[group], "', placing in 'Other'.")
   }
   
-  class_mapping <- class_mapping %>%
-    mutate(plankton_group = ifelse(is.na(plankton_group), "Other", plankton_group)) %>%
-    select(scientific_name, plankton_group) %>%
-    distinct()
+  if (return_class) {
+    class_mapping <- class_mapping %>%
+      mutate(plankton_group = ifelse(is.na(plankton_group), "Other", plankton_group)) %>%
+      select(scientific_name, class, plankton_group) %>%
+      distinct()
+  } else {
+    class_mapping <- class_mapping %>%
+      mutate(plankton_group = ifelse(is.na(plankton_group), "Other", plankton_group)) %>%
+      select(scientific_name, plankton_group) %>%
+      distinct()
+  }
   
   # Finalize output
   final_output <- input_data %>%
