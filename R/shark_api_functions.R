@@ -545,7 +545,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @importFrom dplyr mutate everything across
 #' @importFrom tibble as_tibble
 #' @importFrom utils read.table
-#' @importFrom readr read_tsv cols locale
+#' @importFrom readr read_delim cols locale
 #'
 #' @examples
 #' \dontrun{
@@ -672,10 +672,11 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
   # Check response status
   if (status_code(response) == 200) {
     # Load the file into R as a tibble
-    parsed_table<-read_tsv(file,
-                           locale = locale(encoding = content_encoding),
-                           col_types = cols(),
-                           progress = FALSE)
+    parsed_table<-read_delim(file = file,
+                             delim = sep_char,
+                             locale = locale(encoding = content_encoding),
+                             col_types = cols(),
+                             progress = FALSE)
     
     if (!save_data) {
       # Clean up temporary file
