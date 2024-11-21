@@ -37,7 +37,7 @@ library(SHARK4R)
 Phytoplankton data, including scientific names and AphiaIDs, are downloaded from SHARK. To see more download options, please visit the [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html) tutorial.
 
 ```{r}
-# Retrieve chlorophyll data for April to June from 2019 to 2020
+# Retrieve all phytoplankton data from April 2020
 shark_data <- get_shark_data(fromYear = 2020, 
                              toYear = 2020,
                              months = 4, 
@@ -92,7 +92,7 @@ tibble(worms_records)
 
 ### Update WoRMS Taxonomy
 
-SHARK sources taxonomic information from [Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_taxonomic_data.html), which is reflected in columns starting with `taxon_xxxxx`. Equivalent columns based on WoRMS can be retrieved using the [`update_worms_taxonomy`](../reference/update_worms_taxonomy.html) function.
+SHARK sources taxonomic information from [Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_dyntaxa_data.html), which is reflected in columns starting with `taxon_xxxxx`. Equivalent columns based on WoRMS can be retrieved using the [`update_worms_taxonomy`](../reference/update_worms_taxonomy.html) function.
 
 ```{r}
 # Retrieve taxonomic table
@@ -116,16 +116,16 @@ scientific_name <- c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis
 aphia_id <- c(840626, 149013, 160566, NA)
 
 # Assign groups by providing both scientific name and Aphia ID
-plankton_groups <- assign_plankton_groups(scientific_name,
-                                          aphia_id,
-                                          verbose = FALSE)
+plankton_groups <- assign_phytoplankton_group(scientific_name,
+                                              aphia_id,
+                                              verbose = FALSE)
 
 # Print result
 head(plankton_groups)
 
 # Match only with scientific name
-plankton_groups_name <- assign_plankton_groups(scientific_name,
-                                               verbose = FALSE)
+plankton_groups_name <- assign_phytoplankton_group(scientific_name,
+                                                   verbose = FALSE)
 
 # Print result
 head(plankton_groups_name)

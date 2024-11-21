@@ -2,6 +2,22 @@ url: https://sharksmhi.github.io/SHARK4R/
 template:
   bootstrap: 5
 
+navbar:
+  left:
+    - text: "Tutorials"
+      href: articles/index.html
+      menu:
+        - text: "Retrieve Shark Data"
+          href: articles/retrieve_shark_data.html
+        - text: "Retrieve Dyntaxa Data"
+          href: articles/retrieve_dyntaxa_data.html
+        - text: "Retrieve WoRMS Data"
+          href: articles/retrieve_worms_data.html
+        - text: "Retrieve Nordic Microalgae Data"
+          href: articles/retrieve_nordic_microalgae_data.html
+    - text: "Reference"
+      href: reference/index.html
+
 reference:
 - title: Retrieve Data
 
@@ -34,7 +50,7 @@ reference:
 - subtitle: WoRMS
   desc: These functions are used to retireve data from the WoRMS API
   contents:
-  - assign_plankton_groups
+  - assign_phytoplankton_group
   - get_worms_records
   - get_worms_records_name
   - update_worms_taxonomy
@@ -143,4 +159,3 @@ reference:
 - title: Deprecated functions
   contents:
   - has_lifecycle("deprecated")
-  
