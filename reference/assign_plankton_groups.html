@@ -13,7 +13,7 @@ handles missing records, and assigns the appropriate plankton group based on tax
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ handles missing records, and assigns the appropriate plankton group based on tax
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Assign Plankton Group to Scientific Names</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.0.1.1/R/worms_api_functions.R" class="external-link"><code>R/worms_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/worms_api_functions.R" class="external-link"><code>R/worms_api_functions.R</code></a></small>
       <div class="d-none name"><code>assign_plankton_groups.Rd</code></div>
     </div>
 
@@ -125,15 +125,13 @@ first word of the scientific name.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Assign plankton groups to a list of species</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># Assign plankton groups to a list of species</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">assign_plankton_groups</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  scientific_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tripos fusus"</span>, <span class="st">"Diatoma"</span>, <span class="st">"Nodularia spumigena"</span>, <span class="st">"Octactis speculum"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  aphia_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">840626</span>, <span class="fl">149013</span>, <span class="fl">160566</span>, <span class="cn">NA</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Retrieving 3 WoRMS records from input 'aphia_ids'.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Retrieving 1 WoRMS records from input 'scientific_names'.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   |                                                                              |                                                                      |   0%  |                                                                              |======================================================================| 100%</span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

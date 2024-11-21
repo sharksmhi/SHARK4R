@@ -11,7 +11,7 @@ retrieved data as a structured data.frame. To view available filter options, see
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@ retrieved data as a structured data.frame. To view available filter options, see
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve Data from SHARK API</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.0.1.1/R/shark_api_functions.R" class="external-link"><code>R/shark_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/shark_api_functions.R" class="external-link"><code>R/shark_api_functions.R</code></a></small>
       <div class="d-none name"><code>get_shark_data.Rd</code></div>
     </div>
 
@@ -53,11 +53,15 @@ retrieved data as a structured <code>data.frame</code>. To view available filter
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_shark_data</span><span class="op">(</span></span>
 <span>  tableView <span class="op">=</span> <span class="st">"sharkweb_overview"</span>,</span>
 <span>  headerLang <span class="op">=</span> <span class="st">"internal_key"</span>,</span>
-<span>  hideEmptyColumns <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  save_data <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  file_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  delimiters <span class="op">=</span> <span class="st">"point-tab"</span>,</span>
+<span>  lineEnd <span class="op">=</span> <span class="st">"win"</span>,</span>
+<span>  encoding <span class="op">=</span> <span class="st">"utf_8"</span>,</span>
+<span>  dataTypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  fromYear <span class="op">=</span> <span class="fl">2019</span>,</span>
 <span>  toYear <span class="op">=</span> <span class="fl">2020</span>,</span>
 <span>  months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  dataTypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  checkStatus <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  qualityFlags <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -78,9 +82,8 @@ retrieved data as a structured <code>data.frame</code>. To view available filter
 <span>  typOmraden <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  helcomOspar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  seaAreas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  hideEmptyColumns <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  prod <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  save_data <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  file_path <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -177,8 +180,34 @@ retrieved data as a structured <code>data.frame</code>. To view available filter
 </ul></dd>
 
 
-<dt id="arg-hideemptycolumns">hideEmptyColumns<a class="anchor" aria-label="anchor" href="#arg-hideemptycolumns"></a></dt>
-<dd><p>Logical. Whether to hide empty columns. Default is <code>FALSE</code>.</p></dd>
+<dt id="arg-save-data">save_data<a class="anchor" aria-label="anchor" href="#arg-save-data"></a></dt>
+<dd><p>Logical. If TRUE, the data will be saved to a specified file in UTF-8 encoding. If FALSE, a temporary file will be created instead.</p></dd>
+
+
+<dt id="arg-file-path">file_path<a class="anchor" aria-label="anchor" href="#arg-file-path"></a></dt>
+<dd><p>Character. The file path where the data should be saved. Required if <code>save_data</code> is TRUE. Ignored if <code>save_data</code> is FALSE.</p></dd>
+
+
+<dt id="arg-delimiters">delimiters<a class="anchor" aria-label="anchor" href="#arg-delimiters"></a></dt>
+<dd><p>Character. Specifies the delimiter used to separate values in the file, if <code>save_data</code> is TRUE.
+Options are <code>"point-tab"</code> (tab-separated) or <code>"point-semi"</code> (semicolon-separated).
+Default is <code>"point-tab"</code>.</p></dd>
+
+
+<dt id="arg-lineend">lineEnd<a class="anchor" aria-label="anchor" href="#arg-lineend"></a></dt>
+<dd><p>Character. Defines the type of line endings in the file, if <code>save_data</code> is TRUE.
+Options are <code>"win"</code> (Windows-style, <code>\r\n</code>) or <code>"unix"</code> (Unix-style, <code>\n</code>).
+Default is <code>"win"</code>.</p></dd>
+
+
+<dt id="arg-encoding">encoding<a class="anchor" aria-label="anchor" href="#arg-encoding"></a></dt>
+<dd><p>Character. Sets the file's text encoding, if <code>save_data</code> is TRUE.
+Options are <code>"cp1252"</code>, <code>"utf_8"</code>, <code>"utf_16"</code>, or <code>"latin_1"</code>.
+Default is <code>"utf_8"</code>.</p></dd>
+
+
+<dt id="arg-datatypes">dataTypes<a class="anchor" aria-label="anchor" href="#arg-datatypes"></a></dt>
+<dd><p>Character vector. Specifies data types to filter, such as <code>"Chlorophyll"</code>, <code>"Epibenthos"</code>, etc.</p></dd>
 
 
 <dt id="arg-fromyear">fromYear<a class="anchor" aria-label="anchor" href="#arg-fromyear"></a></dt>
@@ -191,10 +220,6 @@ retrieved data as a structured <code>data.frame</code>. To view available filter
 
 <dt id="arg-months">months<a class="anchor" aria-label="anchor" href="#arg-months"></a></dt>
 <dd><p>Integer vector. The months to retrieve data for, e.g., <code>c(4, 5, 6)</code> for April to June.</p></dd>
-
-
-<dt id="arg-datatypes">dataTypes<a class="anchor" aria-label="anchor" href="#arg-datatypes"></a></dt>
-<dd><p>Character vector. Specifies data types to filter, such as <code>"Chlorophyll"</code>, <code>"Epibenthos"</code>, etc.</p></dd>
 
 
 <dt id="arg-parameters">parameters<a class="anchor" aria-label="anchor" href="#arg-parameters"></a></dt>
@@ -277,16 +302,12 @@ retrieved data as a structured <code>data.frame</code>. To view available filter
 <dd><p>Character vector. Sea area codes to filter by specific sea areas.</p></dd>
 
 
+<dt id="arg-hideemptycolumns">hideEmptyColumns<a class="anchor" aria-label="anchor" href="#arg-hideemptycolumns"></a></dt>
+<dd><p>Logical. Whether to hide empty columns. Default is <code>FALSE</code>.</p></dd>
+
+
 <dt id="arg-prod">prod<a class="anchor" aria-label="anchor" href="#arg-prod"></a></dt>
 <dd><p>Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is <code>TRUE</code> (PROD).</p></dd>
-
-
-<dt id="arg-save-data">save_data<a class="anchor" aria-label="anchor" href="#arg-save-data"></a></dt>
-<dd><p>Logical. If TRUE, the data will be saved to a specified file in UTF-8 encoding. If FALSE, a temporary file will be created instead.</p></dd>
-
-
-<dt id="arg-file-path">file_path<a class="anchor" aria-label="anchor" href="#arg-file-path"></a></dt>
-<dd><p>Character. The file path where the data should be saved. Required if <code>save_data</code> is TRUE. Ignored if <code>save_data</code> is FALSE.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
