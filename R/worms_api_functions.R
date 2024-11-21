@@ -270,9 +270,9 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
   
   worms_records
 }
-#' Assign Plankton Group to Scientific Names
+#' Assign Phytoplankton Group to Scientific Names
 #' 
-#' This function assigns plankton groups (Diatoms, Dinoflagellates, Cyanobacteria, or Other) 
+#' This function assigns phytoplankton groups (Diatoms, Dinoflagellates, Cyanobacteria, or Other) 
 #' to a list of scientific names or Aphia IDs by retrieving species information from the 
 #' World Register of Marine Species (WoRMS). The function checks both Aphia IDs and scientific names, 
 #' handles missing records, and assigns the appropriate plankton group based on taxonomic classification in WoRMS.
@@ -298,7 +298,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #' @examples
 #' \dontrun{
 #' # Assign plankton groups to a list of species
-#' result <- assign_plankton_groups(
+#' result <- assign_phytoplankton_group(
 #'   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
 #'   aphia_ids = c(840626, 149013, 160566, NA)
 #' )
@@ -311,10 +311,10 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #' @seealso \url{https://cran.r-project.org/web/packages/worrms/index.html}
 #' 
 #' @export
-assign_plankton_groups <- function(scientific_names, aphia_ids = NULL, diatom_class = "Bacillariophyceae", 
-                                   dinoflagellate_class = "Dinophyceae", cyanobacteria_class = "Cyanophyceae", 
-                                   cyanobacteria_phylum = "Cyanobacteria", match_first_word = TRUE, 
-                                   marine_only = FALSE, verbose = TRUE) {
+assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL, diatom_class = "Bacillariophyceae", 
+                                       dinoflagellate_class = "Dinophyceae", cyanobacteria_class = "Cyanophyceae", 
+                                       cyanobacteria_phylum = "Cyanobacteria", match_first_word = TRUE, 
+                                       marine_only = FALSE, verbose = TRUE) {
   # Ensure input lengths match
   if (!length(aphia_ids) == length(scientific_names) & !is.null(aphia_ids)) {
     stop("'aphia_ids' and 'scientific_names' must have the same length.")
