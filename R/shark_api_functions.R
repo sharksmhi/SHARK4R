@@ -545,6 +545,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @importFrom dplyr mutate everything across
 #' @importFrom tibble as_tibble
 #' @importFrom utils read.table
+#' @importFrom readr read_tsv cols locale
 #'
 #' @examples
 #' \dontrun{
@@ -601,7 +602,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
   encoding_map <- c("cp1252" = "windows-1252", 
                     "utf_8" = "UTF-8", 
                     "utf_16" = "UTF-16", 
-                    "latin_1" = "ISO-8859-1")
+                    "latin_1" = "ISO-8859-1") # ISO-8859-1
   
   # Check if the provided encoding is valid, if not, default to UTF-8
   content_encoding <- encoding_map[[encoding]]
@@ -670,23 +671,18 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
   
   # Check response status
   if (status_code(response) == 200) {
-    # Load the file into R as a data frame
-    parsed_table <- read.table( # Blir fel med latin1
-      file = file, 
-      sep = sep_char, 
-      header = TRUE, 
-      encoding = content_encoding, 
-      fileEncoding = content_encoding,
-      fill = TRUE,
-      comment.char = ""
-    )
+    # Load the file into R as a tibble
+    parsed_table<-read_tsv(file,
+                           locale = locale(encoding = content_encoding),
+                           col_types = cols(),
+                           progress = FALSE)
     
     if (!save_data) {
       # Clean up temporary file
       unlink(file)
     }
     
-    return(as_tibble(parsed_table))
+    return(parsed_table)
   } else {
     # Clean up temporary file in case of an error
     unlink(file)
