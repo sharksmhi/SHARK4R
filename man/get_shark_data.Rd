@@ -7,11 +7,15 @@
 get_shark_data(
   tableView = "sharkweb_overview",
   headerLang = "internal_key",
-  hideEmptyColumns = FALSE,
+  save_data = FALSE,
+  file_path = NULL,
+  delimiters = "point-tab",
+  lineEnd = "win",
+  encoding = "utf_8",
+  dataTypes = c(),
   fromYear = 2019,
   toYear = 2020,
   months = c(),
-  dataTypes = c(),
   parameters = c(),
   checkStatus = "",
   qualityFlags = c(),
@@ -32,9 +36,8 @@ get_shark_data(
   typOmraden = c(),
   helcomOspar = c(),
   seaAreas = c(),
+  hideEmptyColumns = FALSE,
   prod = TRUE,
-  save_data = FALSE,
-  file_path = NULL,
   verbose = TRUE
 )
 }
@@ -77,15 +80,29 @@ Default is \code{"sharkweb_overview"}.}
 \item \code{"internal_key"}: Internal key (default).
 }}
 
-\item{hideEmptyColumns}{Logical. Whether to hide empty columns. Default is \code{FALSE}.}
+\item{save_data}{Logical. If TRUE, the data will be saved to a specified file in UTF-8 encoding. If FALSE, a temporary file will be created instead.}
+
+\item{file_path}{Character. The file path where the data should be saved. Required if \code{save_data} is TRUE. Ignored if \code{save_data} is FALSE.}
+
+\item{delimiters}{Character. Specifies the delimiter used to separate values in the file, if \code{save_data} is TRUE.
+Options are \code{"point-tab"} (tab-separated) or \code{"point-semi"} (semicolon-separated).
+Default is \code{"point-tab"}.}
+
+\item{lineEnd}{Character. Defines the type of line endings in the file, if \code{save_data} is TRUE.
+Options are \code{"win"} (Windows-style, \verb{\\r\\n}) or \code{"unix"} (Unix-style, \verb{\\n}).
+Default is \code{"win"}.}
+
+\item{encoding}{Character. Sets the file's text encoding, if \code{save_data} is TRUE.
+Options are \code{"cp1252"}, \code{"utf_8"}, \code{"utf_16"}, or \code{"latin_1"}.
+Default is \code{"utf_8"}.}
+
+\item{dataTypes}{Character vector. Specifies data types to filter, such as \code{"Chlorophyll"}, \code{"Epibenthos"}, etc.}
 
 \item{fromYear}{Integer. Starting year for data retrieval. Default is \code{2019}.}
 
 \item{toYear}{Integer. Ending year for data retrieval. Default is \code{2020}.}
 
 \item{months}{Integer vector. The months to retrieve data for, e.g., \code{c(4, 5, 6)} for April to June.}
-
-\item{dataTypes}{Character vector. Specifies data types to filter, such as \code{"Chlorophyll"}, \code{"Epibenthos"}, etc.}
 
 \item{parameters}{Character vector. Optional parameters to filter the results by, such as \code{"Chlorophyll-a"}.}
 
@@ -127,11 +144,9 @@ Default is \code{"sharkweb_overview"}.}
 
 \item{seaAreas}{Character vector. Sea area codes to filter by specific sea areas.}
 
+\item{hideEmptyColumns}{Logical. Whether to hide empty columns. Default is \code{FALSE}.}
+
 \item{prod}{Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is \code{TRUE} (PROD).}
-
-\item{save_data}{Logical. If TRUE, the data will be saved to a specified file in UTF-8 encoding. If FALSE, a temporary file will be created instead.}
-
-\item{file_path}{Character. The file path where the data should be saved. Required if \code{save_data} is TRUE. Ignored if \code{save_data} is FALSE.}
 
 \item{verbose}{Logical. Whether to display progress information. Default is \code{TRUE}.}
 }

@@ -494,11 +494,21 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #'     \item `"short"`: Shortened version.
 #'     \item `"internal_key"`: Internal key (default).
 #'   }
-#' @param hideEmptyColumns Logical. Whether to hide empty columns. Default is `FALSE`.
+#' @param save_data Logical. If TRUE, the data will be saved to a specified file in UTF-8 encoding. If FALSE, a temporary file will be created instead.
+#' @param file_path Character. The file path where the data should be saved. Required if `save_data` is TRUE. Ignored if `save_data` is FALSE.
+#' @param delimiters Character. Specifies the delimiter used to separate values in the file, if `save_data` is TRUE. 
+#'   Options are `"point-tab"` (tab-separated) or `"point-semi"` (semicolon-separated). 
+#'   Default is `"point-tab"`.
+#' @param lineEnd Character. Defines the type of line endings in the file, if `save_data` is TRUE. 
+#'   Options are `"win"` (Windows-style, `\r\n`) or `"unix"` (Unix-style, `\n`). 
+#'   Default is `"win"`.
+#' @param encoding Character. Sets the file's text encoding, if `save_data` is TRUE. 
+#'   Options are `"cp1252"`, `"utf_8"`, `"utf_16"`, or `"latin_1"`. 
+#'   Default is `"utf_8"`.
+#' @param dataTypes Character vector. Specifies data types to filter, such as `"Chlorophyll"`, `"Epibenthos"`, etc.
 #' @param fromYear Integer. Starting year for data retrieval. Default is `2019`.
 #' @param toYear Integer. Ending year for data retrieval. Default is `2020`.
 #' @param months Integer vector. The months to retrieve data for, e.g., `c(4, 5, 6)` for April to June.
-#' @param dataTypes Character vector. Specifies data types to filter, such as `"Chlorophyll"`, `"Epibenthos"`, etc.
 #' @param parameters Character vector. Optional parameters to filter the results by, such as `"Chlorophyll-a"`.
 #' @param checkStatus Character string. Optional status check to filter results.
 #' @param qualityFlags Character vector. Quality flags to filter the data.
@@ -519,9 +529,8 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @param typOmraden Character vector. Type areas to filter by.
 #' @param helcomOspar Character vector. HELCOM or OSPAR areas for regional filtering.
 #' @param seaAreas Character vector. Sea area codes to filter by specific sea areas.
+#' @param hideEmptyColumns Logical. Whether to hide empty columns. Default is `FALSE`.
 #' @param prod Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is `TRUE` (PROD).
-#' @param save_data Logical. If TRUE, the data will be saved to a specified file in UTF-8 encoding. If FALSE, a temporary file will be created instead.
-#' @param file_path Character. The file path where the data should be saved. Required if `save_data` is TRUE. Ignored if `save_data` is FALSE.
 #' @param verbose Logical. Whether to display progress information. Default is `TRUE`.
 #' 
 #' @return A `data.frame` containing the retrieved SHARK data, with column names based on the API's response.
@@ -546,14 +555,17 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' }
 #'
 #' @export
-get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "internal_key", hideEmptyColumns = FALSE, 
-                           fromYear = 2019, toYear = 2020, months = c(), dataTypes = c(), parameters = c(), 
+get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "internal_key", save_data = FALSE,
+                           file_path = NULL, delimiters = "point-tab", lineEnd = "win", encoding = "utf_8",
+                           dataTypes = c(), fromYear = 2019, toYear = 2020, months = c(), parameters = c(), 
                            checkStatus = "", qualityFlags = c(), deliverers = c(), orderers = c(), 
                            projects = c(), datasets = c(), minSamplingDepth = "", maxSamplingDepth = "", 
                            redListedCategory = c(), taxonName = c(), stationName = c(), vattenDistrikt = c(), 
                            seaBasins = c(), counties = c(), municipalities = c(), waterCategories = c(), 
-                           typOmraden = c(), helcomOspar = c(), seaAreas = c(), prod = TRUE, save_data = FALSE, 
-                           file_path = NULL, verbose = TRUE) {
+                           typOmraden = c(), helcomOspar = c(), seaAreas = c(), hideEmptyColumns = FALSE, prod = TRUE,
+                           verbose = TRUE) {
+  
+  
   
   # Set up file path to .txt file
   if (save_data) {
@@ -581,10 +593,27 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
   }
   
   # Set download parameters
-  delimiters <- "point-tab"
-  lineEnd <- "win"
-  encoding <- "utf_8"
-  content_encoding <- "UTF-8"
+  delimiters <- delimiters
+  lineEnd <- lineEnd
+  encoding <- encoding
+
+  # Encoding translation
+  encoding_map <- c("cp1252" = "windows-1252", 
+                    "utf_8" = "UTF-8", 
+                    "utf_16" = "UTF-16", 
+                    "latin_1" = "ISO-8859-1")
+  
+  # Check if the provided encoding is valid, if not, default to UTF-8
+  content_encoding <- encoding_map[[encoding]]
+  if (is.null(content_encoding)) content_encoding <- "UTF-8"
+  
+  # Map 'delimiters' input to actual separator
+  sep_char <- switch(
+    delimiters,
+    "point-tab" = "\t",   # Tab-separated
+    "point-semi" = ";",   # Semicolon-separated
+    stop("Invalid 'delimiters' value. Use 'point-tab' or 'point-semi'.")
+  )
   
   # Create the JSON body as a list
   body <- list(
@@ -642,11 +671,12 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
   # Check response status
   if (status_code(response) == 200) {
     # Load the file into R as a data frame
-    parsed_table <- read.table(
+    parsed_table <- read.table( # Blir fel med latin1
       file = file, 
-      sep = "\t", 
+      sep = sep_char, 
       header = TRUE, 
       encoding = content_encoding, 
+      fileEncoding = content_encoding,
       fill = TRUE,
       comment.char = ""
     )
