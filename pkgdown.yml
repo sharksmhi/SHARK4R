@@ -2,11 +2,11 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
+  retrieve_dyntaxa_data: retrieve_dyntaxa_data.html
   retrieve_nordic_microalgae_data: retrieve_nordic_microalgae_data.html
   retrieve_shark_data: retrieve_shark_data.html
-  retrieve_taxonomic_data: retrieve_taxonomic_data.html
   retrieve_worms_data: retrieve_worms_data.html
-last_built: 2024-11-21T09:04Z
+last_built: 2024-11-21T11:16Z
 urls:
   reference: https://sharksmhi.github.io/SHARK4R/reference
   article: https://sharksmhi.github.io/SHARK4R/articles
