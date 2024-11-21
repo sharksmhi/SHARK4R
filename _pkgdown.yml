@@ -2,6 +2,22 @@ url: https://sharksmhi.github.io/SHARK4R/
 template:
   bootstrap: 5
 
+navbar:
+  left:
+    - text: "Tutorials"
+      href: articles/index.html
+      menu:
+        - text: "Retrieve Shark Data"
+          href: articles/retrieve_shark_data.html
+        - text: "Retrieve Dyntaxa Data"
+          href: articles/retrieve_dyntaxa_data.html
+        - text: "Retrieve WoRMS Data"
+          href: articles/retrieve_worms_data.html
+        - text: "Retrieve Nordic Microalgae Data"
+          href: articles/retrieve_nordic_microalgae_data.html
+    - text: "Reference"
+      href: reference/index.html
+
 reference:
 - title: Retrieve Data
 
