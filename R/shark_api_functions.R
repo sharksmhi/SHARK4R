@@ -458,33 +458,33 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' to the SHARK API with customizable filters, including year, month, taxon name, water category, and more, and returns the 
 #' retrieved data as a structured `data.frame`. To view available filter options, see \code{\link{get_shark_options}}.
 #'
-#' @param tableView Character. Specifies the view of the table to retrieve. Options include:
-#'   \describe{
-#'     \item{"sharkweb_overview"}{}
-#'     \item{"sharkweb_all"}{}
-#'     \item{"sharkdata_bacterioplankton"}{}
-#'     \item{"sharkdata_chlorophyll"}{}
-#'     \item{"sharkdata_epibenthos"}{}
-#'     \item{"sharkdata_greyseal"}{}
-#'     \item{"sharkdata_harbourporpoise"}{}
-#'     \item{"sharkdata_harbourseal"}{}
-#'     \item{"sharkdata_jellyfish"}{}
-#'     \item{"sharkdata_physicalchemical_columns"}{}
-#'     \item{"sharkdata_phytoplankton"}{}
-#'     \item{"sharkdata_picoplankton"}{}
-#'     \item{"sharkdata_planktonbarcoding"}{}
-#'     \item{"sharkdata_primaryproduction"}{}
-#'     \item{"sharkdata_ringedseal"}{}
-#'     \item{"sharkdata_sealpathology"}{}
-#'     \item{"sharkdata_sedimentation"}{}
-#'     \item{"sharkdata_zoobenthos"}{}
-#'     \item{"sharkdata_zooplankton"}{}
-#'     \item{"report_sum_year_param"}{}
-#'     \item{"report_sum_year_param_taxon"}{}
-#'     \item{"report_sampling_per_station"}{}
-#'     \item{"report_obs_taxon"}{}
-#'     \item{"report_stations"}{}
-#'     \item{"report_taxon"}{}
+#' @param tableView Character. Specifies the columns of the table to retrieve. Options include:
+#'   \itemize{
+#'     \item `"sharkweb_overview"`: Overview table
+#'     \item `"sharkweb_all"`: All available columns
+#'     \item `"sharkdata_bacterioplankton"`: Bacterioplankton table
+#'     \item `"sharkdata_chlorophyll"`: Chlorophyll table
+#'     \item `"sharkdata_epibenthos"`: Epibenthos table
+#'     \item `"sharkdata_greyseal"`: Greyseal table
+#'     \item `"sharkdata_harbourporpoise"`: Harbour porpoise table
+#'     \item `"sharkdata_harbourseal`: Harbour seal table
+#'     \item `"sharkdata_jellyfish"`: Jellyfish table
+#'     \item `"sharkdata_physicalchemical_columns"`: Physical chemical table
+#'     \item `"sharkdata_phytoplankton"`: Phytoplankton table
+#'     \item `"sharkdata_picoplankton"`: Picoplankton table
+#'     \item `"sharkdata_planktonbarcoding"`: Planktonbarcoding table
+#'     \item `"sharkdata_primaryproduction"`: Primary production table
+#'     \item `"sharkdata_ringedseal"`: Ringed seal table
+#'     \item `"sharkdata_sealpathology"`: Seal pathology table
+#'     \item `"sharkdata_sedimentation"`: Sedimentation table
+#'     \item `"sharkdata_zoobenthos"`: Zoobenthos table
+#'     \item `"sharkdata_zooplankton"`: Zooplankton table
+#'     \item `"report_sum_year_param"`: Report sum per year and parameter
+#'     \item `"report_sum_year_param_taxon"`: Report sum per year, parameter and taxon
+#'     \item `"report_sampling_per_station"`: Report sampling per station
+#'     \item `"report_obs_taxon"`: Report observed taxa
+#'     \item `"report_stations"`: Report stations
+#'     \item `"report_taxon"`: Report taxa
 #'   }
 #'   Default is `"sharkweb_overview"`.
 #' @param headerLang Character. Language option for column headers. Possible values:
@@ -494,7 +494,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #'     \item `"short"`: Shortened version.
 #'     \item `"internal_key"`: Internal key (default).
 #'   }
-#' @param save_data Logical. If TRUE, the data will be saved to a specified file in UTF-8 encoding. If FALSE, a temporary file will be created instead.
+#' @param save_data Logical. If TRUE, the data will be saved to a specified file (see `file_path`). If FALSE, a temporary file will be created instead.
 #' @param file_path Character. The file path where the data should be saved. Required if `save_data` is TRUE. Ignored if `save_data` is FALSE.
 #' @param delimiters Character. Specifies the delimiter used to separate values in the file, if `save_data` is TRUE. 
 #'   Options are `"point-tab"` (tab-separated) or `"point-semi"` (semicolon-separated). 

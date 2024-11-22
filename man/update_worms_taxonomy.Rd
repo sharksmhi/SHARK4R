@@ -2,17 +2,24 @@
 % Please edit documentation in R/worms_api_functions.R
 \name{update_worms_taxonomy}
 \alias{update_worms_taxonomy}
-\title{Update taxonomy from SHARKdata datasets via WoRMS API}
+\title{Retrieve and Organize WoRMS Taxonomy for SHARK Aphia IDs}
 \usage{
-update_worms_taxonomy(aphiaid)
+update_worms_taxonomy(aphia_id, aphiaid = deprecated())
 }
 \arguments{
-\item{aphiaid}{A numeric vector containing Aphia IDs for which WoRMS taxonomy needs to be updated.}
+\item{aphia_id}{A numeric vector containing Aphia IDs for which WoRMS taxonomy needs to be updated.}
+
+\item{aphiaid}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Use \code{aphia_id} instead.}
 }
 \value{
 A data frame containing updated WoRMS taxonomy information.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function was deprecated and replaced by a more accurate name. Use \code{\link[=add_worms_taxonomy]{add_worms_taxonomy()}} instead.
+
 This function collects WoRMS (World Register of Marine Species) taxonomy information for a given set of Aphia IDs.
 The data is organized into a full taxonomic table that can be joined with data downloaded from \href{https://shark.smhi.se/}{SHARK}.
 }
@@ -29,3 +36,4 @@ https://cran.r-project.org/web/packages/worrms/index.html
 
 \code{\link{download_sharkdata}}, \code{\link{update_dyntaxa_taxonomy}}, \href{http://www.marinespecies.org/rest/}{WoRMS API Documentation}
 }
+\keyword{internal}

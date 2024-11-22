@@ -26,8 +26,9 @@ devtools::install_github("sharksmhi/SHARK4R",
 
 Load the `SHARK4R` and `dplyr` libraries:
 ```{r, message=FALSE}
-library(dplyr)
 library(SHARK4R)
+library(dplyr)
+library(ggplot2)
 ```
 
 ## Retrieve Data Using SHARK4R
@@ -37,9 +38,9 @@ library(SHARK4R)
 Phytoplankton data, including scientific names and AphiaIDs, are downloaded from SHARK. To see more download options, please visit the [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html) tutorial.
 
 ```{r}
-# Retrieve all phytoplankton data from April 2020
-shark_data <- get_shark_data(fromYear = 2020, 
-                             toYear = 2020,
+# Retrieve all phytoplankton data from April 2015
+shark_data <- get_shark_data(fromYear = 2015, 
+                             toYear = 2015,
                              months = 4, 
                              dataTypes = c("Phytoplankton"),
                              verbose = FALSE)
@@ -106,31 +107,89 @@ shark_data_with_worms <- shark_data %>%
   left_join(updated_taxonomy, by = c("aphia_id", "scientific_name"))
 ```
 
-### Assign Plankton Groups
+### Assign Phytoplankton Groups
 
 Phytoplankton data are often categorized into major groups such as Dinoflagellates, Diatoms, Cyanobacteria, and Others. This grouping can be achieved by referencing information from WoRMS and assigning taxa to these groups based on their taxonomic classification, as demonstrated in the example below.
 
 ```{r}
-# Example names and Aphia IDs, with missing ID for Octactis speculum
-scientific_name <- c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum")
-aphia_id <- c(840626, 149013, 160566, NA)
+# Subset a few national monitoring stations
+major_stations <- shark_data %>%
+  filter(station_name %in% c("BY31 LANDSORTSDJ",
+                             "ANHOLT E",
+                             "NB1 / B3"))
+
+# Randomly select one sample from the major_stations
+sample <- sample(major_stations$shark_sample_id_md5, 1)
+
+# Subset the random sample
+shark_data_subset <- shark_data %>%
+  filter(shark_sample_id_md5 == sample)
 
 # Assign groups by providing both scientific name and Aphia ID
-plankton_groups <- assign_phytoplankton_group(scientific_name,
-                                              aphia_id,
+plankton_groups <- assign_phytoplankton_group(shark_data_subset$scientific_name,
+                                              shark_data_subset$aphia_id,
                                               verbose = FALSE)
 
 # Print result
-head(plankton_groups)
+tibble(distinct(plankton_groups))
 
-# Match only with scientific name
-plankton_groups_name <- assign_phytoplankton_group(scientific_name,
-                                                   verbose = FALSE)
+# Summarize abundance results based on plankton groups
+plankton_group_sum <- shark_data_subset %>%
+  mutate(plankton_group = plankton_groups$plankton_group) %>%
+  filter(parameter == "Abundance") %>%
+  group_by(plankton_group) %>%
+  summarise(sum_plankton_groups = sum(value, na.rm = TRUE))
 
-# Print result
-head(plankton_groups_name)
+# Plot a pie chart
+ggplot(plankton_group_sum, aes(x = "", y = sum_plankton_groups, fill = plankton_group)) +
+  geom_col(width = 1) +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Phytoplankton Groups",
+    subtitle = paste(unique(shark_data_subset$station_name),
+                     unique(shark_data_subset$sample_date)),
+    fill = "Plankton Group"
+  ) +
+  theme_void()
 ```
 
+You can add custom plankton groups by using the `custom_groups` parameter, allowing flexibility to categorize plankton based on specific taxonomic criteria.
+
+```{r}
+# Assign plankton groups using additional custom grouping
+custom_groups <- list(
+   "Cryptophytes" = list(class = "Cryptophyceae"),
+   "Green Algae" = list(class = c("Trebouxiophyceae", 
+                                  "Chlorophyceae", 
+                                  "Pyramimonadophyceae"),
+                        phylum = "Chlorophyta"),
+   "Ciliates" = list(phylum = "Ciliophora")
+)
+
+# Assign groups by providing scientific name only, and adding two custom groups
+plankton_groups <- assign_phytoplankton_group(shark_data_subset$scientific_name,
+                                              custom_groups = custom_groups,
+                                              verbose = FALSE)
+
+# Summarize abundance results based on new plankton groups
+plankton_custom_group_sum <- shark_data_subset %>%
+  mutate(plankton_group = plankton_groups$plankton_group) %>%
+  filter(parameter == "Abundance") %>%
+  group_by(plankton_group) %>%
+  summarise(sum_plankton_groups = sum(value, na.rm = TRUE))
+
+# Plot a new pie chart, including the custom groups
+ggplot(plankton_custom_group_sum, aes(x = "", y = sum_plankton_groups, fill = plankton_group)) +
+  geom_col(width = 1) +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Phytoplankton Custom Groups",
+    subtitle = paste(unique(shark_data_subset$station_name),
+                     unique(shark_data_subset$sample_date)),
+    fill = "Plankton Group"
+  ) +
+  theme_void()
+```
 
 ## Citation
 
