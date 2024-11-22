@@ -7,13 +7,15 @@
 assign_phytoplankton_group(
   scientific_names,
   aphia_ids = NULL,
-  diatom_class = c("Bacillariophyceae", "Coscinodiscophyceae", "Mediophyceae"),
+  diatom_class = c("Bacillariophyceae", "Coscinodiscophyceae", "Mediophyceae",
+    "Diatomophyceae"),
   dinoflagellate_class = "Dinophyceae",
   cyanobacteria_class = "Cyanophyceae",
   cyanobacteria_phylum = "Cyanobacteria",
   match_first_word = TRUE,
   marine_only = FALSE,
   return_class = FALSE,
+  custom_groups = list(),
   verbose = TRUE
 )
 }
@@ -36,16 +38,22 @@ assign_phytoplankton_group(
 
 \item{return_class}{A logical value indicating whether to include class information in the result. Default is \code{FALSE}.}
 
+\item{custom_groups}{A named list of additional custom plankton groups. The names of the list correspond to the custom group names (e.g., "Cryptophytes") and the values should be character vectors specifying the taxonomic classes, phyla, or other criteria used to identify organisms in that group. For example:
+\code{list("Green Algae" = list(class = c("Chlorophyceae", "Ulvophyceae")))}.
+This allows users to extend the default classifications (e.g., Cyanobacteria, Diatoms, Dinoflagellates) with their own groups.}
+
 \item{verbose}{A logical value indicating whether to print progress messages. Default is TRUE.}
 }
 \value{
 A data frame with two columns: \code{scientific_name} and \code{plankton_group}, where the plankton group is assigned based on taxonomic classification.
 }
 \description{
-This function assigns phytoplankton groups (Diatoms, Dinoflagellates, Cyanobacteria, or Other)
+This function assigns default phytoplankton groups (Diatoms, Dinoflagellates, Cyanobacteria, or Other)
 to a list of scientific names or Aphia IDs by retrieving species information from the
 World Register of Marine Species (WoRMS). The function checks both Aphia IDs and scientific names,
 handles missing records, and assigns the appropriate plankton group based on taxonomic classification in WoRMS.
+Additionally, custom plankton groups can be specified using the \code{custom_groups} parameter,
+allowing users to define additional classifications based on specific taxonomic criteria.
 }
 \details{
 The \code{aphia_ids} parameter is not necessary but, if provided, will improve the certainty of the
@@ -53,6 +61,10 @@ matching process. If \code{aphia_ids} are available, they will be used directly 
 WoRMS records. If missing, the function will attempt to match the scientific names to Aphia IDs by
 querying WoRMS using the scientific name(s), with an additional fallback mechanism to match based on the
 first word of the scientific name.
+
+To skip one of the default plankton groups, you can set the class or phylum of the respective group to an empty string (\code{""}).
+For example, to skip the "Cyanobacteria" group, you can set \code{cyanobacteria_class = ""} or \code{cyanobacteria_phylum = ""}. These
+taxa will then be placed in \code{Others}.
 }
 \examples{
 \dontrun{
@@ -60,6 +72,24 @@ first word of the scientific name.
 result <- assign_phytoplankton_group(
   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
   aphia_ids = c(840626, 149013, 160566, NA))
+ 
+print(result)
+
+# Assign plankton groups using additional custom grouping
+custom_groups <- list(
+   Cryptophytes = list(class = "Cryptophyceae"),
+   Ciliates = list(phylum = "Ciliophora")
+)
+
+# Assign with custom groups
+result_custom <- assign_phytoplankton_group(
+  scientific_names = c("Teleaulax amphioxeia", "Mesodinium rubrum", "Dinophysis acuta"),
+  aphia_ids = c(106306, 232069, 109604),
+  custom_groups = custom_groups,         # Adding custom groups
+  verbose = TRUE
+)
+
+print(result_custom)
 }
 
 }

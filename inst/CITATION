@@ -16,7 +16,7 @@ bibentry(
      email="shark@smhi.se",
      role = "cph")),
   year = "2024",
-  note = "R package version 0.1.2",
+  note = "R package version 0.1.3",
   url = "https://doi.org/10.5281/zenodo.14169399",
-  textVersion = paste("Markus Lindh, Anders Torstensson, SHARK (2024). SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae. R package version 0.1.2. https://doi.org/10.5281/zenodo.14169399")
+  textVersion = paste("Markus Lindh, Anders Torstensson (2024). SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae. R package version 0.1.3. https://doi.org/10.5281/zenodo.14169399")
 )
