@@ -91,13 +91,14 @@ worms_records <- get_worms_records(aphia_ids,
 tibble(worms_records)
 ```
 
-### Update WoRMS Taxonomy
+### Get WoRMS Taxonomy
 
 SHARK sources taxonomic information from [Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_dyntaxa_data.html), which is reflected in columns starting with `taxon_xxxxx`. Equivalent columns based on WoRMS can be retrieved using the [`add_worms_taxonomy`](../reference/add_worms_taxonomy.html) function.
 
 ```{r}
 # Retrieve taxonomic table
-worms_taxonomy <- add_worms_taxonomy(aphia_ids)
+worms_taxonomy <- add_worms_taxonomy(aphia_ids,
+                                     verbose = FALSE)
 
 # Print result as tibble
 tibble(worms_taxonomy)
