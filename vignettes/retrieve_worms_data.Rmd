@@ -93,18 +93,18 @@ tibble(worms_records)
 
 ### Update WoRMS Taxonomy
 
-SHARK sources taxonomic information from [Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_dyntaxa_data.html), which is reflected in columns starting with `taxon_xxxxx`. Equivalent columns based on WoRMS can be retrieved using the [`update_worms_taxonomy`](../reference/update_worms_taxonomy.html) function.
+SHARK sources taxonomic information from [Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_dyntaxa_data.html), which is reflected in columns starting with `taxon_xxxxx`. Equivalent columns based on WoRMS can be retrieved using the [`add_worms_taxonomy`](../reference/add_worms_taxonomy.html) function.
 
 ```{r}
 # Retrieve taxonomic table
-updated_taxonomy <- update_worms_taxonomy(aphia_ids)
+worms_taxonomy <- add_worms_taxonomy(aphia_ids)
 
 # Print result as tibble
-tibble(updated_taxonomy)
+tibble(worms_taxonomy)
 
 # Enrich data with data from WoRMS
 shark_data_with_worms <- shark_data %>%
-  left_join(updated_taxonomy, by = c("aphia_id", "scientific_name"))
+  left_join(worms_taxonomy, by = c("aphia_id", "scientific_name"))
 ```
 
 ### Assign Phytoplankton Groups
