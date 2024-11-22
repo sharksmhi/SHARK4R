@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +66,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve Taxonomic Data From Dyntaxa</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.0.1.2/vignettes/retrieve_dyntaxa_data.Rmd" class="external-link"><code>vignettes/retrieve_dyntaxa_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/vignettes/retrieve_dyntaxa_data.Rmd" class="external-link"><code>vignettes/retrieve_dyntaxa_data.Rmd</code></a></small>
       <div class="d-none name"><code>retrieve_dyntaxa_data.Rmd</code></div>
     </div>
 
@@ -178,7 +178,7 @@ is retrieved from an environment variable.</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Monoraphidium dybowskii                  <span style="text-decoration: underline;">238</span>756 Monoraphid… (Wolo… Monoraphi…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Pavlova                                 1<span style="text-decoration: underline;">010</span>307 Pavlova     Butch… Pavlova   </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Aulacoseira islandica subsp. helvetica   <span style="text-decoration: underline;">248</span>665 Aulacoseir… (O.F.… Aulacosei…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Planktosphaeria gelatinosa               <span style="text-decoration: underline;">238</span>776 Planktosph… G.M.S… Planktosp…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Planktosphaeria gelatinosa               <span style="text-decoration: underline;">238</span>776 Planktosph… G.M. … Planktosp…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Pyramimonas virginica                    <span style="text-decoration: underline;">238</span>976 Pyramimona… Penni… Pyramimon…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Oxytoxum gracile                         <span style="text-decoration: underline;">238</span>173 Oxytoxum g… J.Sch… Oxytoxum …</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Desmodesmus armatus                      <span style="text-decoration: underline;">238</span>842 Desmodesmu… (Chod… Desmodesm…</span></span>
@@ -206,16 +206,16 @@ function.</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10 × 24</span></span></span>
 <span><span class="co">##    taxonId parentId secondaryParents sortOrder isMicrospecies externalComment   </span></span>
 <span><span class="co">##      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">237</span>461  1<span style="text-decoration: underline;">010</span>415 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">72</span>942 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">238</span>173  1<span style="text-decoration: underline;">010</span>573 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>199 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">238</span>251  1<span style="text-decoration: underline;">010</span>596 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>291 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">238</span>756  1<span style="text-decoration: underline;">016</span>310 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">111</span>225 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">238</span>776  1<span style="text-decoration: underline;">010</span>736 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">111</span>181 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">238</span>842  1<span style="text-decoration: underline;">010</span>759 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">111</span>042 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">238</span>976  1<span style="text-decoration: underline;">010</span>807 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">111</span>391 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">248</span>665   <span style="text-decoration: underline;">237</span>397 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">72</span>811 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 1<span style="text-decoration: underline;">010</span>307  2<span style="text-decoration: underline;">003</span>125 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">68</span>509 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> 1<span style="text-decoration: underline;">010</span>708  2<span style="text-decoration: underline;">003</span>281 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">95</span>646 FALSE          Original publicat…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">237</span>461  1<span style="text-decoration: underline;">010</span>415 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">72</span>944 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">238</span>173  1<span style="text-decoration: underline;">010</span>573 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>201 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">238</span>251  1<span style="text-decoration: underline;">010</span>596 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>293 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">238</span>756  1<span style="text-decoration: underline;">016</span>310 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">111</span>228 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">238</span>776  1<span style="text-decoration: underline;">010</span>736 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">111</span>184 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">238</span>842  1<span style="text-decoration: underline;">010</span>759 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">111</span>045 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">238</span>976  1<span style="text-decoration: underline;">010</span>807 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">111</span>394 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">248</span>665   <span style="text-decoration: underline;">237</span>397 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">72</span>813 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 1<span style="text-decoration: underline;">010</span>307  2<span style="text-decoration: underline;">003</span>125 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">68</span>511 FALSE          <span style="color: #BB0000;">NA</span>                </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> 1<span style="text-decoration: underline;">010</span>708  2<span style="text-decoration: underline;">003</span>281 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">95</span>650 FALSE          Original publicat…</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 18 more variables: redlistCategory &lt;lgl&gt;, excludeFromReportingSystem &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   nrOfChilds &lt;int&gt;, names &lt;list&gt;, typedRelations.parentRelations &lt;list&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   typedRelations.childRelations &lt;list&gt;, status.id &lt;int&gt;, status.value &lt;chr&gt;,</span></span></span>
@@ -310,9 +310,9 @@ function. Synonms can be included using the
 </h2>
 <pre><code><span><span class="co">## To cite package 'SHARK4R' in publications use:</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##   Markus Lindh, Anders Torstensson, SHARK (2024). SHARK4R: Retrieving,</span></span>
+<span><span class="co">##   Markus Lindh, Anders Torstensson (2024). SHARK4R: Retrieving,</span></span>
 <span><span class="co">##   Analyzing, and Validating Marine Data from SHARK and Nordic</span></span>
-<span><span class="co">##   Microalgae. R package version 0.1.2.</span></span>
+<span><span class="co">##   Microalgae. R package version 0.1.3.</span></span>
 <span><span class="co">##   https://doi.org/10.5281/zenodo.14169399</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
@@ -321,7 +321,7 @@ function. Synonms can be included using the
 <span><span class="co">##     title = {SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson and {SHARK}},</span></span>
 <span><span class="co">##     year = {2024},</span></span>
-<span><span class="co">##     note = {R package version 0.1.2},</span></span>
+<span><span class="co">##     note = {R package version 0.1.3},</span></span>
 <span><span class="co">##     url = {https://doi.org/10.5281/zenodo.14169399},</span></span>
 <span><span class="co">##   }</span></span></code></pre>
 </div>
