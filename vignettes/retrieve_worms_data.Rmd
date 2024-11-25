@@ -1,16 +1,16 @@
 ---
-title: "Retrieve Data From WoRMS"
+title: "Retrieve Taxonomic Data From WoRMS"
 output:
-  rmarkdown::html_document
+  rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Retrieve Data From WoRMS}
+  %\VignetteIndexEntry{Retrieve Taxonomic Data From WoRMS}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ## WoRMS
 
-The World Register of Marine Species (WoRMS) is a comprehensive database providing authoritative lists of marine organism names, managed by taxonomic experts. It combines data from the Aphia database and other sources like AlgaeBase and FishBase, offering species names, higher classifications, and additional data. WoRMS is continuously updated and maintained by taxonomists. In this tutorial, we source the R package [`worrms`](https://cran.r-project.org/web/packages/worrms/index.html) to access WoRMS data for our function.
+The World Register of Marine Species (WoRMS) is a comprehensive database providing authoritative lists of marine organism names, managed by taxonomic experts. It combines data from the Aphia database and other sources like AlgaeBase and FishBase, offering species names, higher classifications, and additional data. WoRMS is continuously updated and maintained by taxonomists. In this tutorial, we source the R package [`worrms`](https://CRAN.R-project.org/package=worrms) to access WoRMS data for our function.
 
 ## Getting Started
 
@@ -114,13 +114,13 @@ Phytoplankton data are often categorized into major groups such as Dinoflagellat
 
 ```{r}
 # Subset a few national monitoring stations
-major_stations <- shark_data %>%
+nat_stations <- shark_data %>%
   filter(station_name %in% c("BY31 LANDSORTSDJ",
                              "ANHOLT E",
                              "NB1 / B3"))
 
-# Randomly select one sample from the major_stations
-sample <- sample(major_stations$shark_sample_id_md5, 1)
+# Randomly select one sample from the nat_stations
+sample <- sample(nat_stations$shark_sample_id_md5, 1)
 
 # Subset the random sample
 shark_data_subset <- shark_data %>%
@@ -151,13 +151,14 @@ ggplot(plankton_group_sum, aes(x = "", y = sum_plankton_groups, fill = plankton_
                      unique(shark_data_subset$sample_date)),
     fill = "Plankton Group"
   ) +
-  theme_void()
+  theme_void() +
+  theme(plot.background = element_rect(fill = "white", color = NA))
 ```
 
 You can add custom plankton groups by using the `custom_groups` parameter, allowing flexibility to categorize plankton based on specific taxonomic criteria.
 
 ```{r}
-# Assign plankton groups using additional custom grouping
+# Define three custom plankton groups using a named list
 custom_groups <- list(
    "Cryptophytes" = list(class = "Cryptophyceae"),
    "Green Algae" = list(class = c("Trebouxiophyceae", 
@@ -167,7 +168,7 @@ custom_groups <- list(
    "Ciliates" = list(phylum = "Ciliophora")
 )
 
-# Assign groups by providing scientific name only, and adding two custom groups
+# Assign groups by providing scientific name only, and adding custom groups
 plankton_groups <- assign_phytoplankton_group(shark_data_subset$scientific_name,
                                               custom_groups = custom_groups,
                                               verbose = FALSE)
@@ -189,7 +190,8 @@ ggplot(plankton_custom_group_sum, aes(x = "", y = sum_plankton_groups, fill = pl
                      unique(shark_data_subset$sample_date)),
     fill = "Plankton Group"
   ) +
-  theme_void()
+  theme_void() +
+  theme(plot.background = element_rect(fill = "white", color = NA))
 ```
 
 ## Citation

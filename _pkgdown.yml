@@ -1,6 +1,7 @@
 url: https://sharksmhi.github.io/SHARK4R/
 template:
   bootstrap: 5
+  light-switch: true
 
 navbar:
   left:
@@ -13,8 +14,12 @@ navbar:
           href: articles/retrieve_dyntaxa_data.html
         - text: "Retrieve WoRMS Data"
           href: articles/retrieve_worms_data.html
+        - text: "Retrieve AlgaeBase Data"
+          href: articles/retrieve_algaebase_data.html
         - text: "Retrieve Nordic Microalgae Data"
           href: articles/retrieve_nordic_microalgae_data.html
+    - text: "Quality Control"
+      href: articles/quality_control.html
     - text: "Reference"
       href: reference/index.html
 
@@ -39,14 +44,6 @@ reference:
   - match_taxon_name
   - update_dyntaxa_taxonomy
 
-- subtitle: Nordic Microalgae
-  desc: These functions are used to retireve data from the Nordic Microalgae API
-  contents:
-  - get_nua_external_links
-  - get_nua_harmfulness
-  - get_nua_media_links
-  - get_nua_taxa
-
 - subtitle: WoRMS
   desc: These functions are used to retireve data from the WoRMS API
   contents:
@@ -54,6 +51,22 @@ reference:
   - assign_phytoplankton_group
   - get_worms_records
   - get_worms_records_name
+
+- subtitle: AlgaeBase
+  desc: These functions are used to retireve data from the AlgaeBase API
+  contents:
+  - get_algaebase_genus
+  - get_algaebase_species
+  - match_algaebase
+  - parse_scientific_names
+
+- subtitle: Nordic Microalgae
+  desc: These functions are used to retireve data from the Nordic Microalgae API
+  contents:
+  - get_nua_external_links
+  - get_nua_harmfulness
+  - get_nua_media_links
+  - get_nua_taxa
 
 - title: Quality Control
 
@@ -141,7 +154,9 @@ reference:
   - check_zooplankton_wetweight
   - check_zooplankton_wetweight_area
   - check_zooplankton_wetweight_volume
-  
+  - ifcb_is_near_land
+  - ifcb_which_basin
+
 - subtitle: MISC
   contents:
   - lookup_xy

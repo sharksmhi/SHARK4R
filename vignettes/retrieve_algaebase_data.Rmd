@@ -1,0 +1,106 @@
+---
+title: "Retrieve Taxonomic Data From AlgaeBase"
+output:
+  rmarkdown::html_vignette:
+    encoding: UTF-8
+vignette: >
+  %\VignetteIndexEntry{Retrieve Taxonomic Data From AlgaeBase}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+## AlgaeBase
+
+AlgaeBase is a comprehensive database containing information on a wide variety of algae species, including terrestrial, marine, and freshwater organisms, with an emphasis on marine botany. It also includes sea-grasses, though these are flowering plants rather than true algae. AlgaeBase is continually updated and funded by various phycological societies, with contributions from researchers and institutions worldwide. While it is an invaluable resource for taxonomic studies, it is not a definitive source, as it represents a synthesis of various taxonomic opinions and remains a work in progress. It can be accessed via a [web interface](https://www.algaebase.org/) or through the [API](https://www.algaebase.org/api/), as demonstrated in this tutorial using `SHARK4R`.
+
+## Getting Started
+
+#### Installation
+
+You can install the package from GitHub using the `devtools` package:
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("sharksmhi/SHARK4R",
+                         dependencies = TRUE)
+```
+
+Load the `SHARK4R` and `tibble` libraries:
+```{r}
+library(SHARK4R)
+library(tibble)
+```
+
+## Retrieve AlgaeBase Data
+
+#### AlgaeBase API Key
+
+AlgaeBase requires a subscription key to access its API. To obtain your own key, please visit the [API documentation](https://www.algaebase.org/api/). In the example below, the key is retrieved from an environment variable.
+
+```{r}
+# Retrieve the API key
+algaebase_key <- Sys.getenv("ALGAEBASE_KEY")
+```
+
+#### Match Genus Name
+
+Taxonomic records can be retrieved for individual genera names using the [`get_algaebase_genus`](../reference/get_algaebase_genus.html) function.
+
+```{r}
+# Match a genus name with AlgaeBase API
+genus_records <- get_algaebase_genus(genus = "Gymnodinium",
+                                     apikey = algaebase_key)
+
+# Print the result
+print(genus_records)
+```
+
+#### Match Species Name
+
+Taxonomic records can be retrieved for individual species names using the [`get_algaebase_species`](../reference/get_algaebase_species.html) function.
+
+```{r}
+# Match a species with AlgaeBase API
+species_records <- get_algaebase_species(genus = "Tripos",
+                                         species = "muelleri",
+                                         apikey = algaebase_key)
+
+# Print the result
+print(species_records)
+```
+
+#### Match Multiple Scientific Names
+
+Multiple names can be matched with the [`match_algaebase`](../reference/match_algaebase.html) function. The scientific names need to be parsed into `genus` and `species` names before being passed to the API, which can be achieved by the [`parse_scientific_names`](../reference/parse_scientific_names.html) function.
+
+```{r}
+# Retrieve all phytoplankton data from April 2015
+shark_data <- get_shark_data(fromYear = 2015, 
+                             toYear = 2015,
+                             months = 4, 
+                             dataTypes = c("Phytoplankton"),
+                             verbose = FALSE)
+
+# Randomly select 10 rows from the shark_data dataframe
+random_rows <- shark_data[sample(nrow(shark_data), 10), ]
+
+# Parse scientific names into genus and species names
+parsed_taxa <- parse_scientific_names(random_rows$scientific_name)
+
+# Print the parsed data
+print(parsed_taxa)
+
+# Match the taxa with AlgaeBase
+algaebase_match <- match_algaebase(genus = parsed_taxa$genus,
+                                   species = parsed_taxa$species,
+                                   apikey = algaebase_key,
+                                   verbose = FALSE)
+
+# Print the result
+tibble(algaebase_match)
+```
+
+## Citation
+
+```{r, echo=FALSE}
+# Print citation
+citation("SHARK4R")
+```

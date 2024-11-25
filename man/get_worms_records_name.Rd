@@ -44,7 +44,7 @@ If all attempts fail, the function stops and throws an error.
 \examples{
 \dontrun{
 # Retrieve WoRMS records for the taxonomic names "Amphidinium" and "Karenia"
-records <- retrieve_worms_records_name(c("Amphidinium", "Karenia"), 
+records <- retrieve_worms_records_name(c("Amphidinium", "Karenia"),
                                        max_retries = 3, sleep_time = 5, marine_only = TRUE)
 }
 
@@ -52,5 +52,5 @@ records <- retrieve_worms_records_name(c("Amphidinium", "Karenia"),
 \seealso{
 \code{\link[=wm_records_names]{wm_records_names()}} for retrieving records by taxonomic names from the WoRMS database.
 
-\url{https://cran.r-project.org/web/packages/worrms/index.html}
+\url{https://CRAN.R-project.org/package=worrms}
 }

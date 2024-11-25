@@ -38,5 +38,5 @@ worms_records <- retrieve_worms_records(aphia_ids)
 \seealso{
 \code{\link[=wm_record]{wm_record()}} for fetching individual WoRMS records by Aphia ID.
 
-\url{https://cran.r-project.org/web/packages/worrms/index.html}
+\url{https://CRAN.R-project.org/package=worrms}
 }

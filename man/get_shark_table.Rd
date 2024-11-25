@@ -67,7 +67,7 @@ get_shark_table(
 }
 Default is \code{"sharkweb_overview"}.}
 
-\item{limit}{Integer. Maximum number of records to retrieve per request. Default is \code{0} (all records).}
+\item{limit}{Integer. Maximum number of records to retrieve per request. Default is \code{0} (all records). Maximum 10^5.}
 
 \item{headerLang}{Character. Language option for column headers. Possible values:
 \itemize{

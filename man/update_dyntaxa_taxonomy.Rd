@@ -2,7 +2,7 @@
 % Please edit documentation in R/dyntaxa_api_functions.R
 \name{update_dyntaxa_taxonomy}
 \alias{update_dyntaxa_taxonomy}
-\title{Update taxonomy from SHARKdata datasets via SLU Artdatabanken API (Dyntaxa)}
+\title{Update taxonomy from SHARK via SLU Artdatabanken API (Dyntaxa)}
 \usage{
 update_dyntaxa_taxonomy(dyntaxa_ids, subscription_key)
 }
@@ -17,17 +17,12 @@ A data frame representing the updated Dyntaxa taxonomy table.
 \description{
 This function updates Dyntaxa taxonomy records based on a list of Dyntaxa taxon IDs.
 It collects parent IDs from SLU Artdatabanken API (Dyntaxa), retrieves full taxonomy records, and organizes
-the data into a full taxonomic table that can be joined with data downloaded from \href{https://sharkdata.smhi.se/}{SHARKdata}
+the data into a full taxonomic table that can be joined with data downloaded from \href{https://shark.smhi.se/}{SHARK}
 }
 \details{
 Please read the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{conditions} and \href{https://api-portal.artdatabanken.se/}{register} before using the API.
 
 Data collected through the API is stored at SLU Artdatabanken.
-
-Genom att anvanda denna applikation atar jag mig att folja regler for
-anvandning av SLU Artdatabankens information, inklusive att respektera tredje
-mans upphovsratt. Detta atagande gors aven direkt mot SLU. Vid brott mot
-detta kan jag forlora ratten att anvanda applikationen
 }
 \examples{
 \dontrun{
@@ -36,7 +31,8 @@ updated_taxonomy <- update_dyntaxa_taxonomy(c(238366, 1010380), "your_subscripti
 print(updated_taxonomy)
 }
 
+
 }
 \seealso{
-\code{\link{download_sharkdata}}, \code{\link{update_worms_taxonomy}}, \href{https://api-portal.artdatabanken.se/}{SLU Artdatabanken API Documentation}
+\code{\link{get_shark_data}}, \code{\link{update_worms_taxonomy}}, \href{https://api-portal.artdatabanken.se/}{SLU Artdatabanken API Documentation}
 }

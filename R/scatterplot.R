@@ -2,13 +2,12 @@
 #' Interactive plotly plot
 #' @param data for tibble be be checked
 #' @param ... Additional parameters
-#' @return plotly plot 
+#' @return plotly plot
 #' @export scatterplot
-#' @importFrom plotly plot_ly layout
-## TODO:changing axis layout to logarithmic scale would be useful 
+## TODO:changing axis layout to logarithmic scale would be useful
 
 scatterplot <- function(data, ...) {
-  
+
   ax <- list(
     title = "",
     zeroline = FALSE,
@@ -16,7 +15,7 @@ scatterplot <- function(data, ...) {
     showticklabels = TRUE,
     showgrid = TRUE
   )
-  
+
   plot_ly(data, x = ~station_name, y = ~value, type = "scatter", mode = "markers", visible = T) %>%
     layout(
       xaxis = ax,
@@ -27,17 +26,17 @@ scatterplot <- function(data, ...) {
           y = 0.7,
           buttons = list(
             list(method = "restyle",
-                 args = list("y", list(data$value)),  
+                 args = list("y", list(data$value)),
                  label = "Y = VALUE"))),
         ## X-AXIS
         list(
           x = 0.7,
           buttons = list(
             list(method = "restyle",
-                 args = list("x", list(data$station_name)),  
+                 args = list("x", list(data$station_name)),
                  label = "X = STATION_NAME"),
             list(method = "restyle",
-                 args = list("x", list(data$sample_date)),  
+                 args = list("x", list(data$sample_date)),
                  label = "X = SAMPLE_DATE")))
       ))
 }
