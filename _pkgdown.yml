@@ -8,7 +8,7 @@ navbar:
     - text: "Tutorials"
       href: articles/index.html
       menu:
-        - text: "Retrieve Shark Data"
+        - text: "Retrieve SHARK Data"
           href: articles/retrieve_shark_data.html
         - text: "Retrieve Dyntaxa Data"
           href: articles/retrieve_dyntaxa_data.html
