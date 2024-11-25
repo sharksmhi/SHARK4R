@@ -665,6 +665,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     parsed_table<-read_delim(file = file,
                              delim = sep_char,
                              locale = locale(encoding = content_encoding),
+                             na = c("", "-", "NA"),
                              col_types = cols(),
                              progress = FALSE)
 
