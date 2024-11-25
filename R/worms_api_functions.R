@@ -175,8 +175,6 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE)
 #' worms_records <- retrieve_worms_records(aphia_ids)
 #' }
 #'
-#' @seealso [wm_record()] for fetching individual WoRMS records by Aphia ID.
-#'
 #' @seealso \url{https://CRAN.R-project.org/package=worrms}
 #'
 #' @export
@@ -275,8 +273,6 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
 #' records <- retrieve_worms_records_name(c("Amphidinium", "Karenia"),
 #'                                        max_retries = 3, sleep_time = 5, marine_only = TRUE)
 #' }
-#'
-#' @seealso [wm_records_names()] for retrieving records by taxonomic names from the WoRMS database.
 #'
 #' @seealso \url{https://CRAN.R-project.org/package=worrms}
 #'

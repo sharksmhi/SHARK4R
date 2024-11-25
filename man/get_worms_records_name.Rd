@@ -50,7 +50,5 @@ records <- retrieve_worms_records_name(c("Amphidinium", "Karenia"),
 
 }
 \seealso{
-\code{\link[=wm_records_names]{wm_records_names()}} for retrieving records by taxonomic names from the WoRMS database.
-
 \url{https://CRAN.R-project.org/package=worrms}
 }
