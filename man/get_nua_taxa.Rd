@@ -27,4 +27,5 @@ It fetches details including scientific names, authorities, ranks, and image URL
   head(taxa_data)
 }
 
+
 }

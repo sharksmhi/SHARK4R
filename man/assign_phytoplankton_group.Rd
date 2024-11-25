@@ -72,13 +72,13 @@ taxa will then be placed in \code{Others}.
 result <- assign_phytoplankton_group(
   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
   aphia_ids = c(840626, 149013, 160566, NA))
- 
+
 print(result)
 
 # Assign plankton groups using additional custom grouping
 custom_groups <- list(
-   Cryptophytes = list(class = "Cryptophyceae"),
-   Ciliates = list(phylum = "Ciliophora")
+    Cryptophytes = list(class = "Cryptophyceae"),
+    Ciliates = list(phylum = "Ciliophora")
 )
 
 # Assign with custom groups
@@ -94,5 +94,5 @@ print(result_custom)
 
 }
 \seealso{
-\url{https://cran.r-project.org/web/packages/worrms/index.html}
+\url{https://CRAN.R-project.org/package=worrms}
 }

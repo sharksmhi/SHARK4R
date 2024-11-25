@@ -23,8 +23,6 @@
 #' }
 #' @seealso \code{\link{check_depth}}  \code{\link{lookup_xy}}
 #' @export
-#' @importFrom tibble data_frame
-#' @importFrom sp proj4string CRS coordinates spTransform over
 #'
 check_onland <- function(data, land = NULL, report = FALSE, buffer=0, offline = FALSE) {
   errors <- check_lonlat(data, report)

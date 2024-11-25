@@ -1,7 +1,7 @@
 ---
 title: "Retrieve Data From SHARK"
 output:
-  rmarkdown::html_document
+  rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Retrieve Data From SHARK}
   %\VignetteEngine{knitr::rmarkdown}

@@ -32,7 +32,7 @@ which returns a data frame with a column for taxon slugs, along with other relev
 \examples{
 \dontrun{
   # Retrieve external links for a vector of slugs
-  harmfulness <- get_nua_harmfulness(slug = c("dinophysis-acuta", 
+  harmfulness <- get_nua_harmfulness(slug = c("dinophysis-acuta",
                                               "alexandrium-ostenfeldii"))
   print(harmfulness)
 }

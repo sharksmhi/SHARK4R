@@ -32,11 +32,6 @@ processes the response to return a list of children taxon IDs.
 Please read the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{conditions} and \href{https://api-portal.artdatabanken.se/}{register} before using the API.
 
 Data collected through the API is stored at SLU Artdatabanken.
-
-Genom att anvanda denna applikation atar jag mig att folja regler for
-anvandning av SLU Artdatabankens information, inklusive att respektera tredje
-mans upphovsratt. Detta atagande gors aven direkt mot SLU. Vid brott mot
-detta kan jag forlora ratten att anvanda applikationen
 }
 \examples{
 \dontrun{

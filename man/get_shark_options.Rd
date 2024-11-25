@@ -25,7 +25,7 @@ for querying the database. The API returns data in JSON format, which is then pa
   # Retrieve available search options
   shark_options <- get_shark_options()
   View(shark_options)
-  
+
   # View available datatypes
   dataTypes <- unlist(shark_options$dataTypes)
   print(dataTypes)

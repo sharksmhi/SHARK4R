@@ -14,7 +14,7 @@ add_worms_taxonomy(aphia_id, scientific_name = NULL, verbose = TRUE)
 \item{verbose}{A logical indicating whether to print progress messages. Default is TRUE.}
 }
 \value{
-A data frame containing updated WoRMS taxonomy information.
+A data frame containing current WoRMS taxonomy information.
 }
 \description{
 This function collects WoRMS (World Register of Marine Species) taxonomy information for a given set of Aphia IDs.
@@ -29,15 +29,13 @@ print(updated_taxonomy)
 # Update WoRMS with an unknown Aphia ID and scientific names
 with_names <- add_worms_taxonomy(c(149619, 149122, 11, NA),
                                  c("Cerataulina pelagica",
-                                 "Chaetoceros didymus",
-                                 "Ciliophora",
-                                 "Dinophysis"))
+                                   "Chaetoceros didymus",
+                                   "Ciliophora",
+                                   "Dinophysis"))
 print(with_names)
 }
 
 }
 \seealso{
-https://cran.r-project.org/web/packages/worrms/index.html
-
-\code{\link{download_sharkdata}}, \code{\link{update_dyntaxa_taxonomy}}, \href{http://www.marinespecies.org/rest/}{WoRMS API Documentation}
+\code{\link{get_shark_data}}, \code{\link{update_dyntaxa_taxonomy}}, \url{https://www.marinespecies.org/rest/}, \url{https://CRAN.R-project.org/package=worrms}
 }
