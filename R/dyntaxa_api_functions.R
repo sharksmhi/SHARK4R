@@ -520,7 +520,7 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
             next
           }
 
-          if (rank %in% c("Genus", "Species", "SpeciesComplex", "CollectiveTaxon")) {
+          if (rank %in% c("Genus", "Subgenus", "Species", "SpeciesComplex", "CollectiveTaxon")) {
             hierarchy <- paste(genus$hierarchy, name_recommended, sep = " - ")
             parent_name <- NA
 
@@ -572,6 +572,11 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
 
     taxa_i <- taxa_i %>%
       mutate(across(all_of(shark_taxonomy[shark_taxonomy %in% taxa_i$rank]), fill_na_below_first_non_na))
+
+    if ("Subgenus" %in% colnames(taxa_i)) {
+      taxa_i <- taxa_i %>%
+        mutate(Species = ifelse(rank == "Subgenus", NA, Species))
+    }
 
     taxa <- bind_rows(taxa, taxa_i)
 
