@@ -573,7 +573,7 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
     taxa_i <- taxa_i %>%
       mutate(across(all_of(shark_taxonomy[shark_taxonomy %in% taxa_i$rank]), fill_na_below_first_non_na))
 
-    if ("Subgenus" %in% colnames(taxa_i)) {
+    if ("Subgenus" %in% colnames(taxa_i) && "Species" %in% colnames(taxa_i)) {
       taxa_i <- taxa_i %>%
         mutate(Species = ifelse(rank == "Subgenus", NA, Species))
     }
