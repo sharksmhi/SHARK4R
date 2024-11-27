@@ -639,6 +639,10 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
       distinct()
   }
 
+  # Remove blank parent taxon ID (root)
+  taxa_filtered <- taxa_filtered %>%
+    mutate(parentNameUsageID = gsub("urn:lsid:dyntaxa.se:Taxon:NA", NA, parentNameUsageID))
+
   # Print the counters, for debugging
   if (verbose) {
     cat("Cached taxa requests:", if_counter, "\n")
