@@ -10,6 +10,7 @@ construct_dyntaxa_table(
   shark_output = TRUE,
   recommended_only = TRUE,
   add_genus_children = FALSE,
+  drop_morphotypes = TRUE,
   verbose = TRUE
 )
 }
@@ -23,6 +24,8 @@ construct_dyntaxa_table(
 \item{recommended_only}{Logical. If TRUE, the function will return only recommended (accepted) names. If FALSE, all names are returned. Default is TRUE.}
 
 \item{add_genus_children}{Logical. If TRUE, the output will include children from all valid genera taxon_ids present in \code{parent_ids}. Default is FALSE.}
+
+\item{drop_morphotypes}{Logical. If TRUE, taxa with a rank of "MorphoType" will be excluded from the output to simplify taxonomy. Default is TRUE.}
 
 \item{verbose}{Logical. Default is TRUE.}
 }

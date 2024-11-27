@@ -295,6 +295,7 @@ get_dyntaxa_children_ids <- function(taxon_ids, subscription_key, main_children 
 #' @param shark_output Logical. If TRUE, the function will return selected column headers that match SHARK output. If FALSE, all columns are returned. Default is TRUE.
 #' @param recommended_only Logical. If TRUE, the function will return only recommended (accepted) names. If FALSE, all names are returned. Default is TRUE.
 #' @param add_genus_children Logical. If TRUE, the output will include children from all valid genera taxon_ids present in `parent_ids`. Default is FALSE.
+#' @param drop_morphotypes Logical. If TRUE, taxa with a rank of "MorphoType" will be excluded from the output to simplify taxonomy. Default is TRUE.
 #' @param verbose Logical. Default is TRUE.
 #'
 #' @return A data frame representing the constructed taxonomy table.
@@ -311,7 +312,7 @@ get_dyntaxa_children_ids <- function(taxon_ids, subscription_key, main_children 
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output = TRUE, recommended_only = TRUE, add_genus_children = FALSE, verbose = TRUE) {
+construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output = TRUE, recommended_only = TRUE, add_genus_children = FALSE, drop_morphotypes = TRUE, verbose = TRUE) {
   if (!is.list(parent_ids)) {
     parent_ids <- list(parent_ids)
   }
@@ -520,7 +521,7 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
             next
           }
 
-          if (rank %in% c("Genus", "Subgenus", "Species", "SpeciesComplex", "CollectiveTaxon")) {
+          if (rank %in% c("Genus", "Subgenus", "Species", "SpeciesComplex", "CollectiveTaxon", "Section", "SpeciesAggregate")) {
             hierarchy <- paste(genus$hierarchy, name_recommended, sep = " - ")
             parent_name <- NA
 
@@ -583,6 +584,21 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
         mutate(Species = ifelse(rank == "SpeciesComplex", NA, Species))
     }
 
+    if ("Section" %in% colnames(taxa_i) && "Species" %in% colnames(taxa_i)) {
+      taxa_i <- taxa_i %>%
+        mutate(Species = ifelse(rank == "Section", NA, Species))
+    }
+
+    if ("CollectiveTaxon" %in% colnames(taxa_i) && "Species" %in% colnames(taxa_i)) {
+      taxa_i <- taxa_i %>%
+        mutate(Species = ifelse(rank == "CollectiveTaxon", NA, Species))
+    }
+
+    if ("SpeciesAggregate" %in% colnames(taxa_i) && "Species" %in% colnames(taxa_i)) {
+      taxa_i <- taxa_i %>%
+        mutate(Species = ifelse(rank == "SpeciesAggregate", NA, Species))
+    }
+
     taxa <- bind_rows(taxa, taxa_i)
 
     # Update progress bar at the end of each iteration
@@ -595,6 +611,11 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
   if (recommended_only) {
     taxa <- taxa %>%
       filter(recommended)
+  }
+
+  if (remove_morphotype) {
+    taxa <- taxa %>%
+      filter(!rank == "MorphoType")
   }
 
   if (shark_output) {
