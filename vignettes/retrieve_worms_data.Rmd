@@ -115,12 +115,10 @@ Phytoplankton data are often categorized into major groups such as Dinoflagellat
 ```{r}
 # Subset a few national monitoring stations
 nat_stations <- shark_data %>%
-  filter(station_name %in% c("BY31 LANDSORTSDJ",
-                             "ANHOLT E",
-                             "NB1 / B3"))
+  filter(station_name %in% c("BY31 LANDSORTSDJ"))
 
 # Randomly select one sample from the nat_stations
-sample <- sample(nat_stations$shark_sample_id_md5, 1)
+sample <- sample(unique(nat_stations$shark_sample_id_md5), 1)
 
 # Subset the random sample
 shark_data_subset <- shark_data %>%
@@ -155,17 +153,19 @@ ggplot(plankton_group_sum, aes(x = "", y = sum_plankton_groups, fill = plankton_
   theme(plot.background = element_rect(fill = "white", color = NA))
 ```
 
-You can add custom plankton groups by using the `custom_groups` parameter, allowing flexibility to categorize plankton based on specific taxonomic criteria.
+You can add custom plankton groups by using the `custom_groups` parameter, allowing flexibility to categorize plankton based on specific taxonomic criteria. Please note that The order of the list matters: taxa are assigned to the last matching group. For example: Mesodinium rubrum will be excluded from the Ciliates group because it appears after Ciliates in the list below.
 
 ```{r}
-# Define three custom plankton groups using a named list
+# Define custom plankton groups using a named list
 custom_groups <- list(
-   "Cryptophytes" = list(class = "Cryptophyceae"),
-   "Green Algae" = list(class = c("Trebouxiophyceae", 
-                                  "Chlorophyceae", 
-                                  "Pyramimonadophyceae"),
-                        phylum = "Chlorophyta"),
-   "Ciliates" = list(phylum = "Ciliophora")
+  "Cryptophytes" = list(class = "Cryptophyceae"),
+  "Green Algae" = list(class = c("Trebouxiophyceae", 
+                                 "Chlorophyceae", 
+                                 "Pyramimonadophyceae"),
+                       phylum = "Chlorophyta"),
+  "Ciliates" = list(phylum = "Ciliophora"),
+  "Mesodinium rubrum" = list(scientific_name = "Mesodinium rubrum"),
+  "Dinophysis" = list(genus = "Dinophysis")
 )
 
 # Assign groups by providing scientific name only, and adding custom groups
