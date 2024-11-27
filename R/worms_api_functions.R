@@ -366,7 +366,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #' @param match_first_word A logical value indicating whether to match the first word of the scientific name if the Aphia ID is missing. Default is TRUE.
 #' @param marine_only A logical value indicating whether to restrict the results to marine taxa only. Default is `FALSE`.
 #' @param return_class A logical value indicating whether to include class information in the result. Default is `FALSE`.
-#' @param custom_groups A named list of additional custom plankton groups. The names of the list correspond to the custom group names (e.g., "Cryptophytes") and the values should be character vectors specifying the taxonomic classes, phyla, or other criteria used to identify organisms in that group. For example:
+#' @param custom_groups A named list of additional custom plankton groups. The names of the list correspond to the custom group names (e.g., "Cryptophytes"), and the values should be character vectors specifying one or more of the following taxonomic levels: `phylum`, `class`, `order`, `family`, `genus`, or `scientific_name`. For example:
 #'   \code{list("Green Algae" = list(class = c("Chlorophyceae", "Ulvophyceae")))}.
 #'   This allows users to extend the default classifications (e.g., Cyanobacteria, Diatoms, Dinoflagellates) with their own groups.
 #' @param verbose A logical value indicating whether to print progress messages. Default is TRUE.
@@ -383,6 +383,11 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #'   For example, to skip the "Cyanobacteria" group, you can set `cyanobacteria_class = ""` or `cyanobacteria_phylum = ""`. These
 #'   taxa will then be placed in `Others`.
 #'
+#'   Custom groups are processed in the order they appear in the `custom_groups` list. If a taxon matches
+#'   multiple custom groups, it will be assigned to the group that appears last in the list, as later matches
+#'   overwrite earlier ones. For example, if `Teleaulax amphioxeia` matches both `Cryptophytes` (class-based)
+#'   and a specific group `Teleaulax` (name-based), it will be assigned to `Teleaulax` if `Teleaulax` is listed after
+#'   `Cryptophytes` in the `custom_groups` list.
 #'
 #' @examples
 #' \dontrun{
@@ -541,7 +546,7 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
 
   # Assign plankton groups
   class_mapping <- combined_data %>%
-    select(aphia_id, scientific_name, class, phylum) %>%
+    select(aphia_id, scientific_name, phylum, class, order, family, genus) %>%
     mutate(plankton_group = case_when(
       class %in% diatom_class ~ "Diatoms",
       class %in% dinoflagellate_class ~ "Dinoflagellates",
@@ -553,11 +558,21 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
   # Apply custom groups
   for (group_name in names(custom_groups)) {
     group_criteria <- custom_groups[[group_name]]
-    if (is.null(group_criteria$class)) group_criteria$class <- character(0)
     if (is.null(group_criteria$phylum)) group_criteria$phylum <- character(0)
+    if (is.null(group_criteria$class)) group_criteria$class <- character(0)
+    if (is.null(group_criteria$order)) group_criteria$order <- character(0)
+    if (is.null(group_criteria$family)) group_criteria$family <- character(0)
+    if (is.null(group_criteria$genus)) group_criteria$genus <- character(0)
+    if (is.null(group_criteria$scientific_name)) group_criteria$scientific_name <- character(0)
+
     class_mapping <- class_mapping %>%
       mutate(plankton_group = case_when(
-        class %in% group_criteria$class | phylum %in% group_criteria$phylum ~ group_name,
+        phylum %in% group_criteria$phylum |
+          class %in% group_criteria$class |
+          order %in% group_criteria$order |
+          family %in% group_criteria$family |  # New condition
+          genus %in% group_criteria$genus |
+          scientific_name %in% group_criteria$scientific_name ~ group_name,
         TRUE ~ plankton_group
       ))
   }
