@@ -613,7 +613,7 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
       filter(recommended)
   }
 
-  if (remove_morphotype) {
+  if (drop_morphotypes) {
     taxa <- taxa %>%
       filter(!rank == "MorphoType")
   }
