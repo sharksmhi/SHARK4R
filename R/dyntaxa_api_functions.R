@@ -578,6 +578,11 @@ construct_dyntaxa_table <- function(parent_ids, subscription_key, shark_output =
         mutate(Species = ifelse(rank == "Subgenus", NA, Species))
     }
 
+    if ("SpeciesComplex" %in% colnames(taxa_i) && "Species" %in% colnames(taxa_i)) {
+      taxa_i <- taxa_i %>%
+        mutate(Species = ifelse(rank == "SpeciesComplex", NA, Species))
+    }
+
     taxa <- bind_rows(taxa, taxa_i)
 
     # Update progress bar at the end of each iteration
