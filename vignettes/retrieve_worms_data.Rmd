@@ -10,7 +10,7 @@ vignette: >
 
 ## WoRMS
 
-The World Register of Marine Species (WoRMS) is a comprehensive database providing authoritative lists of marine organism names, managed by taxonomic experts. It combines data from the Aphia database and other sources like AlgaeBase and FishBase, offering species names, higher classifications, and additional data. WoRMS is continuously updated and maintained by taxonomists. In this tutorial, we source the R package [`worrms`](https://CRAN.R-project.org/package=worrms) to access WoRMS data for our function.
+The World Register of Marine Species (WoRMS) is a comprehensive database providing authoritative lists of marine organism names, managed by taxonomic experts. It combines data from the Aphia database and other sources like AlgaeBase and FishBase, offering species names, higher classifications, and additional data. WoRMS is continuously updated and maintained by taxonomists. In this tutorial, we source the R package [`worrms`](https://CRAN.R-project.org/package=worrms) to access WoRMS data for our function. Please note that the authors of `SHARK4R` are not affiliated with WoRMS.
 
 ## Getting Started
 

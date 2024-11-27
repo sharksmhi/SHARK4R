@@ -10,7 +10,7 @@ vignette: >
 
 ## Dyntaxa
 
-Dyntaxa is a taxonomic database of Swedish organisms hosted at [SLU Artdatabanken](https://www.slu.se/artdatabanken/), providing information on their names and relationships. The database includes details such as the current classification, recommended names, and commonly used synonymous or misapplied names. Dyntaxa is continuously updated with new species for Sweden, new Swedish names, synonymous scientific names, and new data on relationships. The data in Dyntaxa serves as the foundation and framework for taxonomic information in [SHARK](https://shark.smhi.se/). It can be accessed via a [web interface](https://artfakta.se/) or through the [API](https://api-portal.artdatabanken.se/), as demonstrated in this tutorial using `SHARK4R`.
+Dyntaxa is a taxonomic database of Swedish organisms hosted at [SLU Artdatabanken](https://www.slu.se/artdatabanken/), providing information on their names and relationships. The database includes details such as the current classification, recommended names, and commonly used synonymous or misapplied names. Dyntaxa is continuously updated with new species for Sweden, new Swedish names, synonymous scientific names, and new data on relationships. The data in Dyntaxa serves as the foundation and framework for taxonomic information in [SHARK](https://shark.smhi.se/). It can be accessed via a [web interface](https://artfakta.se/) or through the [API](https://api-portal.artdatabanken.se/), as demonstrated in this tutorial using `SHARK4R`. Please note that the authors of `SHARK4R` are not affiliated with Dyntaxa.
 
 ## Getting Started
 
