@@ -13,6 +13,7 @@ get_shark_data(
   lineEnd = "win",
   encoding = "utf_8",
   dataTypes = c(),
+  bounds = c(),
   fromYear = 2019,
   toYear = 2020,
   months = c(),
@@ -80,7 +81,8 @@ Default is \code{"sharkweb_overview"}.}
 \item \code{"internal_key"}: Internal key (default).
 }}
 
-\item{save_data}{Logical. If TRUE, the data will be saved to a specified file (see \code{file_path}). If FALSE, a temporary file will be created instead.}
+\item{save_data}{Logical. If TRUE, the data will be saved to a specified file (see \code{file_path}).
+If FALSE, a temporary file will be created instead. The temporary file will be automatically deleted after it is loaded into memory.}
 
 \item{file_path}{Character. The file path where the data should be saved. Required if \code{save_data} is TRUE. Ignored if \code{save_data} is FALSE.}
 
@@ -97,6 +99,9 @@ Options are \code{"cp1252"}, \code{"utf_8"}, \code{"utf_16"}, or \code{"latin_1"
 Default is \code{"utf_8"}.}
 
 \item{dataTypes}{Character vector. Specifies data types to filter, such as \code{"Chlorophyll"}, \code{"Epibenthos"}, etc.}
+
+\item{bounds}{A numeric vector of length 4 specifying the geographical boundaries in decimal degrees,
+formatted as c(lon_min, lat_min, lon_max, lat_max), e.g., c(11, 58, 12, 59). Default is c() to include all data.}
 
 \item{fromYear}{Integer. Starting year for data retrieval. Default is \code{2019}.}
 

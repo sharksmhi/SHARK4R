@@ -481,7 +481,8 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #'     \item `"short"`: Shortened version.
 #'     \item `"internal_key"`: Internal key (default).
 #'   }
-#' @param save_data Logical. If TRUE, the data will be saved to a specified file (see `file_path`). If FALSE, a temporary file will be created instead.
+#' @param save_data Logical. If TRUE, the data will be saved to a specified file (see `file_path`).
+#'   If FALSE, a temporary file will be created instead. The temporary file will be automatically deleted after it is loaded into memory.
 #' @param file_path Character. The file path where the data should be saved. Required if `save_data` is TRUE. Ignored if `save_data` is FALSE.
 #' @param delimiters Character. Specifies the delimiter used to separate values in the file, if `save_data` is TRUE.
 #'   Options are `"point-tab"` (tab-separated) or `"point-semi"` (semicolon-separated).
@@ -493,6 +494,8 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #'   Options are `"cp1252"`, `"utf_8"`, `"utf_16"`, or `"latin_1"`.
 #'   Default is `"utf_8"`.
 #' @param dataTypes Character vector. Specifies data types to filter, such as `"Chlorophyll"`, `"Epibenthos"`, etc.
+#' @param bounds A numeric vector of length 4 specifying the geographical boundaries in decimal degrees,
+#'   formatted as c(lon_min, lat_min, lon_max, lat_max), e.g., c(11, 58, 12, 59). Default is c() to include all data.
 #' @param fromYear Integer. Starting year for data retrieval. Default is `2019`.
 #' @param toYear Integer. Ending year for data retrieval. Default is `2020`.
 #' @param months Integer vector. The months to retrieve data for, e.g., `c(4, 5, 6)` for April to June.
@@ -538,7 +541,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @export
 get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "internal_key", save_data = FALSE,
                            file_path = NULL, delimiters = "point-tab", lineEnd = "win", encoding = "utf_8",
-                           dataTypes = c(), fromYear = 2019, toYear = 2020, months = c(), parameters = c(),
+                           dataTypes = c(), bounds = c(), fromYear = 2019, toYear = 2020, months = c(), parameters = c(),
                            checkStatus = "", qualityFlags = c(), deliverers = c(), orderers = c(),
                            projects = c(), datasets = c(), minSamplingDepth = "", maxSamplingDepth = "",
                            redListedCategory = c(), taxonName = c(), stationName = c(), vattenDistrikt = c(),
@@ -617,7 +620,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
       hideEmptyColumns = hideEmptyColumns
     ),
     query = list(
-      bounds = list(),
+      bounds = bounds,
       fromYear = fromYear,
       toYear = toYear,
       months = months,
