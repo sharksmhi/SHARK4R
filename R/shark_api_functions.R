@@ -664,13 +664,18 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 
   # Check response status
   if (status_code(response) == 200) {
-    # Load the file into R as a tibble
+    # Load the file into R as a (character) tibble
     parsed_table<-read_delim(file = file,
                              delim = sep_char,
                              locale = locale(encoding = content_encoding),
                              na = c("", "-", "NA"),
-                             col_types = cols(),
+                             col_types = cols(
+                               .default = col_character()
+                             ),
                              progress = FALSE)
+
+    # Convert to correct column type
+    parsed_table <- type_convert(parsed_table, col_types = cols())
 
     if (!save_data) {
       # Clean up temporary file

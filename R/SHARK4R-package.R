@@ -67,6 +67,7 @@
 #' @importFrom purrr map_df
 #' @importFrom purrr map_dfr
 #' @importFrom rappdirs user_cache_dir
+#' @importFrom readr col_character
 #' @importFrom readr cols
 #' @importFrom readr locale
 #' @importFrom readr read_delim
