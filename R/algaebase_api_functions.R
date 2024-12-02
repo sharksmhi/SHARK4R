@@ -201,7 +201,7 @@ get_algaebase_species <- function(genus, species, apikey, higher = TRUE,
     species_query,
     add_headers("Content-Type" = "application/json", "abapikey" = apikey)
   )
-  if (response$status_code != 200) stop("Error: Unable to fetch data from AlgaeBase")
+  if (response$status_code != 200) stop(paste0("Error ", response$status_code, ": Unable to fetch data from AlgaeBase"))
 
   # Parse JSON response
   results <- prettify(content(response, "text", encoding = "UTF-8"))
@@ -356,7 +356,7 @@ get_algaebase_genus <- function(genus, apikey, higher = TRUE, unparsed = FALSE,
     add_headers("Content-Type" = "application/json", "abapikey" = apikey)
   )
 
-  if (response$status_code != 200) stop("Error: Unable to fetch data from AlgaeBase")
+  if (response$status_code != 200) stop(paste0("Error ", response$status_code, ": Unable to fetch data from AlgaeBase"))
 
   # Parse JSON response
   results <- prettify(content(response, "text", encoding = "UTF-8"))
