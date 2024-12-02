@@ -45,9 +45,9 @@ A data frame containing the search pattern, taxon ID, and best match for each ta
 This function matches a list of taxon names against the SLU Artdatabanken API (Dyntaxa) and retrieves the best matches along with their taxon IDs.
 }
 \details{
-Please read the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{conditions} and \href{https://api-portal.artdatabanken.se/}{register} before using the API.
-
-Data collected through the API is stored at SLU Artdatabanken.
+\strong{Note}: Please review the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{API conditions}
+and \href{https://api-portal.artdatabanken.se/}{register for access} before using the API. Data collected through the API
+is stored at SLU Artdatabanken. Please also note that the authors of \code{SHARK4R} are not affiliated with SLU Artdatabanken.
 }
 \examples{
 \dontrun{

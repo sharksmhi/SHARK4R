@@ -23,29 +23,47 @@ devtools::install_github("sharksmhi/SHARK4R",
                          dependencies = TRUE)
 ```
 
-Load the `SHARK4R` and `tibble` libraries:
-```{r}
+Load the `SHARK4R`, `tibble` and `dplyr` libraries:
+```{r, include=FALSE}
+suppressPackageStartupMessages({
+  library(SHARK4R)
+  library(tibble)
+  library(dplyr)
+})
+```
+
+```{r, eval=FALSE}
 library(SHARK4R)
 library(tibble)
+library(dplyr)
 ```
 
 ## Retrieve Taxonomic Data From SHARK
 
 #### Retrieve Taxonony Table
 
-Taxon tables can be retrieved with the same filtering options available in [SHARK](https://shark.smhi.se/). To see the available filtering options, please refer to [`get_shark_options`](../reference/get_shark_options.html) and the information below.
+Taxon and data tables can be retrieved with the same filtering options available in [SHARK](https://shark.smhi.se/). To see the available filtering options, please refer to [`get_shark_options`](../reference/get_shark_options.html) and the [Retrieve Data From SHARK](../articles/retrieve_shark_data.html) tutorial.
 
 ```{r}
-# Retrieve chlorophyll data for April to June from 2019 to 2020
+# Retrieve taxonomy reports for phytoplankton between 2019 and 2020
 shark_taxon <- get_shark_data(tableView = "report_taxon",
                               fromYear = 2019,
                               toYear = 2020,
-                              months = c(),
                               dataTypes = "Phytoplankton",
                               verbose = FALSE)
 
 # Print data
 print(shark_taxon)
+
+# Retrieve all epibenthos data from July 2015
+shark_data <- get_shark_data(fromYear = 2015, 
+                             toYear = 2015,
+                             months = 7,
+                             dataTypes = c("Epibenthos"),
+                             verbose = FALSE)
+
+# Print data
+print(shark_data)
 ```
 
 ## Retrieve Dyntaxa Data
@@ -59,15 +77,31 @@ Dyntaxa requires a subscription key to access its API. To obtain your own key, s
 dyntaxa_key <- Sys.getenv("DYNTAXA_KEY")
 ```
 
+#### Update SHARK Taxonomy Data
+
+If the taxonomic data downloaded from SHARK are outdated, they can be updated to the latest Dyntaxa information using `SHARK4R`. Alternatively, data can be retrieved from WoRMS. For details, see the [WoRMS Tutorial](../articles/retrieve_worms_data.html).
+
+```{r}
+# Update taxonomy information for the retrieved epibenthos data using Dyntaxa
+updated_taxonomy <- update_dyntaxa_taxonomy(
+  dyntaxa_ids = shark_data$dyntaxa_id,
+  subscription_key = dyntaxa_key,
+  verbose = FALSE)
+
+# Print the updated taxonomy data
+print(updated_taxonomy)
+```
+
+
 #### Match Taxon Names
 
 ```{r}
-# Randomly select 10 taxa from shark_taxon$scientific_name
+# Randomly select 10 phytoplankton taxa from shark_taxon
 taxon_names <- sample(shark_taxon$scientific_name, size = 10)
 
 # Match taxon_names with Dyntaxa API
-matches <- match_taxon_name(taxon_names, 
-                            dyntaxa_key, 
+matches <- match_taxon_name(taxon_names = taxon_names, 
+                            subscription_key = dyntaxa_key, 
                             multiple_options = FALSE,
                             verbose = FALSE)
 
@@ -87,8 +121,8 @@ dyntaxa_id <- unique(matches$taxon_id)
 dyntaxa_id <- dyntaxa_id[!is.na(dyntaxa_id)]
 
 # Get Dyntaxa records
-dyntaxa_records <- get_dyntaxa_records(dyntaxa_id,
-                                       dyntaxa_key)
+dyntaxa_records <- get_dyntaxa_records(taxon_ids = dyntaxa_id,
+                                       subscription_key = dyntaxa_key)
 
 # Print records
 tibble(dyntaxa_records)
@@ -100,8 +134,8 @@ All parent taxa above the Dyntaxa ID can be retrieved using the [`get_dyntaxa_pa
 
 ```{r}
 # Get all parents
-parents_id <- get_dyntaxa_parent_ids(dyntaxa_id, 
-                                     dyntaxa_key,
+parents_id <- get_dyntaxa_parent_ids(taxon_ids = dyntaxa_id, 
+                                     subscription_key = dyntaxa_key,
                                      verbose = FALSE)
 
 # List the IDs
@@ -110,15 +144,19 @@ print(parents_id)
 
 #### Construct Complete Taxonomic Table
 
-A complete taxonomic table, including related taxa, can be constructed using the [`construct_dyntaxa_table`](../reference/construct_dyntaxa_table.html) function. Synonms can be included using the `recommended_only` parameter.
+A comprehensive taxonomic table, including related taxa, can be created with the [`construct_dyntaxa_table`](../reference/construct_dyntaxa_table.html) function. Use the `add_synonyms` parameter to include synonyms, and the `add_parents` and `add_descendants` parameters to include parent and descendant taxa, respectively. If Taxon IDs are missing from the [DwC-A export](../reference/get_dyntaxa_dwca.html) (e.g. species complex and pseudotaxon), they can be matched using the `add_missing_taxa` argument. Additionally, complete hierarchy information can be added as a string of parent taxa separated by "-" using the `add_hierarchy` argument.
 
 ```{r}
-# Retrieve complete taxonomic table (including parents and all descendants below genus level)
-taxonomy_table <- construct_dyntaxa_table(parents_id, 
-                                          dyntaxa_key, 
-                                          shark_output = TRUE, 
-                                          recommended_only = FALSE, 
-                                          add_genus_children = TRUE,
+# Retrieve complete taxonomic table (including parents and descendants)
+taxonomy_table <- construct_dyntaxa_table(taxon_ids = dyntaxa_id, 
+                                          subscription_key = dyntaxa_key, 
+                                          shark_output = FALSE, 
+                                          add_parents = TRUE,
+                                          add_synonyms = TRUE, 
+                                          add_descendants = TRUE,
+                                          add_descendants_rank = "genus",
+                                          add_missing_taxa = FALSE,
+                                          add_hierarchy = FALSE,
                                           verbose = FALSE)
 
 # Print the taxonomy table as a tibble

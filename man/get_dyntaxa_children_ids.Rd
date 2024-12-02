@@ -29,9 +29,9 @@ It constructs a request with the provided taxon IDs, sends the request to the SL
 processes the response to return a list of children taxon IDs.
 }
 \details{
-Please read the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{conditions} and \href{https://api-portal.artdatabanken.se/}{register} before using the API.
-
-Data collected through the API is stored at SLU Artdatabanken.
+\strong{Note}: Please review the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{API conditions}
+and \href{https://api-portal.artdatabanken.se/}{register for access} before using the API. Data collected through the API
+is stored at SLU Artdatabanken. Please also note that the authors of \code{SHARK4R} are not affiliated with SLU Artdatabanken.
 }
 \examples{
 \dontrun{
@@ -44,3 +44,4 @@ print(children_ids)
 \seealso{
 \href{https://api-portal.artdatabanken.se/}{SLU Artdatabanken API Documentation}
 }
+\keyword{internal}

@@ -366,7 +366,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #' @param match_first_word A logical value indicating whether to match the first word of the scientific name if the Aphia ID is missing. Default is TRUE.
 #' @param marine_only A logical value indicating whether to restrict the results to marine taxa only. Default is `FALSE`.
 #' @param return_class A logical value indicating whether to include class information in the result. Default is `FALSE`.
-#' @param custom_groups A named list of additional custom plankton groups. The names of the list correspond to the custom group names (e.g., "Cryptophytes"), and the values should be character vectors specifying one or more of the following taxonomic levels: `phylum`, `class`, `order`, `family`, `genus`, or `scientific_name`. For example:
+#' @param custom_groups A named list of additional custom plankton groups (optional). The names of the list correspond to the custom group names (e.g., "Cryptophytes"), and the values should be character vectors specifying one or more of the following taxonomic levels: `phylum`, `class`, `order`, `family`, `genus`, or `scientific_name`. For example:
 #'   \code{list("Green Algae" = list(class = c("Chlorophyceae", "Ulvophyceae")))}.
 #'   This allows users to extend the default classifications (e.g., Cyanobacteria, Diatoms, Dinoflagellates) with their own groups.
 #' @param verbose A logical value indicating whether to print progress messages. Default is TRUE.

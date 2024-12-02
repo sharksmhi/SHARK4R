@@ -494,8 +494,8 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #'   Options are `"cp1252"`, `"utf_8"`, `"utf_16"`, or `"latin_1"`.
 #'   Default is `"utf_8"`.
 #' @param dataTypes Character vector. Specifies data types to filter, such as `"Chlorophyll"`, `"Epibenthos"`, etc.
-#' @param bounds A numeric vector of length 4 specifying the geographical boundaries in decimal degrees,
-#'   formatted as c(lon_min, lat_min, lon_max, lat_max), e.g., c(11, 58, 12, 59). Default is c() to include all data.
+#' @param bounds A numeric vector of length 4 specifying the geographical search boundaries in decimal degrees,
+#'   formatted as `c(lon_min, lat_min, lon_max, lat_max)`, e.g., `c(11, 58, 12, 59)`. Default is `c()` to include all data.
 #' @param fromYear Integer. Starting year for data retrieval. Default is `2019`.
 #' @param toYear Integer. Ending year for data retrieval. Default is `2020`.
 #' @param months Integer vector. The months to retrieve data for, e.g., `c(4, 5, 6)` for April to June.
@@ -519,9 +519,9 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @param typOmraden Character vector. Type areas to filter by.
 #' @param helcomOspar Character vector. HELCOM or OSPAR areas for regional filtering.
 #' @param seaAreas Character vector. Sea area codes to filter by specific sea areas.
-#' @param hideEmptyColumns Logical. Whether to hide empty columns. Default is `FALSE`.
-#' @param prod Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is `TRUE` (PROD).
-#' @param verbose Logical. Whether to display progress information. Default is `TRUE`.
+#' @param hideEmptyColumns Logical. Whether to hide empty columns. Default is FALSE.
+#' @param prod Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is TRUE (PROD).
+#' @param verbose Logical. Whether to display progress information. Default is TRUE.
 #'
 #' @return A `data.frame` containing the retrieved SHARK data, with column names based on the API's response.
 #'

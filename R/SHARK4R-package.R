@@ -15,6 +15,7 @@
 #' @importFrom dplyr everything
 #' @importFrom dplyr filter
 #' @importFrom dplyr group_by
+#' @importFrom dplyr rowwise
 #' @importFrom dplyr last
 #' @importFrom dplyr last_col
 #' @importFrom dplyr left_join

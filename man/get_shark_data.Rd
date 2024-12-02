@@ -100,8 +100,8 @@ Default is \code{"utf_8"}.}
 
 \item{dataTypes}{Character vector. Specifies data types to filter, such as \code{"Chlorophyll"}, \code{"Epibenthos"}, etc.}
 
-\item{bounds}{A numeric vector of length 4 specifying the geographical boundaries in decimal degrees,
-formatted as c(lon_min, lat_min, lon_max, lat_max), e.g., c(11, 58, 12, 59). Default is c() to include all data.}
+\item{bounds}{A numeric vector of length 4 specifying the geographical search boundaries in decimal degrees,
+formatted as \code{c(lon_min, lat_min, lon_max, lat_max)}, e.g., \code{c(11, 58, 12, 59)}. Default is \code{c()} to include all data.}
 
 \item{fromYear}{Integer. Starting year for data retrieval. Default is \code{2019}.}
 
@@ -149,11 +149,11 @@ formatted as c(lon_min, lat_min, lon_max, lat_max), e.g., c(11, 58, 12, 59). Def
 
 \item{seaAreas}{Character vector. Sea area codes to filter by specific sea areas.}
 
-\item{hideEmptyColumns}{Logical. Whether to hide empty columns. Default is \code{FALSE}.}
+\item{hideEmptyColumns}{Logical. Whether to hide empty columns. Default is FALSE.}
 
-\item{prod}{Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is \code{TRUE} (PROD).}
+\item{prod}{Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is TRUE (PROD).}
 
-\item{verbose}{Logical. Whether to display progress information. Default is \code{TRUE}.}
+\item{verbose}{Logical. Whether to display progress information. Default is TRUE.}
 }
 \value{
 A \code{data.frame} containing the retrieved SHARK data, with column names based on the API's response.

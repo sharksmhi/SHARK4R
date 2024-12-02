@@ -35,7 +35,7 @@ library(ggplot2)
 
 ### Retrieve Phytoplankton Data From SHARK
 
-Phytoplankton data, including scientific names and AphiaIDs, are downloaded from SHARK. To see more download options, please visit the [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html) tutorial.
+Phytoplankton data, including scientific names and AphiaIDs, are downloaded from SHARK. To see more download options, please visit the [Retrieve Data From SHARK](../articles/retrieve_shark_data.html) tutorial.
 
 ```{r}
 # Retrieve all phytoplankton data from April 2015
@@ -93,7 +93,7 @@ tibble(worms_records)
 
 ### Get WoRMS Taxonomy
 
-SHARK sources taxonomic information from [Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_dyntaxa_data.html), which is reflected in columns starting with `taxon_xxxxx`. Equivalent columns based on WoRMS can be retrieved using the [`add_worms_taxonomy`](../reference/add_worms_taxonomy.html) function.
+SHARK sources taxonomic information from [Dyntaxa](../articles/retrieve_dyntaxa_data.html), which is reflected in columns starting with `taxon_xxxxx`. Equivalent columns based on WoRMS can be retrieved using the [`add_worms_taxonomy`](../reference/add_worms_taxonomy.html) function.
 
 ```{r}
 # Retrieve taxonomic table
@@ -125,14 +125,15 @@ shark_data_subset <- shark_data %>%
   filter(shark_sample_id_md5 == sample)
 
 # Assign groups by providing both scientific name and Aphia ID
-plankton_groups <- assign_phytoplankton_group(shark_data_subset$scientific_name,
-                                              shark_data_subset$aphia_id,
-                                              verbose = FALSE)
+plankton_groups <- assign_phytoplankton_group(
+  scientific_names = shark_data_subset$scientific_name,
+  aphia_ids = shark_data_subset$aphia_id,
+  verbose = FALSE)
 
 # Print result
 tibble(distinct(plankton_groups))
 
-# Summarize abundance results based on plankton groups
+# Add plankton groups to data and summarize abundance results
 plankton_group_sum <- shark_data_subset %>%
   mutate(plankton_group = plankton_groups$plankton_group) %>%
   filter(parameter == "Abundance") %>%
@@ -140,7 +141,8 @@ plankton_group_sum <- shark_data_subset %>%
   summarise(sum_plankton_groups = sum(value, na.rm = TRUE))
 
 # Plot a pie chart
-ggplot(plankton_group_sum, aes(x = "", y = sum_plankton_groups, fill = plankton_group)) +
+ggplot(plankton_group_sum, 
+       aes(x = "", y = sum_plankton_groups, fill = plankton_group)) +
   geom_col(width = 1) +
   coord_polar(theta = "y") +
   labs(
@@ -169,11 +171,12 @@ custom_groups <- list(
 )
 
 # Assign groups by providing scientific name only, and adding custom groups
-plankton_groups <- assign_phytoplankton_group(shark_data_subset$scientific_name,
-                                              custom_groups = custom_groups,
-                                              verbose = FALSE)
+plankton_groups <- assign_phytoplankton_group(
+  scientific_names = shark_data_subset$scientific_name,
+  custom_groups = custom_groups,
+  verbose = FALSE)
 
-# Summarize abundance results based on new plankton groups
+# Add new plankton groups to data and summarize abundance results
 plankton_custom_group_sum <- shark_data_subset %>%
   mutate(plankton_group = plankton_groups$plankton_group) %>%
   filter(parameter == "Abundance") %>%
@@ -181,7 +184,8 @@ plankton_custom_group_sum <- shark_data_subset %>%
   summarise(sum_plankton_groups = sum(value, na.rm = TRUE))
 
 # Plot a new pie chart, including the custom groups
-ggplot(plankton_custom_group_sum, aes(x = "", y = sum_plankton_groups, fill = plankton_group)) +
+ggplot(plankton_custom_group_sum, 
+       aes(x = "", y = sum_plankton_groups, fill = plankton_group)) +
   geom_col(width = 1) +
   coord_polar(theta = "y") +
   labs(

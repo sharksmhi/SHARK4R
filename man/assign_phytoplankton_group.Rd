@@ -38,7 +38,7 @@ assign_phytoplankton_group(
 
 \item{return_class}{A logical value indicating whether to include class information in the result. Default is \code{FALSE}.}
 
-\item{custom_groups}{A named list of additional custom plankton groups. The names of the list correspond to the custom group names (e.g., "Cryptophytes"), and the values should be character vectors specifying one or more of the following taxonomic levels: \code{phylum}, \code{class}, \code{order}, \code{family}, \code{genus}, or \code{scientific_name}. For example:
+\item{custom_groups}{A named list of additional custom plankton groups (optional). The names of the list correspond to the custom group names (e.g., "Cryptophytes"), and the values should be character vectors specifying one or more of the following taxonomic levels: \code{phylum}, \code{class}, \code{order}, \code{family}, \code{genus}, or \code{scientific_name}. For example:
 \code{list("Green Algae" = list(class = c("Chlorophyceae", "Ulvophyceae")))}.
 This allows users to extend the default classifications (e.g., Cyanobacteria, Diatoms, Dinoflagellates) with their own groups.}
 
