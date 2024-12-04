@@ -58,7 +58,7 @@ shark_options <- get_shark_options()
 names(shark_options)
 
 # View available datatypes
-dataTypes <- unlist(shark_options$dataTypes)
+dataTypes <- shark_options$dataTypes
 print(dataTypes)
 ```
 

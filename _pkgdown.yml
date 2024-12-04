@@ -37,8 +37,7 @@ reference:
   desc: These functions are used to retireve data from the Dyntaxa API
   contents:
   - construct_dyntaxa_table
-  - get_dyntaxa_children_hierarchy
-  - get_dyntaxa_children_ids
+  - get_dyntaxa_dwca
   - get_dyntaxa_parent_ids
   - get_dyntaxa_records
   - match_taxon_name

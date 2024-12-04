@@ -13,8 +13,9 @@ get_shark_data(
   lineEnd = "win",
   encoding = "utf_8",
   dataTypes = c(),
-  fromYear = 2019,
-  toYear = 2020,
+  bounds = c(),
+  fromYear = NULL,
+  toYear = NULL,
   months = c(),
   parameters = c(),
   checkStatus = "",
@@ -80,7 +81,8 @@ Default is \code{"sharkweb_overview"}.}
 \item \code{"internal_key"}: Internal key (default).
 }}
 
-\item{save_data}{Logical. If TRUE, the data will be saved to a specified file (see \code{file_path}). If FALSE, a temporary file will be created instead.}
+\item{save_data}{Logical. If TRUE, the data will be saved to a specified file (see \code{file_path}).
+If FALSE, a temporary file will be created instead. The temporary file will be automatically deleted after it is loaded into memory.}
 
 \item{file_path}{Character. The file path where the data should be saved. Required if \code{save_data} is TRUE. Ignored if \code{save_data} is FALSE.}
 
@@ -96,11 +98,36 @@ Default is \code{"win"}.}
 Options are \code{"cp1252"}, \code{"utf_8"}, \code{"utf_16"}, or \code{"latin_1"}.
 Default is \code{"utf_8"}.}
 
-\item{dataTypes}{Character vector. Specifies data types to filter, such as \code{"Chlorophyll"}, \code{"Epibenthos"}, etc.}
+\item{dataTypes}{Character vector. Specifies data types to filter. Possible values include:
+\itemize{
+\item "Bacterioplankton"
+\item "Chlorophyll"
+\item "Epibenthos"
+\item "Grey seal"
+\item "Harbour Porpoise"
+\item "Harbour seal"
+\item "Jellyfish"
+\item "Physical and Chemical"
+\item "Phytoplankton"
+\item "Picoplankton"
+\item "PlanktonBarcoding"
+\item "Primary production"
+\item "Profile"
+\item "Ringed seal"
+\item "Seal pathology"
+\item "Sedimentation"
+\item "Zoobenthos"
+\item "Zooplankton"
+}}
 
-\item{fromYear}{Integer. Starting year for data retrieval. Default is \code{2019}.}
+\item{bounds}{A numeric vector of length 4 specifying the geographical search boundaries in decimal degrees,
+formatted as \code{c(lon_min, lat_min, lon_max, lat_max)}, e.g., \code{c(11, 58, 12, 59)}. Default is \code{c()} to include all data.}
 
-\item{toYear}{Integer. Ending year for data retrieval. Default is \code{2020}.}
+\item{fromYear}{Integer (optional). The starting year for data retrieval.
+If set to \code{NULL} (default), the function will use the earliest available year in SHARK.}
+
+\item{toYear}{Integer (optional). The ending year for data retrieval.
+If set to \code{NULL} (default), the function will use the latest available year in SHARK.}
 
 \item{months}{Integer vector. The months to retrieve data for, e.g., \code{c(4, 5, 6)} for April to June.}
 
@@ -108,7 +135,7 @@ Default is \code{"utf_8"}.}
 
 \item{checkStatus}{Character string. Optional status check to filter results.}
 
-\item{qualityFlags}{Character vector. Quality flags to filter the data.}
+\item{qualityFlags}{Character vector. Specifies the quality flags to filter the data. By default, all data are included, including those with the "B" flag (Bad).}
 
 \item{deliverers}{Character vector. Specifies the data deliverers to filter by.}
 
@@ -144,11 +171,11 @@ Default is \code{"utf_8"}.}
 
 \item{seaAreas}{Character vector. Sea area codes to filter by specific sea areas.}
 
-\item{hideEmptyColumns}{Logical. Whether to hide empty columns. Default is \code{FALSE}.}
+\item{hideEmptyColumns}{Logical. Whether to hide empty columns. Default is FALSE.}
 
-\item{prod}{Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is \code{TRUE} (PROD).}
+\item{prod}{Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is TRUE (PROD).}
 
-\item{verbose}{Logical. Whether to display progress information. Default is \code{TRUE}.}
+\item{verbose}{Logical. Whether to display progress information. Default is TRUE.}
 }
 \value{
 A \code{data.frame} containing the retrieved SHARK data, with column names based on the API's response.

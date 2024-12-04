@@ -2,47 +2,71 @@
 % Please edit documentation in R/dyntaxa_api_functions.R
 \name{construct_dyntaxa_table}
 \alias{construct_dyntaxa_table}
-\title{Construct Dyntaxa taxonomy table from API}
+\title{Construct Dyntaxa Taxonomy Table From API}
 \usage{
 construct_dyntaxa_table(
-  parent_ids,
+  taxon_ids,
   subscription_key,
   shark_output = TRUE,
-  recommended_only = TRUE,
-  add_genus_children = FALSE,
-  verbose = TRUE
+  add_parents = TRUE,
+  add_descendants = FALSE,
+  add_descendants_rank = "genus",
+  add_synonyms = TRUE,
+  add_missing_taxa = FALSE,
+  add_hierarchy = FALSE,
+  verbose = TRUE,
+  add_genus_children = deprecated(),
+  recommended_only = deprecated(),
+  parent_ids = deprecated()
 )
 }
 \arguments{
-\item{parent_ids}{A list containing parent taxon IDs for which taxonomy information is requested.}
+\item{taxon_ids}{An integer vector containing taxon IDs for which taxonomy information is requested. These IDs should correspond to specific taxonomic entities within the Dyntaxa database.}
 
-\item{subscription_key}{A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at \href{https://api-portal.artdatabanken.se/}{Artdatabanken}.}
+\item{subscription_key}{A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided to registered users at \href{https://api-portal.artdatabanken.se/}{Artdatabanken}.}
 
-\item{shark_output}{Logical. If TRUE, the function will return selected column headers that match SHARK output. If FALSE, all columns are returned. Default is TRUE.}
+\item{shark_output}{Logical. If TRUE, the function will return a table formatted with SHARK-compatible columns. If FALSE, all available columns are returned. Default is TRUE.}
 
-\item{recommended_only}{Logical. If TRUE, the function will return only recommended (accepted) names. If FALSE, all names are returned. Default is TRUE.}
+\item{add_parents}{Logical. If TRUE, the function will include parent taxa (higher ranks) for the specified taxon IDs in the output. Default is TRUE.}
 
-\item{add_genus_children}{Logical. If TRUE, the output will include children from all valid genera taxon_ids present in \code{parent_ids}. Default is FALSE.}
+\item{add_descendants}{Logical. If TRUE, the output will include descendant taxa (lower ranks) for the specified taxon IDs and the rank specified in \code{add_descendants_rank}. Default is FALSE.}
 
-\item{verbose}{Logical. Default is TRUE.}
+\item{add_descendants_rank}{Character string specifying the rank of descendant taxa to include. Allowed values are "kingdom", "phylum", "class", "order", "family", "genus", and "species". Default is "genus".}
+
+\item{add_synonyms}{Logical. If TRUE, the function will include synonyms for the accepted taxa in the output. Default is TRUE.}
+
+\item{add_missing_taxa}{Logical. If TRUE, the function will attempt to fetch missing taxa (i.e., taxa not found in the initial Dyntaxa DwC-A query, such as species complexes). Default is FALSE.}
+
+\item{add_hierarchy}{Logical. If TRUE, the function will add a hierarchy column indicating the taxonomic relationships (e.g., parent-child) among the taxa. Default is FALSE.}
+
+\item{verbose}{Logical. If TRUE, the function will print additional messages to provide feedback on its progress. Default is TRUE.}
+
+\item{add_genus_children}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Use \code{add_descendants} instead.}
+
+\item{recommended_only}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Use \code{add_synonyms} instead.}
+
+\item{parent_ids}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Use \code{taxon_ids} instead. \code{construct_dyntaxa_table} now handles taxon IDs.}
 }
 \value{
 A data frame representing the constructed taxonomy table.
 }
 \description{
-This function constructs a taxonomy table based on Dyntaxa parent taxon IDs.
+This function constructs a taxonomy table based on Dyntaxa taxon IDs.
 It queries the SLU Artdatabanken API (Dyntaxa) to fetch taxonomy information and organizes the data into a hierarchical table.
 }
 \details{
-Please read the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{conditions} and \href{https://api-portal.artdatabanken.se/}{register} before using the API.
-
-Data collected through the API is stored at SLU Artdatabanken.
+\strong{Note}: Please review the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{API conditions}
+and \href{https://api-portal.artdatabanken.se/}{register for access} before using the API. Data collected through the API
+is stored at SLU Artdatabanken. Please also note that the authors of \code{SHARK4R} are not affiliated with SLU Artdatabanken.
 }
 \examples{
 \dontrun{
 # Construct Dyntaxa taxonomy table for taxon IDs 238366 and 1010380
-parent_ids <- get_dyntaxa_parent_ids(c(238366, 1010380), "your_subscription_key")
-taxonomy_table <- construct_dyntaxa_table(parent_ids, "your_subscription_key")
+taxon_ids <- c(238366, 1010380)
+taxonomy_table <- construct_dyntaxa_table(taxon_ids, "your_subscription_key")
 print(taxonomy_table)
 }
 

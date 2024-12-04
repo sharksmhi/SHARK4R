@@ -10,7 +10,7 @@ vignette: >
 
 ## AlgaeBase
 
-AlgaeBase is a comprehensive database containing information on a wide variety of algae species, including terrestrial, marine, and freshwater organisms, with an emphasis on marine botany. It also includes sea-grasses, though these are flowering plants rather than true algae. AlgaeBase is continually updated and funded by various phycological societies, with contributions from researchers and institutions worldwide. While it is an invaluable resource for taxonomic studies, it is not a definitive source, as it represents a synthesis of various taxonomic opinions and remains a work in progress. It can be accessed via a [web interface](https://www.algaebase.org/) or through the [API](https://www.algaebase.org/api/), as demonstrated in this tutorial using `SHARK4R`.
+AlgaeBase is a comprehensive database containing information on a wide variety of algae species, including terrestrial, marine, and freshwater organisms, with an emphasis on marine botany. AlgaeBase is continually updated and funded by various phycological societies, with contributions from researchers and institutions worldwide. It can be accessed via a [web interface](https://www.algaebase.org/) or through the [API](https://www.algaebase.org/api/), as demonstrated in this tutorial using `SHARK4R`. Please note that the authors of `SHARK4R` are not affiliated with AlgaeBase.
 
 ## Getting Started
 
