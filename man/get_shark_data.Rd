@@ -14,8 +14,8 @@ get_shark_data(
   encoding = "utf_8",
   dataTypes = c(),
   bounds = c(),
-  fromYear = 2019,
-  toYear = 2020,
+  fromYear = NULL,
+  toYear = NULL,
   months = c(),
   parameters = c(),
   checkStatus = "",
@@ -98,14 +98,36 @@ Default is \code{"win"}.}
 Options are \code{"cp1252"}, \code{"utf_8"}, \code{"utf_16"}, or \code{"latin_1"}.
 Default is \code{"utf_8"}.}
 
-\item{dataTypes}{Character vector. Specifies data types to filter, such as \code{"Chlorophyll"}, \code{"Epibenthos"}, etc.}
+\item{dataTypes}{Character vector. Specifies data types to filter. Possible values include:
+\itemize{
+\item "Bacterioplankton"
+\item "Chlorophyll"
+\item "Epibenthos"
+\item "Grey seal"
+\item "Harbour Porpoise"
+\item "Harbour seal"
+\item "Jellyfish"
+\item "Physical and Chemical"
+\item "Phytoplankton"
+\item "Picoplankton"
+\item "PlanktonBarcoding"
+\item "Primary production"
+\item "Profile"
+\item "Ringed seal"
+\item "Seal pathology"
+\item "Sedimentation"
+\item "Zoobenthos"
+\item "Zooplankton"
+}}
 
 \item{bounds}{A numeric vector of length 4 specifying the geographical search boundaries in decimal degrees,
 formatted as \code{c(lon_min, lat_min, lon_max, lat_max)}, e.g., \code{c(11, 58, 12, 59)}. Default is \code{c()} to include all data.}
 
-\item{fromYear}{Integer. Starting year for data retrieval. Default is \code{2019}.}
+\item{fromYear}{Integer (optional). The starting year for data retrieval.
+If set to \code{NULL} (default), the function will use the earliest available year in SHARK.}
 
-\item{toYear}{Integer. Ending year for data retrieval. Default is \code{2020}.}
+\item{toYear}{Integer (optional). The ending year for data retrieval.
+If set to \code{NULL} (default), the function will use the latest available year in SHARK.}
 
 \item{months}{Integer vector. The months to retrieve data for, e.g., \code{c(4, 5, 6)} for April to June.}
 
@@ -113,7 +135,7 @@ formatted as \code{c(lon_min, lat_min, lon_max, lat_max)}, e.g., \code{c(11, 58,
 
 \item{checkStatus}{Character string. Optional status check to filter results.}
 
-\item{qualityFlags}{Character vector. Quality flags to filter the data.}
+\item{qualityFlags}{Character vector. Specifies the quality flags to filter the data. By default, all data are included, including those with the "B" flag (Bad).}
 
 \item{deliverers}{Character vector. Specifies the data deliverers to filter by.}
 

@@ -257,7 +257,7 @@ get_shark_table <- function(tableView = "sharkweb_overview", limit = 0, headerLa
 #'   View(shark_options)
 #'
 #'   # View available datatypes
-#'   dataTypes <- unlist(shark_options$dataTypes)
+#'   dataTypes <- shark_options$dataTypes
 #'   print(dataTypes)
 #' }
 #'
@@ -289,7 +289,20 @@ get_shark_options <- function(prod = TRUE) {
     # Parse the JSON response content
     shark_options <- content(response, as = "parsed", type = "application/json")
 
-    return(shark_options)
+    parsed_options <- lapply(shark_options, function(x) {
+      if (is.list(x)) {
+        # If it's a list, check if it contains numeric or character data
+        if (all(sapply(x, is.numeric))) {
+          return(as.numeric(unlist(x)))  # Convert to numeric vector if all elements are numeric
+        } else {
+          return(unlist(x, use.names = FALSE))  # Otherwise, convert to character vector
+        }
+      } else {
+        return(x)  # Non-list elements are returned as-is
+      }
+    })
+
+    return(parsed_options)
   } else {
     # Return the error message if the request failed
     stop("Failed to retrieve options: ", status_code(response))
@@ -493,15 +506,37 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @param encoding Character. Sets the file's text encoding, if `save_data` is TRUE.
 #'   Options are `"cp1252"`, `"utf_8"`, `"utf_16"`, or `"latin_1"`.
 #'   Default is `"utf_8"`.
-#' @param dataTypes Character vector. Specifies data types to filter, such as `"Chlorophyll"`, `"Epibenthos"`, etc.
+#' @param dataTypes Character vector. Specifies data types to filter. Possible values include:
+#' \itemize{
+#'   \item "Bacterioplankton"
+#'   \item "Chlorophyll"
+#'   \item "Epibenthos"
+#'   \item "Grey seal"
+#'   \item "Harbour Porpoise"
+#'   \item "Harbour seal"
+#'   \item "Jellyfish"
+#'   \item "Physical and Chemical"
+#'   \item "Phytoplankton"
+#'   \item "Picoplankton"
+#'   \item "PlanktonBarcoding"
+#'   \item "Primary production"
+#'   \item "Profile"
+#'   \item "Ringed seal"
+#'   \item "Seal pathology"
+#'   \item "Sedimentation"
+#'   \item "Zoobenthos"
+#'   \item "Zooplankton"
+#' }
 #' @param bounds A numeric vector of length 4 specifying the geographical search boundaries in decimal degrees,
 #'   formatted as `c(lon_min, lat_min, lon_max, lat_max)`, e.g., `c(11, 58, 12, 59)`. Default is `c()` to include all data.
-#' @param fromYear Integer. Starting year for data retrieval. Default is `2019`.
-#' @param toYear Integer. Ending year for data retrieval. Default is `2020`.
+#' @param fromYear Integer (optional). The starting year for data retrieval.
+#'   If set to `NULL` (default), the function will use the earliest available year in SHARK.
+#' @param toYear Integer (optional). The ending year for data retrieval.
+#'   If set to `NULL` (default), the function will use the latest available year in SHARK.
 #' @param months Integer vector. The months to retrieve data for, e.g., `c(4, 5, 6)` for April to June.
 #' @param parameters Character vector. Optional parameters to filter the results by, such as `"Chlorophyll-a"`.
 #' @param checkStatus Character string. Optional status check to filter results.
-#' @param qualityFlags Character vector. Quality flags to filter the data.
+#' @param qualityFlags Character vector. Specifies the quality flags to filter the data. By default, all data are included, including those with the "B" flag (Bad).
 #' @param deliverers Character vector. Specifies the data deliverers to filter by.
 #' @param orderers Character vector. Orderers to filter by specific organizations or individuals.
 #' @param projects Character vector. Projects to filter data by specific research or monitoring projects.
@@ -541,7 +576,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @export
 get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "internal_key", save_data = FALSE,
                            file_path = NULL, delimiters = "point-tab", lineEnd = "win", encoding = "utf_8",
-                           dataTypes = c(), bounds = c(), fromYear = 2019, toYear = 2020, months = c(), parameters = c(),
+                           dataTypes = c(), bounds = c(), fromYear = NULL, toYear = NULL, months = c(), parameters = c(),
                            checkStatus = "", qualityFlags = c(), deliverers = c(), orderers = c(),
                            projects = c(), datasets = c(), minSamplingDepth = "", maxSamplingDepth = "",
                            redListedCategory = c(), taxonName = c(), stationName = c(), vattenDistrikt = c(),
@@ -607,6 +642,22 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     warning("'lineEnd' must be one of 'win' or 'unix'. Defaulting to 'win'.")
 
     lineEnd<-"win"
+  }
+
+  # Check if either 'fromYear' or 'toYear' is NULL
+  if (is.null(fromYear) | is.null(toYear)) {
+    # Retrieve default year options, such as minYear and maxYear
+    options <- get_shark_options()
+
+    # If 'fromYear' is NULL, set it to the minimum year from the options
+    if (is.null(fromYear)) {
+      fromYear <- options$minYear
+    }
+
+    # If 'toYear' is NULL, set it to the maximum year from the options
+    if (is.null(toYear)) {
+      toYear <- options$maxYear
+    }
   }
 
   # Create the JSON body as a list
