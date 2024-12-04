@@ -56,7 +56,8 @@ shark_taxon <- get_shark_data(tableView = "report_taxon",
 print(shark_taxon)
 
 # Retrieve all epibenthos data from July 2015
-shark_data <- get_shark_data(fromYear = 2015, 
+shark_data <- get_shark_data(tableView = "sharkdata_epibenthos",
+                             fromYear = 2015, 
                              toYear = 2015,
                              months = 7,
                              dataTypes = c("Epibenthos"),
