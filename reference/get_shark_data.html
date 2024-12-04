@@ -11,7 +11,7 @@ retrieved data as a structured data.frame. To view available filter options, see
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,8 +67,9 @@ retrieved data as a structured <code>data.frame</code>. To view available filter
 <span>  lineEnd <span class="op">=</span> <span class="st">"win"</span>,</span>
 <span>  encoding <span class="op">=</span> <span class="st">"utf_8"</span>,</span>
 <span>  dataTypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  fromYear <span class="op">=</span> <span class="fl">2019</span>,</span>
-<span>  toYear <span class="op">=</span> <span class="fl">2020</span>,</span>
+<span>  bounds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  fromYear <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  toYear <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  parameters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  checkStatus <span class="op">=</span> <span class="st">""</span>,</span>
@@ -138,7 +139,8 @@ retrieved data as a structured <code>data.frame</code>. To view available filter
 
 
 <dt id="arg-save-data">save_data<a class="anchor" aria-label="anchor" href="#arg-save-data"></a></dt>
-<dd><p>Logical. If TRUE, the data will be saved to a specified file (see <code>file_path</code>). If FALSE, a temporary file will be created instead.</p></dd>
+<dd><p>Logical. If TRUE, the data will be saved to a specified file (see <code>file_path</code>).
+If FALSE, a temporary file will be created instead. The temporary file will be automatically deleted after it is loaded into memory.</p></dd>
 
 
 <dt id="arg-file-path">file_path<a class="anchor" aria-label="anchor" href="#arg-file-path"></a></dt>
@@ -164,15 +166,40 @@ Default is <code>"utf_8"</code>.</p></dd>
 
 
 <dt id="arg-datatypes">dataTypes<a class="anchor" aria-label="anchor" href="#arg-datatypes"></a></dt>
-<dd><p>Character vector. Specifies data types to filter, such as <code>"Chlorophyll"</code>, <code>"Epibenthos"</code>, etc.</p></dd>
+<dd><p>Character vector. Specifies data types to filter. Possible values include:</p><ul><li><p>"Bacterioplankton"</p></li>
+<li><p>"Chlorophyll"</p></li>
+<li><p>"Epibenthos"</p></li>
+<li><p>"Grey seal"</p></li>
+<li><p>"Harbour Porpoise"</p></li>
+<li><p>"Harbour seal"</p></li>
+<li><p>"Jellyfish"</p></li>
+<li><p>"Physical and Chemical"</p></li>
+<li><p>"Phytoplankton"</p></li>
+<li><p>"Picoplankton"</p></li>
+<li><p>"PlanktonBarcoding"</p></li>
+<li><p>"Primary production"</p></li>
+<li><p>"Profile"</p></li>
+<li><p>"Ringed seal"</p></li>
+<li><p>"Seal pathology"</p></li>
+<li><p>"Sedimentation"</p></li>
+<li><p>"Zoobenthos"</p></li>
+<li><p>"Zooplankton"</p></li>
+</ul></dd>
+
+
+<dt id="arg-bounds">bounds<a class="anchor" aria-label="anchor" href="#arg-bounds"></a></dt>
+<dd><p>A numeric vector of length 4 specifying the geographical search boundaries in decimal degrees,
+formatted as <code>c(lon_min, lat_min, lon_max, lat_max)</code>, e.g., <code>c(11, 58, 12, 59)</code>. Default is <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code> to include all data.</p></dd>
 
 
 <dt id="arg-fromyear">fromYear<a class="anchor" aria-label="anchor" href="#arg-fromyear"></a></dt>
-<dd><p>Integer. Starting year for data retrieval. Default is <code>2019</code>.</p></dd>
+<dd><p>Integer (optional). The starting year for data retrieval.
+If set to <code>NULL</code> (default), the function will use the earliest available year in SHARK.</p></dd>
 
 
 <dt id="arg-toyear">toYear<a class="anchor" aria-label="anchor" href="#arg-toyear"></a></dt>
-<dd><p>Integer. Ending year for data retrieval. Default is <code>2020</code>.</p></dd>
+<dd><p>Integer (optional). The ending year for data retrieval.
+If set to <code>NULL</code> (default), the function will use the latest available year in SHARK.</p></dd>
 
 
 <dt id="arg-months">months<a class="anchor" aria-label="anchor" href="#arg-months"></a></dt>
@@ -188,7 +215,7 @@ Default is <code>"utf_8"</code>.</p></dd>
 
 
 <dt id="arg-qualityflags">qualityFlags<a class="anchor" aria-label="anchor" href="#arg-qualityflags"></a></dt>
-<dd><p>Character vector. Quality flags to filter the data.</p></dd>
+<dd><p>Character vector. Specifies the quality flags to filter the data. By default, all data are included, including those with the "B" flag (Bad).</p></dd>
 
 
 <dt id="arg-deliverers">deliverers<a class="anchor" aria-label="anchor" href="#arg-deliverers"></a></dt>
@@ -260,15 +287,15 @@ Default is <code>"utf_8"</code>.</p></dd>
 
 
 <dt id="arg-hideemptycolumns">hideEmptyColumns<a class="anchor" aria-label="anchor" href="#arg-hideemptycolumns"></a></dt>
-<dd><p>Logical. Whether to hide empty columns. Default is <code>FALSE</code>.</p></dd>
+<dd><p>Logical. Whether to hide empty columns. Default is FALSE.</p></dd>
 
 
 <dt id="arg-prod">prod<a class="anchor" aria-label="anchor" href="#arg-prod"></a></dt>
-<dd><p>Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is <code>TRUE</code> (PROD).</p></dd>
+<dd><p>Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is TRUE (PROD).</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
-<dd><p>Logical. Whether to display progress information. Default is <code>TRUE</code>.</p></dd>
+<dd><p>Logical. Whether to display progress information. Default is TRUE.</p></dd>
 
 </dl></div>
     <div class="section level2">

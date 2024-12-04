@@ -11,7 +11,7 @@ the data into a full taxonomic table that can be joined with data downloaded fro
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,12 @@ the data into a full taxonomic table that can be joined with data downloaded fro
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">update_dyntaxa_taxonomy</span><span class="op">(</span><span class="va">dyntaxa_ids</span>, <span class="va">subscription_key</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">update_dyntaxa_taxonomy</span><span class="op">(</span></span>
+<span>  <span class="va">dyntaxa_ids</span>,</span>
+<span>  <span class="va">subscription_key</span>,</span>
+<span>  add_missing_taxa <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -72,6 +77,14 @@ the data into a full taxonomic table that can be joined with data downloaded fro
 <dt id="arg-subscription-key">subscription_key<a class="anchor" aria-label="anchor" href="#arg-subscription-key"></a></dt>
 <dd><p>A character string containing the subscription key for accessing the SLU Artdatabanken API for Dyntaxa. A key is provided for registered users at <a href="https://api-portal.artdatabanken.se/" class="external-link">SLU Artdatabanken</a>.</p></dd>
 
+
+<dt id="arg-add-missing-taxa">add_missing_taxa<a class="anchor" aria-label="anchor" href="#arg-add-missing-taxa"></a></dt>
+<dd><p>Logical. If TRUE, the function will attempt to fetch missing taxa (i.e., taxon_ids not found in the initial Dyntaxa DwC-A query). Default is FALSE.</p></dd>
+
+
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
+<dd><p>Logical. Print progress messages. Default is TRUE.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -79,8 +92,9 @@ the data into a full taxonomic table that can be joined with data downloaded fro
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Please read the <a href="https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/" class="external-link">conditions</a> and <a href="https://api-portal.artdatabanken.se/" class="external-link">register</a> before using the API.</p>
-<p>Data collected through the API is stored at SLU Artdatabanken.</p>
+    <p><strong>Note</strong>: Please review the <a href="https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/" class="external-link">API conditions</a>
+and <a href="https://api-portal.artdatabanken.se/" class="external-link">register for access</a> before using the API. Data collected through the API
+is stored at SLU Artdatabanken. Please also note that the authors of <code>SHARK4R</code> are not affiliated with SLU Artdatabanken.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
