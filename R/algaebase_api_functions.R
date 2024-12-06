@@ -358,76 +358,89 @@ get_algaebase_genus <- function(genus, apikey, higher = TRUE, unparsed = FALSE,
   if (is.null(genus) || genus == "" || is.na(genus)) stop("No genus name supplied")
   if (is.null(apikey) || apikey == "") stop("API key is required")
 
-  # Construct the search URL
+  # Base search URL
   genus_search_string <- paste0('https://api.algaebase.org/v1.3/genus?genus=', genus)
 
-  # Send GET request
-  response <- GET(
-    genus_search_string,
-    add_headers("Content-Type" = "application/json", "abapikey" = apikey)
-  )
+  # Initialize pagination variables
+  offset <- 0
+  count <- 50
+  combined_results <- list()  # Use a list to store pages temporarily
+  total_retrieved <- 0        # Track the total number of results retrieved
+  total_number_of_results <- Inf  # Initialize as infinite until the first response
 
-  if (response$status_code != 200) stop(paste0("Error ", response$status_code, ": Unable to fetch data from AlgaeBase"))
+  repeat {
+    # Build the URL with offset and count
+    query_url <- paste0(genus_search_string, "&offset=", offset, "&count=", count)
 
-  # Parse JSON response
-  results <- prettify(content(response, "text", encoding = "UTF-8"))
-  if (unparsed) return(results)
+    # Send GET request
+    response <- GET(
+      query_url,
+      add_headers("Content-Type" = "application/json", "abapikey" = apikey)
+    )
 
-  result_list <- fromJSON(results)
-  results_output <- result_list[[2]]
+    # Check for response errors
+    if (response$status_code != 200) stop(paste0("Error ", response$status_code, ": Unable to fetch data from AlgaeBase"))
+
+    # Parse the response
+    results <- fromJSON(content(response, "text", encoding = "UTF-8"))
+    results_page <- results[[2]]  # Assuming this contains the data
+
+    # Get total number of results from the first response
+    if (is.infinite(total_number_of_results)) {
+      total_number_of_results <- results[[1]]$`_total_number_of_results`
+    }
+
+    # Break the loop if no more results are returned
+    if (nrow(results_page) == 0) break
+
+    # Append the results page to the list
+    combined_results[[length(combined_results) + 1]] <- results_page
+
+    # Update the total number of results retrieved
+    total_retrieved <- total_retrieved + nrow(results_page)
+
+    # Break the loop if all results have been retrieved
+    if (total_retrieved >= total_number_of_results) break
+
+    # Update offset for the next request
+    offset <- offset + count
+
+    # Pause between requests to avoid hitting rate limits
+    Sys.sleep(1)
+  }
+
+  # Combine all results into a single data frame
+  combined_results <- do.call(rbind, combined_results)
+
+  if (unparsed) return(combined_results)
 
   # Parse `mod_date` once
-  mod_date <- ymd(extract_algaebase_field(results_output, "dcterms:modified"))
+  mod_date <- lubridate::ymd(combined_results$`dcterms:modified`)
 
-  # Handle higher taxonomy if requested
   if (higher) {
-    higher_taxonomy <- data.frame(
-      kingdom = extract_algaebase_field(results_output, "dwc:kingdom"),
-      phylum = extract_algaebase_field(results_output, "dwc:phylum"),
-      class = extract_algaebase_field(results_output, "dwc:class"),
-      order = extract_algaebase_field(results_output, "dwc:order"),
-      family = extract_algaebase_field(results_output, "dwc:family"),
-      genus = extract_algaebase_field(results_output, "dwc:genus")
-    )
+    higher_taxonomy <- combined_results[, c("dwc:kingdom", "dwc:phylum", "dwc:class", "dwc:order", "dwc:family", "dwc:genus")]
   }
 
-  # Extract additional fields
-  long_name <- extract_algaebase_field(results_output, "dwc:scientificName")
-  taxonomic_status <- extract_algaebase_field(results_output, "dwc:taxonomicStatus")
-  taxon_rank <- extract_algaebase_field(results_output, "dwc:taxonRank")
-  authorship <- extract_algaebase_field(results_output, "dwc:scientificNameAuthorship")
-  accepted_name <- extract_algaebase_field(results_output, "dwc:acceptedNameUsage")
-  input_match <- ifelse(genus == extract_algaebase_field(results_output, "dwc:genus"), 1, 0)
-  currently_accepted <- ifelse(taxonomic_status == "currently accepted taxonomically", 1, 0)
-  accepted_name <- ifelse(currently_accepted == 1, genus, accepted_name)
-
-  # Create output data frame
   output <- data.frame(
-    id = extract_algaebase_field(results_output, "dwc:scientificNameID"),
-    genus = extract_algaebase_field(results_output, "dwc:genus"),
+    id = combined_results$`dwc:scientificNameID`,
+    genus = combined_results$`dwc:genus`,
     species = NA, infrasp = NA,
-    taxonomic_status, currently_accepted, accepted_name,
-    genus_only = 1, input_name = genus, input_match,
-    taxon_rank, mod_date, long_name, authorship
+    taxonomic_status = combined_results$`dwc:taxonomicStatus`,
+    currently_accepted = ifelse(combined_results$`dwc:taxonomicStatus` == "currently accepted taxonomically", 1, 0),
+    accepted_name = combined_results$`dwc:acceptedNameUsage`,
+    genus_only = 1,
+    input_name = genus,
+    input_match = ifelse(genus == combined_results$`dwc:genus`, 1, 0),
+    taxon_rank = combined_results$`dwc:taxonRank`,
+    mod_date = mod_date,
+    long_name = combined_results$`dwc:scientificName`,
+    authorship = combined_results$`dwc:scientificNameAuthorship`
   )
 
-  # Include higher taxonomy if requested
   if (higher) {
     output <- cbind(higher_taxonomy, output)
-    output <- output[, c(
-      'id', 'accepted_name', 'input_name', 'input_match', 'currently_accepted', 'genus_only',
-      'kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species', 'infrasp',
-      'long_name', 'taxonomic_status', 'taxon_rank', 'mod_date', 'authorship'
-    )]
-  } else {
-    output <- output[, c(
-      'id', 'accepted_name', 'input_name', 'input_match', 'currently_accepted', 'genus_only',
-      'genus', 'species', 'infrasp', 'long_name', 'taxonomic_status', 'taxon_rank', 'mod_date',
-      'authorship'
-    )]
   }
 
-  # Apply filters
   if (exact_matches_only) {
     if (sum(output$input_match) == 0) stop("No exact matches found")
     output <- output[output$input_match == 1, ]
@@ -439,7 +452,7 @@ get_algaebase_genus <- function(genus, apikey, higher = TRUE, unparsed = FALSE,
     output <- output[order(output$mod_date, decreasing = TRUE), ]
   }
 
-  # Remove potential duplicated rows
+  # Remove duplicates
   output <- distinct(output)
 
   return(output)
