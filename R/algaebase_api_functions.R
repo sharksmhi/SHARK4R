@@ -192,9 +192,19 @@ get_algaebase_species <- function(genus, species, apikey, higher = TRUE,
   if (is.null(species) || species == "" || is.na(species)) stop("Species name is required.")
   if (is.null(apikey) || apikey == "") stop("API key is required.")
 
-  # Construct the search URL
-  species_query <- paste0("https://api.algaebase.org/v1.3/species?genus=", genus,
-                          "&dwc:specificEpithet=", species)
+  if (grepl(" ", species)) {
+    species_split <- strsplit(species, split=' ')[[1]]
+    sp <- species_split[1]
+
+    infrasp <- species_split[2]
+
+    species_query <- paste0("https://api.algaebase.org/v1.3/species?genus=",
+                                  genus,"&dwc:specificEpithet=",sp,
+                                  "&dwc:scientificName=",infrasp)
+  } else {
+    species_query <- paste0("https://api.algaebase.org/v1.3/species?genus=", genus,
+                            "&dwc:specificEpithet=", species)
+  }
 
   # Send GET request
   response <- GET(
