@@ -11,6 +11,7 @@
 #' @param unparsed Logical. If `TRUE`, returns raw JSON output instead of an R data frame. Defaults to `FALSE`.
 #' @param exact_matches_only Logical. If `TRUE`, restricts results to exact matches. Defaults to `TRUE`.
 #' @param sleep_time Numeric. The delay (in seconds) between consecutive Algaebase API queries. Defaults to `1`. A delay is recommended to avoid overwhelming the API for large queries.
+#' @param newest_only A logical value indicating whether to return only the most recent entries (default is `TRUE`).
 #' @param verbose Logical. If `TRUE`, displays a progress bar to indicate query status. Defaults to `TRUE`.
 #'
 #' @return A data frame containing taxonomic information for each input genus-species combination. Columns may include:
@@ -59,7 +60,7 @@
 #' }
 match_algaebase <- function(genus, species, apikey = NULL, genus_only = FALSE,
                             higher = TRUE, unparsed = FALSE, exact_matches_only = TRUE,
-                            sleep_time = 1, verbose = TRUE) {
+                            sleep_time = 1, newest_only = TRUE, verbose = TRUE) {
 
   # Check input lengths
   if (length(genus) != length(species)) {
@@ -113,8 +114,8 @@ match_algaebase <- function(genus, species, apikey = NULL, genus_only = FALSE,
     } else if (genus_only || is.na(species_i) || species_i == "") {
       tmp <- tryCatch(
         get_algaebase_genus(
-          genus = genus_i, apikey = apikey,
-          higher = higher, unparsed = unparsed, exact_matches_only = exact_matches_only
+          genus = genus_i, apikey = apikey, higher = higher,
+          unparsed = unparsed, exact_matches_only = exact_matches_only, newest_only = newest_only
         ),
         error = function(e) generate_error_row(i, genus_only, unique_data$genus, unique_data$species, higher)
       )
@@ -122,13 +123,13 @@ match_algaebase <- function(genus, species, apikey = NULL, genus_only = FALSE,
       tmp <- tryCatch(
         get_algaebase_species(
           genus = genus_i, species = species_i, apikey = apikey,
-          higher = higher, unparsed = unparsed, exact_matches_only = exact_matches_only
+          higher = higher, unparsed = unparsed, exact_matches_only = exact_matches_only, newest_only = newest_only
         ),
         error = function(e) {
           tryCatch(
             get_algaebase_genus(
-              genus = genus_i, apikey = apikey,
-              higher = higher, unparsed = unparsed, exact_matches_only = exact_matches_only
+              genus = genus_i, apikey = apikey, higher = higher,
+              unparsed = unparsed, exact_matches_only = exact_matches_only, newest_only = newest_only
             ),
             error = function(e) generate_error_row(i, genus_only, unique_data$genus, unique_data$species, higher)
           )

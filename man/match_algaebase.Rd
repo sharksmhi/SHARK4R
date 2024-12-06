@@ -13,6 +13,7 @@ match_algaebase(
   unparsed = FALSE,
   exact_matches_only = TRUE,
   sleep_time = 1,
+  newest_only = TRUE,
   verbose = TRUE
 )
 }
@@ -32,6 +33,8 @@ match_algaebase(
 \item{exact_matches_only}{Logical. If \code{TRUE}, restricts results to exact matches. Defaults to \code{TRUE}.}
 
 \item{sleep_time}{Numeric. The delay (in seconds) between consecutive Algaebase API queries. Defaults to \code{1}. A delay is recommended to avoid overwhelming the API for large queries.}
+
+\item{newest_only}{A logical value indicating whether to return only the most recent entries (default is \code{TRUE}).}
 
 \item{verbose}{Logical. If \code{TRUE}, displays a progress bar to indicate query status. Defaults to \code{TRUE}.}
 }
