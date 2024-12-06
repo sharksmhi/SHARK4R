@@ -497,47 +497,34 @@ parse_scientific_names <- function(scientific_name) {
   # Remove undesired descriptors like 'Cfr.', 'cf', 'colony', 'cells', etc.
   spp_list <- gsub('Cfr. |cf[.]? |colony|colonies|cells|cell', '', spp_list, ignore.case = TRUE)
 
-  # Flag species names with 'sp.' or 'spp.' for genus-only records
-  genus_only_flag <- grepl('sp[.]? |spp[.]? ', spp_list, ignore.case = TRUE)
+  # Remove subspecies/variety descriptors (e.g., var., subsp., f., etc.)
+  spp_list <- gsub('var[.]? |subsp[.]? |ssp[.]? |f[.]? |v[.]? |morph[.]? |gr[.]? |aff[.]? |tab[.]?', '', spp_list, ignore.case = TRUE)
 
-  # Flag species names with subspecies or variety (e.g., var., subsp.)
-  var_flag <- grepl('var[.]? |subsp[.]? |ssp[.]? |v[.]? |morph[.]? |gr[.]? |mor[.]? |aff[.]? |f[.]? |tab[.]?',
-                    spp_list, ignore.case = TRUE)
-
-  # Remove subspecies/variety descriptors from the species names
-  spp_list <- gsub('var[.]? |subsp[.]? |ssp[.]? |v[.]? |morph[.]? |gr[.]? |mor[.]? |aff[.]? |f[.]? |tab[.]?',
-                   '', spp_list, ignore.case = TRUE)
-
-  # Trim whitespace from species names
+  # Trim whitespace
   spp_list <- trimws(spp_list, 'both')
 
-  # Split binomial names into genus and species
-  genus <- sapply(spp_list, function(x) strsplit(x, split = ' ')[[1]][1])
-  species <- sapply(spp_list, function(x) strsplit(x, split = ' ')[[1]][2])
-  species[is.na(species)] <- ''
+  # Split names into components
+  components <- strsplit(spp_list, split = ' ')
 
-  # Remove invalid species names (e.g., 'sp.', 'spp.', 'sp', 'spp')
+  # Extract genus and combine the rest as species
+  genus <- sapply(components, function(x) x[1])
+  species <- sapply(components, function(x) {
+    if (length(x) > 1) {
+      paste(x[-1], collapse = ' ')
+    } else {
+      ''
+    }
+  })
+
+  # Remove invalid species names (e.g., sp., spp.)
   species <- ifelse(species %in% c('sp.', 'spp.', 'sp', 'spp'), '', species)
 
-  # Remove species with numbers
+  # Remove species names with numbers
   species[grepl('[0-9]', species)] <- ''
 
-  # Handle cases where a variety or subspecies is included
-  var <- sapply(spp_list, function(x) strsplit(x, split = ' ')[[1]][3])
-  var <- trimws(var, 'both')
-
-  # Flag for valid variety names (e.g., no number, starts with uppercase or parenthesis)
-  var_flag_test <- !(grepl("^[[:upper:]]", var) | substr(var, 1, 1) == "(" | grepl("^[0-9]", var))
-  var_flag[var_flag_test] <- 1
-
-  # Combine variety/subspecies with species
-  species[var_flag == 1 & !is.na(var)] <- paste(species[var_flag == 1 & !is.na(var)],
-                                                var[var_flag == 1 & !is.na(var)], sep = ' ')
-
-  # Ensure that genus and species are not NA or empty
+  # Ensure genus and species are valid
   genus[is.na(genus)] <- ''
   species[is.na(species)] <- ''
-  species[genus_only_flag] <- ''
 
   # Trim any remaining whitespace
   genus <- trimws(genus, 'both')
