@@ -419,6 +419,9 @@ get_algaebase_genus <- function(genus, apikey, higher = TRUE, unparsed = FALSE,
 
   if (higher) {
     higher_taxonomy <- combined_results[, c("dwc:kingdom", "dwc:phylum", "dwc:class", "dwc:order", "dwc:family", "dwc:genus")]
+
+    # Remove 'dwc:' prefix from column names
+    colnames(higher_taxonomy) <- gsub("^dwc:", "", colnames(higher_taxonomy))
   }
 
   output <- data.frame(
