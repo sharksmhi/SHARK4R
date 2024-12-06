@@ -418,7 +418,7 @@ get_algaebase_genus <- function(genus, apikey, higher = TRUE, unparsed = FALSE,
   mod_date <- lubridate::ymd(combined_results$`dcterms:modified`)
 
   if (higher) {
-    higher_taxonomy <- combined_results[, c("dwc:kingdom", "dwc:phylum", "dwc:class", "dwc:order", "dwc:family", "dwc:genus")]
+    higher_taxonomy <- combined_results[, c("dwc:kingdom", "dwc:phylum", "dwc:class", "dwc:order", "dwc:family")]
 
     # Remove 'dwc:' prefix from column names
     colnames(higher_taxonomy) <- gsub("^dwc:", "", colnames(higher_taxonomy))
