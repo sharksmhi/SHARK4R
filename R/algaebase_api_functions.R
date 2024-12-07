@@ -271,6 +271,8 @@ get_algaebase_species <- function(genus, species, apikey, higher = TRUE,
   taxon_rank <- extract_algaebase_field(results_output, "dwc:taxonRank")
   authorship <- extract_algaebase_field(results_output, "dwc:scientificNameAuthorship")
   accepted_name <- extract_algaebase_field(results_output, "dwc:acceptedNameUsage")
+  nomenclatural_status <- extract_algaebase_field(results_output, "dwc:nomenclaturalStatus")
+
   input_name <- paste(genus, species)
   input_match <- ifelse(
     paste(genus, species) == paste(
@@ -287,7 +289,7 @@ get_algaebase_species <- function(genus, species, apikey, higher = TRUE,
     genus = extract_algaebase_field(results_output, "dwc:genus"),
     species = extract_algaebase_field(results_output, "dwc:specificEpithet"),
     infrasp = extract_algaebase_field(results_output, "dwc:infraspecificEpithet"),
-    taxonomic_status, currently_accepted, accepted_name,
+    taxonomic_status, nomenclatural_status, currently_accepted, accepted_name,
     genus_only = 0, input_name, input_match,
     taxon_rank, mod_date, long_name, authorship
   )
@@ -298,12 +300,12 @@ get_algaebase_species <- function(genus, species, apikey, higher = TRUE,
     output <- output[, c(
       'id', 'accepted_name', 'input_name', 'input_match', 'currently_accepted', 'genus_only',
       'kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species', 'infrasp',
-      'long_name', 'taxonomic_status', 'taxon_rank', 'mod_date', 'authorship'
+      'long_name', 'taxonomic_status', 'nomenclatural_status', 'taxon_rank', 'mod_date', 'authorship'
     )]
   } else {
     output <- output[, c(
       'id', 'accepted_name', 'input_name', 'input_match', 'currently_accepted', 'genus_only',
-      'genus', 'species', 'infrasp', 'long_name', 'taxonomic_status', 'taxon_rank', 'mod_date',
+      'genus', 'species', 'infrasp', 'long_name', 'taxonomic_status', 'nomenclatural_status', 'taxon_rank', 'mod_date',
       'authorship'
     )]
   }
@@ -429,6 +431,7 @@ get_algaebase_genus <- function(genus, apikey, higher = TRUE, unparsed = FALSE,
     genus = combined_results$`dwc:genus`,
     species = NA, infrasp = NA,
     taxonomic_status = combined_results$`dwc:taxonomicStatus`,
+    nomenclatural_status = combined_results$`dwc:nomenclaturalStatus`,
     currently_accepted = ifelse(combined_results$`dwc:taxonomicStatus` == "currently accepted taxonomically", 1, 0),
     accepted_name = combined_results$`dwc:acceptedNameUsage`,
     genus_only = 1,
