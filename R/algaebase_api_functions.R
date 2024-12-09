@@ -207,19 +207,56 @@ get_algaebase_species <- function(genus, species, apikey, higher = TRUE,
                             "&dwc:specificEpithet=", species)
   }
 
-  # Send GET request
-  response <- GET(
-    species_query,
-    add_headers("Content-Type" = "application/json", "abapikey" = apikey)
-  )
-  if (response$status_code != 200) stop(paste0("Error ", response$status_code, ": Unable to fetch data from AlgaeBase"))
+  # Initialize pagination variables
+  offset <- 0
+  count <- 50
+  combined_results <- list()  # Use a list to store pages temporarily
+  total_retrieved <- 0        # Track the total number of results retrieved
+  total_number_of_results <- Inf  # Initialize as infinite until the first response
 
-  # Parse JSON response
-  results <- prettify(content(response, "text", encoding = "UTF-8"))
-  if (unparsed) return(results)
+  repeat {
+    # Build the URL with offset and count
+    query_url <- paste0(species_query, "&offset=", offset, "&count=", count)
 
-  result_list <- fromJSON(results)
-  results_output <- result_list[[2]]
+    # Send GET request
+    response <- GET(
+      query_url,
+      add_headers("Content-Type" = "application/json", "abapikey" = apikey)
+    )
+
+    # Check for response errors
+    if (response$status_code != 200) stop(paste0("Error ", response$status_code, ": Unable to fetch data from AlgaeBase"))
+
+    # Parse the response
+    results <- fromJSON(content(response, "text", encoding = "UTF-8"))
+    results_page <- results[[2]]
+
+    # Get total number of results from the first response
+    if (is.infinite(total_number_of_results)) {
+      total_number_of_results <- results[[1]]$`_total_number_of_results`
+    }
+
+    # Break the loop if no more results are returned
+    if (nrow(results_page) == 0) break
+
+    # Append the results page to the list
+    combined_results[[length(combined_results) + 1]] <- results_page
+
+    # Update the total number of results retrieved
+    total_retrieved <- total_retrieved + nrow(results_page)
+
+    # Break the loop if all results have been retrieved
+    if (total_retrieved >= total_number_of_results) break
+
+    # Update offset for the next request
+    offset <- offset + count
+
+    # Pause between requests to avoid hitting rate limits
+    Sys.sleep(1)
+  }
+
+  # Combine all results into a single data frame
+  results_output <- do.call(rbind, combined_results)
 
   # Handle infraspecific names
   output_infraspname <- case_when(
@@ -385,7 +422,7 @@ get_algaebase_genus <- function(genus, apikey, higher = TRUE, unparsed = FALSE,
 
     # Parse the response
     results <- fromJSON(content(response, "text", encoding = "UTF-8"))
-    results_page <- results[[2]]  # Assuming this contains the data
+    results_page <- results[[2]]
 
     # Get total number of results from the first response
     if (is.infinite(total_number_of_results)) {
