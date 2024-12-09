@@ -533,6 +533,12 @@ parse_scientific_names <- function(scientific_name) {
   # Trim whitespace
   spp_list <- trimws(spp_list, 'both')
 
+  # Remove any remaining standalone punctuation or stray dots
+  spp_list <- gsub('[[:punct:]]+', '', spp_list)
+
+    # Replace multiple spaces with a single space
+  spp_list <- gsub('\\s+', ' ', spp_list)
+
   # Split names into components
   components <- strsplit(spp_list, split = ' ')
 
