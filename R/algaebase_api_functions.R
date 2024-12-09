@@ -501,6 +501,10 @@ extract_algaebase_field <- function(query_result, field_name) {
 #' and manages cases involving varieties, subspecies, or invalid species names. Special characters and whitespace are handled appropriately.
 #'
 #' @param scientific_name A character vector containing scientific names, which may include binomials, additional descriptors, or varieties.
+#' @param remove_undesired_descriptors Logical, if TRUE, undesired descriptors (e.g., 'Cfr.', 'cf.', 'colony', 'cells', etc.) are removed. Default is TRUE.
+#' @param remove_subspecies Logical, if TRUE, subspecies/variety descriptors (e.g., 'var.', 'subsp.', 'f.', etc.) are removed. Default is TRUE.
+#' @param remove_invalid_species Logical, if TRUE, invalid species names (e.g., 'sp.', 'spp.') are removed. Default is TRUE.
+#' @param encoding A string specifying the encoding to be used for the input names (e.g., 'UTF-8'). Default is 'UTF-8'.
 #'
 #' @return A `data.frame` with two columns:
 #' - `genus`: Contains the genus names.
@@ -517,18 +521,27 @@ extract_algaebase_field <- function(query_result, field_name) {
 #' print(result)
 #'
 #' @export
-parse_scientific_names <- function(scientific_name) {
+parse_scientific_names <- function(scientific_name,
+                                   remove_undesired_descriptors = TRUE,
+                                   remove_subspecies = TRUE,
+                                   remove_invalid_species = TRUE,
+                                   encoding = 'UTF-8') {
+
   # Ensure the input is a character vector
   spp_list <- as.character(scientific_name)
 
-  # Convert to UTF-8 to handle special characters correctly
-  spp_list <- iconv(spp_list, to = 'UTF-8')
+  # Convert to specified encoding to handle special characters correctly
+  spp_list <- iconv(spp_list, to = encoding)
 
   # Remove undesired descriptors like 'Cfr.', 'cf', 'colony', 'cells', etc.
-  spp_list <- gsub('\\b(Cfr[.]?|cf[.]?|colony|colonies|cells|cell)\\b', '', spp_list, ignore.case = TRUE)
+  if (remove_undesired_descriptors) {
+    spp_list <- gsub('\\b(Cfr[.]?|cf[.]?|GRP[.]?|CPX[.]?|CF[.]?|colony|colonies|cells|cell)\\b', '', spp_list, ignore.case = TRUE)
+  }
 
   # Remove subspecies/variety descriptors (e.g., var., subsp., f., etc.)
-  spp_list <- gsub('\\b(var[.]?|subsp[.]?|ssp[.]?|f[.]?|v[.]?|morph[.]?|gr[.]?|aff[.]?|tab[.]?)\\b', '', spp_list, ignore.case = TRUE)
+  if (remove_subspecies) {
+    spp_list <- gsub('\\b(var[.]?|subsp[.]?|ssp[.]?|f[.]?|v[.]?|morph[.]?|gr[.]?|aff[.]?|tab[.]?)\\b', '', spp_list, ignore.case = TRUE)
+  }
 
   # Trim whitespace
   spp_list <- trimws(spp_list, 'both')
@@ -536,7 +549,7 @@ parse_scientific_names <- function(scientific_name) {
   # Remove any remaining standalone punctuation or stray dots
   spp_list <- gsub('[[:punct:]]+', '', spp_list)
 
-    # Replace multiple spaces with a single space
+  # Replace multiple spaces with a single space
   spp_list <- gsub('\\s+', ' ', spp_list)
 
   # Split names into components
@@ -553,7 +566,9 @@ parse_scientific_names <- function(scientific_name) {
   })
 
   # Remove invalid species names (e.g., sp., spp.)
-  species <- ifelse(species %in% c('sp.', 'spp.', 'sp', 'spp'), '', species)
+  if (remove_invalid_species) {
+    species <- ifelse(species %in% c('sp.', 'spp.', 'sp', 'spp', 'SP.', 'SP', "SPP.", "SPP"), '', species)
+  }
 
   # Remove species names with numbers
   species[grepl('[0-9]', species)] <- ''
