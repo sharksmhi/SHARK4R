@@ -83,7 +83,7 @@ dyntaxa_key <- Sys.getenv("DYNTAXA_KEY")
 If the taxonomic data downloaded from SHARK are outdated, they can be updated to the latest Dyntaxa information using `SHARK4R`. Alternatively, data can be retrieved from WoRMS. For details, see the [WoRMS Tutorial](../articles/retrieve_worms_data.html).
 
 ```{r}
-# Update taxonomy information for the retrieved epibenthos data using Dyntaxa
+# Update taxonomy information for the retrieved epibenthos data
 updated_taxonomy <- update_dyntaxa_taxonomy(
   dyntaxa_ids = shark_data$dyntaxa_id,
   subscription_key = dyntaxa_key,
