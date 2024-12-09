@@ -547,7 +547,10 @@ parse_scientific_names <- function(scientific_name,
   spp_list <- trimws(spp_list, 'both')
 
   # Remove any remaining standalone punctuation or stray dots
-  spp_list <- gsub('[[:punct:]]+', '', spp_list)
+  spp_list <- gsub('[[:punct:]&&[^-]]', '', spp_list)
+
+  # Remove standalone periods (including trailing ones)
+  spp_list <- gsub('\\s+\\.+|\\.+\\s+|\\.+$', '', spp_list)
 
   # Replace multiple spaces with a single space
   spp_list <- gsub('\\s+', ' ', spp_list)
