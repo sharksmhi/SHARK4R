@@ -67,6 +67,11 @@ match_algaebase <- function(genus, species, apikey = NULL, genus_only = FALSE,
     stop("`genus` and `species` vectors must be of equal length.")
   }
 
+  # Check if API is operational
+  if (!check_algaebase_api(apikey)) {
+    stop("API is not operational or the API key is invalid. Please check and try again.")
+  }
+
   # Create unique combinations of genus and species
   input_data <- data.frame(genus = genus, species = species, stringsAsFactors = FALSE)
   unique_data <- unique(input_data)
@@ -625,4 +630,48 @@ parse_scientific_names <- function(scientific_name,
   output_df <- data.frame(genus = genus, species = species, stringsAsFactors = FALSE)
 
   return(output_df)
+}
+
+#' @title Check AlgaeBase API Operational Status
+#' @description Internal function to verify whether the AlgaeBase API is operational.
+#' It sends a request to a stable genus endpoint to confirm API availability.
+#'
+#' @param apikey A string. The API key for accessing the AlgaeBase API. Defaults to `NULL`.
+#' @param genus_id A numeric value. The unique genus ID used to test the API endpoint.
+#' Default is `43375`, corresponding to the `Haematococcus` genus record in AlgaeBase.
+#'
+#' @return A logical value: `TRUE` if the API is operational, `FALSE` otherwise.
+#'
+#' @details
+#' This function performs a GET request to the AlgaeBase API using a stable genus ID
+#' to ensure that the API is accessible and that the provided API key is valid.
+#' It is used internally to prevent unnecessary queries when the API is unavailable.
+#'
+#' @examples
+#' \dontrun{
+#' # Check API status with an API key
+#' check_algaebase_api(apikey = "your_api_key")
+#' }
+#'
+#' @keywords internal
+check_algaebase_api <- function(apikey = NULL, genus_id = 43375) {
+  tryCatch(
+    {
+      # Perform the GET request for a stable genus ID
+      response <- httr::GET(
+        url = paste0("https://api.algaebase.org/v1.3/genus/", genus_id),
+        httr::add_headers("Content-Type" = "application/json", "abapikey" = apikey)
+      )
+
+      # Check the HTTP status code
+      if (httr::status_code(response) == 200) {
+        return(TRUE)
+      } else {
+        stop("API request failed with status: ", httr::status_code(response))
+      }
+    },
+    error = function(e) {
+      return(FALSE)
+    }
+  )
 }
