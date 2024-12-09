@@ -84,7 +84,7 @@ match_algaebase <- function(genus, species, apikey = NULL, genus_only = FALSE,
 
     err_df <- data.frame(
       id = NA, kingdom = NA, phylum = NA, class = NA, order = NA, family = NA,
-      genus = NA, species = NA, infrasp = NA, taxonomic_status = NA,
+      genus = NA, species = NA, infrasp = NA, taxonomic_status = NA, nomenclatural_status = NA,
       currently_accepted = NA, accepted_name = NA, genus_only = genus_only,
       input_name = input_name, input_match = 0, taxon_rank = NA,
       mod_date = NA, long_name = NA, authorship = NA
