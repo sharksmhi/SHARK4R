@@ -525,10 +525,10 @@ parse_scientific_names <- function(scientific_name) {
   spp_list <- iconv(spp_list, to = 'UTF-8')
 
   # Remove undesired descriptors like 'Cfr.', 'cf', 'colony', 'cells', etc.
-  spp_list <- gsub('Cfr. |cf[.]? |colony|colonies|cells|cell', '', spp_list, ignore.case = TRUE)
+  spp_list <- gsub('\\b(Cfr[.]?|cf[.]?|colony|colonies|cells|cell)\\b', '', spp_list, ignore.case = TRUE)
 
   # Remove subspecies/variety descriptors (e.g., var., subsp., f., etc.)
-  spp_list <- gsub('var[.]? |subsp[.]? |ssp[.]? |f[.]? |v[.]? |morph[.]? |gr[.]? |aff[.]? |tab[.]?', '', spp_list, ignore.case = TRUE)
+  spp_list <- gsub('\\b(var[.]?|subsp[.]?|ssp[.]?|f[.]?|v[.]?|morph[.]?|gr[.]?|aff[.]?|tab[.]?)\\b', '', spp_list, ignore.case = TRUE)
 
   # Trim whitespace
   spp_list <- trimws(spp_list, 'both')
