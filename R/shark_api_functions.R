@@ -469,10 +469,11 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #'     \item `"sharkdata_harbourporpoise"`: Harbour porpoise table
 #'     \item `"sharkdata_harbourseal`: Harbour seal table
 #'     \item `"sharkdata_jellyfish"`: Jellyfish table
-#'     \item `"sharkdata_physicalchemical_columns"`: Physical chemical table
+#'     \item `"sharkdata_physicalchemical"`: Physical chemical table
+#'     \item `"sharkdata_physicalchemical_columns"`: Physical chemical table: column view
 #'     \item `"sharkdata_phytoplankton"`: Phytoplankton table
 #'     \item `"sharkdata_picoplankton"`: Picoplankton table
-#'     \item `"sharkdata_planktonbarcoding"`: Planktonbarcoding table
+#'     \item `"sharkdata_planktonbarcoding"`: Plankton barcoding table
 #'     \item `"sharkdata_primaryproduction"`: Primary production table
 #'     \item `"sharkdata_ringedseal"`: Ringed seal table
 #'     \item `"sharkdata_sealpathology"`: Seal pathology table
