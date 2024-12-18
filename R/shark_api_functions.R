@@ -241,6 +241,7 @@ get_shark_table <- function(tableView = "sharkweb_overview", limit = 0, headerLa
 #' It sends a GET request to the SHARK API and returns the results as a structured `data.frame`.
 #'
 #' @param prod Logical. Query against PROD or TEST (SMHI internal) server. Default is TRUE (PROD).
+#' @param unparsed Logical. If `TRUE`, returns the complete JSON output as list. Defaults to `FALSE`.
 #'
 #' @return A `data.frame` containing the available search options from the SHARK API.
 #'
@@ -262,9 +263,7 @@ get_shark_table <- function(tableView = "sharkweb_overview", limit = 0, headerLa
 #' }
 #'
 #' @export
-get_shark_options <- function(prod = TRUE) {
-  # Define the URL for options
-  url <- "https://shark.smhi.se/api/options"
+get_shark_options <- function(prod = TRUE, unparsed = FALSE) {
 
   if (prod) {
     url <- "https://shark.smhi.se/api/options"
@@ -288,6 +287,11 @@ get_shark_options <- function(prod = TRUE) {
   if (status_code(response) == 200) {
     # Parse the JSON response content
     shark_options <- content(response, as = "parsed", type = "application/json")
+
+    # Return unparsed options
+    if (unparsed) {
+      return(shark_options)
+    }
 
     parsed_options <- lapply(shark_options, function(x) {
       if (is.list(x)) {
@@ -469,10 +473,11 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #'     \item `"sharkdata_harbourporpoise"`: Harbour porpoise table
 #'     \item `"sharkdata_harbourseal`: Harbour seal table
 #'     \item `"sharkdata_jellyfish"`: Jellyfish table
-#'     \item `"sharkdata_physicalchemical_columns"`: Physical chemical table
+#'     \item `"sharkdata_physicalchemical"`: Physical chemical table
+#'     \item `"sharkdata_physicalchemical_columns"`: Physical chemical table: column view
 #'     \item `"sharkdata_phytoplankton"`: Phytoplankton table
 #'     \item `"sharkdata_picoplankton"`: Picoplankton table
-#'     \item `"sharkdata_planktonbarcoding"`: Planktonbarcoding table
+#'     \item `"sharkdata_planktonbarcoding"`: Plankton barcoding table
 #'     \item `"sharkdata_primaryproduction"`: Primary production table
 #'     \item `"sharkdata_ringedseal"`: Ringed seal table
 #'     \item `"sharkdata_sealpathology"`: Seal pathology table
@@ -585,14 +590,8 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
                            prod = TRUE, verbose = TRUE) {
 
   # Set up file path to .txt file
-  if (save_data) {
-    if (!is.null(file_path)) {
-      file <- file_path
-    } else {
-      stop("Please specify 'file_path' when 'save_data' is TRUE")
-    }
-  } else {
-    file <- tempfile(fileext = ".tsv")
+  if (save_data && is.null(file_path)) {
+    stop("Please specify 'file_path' when 'save_data' is TRUE")
   }
 
   if (!save_data & !is.null(file_path)) {
@@ -644,10 +643,15 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     lineEnd<-"win"
   }
 
+  # Retrieve default year options, such as minYear and maxYear
+  options <- get_shark_options(prod = prod, unparsed = TRUE)
+
+  if (length(dataTypes) == 0) {
+    dataTypes <- unlist(options$dataTypes)
+  }
+
   # Check if either 'fromYear' or 'toYear' is NULL
   if (is.null(fromYear) | is.null(toYear)) {
-    # Retrieve default year options, such as minYear and maxYear
-    options <- get_shark_options()
 
     # If 'fromYear' is NULL, set it to the minimum year from the options
     if (is.null(fromYear)) {
@@ -660,84 +664,116 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     }
   }
 
-  # Create the JSON body as a list
-  body <- list(
-    params = list(
-      tableView = tableView,
-      delimiters = delimiters,
-      lineEnd = lineEnd,
-      encoding = encoding,
-      headerLang = headerLang,
-      hideEmptyColumns = hideEmptyColumns
-    ),
-    query = list(
-      bounds = bounds,
-      fromYear = fromYear,
-      toYear = toYear,
-      months = months,
-      dataTypes = dataTypes,
-      parameters = parameters,
-      checkStatus = checkStatus,
-      qualityFlags = qualityFlags,
-      deliverers = deliverers,
-      orderers = orderers,
-      projects = projects,
-      datasets = datasets,
-      minSamplingDepth = minSamplingDepth,
-      maxSamplingDepth = maxSamplingDepth,
-      redListedCategory = redListedCategory,
-      taxonName = taxonName,
-      stationName = stationName,
-      vattenDistrikt = vattenDistrikt,
-      seaBasins = seaBasins,
-      counties = counties,
-      municipalities = municipalities,
-      waterCategories = waterCategories,
-      typOmraden = typOmraden,
-      helcomOspar = helcomOspar,
-      seaAreas = seaAreas
+  # Store min years as dataframe
+  min_year_df <- data.frame(
+    dataType = names(options$minYearPerDatatype),
+    minYear = unlist(options$minYearPerDatatype),
+    row.names = NULL,
+    stringsAsFactors = TRUE
+  )
+
+  # Filter datatypes
+  min_year_df <- dplyr::filter(min_year_df, dataType %in% dataTypes)
+
+  # Identify the minimum year
+  fromYear <- min(min_year_df$minYear)
+
+  # Create a vector of years
+  years <- c(fromYear:toYear)
+
+  all_data <- list()  # Initialize a list to store yearly data
+
+  # Set up the progress bar
+  if (verbose) {pb <- txtProgressBar(min = 0, max = length(years), style = 3)}
+
+  for (i in seq_along(years)) {
+    year <- years[i]  # Get the current year
+
+    # Update progress bar
+    if (verbose) {setTxtProgressBar(pb, i)}
+
+    # Update the body for the POST request with the current year
+    body <- list(
+      params = list(
+        tableView = tableView,
+        delimiters = delimiters,
+        lineEnd = lineEnd,
+        encoding = encoding,
+        headerLang = headerLang,
+        hideEmptyColumns = hideEmptyColumns
+      ),
+      query = list(
+        bounds = bounds,
+        fromYear = year,
+        toYear = year,
+        months = months,
+        dataTypes = dataTypes,
+        parameters = parameters,
+        checkStatus = checkStatus,
+        qualityFlags = qualityFlags,
+        deliverers = deliverers,
+        orderers = orderers,
+        projects = projects,
+        datasets = datasets,
+        minSamplingDepth = minSamplingDepth,
+        maxSamplingDepth = maxSamplingDepth,
+        redListedCategory = redListedCategory,
+        taxonName = taxonName,
+        stationName = stationName,
+        vattenDistrikt = vattenDistrikt,
+        seaBasins = seaBasins,
+        counties = counties,
+        municipalities = municipalities,
+        waterCategories = waterCategories,
+        typOmraden = typOmraden,
+        helcomOspar = helcomOspar,
+        seaAreas = seaAreas
+      )
     )
-  )
 
-  # Convert body to JSON
-  body_json <- toJSON(body, auto_unbox = TRUE)
+    # Convert body to JSON
+    body_json <- toJSON(body, auto_unbox = TRUE)
 
-  # Send the POST request
-  response <- POST(
-    url,
-    add_headers("accept" = "application/json", "Content-Type" = "application/json"),
-    body = body_json,
-    write_disk(file, overwrite = TRUE),
-    if (verbose) {
-      progress()
+    # Send the POST request
+    response <- POST(
+      url,
+      add_headers("accept" = "application/json", "Content-Type" = "application/json"),
+      body = body_json
+    )
+
+    # Check response status
+    if (status_code(response) == 200) {
+      year_data <- read_delim(file = content(response),
+                              delim = sep_char,
+                              locale = locale(encoding = content_encoding),
+                              na = c("", "-", "NA"),
+                              col_types = cols(.default = col_character()),
+                              progress = FALSE)
+
+      # Convert to correct column type
+      all_data[[as.character(year)]] <- year_data
+    } else {
+      warning("Failed to retrieve data for year: ", year, " HTTP Status: ", status_code(response))
     }
-  )
-
-  # Check response status
-  if (status_code(response) == 200) {
-    # Load the file into R as a (character) tibble
-    parsed_table<-read_delim(file = file,
-                             delim = sep_char,
-                             locale = locale(encoding = content_encoding),
-                             na = c("", "-", "NA"),
-                             col_types = cols(
-                               .default = col_character()
-                             ),
-                             progress = FALSE)
-
-    # Convert to correct column type
-    parsed_table <- type_convert(parsed_table, col_types = cols())
-
-    if (!save_data) {
-      # Clean up temporary file
-      unlink(file)
-    }
-
-    return(parsed_table)
-  } else {
-    # Clean up temporary file in case of an error
-    unlink(file)
-    stop("Failed to retrieve data: HTTP Status ", status_code(response), "\n",
-         content(response, as = "text", encoding = "UTF-8"))
   }
+
+  # Close the progress bar
+  if (verbose) {
+    close(pb)
+  }
+
+  # Combine all yearly data into a single data frame
+  combined_data <- bind_rows(all_data)
+
+  # Convert to correct column type
+  combined_data <- type_convert(combined_data, col_types = cols())
+
+  if (save_data) {
+    write_delim(combined_data, file_path, delim = sep_char, na = "", progress = FALSE)
+
+    write.table(combined_data, file = file_path, sep = sep_char, row.names = FALSE, col.names = TRUE,
+                quote = FALSE, fileEncoding = content_encoding)
+  }
+
+  return(combined_data)
 }
