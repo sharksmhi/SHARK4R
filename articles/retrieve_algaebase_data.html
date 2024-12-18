@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve Taxonomic Data From AlgaeBase</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.0.1.5/vignettes/retrieve_algaebase_data.Rmd" class="external-link"><code>vignettes/retrieve_algaebase_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/vignettes/retrieve_algaebase_data.Rmd" class="external-link"><code>vignettes/retrieve_algaebase_data.Rmd</code></a></small>
       <div class="d-none name"><code>retrieve_algaebase_data.Rmd</code></div>
     </div>
 
@@ -140,14 +140,14 @@ function.</p>
 <span></span>
 <span><span class="co"># Print the result</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">genus_records</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      id accepted_name  input_name input_match currently_accepted genus_only</span></span>
-<span><span class="co">## 1 43632   Gymnodinium Gymnodinium           1                  1          1</span></span>
-<span><span class="co">##     kingdom         phylum       class         order         family       genus</span></span>
-<span><span class="co">## 1 Chromista Dinoflagellata Dinophyceae Gymnodiniales Gymnodiniaceae Gymnodinium</span></span>
-<span><span class="co">##   species infrasp                 long_name                 taxonomic_status</span></span>
-<span><span class="co">## 1      NA      NA Gymnodinium F.Stein, 1878 currently accepted taxonomically</span></span>
-<span><span class="co">##   taxon_rank   mod_date authorship</span></span>
-<span><span class="co">## 1      genus 2024-06-13    F.Stein</span></span></code></pre>
+<pre><code><span><span class="co">##     kingdom         phylum       class         order         family    id</span></span>
+<span><span class="co">## 1 Chromista Dinoflagellata Dinophyceae Gymnodiniales Gymnodiniaceae 43632</span></span>
+<span><span class="co">##         genus species infrasp                 taxonomic_status</span></span>
+<span><span class="co">## 1 Gymnodinium      NA      NA currently accepted taxonomically</span></span>
+<span><span class="co">##   nomenclatural_status currently_accepted accepted_name genus_only  input_name</span></span>
+<span><span class="co">## 1                   NA                  1            NA          1 Gymnodinium</span></span>
+<span><span class="co">##   input_match taxon_rank   mod_date                 long_name authorship</span></span>
+<span><span class="co">## 1           1      genus 2024-06-13 Gymnodinium F.Stein, 1878    F.Stein</span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="match-species-name">Match Species Name<a class="anchor" aria-label="anchor" href="#match-species-name"></a>
@@ -169,8 +169,8 @@ function.</p>
 <span><span class="co">## 1          0 Chromista Dinoflagellata Dinophyceae Gonyaulacales Ceratiaceae</span></span>
 <span><span class="co">##    genus  species infrasp            long_name                 taxonomic_status</span></span>
 <span><span class="co">## 1 Tripos muelleri      NA Tripos muelleri Bory currently accepted taxonomically</span></span>
-<span><span class="co">##   taxon_rank   mod_date authorship</span></span>
-<span><span class="co">## 1    species 2024-05-28       Bory</span></span></code></pre>
+<span><span class="co">##   nomenclatural_status taxon_rank   mod_date authorship</span></span>
+<span><span class="co">## 1                 &lt;NA&gt;    species 2024-05-28       Bory</span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="match-multiple-scientific-names">Match Multiple Scientific Names<a class="anchor" aria-label="anchor" href="#match-multiple-scientific-names"></a>
@@ -181,7 +181,7 @@ and <code>species</code> names before being passed to the API, which can
 be achieved by the <a href="../reference/parse_scientific_names.html"><code>parse_scientific_names</code></a>
 function.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Retrieve all phytoplankton data from April 2015</span></span>
+<code class="sourceCode R"><span><span class="co"># Retrieve all phytoplankton data in SHARK from April 2015</span></span>
 <span><span class="va">shark_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_shark_data.html">get_shark_data</a></span><span class="op">(</span>fromYear <span class="op">=</span> <span class="fl">2015</span>, </span>
 <span>                             toYear <span class="op">=</span> <span class="fl">2015</span>,</span>
 <span>                             months <span class="op">=</span> <span class="fl">4</span>, </span>
@@ -196,17 +196,17 @@ function.</p>
 <span></span>
 <span><span class="co"># Print the parsed data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">parsed_taxa</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##                                     genus    species</span></span>
-<span><span class="co">## Pyramimonas                   Pyramimonas           </span></span>
-<span><span class="co">## Tripos muelleri                    Tripos   muelleri</span></span>
-<span><span class="co">## Mesodinium rubrum              Mesodinium     rubrum</span></span>
-<span><span class="co">## Uni                                   Uni           </span></span>
-<span><span class="co">## Gyrodinium spirale             Gyrodinium    spirale</span></span>
-<span><span class="co">## Tripos furca                       Tripos      furca</span></span>
-<span><span class="co">## Ebria tripartita                    Ebria tripartita</span></span>
-<span><span class="co">## Amylax triacantha                  Amylax triacantha</span></span>
-<span><span class="co">## Pseudopedinella thomsenii Pseudopedinella  thomsenii</span></span>
-<span><span class="co">## Flagellates                   Flagellates</span></span></code></pre>
+<pre><code><span><span class="co">##              genus    species</span></span>
+<span><span class="co">## 1      Pyramimonas           </span></span>
+<span><span class="co">## 2           Tripos   muelleri</span></span>
+<span><span class="co">## 3       Mesodinium     rubrum</span></span>
+<span><span class="co">## 4          Unicell           </span></span>
+<span><span class="co">## 5       Gyrodinium    spirale</span></span>
+<span><span class="co">## 6           Tripos      furca</span></span>
+<span><span class="co">## 7            Ebria tripartita</span></span>
+<span><span class="co">## 8           Amylax triacantha</span></span>
+<span><span class="co">## 9  Pseudopedinella  thomsenii</span></span>
+<span><span class="co">## 10     Flagellates</span></span></code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Match the taxa with AlgaeBase</span></span>
 <span><span class="va">algaebase_match</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/match_algaebase.html">match_algaebase</a></span><span class="op">(</span>genus <span class="op">=</span> <span class="va">parsed_taxa</span><span class="op">$</span><span class="va">genus</span>,</span>
@@ -216,22 +216,23 @@ function.</p>
 <span></span>
 <span><span class="co"># Print the result</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">algaebase_match</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10 × 19</span></span></span>
-<span><span class="co">##    genus  species     id accepted_name input_name input_match currently_accepted</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Amylax triaca…  <span style="text-decoration: underline;">52</span>120 Amylax triac… Amylax tr…           1                  1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Ebria  tripar…  <span style="text-decoration: underline;">56</span>482 Ebria tripar… Ebria tri…           1                  1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Flage… <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>            <span style="color: #BB0000;">NA</span>                  <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Gyrod… spirale  <span style="text-decoration: underline;">52</span>419 Gyrodinium s… Gyrodiniu…           1                  1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Mesod… rubrum   <span style="text-decoration: underline;">56</span>539 Mesodinium r… Mesodiniu…           1                  1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Pseud… thomse… <span style="text-decoration: underline;">124</span>166 Pseudopedine… Pseudoped…           1                  1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Pyram… <span style="color: #BB0000;">NA</span>       <span style="text-decoration: underline;">43</span>516 Pyramimonas   Pyramimon…           1                  1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Tripos furca   <span style="text-decoration: underline;">149</span>801 Tripos furca  Tripos fu…           1                  1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Tripos muelle…  <span style="text-decoration: underline;">65</span>254 Tripos muell… Tripos mu…           1                  1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> Uni    <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>            <span style="color: #BB0000;">NA</span>                  <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 12 more variables: genus_only &lt;dbl&gt;, kingdom &lt;chr&gt;, phylum &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   class &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;, infrasp &lt;lgl&gt;, long_name &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   taxonomic_status &lt;chr&gt;, taxon_rank &lt;chr&gt;, mod_date &lt;date&gt;, authorship &lt;chr&gt;</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10 × 20</span></span></span>
+<span><span class="co">##    genus           species    kingdom   phylum class order family     id infrasp</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Amylax          triacantha Chromista Dinof… Dino… Gony… Lingu…  <span style="text-decoration: underline;">52</span>120 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Ebria           tripartita Chromista Cerco… Thec… Ebri… Ebria…  <span style="text-decoration: underline;">56</span>482 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Flagellates     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Gyrodinium      spirale    Chromista Dinof… Dino… Gymn… Gyrod…  <span style="text-decoration: underline;">52</span>419 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Mesodinium      rubrum     Chromista Cilio… Lito… Cycl… Mesod…  <span style="text-decoration: underline;">56</span>539 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Pseudopedinella thomsenii  Chromista Heter… Dict… Pedi… Actin… <span style="text-decoration: underline;">124</span>166 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Pyramimonas     <span style="color: #BB0000;">NA</span>         Plantae   Chlor… Pyra… Pyra… Pyram…  <span style="text-decoration: underline;">43</span>516 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Tripos          furca      Chromista Dinof… Dino… Gony… Cerat… <span style="text-decoration: underline;">149</span>801 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Tripos          muelleri   Chromista Dinof… Dino… Gony… Cerat…  <span style="text-decoration: underline;">65</span>254 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Unicell         <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 11 more variables: taxonomic_status &lt;chr&gt;, nomenclatural_status &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   currently_accepted &lt;dbl&gt;, accepted_name &lt;chr&gt;, genus_only &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   input_name &lt;chr&gt;, input_match &lt;dbl&gt;, taxon_rank &lt;chr&gt;, mod_date &lt;date&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   long_name &lt;chr&gt;, authorship &lt;chr&gt;</span></span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -241,7 +242,7 @@ function.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">##   Markus Lindh, Anders Torstensson (2024). SHARK4R: Retrieving,</span></span>
 <span><span class="co">##   Analyzing, and Validating Marine Data from SHARK and Nordic</span></span>
-<span><span class="co">##   Microalgae. R package version 0.1.5.</span></span>
+<span><span class="co">##   Microalgae. R package version 0.1.6.</span></span>
 <span><span class="co">##   https://doi.org/10.5281/zenodo.14169399</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
@@ -250,7 +251,7 @@ function.</p>
 <span><span class="co">##     title = {SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson},</span></span>
 <span><span class="co">##     year = {2024},</span></span>
-<span><span class="co">##     note = {R package version 0.1.5},</span></span>
+<span><span class="co">##     note = {R package version 0.1.6},</span></span>
 <span><span class="co">##     url = {https://doi.org/10.5281/zenodo.14169399},</span></span>
 <span><span class="co">##   }</span></span></code></pre>
 </div>

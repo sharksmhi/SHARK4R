@@ -9,7 +9,7 @@ It supports exact matching, genus-only searches, and retrieval of higher taxonom
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,7 @@ It supports exact matching, genus-only searches, and retrieval of higher taxonom
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Search Algaebase for Taxonomic Information</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.0.1.5/R/algaebase_api_functions.R" class="external-link"><code>R/algaebase_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/algaebase_api_functions.R" class="external-link"><code>R/algaebase_api_functions.R</code></a></small>
       <div class="d-none name"><code>match_algaebase.Rd</code></div>
     </div>
 
@@ -64,6 +64,7 @@ It supports exact matching, genus-only searches, and retrieval of higher taxonom
 <span>  unparsed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  exact_matches_only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  sleep_time <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  newest_only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -102,6 +103,10 @@ It supports exact matching, genus-only searches, and retrieval of higher taxonom
 
 <dt id="arg-sleep-time">sleep_time<a class="anchor" aria-label="anchor" href="#arg-sleep-time"></a></dt>
 <dd><p>Numeric. The delay (in seconds) between consecutive Algaebase API queries. Defaults to <code>1</code>. A delay is recommended to avoid overwhelming the API for large queries.</p></dd>
+
+
+<dt id="arg-newest-only">newest_only<a class="anchor" aria-label="anchor" href="#arg-newest-only"></a></dt>
+<dd><p>A logical value indicating whether to return only the most recent entries (default is <code>TRUE</code>).</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>

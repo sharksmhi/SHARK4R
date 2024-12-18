@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve Data From Nordic Microalgae</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.0.1.5/vignettes/retrieve_nordic_microalgae_data.Rmd" class="external-link"><code>vignettes/retrieve_nordic_microalgae_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/vignettes/retrieve_nordic_microalgae_data.Rmd" class="external-link"><code>vignettes/retrieve_nordic_microalgae_data.Rmd</code></a></small>
       <div class="d-none name"><code>retrieve_nordic_microalgae_data.Rmd</code></div>
     </div>
 
@@ -130,7 +130,7 @@ API.</p>
 <span></span>
 <span><span class="co"># Print data</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">taxa</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6,852 × 5</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6,851 × 5</span></span></span>
 <span><span class="co">##    scientific_name           authority                       rank  slug  nua_url</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Abollifer                 Vørs, 1992                      Genus abol… https:…</span></span>
@@ -143,7 +143,7 @@ API.</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Acanthocorbis asymmetrica (Thomsen) Hara &amp; Takahashi, 19… Spec… acan… https:…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Acanthocorbis campanula   (Espeland) Thomsen, 1991        Spec… acan… https:…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> Acanthocorbis haurakiana  Thomsen, 1991                   Spec… acan… https:…</span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 6,842 more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># ℹ 6,841 more rows</span></span></span></code></pre>
 <p>The full taxonomic information can be accessed as an unparsed list by
 enabling the <code>unparsed</code> parameter.</p>
 </div>
@@ -165,18 +165,18 @@ can be retrieved through the API.</p>
 <span><span class="co"># Print list</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">external_links</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 47 × 6</span></span></span>
-<span><span class="co">##    slug               provider  label     external_id external_url    collection</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> ptychocylis-urnula AlgaeBase AlgaeBase 141097      https://www.al… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> ptychocylis-urnula Dyntaxa   Dyntaxa   238511      https://namnoc… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> ptychocylis-urnula GBIF      GBIF      8138234     https://www.gb… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> ptychocylis-urnula WoRMS     WoRMS     345883      https://www.ma… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> ruthnielsenia      AlgaeBase AlgaeBase 47285       https://www.al… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> ruthnielsenia      Dyntaxa   Dyntaxa   1008570     https://namnoc… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> ruthnielsenia      ENA       ENA       262504      https://www.eb… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> ruthnielsenia      GBIF      GBIF      2646125     https://www.gb… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> ruthnielsenia      NCBI      NCBI      262504      https://www.nc… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> ruthnielsenia      WoRMS     WoRMS     370184      https://www.ma… External …</span></span>
+<span><span class="co">##    slug                 provider  label     external_id external_url  collection</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> ptychodiscaceae      ENA       ENA       1886617     https://www.… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> ptychodiscaceae      GBIF      GBIF      8116561     https://www.… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> ptychodiscaceae      ITIS      ITIS      573293      http://www.i… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> ptychodiscaceae      NCBI      NCBI      1886617     https://www.… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> ptychodiscaceae      WoRMS     WoRMS     146249      https://www.… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> ruthnielsenia-tenuis AlgaeBase AlgaeBase 65060       https://www.… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> ruthnielsenia-tenuis Dyntaxa   Dyntaxa   232794      https://namn… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> ruthnielsenia-tenuis ENA       ENA       262505      https://www.… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> ruthnielsenia-tenuis GBIF      GBIF      8162095     https://www.… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> ruthnielsenia-tenuis NCBI      NCBI      262505      https://www.… External …</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 37 more rows</span></span></span></code></pre>
 <p>The full list of facts can be accessed as an unparsed list by setting
 the <code>unparsed</code> parameter to <code>TRUE</code>.</p>
@@ -249,7 +249,7 @@ setting the <code>unparsed</code> parameter to <code>TRUE</code>.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">##   Markus Lindh, Anders Torstensson (2024). SHARK4R: Retrieving,</span></span>
 <span><span class="co">##   Analyzing, and Validating Marine Data from SHARK and Nordic</span></span>
-<span><span class="co">##   Microalgae. R package version 0.1.5.</span></span>
+<span><span class="co">##   Microalgae. R package version 0.1.6.</span></span>
 <span><span class="co">##   https://doi.org/10.5281/zenodo.14169399</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
@@ -258,7 +258,7 @@ setting the <code>unparsed</code> parameter to <code>TRUE</code>.</p>
 <span><span class="co">##     title = {SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson},</span></span>
 <span><span class="co">##     year = {2024},</span></span>
-<span><span class="co">##     note = {R package version 0.1.5},</span></span>
+<span><span class="co">##     note = {R package version 0.1.6},</span></span>
 <span><span class="co">##     url = {https://doi.org/10.5281/zenodo.14169399},</span></span>
 <span><span class="co">##   }</span></span></code></pre>
 </div>

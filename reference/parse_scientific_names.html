@@ -11,7 +11,7 @@ and manages cases involving varieties, subspecies, or invalid species names. Spe
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@ and manages cases involving varieties, subspecies, or invalid species names. Spe
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Parse scientific names into genus and species components.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.0.1.5/R/algaebase_api_functions.R" class="external-link"><code>R/algaebase_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/algaebase_api_functions.R" class="external-link"><code>R/algaebase_api_functions.R</code></a></small>
       <div class="d-none name"><code>parse_scientific_names.Rd</code></div>
     </div>
 
@@ -58,7 +58,13 @@ and manages cases involving varieties, subspecies, or invalid species names. Spe
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">parse_scientific_names</span><span class="op">(</span><span class="va">scientific_name</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">parse_scientific_names</span><span class="op">(</span></span>
+<span>  <span class="va">scientific_name</span>,</span>
+<span>  remove_undesired_descriptors <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  remove_subspecies <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  remove_invalid_species <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -67,6 +73,22 @@ and manages cases involving varieties, subspecies, or invalid species names. Spe
 
 <dl><dt id="arg-scientific-name">scientific_name<a class="anchor" aria-label="anchor" href="#arg-scientific-name"></a></dt>
 <dd><p>A character vector containing scientific names, which may include binomials, additional descriptors, or varieties.</p></dd>
+
+
+<dt id="arg-remove-undesired-descriptors">remove_undesired_descriptors<a class="anchor" aria-label="anchor" href="#arg-remove-undesired-descriptors"></a></dt>
+<dd><p>Logical, if TRUE, undesired descriptors (e.g., 'Cfr.', 'cf.', 'colony', 'cells', etc.) are removed. Default is TRUE.</p></dd>
+
+
+<dt id="arg-remove-subspecies">remove_subspecies<a class="anchor" aria-label="anchor" href="#arg-remove-subspecies"></a></dt>
+<dd><p>Logical, if TRUE, subspecies/variety descriptors (e.g., 'var.', 'subsp.', 'f.', etc.) are removed. Default is TRUE.</p></dd>
+
+
+<dt id="arg-remove-invalid-species">remove_invalid_species<a class="anchor" aria-label="anchor" href="#arg-remove-invalid-species"></a></dt>
+<dd><p>Logical, if TRUE, invalid species names (e.g., 'sp.', 'spp.') are removed. Default is TRUE.</p></dd>
+
+
+<dt id="arg-encoding">encoding<a class="anchor" aria-label="anchor" href="#arg-encoding"></a></dt>
+<dd><p>A string specifying the encoding to be used for the input names (e.g., 'UTF-8'). Default is 'UTF-8'.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -85,12 +107,12 @@ Invalid descriptors like 'sp.', 'spp.', and numeric entries are excluded from th
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Check the resulting data frame</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                        genus              species</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Skeletonema marinoi              Skeletonema              marinoi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Azadinium perforatum               Azadinium           perforatum</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Gymnodinium sp.                  Gymnodinium                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Melosira varians                    Melosira              varians</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Aulacoseira islandica subarctica Aulacoseira islandica subarctica</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         genus              species</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Skeletonema              marinoi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   Azadinium           perforatum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Gymnodinium                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    Melosira              varians</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Aulacoseira islandica subarctica</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
