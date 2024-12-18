@@ -72,7 +72,7 @@ print(species_records)
 Multiple names can be matched with the [`match_algaebase`](../reference/match_algaebase.html) function. The scientific names need to be parsed into `genus` and `species` names before being passed to the API, which can be achieved by the [`parse_scientific_names`](../reference/parse_scientific_names.html) function.
 
 ```{r}
-# Retrieve all phytoplankton data from April 2015
+# Retrieve all phytoplankton data in SHARK from April 2015
 shark_data <- get_shark_data(fromYear = 2015, 
                              toYear = 2015,
                              months = 4, 

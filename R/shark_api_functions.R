@@ -241,6 +241,7 @@ get_shark_table <- function(tableView = "sharkweb_overview", limit = 0, headerLa
 #' It sends a GET request to the SHARK API and returns the results as a structured `data.frame`.
 #'
 #' @param prod Logical. Query against PROD or TEST (SMHI internal) server. Default is TRUE (PROD).
+#' @param unparsed Logical. If `TRUE`, returns the complete JSON output as list. Defaults to `FALSE`.
 #'
 #' @return A `data.frame` containing the available search options from the SHARK API.
 #'
@@ -262,9 +263,7 @@ get_shark_table <- function(tableView = "sharkweb_overview", limit = 0, headerLa
 #' }
 #'
 #' @export
-get_shark_options <- function(prod = TRUE) {
-  # Define the URL for options
-  url <- "https://shark.smhi.se/api/options"
+get_shark_options <- function(prod = TRUE, unparsed = FALSE) {
 
   if (prod) {
     url <- "https://shark.smhi.se/api/options"
@@ -288,6 +287,11 @@ get_shark_options <- function(prod = TRUE) {
   if (status_code(response) == 200) {
     # Parse the JSON response content
     shark_options <- content(response, as = "parsed", type = "application/json")
+
+    # Return unparsed options
+    if (unparsed) {
+      return(shark_options)
+    }
 
     parsed_options <- lapply(shark_options, function(x) {
       if (is.list(x)) {
@@ -469,10 +473,11 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #'     \item `"sharkdata_harbourporpoise"`: Harbour porpoise table
 #'     \item `"sharkdata_harbourseal`: Harbour seal table
 #'     \item `"sharkdata_jellyfish"`: Jellyfish table
-#'     \item `"sharkdata_physicalchemical_columns"`: Physical chemical table
+#'     \item `"sharkdata_physicalchemical"`: Physical chemical table
+#'     \item `"sharkdata_physicalchemical_columns"`: Physical chemical table: column view
 #'     \item `"sharkdata_phytoplankton"`: Phytoplankton table
 #'     \item `"sharkdata_picoplankton"`: Picoplankton table
-#'     \item `"sharkdata_planktonbarcoding"`: Planktonbarcoding table
+#'     \item `"sharkdata_planktonbarcoding"`: Plankton barcoding table
 #'     \item `"sharkdata_primaryproduction"`: Primary production table
 #'     \item `"sharkdata_ringedseal"`: Ringed seal table
 #'     \item `"sharkdata_sealpathology"`: Seal pathology table
