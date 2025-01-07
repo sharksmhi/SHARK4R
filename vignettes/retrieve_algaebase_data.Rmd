@@ -14,7 +14,7 @@ AlgaeBase is a comprehensive database containing information on a wide variety o
 
 ## Getting Started
 
-#### Installation
+### Installation
 
 You can install the package from GitHub using the `devtools` package:
 ```{r, eval=FALSE}
@@ -29,9 +29,7 @@ library(SHARK4R)
 library(tibble)
 ```
 
-## Retrieve AlgaeBase Data
-
-#### AlgaeBase API Key
+### AlgaeBase API Key
 
 AlgaeBase requires a subscription key to access its API. To obtain your own key, please visit the [API documentation](https://www.algaebase.org/api/). In the example below, the key is retrieved from an environment variable.
 
@@ -40,7 +38,7 @@ AlgaeBase requires a subscription key to access its API. To obtain your own key,
 algaebase_key <- Sys.getenv("ALGAEBASE_KEY")
 ```
 
-#### Match Genus Name
+## Match Genus Name
 
 Taxonomic records can be retrieved for individual genera names using the [`get_algaebase_genus`](../reference/get_algaebase_genus.html) function.
 
@@ -53,7 +51,7 @@ genus_records <- get_algaebase_genus(genus = "Gymnodinium",
 print(genus_records)
 ```
 
-#### Match Species Name
+## Match Species Name
 
 Taxonomic records can be retrieved for individual species names using the [`get_algaebase_species`](../reference/get_algaebase_species.html) function.
 
@@ -67,12 +65,12 @@ species_records <- get_algaebase_species(genus = "Tripos",
 print(species_records)
 ```
 
-#### Match Multiple Scientific Names
+## Match Multiple Scientific Names
 
 Multiple names can be matched with the [`match_algaebase`](../reference/match_algaebase.html) function. The scientific names need to be parsed into `genus` and `species` names before being passed to the API, which can be achieved by the [`parse_scientific_names`](../reference/parse_scientific_names.html) function.
 
 ```{r}
-# Retrieve all phytoplankton data in SHARK from April 2015
+# Retrieve all phytoplankton data from April 2015
 shark_data <- get_shark_data(fromYear = 2015, 
                              toYear = 2015,
                              months = 4, 

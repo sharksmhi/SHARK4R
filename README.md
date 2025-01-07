@@ -11,7 +11,7 @@
 This R package is equipped with a client application designed for integration 
 with API functions. It facilitates access to various databases, 
 including [SHARK](https://shark.smhi.se/), 
-[SLU Artdatabanken (Dyntaxa)](https://api-portal.artdatabanken.se/), [WoRMS](https://www.marinespecies.org/rest/), [AlgaeBase](https://www.algaebase.org/) and [Nordic Microalgae](https://nordicmicroalgae.org/). 
+[SLU Artdatabanken (Dyntaxa)](https://api-portal.artdatabanken.se/), [WoRMS](https://www.marinespecies.org/rest/), [AlgaeBase](https://www.algaebase.org/), [IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae](https://www.marinespecies.org/hab/), [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/) and [Nordic Microalgae](https://nordicmicroalgae.org/). 
 The package serves a dual purpose, supporting both data analysis and automatic quality control of physical, 
 chemical, and marine biological data. Developed by SMHI, quality control functions 
 modified from <https://iobis.github.io/obistools/>
@@ -38,6 +38,7 @@ Explore the features and capabilities of `SHARK4R` through these tutorial:
 - [Retrieve Data From Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_dyntaxa_data.html)
 - [Retrieve Data From WoRMS](https://sharksmhi.github.io/SHARK4R/articles/retrieve_worms_data.html)
 - [Retrieve Data From AlgaeBase](https://sharksmhi.github.io/SHARK4R/articles/retrieve_algaebase_data.html)
+- [Retrieve Data From IOC HAB and Toxin databases](https://sharksmhi.github.io/SHARK4R/articles/retrieve_hab_data.html)
 - [Retrieve Data From Nordic Microalgae](https://sharksmhi.github.io/SHARK4R/articles/retrieve_nordic_microalgae_data.html)
 - [Quality Control of SHARK Data](https://sharksmhi.github.io/SHARK4R/articles/quality_control.html)
 
@@ -57,7 +58,4 @@ This package is licensed under the MIT License.
 
 ## References
 
-Provoost P and Bosch S (2018). "obistools: Tools for data enhancement
-and quality control." Ocean Biogeographic Information System.
-Intergovernmental Oceanographic Commission of UNESCO.
-<https://iobis.github.io/obistools/>.
+Provoost P and Bosch S (2018). "obistools: Tools for data enhancement and quality control." Ocean Biogeographic Information System. Intergovernmental Oceanographic Commission of UNESCO. <https://iobis.github.io/obistools/>.

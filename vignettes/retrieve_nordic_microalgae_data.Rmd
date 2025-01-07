@@ -32,9 +32,7 @@ library(SHARK4R)
 library(tibble)
 ```
 
-## Retrieve Data Using SHARK4R
-
-### Retrieve Complete Nordic Microalgae Taxon Table
+## Retrieve Complete Nordic Microalgae Taxon Table
 
 A complete Nordic Microalgae taxa list can be retrieved through the API.
 
@@ -48,7 +46,7 @@ tibble(taxa)
 
 The full taxonomic information can be accessed as an unparsed list by enabling the `unparsed` parameter.
 
-### Get Nordic Microalgae External Links or Facts
+## Get Nordic Microalgae External Links or Facts
 
 Each taxon sheet on Nordic Microalgae contains facts, such as links to external webpages (e.g. AlgaeBase, WoRMS and Dyntaxa). These links can be retrieved through the API.
 
@@ -67,7 +65,7 @@ tibble(external_links)
 
 The full list of facts can be accessed as an unparsed list by setting the `unparsed` parameter to `TRUE`.
 
-### Get Nordic Microalgae Harmfulness Information
+## Get Nordic Microalgae Harmfulness Information
 
 Taxa listed in the [IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae](https://www.marinespecies.org/hab/) contain information about harmfulness. This information can be retrieved through the API.
 
@@ -81,7 +79,7 @@ harmfulness <- get_nua_harmfulness(c("dinophysis-acuta",
 tibble(harmfulness)
 ```
 
-### Get Nordic Microalgae Media Links
+## Get Nordic Microalgae Media Links
 
 Links to all images present on Nordic Microalgae can be retrieved through the API. The images are available in four sizes: original (o), small (s), medium (m), and large (l).
 

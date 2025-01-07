@@ -28,9 +28,7 @@ Load the `SHARK4R` library:
 library(SHARK4R)
 ```
 
-## Retrieve Data Using SHARK4R
-
-#### Retrieve Data Table
+## Retrieve Data Table
 
 Data can be retrieved with the same filtering options available in [SHARK](https://shark.smhi.se/). To see the available filtering options, please refer to [`get_shark_options`](../reference/get_shark_options.html) and the information below.
 
@@ -46,7 +44,7 @@ shark_data <- get_shark_data(fromYear = 2019,
 print(shark_data)
 ```
 
-### Get SHARK API Options
+## Get SHARK API Options
 
 Filtering options, including data types, dataset names, stations, taxa, and more, can be retrieved using the [`get_shark_options`](../reference/get_shark_options.html) function.
 

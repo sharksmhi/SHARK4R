@@ -35,32 +35,33 @@ get_shark_table_counts(
 }
 \arguments{
 \item{tableView}{Character. Specifies the view of the table to retrieve. Options include:
-\describe{
-\item{"sharkweb_overview"}{}
-\item{"sharkweb_all"}{}
-\item{"sharkdata_bacterioplankton"}{}
-\item{"sharkdata_chlorophyll"}{}
-\item{"sharkdata_epibenthos"}{}
-\item{"sharkdata_greyseal"}{}
-\item{"sharkdata_harbourporpoise"}{}
-\item{"sharkdata_harbourseal"}{}
-\item{"sharkdata_jellyfish"}{}
-\item{"sharkdata_physicalchemical_columns"}{}
-\item{"sharkdata_phytoplankton"}{}
-\item{"sharkdata_picoplankton"}{}
-\item{"sharkdata_planktonbarcoding"}{}
-\item{"sharkdata_primaryproduction"}{}
-\item{"sharkdata_ringedseal"}{}
-\item{"sharkdata_sealpathology"}{}
-\item{"sharkdata_sedimentation"}{}
-\item{"sharkdata_zoobenthos"}{}
-\item{"sharkdata_zooplankton"}{}
-\item{"report_sum_year_param"}{}
-\item{"report_sum_year_param_taxon"}{}
-\item{"report_sampling_per_station"}{}
-\item{"report_obs_taxon"}{}
-\item{"report_stations"}{}
-\item{"report_taxon"}{}
+\itemize{
+\item \code{"sharkweb_overview"}: Overview table
+\item \code{"sharkweb_all"}: All available columns
+\item \code{"sharkdata_bacterioplankton"}: Bacterioplankton table
+\item \code{"sharkdata_chlorophyll"}: Chlorophyll table
+\item \code{"sharkdata_epibenthos"}: Epibenthos table
+\item \code{"sharkdata_greyseal"}: Greyseal table
+\item \code{"sharkdata_harbourporpoise"}: Harbour porpoise table
+\item \verb{"sharkdata_harbourseal}: Harbour seal table
+\item \code{"sharkdata_jellyfish"}: Jellyfish table
+\item \code{"sharkdata_physicalchemical"}: Physical chemical table
+\item \code{"sharkdata_physicalchemical_columns"}: Physical chemical table: column view
+\item \code{"sharkdata_phytoplankton"}: Phytoplankton table
+\item \code{"sharkdata_picoplankton"}: Picoplankton table
+\item \code{"sharkdata_planktonbarcoding"}: Plankton barcoding table
+\item \code{"sharkdata_primaryproduction"}: Primary production table
+\item \code{"sharkdata_ringedseal"}: Ringed seal table
+\item \code{"sharkdata_sealpathology"}: Seal pathology table
+\item \code{"sharkdata_sedimentation"}: Sedimentation table
+\item \code{"sharkdata_zoobenthos"}: Zoobenthos table
+\item \code{"sharkdata_zooplankton"}: Zooplankton table
+\item \code{"report_sum_year_param"}: Report sum per year and parameter
+\item \code{"report_sum_year_param_taxon"}: Report sum per year, parameter and taxon
+\item \code{"report_sampling_per_station"}: Report sampling per station
+\item \code{"report_obs_taxon"}: Report observed taxa
+\item \code{"report_stations"}: Report stations
+\item \code{"report_taxon"}: Report taxa
 }
 Default is \code{"sharkweb_overview"}.}
 
