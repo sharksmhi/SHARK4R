@@ -12,32 +12,33 @@
 #' filter options, see \code{\link{get_shark_options}}.
 #'
 #' @param tableView Character. Specifies the view of the table to retrieve. Options include:
-#'   \describe{
-#'     \item{"sharkweb_overview"}{}
-#'     \item{"sharkweb_all"}{}
-#'     \item{"sharkdata_bacterioplankton"}{}
-#'     \item{"sharkdata_chlorophyll"}{}
-#'     \item{"sharkdata_epibenthos"}{}
-#'     \item{"sharkdata_greyseal"}{}
-#'     \item{"sharkdata_harbourporpoise"}{}
-#'     \item{"sharkdata_harbourseal"}{}
-#'     \item{"sharkdata_jellyfish"}{}
-#'     \item{"sharkdata_physicalchemical_columns"}{}
-#'     \item{"sharkdata_phytoplankton"}{}
-#'     \item{"sharkdata_picoplankton"}{}
-#'     \item{"sharkdata_planktonbarcoding"}{}
-#'     \item{"sharkdata_primaryproduction"}{}
-#'     \item{"sharkdata_ringedseal"}{}
-#'     \item{"sharkdata_sealpathology"}{}
-#'     \item{"sharkdata_sedimentation"}{}
-#'     \item{"sharkdata_zoobenthos"}{}
-#'     \item{"sharkdata_zooplankton"}{}
-#'     \item{"report_sum_year_param"}{}
-#'     \item{"report_sum_year_param_taxon"}{}
-#'     \item{"report_sampling_per_station"}{}
-#'     \item{"report_obs_taxon"}{}
-#'     \item{"report_stations"}{}
-#'     \item{"report_taxon"}{}
+#'   \itemize{
+#'     \item `"sharkweb_overview"`: Overview table
+#'     \item `"sharkweb_all"`: All available columns
+#'     \item `"sharkdata_bacterioplankton"`: Bacterioplankton table
+#'     \item `"sharkdata_chlorophyll"`: Chlorophyll table
+#'     \item `"sharkdata_epibenthos"`: Epibenthos table
+#'     \item `"sharkdata_greyseal"`: Greyseal table
+#'     \item `"sharkdata_harbourporpoise"`: Harbour porpoise table
+#'     \item `"sharkdata_harbourseal`: Harbour seal table
+#'     \item `"sharkdata_jellyfish"`: Jellyfish table
+#'     \item `"sharkdata_physicalchemical"`: Physical chemical table
+#'     \item `"sharkdata_physicalchemical_columns"`: Physical chemical table: column view
+#'     \item `"sharkdata_phytoplankton"`: Phytoplankton table
+#'     \item `"sharkdata_picoplankton"`: Picoplankton table
+#'     \item `"sharkdata_planktonbarcoding"`: Plankton barcoding table
+#'     \item `"sharkdata_primaryproduction"`: Primary production table
+#'     \item `"sharkdata_ringedseal"`: Ringed seal table
+#'     \item `"sharkdata_sealpathology"`: Seal pathology table
+#'     \item `"sharkdata_sedimentation"`: Sedimentation table
+#'     \item `"sharkdata_zoobenthos"`: Zoobenthos table
+#'     \item `"sharkdata_zooplankton"`: Zooplankton table
+#'     \item `"report_sum_year_param"`: Report sum per year and parameter
+#'     \item `"report_sum_year_param_taxon"`: Report sum per year, parameter and taxon
+#'     \item `"report_sampling_per_station"`: Report sampling per station
+#'     \item `"report_obs_taxon"`: Report observed taxa
+#'     \item `"report_stations"`: Report stations
+#'     \item `"report_taxon"`: Report taxa
 #'   }
 #'   Default is `"sharkweb_overview"`.
 #' @param limit Integer. Maximum number of records to retrieve per request. Default is `0` (all records). Maximum 10^5.
@@ -318,32 +319,33 @@ get_shark_options <- function(prod = TRUE, unparsed = FALSE) {
 #' To view available filter options, see \code{\link{get_shark_options}}.
 #'
 #' @param tableView Character. Specifies the view of the table to retrieve. Options include:
-#'   \describe{
-#'     \item{"sharkweb_overview"}{}
-#'     \item{"sharkweb_all"}{}
-#'     \item{"sharkdata_bacterioplankton"}{}
-#'     \item{"sharkdata_chlorophyll"}{}
-#'     \item{"sharkdata_epibenthos"}{}
-#'     \item{"sharkdata_greyseal"}{}
-#'     \item{"sharkdata_harbourporpoise"}{}
-#'     \item{"sharkdata_harbourseal"}{}
-#'     \item{"sharkdata_jellyfish"}{}
-#'     \item{"sharkdata_physicalchemical_columns"}{}
-#'     \item{"sharkdata_phytoplankton"}{}
-#'     \item{"sharkdata_picoplankton"}{}
-#'     \item{"sharkdata_planktonbarcoding"}{}
-#'     \item{"sharkdata_primaryproduction"}{}
-#'     \item{"sharkdata_ringedseal"}{}
-#'     \item{"sharkdata_sealpathology"}{}
-#'     \item{"sharkdata_sedimentation"}{}
-#'     \item{"sharkdata_zoobenthos"}{}
-#'     \item{"sharkdata_zooplankton"}{}
-#'     \item{"report_sum_year_param"}{}
-#'     \item{"report_sum_year_param_taxon"}{}
-#'     \item{"report_sampling_per_station"}{}
-#'     \item{"report_obs_taxon"}{}
-#'     \item{"report_stations"}{}
-#'     \item{"report_taxon"}{}
+#'   \itemize{
+#'     \item `"sharkweb_overview"`: Overview table
+#'     \item `"sharkweb_all"`: All available columns
+#'     \item `"sharkdata_bacterioplankton"`: Bacterioplankton table
+#'     \item `"sharkdata_chlorophyll"`: Chlorophyll table
+#'     \item `"sharkdata_epibenthos"`: Epibenthos table
+#'     \item `"sharkdata_greyseal"`: Greyseal table
+#'     \item `"sharkdata_harbourporpoise"`: Harbour porpoise table
+#'     \item `"sharkdata_harbourseal`: Harbour seal table
+#'     \item `"sharkdata_jellyfish"`: Jellyfish table
+#'     \item `"sharkdata_physicalchemical"`: Physical chemical table
+#'     \item `"sharkdata_physicalchemical_columns"`: Physical chemical table: column view
+#'     \item `"sharkdata_phytoplankton"`: Phytoplankton table
+#'     \item `"sharkdata_picoplankton"`: Picoplankton table
+#'     \item `"sharkdata_planktonbarcoding"`: Plankton barcoding table
+#'     \item `"sharkdata_primaryproduction"`: Primary production table
+#'     \item `"sharkdata_ringedseal"`: Ringed seal table
+#'     \item `"sharkdata_sealpathology"`: Seal pathology table
+#'     \item `"sharkdata_sedimentation"`: Sedimentation table
+#'     \item `"sharkdata_zoobenthos"`: Zoobenthos table
+#'     \item `"sharkdata_zooplankton"`: Zooplankton table
+#'     \item `"report_sum_year_param"`: Report sum per year and parameter
+#'     \item `"report_sum_year_param_taxon"`: Report sum per year, parameter and taxon
+#'     \item `"report_sampling_per_station"`: Report sampling per station
+#'     \item `"report_obs_taxon"`: Report observed taxa
+#'     \item `"report_stations"`: Report stations
+#'     \item `"report_taxon"`: Report taxa
 #'   }
 #'   Default is `"sharkweb_overview"`.
 #' @param fromYear Integer. The starting year for the data to retrieve. Default is `2019`.
@@ -560,15 +562,18 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @param helcomOspar Character vector. HELCOM or OSPAR areas for regional filtering.
 #' @param seaAreas Character vector. Sea area codes to filter by specific sea areas.
 #' @param hideEmptyColumns Logical. Whether to hide empty columns. Default is FALSE.
-#' @param prod Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is TRUE (PROD).
+#' @param row_limit Numeric. Specifies the maximum number of rows that can be retrieved in a single request. If the requested data exceeds this limit, the function automatically downloads the data in yearly chunks. The default value is 10 million rows.
+#' @param prod Logical. Whether to query the PROD (production) server or the SMHI internal TEST (testing) server. Default is TRUE (PROD).
 #' @param verbose Logical. Whether to display progress information. Default is TRUE.
 #'
 #' @return A `data.frame` containing the retrieved SHARK data, with column names based on the API's response.
 #'
-#' @details This function sends a POST request to the SHARK API with the specified filters. The response is parsed as JSON and then converted into a `data.frame`.
-#' The function handles the dynamic construction of the query body to filter the data based on the provided parameters.
+#' @details This function sends a POST request to the SHARK API with the specified filters. The response is parsed as JSON
+#'   and then converted into a `data.frame`. The function handles the dynamic construction of the query body to filter
+#'   the data based on the provided parameters. If the `row_limit` parameter is reached, the data retrieval process is
+#'   split into manageable chunks to avoid overwhelming the API or running into memory issues.
 #'
-#' @seealso \code{\link{get_shark_options}}
+#' @seealso \code{\link{get_shark_options}} \code{\link{get_shark_table_counts}}
 #'
 #' @examples
 #' \dontrun{
@@ -587,7 +592,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
                            redListedCategory = c(), taxonName = c(), stationName = c(), vattenDistrikt = c(),
                            seaBasins = c(), counties = c(), municipalities = c(), waterCategories = c(),
                            typOmraden = c(), helcomOspar = c(), seaAreas = c(), hideEmptyColumns = FALSE,
-                           prod = TRUE, verbose = TRUE) {
+                           row_limit = 10^7, prod = TRUE, verbose = TRUE) {
 
   # Set up file path to .txt file
   if (save_data && is.null(file_path)) {
@@ -666,14 +671,14 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 
   # Store min years as dataframe
   min_year_df <- data.frame(
-    dataType = names(options$minYearPerDatatype),
+    dataTypes = names(options$minYearPerDatatype),
     minYear = unlist(options$minYearPerDatatype),
     row.names = NULL,
     stringsAsFactors = TRUE
   )
 
   # Filter datatypes
-  min_year_df <- dplyr::filter(min_year_df, dataType %in% dataTypes)
+  min_year_df <- dplyr::filter(min_year_df, dataTypes %in% dataTypes)
 
   # Identify the minimum year
   fromYear <- min(min_year_df$minYear)
@@ -681,18 +686,131 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
   # Create a vector of years
   years <- c(fromYear:toYear)
 
-  all_data <- list()  # Initialize a list to store yearly data
+  # Get row count before downloading data
+  count <- get_shark_table_counts(tableView = tableView, fromYear = fromYear, toYear = toYear, months = months,
+                                  dataTypes = dataTypes, parameters = parameters, orderers = orderers,
+                                  qualityFlags = qualityFlags, deliverers = deliverers, projects = projects,
+                                  datasets = datasets, maxSamplingDepth = maxSamplingDepth, checkStatus = checkStatus,
+                                  minSamplingDepth = minSamplingDepth, redListedCategory = redListedCategory, taxonName = taxonName,
+                                  stationName = stationName, vattenDistrikt = vattenDistrikt, seaBasins = seaBasins,
+                                  counties = counties, municipalities = c(), waterCategories = c(),
+                                  typOmraden = c(), helcomOspar = helcomOspar, seaAreas = seaAreas, prod = prod)
 
-  # Set up the progress bar
-  if (verbose) {pb <- txtProgressBar(min = 0, max = length(years), style = 3)}
+  # Download data in chunks or everything at once
+  if (count > row_limit) {
 
-  for (i in seq_along(years)) {
-    year <- years[i]  # Get the current year
+    # Print message
+    if (verbose) {
+      message("The requested data exceeds the maximum row limit of ", row_limit, ". Data will be downloaded in yearly chunks to ensure all data is retrieved.")
+    }
 
-    # Update progress bar
-    if (verbose) {setTxtProgressBar(pb, i)}
+    all_data <- list()  # Initialize a list to store yearly data
 
-    # Update the body for the POST request with the current year
+    # Set up the progress bar
+    if (verbose) {pb <- txtProgressBar(min = 0, max = length(years), style = 3)}
+
+    # Temporary folder to save yearly files
+    temp_dir <- tempdir()
+
+    for (i in seq_along(years)) {
+      year <- years[i]  # Get the current year
+
+      # Update progress bar
+      if (verbose) { setTxtProgressBar(pb, i) }
+
+      # Update the body for the POST request with the current year
+      body <- list(
+        params = list(
+          tableView = tableView,
+          delimiters = delimiters,
+          lineEnd = lineEnd,
+          encoding = encoding,
+          headerLang = headerLang,
+          hideEmptyColumns = hideEmptyColumns
+        ),
+        query = list(
+          bounds = bounds,
+          fromYear = year,
+          toYear = year,
+          months = months,
+          dataTypes = dataTypes,
+          parameters = parameters,
+          checkStatus = checkStatus,
+          qualityFlags = qualityFlags,
+          deliverers = deliverers,
+          orderers = orderers,
+          projects = projects,
+          datasets = datasets,
+          minSamplingDepth = minSamplingDepth,
+          maxSamplingDepth = maxSamplingDepth,
+          redListedCategory = redListedCategory,
+          taxonName = taxonName,
+          stationName = stationName,
+          vattenDistrikt = vattenDistrikt,
+          seaBasins = seaBasins,
+          counties = counties,
+          municipalities = municipalities,
+          waterCategories = waterCategories,
+          typOmraden = typOmraden,
+          helcomOspar = helcomOspar,
+          seaAreas = seaAreas
+        )
+      )
+
+      # Convert body to JSON
+      body_json <- toJSON(body, auto_unbox = TRUE)
+
+      # Send the POST request
+      response <- POST(
+        url,
+        add_headers("accept" = "application/json", "Content-Type" = "application/json"),
+        body = body_json
+      )
+
+      # Check response status
+      if (status_code(response) == 200) {
+        year_data <- read_delim(file = content(response),
+                                delim = sep_char,
+                                locale = locale(encoding = content_encoding),
+                                na = c("", "-", "NA"),
+                                col_types = cols(.default = col_character()),
+                                progress = FALSE)
+
+        # Save to disk
+        temp_file <- file.path(temp_dir, paste0("data_", year, ".tsv"))
+        write_tsv(year_data, temp_file)
+
+      } else {
+        warning("Failed to retrieve data for year: ", year, " HTTP Status: ", status_code(response))
+      }
+    }
+
+    # Close the progress bar
+    if (verbose) {
+      close(pb)
+    }
+
+    # Combine files from disk
+    file_list <- list.files(temp_dir, pattern = "data_.*\\.tsv", full.names = TRUE)
+    combined_data <- vroom(file_list, delim = "\t")
+
+    # Convert to correct column types
+    combined_data <- type_convert(combined_data, col_types = cols())
+
+    if (save_data) {
+      write.table(combined_data, file = file_path, sep = sep_char, row.names = FALSE, col.names = TRUE,
+                  quote = FALSE, fileEncoding = content_encoding)
+    }
+
+    return(combined_data)
+
+  } else {
+    # Set up file path to .tsv file
+    if (!save_data) {
+      file_path <- tempfile(fileext = ".tsv")
+    }
+
+    # Create the JSON body as a list
     body <- list(
       params = list(
         tableView = tableView,
@@ -704,8 +822,8 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
       ),
       query = list(
         bounds = bounds,
-        fromYear = year,
-        toYear = year,
+        fromYear = fromYear,
+        toYear = toYear,
         months = months,
         dataTypes = dataTypes,
         parameters = parameters,
@@ -738,42 +856,39 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     response <- POST(
       url,
       add_headers("accept" = "application/json", "Content-Type" = "application/json"),
-      body = body_json
+      body = body_json,
+      write_disk(file_path, overwrite = TRUE),
+      if (verbose) {
+        progress()
+      }
     )
 
     # Check response status
     if (status_code(response) == 200) {
-      year_data <- read_delim(file = content(response),
-                              delim = sep_char,
-                              locale = locale(encoding = content_encoding),
-                              na = c("", "-", "NA"),
-                              col_types = cols(.default = col_character()),
-                              progress = FALSE)
+      # Load the file into R as a (character) tibble
+      parsed_table <- read_delim(file = file_path,
+                                 delim = sep_char,
+                                 locale = locale(encoding = content_encoding),
+                                 na = c("", "-", "NA"),
+                                 col_types = cols(
+                                   .default = col_character()
+                                 ),
+                                 progress = FALSE)
 
       # Convert to correct column type
-      all_data[[as.character(year)]] <- year_data
+      parsed_table <- type_convert(parsed_table, col_types = cols())
+
+      if (!save_data) {
+        # Clean up temporary file
+        unlink(file_path)
+      }
+
+      return(parsed_table)
     } else {
-      warning("Failed to retrieve data for year: ", year, " HTTP Status: ", status_code(response))
+      # Clean up temporary file in case of an error
+      unlink(file_path)
+      stop("Failed to retrieve data: HTTP Status ", status_code(response), "\n",
+           content(response, as = "text", encoding = "UTF-8"))
     }
   }
-
-  # Close the progress bar
-  if (verbose) {
-    close(pb)
-  }
-
-  # Combine all yearly data into a single data frame
-  combined_data <- bind_rows(all_data)
-
-  # Convert to correct column type
-  combined_data <- type_convert(combined_data, col_types = cols())
-
-  if (save_data) {
-    write_delim(combined_data, file_path, delim = sep_char, na = "", progress = FALSE)
-
-    write.table(combined_data, file = file_path, sep = sep_char, row.names = FALSE, col.names = TRUE,
-                quote = FALSE, fileEncoding = content_encoding)
-  }
-
-  return(combined_data)
 }

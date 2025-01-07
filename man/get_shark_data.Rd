@@ -38,6 +38,7 @@ get_shark_data(
   helcomOspar = c(),
   seaAreas = c(),
   hideEmptyColumns = FALSE,
+  row_limit = 10^7,
   prod = TRUE,
   verbose = TRUE
 )
@@ -174,7 +175,9 @@ If set to \code{NULL} (default), the function will use the latest available year
 
 \item{hideEmptyColumns}{Logical. Whether to hide empty columns. Default is FALSE.}
 
-\item{prod}{Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is TRUE (PROD).}
+\item{row_limit}{Numeric. Specifies the maximum number of rows that can be retrieved in a single request. If the requested data exceeds this limit, the function automatically downloads the data in yearly chunks. The default value is 10 million rows.}
+
+\item{prod}{Logical. Whether to query the PROD (production) server or the SMHI internal TEST (testing) server. Default is TRUE (PROD).}
 
 \item{verbose}{Logical. Whether to display progress information. Default is TRUE.}
 }
@@ -187,8 +190,10 @@ to the SHARK API with customizable filters, including year, month, taxon name, w
 retrieved data as a structured \code{data.frame}. To view available filter options, see \code{\link{get_shark_options}}.
 }
 \details{
-This function sends a POST request to the SHARK API with the specified filters. The response is parsed as JSON and then converted into a \code{data.frame}.
-The function handles the dynamic construction of the query body to filter the data based on the provided parameters.
+This function sends a POST request to the SHARK API with the specified filters. The response is parsed as JSON
+and then converted into a \code{data.frame}. The function handles the dynamic construction of the query body to filter
+the data based on the provided parameters. If the \code{row_limit} parameter is reached, the data retrieval process is
+split into manageable chunks to avoid overwhelming the API or running into memory issues.
 }
 \examples{
 \dontrun{
@@ -200,5 +205,5 @@ The function handles the dynamic construction of the query body to filter the da
 
 }
 \seealso{
-\code{\link{get_shark_options}}
+\code{\link{get_shark_options}} \code{\link{get_shark_table_counts}}
 }
