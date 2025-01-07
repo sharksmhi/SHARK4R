@@ -571,7 +571,8 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @details This function sends a POST request to the SHARK API with the specified filters. The response is parsed as JSON
 #'   and then converted into a `data.frame`. The function handles the dynamic construction of the query body to filter
 #'   the data based on the provided parameters. If the `row_limit` parameter is reached, the data retrieval process is
-#'   split into manageable chunks to avoid overwhelming the API or running into memory issues.
+#'   split into manageable chunks to avoid overwhelming the API or running into memory issues. Please note that making very
+#'   large requests, such as retrieving the entire database, can be extremely memory-intensive.
 #'
 #' @seealso \code{\link{get_shark_options}} \code{\link{get_shark_table_counts}}
 #'
