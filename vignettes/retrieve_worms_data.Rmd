@@ -38,7 +38,7 @@ library(ggplot2)
 Phytoplankton data, including scientific names and AphiaIDs, are downloaded from SHARK. To see more download options, please visit the [Retrieve Data From SHARK](../articles/retrieve_shark_data.html) tutorial.
 
 ```{r}
-# Retrieve all phytoplankton data from April 2015
+# Retrieve all phytoplankton data from April 2015 in SHARK
 shark_data <- get_shark_data(fromYear = 2015, 
                              toYear = 2015,
                              months = 4, 
@@ -113,11 +113,11 @@ shark_data_with_worms <- shark_data %>%
 Phytoplankton data are often categorized into major groups such as Dinoflagellates, Diatoms, Cyanobacteria, and Others. This grouping can be achieved by referencing information from WoRMS and assigning taxa to these groups based on their taxonomic classification, as demonstrated in the example below.
 
 ```{r}
-# Subset a few national monitoring stations
+# Subset data from station BY31
 nat_stations <- shark_data %>%
   filter(station_name %in% c("BY31 LANDSORTSDJ"))
 
-# Randomly select one sample from the nat_stations
+# Randomly select one sample from station BY31
 sample <- sample(unique(nat_stations$shark_sample_id_md5), 1)
 
 # Subset the random sample

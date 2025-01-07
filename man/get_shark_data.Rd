@@ -54,10 +54,11 @@ get_shark_data(
 \item \code{"sharkdata_harbourporpoise"}: Harbour porpoise table
 \item \verb{"sharkdata_harbourseal}: Harbour seal table
 \item \code{"sharkdata_jellyfish"}: Jellyfish table
-\item \code{"sharkdata_physicalchemical_columns"}: Physical chemical table
+\item \code{"sharkdata_physicalchemical"}: Physical chemical table
+\item \code{"sharkdata_physicalchemical_columns"}: Physical chemical table: column view
 \item \code{"sharkdata_phytoplankton"}: Phytoplankton table
 \item \code{"sharkdata_picoplankton"}: Picoplankton table
-\item \code{"sharkdata_planktonbarcoding"}: Planktonbarcoding table
+\item \code{"sharkdata_planktonbarcoding"}: Plankton barcoding table
 \item \code{"sharkdata_primaryproduction"}: Primary production table
 \item \code{"sharkdata_ringedseal"}: Ringed seal table
 \item \code{"sharkdata_sealpathology"}: Seal pathology table

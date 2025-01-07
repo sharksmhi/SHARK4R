@@ -11,6 +11,7 @@
 #' @param unparsed Logical. If `TRUE`, returns raw JSON output instead of an R data frame. Defaults to `FALSE`.
 #' @param exact_matches_only Logical. If `TRUE`, restricts results to exact matches. Defaults to `TRUE`.
 #' @param sleep_time Numeric. The delay (in seconds) between consecutive Algaebase API queries. Defaults to `1`. A delay is recommended to avoid overwhelming the API for large queries.
+#' @param newest_only A logical value indicating whether to return only the most recent entries (default is `TRUE`).
 #' @param verbose Logical. If `TRUE`, displays a progress bar to indicate query status. Defaults to `TRUE`.
 #'
 #' @return A data frame containing taxonomic information for each input genus-species combination. Columns may include:
@@ -59,11 +60,16 @@
 #' }
 match_algaebase <- function(genus, species, apikey = NULL, genus_only = FALSE,
                             higher = TRUE, unparsed = FALSE, exact_matches_only = TRUE,
-                            sleep_time = 1, verbose = TRUE) {
+                            sleep_time = 1, newest_only = TRUE, verbose = TRUE) {
 
   # Check input lengths
   if (length(genus) != length(species)) {
     stop("`genus` and `species` vectors must be of equal length.")
+  }
+
+  # Check if API is operational
+  if (!check_algaebase_api(apikey)) {
+    stop("API is not operational or the API key is invalid. Please check and try again.")
   }
 
   # Create unique combinations of genus and species
@@ -83,7 +89,7 @@ match_algaebase <- function(genus, species, apikey = NULL, genus_only = FALSE,
 
     err_df <- data.frame(
       id = NA, kingdom = NA, phylum = NA, class = NA, order = NA, family = NA,
-      genus = NA, species = NA, infrasp = NA, taxonomic_status = NA,
+      genus = NA, species = NA, infrasp = NA, taxonomic_status = NA, nomenclatural_status = NA,
       currently_accepted = NA, accepted_name = NA, genus_only = genus_only,
       input_name = input_name, input_match = 0, taxon_rank = NA,
       mod_date = NA, long_name = NA, authorship = NA
@@ -113,8 +119,8 @@ match_algaebase <- function(genus, species, apikey = NULL, genus_only = FALSE,
     } else if (genus_only || is.na(species_i) || species_i == "") {
       tmp <- tryCatch(
         get_algaebase_genus(
-          genus = genus_i, apikey = apikey,
-          higher = higher, unparsed = unparsed, exact_matches_only = exact_matches_only
+          genus = genus_i, apikey = apikey, higher = higher,
+          unparsed = unparsed, exact_matches_only = exact_matches_only, newest_only = newest_only
         ),
         error = function(e) generate_error_row(i, genus_only, unique_data$genus, unique_data$species, higher)
       )
@@ -122,13 +128,13 @@ match_algaebase <- function(genus, species, apikey = NULL, genus_only = FALSE,
       tmp <- tryCatch(
         get_algaebase_species(
           genus = genus_i, species = species_i, apikey = apikey,
-          higher = higher, unparsed = unparsed, exact_matches_only = exact_matches_only
+          higher = higher, unparsed = unparsed, exact_matches_only = exact_matches_only, newest_only = newest_only
         ),
         error = function(e) {
           tryCatch(
             get_algaebase_genus(
-              genus = genus_i, apikey = apikey,
-              higher = higher, unparsed = unparsed, exact_matches_only = exact_matches_only
+              genus = genus_i, apikey = apikey, higher = higher,
+              unparsed = unparsed, exact_matches_only = exact_matches_only, newest_only = newest_only
             ),
             error = function(e) generate_error_row(i, genus_only, unique_data$genus, unique_data$species, higher)
           )
@@ -192,23 +198,70 @@ get_algaebase_species <- function(genus, species, apikey, higher = TRUE,
   if (is.null(species) || species == "" || is.na(species)) stop("Species name is required.")
   if (is.null(apikey) || apikey == "") stop("API key is required.")
 
-  # Construct the search URL
-  species_query <- paste0("https://api.algaebase.org/v1.3/species?genus=", genus,
-                          "&dwc:specificEpithet=", species)
+  if (grepl(" ", species)) {
+    species_split <- strsplit(species, split=' ')[[1]]
+    sp <- species_split[1]
 
-  # Send GET request
-  response <- GET(
-    species_query,
-    add_headers("Content-Type" = "application/json", "abapikey" = apikey)
-  )
-  if (response$status_code != 200) stop(paste0("Error ", response$status_code, ": Unable to fetch data from AlgaeBase"))
+    infrasp <- species_split[2]
 
-  # Parse JSON response
-  results <- prettify(content(response, "text", encoding = "UTF-8"))
-  if (unparsed) return(results)
+    species_query <- paste0("https://api.algaebase.org/v1.3/species?genus=",
+                                  genus,"&dwc:specificEpithet=",sp,
+                                  "&dwc:scientificName=",infrasp)
+  } else {
+    species_query <- paste0("https://api.algaebase.org/v1.3/species?genus=", genus,
+                            "&dwc:specificEpithet=", species)
+  }
 
-  result_list <- fromJSON(results)
-  results_output <- result_list[[2]]
+  # Initialize pagination variables
+  offset <- 0
+  count <- 50
+  combined_results <- list()  # Use a list to store pages temporarily
+  total_retrieved <- 0        # Track the total number of results retrieved
+  total_number_of_results <- Inf  # Initialize as infinite until the first response
+
+  repeat {
+    # Build the URL with offset and count
+    query_url <- paste0(species_query, "&offset=", offset, "&count=", count)
+
+    # Send GET request
+    response <- GET(
+      query_url,
+      add_headers("Content-Type" = "application/json", "abapikey" = apikey)
+    )
+
+    # Check for response errors
+    if (response$status_code != 200) stop(paste0("Error ", response$status_code, ": Unable to fetch data from AlgaeBase"))
+
+    # Parse the response
+    results <- fromJSON(content(response, "text", encoding = "UTF-8"))
+    results_page <- results[[2]]
+
+    # Get total number of results from the first response
+    if (is.infinite(total_number_of_results)) {
+      total_number_of_results <- results[[1]]$`_total_number_of_results`
+    }
+
+    # Break the loop if no more results are returned
+    if (nrow(results_page) == 0) break
+
+    # Append the results page to the list
+    combined_results[[length(combined_results) + 1]] <- results_page
+
+    # Update the total number of results retrieved
+    total_retrieved <- total_retrieved + nrow(results_page)
+
+    # Break the loop if all results have been retrieved
+    if (total_retrieved >= total_number_of_results) break
+
+    # Update offset for the next request
+    offset <- offset + count
+
+    # Pause between requests to avoid hitting rate limits
+    Sys.sleep(1)
+  }
+
+  # Combine all results into a single data frame
+  results_output <- do.call(rbind, combined_results)
 
   # Handle infraspecific names
   output_infraspname <- case_when(
@@ -260,6 +313,8 @@ get_algaebase_species <- function(genus, species, apikey, higher = TRUE,
   taxon_rank <- extract_algaebase_field(results_output, "dwc:taxonRank")
   authorship <- extract_algaebase_field(results_output, "dwc:scientificNameAuthorship")
   accepted_name <- extract_algaebase_field(results_output, "dwc:acceptedNameUsage")
+  nomenclatural_status <- extract_algaebase_field(results_output, "dwc:nomenclaturalStatus")
+
   input_name <- paste(genus, species)
   input_match <- ifelse(
     paste(genus, species) == paste(
@@ -276,7 +331,7 @@ get_algaebase_species <- function(genus, species, apikey, higher = TRUE,
     genus = extract_algaebase_field(results_output, "dwc:genus"),
     species = extract_algaebase_field(results_output, "dwc:specificEpithet"),
     infrasp = extract_algaebase_field(results_output, "dwc:infraspecificEpithet"),
-    taxonomic_status, currently_accepted, accepted_name,
+    taxonomic_status, nomenclatural_status, currently_accepted, accepted_name,
     genus_only = 0, input_name, input_match,
     taxon_rank, mod_date, long_name, authorship
   )
@@ -287,12 +342,12 @@ get_algaebase_species <- function(genus, species, apikey, higher = TRUE,
     output <- output[, c(
       'id', 'accepted_name', 'input_name', 'input_match', 'currently_accepted', 'genus_only',
       'kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species', 'infrasp',
-      'long_name', 'taxonomic_status', 'taxon_rank', 'mod_date', 'authorship'
+      'long_name', 'taxonomic_status', 'nomenclatural_status', 'taxon_rank', 'mod_date', 'authorship'
     )]
   } else {
     output <- output[, c(
       'id', 'accepted_name', 'input_name', 'input_match', 'currently_accepted', 'genus_only',
-      'genus', 'species', 'infrasp', 'long_name', 'taxonomic_status', 'taxon_rank', 'mod_date',
+      'genus', 'species', 'infrasp', 'long_name', 'taxonomic_status', 'nomenclatural_status', 'taxon_rank', 'mod_date',
       'authorship'
     )]
   }
@@ -347,76 +402,93 @@ get_algaebase_genus <- function(genus, apikey, higher = TRUE, unparsed = FALSE,
   if (is.null(genus) || genus == "" || is.na(genus)) stop("No genus name supplied")
   if (is.null(apikey) || apikey == "") stop("API key is required")
 
-  # Construct the search URL
+  # Base search URL
   genus_search_string <- paste0('https://api.algaebase.org/v1.3/genus?genus=', genus)
 
-  # Send GET request
-  response <- GET(
-    genus_search_string,
-    add_headers("Content-Type" = "application/json", "abapikey" = apikey)
-  )
+  # Initialize pagination variables
+  offset <- 0
+  count <- 50
+  combined_results <- list()  # Use a list to store pages temporarily
+  total_retrieved <- 0        # Track the total number of results retrieved
+  total_number_of_results <- Inf  # Initialize as infinite until the first response
 
-  if (response$status_code != 200) stop(paste0("Error ", response$status_code, ": Unable to fetch data from AlgaeBase"))
+  repeat {
+    # Build the URL with offset and count
+    query_url <- paste0(genus_search_string, "&offset=", offset, "&count=", count)
 
-  # Parse JSON response
-  results <- prettify(content(response, "text", encoding = "UTF-8"))
-  if (unparsed) return(results)
+    # Send GET request
+    response <- GET(
+      query_url,
+      add_headers("Content-Type" = "application/json", "abapikey" = apikey)
+    )
 
-  result_list <- fromJSON(results)
-  results_output <- result_list[[2]]
+    # Check for response errors
+    if (response$status_code != 200) stop(paste0("Error ", response$status_code, ": Unable to fetch data from AlgaeBase"))
+
+    # Parse the response
+    results <- fromJSON(content(response, "text", encoding = "UTF-8"))
+    results_page <- results[[2]]
+
+    # Get total number of results from the first response
+    if (is.infinite(total_number_of_results)) {
+      total_number_of_results <- results[[1]]$`_total_number_of_results`
+    }
+
+    # Break the loop if no more results are returned
+    if (nrow(results_page) == 0) break
+
+    # Append the results page to the list
+    combined_results[[length(combined_results) + 1]] <- results_page
+
+    # Update the total number of results retrieved
+    total_retrieved <- total_retrieved + nrow(results_page)
+
+    # Break the loop if all results have been retrieved
+    if (total_retrieved >= total_number_of_results) break
+
+    # Update offset for the next request
+    offset <- offset + count
+
+    # Pause between requests to avoid hitting rate limits
+    Sys.sleep(1)
+  }
+
+  # Combine all results into a single data frame
+  combined_results <- do.call(rbind, combined_results)
+
+  if (unparsed) return(combined_results)
 
   # Parse `mod_date` once
-  mod_date <- ymd(extract_algaebase_field(results_output, "dcterms:modified"))
+  mod_date <- lubridate::ymd(combined_results$`dcterms:modified`)
 
-  # Handle higher taxonomy if requested
   if (higher) {
-    higher_taxonomy <- data.frame(
-      kingdom = extract_algaebase_field(results_output, "dwc:kingdom"),
-      phylum = extract_algaebase_field(results_output, "dwc:phylum"),
-      class = extract_algaebase_field(results_output, "dwc:class"),
-      order = extract_algaebase_field(results_output, "dwc:order"),
-      family = extract_algaebase_field(results_output, "dwc:family"),
-      genus = extract_algaebase_field(results_output, "dwc:genus")
-    )
+    higher_taxonomy <- combined_results[, c("dwc:kingdom", "dwc:phylum", "dwc:class", "dwc:order", "dwc:family")]
+
+    # Remove 'dwc:' prefix from column names
+    colnames(higher_taxonomy) <- gsub("^dwc:", "", colnames(higher_taxonomy))
   }
 
-  # Extract additional fields
-  long_name <- extract_algaebase_field(results_output, "dwc:scientificName")
-  taxonomic_status <- extract_algaebase_field(results_output, "dwc:taxonomicStatus")
-  taxon_rank <- extract_algaebase_field(results_output, "dwc:taxonRank")
-  authorship <- extract_algaebase_field(results_output, "dwc:scientificNameAuthorship")
-  accepted_name <- extract_algaebase_field(results_output, "dwc:acceptedNameUsage")
-  input_match <- ifelse(genus == extract_algaebase_field(results_output, "dwc:genus"), 1, 0)
-  currently_accepted <- ifelse(taxonomic_status == "currently accepted taxonomically", 1, 0)
-  accepted_name <- ifelse(currently_accepted == 1, genus, accepted_name)
-
-  # Create output data frame
   output <- data.frame(
-    id = extract_algaebase_field(results_output, "dwc:scientificNameID"),
-    genus = extract_algaebase_field(results_output, "dwc:genus"),
+    id = combined_results$`dwc:scientificNameID`,
+    genus = combined_results$`dwc:genus`,
     species = NA, infrasp = NA,
-    taxonomic_status, currently_accepted, accepted_name,
-    genus_only = 1, input_name = genus, input_match,
-    taxon_rank, mod_date, long_name, authorship
+    taxonomic_status = combined_results$`dwc:taxonomicStatus`,
+    nomenclatural_status = combined_results$`dwc:nomenclaturalStatus`,
+    currently_accepted = ifelse(combined_results$`dwc:taxonomicStatus` == "currently accepted taxonomically", 1, 0),
+    accepted_name = combined_results$`dwc:acceptedNameUsage`,
+    genus_only = 1,
+    input_name = genus,
+    input_match = ifelse(genus == combined_results$`dwc:genus`, 1, 0),
+    taxon_rank = combined_results$`dwc:taxonRank`,
+    mod_date = mod_date,
+    long_name = combined_results$`dwc:scientificName`,
+    authorship = combined_results$`dwc:scientificNameAuthorship`
   )
 
-  # Include higher taxonomy if requested
   if (higher) {
     output <- cbind(higher_taxonomy, output)
-    output <- output[, c(
-      'id', 'accepted_name', 'input_name', 'input_match', 'currently_accepted', 'genus_only',
-      'kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species', 'infrasp',
-      'long_name', 'taxonomic_status', 'taxon_rank', 'mod_date', 'authorship'
-    )]
-  } else {
-    output <- output[, c(
-      'id', 'accepted_name', 'input_name', 'input_match', 'currently_accepted', 'genus_only',
-      'genus', 'species', 'infrasp', 'long_name', 'taxonomic_status', 'taxon_rank', 'mod_date',
-      'authorship'
-    )]
   }
 
-  # Apply filters
   if (exact_matches_only) {
     if (sum(output$input_match) == 0) stop("No exact matches found")
     output <- output[output$input_match == 1, ]
@@ -428,7 +500,7 @@ get_algaebase_genus <- function(genus, apikey, higher = TRUE, unparsed = FALSE,
     output <- output[order(output$mod_date, decreasing = TRUE), ]
   }
 
-  # Remove potential duplicated rows
+  # Remove duplicates
   output <- distinct(output)
 
   return(output)
@@ -471,6 +543,10 @@ extract_algaebase_field <- function(query_result, field_name) {
 #' and manages cases involving varieties, subspecies, or invalid species names. Special characters and whitespace are handled appropriately.
 #'
 #' @param scientific_name A character vector containing scientific names, which may include binomials, additional descriptors, or varieties.
+#' @param remove_undesired_descriptors Logical, if TRUE, undesired descriptors (e.g., 'Cfr.', 'cf.', 'colony', 'cells', etc.) are removed. Default is TRUE.
+#' @param remove_subspecies Logical, if TRUE, subspecies/variety descriptors (e.g., 'var.', 'subsp.', 'f.', etc.) are removed. Default is TRUE.
+#' @param remove_invalid_species Logical, if TRUE, invalid species names (e.g., 'sp.', 'spp.') are removed. Default is TRUE.
+#' @param encoding A string specifying the encoding to be used for the input names (e.g., 'UTF-8'). Default is 'UTF-8'.
 #'
 #' @return A `data.frame` with two columns:
 #' - `genus`: Contains the genus names.
@@ -487,57 +563,64 @@ extract_algaebase_field <- function(query_result, field_name) {
 #' print(result)
 #'
 #' @export
-parse_scientific_names <- function(scientific_name) {
+parse_scientific_names <- function(scientific_name,
+                                   remove_undesired_descriptors = TRUE,
+                                   remove_subspecies = TRUE,
+                                   remove_invalid_species = TRUE,
+                                   encoding = 'UTF-8') {
+
   # Ensure the input is a character vector
   spp_list <- as.character(scientific_name)
 
-  # Convert to UTF-8 to handle special characters correctly
-  spp_list <- iconv(spp_list, to = 'UTF-8')
+  # Convert to specified encoding to handle special characters correctly
+  spp_list <- iconv(spp_list, to = encoding)
 
   # Remove undesired descriptors like 'Cfr.', 'cf', 'colony', 'cells', etc.
-  spp_list <- gsub('Cfr. |cf[.]? |colony|colonies|cells|cell', '', spp_list, ignore.case = TRUE)
+  if (remove_undesired_descriptors) {
+    spp_list <- gsub('\\b(Cfr[.]?|cf[.]?|GRP[.]?|CPX[.]?|CF[.]?|colony|colonies|cells|cell)\\b', '', spp_list, ignore.case = TRUE)
+  }
 
-  # Flag species names with 'sp.' or 'spp.' for genus-only records
-  genus_only_flag <- grepl('sp[.]? |spp[.]? ', spp_list, ignore.case = TRUE)
+  # Remove subspecies/variety descriptors (e.g., var., subsp., f., etc.)
+  if (remove_subspecies) {
+    spp_list <- gsub('\\b(var[.]?|subsp[.]?|ssp[.]?|f[.]?|v[.]?|morph[.]?|gr[.]?|aff[.]?|tab[.]?)\\b', '', spp_list, ignore.case = TRUE)
+  }
 
-  # Flag species names with subspecies or variety (e.g., var., subsp.)
-  var_flag <- grepl('var[.]? |subsp[.]? |ssp[.]? |v[.]? |morph[.]? |gr[.]? |mor[.]? |aff[.]? |f[.]? |tab[.]?',
-                    spp_list, ignore.case = TRUE)
-
-  # Remove subspecies/variety descriptors from the species names
-  spp_list <- gsub('var[.]? |subsp[.]? |ssp[.]? |v[.]? |morph[.]? |gr[.]? |mor[.]? |aff[.]? |f[.]? |tab[.]?',
-                   '', spp_list, ignore.case = TRUE)
-
-  # Trim whitespace from species names
+  # Trim whitespace
   spp_list <- trimws(spp_list, 'both')
 
-  # Split binomial names into genus and species
-  genus <- sapply(spp_list, function(x) strsplit(x, split = ' ')[[1]][1])
-  species <- sapply(spp_list, function(x) strsplit(x, split = ' ')[[1]][2])
-  species[is.na(species)] <- ''
+  # Remove any remaining standalone punctuation or stray dots
+  spp_list <- gsub('[[:punct:]&&[^-]]', '', spp_list)
 
-  # Remove invalid species names (e.g., 'sp.', 'spp.', 'sp', 'spp')
-  species <- ifelse(species %in% c('sp.', 'spp.', 'sp', 'spp'), '', species)
+  # Remove standalone periods (including trailing ones)
+  spp_list <- gsub('\\s+\\.+|\\.+\\s+|\\.+$', '', spp_list)
 
-  # Remove species with numbers
+  # Replace multiple spaces with a single space
+  spp_list <- gsub('\\s+', ' ', spp_list)
+
+  # Split names into components
+  components <- strsplit(spp_list, split = ' ')
+
+  # Extract genus and combine the rest as species
+  genus <- sapply(components, function(x) x[1])
+  species <- sapply(components, function(x) {
+    if (length(x) > 1) {
+      paste(x[-1], collapse = ' ')
+    } else {
+      ''
+    }
+  })
+
+  # Remove invalid species names (e.g., sp., spp.)
+  if (remove_invalid_species) {
+    species <- ifelse(species %in% c('sp.', 'spp.', 'sp', 'spp', 'SP.', 'SP', "SPP.", "SPP"), '', species)
+  }
+
+  # Remove species names with numbers
   species[grepl('[0-9]', species)] <- ''
 
-  # Handle cases where a variety or subspecies is included
-  var <- sapply(spp_list, function(x) strsplit(x, split = ' ')[[1]][3])
-  var <- trimws(var, 'both')
-
-  # Flag for valid variety names (e.g., no number, starts with uppercase or parenthesis)
-  var_flag_test <- !(grepl("^[[:upper:]]", var) | substr(var, 1, 1) == "(" | grepl("^[0-9]", var))
-  var_flag[var_flag_test] <- 1
-
-  # Combine variety/subspecies with species
-  species[var_flag == 1 & !is.na(var)] <- paste(species[var_flag == 1 & !is.na(var)],
-                                                var[var_flag == 1 & !is.na(var)], sep = ' ')
-
-  # Ensure that genus and species are not NA or empty
+  # Ensure genus and species are valid
   genus[is.na(genus)] <- ''
   species[is.na(species)] <- ''
-  species[genus_only_flag] <- ''
 
   # Trim any remaining whitespace
   genus <- trimws(genus, 'both')
@@ -547,4 +630,48 @@ parse_scientific_names <- function(scientific_name) {
   output_df <- data.frame(genus = genus, species = species, stringsAsFactors = FALSE)
 
   return(output_df)
+}
+
+#' @title Check AlgaeBase API Operational Status
+#' @description Internal function to verify whether the AlgaeBase API is operational.
+#' It sends a request to a stable genus endpoint to confirm API availability.
+#'
+#' @param apikey A string. The API key for accessing the AlgaeBase API. Defaults to `NULL`.
+#' @param genus_id A numeric value. The unique genus ID used to test the API endpoint.
+#' Default is `43375`, corresponding to the `Haematococcus` genus record in AlgaeBase.
+#'
+#' @return A logical value: `TRUE` if the API is operational, `FALSE` otherwise.
+#'
+#' @details
+#' This function performs a GET request to the AlgaeBase API using a stable genus ID
+#' to ensure that the API is accessible and that the provided API key is valid.
+#' It is used internally to prevent unnecessary queries when the API is unavailable.
+#'
+#' @examples
+#' \dontrun{
+#' # Check API status with an API key
+#' check_algaebase_api(apikey = "your_api_key")
+#' }
+#'
+#' @keywords internal
+check_algaebase_api <- function(apikey = NULL, genus_id = 43375) {
+  tryCatch(
+    {
+      # Perform the GET request for a stable genus ID
+      response <- httr::GET(
+        url = paste0("https://api.algaebase.org/v1.3/genus/", genus_id),
+        httr::add_headers("Content-Type" = "application/json", "abapikey" = apikey)
+      )
+
+      # Check the HTTP status code
+      if (httr::status_code(response) == 200) {
+        return(TRUE)
+      } else {
+        stop("API request failed with status: ", httr::status_code(response))
+      }
+    },
+    error = function(e) {
+      return(FALSE)
+    }
+  )
 }

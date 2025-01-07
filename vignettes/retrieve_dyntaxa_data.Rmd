@@ -55,12 +55,12 @@ shark_taxon <- get_shark_data(tableView = "report_taxon",
 # Print data
 print(shark_taxon)
 
-# Retrieve all epibenthos data from July 2015
-shark_data <- get_shark_data(tableView = "sharkdata_epibenthos",
+# Retrieve all phytoplankton data from July 2015
+shark_data <- get_shark_data(tableView = "sharkdata_phytoplankton",
                              fromYear = 2015, 
                              toYear = 2015,
                              months = 7,
-                             dataTypes = c("Epibenthos"),
+                             dataTypes = c("Phytoplankton"),
                              verbose = FALSE)
 
 # Print data
@@ -83,7 +83,7 @@ dyntaxa_key <- Sys.getenv("DYNTAXA_KEY")
 If the taxonomic data downloaded from SHARK are outdated, they can be updated to the latest Dyntaxa information using `SHARK4R`. Alternatively, data can be retrieved from WoRMS. For details, see the [WoRMS Tutorial](../articles/retrieve_worms_data.html).
 
 ```{r}
-# Update taxonomy information for the retrieved epibenthos data using Dyntaxa
+# Update taxonomy information for the retrieved phytoplankton data
 updated_taxonomy <- update_dyntaxa_taxonomy(
   dyntaxa_ids = shark_data$dyntaxa_id,
   subscription_key = dyntaxa_key,
