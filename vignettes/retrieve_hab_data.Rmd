@@ -29,9 +29,16 @@ devtools::install_github("sharksmhi/SHARK4R",
 ```
 
 Load the `SHARK4R` and `dplyr` libraries:
-```{r, warning=FALSE, message=FALSE}
+```{r, eval=FALSE}
 library(SHARK4R)
 library(dplyr)
+```
+
+```{r, include=FALSE}
+suppressPackageStartupMessages({
+  library(SHARK4R)
+  library(dplyr)
+})
 ```
 
 ## Retrieve HAB List From IOC Taxonomic List

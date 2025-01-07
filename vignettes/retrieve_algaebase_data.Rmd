@@ -24,9 +24,16 @@ devtools::install_github("sharksmhi/SHARK4R",
 ```
 
 Load the `SHARK4R` and `tibble` libraries:
-```{r, warning=FALSE, message=FALSE}
+```{r, eval=FALSE}
 library(SHARK4R)
 library(tibble)
+```
+
+```{r, include=FALSE}
+suppressPackageStartupMessages({
+  library(SHARK4R)
+  library(tibble)
+})
 ```
 
 ### AlgaeBase API Key

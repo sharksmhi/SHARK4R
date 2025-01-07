@@ -25,10 +25,18 @@ devtools::install_github("sharksmhi/SHARK4R",
 ```
 
 Load the `SHARK4R` and `dplyr` libraries:
-```{r, warning=FALSE, message=FALSE}
+```{r, eval=FALSE}
 library(SHARK4R)
 library(dplyr)
 library(ggplot2)
+```
+
+```{r, include=FALSE}
+suppressPackageStartupMessages({
+  library(SHARK4R)
+  library(dplyr)
+  library(ggplot2)
+})
 ```
 
 ## Retrieve Data Using SHARK4R
