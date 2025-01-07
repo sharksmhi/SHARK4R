@@ -24,15 +24,7 @@ devtools::install_github("sharksmhi/SHARK4R",
 ```
 
 Load the `SHARK4R`, `tibble` and `dplyr` libraries:
-```{r, include=FALSE}
-suppressPackageStartupMessages({
-  library(SHARK4R)
-  library(tibble)
-  library(dplyr)
-})
-```
-
-```{r, eval=FALSE}
+```{r, warning=FALSE, message=FALSE}
 library(SHARK4R)
 library(tibble)
 library(dplyr)

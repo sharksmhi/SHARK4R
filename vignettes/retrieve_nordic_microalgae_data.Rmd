@@ -27,7 +27,7 @@ devtools::install_github("sharksmhi/SHARK4R",
 ```
 
 Load the `SHARK4R` and `tibble` libraries:
-```{r}
+```{r, warning=FALSE, message=FALSE}
 library(SHARK4R)
 library(tibble)
 ```

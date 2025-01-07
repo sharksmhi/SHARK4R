@@ -24,7 +24,7 @@ devtools::install_github("sharksmhi/SHARK4R",
 ```
 
 Load the `SHARK4R` library:
-```{r}
+```{r, warning=FALSE, message=FALSE}
 library(SHARK4R)
 ```
 

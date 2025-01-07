@@ -29,7 +29,7 @@ devtools::install_github("sharksmhi/SHARK4R",
 ```
 
 Load the `SHARK4R` and `dplyr` libraries:
-```{r, message=FALSE}
+```{r, warning=FALSE, message=FALSE}
 library(SHARK4R)
 library(dplyr)
 ```
