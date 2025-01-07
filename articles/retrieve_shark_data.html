@@ -109,8 +109,6 @@ tutorial using <code>SHARK4R</code>.</p>
 <p>Load the <code>SHARK4R</code> library:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sharksmhi.github.io/SHARK4R/">SHARK4R</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
-<span><span class="co">##   object 'type_sum.accel' not found</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
@@ -119,7 +117,7 @@ tutorial using <code>SHARK4R</code>.</p>
 <p>Data can be retrieved with the same filtering options available in <a href="https://shark.smhi.se/" class="external-link">SHARK</a>. To see the available filtering
 options, please refer to <a href="../reference/get_shark_options.html"><code>get_shark_options</code></a>
 and the information below.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve chlorophyll data for April to June from 2019 to 2020</span></span>
 <span><span class="va">shark_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_shark_data.html">get_shark_data</a></span><span class="op">(</span>fromYear <span class="op">=</span> <span class="fl">2019</span>, </span>
 <span>                             toYear <span class="op">=</span> <span class="fl">2020</span>,</span>
@@ -156,7 +154,7 @@ and the information below.</p>
 <p>Filtering options, including data types, dataset names, stations,
 taxa, and more, can be retrieved using the <a href="../reference/get_shark_options.html"><code>get_shark_options</code></a>
 function.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve available search options</span></span>
 <span><span class="va">shark_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_shark_options.html">get_shark_options</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -171,7 +169,7 @@ function.</p>
 <span><span class="co">## [19] "counties"              "municipalities"        "waterCategories"      </span></span>
 <span><span class="co">## [22] "helcomOspar"           "parametersForDatatype" "headerlangers"        </span></span>
 <span><span class="co">## [25] "minYearPerDatatype"</span></span></code></pre>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># View available datatypes</span></span>
 <span><span class="va">dataTypes</span> <span class="op">&lt;-</span> <span class="va">shark_options</span><span class="op">$</span><span class="va">dataTypes</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dataTypes</span><span class="op">)</span></span></code></pre></div>

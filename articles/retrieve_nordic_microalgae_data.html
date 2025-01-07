@@ -113,11 +113,8 @@ demonstrating how to extract data using the SHARK4R package.</p>
 <span>                         dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>Load the <code>SHARK4R</code> and <code>tibble</code> libraries:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sharksmhi.github.io/SHARK4R/">SHARK4R</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
-<span><span class="co">##   object 'type_sum.accel' not found</span></span></code></pre>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sharksmhi.github.io/SHARK4R/">SHARK4R</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -125,7 +122,7 @@ demonstrating how to extract data using the SHARK4R package.</p>
 </h2>
 <p>A complete Nordic Microalgae taxa list can be retrieved through the
 API.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get taxa information</span></span>
 <span><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nua_taxa.html">get_nua_taxa</a></span><span class="op">(</span>unparsed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
@@ -154,7 +151,7 @@ enabling the <code>unparsed</code> parameter.</p>
 <p>Each taxon sheet on Nordic Microalgae contains facts, such as links
 to external webpages (e.g. AlgaeBase, WoRMS and Dyntaxa). These links
 can be retrieved through the API.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Randomly select 10 taxa from shark_taxon$scientific_name</span></span>
 <span><span class="va">slugs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">taxa</span><span class="op">$</span><span class="va">slug</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
@@ -188,7 +185,7 @@ the <code>unparsed</code> parameter to <code>TRUE</code>.</p>
 <p>Taxa listed in the <a href="https://www.marinespecies.org/hab/" class="external-link">IOC-UNESCO Taxonomic Reference
 List of Harmful Micro Algae</a> contain information about harmfulness.
 This information can be retrieved through the API.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get external links</span></span>
 <span><span class="va">harmfulness</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nua_harmfulness.html">get_nua_harmfulness</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dinophysis-acuta"</span>, </span>
 <span>                                     <span class="st">"alexandrium-ostenfeldii"</span><span class="op">)</span>, </span>
@@ -217,7 +214,7 @@ This information can be retrieved through the API.</p>
 <p>Links to all images present on Nordic Microalgae can be retrieved
 through the API. The images are available in four sizes: original (o),
 small (s), medium (m), and large (l).</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get all media links</span></span>
 <span><span class="va">media</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nua_media_links.html">get_nua_media_links</a></span><span class="op">(</span>unparsed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
