@@ -1,0 +1,66 @@
+---
+title: "Retrieve HAB Data From IOC-UNESCO Databases"
+output:
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Retrieve HAB Data From IOC-UNESCO Databases}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## IOC-UNESCO Databases
+
+The Intergovernmental Oceanographic Commission of UNESCO (IOC) is the United Nations body dedicated to supporting global ocean science, services, and governance. The [IOC-UNESCO Taxonomic Reference List of Harmful Microalgae](https://www.marinespecies.org/hab/) focuses on species known to produce toxins or exhibit toxic effects, along with a few species suspected of toxin production. All toxic species in the list are verified with [WoRMS](https://www.marinespecies.org) to ensure accurate taxonomy.
+
+The [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/) complements this list by providing detailed reference information about toxins, some of which are associated with harmful algal events.
+
+The information from these databases can be access through APIs, as demonstrated in this tutorial using `SHARK4R`.
+
+## Getting Started
+
+#### Installation
+
+You can install the package from GitHub using the `devtools` package:
+
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("sharksmhi/SHARK4R",
+                         dependencies = TRUE)
+```
+
+Load the `SHARK4R` and `dplyr` libraries:
+```{r, message=FALSE}
+library(SHARK4R)
+library(dplyr)
+```
+
+## Retrieve HAB List From IOC Taxonomic List
+
+The complete HAB list, including scientific names and AphiaIDs, can be downloaded from the [IOC-UNESCO Taxonomic Reference List of Harmful Microalgae](https://www.marinespecies.org/hab/). The output fields are customizable through function parameters—for example, setting `classification = FALSE` excludes higher taxonomic information from the results.
+
+```{r}
+# Retrieve complete HAB list
+hab_list <- get_hab_list()
+
+# Print result as tibble
+tibble(hab_list)
+```
+
+## Retrieve HAB Toxins From IOC Toxins Database
+
+The complete Toxin list can be downloaded from the [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/) using the [`get_toxin_list`](../reference/get_toxin_list.html) function.
+
+```{r}
+# Retrieve complete toxin list
+toxin_list <- get_toxin_list()
+
+# Print result as tibble
+tibble(toxin_list)
+```
+
+## Citation
+
+```{r, echo=FALSE}
+# Print citation
+citation("SHARK4R")
+```

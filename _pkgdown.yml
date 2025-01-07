@@ -16,6 +16,8 @@ navbar:
           href: articles/retrieve_worms_data.html
         - text: "Retrieve AlgaeBase Data"
           href: articles/retrieve_algaebase_data.html
+        - text: "Retrieve HAB Data"
+          href: articles/retrieve_hab_data.html
         - text: "Retrieve Nordic Microalgae Data"
           href: articles/retrieve_nordic_microalgae_data.html
     - text: "Quality Control"
@@ -58,6 +60,12 @@ reference:
   - get_algaebase_species
   - match_algaebase
   - parse_scientific_names
+
+- subtitle: IOC-UNESCO HAB
+  desc: These functions are used to retireve data from the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae and the IOC-UNESCO Toxins database.
+  contents:
+  - get_hab_list
+  - get_toxin_list
 
 - subtitle: Nordic Microalgae
   desc: These functions are used to retireve data from the Nordic Microalgae API

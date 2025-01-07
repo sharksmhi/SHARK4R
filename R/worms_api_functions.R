@@ -34,13 +34,13 @@ update_worms_taxonomy <- function(aphia_id, aphiaid=deprecated()) {
   if (is_present(aphiaid)) {
 
     # Signal the deprecation to the user
-    deprecate_warn("0.1.13", "SHARK4R::update_worms_taxonomy(aphiaid = )", "SHARK4R::update_worms_taxonomy(aphia_id = )")
+    deprecate_warn("0.1.3", "SHARK4R::update_worms_taxonomy(aphiaid = )", "SHARK4R::update_worms_taxonomy(aphia_id = )")
 
     # Deal with the deprecated argument for compatibility
     aphia_id <- aphiaid
   }
 
-  lifecycle::deprecate_warn("0.1.13", "SHARK4R::update_worms_taxonomy()", "SHARK4R::add_worms_taxonomy()")
+  lifecycle::deprecate_warn("0.1.3", "SHARK4R::update_worms_taxonomy()", "SHARK4R::add_worms_taxonomy()")
 
   add_worms_taxonomy(aphia_id)
 }
@@ -118,7 +118,7 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE)
         select(-AphiaID) %>%
         mutate(scientific_name = last(scientificname)) %>%
         pivot_wider(names_from = rank, values_from = scientificname) %>%
-        mutate(worms_hierarchy = paste(na.omit(.), collapse = " - "),
+        mutate(worms_hierarchy = paste(drop_na(.), collapse = " - "),
                aphia_id = aphia_id[i]) %>%
         mutate(Kingdom = ifelse("Kingdom" %in% names(.), Kingdom, NA),
                Phylum = ifelse("Phylum" %in% names(.), Phylum, NA),
