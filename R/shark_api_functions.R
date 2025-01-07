@@ -667,21 +667,21 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     if (is.null(toYear)) {
       toYear <- options$maxYear
     }
+
+    # Store min years as dataframe
+    min_year_df <- data.frame(
+      dataTypes = names(options$minYearPerDatatype),
+      minYear = unlist(options$minYearPerDatatype),
+      row.names = NULL,
+      stringsAsFactors = TRUE
+    )
+
+    # Filter datatypes
+    min_year_df <- dplyr::filter(min_year_df, dataTypes %in% dataTypes)
+
+    # Identify the minimum year
+    fromYear <- min(min_year_df$minYear)
   }
-
-  # Store min years as dataframe
-  min_year_df <- data.frame(
-    dataTypes = names(options$minYearPerDatatype),
-    minYear = unlist(options$minYearPerDatatype),
-    row.names = NULL,
-    stringsAsFactors = TRUE
-  )
-
-  # Filter datatypes
-  min_year_df <- dplyr::filter(min_year_df, dataTypes %in% dataTypes)
-
-  # Identify the minimum year
-  fromYear <- min(min_year_df$minYear)
 
   # Create a vector of years
   years <- c(fromYear:toYear)
@@ -778,7 +778,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 
         # Save to disk
         temp_file <- file.path(temp_dir, paste0("data_", year, ".tsv"))
-        write_tsv(year_data, temp_file)
+        write_tsv(year_data, temp_file, progress = FALSE)
 
       } else {
         warning("Failed to retrieve data for year: ", year, " HTTP Status: ", status_code(response))
@@ -792,7 +792,10 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 
     # Combine files from disk
     file_list <- list.files(temp_dir, pattern = "data_.*\\.tsv", full.names = TRUE)
-    combined_data <- vroom(file_list, delim = "\t")
+    combined_data <- vroom(rev(file_list),
+                           delim = "\t",
+                           col_types = cols(.default = col_character()),
+                           progress = FALSE)
 
     # Convert to correct column types
     combined_data <- type_convert(combined_data, col_types = cols())
