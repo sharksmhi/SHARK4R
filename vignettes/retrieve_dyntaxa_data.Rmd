@@ -14,7 +14,7 @@ Dyntaxa is a taxonomic database of Swedish organisms hosted at [SLU Artdatabanke
 
 ## Getting Started
 
-#### Installation
+### Installation
 
 You can install the package from GitHub using the `devtools` package:
 ```{r, eval=FALSE}
@@ -38,9 +38,7 @@ library(tibble)
 library(dplyr)
 ```
 
-## Retrieve Taxonomic Data From SHARK
-
-#### Retrieve Taxonony Table
+### Retrieve Taxonony Table from SHARK
 
 Taxon and data tables can be retrieved with the same filtering options available in [SHARK](https://shark.smhi.se/). To see the available filtering options, please refer to [`get_shark_options`](../reference/get_shark_options.html) and the [Retrieve Data From SHARK](../articles/retrieve_shark_data.html) tutorial.
 
@@ -67,9 +65,7 @@ shark_data <- get_shark_data(tableView = "sharkdata_phytoplankton",
 print(shark_data)
 ```
 
-## Retrieve Dyntaxa Data
-
-#### Dyntaxa API Key
+### Dyntaxa API Key
 
 Dyntaxa requires a subscription key to access its API. To obtain your own key, sign up for the taxonomy product at the [SLU Swedish Species Information Centre´s Developer Portal](https://api-portal.artdatabanken.se/). In the example below, the key is retrieved from an environment variable.
 
@@ -78,7 +74,7 @@ Dyntaxa requires a subscription key to access its API. To obtain your own key, s
 dyntaxa_key <- Sys.getenv("DYNTAXA_KEY")
 ```
 
-#### Update SHARK Taxonomy Data
+## Update SHARK Taxonomy Data
 
 If the taxonomic data downloaded from SHARK are outdated, they can be updated to the latest Dyntaxa information using `SHARK4R`. Alternatively, data can be retrieved from WoRMS. For details, see the [WoRMS Tutorial](../articles/retrieve_worms_data.html).
 
@@ -93,8 +89,7 @@ updated_taxonomy <- update_dyntaxa_taxonomy(
 print(updated_taxonomy)
 ```
 
-
-#### Match Taxon Names
+## Match Taxon Names
 
 ```{r}
 # Randomly select 10 phytoplankton taxa from shark_taxon
@@ -110,7 +105,7 @@ matches <- match_taxon_name(taxon_names = taxon_names,
 tibble(matches)
 ```
 
-#### Retrieve Taxonomic information
+## Retrieve Taxonomic information
 
 Taxonomic records can be retrieved for indivudual taxa using the [`get_dyntaxa_records`](../reference/get_dyntaxa_records.html) function.
 
@@ -129,7 +124,7 @@ dyntaxa_records <- get_dyntaxa_records(taxon_ids = dyntaxa_id,
 tibble(dyntaxa_records)
 ```
 
-#### Retrieve Parent IDs
+## Retrieve Parent IDs
 
 All parent taxa above the Dyntaxa ID can be retrieved using the [`get_dyntaxa_parent_ids`](../reference/get_dyntaxa_parent_ids.html) function.
 
@@ -143,7 +138,7 @@ parents_id <- get_dyntaxa_parent_ids(taxon_ids = dyntaxa_id,
 print(parents_id)
 ```
 
-#### Construct Complete Taxonomic Table
+## Construct Complete Taxonomic Table
 
 A comprehensive taxonomic table, including related taxa, can be created with the [`construct_dyntaxa_table`](../reference/construct_dyntaxa_table.html) function. Use the `add_synonyms` parameter to include synonyms, and the `add_parents` and `add_descendants` parameters to include parent and descendant taxa, respectively. If Taxon IDs are missing from the [DwC-A export](../reference/get_dyntaxa_dwca.html) (e.g. species complex and pseudotaxon), they can be matched using the `add_missing_taxa` argument. Additionally, complete hierarchy information can be added as a string of parent taxa separated by "-" using the `add_hierarchy` argument.
 

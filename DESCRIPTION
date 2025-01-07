@@ -1,6 +1,6 @@
 Package: SHARK4R
 Title: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae
-Version: 0.1.6
+Version: 0.1.7
 Authors@R: c(
     person(given = "Markus",
            family = "Lindh",
@@ -43,7 +43,8 @@ Imports:
     utils,
     stats,
     terra,
-    ggplot2
+    ggplot2,
+    vroom
 Suggests: 
     knitr,
     rmarkdown,
