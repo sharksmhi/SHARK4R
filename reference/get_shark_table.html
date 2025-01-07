@@ -21,7 +21,7 @@ filter options, see get_shark_options."><meta property="og:image" content="https
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,6 +35,7 @@ filter options, see get_shark_options."><meta property="og:image" content="https
     <li><a class="dropdown-item" href="../articles/retrieve_dyntaxa_data.html">Retrieve Dyntaxa Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_worms_data.html">Retrieve WoRMS Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_algaebase_data.html">Retrieve AlgaeBase Data</a></li>
+    <li><a class="dropdown-item" href="../articles/retrieve_hab_data.html">Retrieve HAB Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_nordic_microalgae_data.html">Retrieve Nordic Microalgae Data</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../articles/quality_control.html">Quality Control</a></li>
@@ -56,7 +57,7 @@ filter options, see get_shark_options."><meta property="og:image" content="https
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve SHARK Table Data</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.0.1.6/R/shark_api_functions.R" class="external-link"><code>R/shark_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/shark_api_functions.R" class="external-link"><code>R/shark_api_functions.R</code></a></small>
       <div class="d-none name"><code>get_shark_table.Rd</code></div>
     </div>
 
@@ -111,83 +112,33 @@ filter options, see <code><a href="get_shark_options.html">get_shark_options</a>
 
 
 <dl><dt id="arg-tableview">tableView<a class="anchor" aria-label="anchor" href="#arg-tableview"></a></dt>
-<dd><p>Character. Specifies the view of the table to retrieve. Options include:</p><dl><dt>"sharkweb_overview"</dt>
-<dd></dd>
-
-<dt>"sharkweb_all"</dt>
-<dd></dd>
-
-<dt>"sharkdata_bacterioplankton"</dt>
-<dd></dd>
-
-<dt>"sharkdata_chlorophyll"</dt>
-<dd></dd>
-
-<dt>"sharkdata_epibenthos"</dt>
-<dd></dd>
-
-<dt>"sharkdata_greyseal"</dt>
-<dd></dd>
-
-<dt>"sharkdata_harbourporpoise"</dt>
-<dd></dd>
-
-<dt>"sharkdata_harbourseal"</dt>
-<dd></dd>
-
-<dt>"sharkdata_jellyfish"</dt>
-<dd></dd>
-
-<dt>"sharkdata_physicalchemical_columns"</dt>
-<dd></dd>
-
-<dt>"sharkdata_phytoplankton"</dt>
-<dd></dd>
-
-<dt>"sharkdata_picoplankton"</dt>
-<dd></dd>
-
-<dt>"sharkdata_planktonbarcoding"</dt>
-<dd></dd>
-
-<dt>"sharkdata_primaryproduction"</dt>
-<dd></dd>
-
-<dt>"sharkdata_ringedseal"</dt>
-<dd></dd>
-
-<dt>"sharkdata_sealpathology"</dt>
-<dd></dd>
-
-<dt>"sharkdata_sedimentation"</dt>
-<dd></dd>
-
-<dt>"sharkdata_zoobenthos"</dt>
-<dd></dd>
-
-<dt>"sharkdata_zooplankton"</dt>
-<dd></dd>
-
-<dt>"report_sum_year_param"</dt>
-<dd></dd>
-
-<dt>"report_sum_year_param_taxon"</dt>
-<dd></dd>
-
-<dt>"report_sampling_per_station"</dt>
-<dd></dd>
-
-<dt>"report_obs_taxon"</dt>
-<dd></dd>
-
-<dt>"report_stations"</dt>
-<dd></dd>
-
-<dt>"report_taxon"</dt>
-<dd></dd>
-
-
-</dl><p>Default is <code>"sharkweb_overview"</code>.</p></dd>
+<dd><p>Character. Specifies the view of the table to retrieve. Options include:</p><ul><li><p><code>"sharkweb_overview"</code>: Overview table</p></li>
+<li><p><code>"sharkweb_all"</code>: All available columns</p></li>
+<li><p><code>"sharkdata_bacterioplankton"</code>: Bacterioplankton table</p></li>
+<li><p><code>"sharkdata_chlorophyll"</code>: Chlorophyll table</p></li>
+<li><p><code>"sharkdata_epibenthos"</code>: Epibenthos table</p></li>
+<li><p><code>"sharkdata_greyseal"</code>: Greyseal table</p></li>
+<li><p><code>"sharkdata_harbourporpoise"</code>: Harbour porpoise table</p></li>
+<li><p><code>"sharkdata_harbourseal</code>: Harbour seal table</p></li>
+<li><p><code>"sharkdata_jellyfish"</code>: Jellyfish table</p></li>
+<li><p><code>"sharkdata_physicalchemical"</code>: Physical chemical table</p></li>
+<li><p><code>"sharkdata_physicalchemical_columns"</code>: Physical chemical table: column view</p></li>
+<li><p><code>"sharkdata_phytoplankton"</code>: Phytoplankton table</p></li>
+<li><p><code>"sharkdata_picoplankton"</code>: Picoplankton table</p></li>
+<li><p><code>"sharkdata_planktonbarcoding"</code>: Plankton barcoding table</p></li>
+<li><p><code>"sharkdata_primaryproduction"</code>: Primary production table</p></li>
+<li><p><code>"sharkdata_ringedseal"</code>: Ringed seal table</p></li>
+<li><p><code>"sharkdata_sealpathology"</code>: Seal pathology table</p></li>
+<li><p><code>"sharkdata_sedimentation"</code>: Sedimentation table</p></li>
+<li><p><code>"sharkdata_zoobenthos"</code>: Zoobenthos table</p></li>
+<li><p><code>"sharkdata_zooplankton"</code>: Zooplankton table</p></li>
+<li><p><code>"report_sum_year_param"</code>: Report sum per year and parameter</p></li>
+<li><p><code>"report_sum_year_param_taxon"</code>: Report sum per year, parameter and taxon</p></li>
+<li><p><code>"report_sampling_per_station"</code>: Report sampling per station</p></li>
+<li><p><code>"report_obs_taxon"</code>: Report observed taxa</p></li>
+<li><p><code>"report_stations"</code>: Report stations</p></li>
+<li><p><code>"report_taxon"</code>: Report taxa</p></li>
+</ul><p>Default is <code>"sharkweb_overview"</code>.</p></dd>
 
 
 <dt id="arg-limit">limit<a class="anchor" aria-label="anchor" href="#arg-limit"></a></dt>

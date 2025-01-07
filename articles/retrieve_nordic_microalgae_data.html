@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +42,7 @@
     <li><a class="dropdown-item" href="../articles/retrieve_dyntaxa_data.html">Retrieve Dyntaxa Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_worms_data.html">Retrieve WoRMS Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_algaebase_data.html">Retrieve AlgaeBase Data</a></li>
+    <li><a class="dropdown-item" href="../articles/retrieve_hab_data.html">Retrieve HAB Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_nordic_microalgae_data.html">Retrieve Nordic Microalgae Data</a></li>
   </ul>
 </li>
@@ -76,7 +77,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve Data From Nordic Microalgae</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.0.1.6/vignettes/retrieve_nordic_microalgae_data.Rmd" class="external-link"><code>vignettes/retrieve_nordic_microalgae_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/vignettes/retrieve_nordic_microalgae_data.Rmd" class="external-link"><code>vignettes/retrieve_nordic_microalgae_data.Rmd</code></a></small>
       <div class="d-none name"><code>retrieve_nordic_microalgae_data.Rmd</code></div>
     </div>
 
@@ -112,19 +113,19 @@ demonstrating how to extract data using the SHARK4R package.</p>
 <span>                         dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>Load the <code>SHARK4R</code> and <code>tibble</code> libraries:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sharksmhi.github.io/SHARK4R/">SHARK4R</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sharksmhi.github.io/SHARK4R/">SHARK4R</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Error in get(paste0(generic, ".", class), envir = get_method_env()) : </span></span>
+<span><span class="co">##   object 'type_sum.accel' not found</span></span></code></pre>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
-<h2 id="retrieve-data-using-shark4r">Retrieve Data Using SHARK4R<a class="anchor" aria-label="anchor" href="#retrieve-data-using-shark4r"></a>
+<h2 id="retrieve-complete-nordic-microalgae-taxon-table">Retrieve Complete Nordic Microalgae Taxon Table<a class="anchor" aria-label="anchor" href="#retrieve-complete-nordic-microalgae-taxon-table"></a>
 </h2>
-<div class="section level3">
-<h3 id="retrieve-complete-nordic-microalgae-taxon-table">Retrieve Complete Nordic Microalgae Taxon Table<a class="anchor" aria-label="anchor" href="#retrieve-complete-nordic-microalgae-taxon-table"></a>
-</h3>
 <p>A complete Nordic Microalgae taxa list can be retrieved through the
 API.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get taxa information</span></span>
 <span><span class="va">taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nua_taxa.html">get_nua_taxa</a></span><span class="op">(</span>unparsed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
@@ -147,13 +148,13 @@ API.</p>
 <p>The full taxonomic information can be accessed as an unparsed list by
 enabling the <code>unparsed</code> parameter.</p>
 </div>
-<div class="section level3">
-<h3 id="get-nordic-microalgae-external-links-or-facts">Get Nordic Microalgae External Links or Facts<a class="anchor" aria-label="anchor" href="#get-nordic-microalgae-external-links-or-facts"></a>
-</h3>
+<div class="section level2">
+<h2 id="get-nordic-microalgae-external-links-or-facts">Get Nordic Microalgae External Links or Facts<a class="anchor" aria-label="anchor" href="#get-nordic-microalgae-external-links-or-facts"></a>
+</h2>
 <p>Each taxon sheet on Nordic Microalgae contains facts, such as links
 to external webpages (e.g. AlgaeBase, WoRMS and Dyntaxa). These links
 can be retrieved through the API.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Randomly select 10 taxa from shark_taxon$scientific_name</span></span>
 <span><span class="va">slugs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">taxa</span><span class="op">$</span><span class="va">slug</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
@@ -181,13 +182,13 @@ can be retrieved through the API.</p>
 <p>The full list of facts can be accessed as an unparsed list by setting
 the <code>unparsed</code> parameter to <code>TRUE</code>.</p>
 </div>
-<div class="section level3">
-<h3 id="get-nordic-microalgae-harmfulness-information">Get Nordic Microalgae Harmfulness Information<a class="anchor" aria-label="anchor" href="#get-nordic-microalgae-harmfulness-information"></a>
-</h3>
+<div class="section level2">
+<h2 id="get-nordic-microalgae-harmfulness-information">Get Nordic Microalgae Harmfulness Information<a class="anchor" aria-label="anchor" href="#get-nordic-microalgae-harmfulness-information"></a>
+</h2>
 <p>Taxa listed in the <a href="https://www.marinespecies.org/hab/" class="external-link">IOC-UNESCO Taxonomic Reference
 List of Harmful Micro Algae</a> contain information about harmfulness.
 This information can be retrieved through the API.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get external links</span></span>
 <span><span class="va">harmfulness</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nua_harmfulness.html">get_nua_harmfulness</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dinophysis-acuta"</span>, </span>
 <span>                                     <span class="st">"alexandrium-ostenfeldii"</span><span class="op">)</span>, </span>
@@ -210,13 +211,13 @@ This information can be retrieved through the API.</p>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> alexandrium-ostenfeldii IOC-UNESCO IOC-U… 15          https://tox… Harmful a…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">11</span> alexandrium-ostenfeldii IOC-UNESCO IOC-U… 17          https://tox… Harmful a…</span></span></code></pre>
 </div>
-<div class="section level3">
-<h3 id="get-nordic-microalgae-media-links">Get Nordic Microalgae Media Links<a class="anchor" aria-label="anchor" href="#get-nordic-microalgae-media-links"></a>
-</h3>
+<div class="section level2">
+<h2 id="get-nordic-microalgae-media-links">Get Nordic Microalgae Media Links<a class="anchor" aria-label="anchor" href="#get-nordic-microalgae-media-links"></a>
+</h2>
 <p>Links to all images present on Nordic Microalgae can be retrieved
 through the API. The images are available in four sizes: original (o),
 small (s), medium (m), and large (l).</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get all media links</span></span>
 <span><span class="va">media</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nua_media_links.html">get_nua_media_links</a></span><span class="op">(</span>unparsed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
@@ -241,15 +242,14 @@ small (s), medium (m), and large (l).</p>
 <p>Complete media information can be retrieved as an unparsed list by
 setting the <code>unparsed</code> parameter to <code>TRUE</code>.</p>
 </div>
-</div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <pre><code><span><span class="co">## To cite package 'SHARK4R' in publications use:</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##   Markus Lindh, Anders Torstensson (2024). SHARK4R: Retrieving,</span></span>
+<span><span class="co">##   Markus Lindh, Anders Torstensson (2025). SHARK4R: Retrieving,</span></span>
 <span><span class="co">##   Analyzing, and Validating Marine Data from SHARK and Nordic</span></span>
-<span><span class="co">##   Microalgae. R package version 0.1.6.</span></span>
+<span><span class="co">##   Microalgae. R package version 0.1.7.</span></span>
 <span><span class="co">##   https://doi.org/10.5281/zenodo.14169399</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
@@ -257,8 +257,8 @@ setting the <code>unparsed</code> parameter to <code>TRUE</code>.</p>
 <span><span class="co">##   @Manual{,</span></span>
 <span><span class="co">##     title = {SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson},</span></span>
-<span><span class="co">##     year = {2024},</span></span>
-<span><span class="co">##     note = {R package version 0.1.6},</span></span>
+<span><span class="co">##     year = {2025},</span></span>
+<span><span class="co">##     note = {R package version 0.1.7},</span></span>
 <span><span class="co">##     url = {https://doi.org/10.5281/zenodo.14169399},</span></span>
 <span><span class="co">##   }</span></span></code></pre>
 </div>

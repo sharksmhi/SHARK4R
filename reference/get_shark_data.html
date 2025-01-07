@@ -11,7 +11,7 @@ retrieved data as a structured data.frame. To view available filter options, see
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,6 +25,7 @@ retrieved data as a structured data.frame. To view available filter options, see
     <li><a class="dropdown-item" href="../articles/retrieve_dyntaxa_data.html">Retrieve Dyntaxa Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_worms_data.html">Retrieve WoRMS Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_algaebase_data.html">Retrieve AlgaeBase Data</a></li>
+    <li><a class="dropdown-item" href="../articles/retrieve_hab_data.html">Retrieve HAB Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_nordic_microalgae_data.html">Retrieve Nordic Microalgae Data</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../articles/quality_control.html">Quality Control</a></li>
@@ -46,7 +47,7 @@ retrieved data as a structured data.frame. To view available filter options, see
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve Data from SHARK API</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.0.1.6/R/shark_api_functions.R" class="external-link"><code>R/shark_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/shark_api_functions.R" class="external-link"><code>R/shark_api_functions.R</code></a></small>
       <div class="d-none name"><code>get_shark_data.Rd</code></div>
     </div>
 
@@ -92,6 +93,7 @@ retrieved data as a structured <code>data.frame</code>. To view available filter
 <span>  helcomOspar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  seaAreas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  hideEmptyColumns <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  row_limit <span class="op">=</span> <span class="fl">10</span><span class="op">^</span><span class="fl">7</span>,</span>
 <span>  prod <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -291,8 +293,12 @@ If set to <code>NULL</code> (default), the function will use the latest availabl
 <dd><p>Logical. Whether to hide empty columns. Default is FALSE.</p></dd>
 
 
+<dt id="arg-row-limit">row_limit<a class="anchor" aria-label="anchor" href="#arg-row-limit"></a></dt>
+<dd><p>Numeric. Specifies the maximum number of rows that can be retrieved in a single request. If the requested data exceeds this limit, the function automatically downloads the data in yearly chunks. The default value is 10 million rows.</p></dd>
+
+
 <dt id="arg-prod">prod<a class="anchor" aria-label="anchor" href="#arg-prod"></a></dt>
-<dd><p>Logical. Whether to query the PROD (production) server or the TEST (testing) server. Default is TRUE (PROD).</p></dd>
+<dd><p>Logical. Whether to query the PROD (production) server or the SMHI internal TEST (testing) server. Default is TRUE (PROD).</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
@@ -305,12 +311,15 @@ If set to <code>NULL</code> (default), the function will use the latest availabl
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function sends a POST request to the SHARK API with the specified filters. The response is parsed as JSON and then converted into a <code>data.frame</code>.
-The function handles the dynamic construction of the query body to filter the data based on the provided parameters.</p>
+    <p>This function sends a POST request to the SHARK API with the specified filters. The response is parsed as JSON
+and then converted into a <code>data.frame</code>. The function handles the dynamic construction of the query body to filter
+the data based on the provided parameters. If the <code>row_limit</code> parameter is reached, the data retrieval process is
+split into manageable chunks to avoid overwhelming the API or running into memory issues. Please note that making very
+large requests, such as retrieving the entire database, can be extremely memory-intensive.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="get_shark_options.html">get_shark_options</a></code></p></div>
+    <div class="dont-index"><p><code><a href="get_shark_options.html">get_shark_options</a></code> <code><a href="get_shark_table_counts.html">get_shark_table_counts</a></code></p></div>
     </div>
 
     <div class="section level2">
