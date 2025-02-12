@@ -75,6 +75,11 @@ reference:
   - get_nua_media_links
   - get_nua_taxa
 
+- subtitle: Plankton Toolbox
+  desc: These functions are used to read data exported from Plankton Toolbox
+  contents:
+  - read_ptbx
+
 - title: Quality Control
 
 - subtitle: Data Checks
