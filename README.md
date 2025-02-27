@@ -32,7 +32,7 @@ For detailed information, please visit the project's [webpage](https://sharksmhi
 
 ### Tutorials
 
-Explore the features and capabilities of `SHARK4R` through these tutorial:
+Explore the features and capabilities of `SHARK4R` through these tutorials:
 
 - [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html)
 - [Retrieve Data From Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_dyntaxa_data.html)
