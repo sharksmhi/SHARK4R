@@ -18,12 +18,12 @@ All data on Nordic Microalgae is accessible through our [API](https://nordicmicr
 
 #### Installation
 
-You can install the package from GitHub using the `devtools` package:
+You can install the package from GitHub using the `remotes` package:
 
 ```{r, eval=FALSE}
-# install.packages("devtools")
-devtools::install_github("sharksmhi/SHARK4R",
-                         dependencies = TRUE)
+# install.packages("remotes")
+remotes::install_github("sharksmhi/SHARK4R",
+                        dependencies = TRUE)
 ```
 
 Load the `SHARK4R` and `tibble` libraries:
