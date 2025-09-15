@@ -185,7 +185,7 @@ If set to \code{NULL} (default), the function will use the latest available year
 A \code{data.frame} containing the retrieved SHARK data, with column names based on the API's response.
 }
 \description{
-The \code{get_shark_data} function retrieves data from the SHARK database hosted by SMHI. The function sends a POST request
+The \code{get_shark_data} function retrieves tabular data from the SHARK database hosted by SMHI. The function sends a POST request
 to the SHARK API with customizable filters, including year, month, taxon name, water category, and more, and returns the
 retrieved data as a structured \code{data.frame}. To view available filter options, see \code{\link{get_shark_options}}.
 }
@@ -206,5 +206,7 @@ large requests, such as retrieving the entire database, can be extremely memory-
 
 }
 \seealso{
+\url{https://shark.smhi.se} for SHARK database.
+
 \code{\link{get_shark_options}} \code{\link{get_shark_table_counts}}
 }

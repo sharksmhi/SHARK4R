@@ -37,3 +37,8 @@ which returns a data frame with a column for taxon slugs, along with other relev
   print(harmfulness)
 }
 }
+\seealso{
+\url{https://nordicmicroalgae.org/} for Nordic Microalgae website.
+
+\url{https://nordicmicroalgae.org/api/} for Nordic Microalgae API documentation.
+}

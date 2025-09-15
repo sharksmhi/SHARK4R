@@ -25,10 +25,8 @@
 #' updated_taxonomy <- update_worms_taxonomy(c(149619, 149122, 11))
 #' print(updated_taxonomy)
 #' }
-#'
-#' @seealso https://CRAN.R-project.org/package=worrms
-#'
-#' @seealso \code{\link{get_shark_data}}, \code{\link{update_dyntaxa_taxonomy}}, [WoRMS API Documentation](https://www.marinespecies.org/rest/)
+#' @seealso \url{https://marinespecies.org/} for WoRMS website.
+#' @seealso \code{\link{get_shark_data}}, \code{\link{update_dyntaxa_taxonomy}}, [WoRMS API Documentation](https://www.marinespecies.org/rest/), \url{https://CRAN.R-project.org/package=worrms}
 #'
 update_worms_taxonomy <- function(aphia_id, aphiaid=deprecated()) {
   if (is_present(aphiaid)) {
@@ -72,6 +70,7 @@ update_worms_taxonomy <- function(aphia_id, aphiaid=deprecated()) {
 #' print(with_names)
 #' }
 #'
+#' @seealso \url{https://marinespecies.org/} for WoRMS website.
 #' @seealso \code{\link{get_shark_data}}, \code{\link{update_dyntaxa_taxonomy}}, \url{https://www.marinespecies.org/rest/}, \url{https://CRAN.R-project.org/package=worrms}
 add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE) {
 
@@ -85,19 +84,22 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE)
 
     to_match <- scientific_name[is.na(aphia_id)]
 
-    if (verbose) cat("Retrieving", length(to_match), "'aphia_ids' from 'scientific_name'.\n")
+    if (!length(to_match) == 0) {
+      if (verbose) cat("Retrieving", length(to_match), "'aphia_ids' from 'scientific_name'.\n")
 
-    # Get all records from scientific_name
-    worms_records <- get_worms_records_name(to_match,
-                                            verbose = verbose)
+      # Get all records from scientific_name
+      worms_records <- get_worms_records_name(to_match,
+                                              verbose = verbose)
 
-    # Select relevant information
-    name <- select(worms_records, name, AphiaID)
+      # Select relevant information
+      name <- select(worms_records, name, AphiaID)
 
-    aphia_id_df <- aphia_id_df %>%
-      left_join(name, by = c("scientific_name" = "name")) %>%
-      mutate(aphia_id = coalesce(aphia_id, AphiaID))
-
+      aphia_id_df <- aphia_id_df %>%
+        left_join(name, by = c("scientific_name" = "name")) %>%
+        mutate(aphia_id = coalesce(aphia_id, AphiaID))
+    } else {
+      if (verbose) cat("All 'aphia_id' provided, no need to retrieve from 'scientific_name'.\n")
+    }
     aphia_id <- aphia_id_df$aphia_id
   }
 
@@ -175,6 +177,7 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE)
 #' worms_records <- retrieve_worms_records(aphia_ids)
 #' }
 #'
+#' @seealso \url{https://marinespecies.org/} for WoRMS website.
 #' @seealso \url{https://CRAN.R-project.org/package=worrms}
 #'
 #' @export
@@ -274,6 +277,7 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
 #'                                        max_retries = 3, sleep_time = 5, marine_only = TRUE)
 #' }
 #'
+#' @seealso \url{https://marinespecies.org/} for WoRMS website.
 #' @seealso \url{https://CRAN.R-project.org/package=worrms}
 #'
 #' @export
@@ -415,6 +419,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #' print(result_custom)
 #' }
 #'
+#' @seealso \url{https://marinespecies.org/} for WoRMS website.
 #' @seealso \url{https://CRAN.R-project.org/package=worrms}
 #'
 #' @export

@@ -27,5 +27,9 @@ It fetches details including scientific names, authorities, ranks, and image URL
   head(taxa_data)
 }
 
+}
+\seealso{
+\url{https://nordicmicroalgae.org/} for Nordic Microalgae website.
 
+\url{https://nordicmicroalgae.org/api/} for Nordic Microalgae API documentation.
 }

@@ -36,5 +36,7 @@ worms_records <- retrieve_worms_records(aphia_ids)
 
 }
 \seealso{
+\url{https://marinespecies.org/} for WoRMS website.
+
 \url{https://CRAN.R-project.org/package=worrms}
 }

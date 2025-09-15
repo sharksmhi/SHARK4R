@@ -43,7 +43,7 @@ suppressPackageStartupMessages({
 
 ### Retrieve Phytoplankton Data From SHARK
 
-Phytoplankton data, including scientific names and AphiaIDs, are downloaded from SHARK. To see more download options, please visit the [Retrieve Data From SHARK](../articles/retrieve_shark_data.html) tutorial.
+Phytoplankton data, including scientific names and AphiaIDs, are downloaded from SHARK. To see more download options, please visit the [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html) tutorial.
 
 ```{r}
 # Retrieve all phytoplankton data from April 2015
@@ -56,7 +56,7 @@ shark_data <- get_shark_data(fromYear = 2015,
 
 ### Match Taxa Names
 
-Taxon names can be matched with the WoRMS API to retrieve Aphia IDs and corresponding taxonomic information. The [`get_worms_records_name`](../reference/get_worms_records_name.html) function incorporates retry logic to handle temporary failures, ensuring that all names are processed successfully.
+Taxon names can be matched with the WoRMS API to retrieve Aphia IDs and corresponding taxonomic information. The `get_worms_records_name()` function incorporates retry logic to handle temporary failures, ensuring that all names are processed successfully.
 
 ```{r}
 # Find taxa without Aphia ID
@@ -81,7 +81,7 @@ tibble(worms_records)
 
 ### Get WoRMS records from AphiaID
 
-Taxonomic records can also be retrieved using Aphia IDs, employing the same retry and error-handling logic as the [`get_worms_records_name`](../reference/get_worms_records_name.html) function.
+Taxonomic records can also be retrieved using Aphia IDs, employing the same retry and error-handling logic as the `get_worms_records_name()` function.
 
 ```{r}
 # Randomly select ten Aphia IDs
@@ -101,7 +101,7 @@ tibble(worms_records)
 
 ### Get WoRMS Taxonomy
 
-SHARK sources taxonomic information from [Dyntaxa](../articles/retrieve_dyntaxa_data.html), which is reflected in columns starting with `taxon_xxxxx`. Equivalent columns based on WoRMS can be retrieved using the [`add_worms_taxonomy`](../reference/add_worms_taxonomy.html) function.
+SHARK sources taxonomic information from [Dyntaxa](https://artfakta.se/), which is reflected in columns starting with `taxon_xxxxx`. Equivalent columns based on WoRMS can be retrieved using the `add_worms_taxonomy()` function.
 
 ```{r}
 # Retrieve taxonomic table
@@ -123,7 +123,7 @@ Phytoplankton data are often categorized into major groups such as Dinoflagellat
 ```{r}
 # Subset a few national monitoring stations
 nat_stations <- shark_data %>%
-  filter(station_name %in% c("BY31 LANDSORTSDJ"))
+  filter(station_name %in% c("BY5 BORNHOLMSDJ"))
 
 # Randomly select one sample from the nat_stations
 sample <- sample(unique(nat_stations$shark_sample_id_md5), 1)

@@ -75,3 +75,6 @@ head(habs_taxlist_df)
 habs_taxlist_df <- get_hab_list(aphia_id = TRUE, scientific_name = TRUE, authority = FALSE)
 }
 }
+\seealso{
+\url{https://www.marinespecies.org/hab/} for IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae
+}

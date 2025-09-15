@@ -50,5 +50,7 @@ records <- retrieve_worms_records_name(c("Amphidinium", "Karenia"),
 
 }
 \seealso{
+\url{https://marinespecies.org/} for WoRMS website.
+
 \url{https://CRAN.R-project.org/package=worrms}
 }

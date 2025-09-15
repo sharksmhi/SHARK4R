@@ -6,6 +6,8 @@
 #'
 #' @return If `return_count = TRUE`, the function returns a numeric value representing the number of toxins in the database. Otherwise, it returns a list of toxins with detailed information.
 #'
+#' @seealso \url{https://toxins.hais.ioc-unesco.org/api/toxins/} for IOC-UNESCO Toxins Database.
+#'
 #' @examples
 #' \dontrun{
 #' # Retrieve the full list of toxins
@@ -69,6 +71,8 @@ get_toxin_list <- function(return_count = FALSE) {
 #' This function submits a POST request to the WoRMS database to retrieve a taxonomic list for Harmful Algal Blooms.
 #' The downloaded data can include various fields, which are controlled by the input parameters.
 #' If a field is not required, set the corresponding parameter to `FALSE` to exclude it from the output.
+#'
+#' @seealso \url{https://www.marinespecies.org/hab/} for IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae
 #'
 #' @examples
 #' \dontrun{

@@ -129,5 +129,7 @@ To view available filter options, see \code{\link{get_shark_options}}.
 
 }
 \seealso{
+\url{https://shark.smhi.se} for SHARK database.
+
 \code{\link{get_shark_options}}
 }
