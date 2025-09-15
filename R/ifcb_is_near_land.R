@@ -1,5 +1,10 @@
 #' Determine if Positions are Near Land
 #'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function has been deprecated. Users are encouraged to use \code{\link{positions_are_near_land}} instead.
+#'
 #' Determines whether given positions are near land based on a coastline shape file.
 #' The Natural Earth 1:50m land vectors are included as default shapefile in `SHARK4R`.
 #'
@@ -36,11 +41,14 @@
 #' longitudes <- c(17.845993, 20.394418, 18.284523, 16.227174)
 #'
 #' # Call the function
-#' near_land <- ifcb_is_near_land(latitudes, longitudes, distance = 300, crs = 4326)
+#' # near_land <- ifcb_is_near_land(latitudes, longitudes, distance = 300, crs = 4326)
+#' # ->
+#' near_land <- positions_are_near_land(latitudes, longitudes, distance = 300, crs = 4326)
 #'
 #' # Print the result
 #' print(near_land)
 #'
+#' @keywords internal
 #' @export
 ifcb_is_near_land <- function(latitudes,
                               longitudes,
@@ -51,90 +59,15 @@ ifcb_is_near_land <- function(latitudes,
                               remove_small_islands = TRUE,
                               small_island_threshold = 2000000) {
 
-  # Check for NAs in latitudes and longitudes
-  na_positions <- is.na(latitudes) | is.na(longitudes)
+  lifecycle::deprecate_warn("0.1.7.9000", "ifcb_is_near_land()", "positions_are_near_land()")
 
-  # Create a result vector initialized to NA
-  result <- rep(NA, length(latitudes))
-
-  # If all positions are NA, return the result early
-  if (all(na_positions)) {
-    return(result)
-  }
-
-  # Filter out NA positions for further processing
-  latitudes_filtered <- latitudes[!na_positions]
-  longitudes_filtered <- longitudes[!na_positions]
-
-  utm_epsg <- paste0("epsg:", 32600 + utm_zone)
-
-  # Create a bounding box around the coordinates with a buffer
-  bbox <- st_bbox(c(xmin = min(longitudes_filtered) - 1, xmax = max(longitudes_filtered) + 1,
-                    ymin = min(latitudes_filtered) - 1, ymax = max(latitudes_filtered) + 1),
-                  crs = st_crs(crs))
-
-  # Get coastline
-  if (is.null(shape)) {
-    # Directory to extract files
-    exdir <- tempdir()  # Temporary directory
-
-    # Extract the files
-    unzip(system.file("extdata/ne_50m_land.zip", package = "SHARK4R"), exdir = exdir)
-
-    # Get coastline and land data within the bounding box
-    land <- st_read(file.path(exdir, "ne_50m_land.shp"), quiet = TRUE)
-  } else {
-    land <- st_read(shape, quiet = TRUE)
-    land <- st_transform(land, crs = crs)
-  }
-
-  # Check geometry type
-  geom_type <- unique(st_geometry_type(land))
-
-  # Optionally remove small islands based on area threshold
-  if (!is.null(shape) && remove_small_islands && any(st_geometry_type(land) %in% c("POLYGON", "MULTIPOLYGON"))) {
-    land$area <- st_area(land)
-
-    small_islands <- which(as.numeric(land$area) < small_island_threshold)
-    land <- land[-small_islands, ]
-
-    # Remove the 'area' attribute
-    land$area <- NULL
-  }
-
-  # Filter land data to include only the region within the bounding box
-  land <- suppressWarnings(st_intersection(land, st_as_sfc(bbox)))
-
-  # Cleanup and transform land data
-  land <- land %>% st_union() %>% st_make_valid() %>% st_wrap_dateline()
-  land_utm <- st_transform(land, crs = utm_epsg)
-
-  # Create a buffered shape around the coastline in meters (specified distance)
-  l_buffer <- terra::vect(land_utm)
-  terra::crs(l_buffer) <- utm_epsg
-  l_buffer <- terra::buffer(l_buffer, width = distance) %>% st_as_sf()
-
-  # Apply st_wrap_dateline only if the CRS is geographic
-  if (st_crs(l_buffer)$epsg == crs) {
-    l_buffer <- l_buffer %>% st_wrap_dateline()
-  }
-
-  # Transform the buffered coastline and land data back to the original CRS
-  l_buffer <- st_transform(l_buffer, crs = crs)
-
-  # Create sf object for positions
-  positions_sf <- st_as_sf(data.frame(lon = longitudes_filtered, lat = latitudes_filtered),
-                           coords = c("lon", "lat"), crs = st_crs(crs))
-
-  # Check which positions intersect with the buffer and land
-  near_land <- st_intersects(positions_sf, l_buffer)
-
-  # Extract logical vectors indicating whether each position is near land or on land
-  near_land_logical <- lengths(near_land) > 0
-
-  # Assign results back to the appropriate positions in the result vector
-  result[!na_positions] <- near_land_logical
-
-  # Return the logical vector indicating near land with NAs for original NA positions
-  return(result)
+  positions_are_near_land(latitudes = latitudes,
+                           longitudes = longitudes,
+                           distance = distance,
+                           shape = shape,
+                           source = source,
+                           crs = crs,
+                           remove_small_islands = remove_small_islands,
+                           small_island_threshold = small_island_threshold,
+                           plot = plot)
 }
