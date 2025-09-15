@@ -6,12 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Retrieve HAB Data From IOC-UNESCO Databases • SHARK4R</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -26,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,6 +47,7 @@
 </li>
 <li class="nav-item"><a class="nav-link" href="../articles/quality_control.html">Quality Control</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -77,7 +77,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve HAB Data From IOC-UNESCO Databases</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.0.1.7/vignettes/retrieve_hab_data.Rmd" class="external-link"><code>vignettes/retrieve_hab_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/vignettes/retrieve_hab_data.Rmd" class="external-link"><code>vignettes/retrieve_hab_data.Rmd</code></a></small>
       <div class="d-none name"><code>retrieve_hab_data.Rmd</code></div>
     </div>
 
@@ -133,20 +133,20 @@ information from the results.</p>
 <span></span>
 <span><span class="co"># Print result as tibble</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">hab_list</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 599 × 29</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 701 × 29</span></span></span>
 <span><span class="co">##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹</span></span>
 <span><span class="co">##      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">231</span>787 Akashiwo            G.Hansen…           <span style="text-decoration: underline;">231</span>787 Akashiwo              </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">232</span>546 Akashiwo sanguinea  (K.Hiras…           <span style="text-decoration: underline;">232</span>546 Akashiwo sanguinea    </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">109</span>470 Alexandrium         Halim, 1…           <span style="text-decoration: underline;">109</span>470 Alexandrium           </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">109</span>707 Alexandrium affine  (H.Inoue…           <span style="text-decoration: underline;">109</span>707 Alexandrium affine    </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">231</span>872 Alexandrium anders… Balech, …           <span style="text-decoration: underline;">246</span>835 Alexandrium andersonii</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">246</span>835 Alexandrium anders… Balech, …           <span style="text-decoration: underline;">246</span>835 Alexandrium andersonii</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">233</span>452 Alexandrium angust… F.J.R.Ta…           <span style="text-decoration: underline;">109</span>711 Alexandrium minutum   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">833</span>063 Alexandrium austra… Sh.Murra…           <span style="text-decoration: underline;">833</span>063 Alexandrium australie…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">109</span>708 Alexandrium balech… (Steidin…           <span style="text-decoration: underline;">109</span>708 Alexandrium balechii  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">231</span>873 Alexandrium catene… (Whedon …           <span style="text-decoration: underline;">231</span>873 Alexandrium catenella </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 589 more rows</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 1<span style="text-decoration: underline;">653</span>558 Aerosakkonemataceae Struneck…          1<span style="text-decoration: underline;">653</span>558 Aerosakkonemataceae   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">836</span>651 Aetokthonos         S.B.Wild…           <span style="text-decoration: underline;">836</span>651 Aetokthonos           </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">841</span>664 Aetokthonos hydril… S.B.Wild…           <span style="text-decoration: underline;">841</span>664 Aetokthonos hydrillic…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">231</span>787 Akashiwo            G.Hansen…           <span style="text-decoration: underline;">231</span>787 Akashiwo              </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">232</span>546 Akashiwo sanguinea  (K.Hiras…           <span style="text-decoration: underline;">232</span>546 Akashiwo sanguinea    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">109</span>470 Alexandrium         Halim, 1…           <span style="text-decoration: underline;">109</span>470 Alexandrium           </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">109</span>707 Alexandrium affine  (H.Inoue…           <span style="text-decoration: underline;">109</span>707 Alexandrium affine    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">231</span>872 Alexandrium anders… Balech, …           <span style="text-decoration: underline;">246</span>835 Alexandrium andersonii</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">246</span>835 Alexandrium anders… Balech, …           <span style="text-decoration: underline;">246</span>835 Alexandrium andersonii</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">233</span>452 Alexandrium angust… F.J.R.Ta…           <span style="text-decoration: underline;">109</span>711 Alexandrium minutum   </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 691 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ abbreviated name: ¹​ScientificName_accepted</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 24 more variables: Authority_accepted &lt;chr&gt;, Fossil &lt;dbl&gt;, Kingdom &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   Phylum &lt;chr&gt;, Class &lt;chr&gt;, Order &lt;chr&gt;, Family &lt;chr&gt;, taxonRank &lt;chr&gt;,</span></span></span>
@@ -158,28 +158,27 @@ information from the results.</p>
 <h2 id="retrieve-hab-toxins-from-ioc-toxins-database">Retrieve HAB Toxins From IOC Toxins Database<a class="anchor" aria-label="anchor" href="#retrieve-hab-toxins-from-ioc-toxins-database"></a>
 </h2>
 <p>The complete Toxin list can be downloaded from the <a href="https://toxins.hais.ioc-unesco.org/" class="external-link">IOC-UNESCO Toxins
-database</a> using the <a href="../reference/get_toxin_list.html"><code>get_toxin_list</code></a>
-function.</p>
+database</a> using the <code><a href="../reference/get_toxin_list.html">get_toxin_list()</a></code> function.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve complete toxin list</span></span>
 <span><span class="va">toxin_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_toxin_list.html">get_toxin_list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print result as tibble</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">toxin_list</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 457 × 55</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 458 × 55</span></span></span>
 <span><span class="co">##       id toxin_group recommended_name synonyms recommended_acronym acronyms</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   541 Azaspiracid azaspiracid-27   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA27               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   540 Azaspiracid azaspiracid-26   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA26               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   539 Azaspiracid azaspiracid-23   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA23               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   538 Azaspiracid azaspiracid-21   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA21               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   537 Azaspiracid azaspriracid-19  <span style="color: #949494;">&lt;NULL&gt;</span>   AZA19               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   536 Azaspiracid azaspriacid-18   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA18               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   535 Azaspiracid azaspiracid-17   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA17               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   534 Azaspiracid azaspiracid-16   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA16               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   533 Azaspiracid azaspriacid-15   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA15               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>   532 Azaspiracid azaspiracid-14   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA14               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 447 more rows</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   542 None        trial            <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   541 Azaspiracid azaspiracid-27   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA27               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   540 Azaspiracid azaspiracid-26   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA26               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   539 Azaspiracid azaspiracid-23   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA23               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   538 Azaspiracid azaspiracid-21   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA21               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   537 Azaspiracid azaspriracid-19  <span style="color: #949494;">&lt;NULL&gt;</span>   AZA19               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   536 Azaspiracid azaspriacid-18   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA18               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   535 Azaspiracid azaspiracid-17   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA17               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   534 Azaspiracid azaspiracid-16   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA16               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>   533 Azaspiracid azaspriacid-15   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA15               <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 448 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 49 more variables: cas_number &lt;chr&gt;, alternative_cas_numbers &lt;list&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   formula &lt;chr&gt;, exact_mono_isotopic_mass &lt;dbl&gt;, molfile &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   alternative_molfiles &lt;lgl&gt;, smiles &lt;chr&gt;, alternative_smiles &lt;list&gt;,</span></span></span>
@@ -218,7 +217,7 @@ function.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
