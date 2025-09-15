@@ -6,6 +6,7 @@
 * New function: `get_shark_datasets()`
 * Defunct `get_shark_table()`
 * Cache downloaded DwCA file from `get_dyntaxa_dwca()`
+* Add reader for Plankton Toolbox files: `read_ptbx()`
 
 # SHARK4R 0.1.7
 

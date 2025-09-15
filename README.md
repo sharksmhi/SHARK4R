@@ -4,6 +4,7 @@
 [![R-CMD-check](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14169399.svg)](https://doi.org/10.5281/zenodo.14169399)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![codecov](https://codecov.io/gh/sharksmhi/SHARK4R/graph/badge.svg?token=187ZJ0O9R8)](https://codecov.io/gh/sharksmhi/SHARK4R)
 <!-- badges: end -->
 
 ## Overview
@@ -18,10 +19,10 @@ modified from <https://iobis.github.io/obistools/>
 
 ## Installation
 
-Installing SHARK4R requires the `devtools` package:
+Installing SHARK4R requires the `remotes` package:
 ```r
-# install.packages("devtools")
-devtools::install_github("sharksmhi/SHARK4R", dependencies = TRUE)
+# install.packages("remotes")
+remotes::install_github("sharksmhi/SHARK4R", dependencies = TRUE)
 ```
 
 ## Documentation and Tutorials
@@ -32,7 +33,7 @@ For detailed information, please visit the project's [webpage](https://sharksmhi
 
 ### Tutorials
 
-Explore the features and capabilities of `SHARK4R` through these tutorial:
+Explore the features and capabilities of `SHARK4R` through these tutorials:
 
 - [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html)
 - [Retrieve Data From Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_dyntaxa_data.html)
