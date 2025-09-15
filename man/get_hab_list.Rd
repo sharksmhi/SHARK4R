@@ -2,7 +2,7 @@
 % Please edit documentation in R/hab_api_functions.R
 \name{get_hab_list}
 \alias{get_hab_list}
-\title{Download the Harmful Algal Blooms (HABs) Taxonomic List}
+\title{Download the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae}
 \usage{
 get_hab_list(
   aphia_id = TRUE,
@@ -57,11 +57,11 @@ get_hab_list(
 A dataframe containing the HABs taxonomic list, with columns based on the selected parameters.
 }
 \description{
-This function retrieves the taxonomic list of Harmful Algal Blooms (HABs) from the World Register of Marine Species (WoRMS).
+This function retrieves the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae from the World Register of Marine Species (WoRMS).
 The data is returned as a dataframe, with options to customize the fields included in the download.
 }
 \details{
-This function submits a POST request to the WoRMS database to retrieve a taxonomic list for Harmful Algal Blooms.
+This function submits a POST request to the WoRMS database to retrieve the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae.
 The downloaded data can include various fields, which are controlled by the input parameters.
 If a field is not required, set the corresponding parameter to \code{FALSE} to exclude it from the output.
 }
@@ -74,4 +74,7 @@ head(habs_taxlist_df)
 # Include only specific fields in the output
 habs_taxlist_df <- get_hab_list(aphia_id = TRUE, scientific_name = TRUE, authority = FALSE)
 }
+}
+\seealso{
+\url{https://www.marinespecies.org/hab/} for IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae
 }

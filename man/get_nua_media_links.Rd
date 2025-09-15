@@ -32,3 +32,8 @@ media_info <- get_nua_media_links(unparsed = FALSE)
 head(media_info)
 }
 }
+\seealso{
+\url{https://nordicmicroalgae.org/} for Nordic Microalgae website.
+
+\url{https://nordicmicroalgae.org/api/} for Nordic Microalgae API documentation.
+}

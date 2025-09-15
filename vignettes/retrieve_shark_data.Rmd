@@ -36,7 +36,7 @@ suppressPackageStartupMessages({
 
 ## Retrieve Data Table
 
-Data can be retrieved with the same filtering options available in [SHARK](https://shark.smhi.se/). To see the available filtering options, please refer to [`get_shark_options`](../reference/get_shark_options.html) and the information below.
+Data can be retrieved with the same filtering options available in [SHARK](https://shark.smhi.se/). To see the available filtering options, please refer to `get_shark_options()` and the information below.
 
 ```{r}
 # Retrieve chlorophyll data for April to June from 2019 to 2020
@@ -52,7 +52,7 @@ print(shark_data)
 
 ## Get SHARK API Options
 
-Filtering options, including data types, dataset names, stations, taxa, and more, can be retrieved using the [`get_shark_options`](../reference/get_shark_options.html) function.
+Filtering options, including data types, dataset names, stations, taxa, and more, can be retrieved using the `get_shark_options()` function.
 
 ```{r}
 # Retrieve available search options
@@ -64,6 +64,29 @@ names(shark_options)
 # View available datatypes
 dataTypes <- shark_options$dataTypes
 print(dataTypes)
+
+# View available dataset names
+datasetNames <- shark_options$datasets
+head(datasetNames) # Print first few dataset names
+```
+
+## Retrieve Datasets (Zip-archives)
+
+In addition to accessing data in tabular form, you can also download complete datasets packaged as zip archives. This is useful if you want to store complete datasets locally for further analysis.
+
+To explore all available dataset names, use the `get_shark_options()`. Once you know which datasets you need, you can pass their names (or partial names) to the `get_shark_datasets()` function.
+
+```{r}
+# Select a dataset name (e.g., the first two in the list)
+dataset_name <- datasetNames[1:2]
+
+# Download the dataset as a zip-archive to a temporary directory
+shark_data_zip <- get_shark_datasets(dataset_name,
+                                     save_dir = tempdir(),
+                                     verbose = FALSE) # Quiet output
+
+# Print the paths to the downloaded files
+print(shark_data_zip)
 ```
 
 ## Citation

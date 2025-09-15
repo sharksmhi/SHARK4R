@@ -100,5 +100,7 @@ print(result_custom)
 
 }
 \seealso{
+\url{https://marinespecies.org/} for WoRMS website.
+
 \url{https://CRAN.R-project.org/package=worrms}
 }

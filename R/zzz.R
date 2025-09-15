@@ -21,3 +21,6 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
 .onLoad <- function(libname, pkgname){
   clear_cache(age=36)
 }
+
+# environment to hold cached data during an R session
+.dyntaxa_cache <- new.env(parent = emptyenv())

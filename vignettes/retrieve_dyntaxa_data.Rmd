@@ -1,10 +1,10 @@
 ---
 title: "Retrieve Taxonomic Data From Dyntaxa"
 output:
-  rmarkdown::html_vignette:
-    encoding: UTF-8
+  rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Retrieve Taxonomic Data From Dyntaxa}
+  %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
@@ -40,7 +40,7 @@ library(dplyr)
 
 ### Retrieve Taxonony Table from SHARK
 
-Taxon and data tables can be retrieved with the same filtering options available in [SHARK](https://shark.smhi.se/). To see the available filtering options, please refer to [`get_shark_options`](../reference/get_shark_options.html) and the [Retrieve Data From SHARK](../articles/retrieve_shark_data.html) tutorial.
+Taxon and data tables can be retrieved with the same filtering options available in [SHARK](https://shark.smhi.se/). To see the available filtering options, please refer to `get_shark_options()` and the [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html) tutorial.
 
 ```{r}
 # Retrieve taxonomy reports for phytoplankton between 2019 and 2020
@@ -76,7 +76,7 @@ dyntaxa_key <- Sys.getenv("DYNTAXA_KEY")
 
 ## Update SHARK Taxonomy Data
 
-If the taxonomic data downloaded from SHARK are outdated, they can be updated to the latest Dyntaxa information using `SHARK4R`. Alternatively, data can be retrieved from WoRMS. For details, see the [WoRMS Tutorial](../articles/retrieve_worms_data.html).
+If the taxonomic data downloaded from SHARK are outdated, they can be updated to the latest Dyntaxa information using `SHARK4R`. Alternatively, data can be retrieved from WoRMS. For details, see the [WoRMS Tutorial](https://sharksmhi.github.io/SHARK4R/articles/retrieve_worms_data.html).
 
 ```{r}
 # Update taxonomy information for the retrieved phytoplankton data
@@ -107,7 +107,7 @@ tibble(matches)
 
 ## Retrieve Taxonomic information
 
-Taxonomic records can be retrieved for indivudual taxa using the [`get_dyntaxa_records`](../reference/get_dyntaxa_records.html) function.
+Taxonomic records can be retrieved for indivudual taxa using the `get_dyntaxa_records()` function.
 
 ```{r}
 # Get all Dyntaxa IDs
@@ -126,7 +126,7 @@ tibble(dyntaxa_records)
 
 ## Retrieve Parent IDs
 
-All parent taxa above the Dyntaxa ID can be retrieved using the [`get_dyntaxa_parent_ids`](../reference/get_dyntaxa_parent_ids.html) function.
+All parent taxa above the Dyntaxa ID can be retrieved using the `get_dyntaxa_parent_ids()` function.
 
 ```{r}
 # Get all parents
@@ -140,7 +140,7 @@ print(parents_id)
 
 ## Construct Complete Taxonomic Table
 
-A comprehensive taxonomic table, including related taxa, can be created with the [`construct_dyntaxa_table`](../reference/construct_dyntaxa_table.html) function. Use the `add_synonyms` parameter to include synonyms, and the `add_parents` and `add_descendants` parameters to include parent and descendant taxa, respectively. If Taxon IDs are missing from the [DwC-A export](../reference/get_dyntaxa_dwca.html) (e.g. species complex and pseudotaxon), they can be matched using the `add_missing_taxa` argument. Additionally, complete hierarchy information can be added as a string of parent taxa separated by "-" using the `add_hierarchy` argument.
+A comprehensive taxonomic table, including related taxa, can be created with the `construct_dyntaxa_table()` function. Use the `add_synonyms` parameter to include synonyms, and the `add_parents` and `add_descendants` parameters to include parent and descendant taxa, respectively. If Taxon IDs are missing from the DwC-A export downloaded through `get_dyntaxa_dwca()` (e.g. species complex and pseudotaxon), they can be matched using the `add_missing_taxa` argument. Additionally, complete hierarchy information can be added as a string of parent taxa separated by "-" using the `add_hierarchy` argument.
 
 ```{r}
 # Retrieve complete taxonomic table (including parents and descendants)

@@ -20,6 +20,10 @@ Defaults to the Baltic Sea, Kattegat, and Skagerrak basins included in the \code
 A vector indicating the basin each point belongs to, or a ggplot object if \code{plot = TRUE}.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function has been deprecated. Users are encouraged to use \code{\link{which_basin}} instead.
+
 This function identifies which sub-basin a set of latitude and longitude points belong to, using a user-specified or default shapefile.
 The default shapefile includes the Baltic Sea, Kattegat, and Skagerrak basins and is included in the \code{SHARK4R} package.
 }
@@ -36,10 +40,15 @@ latitudes <- c(55.337, 54.729, 56.311, 57.975)
 longitudes <- c(12.674, 14.643, 12.237, 10.637)
 
 # Check in which Baltic sea basin the points are in
-points_in_the_baltic <- ifcb_which_basin(latitudes, longitudes)
+# points_in_the_baltic <- ifcb_which_basin(latitudes, longitudes)
+# ->
+points_in_the_baltic <- which_basin(latitudes, longitudes)
 print(points_in_the_baltic)
 
 # Plot the points and the basins
-ifcb_which_basin(latitudes, longitudes, plot = TRUE)
+# ifcb_which_basin(latitudes, longitudes, plot = TRUE)
+# ->
+which_basin(latitudes, longitudes, plot = TRUE)
 
 }
+\keyword{internal}

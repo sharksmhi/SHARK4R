@@ -55,7 +55,7 @@ tibble(hab_list)
 
 ## Retrieve HAB Toxins From IOC Toxins Database
 
-The complete Toxin list can be downloaded from the [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/) using the [`get_toxin_list`](../reference/get_toxin_list.html) function.
+The complete Toxin list can be downloaded from the [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/) using the `get_toxin_list()` function.
 
 ```{r}
 # Retrieve complete toxin list

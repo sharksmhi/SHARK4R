@@ -1,10 +1,10 @@
 ---
 title: "Retrieve Taxonomic Data From AlgaeBase"
 output:
-  rmarkdown::html_vignette:
-    encoding: UTF-8
+  rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Retrieve Taxonomic Data From AlgaeBase}
+  %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
@@ -47,7 +47,7 @@ algaebase_key <- Sys.getenv("ALGAEBASE_KEY")
 
 ## Match Genus Name
 
-Taxonomic records can be retrieved for individual genera names using the [`get_algaebase_genus`](../reference/get_algaebase_genus.html) function.
+Taxonomic records can be retrieved for individual genera names using the `get_algaebase_genus()` function.
 
 ```{r}
 # Match a genus name with AlgaeBase API
@@ -60,7 +60,7 @@ print(genus_records)
 
 ## Match Species Name
 
-Taxonomic records can be retrieved for individual species names using the [`get_algaebase_species`](../reference/get_algaebase_species.html) function.
+Taxonomic records can be retrieved for individual species names using the `get_algaebase_species()` function.
 
 ```{r}
 # Match a species with AlgaeBase API
@@ -74,7 +74,7 @@ print(species_records)
 
 ## Match Multiple Scientific Names
 
-Multiple names can be matched with the [`match_algaebase`](../reference/match_algaebase.html) function. The scientific names need to be parsed into `genus` and `species` names before being passed to the API, which can be achieved by the [`parse_scientific_names`](../reference/parse_scientific_names.html) function.
+Multiple names can be matched with the `match_algaebase()` function. The scientific names need to be parsed into `genus` and `species` names before being passed to the API, which can be achieved by the `parse_scientific_names()` function.
 
 ```{r}
 # Retrieve all phytoplankton data from April 2015

@@ -29,11 +29,10 @@ The data is organized into a full taxonomic table that can be joined with data d
 updated_taxonomy <- update_worms_taxonomy(c(149619, 149122, 11))
 print(updated_taxonomy)
 }
-
 }
 \seealso{
-https://CRAN.R-project.org/package=worrms
+\url{https://marinespecies.org/} for WoRMS website.
 
-\code{\link{get_shark_data}}, \code{\link{update_dyntaxa_taxonomy}}, \href{https://www.marinespecies.org/rest/}{WoRMS API Documentation}
+\code{\link{get_shark_data}}, \code{\link{update_dyntaxa_taxonomy}}, \href{https://www.marinespecies.org/rest/}{WoRMS API Documentation}, \url{https://CRAN.R-project.org/package=worrms}
 }
 \keyword{internal}

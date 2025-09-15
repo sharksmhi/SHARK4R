@@ -11,6 +11,14 @@
 #' @name defunct
 NULL
 
+#' @usage # Deprecated in 0.1.7.9000 -------------------------------------
+#' @name defunct
+NULL
+#' @export
+#' @rdname defunct
+get_shark_table <- function(...) {
+  lifecycle::deprecate_stop("0.1.7.9000", "get_shark_table()", "get_shark_data()", "get_shark_table() is defunct due to inefficiency in handling large datasets.")
+}
 #' @usage # Deprecated in 0.1.4 -------------------------------------
 #' @name defunct
 NULL

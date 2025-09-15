@@ -37,5 +37,7 @@ print(with_names)
 
 }
 \seealso{
+\url{https://marinespecies.org/} for WoRMS website.
+
 \code{\link{get_shark_data}}, \code{\link{update_dyntaxa_taxonomy}}, \url{https://www.marinespecies.org/rest/}, \url{https://CRAN.R-project.org/package=worrms}
 }

@@ -2,6 +2,7 @@
 % Please edit documentation in R/defunct.R
 \name{defunct}
 \alias{defunct}
+\alias{get_shark_table}
 \alias{check_data_version}
 \alias{update_data}
 \alias{download_sharkdata}
@@ -24,6 +25,10 @@
 \alias{filter_outdated_datasets}
 \title{Defunct functions}
 \usage{
+# Deprecated in 0.1.7.9000 -------------------------------------
+
+get_shark_table(...)
+
 # Deprecated in 0.1.4 -------------------------------------
 
 check_data_version(...)

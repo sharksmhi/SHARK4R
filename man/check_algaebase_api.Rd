@@ -31,4 +31,7 @@ check_algaebase_api(apikey = "your_api_key")
 }
 
 }
+\seealso{
+\url{https://algaebase.org/} for AlgaeBase website.
+}
 \keyword{internal}
