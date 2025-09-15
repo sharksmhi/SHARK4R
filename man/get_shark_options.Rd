@@ -15,7 +15,7 @@ get_shark_options(prod = TRUE, unparsed = FALSE)
 A \code{data.frame} containing the available search options from the SHARK API.
 }
 \description{
-The \code{get_shark_options} function retrieves available search options from the SHARK database hosted by SMHI.
+The \code{get_shark_options} function retrieves available search options from the SHARK database.
 It sends a GET request to the SHARK API and returns the results as a structured \code{data.frame}.
 }
 \details{
@@ -35,5 +35,7 @@ for querying the database. The API returns data in JSON format, which is then pa
 
 }
 \seealso{
-\code{\link{get_shark_table}}
+\url{https://shark.smhi.se} for SHARK database.
+
+\code{\link{get_shark_data}}
 }

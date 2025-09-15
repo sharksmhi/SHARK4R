@@ -46,3 +46,6 @@ result <- parse_scientific_names(scientific_names)
 print(result)
 
 }
+\seealso{
+\url{https://algaebase.org/} for AlgaeBase website.
+}

@@ -18,6 +18,8 @@
 #'   head(taxa_data)
 #' }
 #'
+#' @seealso \url{https://nordicmicroalgae.org/} for Nordic Microalgae website.
+#' @seealso \url{https://nordicmicroalgae.org/api/} for Nordic Microalgae API documentation.
 #'
 #' @export
 get_nua_taxa <- function(unparsed = FALSE) {
@@ -99,6 +101,8 @@ get_nua_taxa <- function(unparsed = FALSE) {
 #'   \item{external_url}{The URL of the external link.}
 #'   \item{collection}{The collection category, which is "External Links" for all rows.}
 #'
+#' @seealso \url{https://nordicmicroalgae.org/} for Nordic Microalgae website.
+#' @seealso \url{https://nordicmicroalgae.org/api/} for Nordic Microalgae API documentation.
 #'
 #' @examples
 #' \dontrun{
@@ -197,6 +201,8 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
 #'   \item{external_url}{The URL of the external link.}
 #'   \item{collection}{The collection category, which is "Harmful algae blooms" for all rows.}
 #'
+#' @seealso \url{https://nordicmicroalgae.org/} for Nordic Microalgae website.
+#' @seealso \url{https://nordicmicroalgae.org/api/} for Nordic Microalgae API documentation.
 #'
 #' @examples
 #' \dontrun{
@@ -283,6 +289,10 @@ get_nua_harmfulness <- function(slug, verbose = TRUE) {
 #'     \item \code{s_url}: The URL for the "small" rendition.
 #'     \item \code{m_url}: The URL for the "medium" rendition.
 #'   }
+#'
+#' @seealso \url{https://nordicmicroalgae.org/} for Nordic Microalgae website.
+#' @seealso \url{https://nordicmicroalgae.org/api/} for Nordic Microalgae API documentation.
+#'
 #' @examples
 #' \dontrun{
 #' # Retrieve media information

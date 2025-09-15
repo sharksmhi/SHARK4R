@@ -25,3 +25,6 @@ toxin_count <- get_toxin_list(return_count = TRUE)
 }
 
 }
+\seealso{
+\url{https://toxins.hais.ioc-unesco.org/api/toxins/} for IOC-UNESCO Toxins Database.
+}

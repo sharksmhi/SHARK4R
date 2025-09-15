@@ -46,6 +46,7 @@
 #' @importFrom httr http_error
 #' @importFrom httr http_status
 #' @importFrom httr POST
+#' @importFrom httr timeout
 #' @importFrom httr progress
 #' @importFrom httr status_code
 #' @importFrom httr write_disk

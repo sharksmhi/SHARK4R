@@ -4,7 +4,12 @@
 \alias{get_dyntaxa_dwca}
 \title{Download and Read Darwin Core Archive Files from Dyntaxa}
 \usage{
-get_dyntaxa_dwca(subscription_key, file_to_read = "Taxon.csv", verbose = TRUE)
+get_dyntaxa_dwca(
+  subscription_key,
+  file_to_read = "Taxon.csv",
+  force = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{subscription_key}{A string containing your API subscription key for the Dyntaxa Taxon Service.}
@@ -12,15 +17,23 @@ get_dyntaxa_dwca(subscription_key, file_to_read = "Taxon.csv", verbose = TRUE)
 \item{file_to_read}{A string specifying the name of the CSV file to read from the extracted archive.
 Allowed options are: \code{"Reference.csv"}, \code{"SpeciesDistribution.csv"}, \code{"Taxon.csv"}, or \code{"VernacularName.csv"}. Defaults to \code{"Taxon.csv"}.}
 
+\item{force}{A logical value indicating whether to force a fresh download of the archive,
+even if a cached copy is available. Defaults to \code{FALSE}.}
+
 \item{verbose}{A logical value indicating whether to show download progress. Defaults to \code{TRUE}.}
 }
 \value{
 A tibble containing the data from the specified CSV file.
 }
 \description{
-This function downloads a complete Darwin Core Archive (DwCA) of Dyntaxa from the SLU Artdatabanken API, extracts the archive, and reads the specified CSV file into R.
+This function downloads a complete Darwin Core Archive (DwCA) of Dyntaxa from the SLU Artdatabanken API,
+extracts the archive, and reads the specified CSV file into R.
 }
 \details{
+By default, the archive is downloaded only once per R session. On subsequent calls,
+the function reuses the cached copy of the extracted files to avoid repeated downloads.
+Use the \code{force} parameter to re-download the archive if needed.
+
 \strong{Note}: Please review the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{API conditions}
 and \href{https://api-portal.artdatabanken.se/}{register for access} before using the API. Data collected through the API
 is stored at SLU Artdatabanken. Please also note that the authors of \code{SHARK4R} are not affiliated with SLU Artdatabanken.

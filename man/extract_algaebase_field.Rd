@@ -25,4 +25,7 @@ field_value <- SHARK4R:::extract_algaebase_field(query_result, "species")
 print(field_value)
 
 }
+\seealso{
+\url{https://algaebase.org/} for AlgaeBase website.
+}
 \keyword{internal}
