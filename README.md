@@ -19,10 +19,19 @@ modified from <https://iobis.github.io/obistools/>
 
 ## Installation
 
-Installing SHARK4R requires the `remotes` package:
+Installing `SHARK4R` requires the `remotes` package. Install the latest version of `SHARK4R` from GitHub:
 ```r
 # install.packages("remotes")
-remotes::install_github("sharksmhi/SHARK4R", dependencies = TRUE)
+remotes::install_github("sharksmhi/SHARK4R", 
+                        ref = remotes::github_release(),
+                        dependencies = TRUE)
+```
+
+Or install the development version from GitHub:
+```r
+# install.packages("remotes")
+remotes::install_github("sharksmhi/SHARK4R", 
+                        dependencies = TRUE)
 ```
 
 ## Documentation and Tutorials
