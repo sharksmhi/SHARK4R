@@ -33,6 +33,7 @@ reference:
   contents:
   - get_shark_options
   - get_shark_data
+  - get_shark_datasets
   - get_shark_table_counts
 
 - subtitle: Dyntaxa
@@ -161,8 +162,8 @@ reference:
   - check_zooplankton_wetweight
   - check_zooplankton_wetweight_area
   - check_zooplankton_wetweight_volume
-  - ifcb_is_near_land
-  - ifcb_which_basin
+  - positions_are_near_land
+  - which_basin
 
 - subtitle: MISC
   contents:
