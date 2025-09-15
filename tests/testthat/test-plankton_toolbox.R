@@ -1,5 +1,5 @@
 test_that("read_ptbx works", {
-  ptbx_file <- system.file("extdata", "Anholt E_2024-09-15_0-10m.xlsx", package = "SHARK4R")
+  ptbx_file <- system.file("extdata", "Anholt_E_2024-09-15_0-10m.xlsx", package = "SHARK4R")
 
   ptbx_data <- read_ptbx(ptbx_file)
 

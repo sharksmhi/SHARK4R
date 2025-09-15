@@ -17,7 +17,7 @@
 #' @examples
 #'
 #' # Read the default data sheet
-#' sample_data <- read_ptbx(system.file("extdata/Anholt E_2024-09-15_0-10m.xlsx",
+#' sample_data <- read_ptbx(system.file("extdata/Anholt_E_2024-09-15_0-10m.xlsx",
 #'                                      package = "SHARK4R"))
 #'
 #' # Print output
@@ -25,7 +25,7 @@
 #'
 #'
 #' # Read a specific sheet
-#' sample_info <- read_ptbx(system.file("extdata/Anholt E_2024-09-15_0-10m.xlsx",
+#' sample_info <- read_ptbx(system.file("extdata/Anholt_E_2024-09-15_0-10m.xlsx",
 #'                                      package = "SHARK4R"),
 #'                          sheet = "sample_info.txt")
 #' # Print output
