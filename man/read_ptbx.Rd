@@ -43,3 +43,8 @@ sample_info <- read_ptbx(system.file("extdata/Anholt E_2024-09-15_0-10m.xlsx",
 sample_info
 
 }
+\seealso{
+\url{https://nordicmicroalgae.org/plankton-toolbox/} for downloading Plankton Toolbox.
+
+\url{https://github.com/planktontoolbox/plankton-toolbox/} for Plankton Toolbox source code.
+}

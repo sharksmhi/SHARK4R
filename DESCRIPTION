@@ -48,8 +48,10 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
+    testthat (>= 3.0.0),
     tibble
 License: MIT + file LICENSE
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 RoxygenNote: 7.3.2
+Config/testthat/edition: 3

@@ -10,6 +10,10 @@
 #'   Default is "sample_data.txt".
 #'
 #' @return A data frame containing the contents of the selected sheet.
+#'
+#' @seealso \url{https://nordicmicroalgae.org/plankton-toolbox/} for downloading Plankton Toolbox.
+#' @seealso \url{https://github.com/planktontoolbox/plankton-toolbox/} for Plankton Toolbox source code.
+#'
 #' @examples
 #'
 #' # Read the default data sheet
@@ -37,7 +41,7 @@ read_ptbx <- function(file_path, sheet = c("sample_data.txt", "sample_info.txt",
 
   if (grepl(".xlsx$", file_path, ignore.case = TRUE)) {
     if (sheet %in% excel_sheets(file_path)) {
-      return(read_excel(file_path, sheet = sheet))
+      return(read_excel(file_path, sheet = sheet, progress = FALSE))
     } else {
       stop("Sheet not found in the Excel file.")
     }

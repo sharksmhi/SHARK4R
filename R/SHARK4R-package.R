@@ -76,6 +76,7 @@
 #' @importFrom readr type_convert
 #' @importFrom readr write_tsv
 #' @importFrom readxl excel_sheets
+#' @importFrom readxl read_excel
 #' @importFrom readxl read_xls
 #' @importFrom readxl read_xlsx
 #' @importFrom sf st_area
