@@ -43,9 +43,9 @@ get_toxin_list <- function(return_count = FALSE) {
     stop("Failed to download the IPHAB Toxins list. Status code:", response$status_code)
   }
 }
-#' Download the Harmful Algal Blooms (HABs) Taxonomic List
+#' Download the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae
 #'
-#' This function retrieves the taxonomic list of Harmful Algal Blooms (HABs) from the World Register of Marine Species (WoRMS).
+#' This function retrieves the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae from the World Register of Marine Species (WoRMS).
 #' The data is returned as a dataframe, with options to customize the fields included in the download.
 #'
 #' @param aphia_id Logical. Include the AphiaID field. Defaults to `TRUE`.
@@ -68,7 +68,7 @@ get_toxin_list <- function(return_count = FALSE) {
 #' @export
 #'
 #' @details
-#' This function submits a POST request to the WoRMS database to retrieve a taxonomic list for Harmful Algal Blooms.
+#' This function submits a POST request to the WoRMS database to retrieve the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae.
 #' The downloaded data can include various fields, which are controlled by the input parameters.
 #' If a field is not required, set the corresponding parameter to `FALSE` to exclude it from the output.
 #'
