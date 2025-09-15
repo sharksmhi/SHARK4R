@@ -16,10 +16,11 @@ SHARK is the Swedish Ocean Archive's platform for data downloads. It stores biol
 
 #### Installation
 
-You can install the package from GitHub using the `remotes` package:
+You can install the latest version of the package from GitHub using the `remotes` package:
 ```{r, eval=FALSE}
 # install.packages("remotes")
 remotes::install_github("sharksmhi/SHARK4R",
+                        ref = remotes::github_release(),
                         dependencies = TRUE)
 ```
 
