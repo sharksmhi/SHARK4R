@@ -933,7 +933,12 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
 }
 #' Download and Read Darwin Core Archive Files from Dyntaxa
 #'
-#' This function downloads a complete Darwin Core Archive (DwCA) of Dyntaxa from the SLU Artdatabanken API, extracts the archive, and reads the specified CSV file into R.
+#' This function downloads a complete Darwin Core Archive (DwCA) of Dyntaxa from the SLU Artdatabanken API,
+#' extracts the archive, and reads the specified CSV file into R.
+#'
+#' By default, the archive is downloaded only once per R session. On subsequent calls,
+#' the function reuses the cached copy of the extracted files to avoid repeated downloads.
+#' Use the `force` parameter to re-download the archive if needed.
 #'
 #' **Note**: Please review the [API conditions](https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/)
 #' and [register for access](https://api-portal.artdatabanken.se/) before using the API. Data collected through the API
@@ -942,6 +947,8 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
 #' @param subscription_key A string containing your API subscription key for the Dyntaxa Taxon Service.
 #' @param file_to_read A string specifying the name of the CSV file to read from the extracted archive.
 #'   Allowed options are: `"Reference.csv"`, `"SpeciesDistribution.csv"`, `"Taxon.csv"`, or `"VernacularName.csv"`. Defaults to `"Taxon.csv"`.
+#' @param force A logical value indicating whether to force a fresh download of the archive,
+#'   even if a cached copy is available. Defaults to `FALSE`.
 #' @param verbose A logical value indicating whether to show download progress. Defaults to `TRUE`.
 #'
 #' @return A tibble containing the data from the specified CSV file.
@@ -956,57 +963,62 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
 #' }
 #'
 #' @export
-get_dyntaxa_dwca <- function(subscription_key, file_to_read = "Taxon.csv", verbose = TRUE) {
+get_dyntaxa_dwca <- function(subscription_key,
+                             file_to_read = "Taxon.csv",
+                             force = FALSE,
+                             verbose = TRUE) {
 
-  # Validate the input file_to_read
-  allowed_files <- c("Reference.csv", "SpeciesDistribution.csv", "Taxon.csv", "VernacularName.csv")
+  allowed_files <- c("Reference.csv", "SpeciesDistribution.csv",
+                     "Taxon.csv", "VernacularName.csv")
   if (!file_to_read %in% allowed_files) {
-    stop("Invalid file_to_read. Allowed options are: ", paste(allowed_files, collapse = ", "))
+    stop("Invalid file_to_read. Allowed options are: ",
+         paste(allowed_files, collapse = ", "))
   }
 
-  url <- "https://api.artdatabanken.se/taxonservice/v1/darwincore/download"
+  # Check cache
+  if (!force && !is.null(.dyntaxa_cache$extracted_dir) &&
+      dir.exists(.dyntaxa_cache$extracted_dir)) {
 
+    csv_path <- file.path(.dyntaxa_cache$extracted_dir, file_to_read)
+    if (file.exists(csv_path)) {
+      if (verbose) message("Using cached copy of ", file_to_read)
+      return(readr::read_tsv(csv_path, col_types = cols(), progress = FALSE))
+    } else {
+      stop(file_to_read, " not found in cached extracted files.")
+    }
+  }
+
+  # Download if no cache or force = TRUE
+  url <- "https://api.artdatabanken.se/taxonservice/v1/darwincore/download"
   headers <- c(
     'Cache-Control' = 'no-cache',
     'Ocp-Apim-Subscription-Key' = subscription_key
   )
 
-  response <- GET(url,
-                  add_headers(headers),
-                  if (verbose) {
-                    progress()
-                  })
+  response <- httr::GET(url,
+                        httr::add_headers(headers),
+                        if (verbose) httr::progress())
 
-  # Check if the request was successful
-  if (status_code(response) == 200) {
-    # Save the zip file temporarily
+  if (httr::status_code(response) == 200) {
     temp_file <- tempfile(fileext = ".zip")
-    writeBin(content(response, "raw"), temp_file)
+    writeBin(httr::content(response, "raw"), temp_file)
 
-    # Unzip the content and specify the target directory
-    temp_dir <- tempdir()
+    temp_dir <- tempfile(pattern = "dyntaxa_dwca_")
+    dir.create(temp_dir)
     unzip(temp_file, exdir = temp_dir)
 
-    # Construct the path to the specified CSV file
-    csv_path <- file.path(temp_dir, file_to_read)
+    # Store in cache
+    .dyntaxa_cache$extracted_dir <- temp_dir
 
-    # Read the specified CSV file if it exists
+    csv_path <- file.path(temp_dir, file_to_read)
     if (file.exists(csv_path)) {
-      data <- read_tsv(csv_path,
-                       col_types = cols(),
-                       progress = FALSE)
-      return(data)
+      return(readr::read_tsv(csv_path, col_types = cols(), progress = FALSE))
     } else {
       stop(file_to_read, " not found in the extracted files.")
     }
-
-    # Clean up temporary files (optional)
-    unlink(temp_file)
   } else {
-    stop("Failed to download the zip file: ", status_code(response))
+    stop("Failed to download the zip file: ", httr::status_code(response))
   }
-
-  return(data)
 }
 #' Construct Dyntaxa Taxonomy Table From API
 #'
