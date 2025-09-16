@@ -6,6 +6,7 @@
 * Add new function `get_peg_list()` to download and read the PEG biovolume Excel list.
 * Add new function `read_ptbx()` to read Plankton Toolbox files.
 * Add new function `get_shark_codes()` to download and read the current SHARK code lists.
+* Add new function `clean_shark4r_cache()` to clear cached files.
 
 ## Enhancements
 * Re-export functions from the `iRfcb` package: `which_basin()` and `positions_are_near_land()`.

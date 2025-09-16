@@ -1,5 +1,3 @@
-context("Defunct functions")
-
 test_that("Defunct SHARKdata functions fail", {
   expect_error(get_shark_table())
   expect_error(check_data_version())

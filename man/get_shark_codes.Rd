@@ -2,14 +2,15 @@
 % Please edit documentation in R/check_codes.R
 \name{get_shark_codes}
 \alias{get_shark_codes}
-\title{Get SHARK codes from cached Excel file}
+\title{Get SHARK codelist from SMHI}
 \usage{
 get_shark_codes(
   url =
     "https://smhi.se/oceanografi/oce_info_data/shark_web/downloads/codelist_SMHI.xlsx",
   sheet = 1,
   skip = 1,
-  force = FALSE
+  force = FALSE,
+  clean_cache_days = 30
 )
 }
 \arguments{
@@ -24,6 +25,10 @@ Defaults to the official SMHI codelist.}
 
 \item{force}{Logical; if \code{TRUE}, forces re-download of the Excel file
 even if a cached copy is available. Default is \code{FALSE}.}
+
+\item{clean_cache_days}{Numeric; if not \code{NULL}, cached SHARK code Excel files older than
+this number of days will be automatically deleted. Defaults to 30. Set to \code{NULL}
+to disable automatic cleanup.}
 }
 \value{
 A tibble containing the contents of the requested sheet.
@@ -44,4 +49,7 @@ so it does not need to be downloaded again in subsequent sessions.
   # Force re-download of the Excel file
   codes3 <- get_shark_codes(force = TRUE)
 }
+}
+\seealso{
+\code{\link[=clean_shark4r_cache]{clean_shark4r_cache()}} to manually clear cached files.
 }

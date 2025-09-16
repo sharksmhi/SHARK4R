@@ -48,3 +48,6 @@ taxon_data <- get_dyntaxa_dwca(subscription_key, file_to_read = "Taxon.csv")
 }
 
 }
+\seealso{
+\code{\link[=clean_shark4r_cache]{clean_shark4r_cache()}} to manually clear cached files.
+}

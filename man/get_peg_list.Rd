@@ -7,7 +7,8 @@
 get_peg_list(
   file = NULL,
   force = FALSE,
-  url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL.zip"
+  url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL.zip",
+  clean_cache_days = 30
 )
 }
 \arguments{
@@ -18,6 +19,10 @@ Defaults to the first Excel file in the archive.}
 
 \item{url}{Character string with the URL of the PEG zip file.
 Defaults to the official ICES link.}
+
+\item{clean_cache_days}{Numeric; if not \code{NULL}, cached PEG zip files older than
+this number of days will be automatically deleted and replaced by a new download.
+Defaults to 30. Set to \code{NULL} to disable automatic cleanup.}
 }
 \value{
 A tibble with the contents of the requested Excel file.
@@ -35,4 +40,7 @@ You can also specify which file in the archive to read.
   # Read a specific file inside the zip
   peg_list2 <- get_peg_list(file = "PEG_extra_sheet.xlsx")
 }
+}
+\seealso{
+\code{\link[=clean_shark4r_cache]{clean_shark4r_cache()}} to manually clear cached files.
 }

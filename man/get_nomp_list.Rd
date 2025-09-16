@@ -8,7 +8,8 @@ get_nomp_list(
   year = as.numeric(format(Sys.Date(), "\%Y")),
   file = NULL,
   force = FALSE,
-  base_url = NULL
+  base_url = NULL,
+  clean_cache_days = 30
 )
 }
 \arguments{
@@ -21,13 +22,17 @@ Defaults to the first Excel file in the archive.}
 \item{force}{Logical; if \code{TRUE}, forces re-download of the zip file even if cached copy exists.}
 
 \item{base_url}{Base URL (without "/nomp_taxa_biovolumes_and_carbon_YYYY.zip") for the NOMP biovolume files. Defaults to the SMHI directory.}
+
+\item{clean_cache_days}{Numeric; if not \code{NULL}, cached NOMP zip files older than
+this number of days will be automatically deleted and replaced by a new download.
+Defaults to 30. Set to \code{NULL} to disable automatic cleanup.}
 }
 \value{
 A tibble with the contents of the requested Excel file.
 }
 \description{
-This function downloads the latest available NOMP biovolume zip archive
-from SMHI (using \code{cache_nomps_zip()}), unzips it, and reads the first
+This function downloads the latest available Nordic Marine Phytoplankton Group (NOMP)
+biovolume zip archive from SMHI (using \code{cache_nomps_zip()}), unzips it, and reads the first
 Excel file by default. You can also specify which file in the archive to read.
 }
 \examples{
@@ -35,7 +40,10 @@ Excel file by default. You can also specify which file in the archive to read.
   # Get the latest available list
   nomp_list <- get_nomp_list()
 
-  # Get the 2023 list
-  nomp_list_2023 <- get_nomp_list(2023)
+  # Get the 2023 list and clean old cache files older than 60 days
+  nomp_list_2023 <- get_nomp_list(2023, clean_cache_days = 60)
 }
+}
+\seealso{
+\code{\link[=clean_shark4r_cache]{clean_shark4r_cache()}} to manually clear cached files.
 }

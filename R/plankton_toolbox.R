@@ -51,8 +51,8 @@ read_ptbx <- function(file_path, sheet = c("sample_data.txt", "sample_info.txt",
 }
 #' Get the latest NOMP biovolume Excel list
 #'
-#' This function downloads the latest available NOMP biovolume zip archive
-#' from SMHI (using `cache_nomps_zip()`), unzips it, and reads the first
+#' This function downloads the latest available Nordic Marine Phytoplankton Group (NOMP)
+#' biovolume zip archive from SMHI (using `cache_nomps_zip()`), unzips it, and reads the first
 #' Excel file by default. You can also specify which file in the archive to read.
 #'
 #' @param year Numeric year to download. Default is current year; if not available,
@@ -61,22 +61,38 @@ read_ptbx <- function(file_path, sheet = c("sample_data.txt", "sample_info.txt",
 #'   Defaults to the first Excel file in the archive.
 #' @param force Logical; if `TRUE`, forces re-download of the zip file even if cached copy exists.
 #' @param base_url Base URL (without "/nomp_taxa_biovolumes_and_carbon_YYYY.zip") for the NOMP biovolume files. Defaults to the SMHI directory.
+#' @param clean_cache_days Numeric; if not `NULL`, cached NOMP zip files older than
+#'   this number of days will be automatically deleted and replaced by a new download.
+#'   Defaults to 30. Set to `NULL` to disable automatic cleanup.
 #'
 #' @return A tibble with the contents of the requested Excel file.
 #' @export
+#'
+#' @seealso [clean_shark4r_cache()] to manually clear cached files.
 #'
 #' @examples
 #' \dontrun{
 #'   # Get the latest available list
 #'   nomp_list <- get_nomp_list()
 #'
-#'   # Get the 2023 list
-#'   nomp_list_2023 <- get_nomp_list(2023)
+#'   # Get the 2023 list and clean old cache files older than 60 days
+#'   nomp_list_2023 <- get_nomp_list(2023, clean_cache_days = 60)
 #' }
 get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
                           file = NULL,
                           force = FALSE,
-                          base_url = NULL) {
+                          base_url = NULL,
+                          clean_cache_days = 30) {
+
+  # Optional: remove old NOMP cache files
+  if (!is.null(clean_cache_days) && clean_cache_days > 0) {
+    cache_dir <- tools::R_user_dir("SHARK4R", "cache")
+    if (dir.exists(cache_dir)) {
+      nomp_files <- list.files(cache_dir, pattern = "nomp_taxa_biovolumes_and_carbon_.*\\.zip$", full.names = TRUE)
+      old_files <- nomp_files[file.info(nomp_files)$mtime < Sys.time() - clean_cache_days*24*60*60]
+      if (length(old_files) > 0) unlink(old_files, force = TRUE)
+    }
+  }
 
   if (is.null(base_url)) {
     base_url <- "https://www.smhi.se/oceanografi/oce_info_data/shark_web/downloads/sbdi/NOMP/biovolume"
@@ -114,9 +130,14 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
 #' @param force Logical; if `TRUE`, forces re-download of the zip file even if a cached copy exists.
 #' @param url Character string with the URL of the PEG zip file.
 #'   Defaults to the official ICES link.
+#' @param clean_cache_days Numeric; if not `NULL`, cached PEG zip files older than
+#'   this number of days will be automatically deleted and replaced by a new download.
+#'   Defaults to 30. Set to `NULL` to disable automatic cleanup.
 #'
 #' @return A tibble with the contents of the requested Excel file.
 #' @export
+#'
+#' @seealso [clean_shark4r_cache()] to manually clear cached files.
 #'
 #' @examples
 #' \dontrun{
@@ -128,7 +149,18 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
 #' }
 get_peg_list <- function(file = NULL,
                          force = FALSE,
-                         url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL.zip") {
+                         url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL.zip",
+                         clean_cache_days = 30) {
+
+  # Optional: remove old PEG cache files
+  if (!is.null(clean_cache_days) && clean_cache_days > 0) {
+    cache_dir <- tools::R_user_dir("SHARK4R", "cache")
+    if (dir.exists(cache_dir)) {
+      peg_files <- list.files(cache_dir, pattern = "PEG_BVOL.*\\.zip$", full.names = TRUE)
+      old_files <- peg_files[file.info(peg_files)$mtime < Sys.time() - clean_cache_days*24*60*60]
+      if (length(old_files) > 0) unlink(old_files, force = TRUE)
+    }
+  }
 
   zip_path <- cache_peg_zip(url = url, force = force)
 

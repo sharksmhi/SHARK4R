@@ -177,6 +177,7 @@ reference:
 
 - subtitle: MISC
   contents:
+  - clean_shark4r_cache
   - lookup_xy
   - match_station
   - match_wormstaxa

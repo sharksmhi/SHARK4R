@@ -953,6 +953,8 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
 #'
 #' @return A tibble containing the data from the specified CSV file.
 #'
+#' @seealso [clean_shark4r_cache()] to manually clear cached files.
+#'
 #' @examples
 #' \dontrun{
 #' # Provide your Dyntaxa API subscription key
