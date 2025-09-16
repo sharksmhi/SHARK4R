@@ -31,16 +31,20 @@ reference:
 - title: Retrieve Data
 
 - subtitle: SHARK
-  desc: These functions are used to retireve data from SHARK
+  desc: These functions are used to retrieve and read data from SHARK
   contents:
   - get_shark_options
   - get_shark_codes
   - get_shark_data
   - get_shark_datasets
   - get_shark_table_counts
+  - shark_read
+  - shark_read_deliv
+  - shark_read_deliv_xls
+  - shark_read_zip
 
 - subtitle: Dyntaxa
-  desc: These functions are used to retireve data from the Dyntaxa API
+  desc: These functions are used to retrieve data from the Dyntaxa API
   contents:
   - construct_dyntaxa_table
   - get_dyntaxa_dwca
@@ -50,7 +54,7 @@ reference:
   - update_dyntaxa_taxonomy
 
 - subtitle: WoRMS
-  desc: These functions are used to retireve data from the WoRMS API
+  desc: These functions are used to retrieve data from the WoRMS API
   contents:
   - add_worms_taxonomy
   - assign_phytoplankton_group
@@ -58,7 +62,7 @@ reference:
   - get_worms_records_name
 
 - subtitle: AlgaeBase
-  desc: These functions are used to retireve data from the AlgaeBase API
+  desc: These functions are used to retrieve data from the AlgaeBase API
   contents:
   - get_algaebase_genus
   - get_algaebase_species
@@ -66,13 +70,13 @@ reference:
   - parse_scientific_names
 
 - subtitle: IOC-UNESCO HAB
-  desc: These functions are used to retireve data from the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae and the IOC-UNESCO Toxins database.
+  desc: These functions are used to retrieve data from the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae and the IOC-UNESCO Toxins database.
   contents:
   - get_hab_list
   - get_toxin_list
 
 - subtitle: Nordic Microalgae
-  desc: These functions are used to retireve data from the Nordic Microalgae API
+  desc: These functions are used to retrieve data from the Nordic Microalgae API
   contents:
   - get_nua_external_links
   - get_nua_harmfulness
@@ -88,7 +92,7 @@ reference:
 
 - title: Quality Control
 
-- subtitle: Data Checks
+- subtitle: SHARK Data Checks
   contents:
   - check_Bacterioplankton
   - check_Chlorophyll
@@ -145,6 +149,7 @@ reference:
   - check_onland
   - check_phytoplankton_abund
   - check_phytoplankton_biovol
+  - check_phytoplankton_counted
   - check_phytoplankton_carbon
   - check_picoplankton_abundance
   - check_picoplankton_biovol
@@ -185,10 +190,6 @@ reference:
   - plot_map_leaflet
   - plot_map_leaflet_deliv
   - scatterplot
-  - shark_read
-  - shark_read_deliv
-  - shark_read_deliv_xls
-  - shark_read_zip
 
 - title: Deprecated functions
   contents:

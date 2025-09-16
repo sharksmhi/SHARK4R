@@ -26,8 +26,7 @@ check_datatype <- function(data, level = "error") {
       row = NA,
       message = paste0("Required field ", fields, " is missing")
     ))
-  }
-  else {
+  } else {
     message("All required fields present")
   }
 
@@ -35,7 +34,7 @@ check_datatype <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -69,7 +68,7 @@ check_datatype <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -80,7 +79,6 @@ check_datatype <- function(data, level = "error") {
         }
       }
     }
-
   }
 
   return(errors)
@@ -121,7 +119,7 @@ check_Bacterioplankton <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -155,7 +153,7 @@ check_Bacterioplankton <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -207,7 +205,7 @@ check_Chlorophyll <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -241,7 +239,7 @@ check_Chlorophyll <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -293,7 +291,7 @@ check_Epibenthos <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -327,7 +325,7 @@ check_Epibenthos <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -379,7 +377,7 @@ check_EpibenthosDropvideo <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -413,7 +411,7 @@ check_EpibenthosDropvideo <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -465,7 +463,7 @@ check_GreySeal <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -499,7 +497,7 @@ check_GreySeal <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -551,7 +549,7 @@ check_HarbourPorpoise <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -585,7 +583,7 @@ check_HarbourPorpoise <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -637,7 +635,7 @@ check_HarbourSeal <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -671,7 +669,7 @@ check_HarbourSeal <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -723,7 +721,7 @@ check_PhysicalChemical <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -757,7 +755,7 @@ check_PhysicalChemical <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -809,7 +807,7 @@ check_Phytoplankton <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -843,7 +841,7 @@ check_Phytoplankton <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -895,7 +893,7 @@ check_Picoplankton <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -929,7 +927,7 @@ check_Picoplankton <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -981,7 +979,7 @@ check_PrimaryProduction <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -1015,7 +1013,7 @@ check_PrimaryProduction <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -1067,7 +1065,7 @@ check_RingedSeal <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -1101,7 +1099,7 @@ check_RingedSeal <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -1153,7 +1151,7 @@ check_SealPathology <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -1187,7 +1185,7 @@ check_SealPathology <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -1239,7 +1237,7 @@ check_Sedimentation <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -1273,7 +1271,7 @@ check_Sedimentation <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -1325,7 +1323,7 @@ check_Zoobenthos <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -1359,7 +1357,7 @@ check_Zoobenthos <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -1411,7 +1409,7 @@ check_Zooplankton <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -1445,7 +1443,7 @@ check_Zooplankton <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -1497,7 +1495,7 @@ check_deliv_Bacterioplankton <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -1531,7 +1529,7 @@ check_deliv_Bacterioplankton <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -1585,7 +1583,7 @@ check_deliv_Chlorophyll <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -1619,7 +1617,7 @@ check_deliv_Chlorophyll <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -1649,7 +1647,7 @@ check_deliv_Chlorophyll <- function(data, level = "error") {
 check_deliv_Epibenthos <- function(data, level = "error") {
 
   errors <- tibble()
-  required <- c("MYEAR",	"STATN", "PROJ",	"ORDERER",	"SDATE", "SLABO", "COMNT_VISIT", "LATIT",	"LONGI",	"POSYS",	"TRANS_ID",	"TRANS_MIN",	"TRANS_MAX",	"TRANS_LAT_START",	"TRANS_LONG_START",	"TRANS_LAT_END",	"TRANS_LONG_END", "TRANS_START_DEP",	"TRANS_STOP_DEP", "SAMPLEID", "SECTIONMIN",	"SECTIONMAX",	"SECTIONSTA",	"SECTIONSTO",	"SMTYP",	"SAREA", "SUBST",	"SUBST_COVER", "LATNM",	"SFLAG", "TAXNM", "COVER%", "COUNTNR",	"ABUND",	"ALABO",	"SMTYP",	"REFSK", "METDC")
+  required <- c("MYEAR",	"STATN", "PROJ",	"ORDERER",	"SDATE", "SLABO", "COMNT_VISIT", "LATIT",	"LONGI",	"POSYS",	"TRANS_ID",	"TRANS_MIN",	"TRANS_MAX",	"TRANS_LAT_START",	"TRANS_LONG_START",	"TRANS_LAT_END",	"TRANS_LONG_END", "TRANS_START_DEP",	"TRANS_STOP_DEP", "SAMPLEID", "SECTIONMIN",	"SECTIONMAX",	"SECTIONSTA",	"SECTIONSTO",	"SAREA", "SUBST",	"SUBST_COVER", "LATNM",	"SFLAG", "TAXNM", "COVER%", "COUNTNR",	"ABUND",	"ALABO",	"SMTYP",	"REFSK", "METDC")
   recommended <- c("STTYP",	"MPROG","PURPM", "MSTAT", "RLABO", "CRUIS",	"SHIPC",	"NTYPE", "WATLD",	"WADEP_COR",	"WAVXP", "TRANSL",	"TRANSW",	"TRANSDIR", "COMNT_TRANS",	"SMDEP", "RPSNO", "COMNT_SAMP", "DEPOS",	"DEPOS%",	"FNFLA", "STRID",	"COMNT_VAR", "COVER_1-4",	"COVER_1-5",	"COVER_1-7", "TOTCOVERAGE%", "METOA")
 
   # find missing required fields
@@ -1671,7 +1669,7 @@ check_deliv_Epibenthos <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -1705,7 +1703,7 @@ check_deliv_Epibenthos <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -1757,7 +1755,7 @@ check_deliv_EpibenthosDropvideo <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -1791,7 +1789,7 @@ check_deliv_EpibenthosDropvideo <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -1843,7 +1841,7 @@ check_deliv_GreySeal <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -1877,7 +1875,7 @@ check_deliv_GreySeal <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -1907,7 +1905,7 @@ check_deliv_GreySeal <- function(data, level = "error") {
 check_deliv_HarbourPorpoise <- function(data, level = "error") {
 
   errors <- tibble()
-  required <- c("MYEAR",	"STATN", "PROJ",	"ORDERER",	"SDATE", "EDATE","POSYS", "SLABO",	"ACKR_SMP",	"SMTYP",	"LATIT",	"LONGI", 	"METDC", "LATNM",	"DPM",	"ODATE",	"OTIME",	"ALABO",	"ACKR_SMP",	"RAW")
+  required <- c("MYEAR",	"STATN", "PROJ",	"ORDERER",	"SDATE", "EDATE", "POSYS", "SLABO",	"SMTYP",	"LATIT",	"LONGI", 	"METDC", "LATNM",	"DPM",	"ODATE",	"OTIME",	"ALABO",	"ACKR_SMP",	"RAW")
   recommended <- c("STIME", "ETIME", "COMNT_VISIT", "COMNT_SAMP", "COMNT_VAR")
 
   # find missing required fields
@@ -1929,7 +1927,7 @@ check_deliv_HarbourPorpoise <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -1963,7 +1961,7 @@ check_deliv_HarbourPorpoise <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -2015,7 +2013,7 @@ check_deliv_HarbourSeal <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -2049,7 +2047,7 @@ check_deliv_HarbourSeal <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -2101,7 +2099,7 @@ check_deliv_PhysicalChemical <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -2135,7 +2133,7 @@ check_deliv_PhysicalChemical <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -2187,7 +2185,7 @@ check_deliv_Phytoplankton <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -2221,7 +2219,7 @@ check_deliv_Phytoplankton <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -2273,7 +2271,7 @@ check_deliv_Picoplankton <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -2307,7 +2305,7 @@ check_deliv_Picoplankton <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -2359,7 +2357,7 @@ check_deliv_PrimaryProduction <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -2393,7 +2391,7 @@ check_deliv_PrimaryProduction <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -2445,7 +2443,7 @@ check_deliv_RingedSeal <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -2479,7 +2477,7 @@ check_deliv_RingedSeal <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -2531,7 +2529,7 @@ check_deliv_SealPathology <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -2565,7 +2563,7 @@ check_deliv_SealPathology <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -2617,7 +2615,7 @@ check_deliv_Sedimentation <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -2651,7 +2649,7 @@ check_deliv_Sedimentation <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -2703,7 +2701,7 @@ check_deliv_Zoobenthos <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -2737,7 +2735,7 @@ check_deliv_Zoobenthos <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",
@@ -2789,7 +2787,7 @@ check_deliv_Zooplankton <- function(data, level = "error") {
 
   for (field in required) {
     if (field %in% names(data)) {
-      rows <- missing_values(data[,field])
+      rows <- missing_values(data[[field]])
       if (length(which(rows)) > 0) {
         errors <- bind_rows(errors, tibble(
           level = "error",
@@ -2823,7 +2821,7 @@ check_deliv_Zooplankton <- function(data, level = "error") {
 
     for (field in recommended) {
       if (field %in% names(data)) {
-        rows <- missing_values(data[,field])
+        rows <- missing_values(data[[field]])
         if (length(which(rows)) > 0) {
           errors <- bind_rows(errors, tibble(
             level = "warning",

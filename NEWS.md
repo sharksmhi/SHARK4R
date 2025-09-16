@@ -12,6 +12,8 @@
 * Re-export functions from the `iRfcb` package: `which_basin()` and `positions_are_near_land()`.
 * Cache downloaded DwCA files in `get_dyntaxa_dwca()`, `get_shark_codes()`, `get_nomp_list()` and `get_peg_list()` to avoid repeated downloads.
 * Add unit tests for key functions.
+* Fix bugs in check_* functions.
+* Fix various documentation issues.
 
 ## Deprecated
 * Deprecated functions: `ifcb_is_near_land()` and `ifcb_which_basin()` (replaced by re-exported functions)
@@ -21,7 +23,7 @@
 
 ## Documentation
 * Add `NEWS.md` file.
-* Add Spellcheck.
+* Add spell check.
 
 # SHARK4R 0.1.7
 
