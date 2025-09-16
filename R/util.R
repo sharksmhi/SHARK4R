@@ -149,7 +149,7 @@ cache_excel_download <- function(url = "https://smhi.se/oceanografi/oce_info_dat
   destfile
 }
 
-cache_nomps_zip <- function(base_url = "https://www.smhi.se/oceanografi/oce_info_data/shark_web/downloads/sbdi/NOMP/biovolume",
+cache_nomp_zip <- function(base_url = "https://www.smhi.se/oceanografi/oce_info_data/shark_web/downloads/sbdi/NOMP/biovolume",
                             year = as.numeric(format(Sys.Date(), "%Y")),
                             force = FALSE) {
 

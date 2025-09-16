@@ -55,7 +55,7 @@ test_that("get_nomp_list returns first Excel file by default", {
   skip_if_offline()
   skip_if_resource_unavailable(smhi_url)
 
-  zip_path <- cache_nomps_zip(year = 2023)
+  zip_path <- cache_nomp_zip(year = 2023)
   tmp_dir <- tempdir()
   unzipped_files <- unzip(zip_path, exdir = tmp_dir)
   first_excel <- unzipped_files[grepl("\\.xlsx$", unzipped_files)][1]
