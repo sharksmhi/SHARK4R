@@ -5,12 +5,18 @@
 \title{Read tab delimited files downloaded from SHARK
 Uses read_delim to read tab delimited files with standardized export format from SHARK}
 \usage{
-shark_read(filename, type = "txt")
+shark_read(filename, delimiters = "point-tab", encoding = "latin_1")
 }
 \arguments{
 \item{filename}{Path to file to be read}
 
-\item{type}{File extension. Default is \code{.txt}.}
+\item{delimiters}{Character. Specifies the delimiter used to separate values in \code{filename}.
+Options are \code{"point-tab"} (tab-separated) or \code{"point-semi"} (semicolon-separated).
+Default is \code{"point-tab"}.}
+
+\item{encoding}{Character. Specifies the text encoding of \code{filename}.
+Options are \code{"cp1252"}, \code{"utf_8"}, \code{"utf_16"}, or \code{"latin_1"}.
+Default is \code{"utf_8"}.}
 }
 \value{
 Data frame of file

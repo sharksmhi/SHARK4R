@@ -4,13 +4,16 @@
 \alias{check_zero_value}
 \title{Check logical assumptions of data for specific variables and parameters}
 \usage{
-check_zero_value(data)
+check_zero_value(data, return_df = FALSE)
 }
 \arguments{
-\item{data}{for tibble be be checked}
+\item{data}{A data frame. Must contain a column named \code{value}.}
+
+\item{return_df}{Logical. If TRUE, return a plain data.frame of problematic rows
+instead of a DT datatable. Default = FALSE.}
 }
 \value{
-logical test with true or false results
+A DT datatable with zero-value records, or NULL (invisibly) if none found.
 }
 \description{
 Check logical assumptions of data for specific variables and parameters
