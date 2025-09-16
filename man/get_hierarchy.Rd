@@ -20,7 +20,7 @@ recursively traversing its parent relationships in the provided dataset.
 }
 \examples{
 # Example dataset
-data <- tibble::tibble(
+data <- dplyr::tibble(
   taxonId = c("1", "2", "3"),
   parentNameUsageID = c(NA, "1", "2"),
   scientificName = c("Kingdom", "Phylum", "Class")

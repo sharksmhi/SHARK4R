@@ -8,6 +8,7 @@ BQIm
 Bacillariophyceae
 Bacterioplankton
 Biogeographic
+Biovolume
 CMD
 Centre
 Cfr
@@ -23,6 +24,7 @@ DwC
 DwCA
 Dyntaxa
 EEA
+EG
 EPSG
 Epibenthos
 FishBase
@@ -50,6 +52,7 @@ OSPAR
 OpenStreetMap
 Orderers
 PROJ
+Phyto
 Phytoplankton
 Picoplankton
 PlanktonBarcoding

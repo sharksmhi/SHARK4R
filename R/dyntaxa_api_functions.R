@@ -1277,7 +1277,7 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key, shark_output = 
 #'
 #' @examples
 #' # Example data
-#' data <- tibble::tibble(
+#' data <- dplyr::tibble(
 #'   taxonId = c("1", "2", "3", "4"),
 #'   parentNameUsageID = c(NA, "1", "2", "2"),
 #'   scientificName = c("Root", "Child1", "Child2", "Grandchild1")
@@ -1325,7 +1325,7 @@ find_descendants <- function(taxon_id, data) {
 #'
 #' @examples
 #' # Example data
-#' data <- tibble::tibble(
+#' data <- dplyr::tibble(
 #'   taxonId = c("1", "2", "3", "4"),
 #'   parentNameUsageID = c(NA, "1", "1", "2"),
 #'   scientificName = c("Root", "Child1", "Child2", "Grandchild1")
@@ -1368,7 +1368,7 @@ get_all_parents <- function(data, initial_taxon_ids) {
 #'
 #' @examples
 #' # Example dataset
-#' data <- tibble::tibble(
+#' data <- dplyr::tibble(
 #'   taxonId = c("1", "2", "3"),
 #'   parentNameUsageID = c(NA, "1", "2"),
 #'   scientificName = c("Kingdom", "Phylum", "Class")
@@ -1412,7 +1412,7 @@ get_hierarchy <- function(taxon_id, data) {
 #'
 #' @examples
 #' # Example dataset
-#' data <- tibble::tibble(
+#' data <- dplyr::tibble(
 #'   taxonId = c("1", "2", "3"),
 #'   parentNameUsageID = c(NA, "1", "2"),
 #'   scientificName = c("Kingdom", "Phylum", "Class")

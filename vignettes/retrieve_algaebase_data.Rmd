@@ -27,13 +27,13 @@ remotes::install_github("sharksmhi/SHARK4R",
 Load the `SHARK4R` and `tibble` libraries:
 ```{r, eval=FALSE}
 library(SHARK4R)
-library(tibble)
+library(dplyr)
 ```
 
 ```{r, include=FALSE}
 suppressPackageStartupMessages({
   library(SHARK4R)
-  library(tibble)
+  library(dplyr)
 })
 ```
 
