@@ -31,9 +31,10 @@ reference:
 - title: Retrieve Data
 
 - subtitle: SHARK
-  desc: These functions are used to retireve data from the SHARK API
+  desc: These functions are used to retireve data from SHARK
   contents:
   - get_shark_options
+  - get_shark_codes
   - get_shark_data
   - get_shark_datasets
   - get_shark_table_counts
@@ -81,6 +82,8 @@ reference:
 - subtitle: Plankton Toolbox
   desc: These functions are used to read data exported from Plankton Toolbox
   contents:
+  - get_nomp_list
+  - get_peg_list
   - read_ptbx
 
 - title: Quality Control

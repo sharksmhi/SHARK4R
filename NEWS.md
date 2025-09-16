@@ -1,12 +1,26 @@
 # SHARK4R (development version)
 
-* Add tests
-* Add NEWS.md
-* Re-export functions from `iRfcb`
-* New function: `get_shark_datasets()`
-* Defunct `get_shark_table()`
-* Cache downloaded DwCA file from `get_dyntaxa_dwca()`
-* Add reader for Plankton Toolbox files: `read_ptbx()`
+## New features
+* Add new function `get_shark_datasets()` to retrieve available SHARK datasets from API.
+* Add new function `get_nomp_list()` to download and read the latest NOMP biovolume Excel lists.
+* Add new function `get_peg_list()` to download and read the PEG biovolume Excel list.
+* Add new function `read_ptbx()` to read Plankton Toolbox files.
+* Add new function `get_shark_codes()` to download and read the current SHARK code lists.
+
+## Enhancements
+* Re-export functions from the `iRfcb` package: `which_basin()` and `positions_are_near_land()`.
+* Cache downloaded DwCA files in `get_dyntaxa_dwca()`, `get_shark_codes()`, `get_nomp_list()` and `get_peg_list()` to avoid repeated downloads.
+* Add unit tests for key functions.
+
+## Deprecated
+* Deprecated functions: `ifcb_is_near_land()` and `ifcb_which_basin()` (replaced by re-exported functions)
+
+## Defunct / Removed
+* Defunct function `get_shark_table()`.
+
+## Documentation
+* Add `NEWS.md` file.
+* Add Spellcheck.
 
 # SHARK4R 0.1.7
 

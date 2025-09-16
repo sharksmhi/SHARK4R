@@ -23,4 +23,4 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
 }
 
 # environment to hold cached data during an R session
-.dyntaxa_cache <- new.env(parent = emptyenv())
+.shark4r_cache <- new.env(parent = emptyenv())
