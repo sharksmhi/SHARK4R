@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_fields.R
 \name{check_deliv_Bacterioplankton}
 \alias{check_deliv_Bacterioplankton}
-\title{Check if the required and recommended global and datatype-specific SHARK system fields (different between different datatypes) are present in intial deliveries of data (delivery validation).}
+\title{Check if the required and recommended global and datatype-specific SHARK system fields (different between different datatypes) are present in initial deliveries of data (delivery validation).}
 \usage{
 check_deliv_Bacterioplankton(data, level = "error")
 }

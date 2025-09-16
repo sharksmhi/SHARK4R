@@ -1462,7 +1462,7 @@ check_Zooplankton <- function(data, level = "error") {
   return(errors)
 }
 
-#' Check if the required and recommended global and datatype-specific SHARK system fields (different between different datatypes) are present in intial deliveries of data (delivery validation).
+#' Check if the required and recommended global and datatype-specific SHARK system fields (different between different datatypes) are present in initial deliveries of data (delivery validation).
 #'
 #' Missing or empty required fields are reported as errors,
 #' missing or empty recommended fields are reported as warnings.

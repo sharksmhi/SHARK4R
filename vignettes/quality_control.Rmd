@@ -36,7 +36,7 @@ potentially invalid depths. Multiple checks are performed in this
 function: missing depth column (warning) empty depth column (warning)
 depth values that can't be converted to numbers (error) values that are
 larger than the depth value in the bathymetry layer, after applying the
-provided depthmargin (error) depth values that are negative for off
+provided depth margin (error) depth values that are negative for off
 shore points, after applying the provided shoremargin (error) minimum
 depth greater than maximum depth (error)
 

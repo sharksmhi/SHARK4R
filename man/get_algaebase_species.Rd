@@ -2,7 +2,7 @@
 % Please edit documentation in R/algaebase_api_functions.R
 \name{get_algaebase_species}
 \alias{get_algaebase_species}
-\title{Algaebase Species Search}
+\title{AlgaeBase Species Search}
 \usage{
 get_algaebase_species(
   genus,
@@ -19,7 +19,7 @@ get_algaebase_species(
 
 \item{species}{A character string specifying the species or specific epithet.}
 
-\item{apikey}{A character string containing the API key for accessing the Algaebase API.}
+\item{apikey}{A character string containing the API key for accessing the AlgaeBase API.}
 
 \item{higher}{A logical value indicating whether to include higher taxonomy details (default is \code{TRUE}).}
 
@@ -33,12 +33,12 @@ get_algaebase_species(
 A data frame with details about the species, including taxonomic status, ranks, and other relevant information.
 }
 \description{
-This function searches the Algaebase API for species based on genus and species names.
+This function searches the AlgaeBase API for species based on genus and species names.
 It allows for flexible search parameters such as filtering by exact matches, returning
 the most recent results, and including higher taxonomy details.
 }
 \details{
-This function queries the Algaebase API for species based on the genus and species names,
+This function queries the AlgaeBase API for species based on the genus and species names,
 and filters the results based on various parameters. The function handles different taxonomic ranks
 and formats the output for easy use. It can merge higher taxonomy data if requested.
 }

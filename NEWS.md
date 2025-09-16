@@ -31,7 +31,7 @@ Patch release
 
 # SHARK4R 0.1.4
 
-* Add algaebase api functions
+* Add algaebase API functions
 * Defunct sharkdata functions
 * Fix parsing issue in shark_data when data are reported as "-", which is now a NA pattern
 * Cleanup of large files
@@ -39,7 +39,7 @@ Patch release
 
 # SHARK4R 0.1.3
 
-* Minor buggfixes and updated documentation
+* Minor bug-fixes and updated documentation
 
 # SHARK4R 0.1.2
 

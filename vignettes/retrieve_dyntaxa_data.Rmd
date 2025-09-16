@@ -39,7 +39,7 @@ library(tibble)
 library(dplyr)
 ```
 
-### Retrieve Taxonony Table from SHARK
+### Retrieve Taxonomy Table from SHARK
 
 Taxon and data tables can be retrieved with the same filtering options available in [SHARK](https://shark.smhi.se/). To see the available filtering options, please refer to `get_shark_options()` and the [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html) tutorial.
 
@@ -108,7 +108,7 @@ tibble(matches)
 
 ## Retrieve Taxonomic information
 
-Taxonomic records can be retrieved for indivudual taxa using the `get_dyntaxa_records()` function.
+Taxonomic records can be retrieved for individual taxa using the `get_dyntaxa_records()` function.
 
 ```{r}
 # Get all Dyntaxa IDs
