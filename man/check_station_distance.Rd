@@ -2,18 +2,20 @@
 % Please edit documentation in R/check_stations.R
 \name{check_station_distance}
 \alias{check_station_distance}
-\title{Station distance check using SMHI station list "station.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/)
-matches reported station name in data with curated station list and checks if it is within preset distance}
+\title{Station distance check using SMHI station list}
 \usage{
-check_station_distance(names)
+check_station_distance(names, station_file = NULL)
 }
 \arguments{
-\item{names}{Vector of station names.}
-}
-\value{
-Data frame with station name and logical value within/outside preset distance limits.
+\item{names}{Character vector of station names to check.}
+
+\item{station_file}{Optional path to a custom station file (tab-delimited).
+If NULL (default), the function will extract and use the bundled
+"station.zip" from the SHARK4R package.}
 }
 \description{
-Station distance check using SMHI station list "station.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/)
-matches reported station name in data with curated station list and checks if it is within preset distance
+Matches reported station names in your data with a curated station list
+("station.txt"), synced with "Stationsregistret":
+\url{https://stationsregister.miljodatasamverkan.se/}, and checks if the stations
+are within preset distance limits.
 }

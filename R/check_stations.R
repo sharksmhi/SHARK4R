@@ -5,17 +5,17 @@
 #' @export
 
 nominal_station <- function(data) {
-    eventdate = data %>%
-      select(sample_date) %>%
-      rename(DATE = sample_date) %>%
-      distinct()
+  eventdate = data %>%
+    select(sample_date) %>%
+    rename(DATE = sample_date) %>%
+    distinct()
 
-    coord = data %>%
-      select(station_name, sample_longitude_dd, sample_latitude_dd) %>%
-      rename(STATION = station_name, LON = sample_longitude_dd, LAT = sample_latitude_dd) %>%
-      distinct()
+  coord = data %>%
+    select(station_name, sample_longitude_dd, sample_latitude_dd) %>%
+    rename(STATION = station_name, LON = sample_longitude_dd, LAT = sample_latitude_dd) %>%
+    distinct()
 
-    if (length(eventdate)>length(coord)) {
+  if (length(eventdate)>length(coord)) {
     message("WARNING: Suspected nominal positions reported! Is this correct?")
     return(coord)
   }
@@ -24,33 +24,48 @@ nominal_station <- function(data) {
   }
 }
 
-#' Station matching using SMHI station list "station.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/)
-#' matches reported station name in data with curated station list
-#' @param names Vector of station names.
-#' @return Data frame with station name and match type.
+#' Station matching using SMHI station list
+#'
+#' Matches reported station names in your data with a curated station list
+#' ("station.txt"), which is synced with "Stationsregistret":
+#' <https://stationsregister.miljodatasamverkan.se/>.
+#'
+#' @param names Character vector of station names to match.
+#' @param station_file Optional path to a custom station file (tab-delimited).
+#'   If NULL (default), the function will extract and use the bundled
+#'   "station.zip" from the SHARK4R package.
 #' @export
+match_station <- function(names, station_file = NULL) {
 
-match_station <- function(names) {
+  if (!is.null(station_file)) {
+    station_db <- read_delim(station_file,
+                             delim ="\t",
+                             guess_max = 2000,
+                             col_names = T,
+                             locale = readr::locale(encoding = "latin1"),
+                             col_types = cols(),
+                             progress = FALSE)
+  } else {
+    # Path to the zip file inside your package
+    zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
 
-  # Path to the zip file inside your package
-  zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
+    # Create a temporary directory for extraction
+    tmp_dir <- tempdir()
 
-  # Create a temporary directory for extraction
-  tmp_dir <- tempdir()
+    # Extract the zip contents
+    unzip(zip_path, exdir = tmp_dir)
 
-  # Extract the zip contents
-  unzip(zip_path, exdir = tmp_dir)
+    # Build path to the extracted file
+    station_file <- file.path(tmp_dir, "station.txt")
 
-  # Build path to the extracted file
-  stations_file <- file.path(tmp_dir, "station.txt")
-
-  station_db <- read_delim(stations_file,
-                           delim ="\t",
-                           guess_max = 2000,
-                           col_names = T,
-                           locale = readr::locale(encoding = "latin1"),
-                           col_types = cols(),
-                           progress = FALSE)
+    station_db <- read_delim(station_file,
+                             delim ="\t",
+                             guess_max = 2000,
+                             col_names = T,
+                             locale = readr::locale(encoding = "latin1"),
+                             col_types = cols(),
+                             progress = FALSE)
+  }
 
   match_index <- match(names, station_db$STATION_NAME)
 
@@ -67,33 +82,49 @@ match_station <- function(names) {
   }
 }
 
-#' Station distance check using SMHI station list "station.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/)
-#' matches reported station name in data with curated station list and checks if it is within preset distance
-#' @param names Vector of station names.
-#' @return Data frame with station name and logical value within/outside preset distance limits.
+#' Station distance check using SMHI station list
+#'
+#' Matches reported station names in your data with a curated station list
+#' ("station.txt"), synced with "Stationsregistret":
+#' <https://stationsregister.miljodatasamverkan.se/>, and checks if the stations
+#' are within preset distance limits.
+#'
+#' @param names Character vector of station names to check.
+#' @param station_file Optional path to a custom station file (tab-delimited).
+#'   If NULL (default), the function will extract and use the bundled
+#'   "station.zip" from the SHARK4R package.
 #' @export
+check_station_distance<- function(names, station_file = NULL) {
 
-check_station_distance<- function(names) {
+  if (!is.null(station_file)) {
+    station_db <- read_delim(station_file,
+                             delim ="\t",
+                             guess_max = 2000,
+                             col_names = T,
+                             locale = readr::locale(encoding = "latin1"),
+                             col_types = cols(),
+                             progress = FALSE)
+  } else {
+    # Path to the zip file inside your package
+    zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
 
-  # Path to the zip file inside your package
-  zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
+    # Create a temporary directory for extraction
+    tmp_dir <- tempdir()
 
-  # Create a temporary directory for extraction
-  tmp_dir <- tempdir()
+    # Extract the zip contents
+    unzip(zip_path, exdir = tmp_dir)
 
-  # Extract the zip contents
-  unzip(zip_path, exdir = tmp_dir)
+    # Build path to the extracted file
+    station_file <- file.path(tmp_dir, "station.txt")
 
-  # Build path to the extracted file
-  stations_file <- file.path(tmp_dir, "station.txt")
-
-  station_db <- read_delim(stations_file,
-                           delim ="\t",
-                           guess_max = 2000,
-                           col_names = T,
-                           locale = readr::locale(encoding = "latin1"),
-                           col_types = cols(),
-                           progress = FALSE)
+    station_db <- read_delim(station_file,
+                             delim ="\t",
+                             guess_max = 2000,
+                             col_names = T,
+                             locale = readr::locale(encoding = "latin1"),
+                             col_types = cols(),
+                             progress = FALSE)
+  }
 
   match_index <- match(names, station_db$STATION_NAME)
 
