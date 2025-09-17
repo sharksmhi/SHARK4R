@@ -74,6 +74,7 @@
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/check_phytoplankton_abund.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/check_phytoplankton_biovol.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/check_phytoplankton_carbon.html</loc></url>
+<url><loc>https://sharksmhi.github.io/SHARK4R/reference/check_phytoplankton_counted.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/check_picoplankton_abundance.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/check_picoplankton_biovol.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/check_picoplankton_carbon.html</loc></url>
@@ -100,6 +101,7 @@
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/check_zooplankton_wetweight.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/check_zooplankton_wetweight_area.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/check_zooplankton_wetweight_volume.html</loc></url>
+<url><loc>https://sharksmhi.github.io/SHARK4R/reference/clean_shark4r_cache.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/construct_dyntaxa_missing_table.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/construct_dyntaxa_table.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/defunct.html</loc></url>
@@ -116,10 +118,13 @@
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_dyntaxa_records.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_hab_list.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_hierarchy.html</loc></url>
+<url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_nomp_list.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_nua_external_links.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_nua_harmfulness.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_nua_media_links.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_nua_taxa.html</loc></url>
+<url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_peg_list.html</loc></url>
+<url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_shark_codes.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_shark_data.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_shark_datasets.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_shark_options.html</loc></url>
