@@ -6,7 +6,7 @@
 \usage{
 get_dyntaxa_children_ids(
   taxon_ids,
-  subscription_key,
+  subscription_key = Sys.getenv("DYNTAXA_KEY"),
   main_children = TRUE,
   verbose = TRUE
 )
@@ -14,7 +14,19 @@ get_dyntaxa_children_ids(
 \arguments{
 \item{taxon_ids}{A vector of numeric taxon IDs for which children taxon IDs are requested.}
 
-\item{subscription_key}{A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at \href{https://api-portal.artdatabanken.se/}{Artdatabanken}.}
+\item{subscription_key}{A Dyntaxa API subscription key. By default, the key
+is read from the environment variable \code{DYNTAXA_KEY}.
+
+You can provide the key in three ways:
+\itemize{
+\item \strong{Directly as a parameter}:
+\code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+\item \strong{Temporarily for the session}:
+\code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+\item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
+Use \code{usethis::edit_r_environ()} to open the file, then add:
+\code{DYNTAXA_KEY=your_key_here}
+}}
 
 \item{main_children}{Logical. Default is TRUE.}
 
@@ -29,7 +41,11 @@ It constructs a request with the provided taxon IDs, sends the request to the SL
 processes the response to return a list of children taxon IDs.
 }
 \details{
-\strong{Note}: Please review the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{API conditions}
+A valid Dyntaxa API subscription key is required.
+You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+\url{https://api-portal.artdatabanken.se/}
+
+\strong{Note}: Please review the \href{https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/}{API conditions}
 and \href{https://api-portal.artdatabanken.se/}{register for access} before using the API. Data collected through the API
 is stored at SLU Artdatabanken. Please also note that the authors of \code{SHARK4R} are not affiliated with SLU Artdatabanken.
 }

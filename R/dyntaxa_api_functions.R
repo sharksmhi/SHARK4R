@@ -4,15 +4,32 @@
 #' It constructs a request with the provided taxon IDs, sends the request to the SLU Artdatabanken API, and
 #' processes the response to return taxonomic information in a data frame.
 #'
-#' **Note**: Please review the [API conditions](https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/)
+#' @details
+#' A valid Dyntaxa API subscription key is required.
+#' You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+#' <https://api-portal.artdatabanken.se/>
+#'
+#' **Note**: Please review the [API conditions](https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/)
 #' and [register for access](https://api-portal.artdatabanken.se/) before using the API. Data collected through the API
 #' is stored at SLU Artdatabanken. Please also note that the authors of `SHARK4R` are not affiliated with SLU Artdatabanken.
 #'
 #' @param taxon_ids A vector of numeric taxon IDs (Dyntaxa ID) for which taxonomic information is requested.
-#' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
+#' @param subscription_key A Dyntaxa API subscription key. By default, the key
+#'   is read from the environment variable \code{DYNTAXA_KEY}.
+#'
+#'   You can provide the key in three ways:
+#'   \itemize{
+#'     \item **Directly as a parameter**:
+#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'     \item **Temporarily for the session**:
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
+#'       Use \code{usethis::edit_r_environ()} to open the file, then add:
+#'       \code{DYNTAXA_KEY=your_key_here}
+#'   }
 #'
 #' @return A data frame containing taxonomic information for the specified taxon IDs.
-#'   Columns include taxonId, names, category, rank, isRecommended, and parentTaxonId.
+#'   Columns include `taxonId`, `names`, `category`, `rank`, `isRecommended`, and `parentTaxonId.`
 #'
 #' @export
 #'
@@ -26,7 +43,12 @@
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-get_dyntaxa_records <- function(taxon_ids, subscription_key) {
+get_dyntaxa_records <- function(taxon_ids,
+                                subscription_key = Sys.getenv("DYNTAXA_KEY")) {
+  if (is.null(subscription_key) || subscription_key == "") {
+    stop("No Dyntaxa subscription key provided. See ?get_dyntaxa_records for setup instructions.")
+  }
+
   if (length(taxon_ids) == 0) {
     stop("taxon_ids should not be empty.")
   }
@@ -72,12 +94,29 @@ get_dyntaxa_records <- function(taxon_ids, subscription_key) {
 #' It constructs a request with the provided taxon IDs, sends the request to the SLU Artdatabanken API, and
 #' processes the response to return a list of parent taxon IDs.
 #'
-#' **Note**: Please review the [API conditions](https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/)
+#' @details
+#' A valid Dyntaxa API subscription key is required.
+#' You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+#' <https://api-portal.artdatabanken.se/>
+#'
+#' **Note**: Please review the [API conditions](https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/)
 #' and [register for access](https://api-portal.artdatabanken.se/) before using the API. Data collected through the API
 #' is stored at SLU Artdatabanken. Please also note that the authors of `SHARK4R` are not affiliated with SLU Artdatabanken.
 #'
 #' @param taxon_ids A vector of numeric taxon IDs for which parent taxon IDs are requested.
-#' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
+#' @param subscription_key A Dyntaxa API subscription key. By default, the key
+#'   is read from the environment variable \code{DYNTAXA_KEY}.
+#'
+#'   You can provide the key in three ways:
+#'   \itemize{
+#'     \item **Directly as a parameter**:
+#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'     \item **Temporarily for the session**:
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
+#'       Use \code{usethis::edit_r_environ()} to open the file, then add:
+#'       \code{DYNTAXA_KEY=your_key_here}
+#'   }
 #' @param verbose Logical. Default is TRUE.
 #'
 #' @return A list containing parent taxon IDs corresponding to the specified taxon IDs.
@@ -94,7 +133,13 @@ get_dyntaxa_records <- function(taxon_ids, subscription_key) {
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key, verbose = TRUE) {
+get_dyntaxa_parent_ids <- function(taxon_ids,
+                                   subscription_key = Sys.getenv("DYNTAXA_KEY"),
+                                   verbose = TRUE) {
+  if (is.null(subscription_key) || subscription_key == "") {
+    stop("No Dyntaxa subscription key provided. See ?get_dyntaxa_parent_ids for setup instructions.")
+  }
+
   if (length(taxon_ids) == 0) {
     stop("taxon_ids should not be empty.")
   }
@@ -150,12 +195,29 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key, verbose = TRUE) 
 #' It constructs a request with the provided taxon IDs, sends the request to the SLU Artdatabanken API, and
 #' processes the response to return a data frame of taxon children.
 #'
-#' **Note**: Please review the [API conditions](https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/)
+#' @details
+#' A valid Dyntaxa API subscription key is required.
+#' You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+#' <https://api-portal.artdatabanken.se/>
+#'
+#' **Note**: Please review the [API conditions](https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/)
 #' and [register for access](https://api-portal.artdatabanken.se/) before using the API. Data collected through the API
 #' is stored at SLU Artdatabanken. Please also note that the authors of `SHARK4R` are not affiliated with SLU Artdatabanken.
 #'
 #' @param taxon_ids A vector of numeric taxon IDs for which children taxon IDs are requested.
-#' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
+#' @param subscription_key A Dyntaxa API subscription key. By default, the key
+#'   is read from the environment variable \code{DYNTAXA_KEY}.
+#'
+#'   You can provide the key in three ways:
+#'   \itemize{
+#'     \item **Directly as a parameter**:
+#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'     \item **Temporarily for the session**:
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
+#'       Use \code{usethis::edit_r_environ()} to open the file, then add:
+#'       \code{DYNTAXA_KEY=your_key_here}
+#'   }
 #' @param levels Integer. Default is 1
 #' @param main_children Logical. Default is TRUE.
 #' @param verbose Logical. Default is TRUE.
@@ -171,10 +233,17 @@ get_dyntaxa_parent_ids <- function(taxon_ids, subscription_key, verbose = TRUE) 
 #' print(children_hierarchy)
 #' }
 #'
-#'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-get_dyntaxa_children_hierarchy <- function(taxon_ids, subscription_key, levels = 1, main_children = TRUE, verbose = TRUE) {
+get_dyntaxa_children_hierarchy <- function(taxon_ids,
+                                           subscription_key = Sys.getenv("DYNTAXA_KEY"),
+                                           levels = 1,
+                                           main_children = TRUE,
+                                           verbose = TRUE) {
+  if (is.null(subscription_key) || subscription_key == "") {
+    stop("No Dyntaxa subscription key provided. See ?get_dyntaxa_children_hierarchy for setup instructions.")
+  }
+
   if (length(taxon_ids) == 0) {
     stop("taxon_ids should not be empty.")
   }
@@ -234,19 +303,35 @@ get_dyntaxa_children_hierarchy <- function(taxon_ids, subscription_key, levels =
 #' It constructs a request with the provided taxon IDs, sends the request to the SLU Artdatabanken API, and
 #' processes the response to return a list of children taxon IDs.
 #'
-#' **Note**: Please review the [API conditions](https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/)
+#' @details
+#' A valid Dyntaxa API subscription key is required.
+#' You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+#' <https://api-portal.artdatabanken.se/>
+#'
+#' **Note**: Please review the [API conditions](https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/)
 #' and [register for access](https://api-portal.artdatabanken.se/) before using the API. Data collected through the API
 #' is stored at SLU Artdatabanken. Please also note that the authors of `SHARK4R` are not affiliated with SLU Artdatabanken.
 #'
 #' @param taxon_ids A vector of numeric taxon IDs for which children taxon IDs are requested.
-#' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
+#' @param subscription_key A Dyntaxa API subscription key. By default, the key
+#'   is read from the environment variable \code{DYNTAXA_KEY}.
+#'
+#'   You can provide the key in three ways:
+#'   \itemize{
+#'     \item **Directly as a parameter**:
+#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'     \item **Temporarily for the session**:
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
+#'       Use \code{usethis::edit_r_environ()} to open the file, then add:
+#'       \code{DYNTAXA_KEY=your_key_here}
+#'   }
 #' @param main_children Logical. Default is TRUE.
 #' @param verbose Logical. Default is TRUE.
 #'
 #' @return A list containing children taxon IDs corresponding to the specified taxon IDs.
 #'
 #' @keywords internal
-#'
 #'
 #' @examples
 #' \dontrun{
@@ -257,7 +342,14 @@ get_dyntaxa_children_hierarchy <- function(taxon_ids, subscription_key, levels =
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-get_dyntaxa_children_ids <- function(taxon_ids, subscription_key, main_children = TRUE, verbose = TRUE) {
+get_dyntaxa_children_ids <- function(taxon_ids,
+                                     subscription_key = Sys.getenv("DYNTAXA_KEY"),
+                                     main_children = TRUE,
+                                     verbose = TRUE) {
+  if (is.null(subscription_key) || subscription_key == "") {
+    stop("No Dyntaxa subscription key provided. See ?get_dyntaxa_children_ids for setup instructions.")
+  }
+
   if (length(taxon_ids) == 0) {
     stop("taxon_ids should not be empty.")
   }
@@ -313,14 +405,30 @@ get_dyntaxa_children_ids <- function(taxon_ids, subscription_key, main_children 
 #' organizes them into a hierarchical structure. The function is capable of filtering based on
 #' recommended (accepted) names, handling genus-related children, and formatting the results for SHARK output.
 #'
-#' **Note**: Please review the [API conditions](https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/)
+#' @details
+#' A valid Dyntaxa API subscription key is required.
+#' You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+#' <https://api-portal.artdatabanken.se/>
+#'
+#' **Note**: Please review the [API conditions](https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/)
 #' and [register for access](https://api-portal.artdatabanken.se/) before using the API. Data collected through the API
 #' is stored at SLU Artdatabanken. Please also note that the authors of `SHARK4R` are not affiliated with SLU Artdatabanken.
 #'
 #' @param parent_ids A list or vector of parent taxon IDs for which taxonomy information is requested. These IDs must be valid
 #'                   according to the Dyntaxa API and can be a combination of single or multiple IDs.
-#' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API.
-#'                         You must register at [Artdatabanken](https://api-portal.artdatabanken.se/) to obtain a key.
+#' @param subscription_key A Dyntaxa API subscription key. By default, the key
+#'   is read from the environment variable \code{DYNTAXA_KEY}.
+#'
+#'   You can provide the key in three ways:
+#'   \itemize{
+#'     \item **Directly as a parameter**:
+#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'     \item **Temporarily for the session**:
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
+#'       Use \code{usethis::edit_r_environ()} to open the file, then add:
+#'       \code{DYNTAXA_KEY=your_key_here}
+#'   }
 #' @param shark_output Logical. If TRUE, the function will return columns formatted to match the SHARK data submission format.
 #'                     If FALSE, it will return a broader set of taxonomy information. Defaults to TRUE.
 #' @param recommended_only Logical. If TRUE, only recommended (accepted) names will be returned. Defaults to TRUE.
@@ -345,7 +453,18 @@ get_dyntaxa_children_ids <- function(taxon_ids, subscription_key, main_children 
 #' print(taxonomy_table)
 #' }
 #'
-construct_dyntaxa_missing_table <- function(parent_ids, subscription_key, shark_output = TRUE, recommended_only = TRUE, add_genus_children = FALSE, drop_morphotypes = TRUE, add_hierarchy = FALSE, verbose = TRUE) {
+construct_dyntaxa_missing_table <- function(parent_ids,
+                                            subscription_key = Sys.getenv("DYNTAXA_KEY"),
+                                            shark_output = TRUE,
+                                            recommended_only = TRUE,
+                                            add_genus_children = FALSE,
+                                            drop_morphotypes = TRUE,
+                                            add_hierarchy = FALSE,
+                                            verbose = TRUE) {
+  if (is.null(subscription_key) || subscription_key == "") {
+    stop("No Dyntaxa subscription key provided. See ?construct_dyntaxa_missing_table for setup instructions.")
+  }
+
   if (!is.list(parent_ids)) {
     parent_ids <- list(parent_ids)
   }
@@ -746,12 +865,29 @@ fill_na_below_first_non_na <- function(x) {
 #' It collects parent IDs from SLU Artdatabanken API (Dyntaxa), retrieves full taxonomy records, and organizes
 #' the data into a full taxonomic table that can be joined with data downloaded from [SHARK](https://shark.smhi.se/)
 #'
-#' **Note**: Please review the [API conditions](https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/)
+#' @details
+#' A valid Dyntaxa API subscription key is required.
+#' You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+#' <https://api-portal.artdatabanken.se/>
+#'
+#' **Note**: Please review the [API conditions](https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/)
 #' and [register for access](https://api-portal.artdatabanken.se/) before using the API. Data collected through the API
 #' is stored at SLU Artdatabanken. Please also note that the authors of `SHARK4R` are not affiliated with SLU Artdatabanken.
 #'
 #' @param dyntaxa_ids A vector of Dyntaxa taxon IDs to update.
-#' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API for Dyntaxa. A key is provided for registered users at [SLU Artdatabanken](https://api-portal.artdatabanken.se/).
+#' @param subscription_key A Dyntaxa API subscription key. By default, the key
+#'   is read from the environment variable \code{DYNTAXA_KEY}.
+#'
+#'   You can provide the key in three ways:
+#'   \itemize{
+#'     \item **Directly as a parameter**:
+#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'     \item **Temporarily for the session**:
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
+#'       Use \code{usethis::edit_r_environ()} to open the file, then add:
+#'       \code{DYNTAXA_KEY=your_key_here}
+#'   }
 #' @param add_missing_taxa Logical. If TRUE, the function will attempt to fetch missing taxa (i.e., taxon_ids not found in the initial Dyntaxa DwC-A query). Default is FALSE.
 #' @param verbose Logical. Print progress messages. Default is TRUE.
 #'
@@ -769,7 +905,14 @@ fill_na_below_first_non_na <- function(x) {
 #'
 #' @seealso \code{\link{get_shark_data}}, \code{\link{update_worms_taxonomy}}, [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-update_dyntaxa_taxonomy <- function(dyntaxa_ids, subscription_key, add_missing_taxa = FALSE, verbose = TRUE) {
+update_dyntaxa_taxonomy <- function(dyntaxa_ids,
+                                    subscription_key = Sys.getenv("DYNTAXA_KEY"),
+                                    add_missing_taxa = FALSE,
+                                    verbose = TRUE) {
+  if (is.null(subscription_key) || subscription_key == "") {
+    stop("No Dyntaxa subscription key provided. See ?update_dyntaxa_taxonomy for setup instructions.")
+  }
+
   if (verbose) {
     cat("Collecting full taxonomy records from Dyntaxa\n")
   }
@@ -808,12 +951,29 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids, subscription_key, add_missing_t
 #'
 #' This function matches a list of taxon names against the SLU Artdatabanken API (Dyntaxa) and retrieves the best matches along with their taxon IDs.
 #'
-#' **Note**: Please review the [API conditions](https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/)
+#' @details
+#' A valid Dyntaxa API subscription key is required.
+#' You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+#' <https://api-portal.artdatabanken.se/>
+#'
+#' **Note**: Please review the [API conditions](https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/)
 #' and [register for access](https://api-portal.artdatabanken.se/) before using the API. Data collected through the API
 #' is stored at SLU Artdatabanken. Please also note that the authors of `SHARK4R` are not affiliated with SLU Artdatabanken.
 #'
 #' @param taxon_names A vector of taxon names to match.
-#' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
+#' @param subscription_key A Dyntaxa API subscription key. By default, the key
+#'   is read from the environment variable \code{DYNTAXA_KEY}.
+#'
+#'   You can provide the key in three ways:
+#'   \itemize{
+#'     \item **Directly as a parameter**:
+#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'     \item **Temporarily for the session**:
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
+#'       Use \code{usethis::edit_r_environ()} to open the file, then add:
+#'       \code{DYNTAXA_KEY=your_key_here}
+#'   }
 #' @param multiple_options Logical. If TRUE, the function will return multiple matching names. Default is FALSE, selecting the first match.
 #' @param searchFields A character string indicating the search fields. Defaults to 'Both'.
 #' @param isRecommended A character string indicating whether the taxon is recommended. Defaults to 'NotSet'.
@@ -827,7 +987,6 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids, subscription_key, add_missing_t
 #'
 #' @export
 #'
-#'
 #' @examples
 #' \dontrun{
 #' # Match taxon names against SLU Artdatabanken API
@@ -837,9 +996,20 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids, subscription_key, add_missing_t
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-match_taxon_name <- function(taxon_names, subscription_key, multiple_options = FALSE, searchFields = 'Both', isRecommended = 'NotSet',
-                             isOkForObservationSystems = 'NotSet', culture = 'sv_SE',
-                             page = 1, pageSize = 100, verbose = TRUE) {
+match_taxon_name <- function(taxon_names,
+                             subscription_key = Sys.getenv("DYNTAXA_KEY"),
+                             multiple_options = FALSE,
+                             searchFields = 'Both',
+                             isRecommended = 'NotSet',
+                             isOkForObservationSystems = 'NotSet',
+                             culture = 'sv_SE',
+                             page = 1,
+                             pageSize = 100,
+                             verbose = TRUE) {
+
+  if (is.null(subscription_key) || subscription_key == "") {
+    stop("No Dyntaxa subscription key provided. See ?match_taxon_name for setup instructions.")
+  }
 
   # Make sure there are no NA
   taxon_names <- taxon_names[!is.na(taxon_names)]
@@ -936,15 +1106,32 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
 #' This function downloads a complete Darwin Core Archive (DwCA) of Dyntaxa from the SLU Artdatabanken API,
 #' extracts the archive, and reads the specified CSV file into R.
 #'
+#' @details
 #' By default, the archive is downloaded only once per R session. On subsequent calls,
 #' the function reuses the cached copy of the extracted files to avoid repeated downloads.
 #' Use the `force` parameter to re-download the archive if needed.
 #'
-#' **Note**: Please review the [API conditions](https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/)
+#' A valid Dyntaxa API subscription key is required.
+#' You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+#' <https://api-portal.artdatabanken.se/>
+#'
+#' **Note**: Please review the [API conditions](https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/)
 #' and [register for access](https://api-portal.artdatabanken.se/) before using the API. Data collected through the API
 #' is stored at SLU Artdatabanken. Please also note that the authors of `SHARK4R` are not affiliated with SLU Artdatabanken.
 #'
-#' @param subscription_key A string containing your API subscription key for the Dyntaxa Taxon Service.
+#' @param subscription_key A Dyntaxa API subscription key. By default, the key
+#'   is read from the environment variable \code{DYNTAXA_KEY}.
+#'
+#'   You can provide the key in three ways:
+#'   \itemize{
+#'     \item **Directly as a parameter**:
+#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'     \item **Temporarily for the session**:
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
+#'       Use \code{usethis::edit_r_environ()} to open the file, then add:
+#'       \code{DYNTAXA_KEY=your_key_here}
+#'   }
 #' @param file_to_read A string specifying the name of the CSV file to read from the extracted archive.
 #'   Allowed options are: `"Reference.csv"`, `"SpeciesDistribution.csv"`, `"Taxon.csv"`, or `"VernacularName.csv"`. Defaults to `"Taxon.csv"`.
 #' @param force A logical value indicating whether to force a fresh download of the archive,
@@ -965,10 +1152,14 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
 #' }
 #'
 #' @export
-get_dyntaxa_dwca <- function(subscription_key,
+get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
                              file_to_read = "Taxon.csv",
                              force = FALSE,
                              verbose = TRUE) {
+
+  if (is.null(subscription_key) || subscription_key == "") {
+    stop("No Dyntaxa subscription key provided. See ?get_dyntaxa_dwca for setup instructions.")
+  }
 
   allowed_files <- c("Reference.csv", "SpeciesDistribution.csv",
                      "Taxon.csv", "VernacularName.csv")
@@ -1027,12 +1218,29 @@ get_dyntaxa_dwca <- function(subscription_key,
 #' This function constructs a taxonomy table based on Dyntaxa taxon IDs.
 #' It queries the SLU Artdatabanken API (Dyntaxa) to fetch taxonomy information and organizes the data into a hierarchical table.
 #'
-#' **Note**: Please review the [API conditions](https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/)
+#' @details
+#' A valid Dyntaxa API subscription key is required.
+#' You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+#' <https://api-portal.artdatabanken.se/>
+#'
+#' **Note**: Please review the [API conditions](https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/)
 #' and [register for access](https://api-portal.artdatabanken.se/) before using the API. Data collected through the API
 #' is stored at SLU Artdatabanken. Please also note that the authors of `SHARK4R` are not affiliated with SLU Artdatabanken.
 #'
 #' @param taxon_ids An integer vector containing taxon IDs for which taxonomy information is requested. These IDs should correspond to specific taxonomic entities within the Dyntaxa database.
-#' @param subscription_key A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided to registered users at [Artdatabanken](https://api-portal.artdatabanken.se/).
+#' @param subscription_key A Dyntaxa API subscription key. By default, the key
+#'   is read from the environment variable \code{DYNTAXA_KEY}.
+#'
+#'   You can provide the key in three ways:
+#'   \itemize{
+#'     \item **Directly as a parameter**:
+#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'     \item **Temporarily for the session**:
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
+#'       Use \code{usethis::edit_r_environ()} to open the file, then add:
+#'       \code{DYNTAXA_KEY=your_key_here}
+#'   }
 #' @param shark_output Logical. If TRUE, the function will return a table formatted with SHARK-compatible columns. If FALSE, all available columns are returned. Default is TRUE.
 #' @param add_parents Logical. If TRUE, the function will include parent taxa (higher ranks) for the specified taxon IDs in the output. Default is TRUE.
 #' @param add_descendants Logical. If TRUE, the output will include descendant taxa (lower ranks) for the specified taxon IDs and the rank specified in `add_descendants_rank`. Default is FALSE.
@@ -1065,12 +1273,16 @@ get_dyntaxa_dwca <- function(subscription_key,
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-construct_dyntaxa_table <- function(taxon_ids, subscription_key, shark_output = TRUE,
-                                    add_parents = TRUE, add_descendants = FALSE,
+construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DYNTAXA_KEY"),
+                                    shark_output = TRUE, add_parents = TRUE, add_descendants = FALSE,
                                     add_descendants_rank = "genus", add_synonyms = TRUE,
                                     add_missing_taxa = FALSE, add_hierarchy = FALSE,
                                     verbose = TRUE, add_genus_children = deprecated(),
                                     recommended_only = deprecated(), parent_ids = deprecated()) {
+
+  if (is.null(subscription_key) || subscription_key == "") {
+    stop("No Dyntaxa subscription key provided. See ?construct_dyntaxa_table for setup instructions.")
+  }
 
   # Check for deprecated 'parent_ids' argument
   if (is_present(parent_ids) | is.list(taxon_ids)) {
@@ -1454,4 +1666,121 @@ add_hierarchy_column <- function(data, data_dwca = NULL, verbose = TRUE) {
     mutate(hierarchy = sapply(hierarchy, function(h) paste(h, collapse = " - ")))
 
   return(data)
+}
+
+#' Taxon matching using Dyntaxa (https://www.dyntaxa.se/)
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function is deprecated and has been replaced by [is_in_dyntaxa()].
+#'
+#' @param names Character vector of scientific names to check in Dyntaxa.
+#' @param subscription_key A Dyntaxa API subscription key. By default, the key
+#'   is read from the environment variable \code{DYNTAXA_KEY}.
+#'
+#' @return A logical vector indicating whether each input name was found in Dyntaxa,
+#'   same as [is_in_dyntaxa()]. Messages about unmatched taxa are printed.
+#'
+#' @details
+#' This function is retained for backward compatibility but may be removed in future versions.
+#' Use the newer function [is_in_dyntaxa()] instead.
+#'
+#' A valid Dyntaxa API subscription key is required.
+#' You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+#' <https://api-portal.artdatabanken.se/>
+#'
+#' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' # Deprecated function usage
+#' match_dyntaxa(c("Skeletonema marinoi", "Nonexistent species"),
+#'               subscription_key = "your_key_here")
+#' }
+#'
+#' @export
+match_dyntaxa <- function(names,
+                          subscription_key = Sys.getenv("DYNTAXA_KEY")) {
+
+  lifecycle::deprecate_warn("0.1.7.9000", "match_dyntaxa()", "is_in_dyntaxa()", "Replaced by a new function name")
+
+  is_in_dyntaxa(taxon_names = names,
+                subscription_key = subscription_key,
+                verbose = TRUE)
+}
+
+#' Check if taxon names exist in Dyntaxa
+#'
+#' @description
+#' Checks whether the supplied scientific names exist in the
+#' Swedish taxonomic database Dyntaxa.
+#'
+#' @param taxon_names Character vector of taxon names to check.
+#' @param subscription_key A Dyntaxa API subscription key. By default, the key
+#'   is read from the environment variable \code{DYNTAXA_KEY}.
+#'
+#'   You can provide the key in three ways:
+#'   \itemize{
+#'     \item **Directly as a parameter**:
+#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'     \item **Temporarily for the session**:
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
+#'       Use \code{usethis::edit_r_environ()} to open the file, then add:
+#'       \code{DYNTAXA_KEY=your_key_here}
+#'   }
+#' @param verbose Logical; if TRUE (default), prints messages about unmatched taxa.
+#'
+#' @details
+#' A valid Dyntaxa API subscription key is required.
+#' You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+#' <https://api-portal.artdatabanken.se/>
+#'
+#' @return A logical vector indicating whether each input name was found in Dyntaxa.
+#'   Returned invisibly if \code{verbose = TRUE}.
+#'
+#' @examples
+#' \dontrun{
+#' # Using an environment variable (recommended for convenience)
+#' Sys.setenv(DYNTAXA_KEY = "your_key_here")
+#' is_in_dyntaxa(c("Skeletonema marinoi", "Nonexistent species"))
+#'
+#' # Or pass the key directly
+#' is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")
+#'
+#' # Suppress messages
+#' is_in_dyntaxa("Skeletonema marinoi", verbose = FALSE)
+#' }
+#'
+#' @export
+is_in_dyntaxa <- function(taxon_names,
+                          subscription_key = Sys.getenv("DYNTAXA_KEY"),
+                          verbose = FALSE) {
+
+  if (is.null(subscription_key) || subscription_key == "") {
+    stop("No Dyntaxa subscription key provided. See ?is_in_dyntaxa for setup instructions.")
+  }
+
+  dyntaxa_match <- match_taxon_name(taxon_names, subscription_key, verbose = FALSE)
+
+  match <- taxon_names %in% dyntaxa_match$best_match
+
+  if (verbose) {
+    if (any(!match)) {
+      message("Unmatched taxa found:")
+      print(data.frame(
+        reported_ScientificName = taxon_names[!match],
+        in_dyntaxa = match[!match]
+      ))
+    } else {
+      message("All taxa found")
+    }
+  }
+
+  if (verbose) {
+    invisible(match)
+  } else {
+    return(match)
+  }
 }

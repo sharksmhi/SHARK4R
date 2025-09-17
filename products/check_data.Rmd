@@ -276,10 +276,14 @@ check_code_proj(myfile)
 
 ## Match taxa
 
-Uses match_dyntaxa_taxa() to find and match taxa names provided in the data against the Dyntaxa database. In addition to the Dyntaxa match it is recommended to run the match_taxa() function to match against the WoRMS database.
+Uses match_dyntaxa_taxa() to find and match taxa names provided in the data against the Dyntaxa database. Please note that you need to have a subscription key to use the Dyntaxa API. You can get a key by registering at https://api-portal.artdatabanken.se/. For more information on how to set the API key see `help(is_in_dyntaxa)`.
+
+In addition to the Dyntaxa match it is recommended to run the match_taxa() function to match against the WoRMS database.
 
 ```{r matchtaxa, echo=TRUE}
-match_dyntaxa(myfile$scientific_name)
+is_in_dyntaxa(myfile$scientific_name, 
+              subscription_key = Sys.getenv("DYNTAXA_KEY"),
+              verbose = TRUE)
 # match_taxa(myfile$scientific_name)
 ```
 

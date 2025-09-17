@@ -6,7 +6,7 @@
 \usage{
 update_dyntaxa_taxonomy(
   dyntaxa_ids,
-  subscription_key,
+  subscription_key = Sys.getenv("DYNTAXA_KEY"),
   add_missing_taxa = FALSE,
   verbose = TRUE
 )
@@ -14,7 +14,19 @@ update_dyntaxa_taxonomy(
 \arguments{
 \item{dyntaxa_ids}{A vector of Dyntaxa taxon IDs to update.}
 
-\item{subscription_key}{A character string containing the subscription key for accessing the SLU Artdatabanken API for Dyntaxa. A key is provided for registered users at \href{https://api-portal.artdatabanken.se/}{SLU Artdatabanken}.}
+\item{subscription_key}{A Dyntaxa API subscription key. By default, the key
+is read from the environment variable \code{DYNTAXA_KEY}.
+
+You can provide the key in three ways:
+\itemize{
+\item \strong{Directly as a parameter}:
+\code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+\item \strong{Temporarily for the session}:
+\code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+\item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
+Use \code{usethis::edit_r_environ()} to open the file, then add:
+\code{DYNTAXA_KEY=your_key_here}
+}}
 
 \item{add_missing_taxa}{Logical. If TRUE, the function will attempt to fetch missing taxa (i.e., taxon_ids not found in the initial Dyntaxa DwC-A query). Default is FALSE.}
 
@@ -29,7 +41,11 @@ It collects parent IDs from SLU Artdatabanken API (Dyntaxa), retrieves full taxo
 the data into a full taxonomic table that can be joined with data downloaded from \href{https://shark.smhi.se/}{SHARK}
 }
 \details{
-\strong{Note}: Please review the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{API conditions}
+A valid Dyntaxa API subscription key is required.
+You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+\url{https://api-portal.artdatabanken.se/}
+
+\strong{Note}: Please review the \href{https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/}{API conditions}
 and \href{https://api-portal.artdatabanken.se/}{register for access} before using the API. Data collected through the API
 is stored at SLU Artdatabanken. Please also note that the authors of \code{SHARK4R} are not affiliated with SLU Artdatabanken.
 }

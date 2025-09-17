@@ -50,6 +50,7 @@ reference:
   - get_dyntaxa_dwca
   - get_dyntaxa_parent_ids
   - get_dyntaxa_records
+  - is_in_dyntaxa
   - match_taxon_name
   - update_dyntaxa_taxonomy
 
