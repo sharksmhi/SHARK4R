@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_stations.R
 \name{match_station}
 \alias{match_station}
-\title{Station matching using SMHI station list "stations.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/stationsregister/composer/)
+\title{Station matching using SMHI station list "station.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/)
 matches reported station name in data with curated station list}
 \usage{
 match_station(names)
@@ -14,6 +14,6 @@ match_station(names)
 Data frame with station name and match type.
 }
 \description{
-Station matching using SMHI station list "stations.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/stationsregister/composer/)
+Station matching using SMHI station list "station.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/)
 matches reported station name in data with curated station list
 }

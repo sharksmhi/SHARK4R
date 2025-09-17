@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_stations.R
 \name{check_station_distance}
 \alias{check_station_distance}
-\title{Station distance check using SMHI station list "stations.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/stationsregister/composer/)
+\title{Station distance check using SMHI station list "station.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/)
 matches reported station name in data with curated station list and checks if it is within preset distance}
 \usage{
 check_station_distance(names)
@@ -14,6 +14,6 @@ check_station_distance(names)
 Data frame with station name and logical value within/outside preset distance limits.
 }
 \description{
-Station distance check using SMHI station list "stations.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/stationsregister/composer/)
+Station distance check using SMHI station list "station.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/)
 matches reported station name in data with curated station list and checks if it is within preset distance
 }
