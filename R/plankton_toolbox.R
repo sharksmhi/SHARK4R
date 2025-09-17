@@ -115,6 +115,12 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
     if (!file.exists(file_to_read)) stop("Specified file not found in the zip archive: ", file)
   }
 
+  if (!grepl("bvol_nomp", basename(file_to_read), ignore.case = TRUE)) {
+    warning("Selected file does not contain 'bvol_nomp' in its name: ",
+            basename(file_to_read),
+            ". Consider specifying the correct file using the 'file' argument.")
+  }
+
   # Read Excel
   readxl::read_excel(file_to_read, guess_max = 10000, progress = FALSE)
 }
@@ -177,6 +183,12 @@ get_peg_list <- function(file = NULL,
   } else {
     file_to_read <- file.path(tmp_dir, file)
     if (!file.exists(file_to_read)) stop("Specified file not found in the zip archive: ", file)
+  }
+
+  if (!grepl("PEG_BVOL", basename(file_to_read), ignore.case = TRUE)) {
+    warning("Selected file does not contain 'PEG_BVOL' in its name: ",
+            basename(file_to_read),
+            ". Consider specifying the correct file using the 'file' argument.")
   }
 
   # Extract year from filename
