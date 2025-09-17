@@ -2,18 +2,19 @@
 % Please edit documentation in R/check_stations.R
 \name{match_station}
 \alias{match_station}
-\title{Station matching using SMHI station list "stations.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/stationsregister/composer/)
-matches reported station name in data with curated station list}
+\title{Station matching using SMHI station list}
 \usage{
-match_station(names)
+match_station(names, station_file = NULL)
 }
 \arguments{
-\item{names}{Vector of station names.}
-}
-\value{
-Data frame with station name and match type.
+\item{names}{Character vector of station names to match.}
+
+\item{station_file}{Optional path to a custom station file (tab-delimited).
+If NULL (default), the function will extract and use the bundled
+"station.zip" from the SHARK4R package.}
 }
 \description{
-Station matching using SMHI station list "stations.txt" (the list is synced with "Stationsregistret": https://stationsregister.miljodatasamverkan.se/stationsregister/composer/)
-matches reported station name in data with curated station list
+Matches reported station names in your data with a curated station list
+("station.txt"), which is synced with "Stationsregistret":
+\url{https://stationsregister.miljodatasamverkan.se/}.
 }

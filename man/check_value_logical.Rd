@@ -7,10 +7,10 @@
 check_value_logical(data)
 }
 \arguments{
-\item{data}{for tibble be be checked}
+\item{data}{A data frame. Must contain a column named \code{value}.}
 }
 \value{
-logical test with true or false results
+A DT datatable with problematic entries, or NULL (invisibly) if all values are valid.
 }
 \description{
 Check logical assumptions of data for specific variables and parameters

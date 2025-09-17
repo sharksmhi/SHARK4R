@@ -18,24 +18,24 @@ All data on Nordic Microalgae is accessible through our [API](https://nordicmicr
 
 #### Installation
 
-You can install the package from GitHub using the `remotes` package:
-
+You can install the latest version of the package from GitHub using the `remotes` package:
 ```{r, eval=FALSE}
 # install.packages("remotes")
 remotes::install_github("sharksmhi/SHARK4R",
+                        ref = remotes::github_release(),
                         dependencies = TRUE)
 ```
 
 Load the `SHARK4R` and `tibble` libraries:
 ```{r, eval=FALSE}
 library(SHARK4R)
-library(tibble)
+library(dplyr)
 ```
 
 ```{r, include=FALSE}
 suppressPackageStartupMessages({
   library(SHARK4R)
-  library(tibble)
+  library(dplyr)
 })
 ```
 
@@ -99,6 +99,26 @@ tibble(media)
 ```
 
 Complete media information can be retrieved as an unparsed list by setting the `unparsed` parameter to `TRUE`.
+
+## Get NOMP and EG Phyto Biovolume lists
+
+To standardize phytoplankton monitoring efforts in the Baltic Sea, Skagerrak, and the North Sea, various lists containing size class information for each taxon have been established. These lists can be retrieved directly in R using `SHARK4R`:
+
+```{r}
+# Get EG Phyto Biovolume list
+peg_list <- get_peg_list()
+
+# Print list
+tibble(peg_list)
+
+# Get NOMP Biovolume list
+nomp_list <- get_nomp_list()
+
+# Print list
+tibble(nomp_list)
+```
+
+Please note that `SHARK4R` also includes a useful function for reading exported [Plankton Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files: `read_ptbx()`.
 
 ## Citation
 

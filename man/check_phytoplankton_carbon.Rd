@@ -6,21 +6,14 @@
 Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype}
 \usage{
 check_phytoplankton_carbon(data)
-
-check_phytoplankton_carbon(data)
 }
 \arguments{
 \item{data}{for tibble be be checked}
 }
 \value{
 tibble of data with outliers
-
-tibble of data with outliers
 }
 \description{
-Uses data from national marine monitoring for the last 5 years to identify outliers
-Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
-
 Uses data from national marine monitoring for the last 5 years to identify outliers
 Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 }

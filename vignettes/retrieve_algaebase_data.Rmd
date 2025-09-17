@@ -16,23 +16,24 @@ AlgaeBase is a comprehensive database containing information on a wide variety o
 
 ### Installation
 
-You can install the package from GitHub using the `remotes` package:
+You can install the latest version of the package from GitHub using the `remotes` package:
 ```{r, eval=FALSE}
 # install.packages("remotes")
 remotes::install_github("sharksmhi/SHARK4R",
+                        ref = remotes::github_release(),
                         dependencies = TRUE)
 ```
 
 Load the `SHARK4R` and `tibble` libraries:
 ```{r, eval=FALSE}
 library(SHARK4R)
-library(tibble)
+library(dplyr)
 ```
 
 ```{r, include=FALSE}
 suppressPackageStartupMessages({
   library(SHARK4R)
-  library(tibble)
+  library(dplyr)
 })
 ```
 

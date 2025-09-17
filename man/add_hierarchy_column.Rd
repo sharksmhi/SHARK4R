@@ -26,7 +26,7 @@ The hierarchy is constructed using a recursive helper function.
 }
 \examples{
 # Example dataset
-data <- tibble::tibble(
+data <- dplyr::tibble(
   taxonId = c("1", "2", "3"),
   parentNameUsageID = c(NA, "1", "2"),
   scientificName = c("Kingdom", "Phylum", "Class")

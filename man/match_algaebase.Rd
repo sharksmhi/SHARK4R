@@ -2,7 +2,7 @@
 % Please edit documentation in R/algaebase_api_functions.R
 \name{match_algaebase}
 \alias{match_algaebase}
-\title{Search Algaebase for Taxonomic Information}
+\title{Search AlgaeBase for Taxonomic Information}
 \usage{
 match_algaebase(
   genus,
@@ -22,7 +22,7 @@ match_algaebase(
 
 \item{species}{A character vector of species names corresponding to the \code{genus} vector. Must be the same length as \code{genus}.}
 
-\item{apikey}{A character string containing the API key for accessing the Algaebase API.}
+\item{apikey}{A character string containing the API key for accessing the AlgaeBase API.}
 
 \item{genus_only}{Logical. If \code{TRUE}, searches are based solely on the genus name, ignoring species. Defaults to \code{FALSE}.}
 
@@ -32,7 +32,7 @@ match_algaebase(
 
 \item{exact_matches_only}{Logical. If \code{TRUE}, restricts results to exact matches. Defaults to \code{TRUE}.}
 
-\item{sleep_time}{Numeric. The delay (in seconds) between consecutive Algaebase API queries. Defaults to \code{1}. A delay is recommended to avoid overwhelming the API for large queries.}
+\item{sleep_time}{Numeric. The delay (in seconds) between consecutive AlgaeBase API queries. Defaults to \code{1}. A delay is recommended to avoid overwhelming the API for large queries.}
 
 \item{newest_only}{A logical value indicating whether to return only the most recent entries (default is \code{TRUE}).}
 
@@ -41,7 +41,7 @@ match_algaebase(
 \value{
 A data frame containing taxonomic information for each input genus-species combination. Columns may include:
 \itemize{
-\item \code{id}: Algaebase ID (if available)
+\item \code{id}: AlgaeBase ID (if available)
 \item \code{kingdom}, \code{phylum}, \code{class}, \code{order}, \code{family}: Higher taxonomy (if \code{higher = TRUE})
 \item \code{genus}, \code{species}, \code{infrasp}: Genus, species, and infraspecies names (if applicable)
 \item \code{taxonomic_status}: Status of the name (e.g., "accepted", "synonym", "unverified")
@@ -50,13 +50,13 @@ A data frame containing taxonomic information for each input genus-species combi
 \item \code{input_name}: Name supplied by the user
 \item \code{input_match}: \code{1} for exact matches, otherwise \code{0}
 \item \code{taxon_rank}: Taxonomic rank of the accepted name (e.g., "genus", "species")
-\item \code{mod_date}: Date when the entry was last modified in Algaebase
+\item \code{mod_date}: Date when the entry was last modified in AlgaeBase
 \item \code{long_name}: Full species name with authorship and date
 \item \code{authorship}: Authors associated with the species name
 }
 }
 \description{
-This function queries the Algaebase API to retrieve taxonomic information for a list of algae names based on genus and (optionally) species.
+This function queries the AlgaeBase API to retrieve taxonomic information for a list of algae names based on genus and (optionally) species.
 It supports exact matching, genus-only searches, and retrieval of higher taxonomic ranks.
 }
 \details{
@@ -65,7 +65,7 @@ Scientific names can be parsed using the \code{parse_scientific_names()} functio
 Duplicate genus-species combinations are handled efficiently by querying each unique combination only once. Genus-only searches are performed when \code{genus_only = TRUE}
 or when the species name is missing or invalid. Errors during API queries are gracefully handled by returning rows with \code{NA} values for missing or unavailable data.
 
-The function allows for integration with data analysis workflows that require resolving or verifying taxonomic names against Algaebase.
+The function allows for integration with data analysis workflows that require resolving or verifying taxonomic names against AlgaeBase.
 }
 \examples{
 \dontrun{

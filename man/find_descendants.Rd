@@ -22,7 +22,7 @@ by traversing the parent-child hierarchy in the provided dataset.
 }
 \examples{
 # Example data
-data <- tibble::tibble(
+data <- dplyr::tibble(
   taxonId = c("1", "2", "3", "4"),
   parentNameUsageID = c(NA, "1", "2", "2"),
   scientificName = c("Root", "Child1", "Child2", "Grandchild1")

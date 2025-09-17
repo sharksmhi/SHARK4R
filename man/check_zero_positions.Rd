@@ -4,13 +4,27 @@
 \alias{check_zero_positions}
 \title{Check logical assumptions of data for station positions}
 \usage{
-check_zero_positions(data)
+check_zero_positions(
+  data,
+  coord = "longitude",
+  return_df = FALSE,
+  return_logical = FALSE
+)
 }
 \arguments{
-\item{data}{for tibble be be checked}
+\item{data}{A data frame. Must contain \code{sample_longitude_dd} and/or \code{sample_latitude_dd}.}
+
+\item{coord}{Character. Which coordinate(s) to check: "longitude", "latitude", or "both". Default = "longitude".}
+
+\item{return_df}{Logical. If TRUE, return a plain data.frame of problematic rows
+instead of a DT datatable. Default = FALSE.}
+
+\item{return_logical}{Logical. If TRUE, return a logical vector of length nrow(data)
+indicating which rows have zero in the selected coordinate(s). Overrides return_df. Default = FALSE.}
 }
 \value{
-logical test with true or false results
+A DT datatable, a data.frame, a logical vector, or NULL (if no problems found
+and return_logical = FALSE).
 }
 \description{
 Check logical assumptions of data for station positions

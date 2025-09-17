@@ -4,10 +4,14 @@
 \alias{check_code_proj}
 \title{Check matches of reported project (PROJ) codes in SMHIs codelist}
 \usage{
-check_code_proj(data)
+check_code_proj(data, clean_cache_days = 30)
 }
 \arguments{
 \item{data}{for tibble be be checked}
+
+\item{clean_cache_days}{Numeric; if not \code{NULL}, cached SHARK code Excel files older than
+this number of days will be automatically deleted and be replaced by a new download.
+Defaults to 30. Set to \code{NULL} to disable automatic cleanup.}
 }
 \value{
 unmatched codes with true or false results

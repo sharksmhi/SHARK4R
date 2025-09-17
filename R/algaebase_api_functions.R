@@ -1,22 +1,22 @@
-#' Search Algaebase for Taxonomic Information
+#' Search AlgaeBase for Taxonomic Information
 #'
-#' This function queries the Algaebase API to retrieve taxonomic information for a list of algae names based on genus and (optionally) species.
+#' This function queries the AlgaeBase API to retrieve taxonomic information for a list of algae names based on genus and (optionally) species.
 #'  It supports exact matching, genus-only searches, and retrieval of higher taxonomic ranks.
 #'
 #' @param genus A character vector of genus names.
 #' @param species A character vector of species names corresponding to the `genus` vector. Must be the same length as `genus`.
-#' @param apikey A character string containing the API key for accessing the Algaebase API.
+#' @param apikey A character string containing the API key for accessing the AlgaeBase API.
 #' @param genus_only Logical. If `TRUE`, searches are based solely on the genus name, ignoring species. Defaults to `FALSE`.
 #' @param higher Logical. If `TRUE`, includes higher taxonomy (e.g., kingdom, phylum) in the output. Defaults to `TRUE`.
 #' @param unparsed Logical. If `TRUE`, returns raw JSON output instead of an R data frame. Defaults to `FALSE`.
 #' @param exact_matches_only Logical. If `TRUE`, restricts results to exact matches. Defaults to `TRUE`.
-#' @param sleep_time Numeric. The delay (in seconds) between consecutive Algaebase API queries. Defaults to `1`. A delay is recommended to avoid overwhelming the API for large queries.
+#' @param sleep_time Numeric. The delay (in seconds) between consecutive AlgaeBase API queries. Defaults to `1`. A delay is recommended to avoid overwhelming the API for large queries.
 #' @param newest_only A logical value indicating whether to return only the most recent entries (default is `TRUE`).
 #' @param verbose Logical. If `TRUE`, displays a progress bar to indicate query status. Defaults to `TRUE`.
 #'
 #' @return A data frame containing taxonomic information for each input genus-species combination. Columns may include:
 #' \itemize{
-#'   \item \code{id}: Algaebase ID (if available)
+#'   \item \code{id}: AlgaeBase ID (if available)
 #'   \item \code{kingdom}, \code{phylum}, \code{class}, \code{order}, \code{family}: Higher taxonomy (if \code{higher = TRUE})
 #'   \item \code{genus}, \code{species}, \code{infrasp}: Genus, species, and infraspecies names (if applicable)
 #'   \item \code{taxonomic_status}: Status of the name (e.g., "accepted", "synonym", "unverified")
@@ -25,7 +25,7 @@
 #'   \item \code{input_name}: Name supplied by the user
 #'   \item \code{input_match}: \code{1} for exact matches, otherwise \code{0}
 #'   \item \code{taxon_rank}: Taxonomic rank of the accepted name (e.g., "genus", "species")
-#'   \item \code{mod_date}: Date when the entry was last modified in Algaebase
+#'   \item \code{mod_date}: Date when the entry was last modified in AlgaeBase
 #'   \item \code{long_name}: Full species name with authorship and date
 #'   \item \code{authorship}: Authors associated with the species name
 #' }
@@ -37,7 +37,7 @@
 #' Duplicate genus-species combinations are handled efficiently by querying each unique combination only once. Genus-only searches are performed when \code{genus_only = TRUE}
 #' or when the species name is missing or invalid. Errors during API queries are gracefully handled by returning rows with \code{NA} values for missing or unavailable data.
 #'
-#' The function allows for integration with data analysis workflows that require resolving or verifying taxonomic names against Algaebase.
+#' The function allows for integration with data analysis workflows that require resolving or verifying taxonomic names against AlgaeBase.
 #'
 #' @seealso \url{https://algaebase.org/} for AlgaeBase website.
 #' @seealso \code{\link{parse_scientific_names}}
@@ -159,15 +159,15 @@ match_algaebase <- function(genus, species, apikey = NULL, genus_only = FALSE,
 
   return(final_results)
 }
-#' Algaebase Species Search
+#' AlgaeBase Species Search
 #'
-#' This function searches the Algaebase API for species based on genus and species names.
+#' This function searches the AlgaeBase API for species based on genus and species names.
 #' It allows for flexible search parameters such as filtering by exact matches, returning
 #' the most recent results, and including higher taxonomy details.
 #'
 #' @param genus A character string specifying the genus name.
 #' @param species A character string specifying the species or specific epithet.
-#' @param apikey A character string containing the API key for accessing the Algaebase API.
+#' @param apikey A character string containing the API key for accessing the AlgaeBase API.
 #' @param higher A logical value indicating whether to include higher taxonomy details (default is `TRUE`).
 #' @param unparsed A logical value indicating whether to print the full JSON response from the API (default is `FALSE`).
 #' @param newest_only A logical value indicating whether to return only the most recent entries (default is `TRUE`).
@@ -175,7 +175,7 @@ match_algaebase <- function(genus, species, apikey = NULL, genus_only = FALSE,
 #'
 #' @return A data frame with details about the species, including taxonomic status, ranks, and other relevant information.
 #'
-#' @details This function queries the Algaebase API for species based on the genus and species names,
+#' @details This function queries the AlgaeBase API for species based on the genus and species names,
 #' and filters the results based on various parameters. The function handles different taxonomic ranks
 #' and formats the output for easy use. It can merge higher taxonomy data if requested.
 #'

@@ -19,10 +19,19 @@ modified from <https://iobis.github.io/obistools/>
 
 ## Installation
 
-Installing SHARK4R requires the `remotes` package:
+Installing `SHARK4R` requires the `remotes` package. Install the latest version of `SHARK4R` from GitHub:
 ```r
 # install.packages("remotes")
-remotes::install_github("sharksmhi/SHARK4R", dependencies = TRUE)
+remotes::install_github("sharksmhi/SHARK4R", 
+                        ref = remotes::github_release(),
+                        dependencies = TRUE)
+```
+
+Or install the development version:
+```r
+# install.packages("remotes")
+remotes::install_github("sharksmhi/SHARK4R", 
+                        dependencies = TRUE)
 ```
 
 ## Documentation and Tutorials
@@ -59,4 +68,4 @@ This package is licensed under the MIT License.
 
 ## References
 
-Provoost P and Bosch S (2018). "obistools: Tools for data enhancement and quality control." Ocean Biogeographic Information System. Intergovernmental Oceanographic Commission of UNESCO. <https://iobis.github.io/obistools/>.
+Provoost P and Bosch S (2018). `obistools`: Tools for data enhancement and quality control. Ocean Biogeographic Information System. Intergovernmental Oceanographic Commission of UNESCO. <https://iobis.github.io/obistools/>.

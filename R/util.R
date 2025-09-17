@@ -115,3 +115,165 @@ service_call <- function(url, msg) {
                raw_content
              }))
 }
+
+# Function to download and cache an Excel file
+cache_excel_download <- function(url = "https://smhi.se/oceanografi/oce_info_data/shark_web/downloads/codelist_SMHI.xlsx",
+                                 filename = basename(url),
+                                 force = FALSE) {
+  cache_dir <- tools::R_user_dir("SHARK4R", which = "cache")
+  if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
+
+  destfile <- file.path(cache_dir, filename)
+
+  # Download only if file is missing or force = TRUE
+  if (!file.exists(destfile) || force) {
+    ok <- tryCatch({
+      utils::download.file(url, destfile, mode = "wb", quiet = TRUE)
+      TRUE
+    }, error = function(e) {
+      FALSE
+    }, warning = function(w) {
+      FALSE
+    })
+
+    if (!ok) {
+      if (file.exists(destfile)) {
+        warning("Download failed, using cached copy at: ", destfile)
+      } else {
+        stop("Download failed and no cached file available. ",
+             "Check your internet connection or URL: ", url, call. = FALSE)
+      }
+    }
+  }
+
+  destfile
+}
+
+cache_nomp_zip <- function(base_url = "https://www.smhi.se/oceanografi/oce_info_data/shark_web/downloads/sbdi/NOMP/biovolume",
+                            year = as.numeric(format(Sys.Date(), "%Y")),
+                            force = FALSE) {
+
+  cache_dir <- tools::R_user_dir("SHARK4R", which = "cache")
+  if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
+
+  current_year <- as.numeric(format(Sys.Date(), "%Y"))
+  if (year > current_year + 1) {
+    warning("Requested year is in the future. Using ", current_year + 1, " as starting year.")
+    year <- current_year + 1
+  }
+
+  # Try requested year and previous years until success
+  while (year > 2020) { # safety stop
+    filename <- paste0("nomp_taxa_biovolumes_and_carbon_", year, ".zip")
+    destfile <- file.path(cache_dir, filename)
+    url <- file.path(base_url, filename)
+
+    # Attempt download if needed
+    if (!file.exists(destfile) || force) {
+      ok <- tryCatch({
+        utils::download.file(url, destfile, mode = "wb", quiet = TRUE)
+        TRUE
+      }, error = function(e) FALSE, warning = function(w) FALSE)
+
+      if (ok) {
+        return(destfile)
+      } else if (file.exists(destfile)) {
+        warning("Download failed, using cached copy at: ", destfile)
+        return(destfile)
+      } else {
+        message("File for year ", year, " not available. Trying previous year...")
+        year <- year - 1
+        next
+      }
+    } else {
+      # Already cached
+      return(destfile)
+    }
+  }
+
+  stop("No NOMP biovolume file could be downloaded or found in cache for recent years.", call. = FALSE)
+}
+
+cache_peg_zip <- function(url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL.zip",
+                          force = FALSE) {
+
+  cache_dir <- tools::R_user_dir("SHARK4R", which = "cache")
+  if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
+
+  filename <- basename(url)
+  destfile <- file.path(cache_dir, filename)
+
+  # Download only if missing or forced
+  if (!file.exists(destfile) || force) {
+    ok <- tryCatch({
+      utils::download.file(url, destfile, mode = "wb", quiet = TRUE)
+      TRUE
+    }, error = function(e) FALSE, warning = function(w) FALSE)
+
+    if (!ok) {
+      if (file.exists(destfile)) {
+        warning("Download failed, using cached copy at: ", destfile)
+      } else {
+        stop("Download failed and no cached file available. Check your internet connection or URL: ", url, call. = FALSE)
+      }
+    }
+  }
+
+  destfile
+}
+
+#' Clean SHARK4R cache by file age and session
+#'
+#' Deletes cached files in the SHARK4R cache directory that are older than
+#' a specified number of days, and also clears the in-memory session cache
+#' used by functions like `get_dyntaxa_dwca()`.
+#'
+#' @param days Numeric; remove files older than this number of days. Default is 1.
+#' @param cache_dir Character; path to the cache directory to clean.
+#'   Defaults to the SHARK4R cache directory in the user-specific R folder
+#'   (via `tools::R_user_dir("SHARK4R", "cache")`). You can override this
+#'   parameter for custom cache locations.
+#'
+#' @export
+#'
+#' @seealso [get_peg_list()], [get_nomp_list()], [get_shark_codes()], [get_dyntaxa_dwca()]
+#'   for functions that populate the cache.
+#'
+#' @return Invisible `NULL`. Messages are printed about what was deleted
+#'   and whether the in-memory session cache was cleared.
+#'
+#' @examples
+#' \dontrun{
+#'   # Remove files older than 60 days and clear session cache
+#'   clean_shark4r_cache(days = 60)
+#' }
+clean_shark4r_cache <- function(days = 1, cache_dir = tools::R_user_dir("SHARK4R", "cache")) {
+  # Clear in-memory cache if it exists
+  if (exists(".shark4r_cache", envir = asNamespace("SHARK4R"))) {
+    cache_env <- get(".shark4r_cache", envir = asNamespace("SHARK4R"))
+    rm(list = ls(envir = cache_env), envir = cache_env)
+    message("Cleared in-memory session cache (.shark4r_cache).")
+  }
+
+  if (!dir.exists(cache_dir)) {
+    message("No SHARK4R cache directory found.")
+    return(invisible(NULL))
+  }
+
+  files <- list.files(cache_dir, full.names = TRUE)
+  if (length(files) == 0) {
+    message("SHARK4R cache is already empty.")
+    return(invisible(NULL))
+  }
+
+  old_files <- files[file.info(files)$mtime < Sys.time() - days * 24*60*60]
+
+  if (length(old_files) == 0) {
+    message("No files older than ", days, " days to remove.")
+    return(invisible(NULL))
+  }
+
+  unlink(old_files, recursive = TRUE, force = TRUE)
+  message("Removed ", length(old_files), " file(s) older than ", days, " days from SHARK4R cache.")
+  invisible(NULL)
+}

@@ -953,6 +953,8 @@ match_taxon_name <- function(taxon_names, subscription_key, multiple_options = F
 #'
 #' @return A tibble containing the data from the specified CSV file.
 #'
+#' @seealso [clean_shark4r_cache()] to manually clear cached files.
+#'
 #' @examples
 #' \dontrun{
 #' # Provide your Dyntaxa API subscription key
@@ -976,10 +978,10 @@ get_dyntaxa_dwca <- function(subscription_key,
   }
 
   # Check cache
-  if (!force && !is.null(.dyntaxa_cache$extracted_dir) &&
-      dir.exists(.dyntaxa_cache$extracted_dir)) {
+  if (!force && !is.null(.shark4r_cache$extracted_dir) &&
+      dir.exists(.shark4r_cache$extracted_dir)) {
 
-    csv_path <- file.path(.dyntaxa_cache$extracted_dir, file_to_read)
+    csv_path <- file.path(.shark4r_cache$extracted_dir, file_to_read)
     if (file.exists(csv_path)) {
       if (verbose) message("Using cached copy of ", file_to_read)
       return(readr::read_tsv(csv_path, col_types = cols(), progress = FALSE))
@@ -1008,7 +1010,7 @@ get_dyntaxa_dwca <- function(subscription_key,
     unzip(temp_file, exdir = temp_dir)
 
     # Store in cache
-    .dyntaxa_cache$extracted_dir <- temp_dir
+    .shark4r_cache$extracted_dir <- temp_dir
 
     csv_path <- file.path(temp_dir, file_to_read)
     if (file.exists(csv_path)) {
@@ -1275,7 +1277,7 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key, shark_output = 
 #'
 #' @examples
 #' # Example data
-#' data <- tibble::tibble(
+#' data <- dplyr::tibble(
 #'   taxonId = c("1", "2", "3", "4"),
 #'   parentNameUsageID = c(NA, "1", "2", "2"),
 #'   scientificName = c("Root", "Child1", "Child2", "Grandchild1")
@@ -1323,7 +1325,7 @@ find_descendants <- function(taxon_id, data) {
 #'
 #' @examples
 #' # Example data
-#' data <- tibble::tibble(
+#' data <- dplyr::tibble(
 #'   taxonId = c("1", "2", "3", "4"),
 #'   parentNameUsageID = c(NA, "1", "1", "2"),
 #'   scientificName = c("Root", "Child1", "Child2", "Grandchild1")
@@ -1366,7 +1368,7 @@ get_all_parents <- function(data, initial_taxon_ids) {
 #'
 #' @examples
 #' # Example dataset
-#' data <- tibble::tibble(
+#' data <- dplyr::tibble(
 #'   taxonId = c("1", "2", "3"),
 #'   parentNameUsageID = c(NA, "1", "2"),
 #'   scientificName = c("Kingdom", "Phylum", "Class")
@@ -1410,7 +1412,7 @@ get_hierarchy <- function(taxon_id, data) {
 #'
 #' @examples
 #' # Example dataset
-#' data <- tibble::tibble(
+#' data <- dplyr::tibble(
 #'   taxonId = c("1", "2", "3"),
 #'   parentNameUsageID = c(NA, "1", "2"),
 #'   scientificName = c("Kingdom", "Phylum", "Class")

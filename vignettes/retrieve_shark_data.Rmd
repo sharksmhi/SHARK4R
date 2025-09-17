@@ -16,10 +16,11 @@ SHARK is the Swedish Ocean Archive's platform for data downloads. It stores biol
 
 #### Installation
 
-You can install the package from GitHub using the `remotes` package:
+You can install the latest version of the package from GitHub using the `remotes` package:
 ```{r, eval=FALSE}
 # install.packages("remotes")
 remotes::install_github("sharksmhi/SHARK4R",
+                        ref = remotes::github_release(),
                         dependencies = TRUE)
 ```
 
@@ -88,6 +89,8 @@ shark_data_zip <- get_shark_datasets(dataset_name,
 # Print the paths to the downloaded files
 print(shark_data_zip)
 ```
+
+Please note that `SHARK4R` also includes several useful functions for reading local SHARK data files, such as `shark_read()`, `shark_read_zip()`, `shark_read_deliv()` and `shark_read_deliv_xls()`.
 
 ## Citation
 
