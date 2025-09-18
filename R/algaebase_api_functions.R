@@ -11,7 +11,7 @@
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{match_algaebase("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'       \code{match_algaebase("Skeletonema", "marinoi", subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
