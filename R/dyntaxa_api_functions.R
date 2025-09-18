@@ -20,7 +20,7 @@
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'       \code{get_dyntaxa_records(238366, subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
@@ -110,7 +110,7 @@ get_dyntaxa_records <- function(taxon_ids,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'       \code{get_dyntaxa_parent_ids(238366, subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
@@ -211,7 +211,7 @@ get_dyntaxa_parent_ids <- function(taxon_ids,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'       \code{get_dyntaxa_children_hierarchy(1010608, subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
@@ -319,7 +319,7 @@ get_dyntaxa_children_hierarchy <- function(taxon_ids,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'       \code{get_dyntaxa_children_ids(1010608, subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
@@ -422,7 +422,7 @@ get_dyntaxa_children_ids <- function(taxon_ids,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'       \code{construct_dyntaxa_missing_table(list(c(5000055, 6011755)), subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
@@ -881,7 +881,7 @@ fill_na_below_first_non_na <- function(x) {
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'       \code{update_dyntaxa_taxonomy(238366, subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
@@ -967,7 +967,7 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'       \code{match_taxon_name("Skeletonema marinoi", subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
@@ -1125,7 +1125,7 @@ match_taxon_name <- function(taxon_names,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'       \code{get_dyntaxa_dwca(subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
@@ -1234,7 +1234,7 @@ get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'       \code{construct_dyntaxa_table(238366, subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.

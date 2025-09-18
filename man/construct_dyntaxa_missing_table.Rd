@@ -25,7 +25,7 @@ is read from the environment variable \code{DYNTAXA_KEY}.
 You can provide the key in three ways:
 \itemize{
 \item \strong{Directly as a parameter}:
-\code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+\code{construct_dyntaxa_missing_table(list(c(5000055, 6011755)), subscription_key = "your_key_here")}
 \item \strong{Temporarily for the session}:
 \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
 \item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
