@@ -6,17 +6,30 @@
 \usage{
 get_algaebase_genus(
   genus,
-  apikey,
+  subscription_key = Sys.getenv("ALGAEBASE_KEY"),
   higher = TRUE,
   unparsed = FALSE,
   newest_only = TRUE,
-  exact_matches_only = TRUE
+  exact_matches_only = TRUE,
+  apikey = deprecated()
 )
 }
 \arguments{
 \item{genus}{The genus name to search for (character string). This parameter is required.}
 
-\item{apikey}{A valid API key for AlgaeBase (character string). This is required to authenticate API requests.}
+\item{subscription_key}{A character string containing the API key for accessing the AlgaeBase API. By default, the key
+is read from the environment variable \code{ALGAEBASE_KEY}.
+
+You can provide the key in three ways:
+\itemize{
+\item \strong{Directly as a parameter}:
+\code{get_algaebase_genus("Skeletonema", subscription_key = "your_key_here")}
+\item \strong{Temporarily for the session}:
+\code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+\item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
+Use \code{usethis::edit_r_environ()} to open the file, then add:
+\code{ALGAEBASE_KEY=your_key_here}
+}}
 
 \item{higher}{A boolean flag indicating whether to include higher taxonomy in the output (default is TRUE).}
 
@@ -25,6 +38,9 @@ get_algaebase_genus(
 \item{newest_only}{A boolean flag to return only the most recent entry (default is TRUE).}
 
 \item{exact_matches_only}{A boolean flag to limit results to exact matches (default is TRUE).}
+
+\item{apikey}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Use \code{subscription_key} instead.}
 }
 \value{
 A data frame containing taxonomic data from AlgaeBase. Columns may include:
@@ -45,9 +61,12 @@ A data frame containing taxonomic data from AlgaeBase. Columns may include:
 This function searches the AlgaeBase API for genus information and returns detailed taxonomic data,
 including higher taxonomy, taxonomic status, scientific names, and other related metadata.
 }
+\details{
+A valid API key is requested from the AlgaeBase team.
+}
 \examples{
 \dontrun{
-  get_algaebase_genus("Anabaena", apikey = "your_api_key")
+  get_algaebase_genus("Anabaena", subscription_key = "your_api_key")
 }
 
 }

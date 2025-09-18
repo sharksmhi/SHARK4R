@@ -7,14 +7,15 @@
 match_algaebase(
   genus,
   species,
-  apikey = NULL,
+  subscription_key = Sys.getenv("ALGAEBASE_KEY"),
   genus_only = FALSE,
   higher = TRUE,
   unparsed = FALSE,
   exact_matches_only = TRUE,
   sleep_time = 1,
   newest_only = TRUE,
-  verbose = TRUE
+  verbose = TRUE,
+  apikey = deprecated()
 )
 }
 \arguments{
@@ -22,7 +23,19 @@ match_algaebase(
 
 \item{species}{A character vector of species names corresponding to the \code{genus} vector. Must be the same length as \code{genus}.}
 
-\item{apikey}{A character string containing the API key for accessing the AlgaeBase API.}
+\item{subscription_key}{A character string containing the API key for accessing the AlgaeBase API. By default, the key
+is read from the environment variable \code{ALGAEBASE_KEY}.
+
+You can provide the key in three ways:
+\itemize{
+\item \strong{Directly as a parameter}:
+\code{match_algaebase("Skeletonema marinoi", subscription_key = "your_key_here")}
+\item \strong{Temporarily for the session}:
+\code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+\item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
+Use \code{usethis::edit_r_environ()} to open the file, then add:
+\code{ALGAEBASE_KEY=your_key_here}
+}}
 
 \item{genus_only}{Logical. If \code{TRUE}, searches are based solely on the genus name, ignoring species. Defaults to \code{FALSE}.}
 
@@ -37,6 +50,9 @@ match_algaebase(
 \item{newest_only}{A logical value indicating whether to return only the most recent entries (default is \code{TRUE}).}
 
 \item{verbose}{Logical. If \code{TRUE}, displays a progress bar to indicate query status. Defaults to \code{TRUE}.}
+
+\item{apikey}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Use \code{subscription_key} instead.}
 }
 \value{
 A data frame containing taxonomic information for each input genus-species combination. Columns may include:
@@ -60,6 +76,8 @@ This function queries the AlgaeBase API to retrieve taxonomic information for a 
 It supports exact matching, genus-only searches, and retrieval of higher taxonomic ranks.
 }
 \details{
+A valid API key is requested from the AlgaeBase team.
+
 Scientific names can be parsed using the \code{parse_scientific_names()} function before being processed by \code{match_algaebase()}.
 
 Duplicate genus-species combinations are handled efficiently by querying each unique combination only once. Genus-only searches are performed when \code{genus_only = TRUE}
@@ -76,7 +94,7 @@ species_vec <- c("pseudonana", "costatum", "furca")
 algaebase_results <- match_algaebase(
   genus = genus_vec,
   species = species_vec,
-  apikey = "your_api_key",
+  subscription_key = "your_api_key",
   exact_matches_only = TRUE,
   verbose = TRUE
 )

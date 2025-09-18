@@ -7,11 +7,12 @@
 get_algaebase_species(
   genus,
   species,
-  apikey,
+  subscription_key = Sys.getenv("ALGAEBASE_KEY"),
   higher = TRUE,
   unparsed = FALSE,
   newest_only = TRUE,
-  exact_matches_only = TRUE
+  exact_matches_only = TRUE,
+  apikey = deprecated()
 )
 }
 \arguments{
@@ -19,7 +20,19 @@ get_algaebase_species(
 
 \item{species}{A character string specifying the species or specific epithet.}
 
-\item{apikey}{A character string containing the API key for accessing the AlgaeBase API.}
+\item{subscription_key}{A character string containing the API key for accessing the AlgaeBase API. By default, the key
+is read from the environment variable \code{ALGAEBASE_KEY}.
+
+You can provide the key in three ways:
+\itemize{
+\item \strong{Directly as a parameter}:
+\code{get_algaebase_species("Skeletonema", "marinoi", subscription_key = "your_key_here")}
+\item \strong{Temporarily for the session}:
+\code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+\item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
+Use \code{usethis::edit_r_environ()} to open the file, then add:
+\code{ALGAEBASE_KEY=your_key_here}
+}}
 
 \item{higher}{A logical value indicating whether to include higher taxonomy details (default is \code{TRUE}).}
 
@@ -28,6 +41,9 @@ get_algaebase_species(
 \item{newest_only}{A logical value indicating whether to return only the most recent entries (default is \code{TRUE}).}
 
 \item{exact_matches_only}{A logical value indicating whether to return only exact matches (default is \code{TRUE}).}
+
+\item{apikey}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Use \code{subscription_key} instead.}
 }
 \value{
 A data frame with details about the species, including taxonomic status, ranks, and other relevant information.
@@ -38,6 +54,8 @@ It allows for flexible search parameters such as filtering by exact matches, ret
 the most recent results, and including higher taxonomy details.
 }
 \details{
+A valid API key is requested from the AlgaeBase team.
+
 This function queries the AlgaeBase API for species based on the genus and species names,
 and filters the results based on various parameters. The function handles different taxonomic ranks
 and formats the output for easy use. It can merge higher taxonomy data if requested.
@@ -46,7 +64,7 @@ and formats the output for easy use. It can merge higher taxonomy data if reques
 \dontrun{
 # Search for a species with exact matches only, return the most recent results
 result <- get_algaebase_species(
-  genus = "Skeletonema", species = "marinoi", apikey = "your_api_key"
+  genus = "Skeletonema", species = "marinoi", subscription_key = "your_api_key"
 )
 
 # Print result
