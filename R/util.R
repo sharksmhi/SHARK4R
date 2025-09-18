@@ -67,7 +67,7 @@ get_xy_clean_duplicates <- function(data) {
 }
 
 list_cache <- function() {
-  list.files(rappdirs::user_cache_dir("obistools"), "call_", full.names = TRUE)
+  list.files(tools::R_user_dir("SHARK4R", which = "cache"), "call_", full.names = TRUE)
 }
 
 clear_cache <- function(age=36) {
@@ -82,7 +82,7 @@ cache_call <- function(key, expr, env = NULL) {
   if(is.null(env)) {
     env = parent.frame()
   }
-  cache_dir <- rappdirs::user_cache_dir("obistools")
+  cache_dir <- tools::R_user_dir("SHARK4R", which = "cache")
   cachefile <- file.path(cache_dir, paste0("call_", digest::digest(list(key=key, expr=expr)), ".rds"))
   if(file.exists(cachefile) && difftime(Sys.time(), file.info(cachefile)[,"mtime"], units = "hours") < 10) {
     return(readRDS(cachefile))

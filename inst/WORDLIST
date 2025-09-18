@@ -3,6 +3,7 @@ AlgaeBase
 Aphia
 AphiaID
 AphiaIDs
+ArtDatabanken
 Artdatabanken
 BQIm
 Bacillariophyceae
@@ -93,14 +94,12 @@ iRfcb
 infraspecies
 interquantile
 io
-isRecommended
 marinespecies
 microalgae
 microzooplankton
 nomp
 nrow
 obistools
-parentTaxonId
 phycological
 phytoplankton
 plotly
@@ -119,7 +118,6 @@ spp
 sqkm
 subsp
 sv
-taxonId
 tibble
 unparsed
 unz

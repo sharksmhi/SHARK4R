@@ -34,7 +34,6 @@ Imports:
     lubridate,
     plotly,
     purrr,
-    rappdirs,
     readr,
     readxl,
     sf,

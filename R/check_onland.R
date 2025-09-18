@@ -33,7 +33,7 @@ check_onland <- function(data, land = NULL, report = FALSE, buffer=0, offline = 
   if (buffer !=0 && offline) warning("The buffer parameter is not supported when offline = TRUE")
 
   if (offline && is.null(land)) {
-    cache_dir <- rappdirs::user_cache_dir("obistools")
+    cache_dir <- tools::R_user_dir("SHARK4R", which = "cache")
     landpath <- file.path(cache_dir, 'land.RData')
     if(!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
     if (!file.exists(landpath)) {
