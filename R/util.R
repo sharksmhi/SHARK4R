@@ -233,6 +233,10 @@ cache_peg_zip <- function(url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL
 #'   Defaults to the SHARK4R cache directory in the user-specific R folder
 #'   (via `tools::R_user_dir("SHARK4R", "cache")`). You can override this
 #'   parameter for custom cache locations.
+#' @param verbose Logical. If `TRUE`, displays messages of cache cleaning progress. Defaults to `TRUE`.
+#'
+#' @details
+#' The cache is automatically cleared after 24h.
 #'
 #' @export
 #'
@@ -247,33 +251,33 @@ cache_peg_zip <- function(url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL
 #'   # Remove files older than 60 days and clear session cache
 #'   clean_shark4r_cache(days = 60)
 #' }
-clean_shark4r_cache <- function(days = 1, cache_dir = tools::R_user_dir("SHARK4R", "cache")) {
+clean_shark4r_cache <- function(days = 1, cache_dir = tools::R_user_dir("SHARK4R", "cache"), verbose = TRUE) {
   # Clear in-memory cache if it exists
   if (exists(".shark4r_cache", envir = asNamespace("SHARK4R"))) {
     cache_env <- get(".shark4r_cache", envir = asNamespace("SHARK4R"))
     rm(list = ls(envir = cache_env), envir = cache_env)
-    message("Cleared in-memory session cache (.shark4r_cache).")
+    if (verbose) message("Cleared in-memory session cache (.shark4r_cache).")
   }
 
   if (!dir.exists(cache_dir)) {
-    message("No SHARK4R cache directory found.")
+    if (verbose) message("No SHARK4R cache directory found.")
     return(invisible(NULL))
   }
 
   files <- list.files(cache_dir, full.names = TRUE)
   if (length(files) == 0) {
-    message("SHARK4R cache is already empty.")
+    if (verbose) message("SHARK4R cache is already empty.")
     return(invisible(NULL))
   }
 
   old_files <- files[file.info(files)$mtime < Sys.time() - days * 24*60*60]
 
   if (length(old_files) == 0) {
-    message("No files older than ", days, " days to remove.")
+    if (verbose) message("No files older than ", days, " days to remove.")
     return(invisible(NULL))
   }
 
   unlink(old_files, recursive = TRUE, force = TRUE)
-  message("Removed ", length(old_files), " file(s) older than ", days, " days from SHARK4R cache.")
+  if (verbose) message("Removed ", length(old_files), " file(s) older than ", days, " days from SHARK4R cache.")
   invisible(NULL)
 }
