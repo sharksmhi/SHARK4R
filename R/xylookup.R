@@ -1,39 +1,54 @@
-#' Lookup spatial data for a set of points.
+#' Lookup Spatial Data for a Set of Points
 #'
-#' @usage lookup_xy(data, shoredistance=TRUE, grids=TRUE, areas=FALSE,
-#'   asdataframe=TRUE)
+#' Retrieves spatial information (e.g., distance to shore, environmental grids, and area data)
+#' for a set of geographic coordinates. The function handles invalid or duplicate coordinates
+#' automatically and supports returning results as either a data frame or a list.
 #'
-#' @param data The data frame with columns sample_longitude_dd and sample_latitude_dd.
-#' @param shoredistance Indicate whether the shoredistance should be returned
-#'   (default \code{TRUE}).
-#' @param grids Indicate whether the grid values such as temperature and
-#'   bathymetry should be returned (default \code{TRUE})
-#' @param areas Indicate whether the area values should be returned and from
-#'   which distance in meters to the provided points (default \code{FALSE}).
-#' @param asdataframe Indicate whether a dataframe or a list should be returned
-#'   (default \code{TRUE}).
+#' @param data A data frame containing geographic coordinates. The required columns are
+#'   \code{sample_longitude_dd} and \code{sample_latitude_dd}. These must be numeric and
+#'   within valid ranges (-180 to 180 for longitude, -90 to 90 for latitude).
+#' @param shoredistance Logical; if \code{TRUE} (default), the distance to the nearest shore is returned.
+#' @param grids Logical; if \code{TRUE} (default), environmental grid values (e.g., temperature, bathymetry)
+#'   are returned.
+#' @param areas Logical or numeric; if \code{TRUE}, area values are returned for points at a 0 m radius.
+#'   If a positive integer is provided, all areas within that radius (in meters) are returned. Default is \code{FALSE}.
+#' @param as_data_frame Logical; if \code{TRUE} (default), results are returned as a data frame with one row per input coordinate.
+#'   If \code{FALSE}, results are returned as a list.
 #'
-#' @return Data frame or list with the values for the different requested
-#'   fields.
-#' @details When \code{asdataframe} is \code{FALSE} then data is returned in the
-#'   same order as the requested data as a list, with for each list item the
-#'   requested values. For invalid coordinates \code{NULL} is returned.
+#' @return Either a data frame or a list with the requested spatial data:
+#' \itemize{
+#'   \item For data frame output, each row corresponds to the input coordinates. Columns include \code{shoredistance},
+#'     environmental grids, and \code{areas} (if requested). Invalid coordinates are filled with \code{NA}.
+#'   \item For list output, each element corresponds to one input coordinate. Invalid coordinates are \code{NULL}.
+#' }
 #'
-#'   When parameter \code{areas} is a positive integer then all areas within a radius of
-#'   this distance in meters will be returned. A value of \code{TRUE} is
-#'   equivalent to a distance of 0 meters, \code{FALSE} indicates that no area
-#'   results are required.
+#' @details
+#' - The function first cleans the coordinates, removing invalid or missing values
+#'   and identifying unique points to avoid redundant lookups.
+#' - Coordinates are queried in chunks of 25,000 to avoid overloading the OBIS web service.
+#' - When \code{areas} is a positive integer, all area values within that radius are returned. A value of \code{TRUE}
+#'   is equivalent to 0 m, while \code{FALSE} disables area retrieval.
+#' - Results are mapped back to the original input order, and duplicates in the input are correctly handled.
+#'
 #' @examples
 #' \dontrun{
-#' lookup_xy(abra, shoredistance = TRUE, grids = TRUE, areas = FALSE)
+#' # Retrieve shore distances and environmental grids for a dataset
+#' xy_data <- lookup_xy(abra, shoredistance = TRUE, grids = TRUE, areas = FALSE)
+#'
+#' # Retrieve area data within a 500-meter radius
+#' xy_areas <- lookup_xy(abra, shoredistance = FALSE, grids = FALSE, areas = 500)
+#'
+#' # Get results as a list instead of a data frame
+#' xy_list <- lookup_xy(abra, shoredistance = TRUE, grids = TRUE, areas = FALSE, as_data_frame = FALSE)
 #' }
-#' @seealso \code{\link{check_onland}} \code{\link{check_depth}}
+#'
+#' @seealso \code{\link{check_onland}}, \code{\link{check_depth}}
 #' @export
-lookup_xy <- function(data, shoredistance=TRUE, grids=TRUE, areas=FALSE, asdataframe=TRUE) {
+lookup_xy <- function(data, shoredistance=TRUE, grids=TRUE, areas=FALSE, as_data_frame=TRUE) {
   xy <- get_xy_clean_duplicates(data)
   if(NROW(xy$uniquesp) == 0) {
     output <- data.frame(row.names=seq_len(NROW(data)))
-    if(!asdataframe) {
+    if(!as_data_frame) {
       # Create a list with only NULL values
       output <- list()
       output[[NROW(data)+1]] <- NA
@@ -65,7 +80,7 @@ lookup_xy <- function(data, shoredistance=TRUE, grids=TRUE, areas=FALSE, asdataf
       jsonlite::fromJSON(rawToChar(raw_content), simplifyVector = FALSE)
     })
     content <- unlist(content_chunks, recursive = FALSE, use.names = FALSE)
-    if(asdataframe) {
+    if(as_data_frame) {
       # Convert to dataframe while ensuring that:
       # 1. area is a nested list in the data.frame
       # 2. grids and shoredistance results are columns
@@ -96,6 +111,6 @@ lookup_xy <- function(data, shoredistance=TRUE, grids=TRUE, areas=FALSE, asdataf
 
 lookup_xy_chunk <- function(msg) {
   # Call service
-  url <- getOption("obistools_xylookup_url", "http://api.iobis.org/xylookup/")
+  url <- getOption("obistools_xylookup_url", "https://api.obis.org/xylookup")
   service_call(url, msg)
 }
