@@ -50,6 +50,7 @@ reference:
   - get_dyntaxa_dwca
   - get_dyntaxa_parent_ids
   - get_dyntaxa_records
+  - is_in_dyntaxa
   - match_taxon_name
   - update_dyntaxa_taxonomy
 
@@ -60,6 +61,7 @@ reference:
   - assign_phytoplankton_group
   - get_worms_records
   - get_worms_records_name
+  - match_wormstaxa
 
 - subtitle: AlgaeBase
   desc: These functions are used to retrieve data from the AlgaeBase API
@@ -91,6 +93,19 @@ reference:
   - read_ptbx
 
 - title: Quality Control
+
+- subtitle: Geographical Data Checks
+  contents:
+  - check_onland
+  - check_station_distance
+  - check_zero_positions
+  - lookup_xy
+  - match_station
+  - nominal_station
+  - plot_map_leaflet
+  - plot_map_leaflet_deliv
+  - positions_are_near_land
+  - which_basin
 
 - subtitle: SHARK Data Checks
   contents:
@@ -146,7 +161,6 @@ reference:
   - check_greyseal_counted
   - check_harbourseal_counted
   - check_harbporp_positivemin
-  - check_onland
   - check_phytoplankton_abund
   - check_phytoplankton_biovol
   - check_phytoplankton_counted
@@ -159,9 +173,7 @@ reference:
   - check_primaryproduction_carbonprod_hour
   - check_primaryproduction_carbonprodlight
   - check_ringedseal_calccounted
-  - check_station_distance
   - check_value_logical
-  - check_zero_positions
   - check_zero_value
   - check_zoobenthos_BQIm
   - check_zoobenthos_BQIm_logical
@@ -177,18 +189,10 @@ reference:
   - check_zooplankton_wetweight
   - check_zooplankton_wetweight_area
   - check_zooplankton_wetweight_volume
-  - positions_are_near_land
-  - which_basin
 
 - subtitle: MISC
   contents:
   - clean_shark4r_cache
-  - lookup_xy
-  - match_station
-  - match_wormstaxa
-  - nominal_station
-  - plot_map_leaflet
-  - plot_map_leaflet_deliv
   - scatterplot
 
 - title: Deprecated functions

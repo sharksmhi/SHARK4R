@@ -34,15 +34,12 @@ Imports:
     lubridate,
     plotly,
     purrr,
-    rappdirs,
     readr,
     readxl,
     sf,
     sp,
-    stats,
     terra,
     tidyr,
-    utils,
     vroom,
     worrms
 Suggests: 

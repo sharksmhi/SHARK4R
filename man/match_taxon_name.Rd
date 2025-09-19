@@ -6,7 +6,7 @@
 \usage{
 match_taxon_name(
   taxon_names,
-  subscription_key,
+  subscription_key = Sys.getenv("DYNTAXA_KEY"),
   multiple_options = FALSE,
   searchFields = "Both",
   isRecommended = "NotSet",
@@ -20,7 +20,19 @@ match_taxon_name(
 \arguments{
 \item{taxon_names}{A vector of taxon names to match.}
 
-\item{subscription_key}{A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided for registered users at \href{https://api-portal.artdatabanken.se/}{Artdatabanken}.}
+\item{subscription_key}{A Dyntaxa API subscription key. By default, the key
+is read from the environment variable \code{DYNTAXA_KEY}.
+
+You can provide the key in three ways:
+\itemize{
+\item \strong{Directly as a parameter}:
+\code{match_taxon_name("Skeletonema marinoi", subscription_key = "your_key_here")}
+\item \strong{Temporarily for the session}:
+\code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+\item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
+Use \code{usethis::edit_r_environ()} to open the file, then add:
+\code{DYNTAXA_KEY=your_key_here}
+}}
 
 \item{multiple_options}{Logical. If TRUE, the function will return multiple matching names. Default is FALSE, selecting the first match.}
 
@@ -45,7 +57,11 @@ A data frame containing the search pattern, taxon ID, and best match for each ta
 This function matches a list of taxon names against the SLU Artdatabanken API (Dyntaxa) and retrieves the best matches along with their taxon IDs.
 }
 \details{
-\strong{Note}: Please review the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{API conditions}
+A valid Dyntaxa API subscription key is required.
+You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+\url{https://api-portal.artdatabanken.se/}
+
+\strong{Note}: Please review the \href{https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/}{API conditions}
 and \href{https://api-portal.artdatabanken.se/}{register for access} before using the API. Data collected through the API
 is stored at SLU Artdatabanken. Please also note that the authors of \code{SHARK4R} are not affiliated with SLU Artdatabanken.
 }

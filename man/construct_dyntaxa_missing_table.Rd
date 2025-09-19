@@ -6,7 +6,7 @@
 \usage{
 construct_dyntaxa_missing_table(
   parent_ids,
-  subscription_key,
+  subscription_key = Sys.getenv("DYNTAXA_KEY"),
   shark_output = TRUE,
   recommended_only = TRUE,
   add_genus_children = FALSE,
@@ -19,8 +19,19 @@ construct_dyntaxa_missing_table(
 \item{parent_ids}{A list or vector of parent taxon IDs for which taxonomy information is requested. These IDs must be valid
 according to the Dyntaxa API and can be a combination of single or multiple IDs.}
 
-\item{subscription_key}{A character string containing the subscription key for accessing the SLU Artdatabanken API.
-You must register at \href{https://api-portal.artdatabanken.se/}{Artdatabanken} to obtain a key.}
+\item{subscription_key}{A Dyntaxa API subscription key. By default, the key
+is read from the environment variable \code{DYNTAXA_KEY}.
+
+You can provide the key in three ways:
+\itemize{
+\item \strong{Directly as a parameter}:
+\code{construct_dyntaxa_missing_table(list(c(5000055, 6011755)), subscription_key = "your_key_here")}
+\item \strong{Temporarily for the session}:
+\code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+\item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
+Use \code{usethis::edit_r_environ()} to open the file, then add:
+\code{DYNTAXA_KEY=your_key_here}
+}}
 
 \item{shark_output}{Logical. If TRUE, the function will return columns formatted to match the SHARK data submission format.
 If FALSE, it will return a broader set of taxonomy information. Defaults to TRUE.}
@@ -49,7 +60,11 @@ organizes them into a hierarchical structure. The function is capable of filteri
 recommended (accepted) names, handling genus-related children, and formatting the results for SHARK output.
 }
 \details{
-\strong{Note}: Please review the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{API conditions}
+A valid Dyntaxa API subscription key is required.
+You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+\url{https://api-portal.artdatabanken.se/}
+
+\strong{Note}: Please review the \href{https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/}{API conditions}
 and \href{https://api-portal.artdatabanken.se/}{register for access} before using the API. Data collected through the API
 is stored at SLU Artdatabanken. Please also note that the authors of \code{SHARK4R} are not affiliated with SLU Artdatabanken.
 }

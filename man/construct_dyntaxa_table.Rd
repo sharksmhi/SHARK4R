@@ -6,7 +6,7 @@
 \usage{
 construct_dyntaxa_table(
   taxon_ids,
-  subscription_key,
+  subscription_key = Sys.getenv("DYNTAXA_KEY"),
   shark_output = TRUE,
   add_parents = TRUE,
   add_descendants = FALSE,
@@ -23,7 +23,19 @@ construct_dyntaxa_table(
 \arguments{
 \item{taxon_ids}{An integer vector containing taxon IDs for which taxonomy information is requested. These IDs should correspond to specific taxonomic entities within the Dyntaxa database.}
 
-\item{subscription_key}{A character string containing the subscription key for accessing the SLU Artdatabanken API. A key is provided to registered users at \href{https://api-portal.artdatabanken.se/}{Artdatabanken}.}
+\item{subscription_key}{A Dyntaxa API subscription key. By default, the key
+is read from the environment variable \code{DYNTAXA_KEY}.
+
+You can provide the key in three ways:
+\itemize{
+\item \strong{Directly as a parameter}:
+\code{construct_dyntaxa_table(238366, subscription_key = "your_key_here")}
+\item \strong{Temporarily for the session}:
+\code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+\item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
+Use \code{usethis::edit_r_environ()} to open the file, then add:
+\code{DYNTAXA_KEY=your_key_here}
+}}
 
 \item{shark_output}{Logical. If TRUE, the function will return a table formatted with SHARK-compatible columns. If FALSE, all available columns are returned. Default is TRUE.}
 
@@ -58,7 +70,11 @@ This function constructs a taxonomy table based on Dyntaxa taxon IDs.
 It queries the SLU Artdatabanken API (Dyntaxa) to fetch taxonomy information and organizes the data into a hierarchical table.
 }
 \details{
-\strong{Note}: Please review the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{API conditions}
+A valid Dyntaxa API subscription key is required.
+You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+\url{https://api-portal.artdatabanken.se/}
+
+\strong{Note}: Please review the \href{https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/}{API conditions}
 and \href{https://api-portal.artdatabanken.se/}{register for access} before using the API. Data collected through the API
 is stored at SLU Artdatabanken. Please also note that the authors of \code{SHARK4R} are not affiliated with SLU Artdatabanken.
 }

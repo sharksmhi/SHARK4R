@@ -3,6 +3,7 @@ AlgaeBase
 Aphia
 AphiaID
 AphiaIDs
+ArtDatabanken
 Artdatabanken
 BQIm
 Bacillariophyceae
@@ -47,7 +48,6 @@ NODC
 NOMP
 NotSet
 ORCID
-OSM
 OSPAR
 OpenStreetMap
 Orderers
@@ -63,7 +63,6 @@ SLU
 SMHI
 SMHIs
 Skagerrak
-SpatialPolygonsDataFrame
 Stationsregistret
 WoRMS
 YYYY
@@ -84,6 +83,7 @@ df
 dinoflagellate
 dyntaxa
 forma
+geopackage
 geospatial
 ggplot
 github
@@ -93,14 +93,12 @@ iRfcb
 infraspecies
 interquantile
 io
-isRecommended
 marinespecies
 microalgae
 microzooplankton
 nomp
 nrow
 obistools
-parentTaxonId
 phycological
 phytoplankton
 plotly
@@ -111,7 +109,6 @@ readxl
 rubrum
 se
 sharkdata
-shoredistance
 shoremargin
 smhi
 sp
@@ -119,11 +116,9 @@ spp
 sqkm
 subsp
 sv
-taxonId
 tibble
 unparsed
 unz
-webservice
 www
 xls
 xlsx

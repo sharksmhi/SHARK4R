@@ -6,7 +6,10 @@
 \usage{
 clean_shark4r_cache(
   days = 1,
-  cache_dir = tools::R_user_dir("SHARK4R", "cache")
+  cache_dir = tools::R_user_dir("SHARK4R", "cache"),
+  clear_perm_cache = FALSE,
+  search_pattern = NULL,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -16,6 +19,12 @@ clean_shark4r_cache(
 Defaults to the SHARK4R cache directory in the user-specific R folder
 (via \code{tools::R_user_dir("SHARK4R", "cache")}). You can override this
 parameter for custom cache locations.}
+
+\item{clear_perm_cache}{Logical. If \code{TRUE}, filed that are cached across R sessions are cleared. Defaults to \code{FALSE}.}
+
+\item{search_pattern}{Character; optional regex pattern to filter which files to consider for deletion.}
+
+\item{verbose}{Logical. If \code{TRUE}, displays messages of cache cleaning progress. Defaults to \code{TRUE}.}
 }
 \value{
 Invisible \code{NULL}. Messages are printed about what was deleted
@@ -25,6 +34,9 @@ and whether the in-memory session cache was cleared.
 Deletes cached files in the SHARK4R cache directory that are older than
 a specified number of days, and also clears the in-memory session cache
 used by functions like \code{get_dyntaxa_dwca()}.
+}
+\details{
+The cache is automatically cleared after 24h.
 }
 \examples{
 \dontrun{

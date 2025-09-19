@@ -5,14 +5,26 @@
 \title{Download and Read Darwin Core Archive Files from Dyntaxa}
 \usage{
 get_dyntaxa_dwca(
-  subscription_key,
+  subscription_key = Sys.getenv("DYNTAXA_KEY"),
   file_to_read = "Taxon.csv",
   force = FALSE,
   verbose = TRUE
 )
 }
 \arguments{
-\item{subscription_key}{A string containing your API subscription key for the Dyntaxa Taxon Service.}
+\item{subscription_key}{A Dyntaxa API subscription key. By default, the key
+is read from the environment variable \code{DYNTAXA_KEY}.
+
+You can provide the key in three ways:
+\itemize{
+\item \strong{Directly as a parameter}:
+\code{get_dyntaxa_dwca(subscription_key = "your_key_here")}
+\item \strong{Temporarily for the session}:
+\code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+\item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
+Use \code{usethis::edit_r_environ()} to open the file, then add:
+\code{DYNTAXA_KEY=your_key_here}
+}}
 
 \item{file_to_read}{A string specifying the name of the CSV file to read from the extracted archive.
 Allowed options are: \code{"Reference.csv"}, \code{"SpeciesDistribution.csv"}, \code{"Taxon.csv"}, or \code{"VernacularName.csv"}. Defaults to \code{"Taxon.csv"}.}
@@ -34,7 +46,11 @@ By default, the archive is downloaded only once per R session. On subsequent cal
 the function reuses the cached copy of the extracted files to avoid repeated downloads.
 Use the \code{force} parameter to re-download the archive if needed.
 
-\strong{Note}: Please review the \href{https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/}{API conditions}
+A valid Dyntaxa API subscription key is required.
+You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+\url{https://api-portal.artdatabanken.se/}
+
+\strong{Note}: Please review the \href{https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/}{API conditions}
 and \href{https://api-portal.artdatabanken.se/}{register for access} before using the API. Data collected through the API
 is stored at SLU Artdatabanken. Please also note that the authors of \code{SHARK4R} are not affiliated with SLU Artdatabanken.
 }

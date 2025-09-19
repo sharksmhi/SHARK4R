@@ -6,17 +6,30 @@
 \usage{
 get_algaebase_genus(
   genus,
-  apikey,
+  subscription_key = Sys.getenv("ALGAEBASE_KEY"),
   higher = TRUE,
   unparsed = FALSE,
   newest_only = TRUE,
-  exact_matches_only = TRUE
+  exact_matches_only = TRUE,
+  apikey = deprecated()
 )
 }
 \arguments{
 \item{genus}{The genus name to search for (character string). This parameter is required.}
 
-\item{apikey}{A valid API key for AlgaeBase (character string). This is required to authenticate API requests.}
+\item{subscription_key}{A character string containing the API key for accessing the AlgaeBase API. By default, the key
+is read from the environment variable \code{ALGAEBASE_KEY}.
+
+You can provide the key in three ways:
+\itemize{
+\item \strong{Directly as a parameter}:
+\code{get_algaebase_genus("Skeletonema", subscription_key = "your_key_here")}
+\item \strong{Temporarily for the session}:
+\code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+\item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
+Use \code{usethis::edit_r_environ()} to open the file, then add:
+\code{ALGAEBASE_KEY=your_key_here}
+}}
 
 \item{higher}{A boolean flag indicating whether to include higher taxonomy in the output (default is TRUE).}
 
@@ -25,29 +38,39 @@ get_algaebase_genus(
 \item{newest_only}{A boolean flag to return only the most recent entry (default is TRUE).}
 
 \item{exact_matches_only}{A boolean flag to limit results to exact matches (default is TRUE).}
+
+\item{apikey}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Use \code{subscription_key} instead.}
 }
 \value{
-A data frame containing taxonomic data from AlgaeBase. Columns may include:
-- \code{id}: AlgaeBase ID.
-- \code{accepted_name}: Accepted scientific name (if different from input).
-- \code{input_name}: The genus name supplied by the user.
-- \code{input_match}: Whether the genus exactly matches (1 if exact, 0 if not).
-- \code{currently_accepted}: Whether the taxon is currently accepted (1=TRUE, 0=FALSE).
-- \code{genus_only}: Whether the search was for a genus only (1 for genus, 0 for genus + species).
-- \code{kingdom}, \code{phylum}, \code{class}, \code{order}, \code{family}: Higher taxonomy (if \code{higher} is TRUE).
-- \code{taxonomic_status}: Status of the taxon (currently accepted, synonym, unverified).
-- \code{taxon_rank}: The taxonomic rank of the accepted name (e.g., genus, species).
-- \code{mod_date}: Date when the entry was last modified.
-- \code{long_name}: Full scientific name including author and date (if available).
-- \code{authorship}: Author information (if available).
+A data frame containing taxonomic data from AlgaeBase with the following possible columns:
+
+A data frame with the following columns:
+\itemize{
+\item \code{id} — AlgaeBase identifier.
+\item \code{accepted_name} — Accepted scientific name (if different from the input).
+\item \code{input_name} — The genus name supplied by the user.
+\item \code{input_match} — Indicator of exact match (\code{1} = exact, \code{0} = not exact).
+\item \code{currently_accepted} — Indicator if the taxon is currently accepted (\code{1} = TRUE, \code{0} = FALSE).
+\item \code{genus_only} — Indicator if the search was for a genus only (\code{1} = genus, \code{0} = genus + species).
+\item \code{kingdom}, \code{phylum}, \code{class}, \code{order}, \code{family} — Higher taxonomy (returned if \code{higher = TRUE}).
+\item \code{taxonomic_status} — Status of the taxon (e.g., currently accepted, synonym, unverified).
+\item \code{taxon_rank} — Taxonomic rank of the accepted name (e.g., genus, species).
+\item \code{mod_date} — Date when the entry was last modified.
+\item \code{long_name} — Full scientific name including author and date (if available).
+\item \code{authorship} — Author information (if available).
+}
 }
 \description{
 This function searches the AlgaeBase API for genus information and returns detailed taxonomic data,
 including higher taxonomy, taxonomic status, scientific names, and other related metadata.
 }
+\details{
+A valid API key is requested from the AlgaeBase team.
+}
 \examples{
 \dontrun{
-  get_algaebase_genus("Anabaena", apikey = "your_api_key")
+  get_algaebase_genus("Anabaena", subscription_key = "your_api_key")
 }
 
 }

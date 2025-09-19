@@ -53,7 +53,7 @@ Taxonomic records can be retrieved for individual genera names using the `get_al
 ```{r}
 # Match a genus name with AlgaeBase API
 genus_records <- get_algaebase_genus(genus = "Gymnodinium",
-                                     apikey = algaebase_key)
+                                     subscription_key = algaebase_key)
 
 # Print the result
 print(genus_records)
@@ -67,7 +67,7 @@ Taxonomic records can be retrieved for individual species names using the `get_a
 # Match a species with AlgaeBase API
 species_records <- get_algaebase_species(genus = "Tripos",
                                          species = "muelleri",
-                                         apikey = algaebase_key)
+                                         subscription_key = algaebase_key)
 
 # Print the result
 print(species_records)
@@ -97,7 +97,7 @@ print(parsed_taxa)
 # Match the taxa with AlgaeBase
 algaebase_match <- match_algaebase(genus = parsed_taxa$genus,
                                    species = parsed_taxa$species,
-                                   apikey = algaebase_key,
+                                   subscription_key = algaebase_key,
                                    verbose = FALSE)
 
 # Print the result

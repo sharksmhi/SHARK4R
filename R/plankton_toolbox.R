@@ -100,9 +100,9 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
 
   zip_path <- cache_nomp_zip(base_url = base_url, year = year, force = force)
 
-  # Unzip to a temporary directory
+  # utils::unzip to a temporary directory
   tmp_dir <- tempdir()
-  unzipped_files <- unzip(zip_path, exdir = tmp_dir)
+  unzipped_files <- utils::unzip(zip_path, exdir = tmp_dir)
 
   # Select file
   if (is.null(file)) {
@@ -170,9 +170,9 @@ get_peg_list <- function(file = NULL,
 
   zip_path <- cache_peg_zip(url = url, force = force)
 
-  # Unzip to a temporary directory
+  # utils::unzip to a temporary directory
   tmp_dir <- tempdir()
-  unzipped_files <- unzip(zip_path, exdir = tmp_dir)
+  unzipped_files <- utils::unzip(zip_path, exdir = tmp_dir)
 
   # Select file
   if (is.null(file)) {

@@ -9,7 +9,7 @@ positions_are_near_land(
   longitudes,
   distance = 500,
   shape = NULL,
-  source = "ne",
+  source = "obis",
   crs = 4326,
   remove_small_islands = TRUE,
   small_island_threshold = 2e+06,
@@ -24,13 +24,14 @@ positions_are_near_land(
 \item{distance}{Buffer distance (in meters) from the coastline to consider "near land." Default is 500 meters.}
 
 \item{shape}{Optional path to a shapefile (\code{.shp}) containing coastline data. If provided,
-this file will be used instead of the default Natural Earth 1:10m land vectors.
+this file will be used instead of the default OBIS land vectors.
 A high-resolution shapefile can improve the accuracy of buffer distance calculations.
-Alternatively, you can retrieve a more detailed European coastline automatically by
-setting the \code{source} argument to \code{"eea"}.}
+You can retrieve a more detailed European coastline by setting the \code{source} argument to \code{"eea"}.
+Downloaded shape files are cached across R sessions in a user-specific cache directory.}
 
 \item{source}{Character string indicating which default coastline source to use when \code{shape = NULL}.
-Options are \code{"ne"} (Natural Earth, default) and \code{"eea"} (European Environment Agency).
+Options are \code{"obis"} (Ocean Biodiversity Information System, default),
+\code{"ne"} (Natural Earth 1:10 vectors) and \code{"eea"} (European Environment Agency).
 Ignored if \code{shape} is provided.}
 
 \item{crs}{Coordinate reference system (CRS) to use for input and output.
@@ -57,11 +58,10 @@ if you want to actually call this function.
 }
 \details{
 Determines whether given positions are near land based on a land polygon shape file.
-The Natural Earth 1:10m land vectors are included as a default shapefile in \code{iRfcb}.
 
 This function calculates a buffered area around the coastline using a polygon shapefile and
 determines if each input position intersects with this buffer or the landmass itself.
-By default, it uses the Natural Earth 1:10m land vector dataset.
+By default, it uses the OBIS land vector dataset.
 
 The EEA shapefile is downloaded from \url{https://www.eea.europa.eu/data-and-maps/data/eea-coastline-for-analysis-2/gis-data/eea-coastline-polygon}
 when \code{source = "eea"}.
@@ -81,5 +81,7 @@ print(near_land)
 
 }
 \seealso{
+\code{\link[=clean_shark4r_cache]{clean_shark4r_cache()}} to manually clear cached shape files.
+
 \code{\link[iRfcb:ifcb_is_near_land]{iRfcb::ifcb_is_near_land}} for the original function.
 }

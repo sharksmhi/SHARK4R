@@ -263,3 +263,56 @@ test_that("check functions catch missing recommended fields (level = 'warning')"
     expect_true(all(errors$level == "warning"))
   }
 })
+
+test_that("check functions report all required and recommended fields present", {
+  for (fname in names(check_functions)) {
+
+    print(fname) # for debugging
+
+    fn <- check_functions[[fname]]
+
+    required <- get_vector_from_body(fn, "required")
+    recommended <- get_vector_from_body(fn, "recommended")
+
+    # Build tibble with all required + recommended filled
+    df <- dplyr::as_tibble(
+      setNames(rep(list("x"), length(c(required, recommended))), c(required, recommended))
+    )
+
+    # Run with warning level to check both required & recommended
+    expect_message({
+      errors <- fn(df, level = "warning")
+    }, "All required fields present|All recommended fields present")
+
+    expect_true(is.data.frame(errors))
+    expect_equal(nrow(errors), 0, info = paste("Function:", fname))
+  }
+})
+
+test_that("check functions catch empty values in recommended fields (level = 'warning')", {
+  for (fname in names(check_functions)) {
+    fn <- check_functions[[fname]]
+
+    required <- get_vector_from_body(fn, "required")
+    recommended <- get_vector_from_body(fn, "recommended")
+
+    # only run if function has recommended fields
+    if (length(recommended) == 0) next
+
+    # Create 3 rows of dummy data for required
+    df <- dplyr::as_tibble(
+      setNames(
+        replicate(length(required), rep("x", 3), simplify = FALSE),
+        required
+      )
+    )
+
+    # Add recommended column with empty and NA values
+    df[[recommended[1]]] <- c("", NA, "x")
+
+    errors <- fn(df, level = "warning")
+
+    expect_true(any(errors$field == recommended[1]))
+    expect_true(any(errors$level == "warning"))
+  }
+})

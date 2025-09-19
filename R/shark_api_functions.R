@@ -472,7 +472,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     all_data <- list()  # Initialize a list to store yearly data
 
     # Set up the progress bar
-    if (verbose) {pb <- txtProgressBar(min = 0, max = length(years), style = 3)}
+    if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(years), style = 3)}
 
     # Temporary folder to save yearly files
     temp_dir <- tempdir()
@@ -481,7 +481,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
       year <- years[i]  # Get the current year
 
       # Update progress bar
-      if (verbose) { setTxtProgressBar(pb, i) }
+      if (verbose) { utils::setTxtProgressBar(pb, i) }
 
       # Update the body for the POST request with the current year
       body <- list(
@@ -566,7 +566,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     combined_data <- type_convert(combined_data, col_types = cols())
 
     if (save_data) {
-      write.table(combined_data, file = file_path, sep = sep_char, row.names = FALSE, col.names = TRUE,
+      utils::write.table(combined_data, file = file_path, sep = sep_char, row.names = FALSE, col.names = TRUE,
                   quote = FALSE, fileEncoding = content_encoding)
     }
 

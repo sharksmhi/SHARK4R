@@ -89,3 +89,54 @@ test_that("update_dyntaxa_taxonomy is working as expected", {
   expect_true(nrow(updated_data) > 0)
   expect_true(all(c("dyntaxa_id", "scientific_name", "taxon_kingdom", "taxon_phylum", "taxon_class", "taxon_order", "taxon_family", "taxon_genus", "taxon_species", "taxon_hierarchy") %in% names(updated_data)))
 })
+
+test_that("is_in_dyntaxa returns logical vector", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable(dyntaxa_url)
+
+  # Replace with your real DYNTAXA_KEY for local testing
+  Sys.setenv(DYNTAXA_KEY = Sys.getenv("DYNTAXA_KEY"))
+
+  taxa <- c("Skeletonema marinoi", "Nonexistent species")
+
+  result <- is_in_dyntaxa(taxa, verbose = FALSE)
+
+  expect_type(result, "logical")
+  expect_length(result, length(taxa))
+})
+
+test_that("is_in_dyntaxa detects unmatched taxa", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable(dyntaxa_url)
+
+  taxa <- c("Skeletonema marinoi", "Nonexistent species")
+
+  # Capture messages when verbose = TRUE
+  expect_message(res <- is_in_dyntaxa(taxa, verbose = TRUE), "Unmatched taxa found")
+  expect_length(res, length(taxa))
+  expect_false(all(res)) # At least one should be FALSE
+})
+
+test_that("match_dyntaxa calls is_in_dyntaxa and warns about deprecation", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable(dyntaxa_url)
+
+  taxa <- c("Skeletonema marinoi", "Nonexistent species")
+
+  expect_warning(res <- match_dyntaxa(taxa), "deprecated")
+  expect_type(res, "logical")
+  expect_length(res, length(taxa))
+})
+
+test_that("is_in_dyntaxa stops if subscription key is missing", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable(dyntaxa_url)
+
+  Sys.setenv(DYNTAXA_KEY = "")
+
+  expect_error(is_in_dyntaxa("Skeletonema marinoi"), "No Dyntaxa subscription key provided")
+})
