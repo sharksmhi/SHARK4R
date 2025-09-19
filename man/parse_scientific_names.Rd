@@ -24,11 +24,12 @@ parse_scientific_names(
 \item{encoding}{A string specifying the encoding to be used for the input names (e.g., 'UTF-8'). Default is 'UTF-8'.}
 }
 \value{
-A \code{data.frame} with two columns:
+A data frame with two columns:
 \itemize{
-\item \code{genus}: Contains the genus names.
-\item \code{species}: Contains the species names (empty if unavailable or invalid).
-Invalid descriptors like 'sp.', 'spp.', and numeric entries are excluded from the 'species' column.
+\item \code{genus} — Genus names.
+\item \code{species} — Species names (empty if unavailable or invalid).
+Invalid descriptors such as \code{"sp."}, \code{"spp."}, and numeric entries
+are excluded from this column.
 }
 }
 \description{

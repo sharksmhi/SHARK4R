@@ -46,7 +46,15 @@ Use \code{usethis::edit_r_environ()} to open the file, then add:
 Use \code{subscription_key} instead.}
 }
 \value{
-A data frame with details about the species, including taxonomic status, ranks, and other relevant information.
+A data frame with details about the species, including:
+\itemize{
+\item \code{taxonomic_status} — The current status of the taxon (e.g., accepted, synonym, unverified).
+\item \code{taxon_rank} — The rank of the taxon (e.g., species, genus).
+\item \code{accepted_name} — The currently accepted scientific name, if applicable.
+\item \code{authorship} — Author information for the scientific name (if available).
+\item \code{mod_date} — Date when the taxonomic record was last modified.
+\item \code{...} — Other relevant information returned by the data source.
+}
 }
 \description{
 This function searches the AlgaeBase API for species based on genus and species names.

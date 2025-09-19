@@ -48,7 +48,6 @@ NODC
 NOMP
 NotSet
 ORCID
-OSM
 OSPAR
 OpenStreetMap
 Orderers
@@ -64,7 +63,6 @@ SLU
 SMHI
 SMHIs
 Skagerrak
-SpatialPolygonsDataFrame
 Stationsregistret
 WoRMS
 YYYY
@@ -85,6 +83,7 @@ df
 dinoflagellate
 dyntaxa
 forma
+geopackage
 geospatial
 ggplot
 github
@@ -110,7 +109,6 @@ readxl
 rubrum
 se
 sharkdata
-shoredistance
 shoremargin
 smhi
 sp
@@ -121,7 +119,6 @@ sv
 tibble
 unparsed
 unz
-webservice
 www
 xls
 xlsx

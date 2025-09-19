@@ -55,20 +55,21 @@ Use \code{usethis::edit_r_environ()} to open the file, then add:
 Use \code{subscription_key} instead.}
 }
 \value{
-A data frame containing taxonomic information for each input genus-species combination. Columns may include:
+A data frame containing taxonomic information for each input genus–species combination.
+The following columns may be included:
 \itemize{
-\item \code{id}: AlgaeBase ID (if available)
-\item \code{kingdom}, \code{phylum}, \code{class}, \code{order}, \code{family}: Higher taxonomy (if \code{higher = TRUE})
-\item \code{genus}, \code{species}, \code{infrasp}: Genus, species, and infraspecies names (if applicable)
-\item \code{taxonomic_status}: Status of the name (e.g., "accepted", "synonym", "unverified")
-\item \code{currently_accepted}: Logical indicator for whether the name is currently accepted
-\item \code{accepted_name}: Currently accepted name if different from the input name
-\item \code{input_name}: Name supplied by the user
-\item \code{input_match}: \code{1} for exact matches, otherwise \code{0}
-\item \code{taxon_rank}: Taxonomic rank of the accepted name (e.g., "genus", "species")
-\item \code{mod_date}: Date when the entry was last modified in AlgaeBase
-\item \code{long_name}: Full species name with authorship and date
-\item \code{authorship}: Authors associated with the species name
+\item \code{id} — AlgaeBase ID (if available).
+\item \code{kingdom}, \code{phylum}, \code{class}, \code{order}, \code{family} — Higher taxonomy (returned if \code{higher = TRUE}).
+\item \code{genus}, \code{species}, \code{infrasp} — Genus, species, and infraspecies names (if applicable).
+\item \code{taxonomic_status} — Status of the name (e.g., accepted, synonym, unverified).
+\item \code{currently_accepted} — Logical indicator whether the name is currently accepted (\code{TRUE}/\code{FALSE}).
+\item \code{accepted_name} — Currently accepted name if different from the input name.
+\item \code{input_name} — The name supplied by the user.
+\item \code{input_match} — Indicator of exact match (\code{1} = exact, \code{0} = not exact).
+\item \code{taxon_rank} — Taxonomic rank of the accepted name (e.g., genus, species).
+\item \code{mod_date} — Date when the entry was last modified in AlgaeBase.
+\item \code{long_name} — Full species name with authorship and date.
+\item \code{authorship} — Author(s) associated with the species name.
 }
 }
 \description{

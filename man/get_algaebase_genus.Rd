@@ -43,19 +43,23 @@ Use \code{usethis::edit_r_environ()} to open the file, then add:
 Use \code{subscription_key} instead.}
 }
 \value{
-A data frame containing taxonomic data from AlgaeBase. Columns may include:
-- \code{id}: AlgaeBase ID.
-- \code{accepted_name}: Accepted scientific name (if different from input).
-- \code{input_name}: The genus name supplied by the user.
-- \code{input_match}: Whether the genus exactly matches (1 if exact, 0 if not).
-- \code{currently_accepted}: Whether the taxon is currently accepted (1=TRUE, 0=FALSE).
-- \code{genus_only}: Whether the search was for a genus only (1 for genus, 0 for genus + species).
-- \code{kingdom}, \code{phylum}, \code{class}, \code{order}, \code{family}: Higher taxonomy (if \code{higher} is TRUE).
-- \code{taxonomic_status}: Status of the taxon (currently accepted, synonym, unverified).
-- \code{taxon_rank}: The taxonomic rank of the accepted name (e.g., genus, species).
-- \code{mod_date}: Date when the entry was last modified.
-- \code{long_name}: Full scientific name including author and date (if available).
-- \code{authorship}: Author information (if available).
+A data frame containing taxonomic data from AlgaeBase with the following possible columns:
+
+A data frame with the following columns:
+\itemize{
+\item \code{id} — AlgaeBase identifier.
+\item \code{accepted_name} — Accepted scientific name (if different from the input).
+\item \code{input_name} — The genus name supplied by the user.
+\item \code{input_match} — Indicator of exact match (\code{1} = exact, \code{0} = not exact).
+\item \code{currently_accepted} — Indicator if the taxon is currently accepted (\code{1} = TRUE, \code{0} = FALSE).
+\item \code{genus_only} — Indicator if the search was for a genus only (\code{1} = genus, \code{0} = genus + species).
+\item \code{kingdom}, \code{phylum}, \code{class}, \code{order}, \code{family} — Higher taxonomy (returned if \code{higher = TRUE}).
+\item \code{taxonomic_status} — Status of the taxon (e.g., currently accepted, synonym, unverified).
+\item \code{taxon_rank} — Taxonomic rank of the accepted name (e.g., genus, species).
+\item \code{mod_date} — Date when the entry was last modified.
+\item \code{long_name} — Full scientific name including author and date (if available).
+\item \code{authorship} — Author information (if available).
+}
 }
 \description{
 This function searches the AlgaeBase API for genus information and returns detailed taxonomic data,
