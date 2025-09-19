@@ -65,7 +65,7 @@ recommended (accepted) names, handling genus-related children, and formatting th
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">construct_dyntaxa_missing_table</span><span class="op">(</span></span>
 <span>  <span class="va">parent_ids</span>,</span>
-<span>  <span class="va">subscription_key</span>,</span>
+<span>  subscription_key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"DYNTAXA_KEY"</span><span class="op">)</span>,</span>
 <span>  shark_output <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  recommended_only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  add_genus_children <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -85,8 +85,16 @@ according to the Dyntaxa API and can be a combination of single or multiple IDs.
 
 
 <dt id="arg-subscription-key">subscription_key<a class="anchor" aria-label="anchor" href="#arg-subscription-key"></a></dt>
-<dd><p>A character string containing the subscription key for accessing the SLU Artdatabanken API.
-You must register at <a href="https://api-portal.artdatabanken.se/" class="external-link">Artdatabanken</a> to obtain a key.</p></dd>
+<dd><p>A Dyntaxa API subscription key. By default, the key
+is read from the environment variable <code>DYNTAXA_KEY</code>.</p>
+<p>You can provide the key in three ways:</p><ul><li><p><strong>Directly as a parameter</strong>:
+<code>construct_dyntaxa_missing_table(list(c(5000055, 6011755)), subscription_key = "your_key_here")</code></p></li>
+<li><p><strong>Temporarily for the session</strong>:
+<code>Sys.setenv(DYNTAXA_KEY = "your_key_here")</code></p></li>
+<li><p><strong>Permanently across sessions</strong> by adding it to your <code>~/.Renviron</code> file.
+Use <code>usethis::edit_r_environ()</code> to open the file, then add:
+<code>DYNTAXA_KEY=your_key_here</code></p></li>
+</ul></dd>
 
 
 <dt id="arg-shark-output">shark_output<a class="anchor" aria-label="anchor" href="#arg-shark-output"></a></dt>
@@ -124,7 +132,10 @@ The data frame may also include hierarchical information depending on the parame
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><strong>Note</strong>: Please review the <a href="https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/" class="external-link">API conditions</a>
+    <p>A valid Dyntaxa API subscription key is required.
+You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+<a href="https://api-portal.artdatabanken.se/" class="external-link">https://api-portal.artdatabanken.se/</a></p>
+<p><strong>Note</strong>: Please review the <a href="https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/" class="external-link">API conditions</a>
 and <a href="https://api-portal.artdatabanken.se/" class="external-link">register for access</a> before using the API. Data collected through the API
 is stored at SLU Artdatabanken. Please also note that the authors of <code>SHARK4R</code> are not affiliated with SLU Artdatabanken.</p>
     </div>

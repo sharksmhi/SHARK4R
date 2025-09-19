@@ -60,14 +60,15 @@ It supports exact matching, genus-only searches, and retrieval of higher taxonom
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">match_algaebase</span><span class="op">(</span></span>
 <span>  <span class="va">genus</span>,</span>
 <span>  <span class="va">species</span>,</span>
-<span>  apikey <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  subscription_key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"ALGAEBASE_KEY"</span><span class="op">)</span>,</span>
 <span>  genus_only <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  higher <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  unparsed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  exact_matches_only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  sleep_time <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  newest_only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  apikey <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -83,8 +84,17 @@ It supports exact matching, genus-only searches, and retrieval of higher taxonom
 <dd><p>A character vector of species names corresponding to the <code>genus</code> vector. Must be the same length as <code>genus</code>.</p></dd>
 
 
-<dt id="arg-apikey">apikey<a class="anchor" aria-label="anchor" href="#arg-apikey"></a></dt>
-<dd><p>A character string containing the API key for accessing the AlgaeBase API.</p></dd>
+<dt id="arg-subscription-key">subscription_key<a class="anchor" aria-label="anchor" href="#arg-subscription-key"></a></dt>
+<dd><p>A character string containing the API key for accessing the AlgaeBase API. By default, the key
+is read from the environment variable <code>ALGAEBASE_KEY</code>.</p>
+<p>You can provide the key in three ways:</p><ul><li><p><strong>Directly as a parameter</strong>:
+<code>match_algaebase("Skeletonema", "marinoi", subscription_key = "your_key_here")</code></p></li>
+<li><p><strong>Temporarily for the session</strong>:
+<code>Sys.setenv(ALGAEBASE_KEY = "your_key_here")</code></p></li>
+<li><p><strong>Permanently across sessions</strong> by adding it to your <code>~/.Renviron</code> file.
+Use <code>usethis::edit_r_environ()</code> to open the file, then add:
+<code>ALGAEBASE_KEY=your_key_here</code></p></li>
+</ul></dd>
 
 
 <dt id="arg-genus-only">genus_only<a class="anchor" aria-label="anchor" href="#arg-genus-only"></a></dt>
@@ -114,25 +124,32 @@ It supports exact matching, genus-only searches, and retrieval of higher taxonom
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Logical. If <code>TRUE</code>, displays a progress bar to indicate query status. Defaults to <code>TRUE</code>.</p></dd>
 
+
+<dt id="arg-apikey">apikey<a class="anchor" aria-label="anchor" href="#arg-apikey"></a></dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>
+Use <code>subscription_key</code> instead.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame containing taxonomic information for each input genus-species combination. Columns may include:</p><ul><li><p><code>id</code>: AlgaeBase ID (if available)</p></li>
-<li><p><code>kingdom</code>, <code>phylum</code>, <code>class</code>, <code>order</code>, <code>family</code>: Higher taxonomy (if <code>higher = TRUE</code>)</p></li>
-<li><p><code>genus</code>, <code>species</code>, <code>infrasp</code>: Genus, species, and infraspecies names (if applicable)</p></li>
-<li><p><code>taxonomic_status</code>: Status of the name (e.g., "accepted", "synonym", "unverified")</p></li>
-<li><p><code>currently_accepted</code>: Logical indicator for whether the name is currently accepted</p></li>
-<li><p><code>accepted_name</code>: Currently accepted name if different from the input name</p></li>
-<li><p><code>input_name</code>: Name supplied by the user</p></li>
-<li><p><code>input_match</code>: <code>1</code> for exact matches, otherwise <code>0</code></p></li>
-<li><p><code>taxon_rank</code>: Taxonomic rank of the accepted name (e.g., "genus", "species")</p></li>
-<li><p><code>mod_date</code>: Date when the entry was last modified in AlgaeBase</p></li>
-<li><p><code>long_name</code>: Full species name with authorship and date</p></li>
-<li><p><code>authorship</code>: Authors associated with the species name</p></li>
+    <p>A data frame containing taxonomic information for each input genus–species combination.
+The following columns may be included:</p><ul><li><p><code>id</code> — AlgaeBase ID (if available).</p></li>
+<li><p><code>kingdom</code>, <code>phylum</code>, <code>class</code>, <code>order</code>, <code>family</code> — Higher taxonomy (returned if <code>higher = TRUE</code>).</p></li>
+<li><p><code>genus</code>, <code>species</code>, <code>infrasp</code> — Genus, species, and infraspecies names (if applicable).</p></li>
+<li><p><code>taxonomic_status</code> — Status of the name (e.g., accepted, synonym, unverified).</p></li>
+<li><p><code>currently_accepted</code> — Logical indicator whether the name is currently accepted (<code>TRUE</code>/<code>FALSE</code>).</p></li>
+<li><p><code>accepted_name</code> — Currently accepted name if different from the input name.</p></li>
+<li><p><code>input_name</code> — The name supplied by the user.</p></li>
+<li><p><code>input_match</code> — Indicator of exact match (<code>1</code> = exact, <code>0</code> = not exact).</p></li>
+<li><p><code>taxon_rank</code> — Taxonomic rank of the accepted name (e.g., genus, species).</p></li>
+<li><p><code>mod_date</code> — Date when the entry was last modified in AlgaeBase.</p></li>
+<li><p><code>long_name</code> — Full species name with authorship and date.</p></li>
+<li><p><code>authorship</code> — Author(s) associated with the species name.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Scientific names can be parsed using the <code><a href="parse_scientific_names.html">parse_scientific_names()</a></code> function before being processed by <code>match_algaebase()</code>.</p>
+    <p>A valid API key is requested from the AlgaeBase team.</p>
+<p>Scientific names can be parsed using the <code><a href="parse_scientific_names.html">parse_scientific_names()</a></code> function before being processed by <code>match_algaebase()</code>.</p>
 <p>Duplicate genus-species combinations are handled efficiently by querying each unique combination only once. Genus-only searches are performed when <code>genus_only = TRUE</code>
 or when the species name is missing or invalid. Errors during API queries are gracefully handled by returning rows with <code>NA</code> values for missing or unavailable data.</p>
 <p>The function allows for integration with data analysis workflows that require resolving or verifying taxonomic names against AlgaeBase.</p>
@@ -153,7 +170,7 @@ or when the species name is missing or invalid. Errors during API queries are gr
 <span class="r-in"><span><span class="va">algaebase_results</span> <span class="op">&lt;-</span> <span class="fu">match_algaebase</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  genus <span class="op">=</span> <span class="va">genus_vec</span>,</span></span>
 <span class="r-in"><span>  species <span class="op">=</span> <span class="va">species_vec</span>,</span></span>
-<span class="r-in"><span>  apikey <span class="op">=</span> <span class="st">"your_api_key"</span>,</span></span>
+<span class="r-in"><span>  subscription_key <span class="op">=</span> <span class="st">"your_api_key"</span>,</span></span>
 <span class="r-in"><span>  exact_matches_only <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>

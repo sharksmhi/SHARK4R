@@ -63,11 +63,12 @@ the most recent results, and including higher taxonomy details.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_algaebase_species</span><span class="op">(</span></span>
 <span>  <span class="va">genus</span>,</span>
 <span>  <span class="va">species</span>,</span>
-<span>  <span class="va">apikey</span>,</span>
+<span>  subscription_key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"ALGAEBASE_KEY"</span><span class="op">)</span>,</span>
 <span>  higher <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  unparsed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  newest_only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  exact_matches_only <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  exact_matches_only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  apikey <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -83,8 +84,17 @@ the most recent results, and including higher taxonomy details.</p>
 <dd><p>A character string specifying the species or specific epithet.</p></dd>
 
 
-<dt id="arg-apikey">apikey<a class="anchor" aria-label="anchor" href="#arg-apikey"></a></dt>
-<dd><p>A character string containing the API key for accessing the AlgaeBase API.</p></dd>
+<dt id="arg-subscription-key">subscription_key<a class="anchor" aria-label="anchor" href="#arg-subscription-key"></a></dt>
+<dd><p>A character string containing the API key for accessing the AlgaeBase API. By default, the key
+is read from the environment variable <code>ALGAEBASE_KEY</code>.</p>
+<p>You can provide the key in three ways:</p><ul><li><p><strong>Directly as a parameter</strong>:
+<code>get_algaebase_species("Skeletonema", "marinoi", subscription_key = "your_key_here")</code></p></li>
+<li><p><strong>Temporarily for the session</strong>:
+<code>Sys.setenv(ALGAEBASE_KEY = "your_key_here")</code></p></li>
+<li><p><strong>Permanently across sessions</strong> by adding it to your <code>~/.Renviron</code> file.
+Use <code>usethis::edit_r_environ()</code> to open the file, then add:
+<code>ALGAEBASE_KEY=your_key_here</code></p></li>
+</ul></dd>
 
 
 <dt id="arg-higher">higher<a class="anchor" aria-label="anchor" href="#arg-higher"></a></dt>
@@ -102,14 +112,25 @@ the most recent results, and including higher taxonomy details.</p>
 <dt id="arg-exact-matches-only">exact_matches_only<a class="anchor" aria-label="anchor" href="#arg-exact-matches-only"></a></dt>
 <dd><p>A logical value indicating whether to return only exact matches (default is <code>TRUE</code>).</p></dd>
 
+
+<dt id="arg-apikey">apikey<a class="anchor" aria-label="anchor" href="#arg-apikey"></a></dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>
+Use <code>subscription_key</code> instead.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame with details about the species, including taxonomic status, ranks, and other relevant information.</p>
-    </div>
+    <p>A data frame with details about the species, including:</p><ul><li><p><code>taxonomic_status</code> — The current status of the taxon (e.g., accepted, synonym, unverified).</p></li>
+<li><p><code>taxon_rank</code> — The rank of the taxon (e.g., species, genus).</p></li>
+<li><p><code>accepted_name</code> — The currently accepted scientific name, if applicable.</p></li>
+<li><p><code>authorship</code> — Author information for the scientific name (if available).</p></li>
+<li><p><code>mod_date</code> — Date when the taxonomic record was last modified.</p></li>
+<li><p><code>...</code> — Other relevant information returned by the data source.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function queries the AlgaeBase API for species based on the genus and species names,
+    <p>A valid API key is requested from the AlgaeBase team.</p>
+<p>This function queries the AlgaeBase API for species based on the genus and species names,
 and filters the results based on various parameters. The function handles different taxonomic ranks
 and formats the output for easy use. It can merge higher taxonomy data if requested.</p>
     </div>
@@ -123,7 +144,7 @@ and formats the output for easy use. It can merge higher taxonomy data if reques
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># Search for a species with exact matches only, return the most recent results</span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">get_algaebase_species</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  genus <span class="op">=</span> <span class="st">"Skeletonema"</span>, species <span class="op">=</span> <span class="st">"marinoi"</span>, apikey <span class="op">=</span> <span class="st">"your_api_key"</span></span></span>
+<span class="r-in"><span>  genus <span class="op">=</span> <span class="st">"Skeletonema"</span>, species <span class="op">=</span> <span class="st">"marinoi"</span>, subscription_key <span class="op">=</span> <span class="st">"your_api_key"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Print result</span></span></span>

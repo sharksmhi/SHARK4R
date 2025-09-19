@@ -62,7 +62,7 @@ the data into a full taxonomic table that can be joined with data downloaded fro
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">update_dyntaxa_taxonomy</span><span class="op">(</span></span>
 <span>  <span class="va">dyntaxa_ids</span>,</span>
-<span>  <span class="va">subscription_key</span>,</span>
+<span>  subscription_key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"DYNTAXA_KEY"</span><span class="op">)</span>,</span>
 <span>  add_missing_taxa <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -77,7 +77,16 @@ the data into a full taxonomic table that can be joined with data downloaded fro
 
 
 <dt id="arg-subscription-key">subscription_key<a class="anchor" aria-label="anchor" href="#arg-subscription-key"></a></dt>
-<dd><p>A character string containing the subscription key for accessing the SLU Artdatabanken API for Dyntaxa. A key is provided for registered users at <a href="https://api-portal.artdatabanken.se/" class="external-link">SLU Artdatabanken</a>.</p></dd>
+<dd><p>A Dyntaxa API subscription key. By default, the key
+is read from the environment variable <code>DYNTAXA_KEY</code>.</p>
+<p>You can provide the key in three ways:</p><ul><li><p><strong>Directly as a parameter</strong>:
+<code>update_dyntaxa_taxonomy(238366, subscription_key = "your_key_here")</code></p></li>
+<li><p><strong>Temporarily for the session</strong>:
+<code>Sys.setenv(DYNTAXA_KEY = "your_key_here")</code></p></li>
+<li><p><strong>Permanently across sessions</strong> by adding it to your <code>~/.Renviron</code> file.
+Use <code>usethis::edit_r_environ()</code> to open the file, then add:
+<code>DYNTAXA_KEY=your_key_here</code></p></li>
+</ul></dd>
 
 
 <dt id="arg-add-missing-taxa">add_missing_taxa<a class="anchor" aria-label="anchor" href="#arg-add-missing-taxa"></a></dt>
@@ -94,7 +103,10 @@ the data into a full taxonomic table that can be joined with data downloaded fro
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><strong>Note</strong>: Please review the <a href="https://www.artdatabanken.se/tjanster-och-miljodata/oppna-data-och-apier/api-villkor/" class="external-link">API conditions</a>
+    <p>A valid Dyntaxa API subscription key is required.
+You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+<a href="https://api-portal.artdatabanken.se/" class="external-link">https://api-portal.artdatabanken.se/</a></p>
+<p><strong>Note</strong>: Please review the <a href="https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/" class="external-link">API conditions</a>
 and <a href="https://api-portal.artdatabanken.se/" class="external-link">register for access</a> before using the API. Data collected through the API
 is stored at SLU Artdatabanken. Please also note that the authors of <code>SHARK4R</code> are not affiliated with SLU Artdatabanken.</p>
     </div>

@@ -154,6 +154,12 @@
         <dd>Get taxonomic information from SLU Artdatabanken API for specified taxon IDs</dd>
       </dl><dl><dt>
 
+          <code><a href="is_in_dyntaxa.html">is_in_dyntaxa()</a></code>
+
+        </dt>
+        <dd>Check if taxon names exist in Dyntaxa</dd>
+      </dl><dl><dt>
+
           <code><a href="match_taxon_name.html">match_taxon_name()</a></code>
 
         </dt>
@@ -199,6 +205,12 @@
 
         </dt>
         <dd>Retrieve WoRMS Records by Taxonomic Names with Retry Logic</dd>
+      </dl><dl><dt>
+
+          <code><a href="match_wormstaxa.html">match_wormstaxa()</a></code>
+
+        </dt>
+        <dd>Taxon matching using WoRMS (http://www.marinespecies.org/) matches latin name in data with WoRMS taxon list</dd>
       </dl></div><div class="section level2">
 
       <h3 id="algaebase">AlgaeBase<a class="anchor" aria-label="anchor" href="#algaebase"></a></h3>
@@ -328,6 +340,77 @@
 
 
     </div><div class="section level2">
+
+      <h3 id="geographical-data-checks">Geographical Data Checks<a class="anchor" aria-label="anchor" href="#geographical-data-checks"></a></h3>
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="check_onland.html">check_onland()</a></code>
+
+        </dt>
+        <dd>Check Whether Points Are Located on Land</dd>
+      </dl><dl><dt>
+
+          <code><a href="check_station_distance.html">check_station_distance()</a></code>
+
+        </dt>
+        <dd>Station distance check using SMHI station list</dd>
+      </dl><dl><dt>
+
+          <code><a href="check_zero_positions.html">check_zero_positions()</a></code>
+
+        </dt>
+        <dd>Check logical assumptions of data for station positions</dd>
+      </dl><dl><dt>
+
+          <code><a href="lookup_xy.html">lookup_xy()</a></code>
+
+        </dt>
+        <dd>Lookup Spatial Data for a Set of Points</dd>
+      </dl><dl><dt>
+
+          <code><a href="match_station.html">match_station()</a></code>
+
+        </dt>
+        <dd>Station matching using SMHI station list</dd>
+      </dl><dl><dt>
+
+          <code><a href="nominal_station.html">nominal_station()</a></code>
+
+        </dt>
+        <dd>Check if stations are reported as nominal position or not Function makes an estimated guess whether stations are nominal</dd>
+      </dl><dl><dt>
+
+          <code><a href="plot_map_leaflet.html">plot_map_leaflet()</a></code>
+
+        </dt>
+        <dd>Create a Leaflet map.</dd>
+      </dl><dl><dt>
+
+          <code><a href="plot_map_leaflet_deliv.html">plot_map_leaflet_deliv()</a></code>
+
+        </dt>
+        <dd>Create a Leaflet map.</dd>
+      </dl><dl><dt>
+
+          <code><a href="positions_are_near_land.html">positions_are_near_land()</a></code>
+
+        </dt>
+        <dd>Determine if Positions are Near Land</dd>
+      </dl><dl><dt>
+
+          <code><a href="which_basin.html">which_basin()</a></code>
+
+        </dt>
+        <dd>Determine if Points are in a Specified Sea Basin</dd>
+      </dl></div><div class="section level2">
 
       <h3 id="shark-data-checks">SHARK Data Checks<a class="anchor" aria-label="anchor" href="#shark-data-checks"></a></h3>
 
@@ -652,12 +735,6 @@
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype</dd>
       </dl><dl><dt>
 
-          <code><a href="check_onland.html">check_onland()</a></code>
-
-        </dt>
-        <dd>Check which points are located on land.</dd>
-      </dl><dl><dt>
-
           <code><a href="check_phytoplankton_abund.html">check_phytoplankton_abund()</a></code>
 
         </dt>
@@ -730,22 +807,10 @@
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype</dd>
       </dl><dl><dt>
 
-          <code><a href="check_station_distance.html">check_station_distance()</a></code>
-
-        </dt>
-        <dd>Station distance check using SMHI station list</dd>
-      </dl><dl><dt>
-
           <code><a href="check_value_logical.html">check_value_logical()</a></code>
 
         </dt>
         <dd>Check logical assumptions of data for specific variables and parameters</dd>
-      </dl><dl><dt>
-
-          <code><a href="check_zero_positions.html">check_zero_positions()</a></code>
-
-        </dt>
-        <dd>Check logical assumptions of data for station positions</dd>
       </dl><dl><dt>
 
           <code><a href="check_zero_value.html">check_zero_value()</a></code>
@@ -836,18 +901,6 @@
 
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype</dd>
-      </dl><dl><dt>
-
-          <code><a href="positions_are_near_land.html">positions_are_near_land()</a></code>
-
-        </dt>
-        <dd>Determine if Positions are Near Land</dd>
-      </dl><dl><dt>
-
-          <code><a href="which_basin.html">which_basin()</a></code>
-
-        </dt>
-        <dd>Determine if Points are in a Specified Sea Basin</dd>
       </dl></div><div class="section level2">
 
       <h3 id="misc">MISC<a class="anchor" aria-label="anchor" href="#misc"></a></h3>
@@ -865,42 +918,6 @@
 
         </dt>
         <dd>Clean SHARK4R cache by file age and session</dd>
-      </dl><dl><dt>
-
-          <code><a href="lookup_xy.html">lookup_xy()</a></code>
-
-        </dt>
-        <dd>Lookup spatial data for a set of points.</dd>
-      </dl><dl><dt>
-
-          <code><a href="match_station.html">match_station()</a></code>
-
-        </dt>
-        <dd>Station matching using SMHI station list</dd>
-      </dl><dl><dt>
-
-          <code><a href="match_wormstaxa.html">match_wormstaxa()</a></code>
-
-        </dt>
-        <dd>Taxon matching using WoRMS (http://www.marinespecies.org/) matches latin name in data with WoRMS taxon list</dd>
-      </dl><dl><dt>
-
-          <code><a href="nominal_station.html">nominal_station()</a></code>
-
-        </dt>
-        <dd>Check if stations are reported as nominal position or not Function makes an estimated guess whether stations are nominal</dd>
-      </dl><dl><dt>
-
-          <code><a href="plot_map_leaflet.html">plot_map_leaflet()</a></code>
-
-        </dt>
-        <dd>Create a Leaflet map.</dd>
-      </dl><dl><dt>
-
-          <code><a href="plot_map_leaflet_deliv.html">plot_map_leaflet_deliv()</a></code>
-
-        </dt>
-        <dd>Create a Leaflet map.</dd>
       </dl><dl><dt>
 
           <code><a href="scatterplot.html">scatterplot()</a></code>

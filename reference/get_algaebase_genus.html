@@ -59,11 +59,12 @@ including higher taxonomy, taxonomic status, scientific names, and other related
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_algaebase_genus</span><span class="op">(</span></span>
 <span>  <span class="va">genus</span>,</span>
-<span>  <span class="va">apikey</span>,</span>
+<span>  subscription_key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"ALGAEBASE_KEY"</span><span class="op">)</span>,</span>
 <span>  higher <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  unparsed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  newest_only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  exact_matches_only <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  exact_matches_only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  apikey <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -75,8 +76,17 @@ including higher taxonomy, taxonomic status, scientific names, and other related
 <dd><p>The genus name to search for (character string). This parameter is required.</p></dd>
 
 
-<dt id="arg-apikey">apikey<a class="anchor" aria-label="anchor" href="#arg-apikey"></a></dt>
-<dd><p>A valid API key for AlgaeBase (character string). This is required to authenticate API requests.</p></dd>
+<dt id="arg-subscription-key">subscription_key<a class="anchor" aria-label="anchor" href="#arg-subscription-key"></a></dt>
+<dd><p>A character string containing the API key for accessing the AlgaeBase API. By default, the key
+is read from the environment variable <code>ALGAEBASE_KEY</code>.</p>
+<p>You can provide the key in three ways:</p><ul><li><p><strong>Directly as a parameter</strong>:
+<code>get_algaebase_genus("Skeletonema", subscription_key = "your_key_here")</code></p></li>
+<li><p><strong>Temporarily for the session</strong>:
+<code>Sys.setenv(ALGAEBASE_KEY = "your_key_here")</code></p></li>
+<li><p><strong>Permanently across sessions</strong> by adding it to your <code>~/.Renviron</code> file.
+Use <code>usethis::edit_r_environ()</code> to open the file, then add:
+<code>ALGAEBASE_KEY=your_key_here</code></p></li>
+</ul></dd>
 
 
 <dt id="arg-higher">higher<a class="anchor" aria-label="anchor" href="#arg-higher"></a></dt>
@@ -94,22 +104,31 @@ including higher taxonomy, taxonomic status, scientific names, and other related
 <dt id="arg-exact-matches-only">exact_matches_only<a class="anchor" aria-label="anchor" href="#arg-exact-matches-only"></a></dt>
 <dd><p>A boolean flag to limit results to exact matches (default is TRUE).</p></dd>
 
+
+<dt id="arg-apikey">apikey<a class="anchor" aria-label="anchor" href="#arg-apikey"></a></dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>
+Use <code>subscription_key</code> instead.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame containing taxonomic data from AlgaeBase. Columns may include:
-- <code>id</code>: AlgaeBase ID.
-- <code>accepted_name</code>: Accepted scientific name (if different from input).
-- <code>input_name</code>: The genus name supplied by the user.
-- <code>input_match</code>: Whether the genus exactly matches (1 if exact, 0 if not).
-- <code>currently_accepted</code>: Whether the taxon is currently accepted (1=TRUE, 0=FALSE).
-- <code>genus_only</code>: Whether the search was for a genus only (1 for genus, 0 for genus + species).
-- <code>kingdom</code>, <code>phylum</code>, <code>class</code>, <code>order</code>, <code>family</code>: Higher taxonomy (if <code>higher</code> is TRUE).
-- <code>taxonomic_status</code>: Status of the taxon (currently accepted, synonym, unverified).
-- <code>taxon_rank</code>: The taxonomic rank of the accepted name (e.g., genus, species).
-- <code>mod_date</code>: Date when the entry was last modified.
-- <code>long_name</code>: Full scientific name including author and date (if available).
-- <code>authorship</code>: Author information (if available).</p>
+    <p>A data frame containing taxonomic data from AlgaeBase with the following possible columns:</p>
+<p>A data frame with the following columns:</p><ul><li><p><code>id</code> — AlgaeBase identifier.</p></li>
+<li><p><code>accepted_name</code> — Accepted scientific name (if different from the input).</p></li>
+<li><p><code>input_name</code> — The genus name supplied by the user.</p></li>
+<li><p><code>input_match</code> — Indicator of exact match (<code>1</code> = exact, <code>0</code> = not exact).</p></li>
+<li><p><code>currently_accepted</code> — Indicator if the taxon is currently accepted (<code>1</code> = TRUE, <code>0</code> = FALSE).</p></li>
+<li><p><code>genus_only</code> — Indicator if the search was for a genus only (<code>1</code> = genus, <code>0</code> = genus + species).</p></li>
+<li><p><code>kingdom</code>, <code>phylum</code>, <code>class</code>, <code>order</code>, <code>family</code> — Higher taxonomy (returned if <code>higher = TRUE</code>).</p></li>
+<li><p><code>taxonomic_status</code> — Status of the taxon (e.g., currently accepted, synonym, unverified).</p></li>
+<li><p><code>taxon_rank</code> — Taxonomic rank of the accepted name (e.g., genus, species).</p></li>
+<li><p><code>mod_date</code> — Date when the entry was last modified.</p></li>
+<li><p><code>long_name</code> — Full scientific name including author and date (if available).</p></li>
+<li><p><code>authorship</code> — Author information (if available).</p></li>
+</ul></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>A valid API key is requested from the AlgaeBase team.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -119,7 +138,7 @@ including higher taxonomy, taxonomic status, scientific names, and other related
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span>  <span class="fu">get_algaebase_genus</span><span class="op">(</span><span class="st">"Anabaena"</span>, apikey <span class="op">=</span> <span class="st">"your_api_key"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">get_algaebase_genus</span><span class="op">(</span><span class="st">"Anabaena"</span>, subscription_key <span class="op">=</span> <span class="st">"your_api_key"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
