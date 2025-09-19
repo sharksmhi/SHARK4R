@@ -2,7 +2,6 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom digest digest
 #' @importFrom dplyr %>%
 #' @importFrom dplyr across
 #' @importFrom dplyr any_of
@@ -62,7 +61,6 @@
 #' @importFrom lifecycle deprecate_warn
 #' @importFrom lifecycle deprecated
 #' @importFrom lifecycle is_present
-#' @importFrom lubridate ymd
 #' @importFrom plotly layout
 #' @importFrom plotly plot_ly
 #' @importFrom purrr map

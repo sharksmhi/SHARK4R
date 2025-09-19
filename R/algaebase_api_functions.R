@@ -57,7 +57,7 @@
 #'
 #' The function allows for integration with data analysis workflows that require resolving or verifying taxonomic names against AlgaeBase.
 #'
-#' @seealso \url{https://algaebase.org/} for AlgaeBase website.
+#' @seealso \url{https://www.algaebase.org/} for AlgaeBase website.
 #' @seealso \code{\link{parse_scientific_names}}
 #'
 #' @export
@@ -236,7 +236,7 @@ match_algaebase <- function(genus, species, subscription_key = Sys.getenv("ALGAE
 #' and filters the results based on various parameters. The function handles different taxonomic ranks
 #' and formats the output for easy use. It can merge higher taxonomy data if requested.
 #'
-#' @seealso \url{https://algaebase.org/} for AlgaeBase website.
+#' @seealso \url{https://www.algaebase.org/} for AlgaeBase website.
 #'
 #' @examples
 #' \dontrun{
@@ -361,7 +361,7 @@ get_algaebase_species <- function(genus, species, subscription_key = Sys.getenv(
   }
 
   # Parse `mod_date` once
-  mod_date <- ymd(extract_algaebase_field(results_output, "dcterms:modified"))
+  mod_date <- as.Date(extract_algaebase_field(results_output, "dcterms:modified"))
 
   # Extract higher taxonomy if requested
   if (higher) {
@@ -479,7 +479,7 @@ get_algaebase_species <- function(genus, species, subscription_key = Sys.getenv(
 #'   \item \code{authorship} — Author information (if available).
 #' }
 #'
-#' @seealso \url{https://algaebase.org/} for AlgaeBase website.
+#' @seealso \url{https://www.algaebase.org/} for AlgaeBase website.
 #'
 #' @examples
 #' \dontrun{
@@ -562,7 +562,7 @@ get_algaebase_genus <- function(genus, subscription_key = Sys.getenv("ALGAEBASE_
   if (unparsed) return(combined_results)
 
   # Parse `mod_date` once
-  mod_date <- lubridate::ymd(combined_results$`dcterms:modified`)
+  mod_date <- as.Date(combined_results$`dcterms:modified`)
 
   if (higher) {
     higher_taxonomy <- combined_results[, c("dwc:kingdom", "dwc:phylum", "dwc:class", "dwc:order", "dwc:family")]
@@ -619,13 +619,15 @@ get_algaebase_genus <- function(genus, subscription_key = Sys.getenv("ALGAEBASE_
 #'
 #' @return A character vector containing the values of the specified field, or `NA` if the field is not found.
 #'
-#' @seealso \url{https://algaebase.org/} for AlgaeBase website.
+#' @seealso \url{https://www.algaebase.org/} for AlgaeBase website.
 #'
 #' @examples
 #' # Example output from an AlgaeBase query
 #' query_result <- list(species = "Skeletonema marinoi", kingdom = "Chromista")
 #' field_value <- SHARK4R:::extract_algaebase_field(query_result, "species")
 #' print(field_value)
+#'
+#' @noRd
 #'
 #' @keywords internal
 extract_algaebase_field <- function(query_result, field_name) {
@@ -661,7 +663,7 @@ extract_algaebase_field <- function(query_result, field_name) {
 #'         are excluded from this column.
 #' }
 #'
-#' @seealso \url{https://algaebase.org/} for AlgaeBase website.
+#' @seealso \url{https://www.algaebase.org/} for AlgaeBase website.
 #'
 #' @examples
 #' # Example with a vector of scientific names
@@ -775,13 +777,15 @@ parse_scientific_names <- function(scientific_name,
 #' to ensure that the API is accessible and that the provided API key is valid.
 #' It is used internally to prevent unnecessary queries when the API is unavailable.
 #'
-#' @seealso \url{https://algaebase.org/} for AlgaeBase website.
+#' @seealso \url{https://www.algaebase.org/} for AlgaeBase website.
 #'
 #' @examples
 #' \dontrun{
 #' # Check API status with an API key
 #' check_algaebase_api(subscription_key = "your_api_key")
 #' }
+#'
+#' @noRd
 #'
 #' @keywords internal
 check_algaebase_api <- function(subscription_key = Sys.getenv("ALGAEBASE_KEY"), genus_id = 43375, apikey = deprecated()) {

@@ -103,7 +103,7 @@ head(algaebase_results)
 }
 }
 \seealso{
-\url{https://algaebase.org/} for AlgaeBase website.
+\url{https://www.algaebase.org/} for AlgaeBase website.
 
 \code{\link{parse_scientific_names}}
 }

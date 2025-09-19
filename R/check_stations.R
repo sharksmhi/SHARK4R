@@ -49,25 +49,28 @@ nominal_station <- function(data) {
   }
 }
 
-#' Station matching using SMHI station list
+#' Match station names against SMHI station list
 #'
-#' Matches reported station names in your data with a curated station list
-#' ("station.txt"), which is synced with "Stationsregistret":
+#' Matches reported station names in your dataset against a curated station list
+#' (\code{"station.txt"}), which is synced with "Stationsregistret":
 #' <https://stationsregister.miljodatasamverkan.se/>.
+#'
+#' This is useful for validating station names and identifying any unmatched
+#' or misspelled entries.
 #'
 #' @param names Character vector of station names to match.
 #' @param station_file Optional path to a custom station file (tab-delimited).
 #'   If \code{NULL} (default), the function will extract and use the bundled
-#'   "station.zip" from the SHARK4R package.
+#'   \code{"station.zip"} from the \code{SHARK4R} package.
 #'
 #' @return A data frame with two columns:
-#'   \itemize{
-#'     \item \code{reported_station_name} – the input station names
-#'     \item \code{match_type} – logical indicating if a match was found
+#'   \describe{
+#'     \item{reported_station_name}{The input station names.}
+#'     \item{match_type}{Logical; \code{TRUE} if the station was found in the SMHI station list, otherwise \code{FALSE}.}
 #'   }
 #'
 #' @examples
-#' stations <- c("BY31", "NonexistentStation")
+#' stations <- c("ANHOLT E", "STX999")
 #' match_station(stations)
 #'
 #' @export
@@ -111,24 +114,37 @@ match_station <- function(names, station_file = NULL) {
 
   if (length(which(match_type == FALSE))>0) {
     message("WARNING: Unmatched stations found, check synonyms")
-    print(matches[!match_type,])
   }
   else {
     message("All stations found")
   }
+  return(matches)
 }
 
-#' Station distance check using SMHI station list
+#' Check station distances against SMHI station list
 #'
-#' Matches reported station names in your data with a curated station list
-#' ("station.txt"), synced with "Stationsregistret":
-#' <https://stationsregister.miljodatasamverkan.se/>, and checks if the stations
-#' are within preset distance limits.
+#' Matches reported station names against the SMHI curated station list
+#' (\code{"station.txt"}) and checks whether matched stations fall within
+#' pre-defined distance limits. This helps ensure that station assignments
+#' are spatially consistent.
 #'
 #' @param names Character vector of station names to check.
 #' @param station_file Optional path to a custom station file (tab-delimited).
-#'   If NULL (default), the function will extract and use the bundled
-#'   "station.zip" from the SHARK4R package.
+#'   If \code{NULL} (default), the function will extract and use the bundled
+#'   \code{"station.zip"} from the \code{SHARK4R} package.
+#'
+#' @return A data frame with two columns:
+#'   \describe{
+#'     \item{reported_station_name}{The input station names.}
+#'     \item{match_type}{Logical; \code{TRUE} if the station was found in the SMHI station list, otherwise \code{FALSE}.}
+#'   }
+#'   Messages are issued if unmatched stations are found, or if matched stations
+#'   are suspected to fall outside distance limits.
+#'
+#' @examples
+#' stations <- c("ANHOLT E", "STX999")
+#' check_station_distance(stations)
+#'
 #' @export
 check_station_distance<- function(names, station_file = NULL) {
 
@@ -178,4 +194,5 @@ check_station_distance<- function(names, station_file = NULL) {
   else {
     message("All stations found within distance limits")
   }
+  return(matches)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_stations.R
 \name{check_station_distance}
 \alias{check_station_distance}
-\title{Station distance check using SMHI station list}
+\title{Check station distances against SMHI station list}
 \usage{
 check_station_distance(names, station_file = NULL)
 }
@@ -10,12 +10,26 @@ check_station_distance(names, station_file = NULL)
 \item{names}{Character vector of station names to check.}
 
 \item{station_file}{Optional path to a custom station file (tab-delimited).
-If NULL (default), the function will extract and use the bundled
-"station.zip" from the SHARK4R package.}
+If \code{NULL} (default), the function will extract and use the bundled
+\code{"station.zip"} from the \code{SHARK4R} package.}
+}
+\value{
+A data frame with two columns:
+\describe{
+\item{reported_station_name}{The input station names.}
+\item{match_type}{Logical; \code{TRUE} if the station was found in the SMHI station list, otherwise \code{FALSE}.}
+}
+Messages are issued if unmatched stations are found, or if matched stations
+are suspected to fall outside distance limits.
 }
 \description{
-Matches reported station names in your data with a curated station list
-("station.txt"), synced with "Stationsregistret":
-\url{https://stationsregister.miljodatasamverkan.se/}, and checks if the stations
-are within preset distance limits.
+Matches reported station names against the SMHI curated station list
+(\code{"station.txt"}) and checks whether matched stations fall within
+pre-defined distance limits. This helps ensure that station assignments
+are spatially consistent.
+}
+\examples{
+stations <- c("ANHOLT E", "STX999")
+check_station_distance(stations)
+
 }

@@ -13,11 +13,11 @@ shark_read_deliv <- function(filename, skip = 2, sheet = 2) {
   i <- i %>%
     mutate(across(everything(), ~ type.convert(., as.is = TRUE))) %>%
     #mutate_if(is.factor, as.character) %>%
-    mutate(across("SDATE", ymd))
+    mutate(SDATE = as.Date(SDATE))
 
   if (length(i) > 0) {
     return(i)
-    }
+  }
   else {
     message("ERROR: File is empty or not in excel format")
   }
@@ -38,7 +38,7 @@ shark_read_deliv_xls <- function(filename, skip = 2, sheet = 2) {
   i <- i %>%
     mutate(across(everything(), ~ type.convert(., as.is = TRUE))) %>%
     #mutate_if(is.factor, as.character) %>%
-    mutate(across("SDATE", ymd))
+    mutate(SDATE = as.Date(SDATE))
 
   if (length(i) > 0) {
     return(i)
@@ -102,9 +102,8 @@ shark_read <- function(filename, delimiters = "point-tab", encoding = "latin_1")
   i <- i %>%
     mutate(across(everything(), ~ type.convert(., as.is = TRUE))) %>%
     #mutate_if(is.factor, as.character)%>%
-    mutate_at("sample_date", ymd) %>%
-    mutate_at("value", as.numeric)
-
+    mutate(across("sample_date", as.Date)) %>%
+    mutate(across("value", as.numeric))
 
   if (length(i) > 0) {
     return(i)
@@ -133,8 +132,8 @@ shark_read_zip <- function(zipname) {
   i <- i %>%
     mutate(across(everything(), ~ type.convert(., as.is = TRUE))) %>%
     #mutate_if(is.factor, as.character)%>%
-    mutate_at("sample_date", ymd) %>%
-    mutate_at("value", as.numeric)
+    mutate(across("sample_date", as.Date)) %>%
+    mutate(across("value", as.numeric))
 
   if (length(i) > 0) {
     return(i)

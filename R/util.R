@@ -169,7 +169,15 @@ cache_call <- function(key, expr, env = NULL) {
     env = parent.frame()
   }
   cache_dir <- tools::R_user_dir("SHARK4R", which = "cache")
-  cachefile <- file.path(cache_dir, paste0("call_", digest::digest(list(key=key, expr=expr)), ".rds"))
+
+  tmpfile <- tempfile()
+  saveRDS(list(key = key, expr = expr), tmpfile)
+  hash <- tools::md5sum(tmpfile)
+  unlink(tmpfile)
+
+  cachefile <- file.path(cache_dir, paste0("call_", hash, ".rds"))
+
+  cachefile <- file.path(cache_dir, paste0("call_", hash, ".rds"))
   if(file.exists(cachefile) && difftime(Sys.time(), file.info(cachefile)[,"mtime"], units = "hours") < 10) {
     return(readRDS(cachefile))
   } else {

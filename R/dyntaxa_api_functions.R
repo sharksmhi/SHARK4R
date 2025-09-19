@@ -224,6 +224,8 @@ get_dyntaxa_parent_ids <- function(taxon_ids,
 #'
 #' @return A data frame containing children taxon information corresponding to the specified taxon IDs.
 #'
+#' @noRd
+#'
 #' @keywords internal
 #'
 #' @examples
@@ -330,6 +332,8 @@ get_dyntaxa_children_hierarchy <- function(taxon_ids,
 #' @param verbose Logical. Default is TRUE.
 #'
 #' @return A list containing children taxon IDs corresponding to the specified taxon IDs.
+#'
+#' @noRd
 #'
 #' @keywords internal
 #'
@@ -442,6 +446,8 @@ get_dyntaxa_children_ids <- function(taxon_ids,
 #'
 #' @return A data frame with taxonomy information, including taxon IDs, parent IDs, ranks, names, and other details.
 #'         The data frame may also include hierarchical information depending on the parameters set.
+#'
+#' @noRd
 #'
 #' @keywords internal
 #'
@@ -842,6 +848,8 @@ construct_dyntaxa_missing_table <- function(parent_ids,
 #'
 #' @param x A vector.
 #' @return A vector with NAs filled below the first non-NA value.
+#'
+#' @noRd
 #'
 #' @keywords internal
 fill_na_below_first_non_na <- function(x) {
@@ -1498,6 +1506,8 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DY
 #' # Find descendants of taxon "1"
 #' SHARK4R:::find_descendants("1", data)
 #'
+#' @noRd
+#'
 #' @keywords internal
 find_descendants <- function(taxon_id, data) {
   # Get immediate children of the current taxon
@@ -1546,6 +1556,8 @@ find_descendants <- function(taxon_id, data) {
 #' # Find all parents of taxon IDs "3" and "4"
 #' SHARK4R:::get_all_parents(data, initial_taxon_ids = c("3", "4"))
 #'
+#' @noRd
+#'
 #' @keywords internal
 get_all_parents <- function(data, initial_taxon_ids) {
   # Start with the initial filtered data
@@ -1589,6 +1601,8 @@ get_all_parents <- function(data, initial_taxon_ids) {
 #' # Get hierarchy for taxon ID "3"
 #' SHARK4R:::get_hierarchy("3", data)
 #' # [1] "Phylum" "Kingdom"
+#'
+#' @noRd
 #'
 #' @keywords internal
 get_hierarchy <- function(taxon_id, data) {
@@ -1634,8 +1648,9 @@ get_hierarchy <- function(taxon_id, data) {
 #' data_with_hierarchy <- SHARK4R:::add_hierarchy_column(data)
 #' print(data_with_hierarchy)
 #'
+#' @noRd
+#'
 #' @keywords internal
-# Main function to calculate hierarchy with a progress bar
 add_hierarchy_column <- function(data, data_dwca = NULL, verbose = TRUE) {
 
   if (is.null(data_dwca)) {

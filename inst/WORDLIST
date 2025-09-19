@@ -43,7 +43,6 @@ Lifecycle
 Mediophyceae
 Mesodinium
 Microalgae
-MorphoType
 NODC
 NOMP
 NotSet
@@ -58,7 +57,6 @@ Picoplankton
 PlanktonBarcoding
 Provoost
 README
-SBDI
 SLU
 SMHI
 SMHIs
@@ -71,6 +69,7 @@ algaebase
 barcoding
 bathymetry
 benthic
+biotoxin
 biovolume
 biovolumes
 codecov
@@ -83,6 +82,7 @@ df
 dinoflagellate
 dyntaxa
 forma
+funder
 geopackage
 geospatial
 ggplot
@@ -98,7 +98,6 @@ microalgae
 microzooplankton
 nomp
 nrow
-obistools
 phycological
 phytoplankton
 plotly

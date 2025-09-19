@@ -77,8 +77,10 @@ get_shark_options <- function(prod = TRUE, unparsed = FALSE) {
 }
 #' Retrieve SHARK data table row counts
 #'
-#' The `get_shark_table_counts` function retrieves the row counts of data records from various SHARK data tables.
-#' To view available filter options, see \code{\link{get_shark_options}}.
+#' The `get_shark_table_counts` function retrieves the number of records (row counts)
+#' from various SHARK data tables based on specified filters such as year, months,
+#' data type, stations, and taxa. To view available filter options, see
+#' \code{\link{get_shark_options}}.
 #'
 #' @param tableView Character. Specifies the view of the table to retrieve. Options include:
 #'   \itemize{
@@ -138,6 +140,9 @@ get_shark_options <- function(prod = TRUE, unparsed = FALSE) {
 #'
 #' @seealso \url{https://shark.smhi.se} for SHARK database.
 #' @seealso \code{\link{get_shark_options}}
+#'
+#' @return An integer representing the total number of rows in the requested SHARK table
+#'   after applying the specified filters.
 #'
 #' @examples
 #' \dontrun{
