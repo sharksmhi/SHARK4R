@@ -2594,7 +2594,7 @@ check_deliv_Sedimentation <- function(data, level = "error") {
 
   errors <- tibble()
   required <- c("MYEAR",	"STATN",	"PROJ",	"ORDERER",	"SHIPC",	"SDATE",	"LATIT",	"LONGI", 	"POSYS",	"WADEP",	"MSTAT", "SMDEP", "SLABO",	"ACKR_SMP",	"SMTYP",	"SMVOL",	"MESH","ALABO",	"ACKR_ANA",	"ANADATE", "METDC", "S_COR_FAC",	"SED_DW",	"QDW",	"SED_C%",	"QC",	"SED_N%",	"QN",	"SED_P%",	"QP")
-  recommended <- c("COMNT_EXP",	"WINDIR",	"WINSP",	"WEATH",	"CLOUD",	"WAVES",	"ICEOB",	"SMPNO",	"STIME", "QDEP", "SMPNO",	"COMNT_SAMP", "METFP","REFSK",	"COMNT_VAR")
+  recommended <- c("COMNT_EXP",	"WINDIR",	"WINSP",	"WEATH",	"CLOUD",	"WAVES",	"ICEOB",	"STIME", "QDEP", "SMPNO",	"COMNT_SAMP", "METFP", "REFSK",	"COMNT_VAR")
 
   # find missing required fields
 
