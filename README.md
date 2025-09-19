@@ -1,4 +1,4 @@
-# SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae <a href="https://sharksmhi.github.io/SHARK4R/"><img src="man/figures/logo.png" align="right" height="139" alt="SHARK4R website" /></a>
+# SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases <a href="https://sharksmhi.github.io/SHARK4R/"><img src="man/figures/logo.png" align="right" height="139" alt="SHARK4R website" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml)
