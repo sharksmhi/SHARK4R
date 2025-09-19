@@ -39,7 +39,7 @@ read_ptbx <- function(file_path, sheet = c("sample_data.txt", "sample_info.txt",
 
   sheet <- match.arg(sheet)  # Ensure sheet is one of the allowed options
 
-  if (grepl(".xlsx$", file_path, ignore.case = TRUE)) {
+  if (grepl("\\.xlsx$", file_path, ignore.case = TRUE)) {
     if (sheet %in% excel_sheets(file_path)) {
       return(read_excel(file_path, sheet = sheet, progress = FALSE))
     } else {
@@ -59,6 +59,8 @@ read_ptbx <- function(file_path, sheet = c("sample_data.txt", "sample_info.txt",
 #'   previous years are automatically tried.
 #' @param file Character string specifying which file in the zip archive to read.
 #'   Defaults to the first Excel file in the archive.
+#' @param sheet Character or numeric; the name or index of the sheet to read from the Excel file.
+#'        If neither argument specifies the sheet, defaults to the first sheet.
 #' @param force Logical; if `TRUE`, forces re-download of the zip file even if cached copy exists.
 #' @param base_url Base URL (without "/nomp_taxa_biovolumes_and_carbon_YYYY.zip") for the NOMP biovolume files. Defaults to the SMHI directory.
 #' @param clean_cache_days Numeric; if not `NULL`, cached NOMP zip files older than
@@ -80,6 +82,7 @@ read_ptbx <- function(file_path, sheet = c("sample_data.txt", "sample_info.txt",
 #' }
 get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
                           file = NULL,
+                          sheet = NULL,
                           force = FALSE,
                           base_url = NULL,
                           clean_cache_days = 30) {
@@ -122,7 +125,7 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
   }
 
   # Read Excel
-  readxl::read_excel(file_to_read, guess_max = 10000, progress = FALSE)
+  readxl::read_excel(file_to_read, sheet = sheet, guess_max = 10000, progress = FALSE)
 }
 
 #' Get PEG biovolume Excel list
@@ -133,6 +136,8 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
 #'
 #' @param file Character string specifying which file in the zip archive to read.
 #'   Defaults to the first Excel file in the archive.
+#' @param sheet Character or numeric; the name or index of the sheet to read from the Excel file.
+#'        If neither argument specifies the sheet, defaults to the first sheet.
 #' @param force Logical; if `TRUE`, forces re-download of the zip file even if a cached copy exists.
 #' @param url Character string with the URL of the PEG zip file.
 #'   Defaults to the official ICES link.
@@ -154,6 +159,7 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
 #'   peg_list2 <- get_peg_list(file = "PEG_extra_sheet.xlsx")
 #' }
 get_peg_list <- function(file = NULL,
+                         sheet = NULL,
                          force = FALSE,
                          url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL.zip",
                          clean_cache_days = 30) {
@@ -198,5 +204,5 @@ get_peg_list <- function(file = NULL,
   }
 
   # Read Excel
-  readxl::read_excel(file_to_read, guess_max = 10000, progress = FALSE)
+  readxl::read_excel(file_to_read, sheet = sheet, guess_max = 10000, progress = FALSE)
 }
