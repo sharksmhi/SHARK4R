@@ -1,4 +1,4 @@
-#' Retrieve Available Search Options from SHARK API
+#' Retrieve available search options from SHARK API
 #'
 #' The `get_shark_options` function retrieves available search options from the SHARK database.
 #' It sends a GET request to the SHARK API and returns the results as a structured `data.frame`.
@@ -75,7 +75,7 @@ get_shark_options <- function(prod = TRUE, unparsed = FALSE) {
     stop("Failed to retrieve options: ", status_code(response))
   }
 }
-#' Retrieve SHARK Data Table Row Counts
+#' Retrieve SHARK data table row counts
 #'
 #' The `get_shark_table_counts` function retrieves the row counts of data records from various SHARK data tables.
 #' To view available filter options, see \code{\link{get_shark_options}}.
@@ -221,7 +221,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
     stop("Failed to retrieve data: ", status_code(response))
   }
 }
-#' Retrieve Data from SHARK API
+#' Retrieve data from the SHARK API
 #'
 #' The `get_shark_data` function retrieves tabular data from the SHARK database hosted by SMHI. The function sends a POST request
 #' to the SHARK API with customizable filters, including year, month, taxon name, water category, and more, and returns the

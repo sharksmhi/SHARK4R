@@ -1,4 +1,4 @@
-#' Lookup Spatial Data for a Set of Points
+#' Lookup spatial data for a set of points
 #'
 #' Retrieves spatial information (e.g., distance to shore, environmental grids, and area data)
 #' for a set of geographic coordinates. The function handles invalid or duplicate coordinates

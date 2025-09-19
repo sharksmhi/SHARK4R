@@ -2,7 +2,7 @@
 % Please edit documentation in R/dyntaxa_api_functions.R
 \name{construct_dyntaxa_missing_table}
 \alias{construct_dyntaxa_missing_table}
-\title{Construct Dyntaxa Taxonomy Table From Individual API}
+\title{Construct Dyntaxa taxonomy table from individually API calls}
 \usage{
 construct_dyntaxa_missing_table(
   parent_ids,

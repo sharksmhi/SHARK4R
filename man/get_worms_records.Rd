@@ -2,7 +2,7 @@
 % Please edit documentation in R/worms_api_functions.R
 \name{get_worms_records}
 \alias{get_worms_records}
-\title{Retrieve WoRMS Records}
+\title{Retrieve WoRMS records}
 \usage{
 get_worms_records(aphia_id, max_retries = 3, sleep_time = 10, verbose = TRUE)
 }

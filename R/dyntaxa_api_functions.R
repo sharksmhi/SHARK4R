@@ -398,7 +398,7 @@ get_dyntaxa_children_ids <- function(taxon_ids,
   return(results)
 }
 
-#' Construct Dyntaxa Taxonomy Table From Individual API
+#' Construct Dyntaxa taxonomy table from individually API calls
 #'
 #' This internal function constructs a taxonomy table by individually querying the SLU Artdatabanken API (Dyntaxa)
 #' using a list of parent taxon IDs. It fetches taxonomy information for the provided taxon IDs and
@@ -1101,7 +1101,7 @@ match_taxon_name <- function(taxon_names,
     distinct()
   return(result_df)
 }
-#' Download and Read Darwin Core Archive Files from Dyntaxa
+#' Download and read Darwin Core Archive files from Dyntaxa
 #'
 #' This function downloads a complete Darwin Core Archive (DwCA) of Dyntaxa from the SLU Artdatabanken API,
 #' extracts the archive, and reads the specified CSV file into R.
@@ -1213,7 +1213,7 @@ get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
     stop("Failed to download the zip file: ", httr::status_code(response))
   }
 }
-#' Construct Dyntaxa Taxonomy Table From API
+#' Construct Dyntaxa taxonomy table from API
 #'
 #' This function constructs a taxonomy table based on Dyntaxa taxon IDs.
 #' It queries the SLU Artdatabanken API (Dyntaxa) to fetch taxonomy information and organizes the data into a hierarchical table.
@@ -1475,7 +1475,7 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DY
   # Return the final data table with all requested modifications
   return(data_all)
 }
-#' Find All Descendants of a Taxon
+#' Find all descendants of a taxon
 #'
 #' This helper function recursively finds all descendant taxa of a given taxon ID
 #' by traversing the parent-child hierarchy in the provided dataset.
@@ -1518,7 +1518,7 @@ find_descendants <- function(taxon_id, data) {
 
   return(all_descendants)
 }
-#' Get All Parent Taxa for a Set of Taxon IDs
+#' Get all parent taxa for a set of taxon IDs
 #'
 #' This helper function iteratively retrieves all parent taxa for a given set
 #' of initial taxon IDs, traversing up the taxonomic hierarchy until the root
@@ -1568,7 +1568,7 @@ get_all_parents <- function(data, initial_taxon_ids) {
 
   return(all_parents)
 }
-#' Recursively Retrieve Parent Taxonomic Hierarchy
+#' Recursively retrieve parent taxonomic hierarchy
 #'
 #' This helper function retrieves the taxonomic hierarchy for a given taxon ID by
 #' recursively traversing its parent relationships in the provided dataset.
@@ -1607,7 +1607,7 @@ get_hierarchy <- function(taxon_id, data) {
   # Recurse to find the hierarchy of the parent
   c(get_hierarchy(parent_id, data), parent_name) # Reverse order, add parent first
 }
-#' Add Taxonomic Hierarchy Column to a Dataset
+#' Add taxonomic hierarchy column to a dataset
 #'
 #' This function adds a new column, `hierarchy`, to a dataset, where each row contains
 #' the taxonomic hierarchy of parent `scientificName` values for the given `taxonId`.

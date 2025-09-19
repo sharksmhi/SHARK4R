@@ -2,7 +2,7 @@
 % Please edit documentation in R/shark_api_functions.R
 \name{get_shark_table_counts}
 \alias{get_shark_table_counts}
-\title{Retrieve SHARK Data Table Row Counts}
+\title{Retrieve SHARK data table row counts}
 \usage{
 get_shark_table_counts(
   tableView = "sharkweb_overview",

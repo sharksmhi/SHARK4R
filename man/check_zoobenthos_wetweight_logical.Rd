@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_logical.R
 \name{check_zoobenthos_wetweight_logical}
 \alias{check_zoobenthos_wetweight_logical}
-\title{Check if Wet weight measurements are zero}
+\title{Check if wet weight measurements are zero}
 \usage{
 check_zoobenthos_wetweight_logical(data, return_df = FALSE, return_logical = FALSE)
 }
@@ -18,5 +18,5 @@ indicating which rows have Wet weight == 0. Overrides return_df.}
 A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
 }
 \description{
-Check if Wet weight measurements are zero
+Check if wet weight measurements are zero
 }

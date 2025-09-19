@@ -2,7 +2,7 @@
 % Please edit documentation in R/dyntaxa_api_functions.R
 \name{add_hierarchy_column}
 \alias{add_hierarchy_column}
-\title{Add Taxonomic Hierarchy Column to a Dataset}
+\title{Add taxonomic hierarchy column to a dataset}
 \usage{
 add_hierarchy_column(data, data_dwca = NULL, verbose = TRUE)
 }

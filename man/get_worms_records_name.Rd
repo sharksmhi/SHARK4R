@@ -2,7 +2,7 @@
 % Please edit documentation in R/worms_api_functions.R
 \name{get_worms_records_name}
 \alias{get_worms_records_name}
-\title{Retrieve WoRMS Records by Taxonomic Names with Retry Logic}
+\title{Retrieve WoRMS records by taxonomic names with retry logic}
 \usage{
 get_worms_records_name(
   taxa_names,

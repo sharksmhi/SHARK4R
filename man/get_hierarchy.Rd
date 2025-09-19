@@ -2,7 +2,7 @@
 % Please edit documentation in R/dyntaxa_api_functions.R
 \name{get_hierarchy}
 \alias{get_hierarchy}
-\title{Recursively Retrieve Parent Taxonomic Hierarchy}
+\title{Recursively retrieve parent taxonomic hierarchy}
 \usage{
 get_hierarchy(taxon_id, data)
 }

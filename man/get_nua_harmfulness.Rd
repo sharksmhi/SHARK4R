@@ -2,7 +2,7 @@
 % Please edit documentation in R/nua_api_functions.R
 \name{get_nua_harmfulness}
 \alias{get_nua_harmfulness}
-\title{Retrieve Harmfulness for Taxa from Nordic Microalgae}
+\title{Retrieve harmfulness for taxa from Nordic Microalgae}
 \usage{
 get_nua_harmfulness(slug, verbose = TRUE)
 }

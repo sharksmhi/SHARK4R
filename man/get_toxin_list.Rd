@@ -2,7 +2,7 @@
 % Please edit documentation in R/hab_api_functions.R
 \name{get_toxin_list}
 \alias{get_toxin_list}
-\title{Retrieve Toxin Data from IOC-UNESCO Toxins Database}
+\title{Retrieve marine biotoxin data from IOC-UNESCO Toxins Database}
 \usage{
 get_toxin_list(return_count = FALSE)
 }

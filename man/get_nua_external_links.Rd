@@ -2,7 +2,7 @@
 % Please edit documentation in R/nua_api_functions.R
 \name{get_nua_external_links}
 \alias{get_nua_external_links}
-\title{Retrieve External Links or Facts for Taxa from Nordic Microalgae}
+\title{Retrieve external links or facts for taxa from Nordic Microalgae}
 \usage{
 get_nua_external_links(slug, verbose = TRUE, unparsed = FALSE)
 }

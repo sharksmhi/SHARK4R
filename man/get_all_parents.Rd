@@ -2,7 +2,7 @@
 % Please edit documentation in R/dyntaxa_api_functions.R
 \name{get_all_parents}
 \alias{get_all_parents}
-\title{Get All Parent Taxa for a Set of Taxon IDs}
+\title{Get all parent taxa for a set of taxon IDs}
 \usage{
 get_all_parents(data, initial_taxon_ids)
 }

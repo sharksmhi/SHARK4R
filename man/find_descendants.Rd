@@ -2,7 +2,7 @@
 % Please edit documentation in R/dyntaxa_api_functions.R
 \name{find_descendants}
 \alias{find_descendants}
-\title{Find All Descendants of a Taxon}
+\title{Find all descendants of a taxon}
 \usage{
 find_descendants(taxon_id, data)
 }

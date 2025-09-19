@@ -2,7 +2,7 @@
 % Please edit documentation in R/algaebase_api_functions.R
 \name{get_algaebase_genus}
 \alias{get_algaebase_genus}
-\title{Search AlgaeBase for Information About a Genus of Algae}
+\title{Search AlgaeBase for information about a genus of algae}
 \usage{
 get_algaebase_genus(
   genus,
@@ -43,8 +43,6 @@ Use \code{usethis::edit_r_environ()} to open the file, then add:
 Use \code{subscription_key} instead.}
 }
 \value{
-A data frame containing taxonomic data from AlgaeBase with the following possible columns:
-
 A data frame with the following columns:
 \itemize{
 \item \code{id} — AlgaeBase identifier.

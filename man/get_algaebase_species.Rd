@@ -2,7 +2,7 @@
 % Please edit documentation in R/algaebase_api_functions.R
 \name{get_algaebase_species}
 \alias{get_algaebase_species}
-\title{AlgaeBase Species Search}
+\title{Search AlgaeBase for information about a species of algae}
 \usage{
 get_algaebase_species(
   genus,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/dyntaxa_api_functions.R
 \name{get_dyntaxa_dwca}
 \alias{get_dyntaxa_dwca}
-\title{Download and Read Darwin Core Archive Files from Dyntaxa}
+\title{Download and read Darwin Core Archive files from Dyntaxa}
 \usage{
 get_dyntaxa_dwca(
   subscription_key = Sys.getenv("DYNTAXA_KEY"),

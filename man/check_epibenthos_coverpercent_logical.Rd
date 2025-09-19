@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_logical.R
 \name{check_epibenthos_coverpercent_logical}
 \alias{check_epibenthos_coverpercent_logical}
-\title{Check if Epibenthos Cover (\%) exceeds 100\%}
+\title{Check if Epibenthos cover (\%) exceeds 100\%}
 \usage{
 check_epibenthos_coverpercent_logical(data, return_df = FALSE, return_logical = FALSE)
 }
@@ -18,5 +18,5 @@ indicating which rows exceed 100\% for Cover (\%). Overrides return_df.}
 A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
 }
 \description{
-Check if Epibenthos Cover (\%) exceeds 100\%
+Check if Epibenthos cover (\%) exceeds 100\%
 }

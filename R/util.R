@@ -1,3 +1,85 @@
+#' Clean SHARK4R cache by file age and session
+#'
+#' Deletes cached files in the SHARK4R cache directory that are older than
+#' a specified number of days, and also clears the in-memory session cache
+#' used by functions like `get_dyntaxa_dwca()`.
+#'
+#' @param days Numeric; remove files older than this number of days. Default is 1.
+#' @param cache_dir Character; path to the cache directory to clean.
+#'   Defaults to the SHARK4R cache directory in the user-specific R folder
+#'   (via `tools::R_user_dir("SHARK4R", "cache")`). You can override this
+#'   parameter for custom cache locations.
+#' @param clear_perm_cache Logical. If `TRUE`, filed that are cached across R sessions are cleared. Defaults to `FALSE`.
+#' @param search_pattern Character; optional regex pattern to filter which files to consider for deletion.
+#' @param verbose Logical. If `TRUE`, displays messages of cache cleaning progress. Defaults to `TRUE`.
+#'
+#' @details
+#' The cache is automatically cleared after 24h.
+#'
+#' @export
+#'
+#' @seealso [get_peg_list()], [get_nomp_list()], [get_shark_codes()], [get_dyntaxa_dwca()]
+#'   for functions that populate the cache.
+#'
+#' @return Invisible `NULL`. Messages are printed about what was deleted
+#'   and whether the in-memory session cache was cleared.
+#'
+#' @examples
+#' \dontrun{
+#'   # Remove files older than 60 days and clear session cache
+#'   clean_shark4r_cache(days = 60)
+#' }
+clean_shark4r_cache <- function(days = 1,
+                                cache_dir = tools::R_user_dir("SHARK4R", "cache"),
+                                clear_perm_cache = FALSE,
+                                search_pattern = NULL,
+                                verbose = TRUE) {
+  # Clear in-memory cache if it exists
+  if (exists(".shark4r_cache", envir = asNamespace("SHARK4R"))) {
+    cache_env <- get(".shark4r_cache", envir = asNamespace("SHARK4R"))
+    rm(list = ls(envir = cache_env), envir = cache_env)
+    if (verbose) message("Cleared in-memory session cache (.shark4r_cache).")
+  }
+
+  if (!dir.exists(cache_dir)) {
+    if (verbose) message("No SHARK4R cache directory found.")
+    return(invisible(NULL))
+  }
+
+  files <- list.files(cache_dir, full.names = TRUE)
+  if (clear_perm_cache) {
+    perm_dir <- file.path(cache_dir, "perm")
+    if (dir.exists(perm_dir)) {
+      perm_files <- list.files(perm_dir, full.names = TRUE)
+      files <- c(files, perm_files)
+    }
+  }
+
+  if (search_pattern == "" || is.null(search_pattern)) {
+    # No filtering
+  } else {
+    files <- files[grepl(search_pattern, basename(files))]
+  }
+
+  if (length(files) == 0) {
+    if (verbose) message("SHARK4R cache is already empty.")
+    return(invisible(NULL))
+  }
+
+  old_files <- files[file.info(files)$mtime < Sys.time() - days * 24*60*60]
+
+  if (length(old_files) == 0) {
+    if (verbose) message("No files older than ", days, " days to remove.")
+    return(invisible(NULL))
+  }
+
+  unlink(old_files, recursive = TRUE, force = TRUE)
+  if (verbose) message("Removed ", length(old_files), " file(s) older than ", days, " days from SHARK4R cache.")
+  invisible(NULL)
+}
+
+## Helpers
+
 missing_fields <- function(data, fields) {
   missing <- !(fields %in% names(data))
   return(fields[missing])
@@ -224,84 +306,4 @@ cache_peg_zip <- function(url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL
   }
 
   destfile
-}
-
-#' Clean SHARK4R cache by file age and session
-#'
-#' Deletes cached files in the SHARK4R cache directory that are older than
-#' a specified number of days, and also clears the in-memory session cache
-#' used by functions like `get_dyntaxa_dwca()`.
-#'
-#' @param days Numeric; remove files older than this number of days. Default is 1.
-#' @param cache_dir Character; path to the cache directory to clean.
-#'   Defaults to the SHARK4R cache directory in the user-specific R folder
-#'   (via `tools::R_user_dir("SHARK4R", "cache")`). You can override this
-#'   parameter for custom cache locations.
-#' @param clear_perm_cache Logical. If `TRUE`, filed that are cached across R sessions are cleared. Defaults to `FALSE`.
-#' @param search_pattern Character; optional regex pattern to filter which files to consider for deletion.
-#' @param verbose Logical. If `TRUE`, displays messages of cache cleaning progress. Defaults to `TRUE`.
-#'
-#' @details
-#' The cache is automatically cleared after 24h.
-#'
-#' @export
-#'
-#' @seealso [get_peg_list()], [get_nomp_list()], [get_shark_codes()], [get_dyntaxa_dwca()]
-#'   for functions that populate the cache.
-#'
-#' @return Invisible `NULL`. Messages are printed about what was deleted
-#'   and whether the in-memory session cache was cleared.
-#'
-#' @examples
-#' \dontrun{
-#'   # Remove files older than 60 days and clear session cache
-#'   clean_shark4r_cache(days = 60)
-#' }
-clean_shark4r_cache <- function(days = 1,
-                                cache_dir = tools::R_user_dir("SHARK4R", "cache"),
-                                clear_perm_cache = FALSE,
-                                search_pattern = NULL,
-                                verbose = TRUE) {
-  # Clear in-memory cache if it exists
-  if (exists(".shark4r_cache", envir = asNamespace("SHARK4R"))) {
-    cache_env <- get(".shark4r_cache", envir = asNamespace("SHARK4R"))
-    rm(list = ls(envir = cache_env), envir = cache_env)
-    if (verbose) message("Cleared in-memory session cache (.shark4r_cache).")
-  }
-
-  if (!dir.exists(cache_dir)) {
-    if (verbose) message("No SHARK4R cache directory found.")
-    return(invisible(NULL))
-  }
-
-  files <- list.files(cache_dir, full.names = TRUE)
-  if (clear_perm_cache) {
-    perm_dir <- file.path(cache_dir, "perm")
-    if (dir.exists(perm_dir)) {
-      perm_files <- list.files(perm_dir, full.names = TRUE)
-      files <- c(files, perm_files)
-    }
-  }
-
-  if (search_pattern == "" || is.null(search_pattern)) {
-    # No filtering
-  } else {
-    files <- files[grepl(search_pattern, basename(files))]
-  }
-
-  if (length(files) == 0) {
-    if (verbose) message("SHARK4R cache is already empty.")
-    return(invisible(NULL))
-  }
-
-  old_files <- files[file.info(files)$mtime < Sys.time() - days * 24*60*60]
-
-  if (length(old_files) == 0) {
-    if (verbose) message("No files older than ", days, " days to remove.")
-    return(invisible(NULL))
-  }
-
-  unlink(old_files, recursive = TRUE, force = TRUE)
-  if (verbose) message("Removed ", length(old_files), " file(s) older than ", days, " days from SHARK4R cache.")
-  invisible(NULL)
 }

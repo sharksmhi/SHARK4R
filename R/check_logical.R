@@ -135,7 +135,7 @@ check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, r
   }
 }
 
-#' Check if Epibenthos Total Cover exceeds 100%
+#' Check if Epibenthos total cover exceeds 100%
 #'
 #' @usage check_epibenthos_totcover_logical(data, return_df = FALSE, return_logical = FALSE)
 #'
@@ -189,7 +189,7 @@ check_epibenthos_totcover_logical <- function(data, return_df = FALSE, return_lo
     invisible(NULL)
   }
 }
-#' Check if Epibenthos Cover (%) exceeds 100%
+#' Check if Epibenthos cover (%) exceeds 100%
 #'
 #' @usage check_epibenthos_coverpercent_logical(data, return_df = FALSE, return_logical = FALSE)
 #'
@@ -243,7 +243,7 @@ check_epibenthos_coverpercent_logical <- function(data, return_df = FALSE, retur
     invisible(NULL)
   }
 }
-#' Check if Epibenthos Cover exceeds 100%
+#' Check if Epibenthos cover exceeds 100%
 #'
 #' @usage check_epibenthos_cover_logical(data, return_df = FALSE, return_logical = FALSE)
 #'
@@ -298,7 +298,7 @@ check_epibenthos_cover_logical <- function(data, return_df = FALSE, return_logic
     invisible(NULL)
   }
 }
-#' Check if Epibenthos Cover class exceeds 10
+#' Check if Epibenthos cover class exceeds 10
 #'
 #' @usage check_epibenthos_coverclass_logical(data, return_df = FALSE, return_logical = FALSE)
 #'
@@ -527,7 +527,7 @@ check_zoobenthos_BQIm_logical <- function(data, return_df = FALSE, return_logica
   }
 }
 
-#' Check if Wet weight measurements are zero
+#' Check if wet weight measurements are zero
 #'
 #' @usage check_zoobenthos_wetweight_logical(data, return_df = FALSE, return_logical = FALSE)
 #'

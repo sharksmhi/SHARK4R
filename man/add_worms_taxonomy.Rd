@@ -2,7 +2,7 @@
 % Please edit documentation in R/worms_api_functions.R
 \name{add_worms_taxonomy}
 \alias{add_worms_taxonomy}
-\title{Retrieve and Organize WoRMS Taxonomy for SHARK Aphia IDs}
+\title{Retrieve and organize WoRMS taxonomy for SHARK Aphia IDs}
 \usage{
 add_worms_taxonomy(aphia_id, scientific_name = NULL, verbose = TRUE)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/algaebase_api_functions.R
 \name{check_algaebase_api}
 \alias{check_algaebase_api}
-\title{Check AlgaeBase API Operational Status}
+\title{Check AlgaeBase API operational status}
 \usage{
 check_algaebase_api(
   subscription_key = Sys.getenv("ALGAEBASE_KEY"),

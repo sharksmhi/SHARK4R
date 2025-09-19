@@ -2,7 +2,7 @@
 % Please edit documentation in R/worms_api_functions.R
 \name{assign_phytoplankton_group}
 \alias{assign_phytoplankton_group}
-\title{Assign Phytoplankton Group to Scientific Names}
+\title{Assign phytoplankton group to scientific names}
 \usage{
 assign_phytoplankton_group(
   scientific_names,

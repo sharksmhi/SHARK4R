@@ -1,7 +1,31 @@
-#' Check if stations are reported as nominal position or not
-#' Function makes an estimated guess whether stations are nominal
-#' @param data Data frame.
-#' @return Data frame with station name and latitude and longitude positions.
+#' Check if stations are reported as nominal positions
+#'
+#' This function attempts to determine whether stations in a dataset are reported
+#' using nominal positions (i.e., generic or repeated coordinates across events),
+#' rather than actual measured coordinates. It compares the number of unique
+#' sampling dates with the number of unique station coordinates.
+#'
+#' If the number of unique sampling dates is larger than the number of unique
+#' station coordinates, the function suspects nominal station positions and
+#' issues a warning.
+#'
+#' @param data A data frame containing at least the columns:
+#'   \code{sample_date}, \code{station_name},
+#'   \code{sample_longitude_dd}, and \code{sample_latitude_dd}.
+#'
+#' @return A data frame with distinct station names and their corresponding
+#'   latitude/longitude positions, if nominal positions are suspected.
+#'   Otherwise, returns \code{NULL}.
+#'
+#' @examples
+#' df <- data.frame(
+#'   sample_date = rep(seq.Date(Sys.Date(), by = "day", length.out = 3), each = 2),
+#'   station_name = rep(c("ST1", "ST2"), 3),
+#'   sample_longitude_dd = rep(c(15.0, 16.0), 3),
+#'   sample_latitude_dd = rep(c(58.5, 58.6), 3)
+#' )
+#' nominal_station(df)
+#'
 #' @export
 
 nominal_station <- function(data) {
@@ -21,6 +45,7 @@ nominal_station <- function(data) {
   }
   else {
     message("Positions are not suspected to be nominal")
+    return(NULL)
   }
 }
 
@@ -32,8 +57,19 @@ nominal_station <- function(data) {
 #'
 #' @param names Character vector of station names to match.
 #' @param station_file Optional path to a custom station file (tab-delimited).
-#'   If NULL (default), the function will extract and use the bundled
+#'   If \code{NULL} (default), the function will extract and use the bundled
 #'   "station.zip" from the SHARK4R package.
+#'
+#' @return A data frame with two columns:
+#'   \itemize{
+#'     \item \code{reported_station_name} – the input station names
+#'     \item \code{match_type} – logical indicating if a match was found
+#'   }
+#'
+#' @examples
+#' stations <- c("BY31", "NonexistentStation")
+#' match_station(stations)
+#'
 #' @export
 match_station <- function(names, station_file = NULL) {
 

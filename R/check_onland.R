@@ -1,4 +1,4 @@
-#' Check Whether Points Are Located on Land
+#' Check whether points are located on land
 #'
 #' Identifies records whose coordinates fall on land, optionally applying a buffer to allow
 #' points near the coast. The function supports both offline and online modes:

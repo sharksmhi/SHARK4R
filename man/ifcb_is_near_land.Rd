@@ -2,7 +2,7 @@
 % Please edit documentation in R/ifcb_is_near_land.R
 \name{ifcb_is_near_land}
 \alias{ifcb_is_near_land}
-\title{Determine if Positions are Near Land}
+\title{Determine if positions are near land}
 \usage{
 ifcb_is_near_land(
   latitudes,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/algaebase_api_functions.R
 \name{match_algaebase}
 \alias{match_algaebase}
-\title{Search AlgaeBase for Taxonomic Information}
+\title{Search AlgaeBase for taxonomic information}
 \usage{
 match_algaebase(
   genus,

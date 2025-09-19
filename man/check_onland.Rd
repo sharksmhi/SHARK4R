@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_onland.R
 \name{check_onland}
 \alias{check_onland}
-\title{Check Whether Points Are Located on Land}
+\title{Check whether points are located on land}
 \usage{
 check_onland(data, land = NULL, report = FALSE, buffer = 0, offline = FALSE)
 }

@@ -1,4 +1,4 @@
-#' Search AlgaeBase for Taxonomic Information
+#' Search AlgaeBase for taxonomic information
 #'
 #' This function queries the AlgaeBase API to retrieve taxonomic information for a list of algae names based on genus and (optionally) species.
 #'  It supports exact matching, genus-only searches, and retrieval of higher taxonomic ranks.
@@ -190,7 +190,7 @@ match_algaebase <- function(genus, species, subscription_key = Sys.getenv("ALGAE
 
   return(final_results)
 }
-#' AlgaeBase Species Search
+#' Search AlgaeBase for information about a species of algae
 #'
 #' This function searches the AlgaeBase API for species based on genus and species names.
 #' It allows for flexible search parameters such as filtering by exact matches, returning
@@ -433,7 +433,7 @@ get_algaebase_species <- function(genus, species, subscription_key = Sys.getenv(
 
   return(output)
 }
-#' Search AlgaeBase for Information About a Genus of Algae
+#' Search AlgaeBase for information about a genus of algae
 #'
 #' This function searches the AlgaeBase API for genus information and returns detailed taxonomic data,
 #' including higher taxonomy, taxonomic status, scientific names, and other related metadata.
@@ -462,9 +462,6 @@ get_algaebase_species <- function(genus, species, subscription_key = Sys.getenv(
 #'
 #' @details
 #' A valid API key is requested from the AlgaeBase team.
-#'
-#'
-#' @return A data frame containing taxonomic data from AlgaeBase with the following possible columns:
 #'
 #' @return A data frame with the following columns:
 #' \itemize{
@@ -745,8 +742,9 @@ parse_scientific_names <- function(scientific_name,
   return(output_df)
 }
 
-#' @title Check AlgaeBase API Operational Status
-#' @description Internal function to verify whether the AlgaeBase API is operational.
+#' Check AlgaeBase API operational status
+#'
+#' Internal function to verify whether the AlgaeBase API is operational.
 #' It sends a request to a stable genus endpoint to confirm API availability.
 #'
 #' @param subscription_key A character string containing the API key for accessing the AlgaeBase API. By default, the key

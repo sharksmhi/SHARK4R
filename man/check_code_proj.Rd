@@ -19,3 +19,6 @@ unmatched codes with true or false results
 \description{
 Check matches of reported project (PROJ) codes in SMHIs codelist
 }
+\seealso{
+\code{\link[=get_shark_codes]{get_shark_codes()}} to get the current code list.
+}

@@ -56,6 +56,7 @@ get_shark_codes <- function(url = "https://smhi.se/oceanografi/oce_info_data/sha
 #' @param clean_cache_days Numeric; if not `NULL`, cached SHARK code Excel files older than
 #'   this number of days will be automatically deleted and be replaced by a new download.
 #'   Defaults to 30. Set to `NULL` to disable automatic cleanup.
+#' @seealso [get_shark_codes()] to get the current code list.
 #' @return unmatched codes with true or false results
 #' @export
 check_code_proj <- function(data, clean_cache_days = 30) {

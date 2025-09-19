@@ -10,11 +10,23 @@ match_station(names, station_file = NULL)
 \item{names}{Character vector of station names to match.}
 
 \item{station_file}{Optional path to a custom station file (tab-delimited).
-If NULL (default), the function will extract and use the bundled
+If \code{NULL} (default), the function will extract and use the bundled
 "station.zip" from the SHARK4R package.}
+}
+\value{
+A data frame with two columns:
+\itemize{
+\item \code{reported_station_name} – the input station names
+\item \code{match_type} – logical indicating if a match was found
+}
 }
 \description{
 Matches reported station names in your data with a curated station list
 ("station.txt"), which is synced with "Stationsregistret":
 \url{https://stationsregister.miljodatasamverkan.se/}.
+}
+\examples{
+stations <- c("BY31", "NonexistentStation")
+match_station(stations)
+
 }

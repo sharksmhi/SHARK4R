@@ -2,7 +2,7 @@
 % Please edit documentation in R/xylookup.R
 \name{lookup_xy}
 \alias{lookup_xy}
-\title{Lookup Spatial Data for a Set of Points}
+\title{Lookup spatial data for a set of points}
 \usage{
 lookup_xy(
   data,

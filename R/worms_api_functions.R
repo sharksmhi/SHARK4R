@@ -1,4 +1,4 @@
-#' Retrieve and Organize WoRMS Taxonomy for SHARK Aphia IDs
+#' Retrieve and organize WoRMS taxonomy for SHARK Aphia IDs
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
@@ -42,7 +42,7 @@ update_worms_taxonomy <- function(aphia_id, aphiaid=deprecated()) {
 
   add_worms_taxonomy(aphia_id)
 }
-#' Retrieve and Organize WoRMS Taxonomy for SHARK Aphia IDs
+#' Retrieve and organize WoRMS taxonomy for SHARK Aphia IDs
 #'
 #' This function collects WoRMS (World Register of Marine Species) taxonomy information for a given set of Aphia IDs.
 #' The data is organized into a full taxonomic table that can be joined with data downloaded from [SHARK](https://shark.smhi.se/).
@@ -154,7 +154,7 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE)
            select(any_of(names)) %>%
            relocate(worms_hierarchy, .after = last_col()))
 }
-#' Retrieve WoRMS Records
+#' Retrieve WoRMS records
 #'
 #' This function retrieves records from the WoRMS (World Register of Marine Species) database using the `worrms` R package for a given list of Aphia IDs.
 #' If the retrieval fails, it retries a specified number of times before stopping.
@@ -250,7 +250,7 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
 
   worms_records
 }
-#' Retrieve WoRMS Records by Taxonomic Names with Retry Logic
+#' Retrieve WoRMS records by taxonomic names with retry logic
 #'
 #' This function retrieves records from the WoRMS database using the `worrms` R package for a vector of taxonomic names.
 #' It includes retry logic to handle temporary failures and ensures all names are processed.
@@ -352,7 +352,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 
   worms_records
 }
-#' Assign Phytoplankton Group to Scientific Names
+#' Assign phytoplankton group to scientific names
 #'
 #' This function assigns default phytoplankton groups (Diatoms, Dinoflagellates, Cyanobacteria, or Other)
 #' to a list of scientific names or Aphia IDs by retrieving species information from the
