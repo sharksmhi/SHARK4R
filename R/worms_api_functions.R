@@ -106,14 +106,14 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE)
   # Set up progress bar
   if (verbose) {
     cat("Retrieving", length(aphia_id), "records from 'aphia_ids'.\n")
-    pb <- txtProgressBar(min = 0, max = length(aphia_id), style = 3)
+    pb <- utils::txtProgressBar(min = 0, max = length(aphia_id), style = 3)
     }
 
   worms_class <- data.frame()
   for (i in seq_along(aphia_id)) {
 
     # Update progress bar
-    if (verbose) {setTxtProgressBar(pb, i)}
+    if (verbose) {utils::setTxtProgressBar(pb, i)}
 
     tryCatch({
       worms_class_i <- wm_classification(aphia_id[i]) %>%
@@ -186,7 +186,7 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
   no_content_messages <- c()  # Store "No content" messages
 
   # Set up progress bar
-  if (verbose) {pb <- txtProgressBar(min = 0, max = length(aphia_id), style = 3)}
+  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(aphia_id), style = 3)}
 
   for (id in seq_along(aphia_id)) {
     attempt <- 1
@@ -194,7 +194,7 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
     success <- FALSE  # Track whether retrieval was successful
 
     # Update progress bar
-    if (verbose) {setTxtProgressBar(pb, id)}
+    if (verbose) {utils::setTxtProgressBar(pb, id)}
 
     while (attempt <= max_retries && !success) {
       tryCatch({
@@ -287,7 +287,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
   worms_records <- list()  # Initialize an empty list to collect records for each name
 
   # Set up progress bar
-  if (verbose) {pb <- txtProgressBar(min = 0, max = length(taxa_names), style = 3)}
+  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(taxa_names), style = 3)}
 
   no_content_messages <- c()  # Store "No content" messages
 
@@ -297,7 +297,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
     success <- FALSE      # Track whether retrieval was successful
 
     # Update progress bar
-    if (verbose) {setTxtProgressBar(pb, i)}
+    if (verbose) {utils::setTxtProgressBar(pb, i)}
 
     while (attempt <= max_retries && !success) {
       tryCatch({

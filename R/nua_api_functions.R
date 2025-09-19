@@ -123,7 +123,7 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
   }
 
   # Set up progress bar
-  if (verbose) {pb <- txtProgressBar(min = 0, max = length(slug), style = 3)}
+  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(slug), style = 3)}
 
   # Initialize an empty dataframe or list to store results
   if (unparsed) {
@@ -136,7 +136,7 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
     url <- paste0(base_url, slug[i])
 
     # Update progress bar
-    if (verbose) {setTxtProgressBar(pb, i)}
+    if (verbose) {utils::setTxtProgressBar(pb, i)}
 
     # Make the GET request
     response <- GET(url, add_headers("accept" = "application/json"))
@@ -224,7 +224,7 @@ get_nua_harmfulness <- function(slug, verbose = TRUE) {
   }
 
   # Set up progress bar
-  if (verbose) {pb <- txtProgressBar(min = 0, max = length(slug), style = 3)}
+  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(slug), style = 3)}
 
   # Initialize an empty data frame to store results
   nua_facts <- data.frame()
@@ -233,7 +233,7 @@ get_nua_harmfulness <- function(slug, verbose = TRUE) {
     url <- paste0(base_url, slug[i])
 
     # Update progress bar
-    if (verbose) {setTxtProgressBar(pb, i)}
+    if (verbose) {utils::setTxtProgressBar(pb, i)}
 
     # Make the GET request
     response <- GET(url, add_headers("accept" = "application/json"))

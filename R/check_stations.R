@@ -53,7 +53,7 @@ match_station <- function(names, station_file = NULL) {
     tmp_dir <- tempdir()
 
     # Extract the zip contents
-    unzip(zip_path, exdir = tmp_dir)
+    utils::unzip(zip_path, exdir = tmp_dir)
 
     # Build path to the extracted file
     station_file <- file.path(tmp_dir, "station.txt")
@@ -112,7 +112,7 @@ check_station_distance<- function(names, station_file = NULL) {
     tmp_dir <- tempdir()
 
     # Extract the zip contents
-    unzip(zip_path, exdir = tmp_dir)
+    utils::unzip(zip_path, exdir = tmp_dir)
 
     # Build path to the extracted file
     station_file <- file.path(tmp_dir, "station.txt")

@@ -160,10 +160,10 @@ get_dyntaxa_parent_ids <- function(taxon_ids,
   )
 
   # Set up the progress bar
-  if (verbose) {pb <- txtProgressBar(min = 0, max = length(taxon_ids), style = 3)}
+  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(taxon_ids), style = 3)}
 
   responses <- lapply(seq_along(url), function(i) {
-    if (verbose) {setTxtProgressBar(pb, i)}
+    if (verbose) {utils::setTxtProgressBar(pb, i)}
     return(GET(url[i], add_headers(headers)))
   })
 
@@ -264,11 +264,11 @@ get_dyntaxa_children_hierarchy <- function(taxon_ids,
   )
 
   # Set up the progress bar
-  if (verbose) {pb <- txtProgressBar(min = 0, max = length(taxon_ids), style = 3)}
+  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(taxon_ids), style = 3)}
 
   # Perform GET requests and check status
   responses <- lapply(seq_along(url), function(i) {
-    if (verbose) {setTxtProgressBar(pb, i)}
+    if (verbose) {utils::setTxtProgressBar(pb, i)}
     res <- GET(url[i], add_headers(headers))
 
     # Check if the response is successful
@@ -370,10 +370,10 @@ get_dyntaxa_children_ids <- function(taxon_ids,
   )
 
   # Set up the progress bar
-  if (verbose) {pb <- txtProgressBar(min = 0, max = length(taxon_ids), style = 3)}
+  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(taxon_ids), style = 3)}
 
   responses <- lapply(seq_along(url), function(i) {
-    if (verbose) {setTxtProgressBar(pb, i)}
+    if (verbose) {utils::setTxtProgressBar(pb, i)}
     return(GET(url[i], add_headers(headers)))
   })
 
@@ -476,7 +476,7 @@ construct_dyntaxa_missing_table <- function(parent_ids,
   taxa <- data.frame()
 
   # Set up progress bar
-  if (verbose) {pb <- txtProgressBar(min = 0, max = length(parent_ids), style = 3)}
+  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(parent_ids), style = 3)}
 
   # Initialize counters
   if_counter <- 0
@@ -488,7 +488,7 @@ construct_dyntaxa_missing_table <- function(parent_ids,
 
     if (is.null(ids)) {
       # Update progress bar at the end of each iteration
-      if (verbose) {setTxtProgressBar(pb, i)}
+      if (verbose) {utils::setTxtProgressBar(pb, i)}
       next
     }
 
@@ -776,7 +776,7 @@ construct_dyntaxa_missing_table <- function(parent_ids,
     taxa <- bind_rows(taxa, taxa_i)
 
     # Update progress bar at the end of each iteration
-    if (verbose) {setTxtProgressBar(pb, i)}
+    if (verbose) {utils::setTxtProgressBar(pb, i)}
   }
 
   # Close progress bar
@@ -1031,7 +1031,7 @@ match_taxon_name <- function(taxon_names,
 
   # Initialize progress bar if verbose is TRUE
   if (verbose) {
-    pb <- txtProgressBar(min = 0, max = length(taxon_names), style = 3)
+    pb <- utils::txtProgressBar(min = 0, max = length(taxon_names), style = 3)
   }
 
   # Loop over taxon_names and collect results
@@ -1051,7 +1051,7 @@ match_taxon_name <- function(taxon_names,
 
     # Update the progress bar
     if (verbose) {
-      setTxtProgressBar(pb, .x)
+      utils::setTxtProgressBar(pb, .x)
     }
 
     result <- list(
@@ -1198,7 +1198,7 @@ get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
 
     temp_dir <- tempfile(pattern = "dyntaxa_dwca_")
     dir.create(temp_dir)
-    unzip(temp_file, exdir = temp_dir)
+    utils::unzip(temp_file, exdir = temp_dir)
 
     # Store in cache
     .shark4r_cache$extracted_dir <- temp_dir
@@ -1362,7 +1362,7 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DY
     # Initialize a progress bar for the descendant search
     if (verbose) {
       cat("Finding descendants from:", add_descendants_rank, "\n")
-      pb <- txtProgressBar(min = 0, max = nrow(rank_data), style = 3)
+      pb <- utils::txtProgressBar(min = 0, max = nrow(rank_data), style = 3)
     }
 
     # Loop over each genus and find its descendants
@@ -1372,7 +1372,7 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DY
 
       # Update the progress bar after each iteration
       if (verbose) {
-        setTxtProgressBar(pb, i)
+        utils::setTxtProgressBar(pb, i)
       }
     }
 
@@ -1643,7 +1643,7 @@ add_hierarchy_column <- function(data, data_dwca = NULL, verbose = TRUE) {
   }
 
   # Initialize progress bar
-  if (verbose) { pb <- txtProgressBar(min = 0, max = nrow(data), style = 3) }
+  if (verbose) { pb <- utils::txtProgressBar(min = 0, max = nrow(data), style = 3) }
 
   # Add hierarchy column
   data$hierarchy <- vector("list", nrow(data)) # Preallocate list column
@@ -1655,7 +1655,7 @@ add_hierarchy_column <- function(data, data_dwca = NULL, verbose = TRUE) {
     data$hierarchy[[i]] <- c(hierarchy, data$scientificName[i])
 
     # Update progress bar
-    if (verbose) { setTxtProgressBar(pb, i) }
+    if (verbose) { utils::setTxtProgressBar(pb, i) }
   }
 
   # Close progress bar

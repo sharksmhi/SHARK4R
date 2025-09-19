@@ -29,20 +29,21 @@
 #'     `r lifecycle::badge("deprecated")`
 #'     Use \code{subscription_key} instead.
 #'
-#' @return A data frame containing taxonomic information for each input genus-species combination. Columns may include:
+#' @return A data frame containing taxonomic information for each input genus–species combination.
+#' The following columns may be included:
 #' \itemize{
-#'   \item \code{id}: AlgaeBase ID (if available)
-#'   \item \code{kingdom}, \code{phylum}, \code{class}, \code{order}, \code{family}: Higher taxonomy (if \code{higher = TRUE})
-#'   \item \code{genus}, \code{species}, \code{infrasp}: Genus, species, and infraspecies names (if applicable)
-#'   \item \code{taxonomic_status}: Status of the name (e.g., "accepted", "synonym", "unverified")
-#'   \item \code{currently_accepted}: Logical indicator for whether the name is currently accepted
-#'   \item \code{accepted_name}: Currently accepted name if different from the input name
-#'   \item \code{input_name}: Name supplied by the user
-#'   \item \code{input_match}: \code{1} for exact matches, otherwise \code{0}
-#'   \item \code{taxon_rank}: Taxonomic rank of the accepted name (e.g., "genus", "species")
-#'   \item \code{mod_date}: Date when the entry was last modified in AlgaeBase
-#'   \item \code{long_name}: Full species name with authorship and date
-#'   \item \code{authorship}: Authors associated with the species name
+#'   \item \code{id} — AlgaeBase ID (if available).
+#'   \item \code{kingdom}, \code{phylum}, \code{class}, \code{order}, \code{family} — Higher taxonomy (returned if \code{higher = TRUE}).
+#'   \item \code{genus}, \code{species}, \code{infrasp} — Genus, species, and infraspecies names (if applicable).
+#'   \item \code{taxonomic_status} — Status of the name (e.g., accepted, synonym, unverified).
+#'   \item \code{currently_accepted} — Logical indicator whether the name is currently accepted (\code{TRUE}/\code{FALSE}).
+#'   \item \code{accepted_name} — Currently accepted name if different from the input name.
+#'   \item \code{input_name} — The name supplied by the user.
+#'   \item \code{input_match} — Indicator of exact match (\code{1} = exact, \code{0} = not exact).
+#'   \item \code{taxon_rank} — Taxonomic rank of the accepted name (e.g., genus, species).
+#'   \item \code{mod_date} — Date when the entry was last modified in AlgaeBase.
+#'   \item \code{long_name} — Full species name with authorship and date.
+#'   \item \code{authorship} — Author(s) associated with the species name.
 #' }
 #'
 #' @details
@@ -133,14 +134,14 @@ match_algaebase <- function(genus, species, subscription_key = Sys.getenv("ALGAE
   }
 
   # Set up progress bar
-  if (verbose) {pb <- txtProgressBar(min = 0, max = nrow(unique_data), style = 3)}
+  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = nrow(unique_data), style = 3)}
 
   # Main loop over unique combinations
   for (i in seq_len(nrow(unique_data))) {
     Sys.sleep(sleep_time)
 
     # Update progress bar
-    if (verbose) {setTxtProgressBar(pb, i)}
+    if (verbose) {utils::setTxtProgressBar(pb, i)}
 
     genus_i <- unique_data$genus[i]
     species_i <- unique_data$species[i]
@@ -218,7 +219,15 @@ match_algaebase <- function(genus, species, subscription_key = Sys.getenv("ALGAE
 #'     `r lifecycle::badge("deprecated")`
 #'     Use \code{subscription_key} instead.
 #'
-#' @return A data frame with details about the species, including taxonomic status, ranks, and other relevant information.
+#' @return A data frame with details about the species, including:
+#' \itemize{
+#'   \item \code{taxonomic_status} — The current status of the taxon (e.g., accepted, synonym, unverified).
+#'   \item \code{taxon_rank} — The rank of the taxon (e.g., species, genus).
+#'   \item \code{accepted_name} — The currently accepted scientific name, if applicable.
+#'   \item \code{authorship} — Author information for the scientific name (if available).
+#'   \item \code{mod_date} — Date when the taxonomic record was last modified.
+#'   \item \code{...} — Other relevant information returned by the data source.
+#' }
 #'
 #' @details
 #' A valid API key is requested from the AlgaeBase team.
@@ -455,19 +464,23 @@ get_algaebase_species <- function(genus, species, subscription_key = Sys.getenv(
 #' A valid API key is requested from the AlgaeBase team.
 #'
 #'
-#' @return A data frame containing taxonomic data from AlgaeBase. Columns may include:
-#'         - `id`: AlgaeBase ID.
-#'         - `accepted_name`: Accepted scientific name (if different from input).
-#'         - `input_name`: The genus name supplied by the user.
-#'         - `input_match`: Whether the genus exactly matches (1 if exact, 0 if not).
-#'         - `currently_accepted`: Whether the taxon is currently accepted (1=TRUE, 0=FALSE).
-#'         - `genus_only`: Whether the search was for a genus only (1 for genus, 0 for genus + species).
-#'         - `kingdom`, `phylum`, `class`, `order`, `family`: Higher taxonomy (if `higher` is TRUE).
-#'         - `taxonomic_status`: Status of the taxon (currently accepted, synonym, unverified).
-#'         - `taxon_rank`: The taxonomic rank of the accepted name (e.g., genus, species).
-#'         - `mod_date`: Date when the entry was last modified.
-#'         - `long_name`: Full scientific name including author and date (if available).
-#'         - `authorship`: Author information (if available).
+#' @return A data frame containing taxonomic data from AlgaeBase with the following possible columns:
+#'
+#' @return A data frame with the following columns:
+#' \itemize{
+#'   \item \code{id} — AlgaeBase identifier.
+#'   \item \code{accepted_name} — Accepted scientific name (if different from the input).
+#'   \item \code{input_name} — The genus name supplied by the user.
+#'   \item \code{input_match} — Indicator of exact match (\code{1} = exact, \code{0} = not exact).
+#'   \item \code{currently_accepted} — Indicator if the taxon is currently accepted (\code{1} = TRUE, \code{0} = FALSE).
+#'   \item \code{genus_only} — Indicator if the search was for a genus only (\code{1} = genus, \code{0} = genus + species).
+#'   \item \code{kingdom}, \code{phylum}, \code{class}, \code{order}, \code{family} — Higher taxonomy (returned if \code{higher = TRUE}).
+#'   \item \code{taxonomic_status} — Status of the taxon (e.g., currently accepted, synonym, unverified).
+#'   \item \code{taxon_rank} — Taxonomic rank of the accepted name (e.g., genus, species).
+#'   \item \code{mod_date} — Date when the entry was last modified.
+#'   \item \code{long_name} — Full scientific name including author and date (if available).
+#'   \item \code{authorship} — Author information (if available).
+#' }
 #'
 #' @seealso \url{https://algaebase.org/} for AlgaeBase website.
 #'
@@ -643,10 +656,13 @@ extract_algaebase_field <- function(query_result, field_name) {
 #' @param remove_invalid_species Logical, if TRUE, invalid species names (e.g., 'sp.', 'spp.') are removed. Default is TRUE.
 #' @param encoding A string specifying the encoding to be used for the input names (e.g., 'UTF-8'). Default is 'UTF-8'.
 #'
-#' @return A `data.frame` with two columns:
-#' - `genus`: Contains the genus names.
-#' - `species`: Contains the species names (empty if unavailable or invalid).
-#' Invalid descriptors like 'sp.', 'spp.', and numeric entries are excluded from the 'species' column.
+#' @return A data frame with two columns:
+#' \itemize{
+#'   \item \code{genus} — Genus names.
+#'   \item \code{species} — Species names (empty if unavailable or invalid).
+#'         Invalid descriptors such as \code{"sp."}, \code{"spp."}, and numeric entries
+#'         are excluded from this column.
+#' }
 #'
 #' @seealso \url{https://algaebase.org/} for AlgaeBase website.
 #'

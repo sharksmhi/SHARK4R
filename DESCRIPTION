@@ -38,10 +38,8 @@ Imports:
     readxl,
     sf,
     sp,
-    stats,
     terra,
     tidyr,
-    utils,
     vroom,
     worrms
 Suggests: 
