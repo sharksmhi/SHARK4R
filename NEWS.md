@@ -11,12 +11,15 @@
 ## Enhancements
 * Re-export functions from the `iRfcb` package: `which_basin()` and `positions_are_near_land()`.
 * Cache downloaded DwCA files in `get_dyntaxa_dwca()`, `get_shark_codes()`, `get_nomp_list()` and `get_peg_list()` to avoid repeated downloads.
-* Add unit tests for key functions.
+* Add unit tests for the majority of the package functions.
 * Fix bugs in check_* functions.
 * Fix various documentation issues.
+* Updated several OBIS-dependant functions using `lookup_xy()`.
 
 ## Deprecated
-* Deprecated functions: `ifcb_is_near_land()` and `ifcb_which_basin()` (replaced by re-exported functions)
+* Deprecated functions: `ifcb_is_near_land()` and `ifcb_which_basin()` (replaced by re-exported functions with improved cache behaviour)
+* Deprecated function: `match_dyntaxa()` is now replaced by `is_in_dyntaxa()`.
+* Deprecated argument: `apikey` replaced by `subscription_key` in `get_algaebase_genus()`, `get_algaebase_species()` and `match_algaebase()`
 
 ## Defunct / Removed
 * Defunct function `get_shark_table()`.
