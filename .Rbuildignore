@@ -7,3 +7,4 @@
 ^products$
 ^scripts$
 ^LICENSE\.md$
+^codecov\.ya?ml$

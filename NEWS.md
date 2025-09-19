@@ -14,10 +14,10 @@
 * Add unit tests for the majority of the package functions.
 * Fix bugs in check_* functions.
 * Fix various documentation issues.
-* Updated several OBIS-dependant functions using `lookup_xy()`.
+* Updated several OBIS-dependent functions using `lookup_xy()`.
 
 ## Deprecated
-* Deprecated functions: `ifcb_is_near_land()` and `ifcb_which_basin()` (replaced by re-exported functions with improved cache behaviour)
+* Deprecated functions: `ifcb_is_near_land()` and `ifcb_which_basin()` (replaced by re-exported functions with improved cache behavior)
 * Deprecated function: `match_dyntaxa()` is now replaced by `is_in_dyntaxa()`.
 * Deprecated argument: `apikey` replaced by `subscription_key` in `get_algaebase_genus()`, `get_algaebase_species()` and `match_algaebase()`
 
