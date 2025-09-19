@@ -5,18 +5,18 @@
 #' if you want to actually call this function.
 #'
 #' Determines whether given positions are near land based on a land polygon shape file.
-#' The Natural Earth 1:10m land vectors are included as a default shapefile in `iRfcb`.
 #'
 #' @param latitudes Numeric vector of latitudes for positions.
 #' @param longitudes Numeric vector of longitudes for positions. Must be the same length as `latitudes`.
 #' @param distance Buffer distance (in meters) from the coastline to consider "near land." Default is 500 meters.
 #' @param shape Optional path to a shapefile (`.shp`) containing coastline data. If provided,
-#'   this file will be used instead of the default Natural Earth 1:10m land vectors.
+#'   this file will be used instead of the default OBIS land vectors.
 #'   A high-resolution shapefile can improve the accuracy of buffer distance calculations.
-#'   Alternatively, you can retrieve a more detailed European coastline automatically by
-#'   setting the `source` argument to `"eea"`.
+#'   You can retrieve a more detailed European coastline by setting the `source` argument to `"eea"`.
+#'   Downloaded shape files are cached across R sessions in a user-specific cache directory.
 #' @param source Character string indicating which default coastline source to use when `shape = NULL`.
-#'   Options are `"ne"` (Natural Earth, default) and `"eea"` (European Environment Agency).
+#'   Options are `"obis"` (Ocean Biodiversity Information System, default),
+#'   `"ne"` (Natural Earth 1:10 vectors) and `"eea"` (European Environment Agency).
 #'   Ignored if `shape` is provided.
 #' @param crs Coordinate reference system (CRS) to use for input and output.
 #'   Default is EPSG code 4326 (WGS84).
@@ -35,12 +35,12 @@
 #' @details
 #' This function calculates a buffered area around the coastline using a polygon shapefile and
 #' determines if each input position intersects with this buffer or the landmass itself.
-#' By default, it uses the Natural Earth 1:10m land vector dataset.
+#' By default, it uses the OBIS land vector dataset.
 #'
 #' The EEA shapefile is downloaded from \url{https://www.eea.europa.eu/data-and-maps/data/eea-coastline-for-analysis-2/gis-data/eea-coastline-polygon}
 #' when `source = "eea"`.
 #'
-#'
+#' @seealso [clean_shark4r_cache()] to manually clear cached shape files.
 #' @seealso [`iRfcb::ifcb_is_near_land`] for the original function.
 #'
 #' @examples
@@ -61,7 +61,7 @@ positions_are_near_land <- function(latitudes,
                                     longitudes,
                                     distance = 500,
                                     shape = NULL,
-                                    source = "ne",
+                                    source = "obis",
                                     crs = 4326,
                                     remove_small_islands = TRUE,
                                     small_island_threshold = 2000000,
@@ -69,6 +69,50 @@ positions_are_near_land <- function(latitudes,
   if (!requireNamespace("iRfcb", quietly = TRUE)) {
     stop("The `iRfcb` package is required for `positions_are_near_land()`.")
   }
+
+  # Cache OBIS shapefile across sessions if source is "eea" and shape is NULL
+  if (is.null(shape) && source == "obis") {
+    cache_dir <- file.path(tools::R_user_dir("SHARK4R", which = "cache"), "perm")
+
+    url <- "https://obis-resources.s3.amazonaws.com/land.gpkg"
+    shape <- file.path(cache_dir, "land.gpkg")
+
+    if (!file.exists(shape)) {
+      tryCatch({
+        utils::download.file(url, shape, mode = "wb")
+      }, error = function(e) {
+        stop("Could not download OBIS land data. Please manually download it from:\n",
+             url, "\nThen provide the path to the `.gpkg` or `.shp` file using the `shape` argument. Or set `source = 'ne'` or `source = 'eea'` to use alternative vectors")
+      })
+    }
+  }
+
+  # Cache EEA shapefile across sessions if source is "eea" and shape is NULL
+  if (is.null(shape) && source == "eea") {
+    cache_dir <- file.path(tools::R_user_dir("SHARK4R", which = "cache"), "perm")
+
+    url <- "https://www.eea.europa.eu/data-and-maps/data/eea-coastline-for-analysis-2/gis-data/eea-coastline-polygon/at_download/file"
+
+    exdir <- file.path(tempdir(), paste0("positions_are_near_land", source))
+    if (!dir.exists(exdir)) {
+      dir.create(exdir, recursive = TRUE)
+    }
+
+    temp_zip <- file.path(exdir, "eea_coastline_polygon.zip")
+
+    if (!file.exists(temp_zip)) {
+      tryCatch({
+        utils::download.file(url, temp_zip, mode = "wb")
+      }, error = function(e) {
+        stop("Could not download OBIS land data. Please manually download it from:\n",
+             url, "\nThen provide the path to the `.gpkg` or `.shp` file using the `shape` argument. Or set `source = 'ne'` or `source = 'obis'` to use alternative vectors")
+      })
+    }
+
+    utils::unzip(temp_zip, exdir = cache_dir)
+    shape <- list.files(cache_dir, pattern = "\\.shp$", full.names = TRUE)[1]
+  }
+
   iRfcb::ifcb_is_near_land(latitudes = latitudes,
                            longitudes = longitudes,
                            distance = distance,

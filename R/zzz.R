@@ -19,7 +19,6 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
                          "up_to_date", "Data_field", "DT", "phylum", "plankton_group", "longitude", "latitude"))
 
 .onLoad <- function(libname, pkgname){
-  clear_cache(age=36)
   clean_shark4r_cache(days = 1, verbose = FALSE)
 }
 

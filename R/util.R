@@ -21,7 +21,7 @@ check_lonlat <- function(data, report) {
   }
   if(length(errors) > 0) {
     if(report) {
-      return(data_frame(level = "error",  message = errors))
+      return(tibble(level = "error",  message = errors))
     } else {
       stop(paste(errors, collapse = ", "))
     }
@@ -66,15 +66,19 @@ get_xy_clean_duplicates <- function(data) {
   }
 }
 
-list_cache <- function() {
-  list.files(tools::R_user_dir("SHARK4R", which = "cache"), "call_", full.names = TRUE)
-}
-
-clear_cache <- function(age=36) {
-  cachefiles <- list_cache()
-  rmfiles <- cachefiles[difftime(Sys.time(), file.info(cachefiles)[,"mtime"], units = "hours") > age]
-  unlink(rmfiles)
-  rmfiles
+list_cache <- function(include_perm = FALSE) {
+  list.files(tools::R_user_dir("SHARK4R", which = "cache"), full.names = TRUE)
+  if(include_perm) {
+    perm_dir <- file.path(tools::R_user_dir("SHARK4R", which = "cache"), "perm")
+    if(dir.exists(perm_dir)) {
+      c(list.files(tools::R_user_dir("SHARK4R", which = "cache"), full.names = TRUE),
+        list.files(perm_dir, full.names = TRUE))
+    } else {
+      list.files(tools::R_user_dir("SHARK4R", which = "cache"), full.names = TRUE)
+    }
+  } else {
+    list.files(tools::R_user_dir("SHARK4R", which = "cache"), full.names = TRUE)
+  }
 }
 
 cache_call <- function(key, expr, env = NULL) {
@@ -101,7 +105,7 @@ service_call <- function(url, msg) {
              expression({
                response <- httr::POST(url,
                                       httr::content_type("application/json"),
-                                      httr::user_agent("obistools - https://github.com/iobis/obistools"),
+                                      httr::user_agent("SHARK4R - https://github.com/sharksmhi/SHARK4R"),
                                       body=msg)
 
                # Parse result
@@ -233,6 +237,8 @@ cache_peg_zip <- function(url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL
 #'   Defaults to the SHARK4R cache directory in the user-specific R folder
 #'   (via `tools::R_user_dir("SHARK4R", "cache")`). You can override this
 #'   parameter for custom cache locations.
+#' @param clear_perm_cache Logical. If `TRUE`, filed that are cached across R sessions are cleared. Defaults to `FALSE`.
+#' @param search_pattern Character; optional regex pattern to filter which files to consider for deletion.
 #' @param verbose Logical. If `TRUE`, displays messages of cache cleaning progress. Defaults to `TRUE`.
 #'
 #' @details
@@ -251,7 +257,11 @@ cache_peg_zip <- function(url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL
 #'   # Remove files older than 60 days and clear session cache
 #'   clean_shark4r_cache(days = 60)
 #' }
-clean_shark4r_cache <- function(days = 1, cache_dir = tools::R_user_dir("SHARK4R", "cache"), verbose = TRUE) {
+clean_shark4r_cache <- function(days = 1,
+                                cache_dir = tools::R_user_dir("SHARK4R", "cache"),
+                                clear_perm_cache = FALSE,
+                                search_pattern = NULL,
+                                verbose = TRUE) {
   # Clear in-memory cache if it exists
   if (exists(".shark4r_cache", envir = asNamespace("SHARK4R"))) {
     cache_env <- get(".shark4r_cache", envir = asNamespace("SHARK4R"))
@@ -265,6 +275,20 @@ clean_shark4r_cache <- function(days = 1, cache_dir = tools::R_user_dir("SHARK4R
   }
 
   files <- list.files(cache_dir, full.names = TRUE)
+  if (clear_perm_cache) {
+    perm_dir <- file.path(cache_dir, "perm")
+    if (dir.exists(perm_dir)) {
+      perm_files <- list.files(perm_dir, full.names = TRUE)
+      files <- c(files, perm_files)
+    }
+  }
+
+  if (search_pattern == "" || is.null(search_pattern)) {
+    # No filtering
+  } else {
+    files <- files[grepl(search_pattern, basename(files))]
+  }
+
   if (length(files) == 0) {
     if (verbose) message("SHARK4R cache is already empty.")
     return(invisible(NULL))

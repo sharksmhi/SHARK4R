@@ -2,42 +2,71 @@
 % Please edit documentation in R/check_onland.R
 \name{check_onland}
 \alias{check_onland}
-\title{Check which points are located on land.}
+\title{Check Whether Points Are Located on Land}
 \usage{
 check_onland(data, land = NULL, report = FALSE, buffer = 0, offline = FALSE)
 }
 \arguments{
-\item{data}{The data frame.}
+\item{data}{A data frame containing at least \code{sample_longitude_dd} and \code{sample_latitude_dd}.
+These columns must be numeric and within valid ranges (-180 to 180 for longitude, -90 to 90 for latitude).}
 
-\item{land}{SpatialPolygonsDataFrame. If not provided the simplified land
-polygons from OSM are used. This parameter is ignored when, \code{offline =
-  FALSE}.}
+\item{land}{Optional \code{sf} object containing land polygons. Used only in offline mode.}
 
-\item{report}{If TRUE, errors are returned instead of records.}
+\item{report}{Logical; if \code{TRUE}, returns a tibble listing rows on land and warnings.
+If \code{FALSE} (default), returns a subset of \code{data} containing only records on land.}
 
-\item{buffer}{Set how far inland points are still to be deemed valid (in meters).}
+\item{buffer}{Numeric; distance in meters inland for which points are still considered valid.
+Only used in online mode. Default is 0.}
 
-\item{offline}{If TRUE, a local simplified shoreline is used, otherwise an
-OBIS webservice is used. The default value is \code{FALSE}.}
+\item{offline}{Logical; if \code{TRUE}, the function uses the local cached shoreline. If \code{FALSE} (default),
+the OBIS web service is queried.}
 }
 \value{
-Errors or problematic records.
+If \code{report = TRUE}, a tibble with columns:
+\itemize{
+\item \code{field}: always \code{NA} (placeholder for future extension)
+\item \code{level}: \code{"warning"} for all flagged rows
+\item \code{row}: row numbers in \code{data} flagged as located on land
+\item \code{message}: description of the issue
+}
+If \code{report = FALSE}, returns a subset of \code{data} with only the flagged rows.
 }
 \description{
-Check which points are located on land.
+Identifies records whose coordinates fall on land, optionally applying a buffer to allow
+points near the coast. The function supports both offline and online modes:
+}
+\details{
+\itemize{
+\item \strong{Offline mode (\code{offline = TRUE})}: uses a local simplified shoreline from a cached
+geopackage (\code{land.gpkg}). If the file does not exist, it is downloaded automatically and cached across R sessions.
+\item \strong{Online mode (\code{offline = FALSE})}: uses the OBIS web service to determine distance to the shore.
+}
+\itemize{
+\item The function first validates longitude and latitude columns using.
+\item In offline mode, \code{land} is converted to a \code{terra::SpatVector} and points are tested using
+\code{terra::relate()} to detect intersections with land polygons. The \code{buffer} parameter
+is ignored in this mode.
+\item In online mode, \code{lookup_xy()} is used to fetch distances to the nearest shoreline.
+Points with negative distances (inland) beyond the \code{buffer} are flagged.
+\item Warnings are issued if \code{land} is provided in online mode or \code{buffer} is used in offline mode.
+}
 }
 \examples{
 \dontrun{
+# Report points on land with a 100 m buffer
 report <- check_onland(abra, report = TRUE, buffer = 100)
 print(report)
-# plot records on land with 100 meter buffer
-plot_map_leaflet(abra[report$row,], popup = "id")
-# filter records not on land
-ok <- abra[-1 * report$row,]
+
+# Plot flagged points on a map
+plot_map_leaflet(abra[report$row, ], popup = "id")
+
+# Remove points on land
+ok <- abra[-report$row, ]
 ok <- check_onland(abra, report = FALSE, buffer = 100)
 print(nrow(ok))
 }
+
 }
 \seealso{
-\code{\link{check_depth}}  \code{\link{lookup_xy}}
+\code{\link{check_depth}}, \code{\link{lookup_xy}}, \code{\link{clean_shark4r_cache}}
 }
