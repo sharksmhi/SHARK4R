@@ -7,7 +7,7 @@ skip_if_resource_unavailable <- function(url, msg = NULL, allow_status = 0:399) 
 
   if (!ok) {
     if (is.null(msg)) {
-      msg <- paste("Resource not responding or status not allowed:", url)
+      msg <- paste0("Resource not responding or status (", httr::status_code(resp), ") not allowed:", url)
     }
     testthat::skip(msg)
   }
