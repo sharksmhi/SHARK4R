@@ -15,10 +15,6 @@ check_Picoplankton(data, level = "error")
 Any warnings or errors.
 }
 \description{
-Missing or empty required fields are reported as errors,
-missing or empty recommended fields are reported as warnings.
-}
-\details{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 This function is deprecated and has been replaced by \code{\link[=check_fields]{check_fields()}}.
 }
