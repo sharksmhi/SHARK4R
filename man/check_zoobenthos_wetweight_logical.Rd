@@ -22,6 +22,7 @@ indicating which rows exceed 100\% for Total cover. Overrides return_df.}
 A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
 }
 \description{
-r lifecycle::badge("deprecated")
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+This function is deprecated and has been replaced by \code{\link[=check_logical_parameter]{check_logical_parameter()}}.
 }
 \keyword{internal}

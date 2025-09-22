@@ -86,7 +86,7 @@ check_code <- function(data, field = "sample_project_name_sv", code_type = "PROJ
   # fetch codes
   shark_codes <- get_shark_codes(clean_cache_days = clean_cache_days)
   valid_codes <- shark_codes %>%
-    dplyr::filter(.data$Data_field == code_type) %>%
+    dplyr::filter(Data_field == code_type) %>%
     dplyr::pull(`Description/English translate`) %>%
     unique()
 
@@ -112,6 +112,7 @@ check_code <- function(data, field = "sample_project_name_sv", code_type = "PROJ
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_code()].
 #'
 #' @param data for tibble be be checked
 #' @param clean_cache_days Numeric; if not NULL, cached SHARK code Excel files older than

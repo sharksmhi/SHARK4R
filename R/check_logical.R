@@ -191,7 +191,9 @@ check_logical_parameter <- function(data, param_name, condition,
 
 #' Check if Epibenthos total cover exceeds 100%
 #'
-#' r lifecycle::badge("deprecated")
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
@@ -223,7 +225,9 @@ check_epibenthos_totcover_logical <- function(data, return_df = FALSE, return_lo
 
 #' Check if Epibenthos cover (%) exceeds 100%
 #'
-#' r lifecycle::badge("deprecated")
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
@@ -255,7 +259,9 @@ check_epibenthos_coverpercent_logical <- function(data, return_df = FALSE, retur
 
 #' Check if Epibenthos cover exceeds 100%
 #'
-#' r lifecycle::badge("deprecated")
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
@@ -287,7 +293,9 @@ check_epibenthos_cover_logical <- function(data, return_df = FALSE, return_logic
 
 #' Check if Epibenthos cover class exceeds 10
 #'
-#' r lifecycle::badge("deprecated")
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
@@ -319,7 +327,9 @@ check_epibenthos_coverclass_logical <- function(data, return_df = FALSE, return_
 
 #' Check if Sediment deposition cover (%) exceeds 100%
 #'
-#' r lifecycle::badge("deprecated")
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
@@ -351,7 +361,9 @@ check_epibenthos_sedimentdepos_logical <- function(data, return_df = FALSE, retu
 
 #' Check if Abundance class exceeds 10
 #'
-#' r lifecycle::badge("deprecated")
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
@@ -383,7 +395,9 @@ check_epibenthos_abundclass_logical <- function(data, return_df = FALSE, return_
 
 #' Check logical relationship between Abundance and BQIm
 #'
-#' r lifecycle::badge("deprecated")
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
@@ -446,7 +460,9 @@ check_zoobenthos_BQIm_logical <- function(data, return_df = FALSE, return_logica
 
 #' Check if wet weight measurements are zero
 #'
-#' r lifecycle::badge("deprecated")
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
