@@ -75,7 +75,7 @@ get_shark_codes <- function(url = "https://smhi.se/oceanografi/oce_info_data/sha
 #' @return A tibble with unique reported codes and a logical column `match_type`
 #'   indicating if they exist in the SHARK codelist.
 #' @export
-check_code <- function(data, field = "sample_project_name_sv", code_type = "PROJ", clean_cache_days = 30) {
+check_codes <- function(data, field = "sample_project_name_sv", code_type = "PROJ", clean_cache_days = 30) {
   # validate field
   if (!field %in% names(data)) {
     stop(sprintf("Field '%s' not found in data.", field))
@@ -112,7 +112,7 @@ check_code <- function(data, field = "sample_project_name_sv", code_type = "PROJ
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#' This function is deprecated and has been replaced by [check_code()].
+#' This function is deprecated and has been replaced by [check_codes()].
 #'
 #' @param data for tibble be be checked
 #' @param clean_cache_days Numeric; if not NULL, cached SHARK code Excel files older than
@@ -125,9 +125,9 @@ check_code <- function(data, field = "sample_project_name_sv", code_type = "PROJ
 #' @keywords internal
 #' @export
 check_code_proj <- function(data, clean_cache_days = 30) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_code_proj()", "check_code()")
-  check_code(data = data,
-             field = "sample_project_name_sv",
-             code_type = "PROJ",
-             clean_cache_days = clean_cache_days)
+  lifecycle::deprecate_warn("0.1.7.9000", "check_code_proj()", "check_codes()")
+  check_codes(data = data,
+              field = "sample_project_name_sv",
+              code_type = "PROJ",
+              clean_cache_days = clean_cache_days)
 }

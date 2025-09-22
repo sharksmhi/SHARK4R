@@ -18,7 +18,7 @@ unmatched codes with true or false results
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-This function is deprecated and has been replaced by \code{\link[=check_code]{check_code()}}.
+This function is deprecated and has been replaced by \code{\link[=check_codes]{check_codes()}}.
 }
 \seealso{
 \code{\link[=get_shark_codes]{get_shark_codes()}} to get the current code list.

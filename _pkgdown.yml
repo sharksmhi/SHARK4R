@@ -110,49 +110,15 @@ reference:
 
 - subtitle: SHARK Data Checks
   contents:
-  - check_bacterial_carbon
-  - check_bacterial_concentration
-  - check_bacterial_production
-  - check_chlorophyll_conc
-  - check_code
+  - check_codes
   - check_datatype
   - check_depth
   - check_fields
-  - check_epibenthos_counted
-  - check_epibenthos_dryweight
-  - check_epibenthos_specdistr_maxdepth
-  - check_epibenthos_specdistr_mindepth
-  - check_greyseal_counted
-  - check_harbourseal_counted
-  - check_harbporp_positivemin
   - check_logical_parameter
-  - check_phytoplankton_abund
-  - check_phytoplankton_biovol
-  - check_phytoplankton_counted
-  - check_phytoplankton_carbon
-  - check_picoplankton_abundance
-  - check_picoplankton_biovol
-  - check_picoplankton_carbon
-  - check_picoplankton_counted
-  - check_primaryproduction_carbonprod
-  - check_primaryproduction_carbonprod_hour
-  - check_primaryproduction_carbonprodlight
-  - check_ringedseal_calccounted
+  - check_outliers
   - check_setup
   - check_value_logical
   - check_zero_value
-  - check_zoobenthos_BQIm
-  - check_zoobenthos_abund
-  - check_zoobenthos_counted
-  - check_zoobenthos_wetweight
-  - check_zooplankton_abund
-  - check_zooplankton_carbon
-  - check_zooplankton_counted
-  - check_zooplankton_length_mean
-  - check_zooplankton_length_median
-  - check_zooplankton_wetweight
-  - check_zooplankton_wetweight_area
-  - check_zooplankton_wetweight_volume
 
 - subtitle: MISC
   contents:

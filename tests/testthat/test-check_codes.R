@@ -13,7 +13,7 @@ test_that("check_code works", {
   skip_if_offline()
   skip_if_resource_unavailable("https://smhi.se/")
   data <- data.frame(sample_project_name_sv = c("NAT National Base Activity", "Unknown Project"))
-  check_codes <- check_code(data)
+  check_codes <- check_codes(data)
 
   expect_s3_class(check_codes, "data.frame")
   expect_true(nrow(check_codes) > 0)
