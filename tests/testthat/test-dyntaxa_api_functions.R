@@ -72,11 +72,16 @@ test_that("taxon match is working as expected", {
   skip_if_offline()
   skip_if_resource_unavailable(dyntaxa_url)
 
-  taxon_match <- match_taxon_name(test_species_name, dyntaxa_key)
+  taxon_match <- match_dyntaxa_taxa(test_species_name, dyntaxa_key)
 
   expect_s3_class(taxon_match, "data.frame")
   expect_true(nrow(taxon_match) > 0)
   expect_true(all(c("search_pattern", "taxon_id", "best_match", "author", "valid_name") %in% names(taxon_match)))
+})
+
+test_that("deprecated taxon match is working as expected", {
+  taxon_match <- expect_error(lifecycle::expect_deprecated(
+    match_taxon_name(test_species_name, NULL)))
 })
 
 test_that("update_dyntaxa_taxonomy is working as expected", {

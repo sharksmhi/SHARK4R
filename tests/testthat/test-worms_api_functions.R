@@ -51,16 +51,23 @@ test_that("get_worms_records works when taxa does not exist", {
   expect_true(all(c("AphiaID", "status") %in% names(worms_no_content)))
 })
 
-test_that("get_worms_records_name works when taxa does not exist", {
+test_that("match_worms_taxa works when taxa does not exist", {
   skip_if_offline()
   skip_if_resource_unavailable(url)
 
-  worms_name_no_content <- get_worms_records_name("nonexistent_taxa_12345")
+  worms_name_no_content <- match_worms_taxa("nonexistent_taxa_12345")
 
   expect_s3_class(worms_name_no_content, "data.frame")
   expect_equal(nrow(worms_name_no_content), 1)
 
   expect_true(all(c("name", "AphiaID", "status") %in% names(worms_name_no_content)))
+})
+
+test_that("deprecated get_worms_records_name works", {
+  skip_if_offline()
+  skip_if_resource_unavailable(url)
+
+  worms_name_no_content <- lifecycle::expect_deprecated(get_worms_records_name("nonexistent_taxa_12345"))
 })
 
 test_that("assign_phytoplankton_group works", {
@@ -95,4 +102,15 @@ test_that("assign_phytoplankton_group works with custom groups", {
   expect_equal(nrow(phytoplankton_custom_group), 2)
 
   expect_true(all(c("scientific_name", "plankton_group") %in% names(phytoplankton_custom_group)))
+})
+
+test_names <- c("Abra", "Dinophysis", "ljkf hlqsdkf")
+
+test_that("match_worms_taxa_interactive works as expected", {
+  results <- match_worms_taxa_interactive(test_names, ask = FALSE)
+  expect_true(nrow(results) == length(test_names))
+})
+
+test_that("deprecated match_worms_taxa_interactive works as expected", {
+  lifecycle::expect_deprecated(match_wormstaxa(test_names, ask = FALSE))
 })

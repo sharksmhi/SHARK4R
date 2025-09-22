@@ -7,21 +7,21 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
+  
 ## WoRMS
-
+  
 The World Register of Marine Species (WoRMS) is a comprehensive database providing authoritative lists of marine organism names, managed by taxonomic experts. It combines data from the Aphia database and other sources like AlgaeBase and FishBase, offering species names, higher classifications, and additional data. WoRMS is continuously updated and maintained by taxonomists. In this tutorial, we source the R package [`worrms`](https://CRAN.R-project.org/package=worrms) to access WoRMS data for our function. Please note that the authors of `SHARK4R` are not affiliated with WoRMS.
-
+  
 ## Getting Started
-
+  
 #### Installation
-
+  
 You can install the latest version of the package from GitHub using the `remotes` package:
 ```{r, eval=FALSE}
 # install.packages("remotes")
 remotes::install_github("sharksmhi/SHARK4R",
-                        ref = remotes::github_release(),
-                        dependencies = TRUE)
+ref = remotes::github_release(),
+dependencies = TRUE)
 ```
 
 Load the `SHARK4R` and `dplyr` libraries:
@@ -56,7 +56,7 @@ shark_data <- get_shark_data(fromYear = 2015,
 
 ### Match Taxa Names
 
-Taxon names can be matched with the WoRMS API to retrieve Aphia IDs and corresponding taxonomic information. The `get_worms_records_name()` function incorporates retry logic to handle temporary failures, ensuring that all names are processed successfully.
+Taxon names can be matched with the WoRMS API to retrieve Aphia IDs and corresponding taxonomic information. The `match_worms_taxa()` function incorporates retry logic to handle temporary failures, ensuring that all names are processed successfully.
 
 ```{r}
 # Find taxa without Aphia ID
@@ -69,11 +69,11 @@ taxa_names <- sample(unique(no_aphia_id$scientific_name),
                      replace = TRUE)
 
 # Match taxa names with WoRMS
-worms_records <- get_worms_records_name(unique(taxa_names),
-                                        fuzzy = TRUE,
-                                        best_match_only = TRUE,
-                                        marine_only = TRUE,
-                                        verbose = FALSE)
+worms_records <- match_worms_taxa(unique(taxa_names),
+                                  fuzzy = TRUE,
+                                  best_match_only = TRUE,
+                                  marine_only = TRUE,
+                                  verbose = FALSE)
 
 # Print result as tibble
 tibble(worms_records)
@@ -81,7 +81,7 @@ tibble(worms_records)
 
 ### Get WoRMS records from AphiaID
 
-Taxonomic records can also be retrieved using Aphia IDs, employing the same retry and error-handling logic as the `get_worms_records_name()` function.
+Taxonomic records can also be retrieved using Aphia IDs, employing the same retry and error-handling logic as the `match_worms_taxa()` function.
 
 ```{r}
 # Randomly select ten Aphia IDs
