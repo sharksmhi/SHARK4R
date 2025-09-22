@@ -45,10 +45,12 @@ Imports:
     vroom,
     worrms
 Suggests: 
+    htmltools,
     iRfcb,
     knitr,
     rmarkdown,
     spelling,
+    shiny,
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr

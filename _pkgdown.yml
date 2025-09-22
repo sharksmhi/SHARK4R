@@ -37,6 +37,7 @@ reference:
   - get_shark_codes
   - get_shark_data
   - get_shark_datasets
+  - get_shark_statistics
   - get_shark_table_counts
   - shark_read
   - shark_read_deliv
@@ -51,7 +52,7 @@ reference:
   - get_dyntaxa_parent_ids
   - get_dyntaxa_records
   - is_in_dyntaxa
-  - match_taxon_name
+  - match_dyntaxa_taxa
   - update_dyntaxa_taxonomy
 
 - subtitle: WoRMS
@@ -60,15 +61,15 @@ reference:
   - add_worms_taxonomy
   - assign_phytoplankton_group
   - get_worms_records
-  - get_worms_records_name
-  - match_wormstaxa
+  - match_worms_taxa
+  - match_worms_taxa_interactive
 
 - subtitle: AlgaeBase
   desc: These functions are used to retrieve data from the AlgaeBase API
   contents:
-  - get_algaebase_genus
-  - get_algaebase_species
-  - match_algaebase
+  - match_algaebase_genus
+  - match_algaebase_species
+  - match_algaebase_taxa
   - parse_scientific_names
 
 - subtitle: IOC-UNESCO HAB
@@ -129,7 +130,7 @@ reference:
   - check_bacterial_concentration
   - check_bacterial_production
   - check_chlorophyll_conc
-  - check_code_proj
+  - check_code
   - check_datatype
   - check_deliv_Bacterioplankton
   - check_deliv_Chlorophyll
@@ -148,19 +149,14 @@ reference:
   - check_deliv_Zoobenthos
   - check_deliv_Zooplankton
   - check_depth
-  - check_epibenthos_abundclass_logical
   - check_epibenthos_counted
-  - check_epibenthos_cover_logical
-  - check_epibenthos_coverclass_logical
-  - check_epibenthos_coverpercent_logical
   - check_epibenthos_dryweight
-  - check_epibenthos_sedimentdepos_logical
   - check_epibenthos_specdistr_maxdepth
   - check_epibenthos_specdistr_mindepth
-  - check_epibenthos_totcover_logical
   - check_greyseal_counted
   - check_harbourseal_counted
   - check_harbporp_positivemin
+  - check_logical_parameter
   - check_phytoplankton_abund
   - check_phytoplankton_biovol
   - check_phytoplankton_counted
@@ -173,14 +169,13 @@ reference:
   - check_primaryproduction_carbonprod_hour
   - check_primaryproduction_carbonprodlight
   - check_ringedseal_calccounted
+  - check_setup
   - check_value_logical
   - check_zero_value
   - check_zoobenthos_BQIm
-  - check_zoobenthos_BQIm_logical
   - check_zoobenthos_abund
   - check_zoobenthos_counted
   - check_zoobenthos_wetweight
-  - check_zoobenthos_wetweight_logical
   - check_zooplankton_abund
   - check_zooplankton_carbon
   - check_zooplankton_counted

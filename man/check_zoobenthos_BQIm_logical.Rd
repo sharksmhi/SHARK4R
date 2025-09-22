@@ -12,11 +12,12 @@ check_zoobenthos_BQIm_logical(data, return_df = FALSE, return_logical = FALSE)
 \item{return_df}{Logical. If TRUE, return a plain data.frame of problematic rows.}
 
 \item{return_logical}{Logical. If TRUE, return a logical vector of length nrow(data)
-indicating which rows violate the logical assumption. Overrides return_df.}
+indicating which rows exceed 100\% for Total cover. Overrides return_df.}
 }
 \value{
 A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
 }
 \description{
-Check logical relationship between Abundance and BQIm
+r lifecycle::badge("deprecated")
 }
+\keyword{internal}

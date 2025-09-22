@@ -6,7 +6,7 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
                          "middle", "upper", "Value", "Ok", "sample_id", "shark_sample_id_md5",
                          "sample_min_depth_m", "sample_max_depth_m", "parameter", "value",
                          "taxon_species", "taxon_genus", "worms_species", "worms_genus",
-                         "scientific_name", "nameShort", "isRecommended",
+                         "scientific_name", "nameShort", "isRecommended", "delivery_datatype",
                          "usage.name", "usage.value", "taxonId", ".", "Species", "taxonId_recommended",
                          "acceptedNameUsageID", "parentNameUsageID", "scientificName", "taxonRank",
                          "scientificNameAuthorship", "taxonomicStatus", "nomenclaturalStatus",
@@ -16,11 +16,9 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
                          "match_type", "STATN", "LONGI", "LATIT", "species", "SDATE",
                          "author", "guid", "name", "Kingdom", "Phylum", "Class", "Order", "Family",
                          "Genus", "Species", "hierarchy", "kingdom", "AphiaID", "worms_hierarchy", "taxon_hierarchy",
-                         "up_to_date", "Data_field", "DT", "phylum", "plankton_group", "longitude", "latitude"))
+                         "up_to_date", "Data_field", "DT", "phylum", "plankton_group", "longitude", "latitude",
+                         "value_num", "n_non_numeric", "frac_non_numeric", "n_total", "stats"))
 
 .onLoad <- function(libname, pkgname){
   clean_shark4r_cache(days = 1, verbose = FALSE)
 }
-
-# environment to hold cached data during an R session
-.shark4r_cache <- new.env(parent = emptyenv())

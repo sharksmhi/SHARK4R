@@ -4,7 +4,11 @@
 \alias{check_epibenthos_coverpercent_logical}
 \title{Check if Epibenthos cover (\%) exceeds 100\%}
 \usage{
-check_epibenthos_coverpercent_logical(data, return_df = FALSE, return_logical = FALSE)
+check_epibenthos_coverpercent_logical(
+  data,
+  return_df = FALSE,
+  return_logical = FALSE
+)
 }
 \arguments{
 \item{data}{A data frame. Must contain columns \code{parameter} and \code{value}.}
@@ -12,11 +16,12 @@ check_epibenthos_coverpercent_logical(data, return_df = FALSE, return_logical = 
 \item{return_df}{Logical. If TRUE, return a plain data.frame of problematic rows.}
 
 \item{return_logical}{Logical. If TRUE, return a logical vector of length nrow(data)
-indicating which rows exceed 100\% for Cover (\%). Overrides return_df.}
+indicating which rows exceed 100\% for Total cover. Overrides return_df.}
 }
 \value{
 A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
 }
 \description{
-Check if Epibenthos cover (\%) exceeds 100\%
+r lifecycle::badge("deprecated")
 }
+\keyword{internal}

@@ -7,6 +7,8 @@
 * Add new function `read_ptbx()` to read Plankton Toolbox files.
 * Add new function `get_shark_codes()` to download and read the current SHARK code lists.
 * Add new function `clean_shark4r_cache()` to clear cached files.
+* Add new function `check_setup()` to download and run SHARK QC scripts and Shiny App.
+* Add new function `get_shark_statistics()` to download SHARK data and extract summary statistics for numeric parameters.
 
 ## Enhancements
 * Re-export functions from the `iRfcb` package: `which_basin()` and `positions_are_near_land()`.
@@ -18,7 +20,12 @@
 
 ## Deprecated
 * Deprecated functions: `ifcb_is_near_land()` and `ifcb_which_basin()` (replaced by re-exported functions with improved cache behavior)
+* Deprecated functions: `get_algaebase_species()`, `get_algaebase_genus()` and `match_algaebase()` are now replaced by `match_algaebase_species()`, `match_algaebase_genus()` and `match_algaebase_taxa()`.
+* Deprecated functions: Parameter and datatype-specific `check_*_*_logical()` functions replaced by a general `check_logical_parameter()` function.
 * Deprecated function: `match_dyntaxa()` is now replaced by `is_in_dyntaxa()`.
+* Deprecated function: `match_taxon_name()` is now replaced by `match_dyntaxa_taxa()`.
+* Deprecated function: `get_worms_records_name()` is now replaced by `match_worms_taxa()`.
+* Deprecated function: `match_wormstaxa()` is now replaced by `match_worms_taxa_interactive()`.
 * Deprecated argument: `apikey` replaced by `subscription_key` in `get_algaebase_genus()`, `get_algaebase_species()` and `match_algaebase()`
 
 ## Defunct / Removed
