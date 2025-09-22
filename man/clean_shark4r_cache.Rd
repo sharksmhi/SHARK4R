@@ -45,6 +45,6 @@ The cache is automatically cleared after 24h.
 }
 }
 \seealso{
-\code{\link[=get_peg_list]{get_peg_list()}}, \code{\link[=get_nomp_list]{get_nomp_list()}}, \code{\link[=get_shark_codes]{get_shark_codes()}}, \code{\link[=get_dyntaxa_dwca]{get_dyntaxa_dwca()}}
+\code{\link[=get_peg_list]{get_peg_list()}}, \code{\link[=get_nomp_list]{get_nomp_list()}}, \code{\link[=get_shark_codes]{get_shark_codes()}}, \code{\link[=get_dyntaxa_dwca]{get_dyntaxa_dwca()}}, \code{\link[=get_shark_statistics]{get_shark_statistics()}}
 for functions that populate the cache.
 }

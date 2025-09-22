@@ -123,15 +123,104 @@ test_that("check_datatype catches multiple missing required fields", {
   expect_true(all(result$level == "error"))
 })
 
+test_that("check_fields errors on unknown datatype", {
+  df <- dplyr::tibble()
+  expect_error(check_fields(df, "not_a_type"), "Unknown datatype")
+})
+
+test_that("check_fields returns empty tibble when all required fields are present", {
+  defs <- list(
+    TestType = list(required = c("id", "value"), recommended = c("comment"))
+  )
+
+  df <- dplyr::tibble(id = 1, value = "x", comment = "ok")
+
+  errors <- check_fields(df, "TestType", level = "error", field_definitions = defs)
+
+  expect_true(is.data.frame(errors))
+  expect_equal(nrow(errors), 0)
+})
+
+test_that("check_fields catches missing required fields", {
+  defs <- list(
+    TestType = list(required = c("id", "value"), recommended = character())
+  )
+
+  df <- dplyr::tibble(id = 1) # missing 'value'
+
+  errors <- check_fields(df, "TestType", level = "error", field_definitions = defs)
+
+  expect_true("value" %in% errors$field)
+  expect_true(all(errors$level == "error"))
+  expect_match(errors$message, "is missing")
+})
+
+test_that("check_fields catches empty values in required fields", {
+  defs <- list(
+    TestType = list(required = c("id", "value"), recommended = character())
+  )
+
+  df <- dplyr::tibble(id = c(1, 2), value = c("", NA))
+
+  errors <- check_fields(df, "TestType", level = "error", field_definitions = defs)
+
+  expect_equal(unique(errors$field), "value")
+  expect_true(all(errors$level == "error"))
+  expect_true(all(errors$row %in% c(1, 2)))
+  expect_match(errors$message[1], "Empty value")
+})
+
+test_that("check_fields warns on missing recommended fields when level = 'warning'", {
+  defs <- list(
+    TestType = list(required = "id", recommended = c("comment", "extra"))
+  )
+
+  df <- dplyr::tibble(id = 1)
+
+  errors <- check_fields(df, "TestType", level = "warning", field_definitions = defs)
+
+  expect_setequal(errors$field, c("comment", "extra"))
+  expect_true(all(errors$level == "warning"))
+  expect_match(errors$message[1], "Recommended field")
+})
+
+test_that("check_fields warns on empty values in recommended fields", {
+  defs <- list(
+    TestType = list(required = "id", recommended = "comment")
+  )
+
+  df <- dplyr::tibble(id = 1, comment = c("", NA, "ok"))
+
+  errors <- check_fields(df, "TestType", level = "warning", field_definitions = defs)
+
+  expect_equal(unique(errors$field), "comment")
+  expect_true(all(errors$level == "warning"))
+  expect_true(all(errors$row %in% c(1, 2)))
+  expect_match(errors$message[1], "Empty value")
+})
+
+test_that("check_fields works with custom field_definitions", {
+  custom_defs <- list(
+    CustomType = list(required = "foo", recommended = "bar")
+  )
+
+  df <- dplyr::tibble(foo = "ok", bar = "ok")
+
+  errors <- check_fields(df, "CustomType", level = "warning", field_definitions = custom_defs)
+
+  expect_true(is.data.frame(errors))
+  expect_equal(nrow(errors), 0)
+})
+
 ### Tests for other check_ functions
 
 check_functions <- list(
   Bacterioplankton = check_Bacterioplankton,
   Chlorophyll      = check_Chlorophyll,
   Epibenthos       = check_Epibenthos,
-  Dropvideo        = check_EpibenthosDropvideo,
-  Greyseal         = check_GreySeal,
-  Harbourporpoise  = check_HarbourPorpoise,
+  EpibenthosDropvideo = check_EpibenthosDropvideo,
+  GreySeal         = check_GreySeal,
+  HarbourPorpoise  = check_HarbourPorpoise,
   HarbourSeal      = check_HarbourSeal,
   PhysicalChemical = check_PhysicalChemical,
   Phytoplankton    = check_Phytoplankton,
@@ -139,7 +228,7 @@ check_functions <- list(
   PrimaryProduction= check_PrimaryProduction,
   RingedSeal       = check_RingedSeal,
   SealPathology    = check_SealPathology,
-  Sediment         = check_Sedimentation,
+  Sedimentation         = check_Sedimentation,
   Zoobenthos       = check_Zoobenthos,
   Zooplankton      = check_Zooplankton,
   deliv_Bacterioplankton = check_deliv_Bacterioplankton,
@@ -160,159 +249,24 @@ check_functions <- list(
   deliv_Zooplankton = check_deliv_Zooplankton
 )
 
-test_that("check functions return empty tibble when all required fields are present", {
+test_that("deprecated check functions still works", {
   for (fname in names(check_functions)) {
     fn <- check_functions[[fname]]
 
     # print(fname) # for debugging
 
-    required <- formals(fn)$required %||% body(fn)[[3]][[3]] # extract inside function
-    # safer: just call the function once on an empty tibble and look at the error field
-    required <- eval(body(fn)[[3]][[3]])
+    required <- .field_definitions[[fname]]$required
+    recommended <- .field_definitions[[fname]]$recommended
 
     # Create data frame with all required fields filled
     df <- dplyr::as_tibble(setNames(rep(list("x"), length(required)), required))
 
-    errors <- fn(df, level = "error")
+    lifecycle::expect_deprecated(fn(df, level = "error"))
 
-    expect_true(is.data.frame(errors))
-    expect_equal(nrow(errors), 0, info = paste("Function:", fname))
-  }
-})
+    # Create data frame with all fields filled
+    df <- dplyr::as_tibble(setNames(rep(list("x"), length(c(required, recommended))),
+                                    c(required, recommended)))
 
-test_that("check functions catch single missing required field", {
-  for (fname in names(check_functions)) {
-    fn <- check_functions[[fname]]
-
-    required <- eval(body(fn)[[3]][[3]])
-    df <- dplyr::as_tibble(setNames(rep(list("x"), length(required)), required))
-    df <- df %>% dplyr::select(-1) # drop first required column
-
-    errors <- fn(df, level = "error")
-
-    expect_true(any(errors$field == required[1]))
-    expect_true(all(errors$level == "error"))
-  }
-})
-
-test_that("check functions catch multiple missing required fields", {
-  for (fname in names(check_functions)) {
-    fn <- check_functions[[fname]]
-
-    required <- eval(body(fn)[[3]][[3]])
-    df <- dplyr::as_tibble(setNames(rep(list("x"), length(required)), required))
-    df <- df %>% dplyr::select(-c(1:3)) # drop 3 required fields
-
-    errors <- fn(df, level = "error")
-
-    expect_true(all(required[1:3] %in% errors$field))
-    expect_true(all(errors$level == "error"))
-  }
-})
-
-test_that("check functions catch empty values in required fields", {
-  for (fname in names(check_functions)) {
-    fn <- check_functions[[fname]]
-
-    # Extract required fields programmatically from the function body
-    required <- eval(body(fn)[[3]][[3]])
-
-    # Create 3 rows of dummy data
-    df <- dplyr::as_tibble(
-      setNames(
-        replicate(length(required), rep("x", 3), simplify = FALSE),
-        required
-      )
-    )
-
-    # Insert empty and NA values into the first required column
-    df[[required[1]]] <- c("", "x", NA)
-
-    errors <- fn(df, level = "error")
-
-    expect_true(any(errors$field == required[1]))
-    expect_true(any(errors$row %in% c(1, 3)))
-  }
-})
-
-test_that("check functions catch missing recommended fields (level = 'warning')", {
-  for (fname in names(check_functions)) {
-    fn <- check_functions[[fname]]
-
-    # print(fname) # for debugging
-
-    required <- get_vector_from_body(fn, "required")
-    recommended <- get_vector_from_body(fn, "recommended")
-
-    df <- dplyr::as_tibble(setNames(rep(list("x"), length(required)), required))
-    # no recommended fields included
-
-    errors <- fn(df, level = "warning")
-
-    # add 'level' column if missing
-    if (!"level" %in% names(errors)) {
-      errors$level <- character(0)
-    }
-
-    # add 'field' column if missing
-    if (!"field" %in% names(errors)) {
-      errors$field <- character(0)
-    }
-
-    expect_true(all(recommended %in% errors$field))
-    expect_true(all(errors$level == "warning"))
-  }
-})
-
-test_that("check functions report all required and recommended fields present", {
-  for (fname in names(check_functions)) {
-
-    print(fname) # for debugging
-
-    fn <- check_functions[[fname]]
-
-    required <- get_vector_from_body(fn, "required")
-    recommended <- get_vector_from_body(fn, "recommended")
-
-    # Build tibble with all required + recommended filled
-    df <- dplyr::as_tibble(
-      setNames(rep(list("x"), length(c(required, recommended))), c(required, recommended))
-    )
-
-    # Run with warning level to check both required & recommended
-    expect_message({
-      errors <- fn(df, level = "warning")
-    }, "All required fields present|All recommended fields present")
-
-    expect_true(is.data.frame(errors))
-    expect_equal(nrow(errors), 0, info = paste("Function:", fname))
-  }
-})
-
-test_that("check functions catch empty values in recommended fields (level = 'warning')", {
-  for (fname in names(check_functions)) {
-    fn <- check_functions[[fname]]
-
-    required <- get_vector_from_body(fn, "required")
-    recommended <- get_vector_from_body(fn, "recommended")
-
-    # only run if function has recommended fields
-    if (length(recommended) == 0) next
-
-    # Create 3 rows of dummy data for required
-    df <- dplyr::as_tibble(
-      setNames(
-        replicate(length(required), rep("x", 3), simplify = FALSE),
-        required
-      )
-    )
-
-    # Add recommended column with empty and NA values
-    df[[recommended[1]]] <- c("", NA, "x")
-
-    errors <- fn(df, level = "warning")
-
-    expect_true(any(errors$field == recommended[1]))
-    expect_true(any(errors$level == "warning"))
+    lifecycle::expect_deprecated(fn(df, level = "warning"))
   }
 })

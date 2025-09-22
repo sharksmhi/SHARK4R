@@ -18,7 +18,7 @@
 #'
 #' @export
 #'
-#' @seealso [get_peg_list()], [get_nomp_list()], [get_shark_codes()], [get_dyntaxa_dwca()]
+#' @seealso [get_peg_list()], [get_nomp_list()], [get_shark_codes()], [get_dyntaxa_dwca()], [get_shark_statistics()]
 #'   for functions that populate the cache.
 #'
 #' @return Invisible `NULL`. Messages are printed about what was deleted

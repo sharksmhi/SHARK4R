@@ -22,6 +22,7 @@
 * Deprecated functions: `ifcb_is_near_land()` and `ifcb_which_basin()` (replaced by re-exported functions with improved cache behavior)
 * Deprecated functions: `get_algaebase_species()`, `get_algaebase_genus()` and `match_algaebase()` are now replaced by `match_algaebase_species()`, `match_algaebase_genus()` and `match_algaebase_taxa()`.
 * Deprecated functions: Parameter and datatype-specific `check_*_*_logical()` functions replaced by a general `check_logical_parameter()` function.
+* Deprecated functions: Datatype-specific field check functions `check_*()` and `check_*_deliv()` replaced by a general `check_fields()` function.
 * Deprecated function: `match_dyntaxa()` is now replaced by `is_in_dyntaxa()`.
 * Deprecated function: `match_taxon_name()` is now replaced by `match_dyntaxa_taxa()`.
 * Deprecated function: `get_worms_records_name()` is now replaced by `match_worms_taxa()`.
