@@ -572,7 +572,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 
     if (save_data) {
       utils::write.table(combined_data, file = file_path, sep = sep_char, row.names = FALSE, col.names = TRUE,
-                  quote = FALSE, fileEncoding = content_encoding)
+                         quote = FALSE, fileEncoding = content_encoding)
     }
 
     return(combined_data)
@@ -797,4 +797,167 @@ get_shark_datasets <- function(dataset_name,
 
   names(results) <- matched_datasets
   return(results)
+}
+
+#' Summarize numeric SHARK parameters with ranges and outlier thresholds
+#'
+#' Downloads SHARK data for a given time period, filters to numeric parameters,
+#' and calculates descriptive statistics and Tukey outlier thresholds.
+#'
+#' By default, the function uses the *previous five complete years*.
+#' For example, if called in 2025 it will use data from 2020–2024.
+#'
+#' @param fromYear Start year for download (numeric).
+#'   Defaults to 5 years before the last complete year.
+#' @param toYear End year for download (numeric).
+#'   Defaults to the last complete year.
+#' @param datatype Optional, one or more datatypes to filter on
+#'   (e.g. `"Bacterioplankton"`). If `NULL`, all datatypes are included.
+#' @param min_obs Minimum number of numeric observations required
+#'   for a parameter to be included (default: 3).
+#' @param max_non_numeric_frac Maximum allowed fraction of non-numeric values
+#'   for a parameter to be kept (default: 0.05).
+#' @param verbose Logical, whether to show download progress messages. Default is `TRUE`.
+#'
+#' @return A tibble with one row per parameter and the following columns:
+#' \describe{
+#'   \item{parameter}{Parameter name (character).}
+#'   \item{min, Q1, median, Q3, max}{Observed quantiles.}
+#'   \item{P05, P95}{5th and 95th percentiles.}
+#'   \item{IQR}{Interquartile range.}
+#'   \item{mean}{Arithmetic mean of numeric values.}
+#'   \item{sd}{Standard deviation of numeric values.}
+#'   \item{var}{Variance of numeric values.}
+#'   \item{cv}{Coefficient of variation (sd / mean).}
+#'   \item{mad}{Median absolute deviation.}
+#'   \item{mild_lower, mild_upper}{Lower/upper bounds for mild outliers (1.5 × IQR).}
+#'   \item{extreme_lower, extreme_upper}{Lower/upper bounds for extreme outliers (3 × IQR).}
+#'   \item{n}{Number of numeric observations used.}
+#' }
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#'   # Uses previous 5 years automatically
+#'   res <- get_shark_statistics()
+#'
+#'   # Explicitly set years and datatype
+#'   res <- get_shark_statistics(2018, 2022, datatype = "Chlorophyll")
+#'
+#'   # Print result
+#'   print(res)
+#' }
+get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL,
+                                 min_obs = 3, max_non_numeric_frac = 0.05, verbose = TRUE) {
+
+  # Set default years
+  current_year <- as.integer(format(Sys.Date(), "%Y"))
+  last_complete_year <- current_year - 1
+  if (is.null(toYear)) toYear <- last_complete_year
+  if (is.null(fromYear)) fromYear <- toYear - 4
+
+  if (verbose) {
+    message(sprintf("Downloading SHARK data from %d to %d...", fromYear, toYear))
+  }
+
+  if (is.null(datatype)) {
+    datatype <- c()
+  }
+
+  # Download data
+  data <- get_shark_data(dataTypes = datatype, fromYear = fromYear, toYear = toYear)
+
+  if (nrow(data) == 0) {
+    warning("No data retrieved from SHARK for the specified years and datatype.")
+    return(tibble())
+  }
+
+  df <- data %>%
+    dplyr::select(delivery_datatype, parameter, value) %>%
+    dplyr::filter(!is.na(value))
+
+  if (!is.null(datatype)) {
+    df <- df %>% dplyr::filter(delivery_datatype %in% datatype)
+  }
+
+  # Parse numeric
+  df <- df %>% dplyr::mutate(value_num = parse_shark_value(value))
+
+  # Compute non-numeric fractions per parameter
+  param_quality <- df %>%
+    dplyr::group_by(parameter) %>%
+    dplyr::summarise(n_total = n(),
+                     n_non_numeric = sum(is.na(value_num)),
+                     frac_non_numeric = n_non_numeric / n_total,
+                     .groups = "drop")
+
+  # Keep only numeric-like parameters
+  keep_params <- param_quality %>%
+    dplyr::filter(frac_non_numeric <= max_non_numeric_frac) %>%
+    dplyr::pull(parameter)
+
+  df <- df %>% dplyr::filter(parameter %in% keep_params)
+
+  # Summariser
+  summarise_param <- function(v) {
+    v <- v[!is.na(v)]
+    if (length(v) < min_obs) {
+      return(tibble(
+        min = NA_real_, Q1 = NA_real_, median = NA_real_, Q3 = NA_real_, max = NA_real_,
+        P05 = NA_real_, P95 = NA_real_,
+        IQR = NA_real_, mean = NA_real_, sd = NA_real_, var = NA_real_, cv = NA_real_,
+        mad = NA_real_, mild_lower = NA_real_, mild_upper = NA_real_,
+        extreme_lower = NA_real_, extreme_upper = NA_real_, n = length(v)
+      ))
+    }
+
+    q <- stats::quantile(v, probs = c(0, 0.25, 0.5, 0.75, 1), na.rm = TRUE, type = 7)
+    p <- stats::quantile(v, probs = c(0.05, 0.95), na.rm = TRUE, type = 7)
+
+    lowerq <- q[2]; upperq <- q[4]; iqr <- upperq - lowerq
+
+    m <- mean(v)
+    s <- stats::sd(v)
+
+    dplyr::tibble(
+      min = q[1], Q1 = lowerq, median = q[3], Q3 = upperq, max = q[5],
+      P05 = p[1], P95 = p[2],
+      IQR = iqr,
+      mean = m,
+      sd = s,
+      var = s^2,
+      cv = if (!is.na(m) && m != 0) s / m else NA_real_,
+      mad = stats::mad(v, constant = 1),
+      mild_lower = lowerq - 1.5 * iqr,
+      mild_upper = upperq + 1.5 * iqr,
+      extreme_lower = lowerq - 3 * iqr,
+      extreme_upper = upperq + 3 * iqr,
+      n = length(v)
+    )
+  }
+
+  # Summarize per parameter -> dataframe
+  result_tbl <- df %>%
+    dplyr::group_by(parameter) %>%
+    dplyr::summarise(dplyr::across(value_num, summarise_param), .groups = "drop")
+
+  # Flatten out nested tibble from summarise_param
+  result_tbl <- df %>%
+    dplyr::group_by(parameter) %>%
+    dplyr::summarise(stats = list(summarise_param(value_num)), .groups = "drop") %>%
+    tidyr::unnest(stats) %>%
+    dplyr::filter(n >= min_obs)
+
+  return(result_tbl)
+}
+
+# Helper: parse SHARK values to numeric
+parse_shark_value <- function(x) {
+  x <- as.character(x)
+  x <- trimws(x)
+  x <- gsub(",", ".", x)              # fix decimal commas
+  x <- gsub("^\\s*[<>~=]+\\s*", "", x) # drop <, >, = signs
+  x <- gsub("[^0-9eE+\\-\\.]", "", x) # keep only numeric chars
+  x[nzchar(x) == FALSE] <- NA_character_
+  suppressWarnings(as.numeric(x))
 }

@@ -1,15 +1,15 @@
 #' Clean SHARK4R cache by file age and session
 #'
 #' Deletes cached files in the SHARK4R cache directory that are older than
-#' a specified number of days, and also clears the in-memory session cache
-#' used by functions like `get_dyntaxa_dwca()`.
+#' a specified number of days.
 #'
 #' @param days Numeric; remove files older than this number of days. Default is 1.
 #' @param cache_dir Character; path to the cache directory to clean.
 #'   Defaults to the SHARK4R cache directory in the user-specific R folder
 #'   (via `tools::R_user_dir("SHARK4R", "cache")`). You can override this
 #'   parameter for custom cache locations.
-#' @param clear_perm_cache Logical. If `TRUE`, filed that are cached across R sessions are cleared. Defaults to `FALSE`.
+#' @param clear_perm_cache Logical. If `TRUE`, filed that are cached across R sessions are cleared, i.e. geographical shape files.
+#'        Defaults to `FALSE`.
 #' @param search_pattern Character; optional regex pattern to filter which files to consider for deletion.
 #' @param verbose Logical. If `TRUE`, displays messages of cache cleaning progress. Defaults to `TRUE`.
 #'
@@ -34,12 +34,6 @@ clean_shark4r_cache <- function(days = 1,
                                 clear_perm_cache = FALSE,
                                 search_pattern = NULL,
                                 verbose = TRUE) {
-  # Clear in-memory cache if it exists
-  if (exists(".shark4r_cache", envir = asNamespace("SHARK4R"))) {
-    cache_env <- get(".shark4r_cache", envir = asNamespace("SHARK4R"))
-    rm(list = ls(envir = cache_env), envir = cache_env)
-    if (verbose) message("Cleared in-memory session cache (.shark4r_cache).")
-  }
 
   if (!dir.exists(cache_dir)) {
     if (verbose) message("No SHARK4R cache directory found.")
@@ -76,6 +70,106 @@ clean_shark4r_cache <- function(days = 1,
   unlink(old_files, recursive = TRUE, force = TRUE)
   if (verbose) message("Removed ", length(old_files), " file(s) older than ", days, " days from SHARK4R cache.")
   invisible(NULL)
+}
+
+#' Download and set up SHARK4R support files
+#'
+#' This function downloads the \code{products} folder from
+#' the SHARK4R GitHub repository and places them in a user-specified directory.
+#' These folders contain Shiny applications and R Markdown documents used for
+#' quality control (QC) of SHARK data.
+#'
+#' By default, the folders are downloaded into the current working directory.
+#' If the folders already exist, the download will be skipped unless
+#' \code{force = TRUE} is specified. Optionally, the function can launch the
+#' QC Shiny app directly after setup.
+#'
+#' @param path Character string specifying the target directory where the
+#'   \code{products} folder should be stored.
+#'   Defaults to the current working directory (\code{"."}).
+#' @param run_app Logical, if \code{TRUE} runs the QC Shiny app located in the
+#'   \code{products} folder after setup. Default is \code{FALSE}.
+#' @param force Logical, if \code{TRUE} forces a re-download and overwrites
+#'   existing folder. Default is \code{FALSE}.
+#' @param verbose Logical, if \code{TRUE} prints progress messages.
+#'   Default is \code{TRUE}.
+#'
+#' @return An (invisible) list with the path to the local \code{products} folder:
+#'
+#' @examples
+#' \dontrun{
+#' # Download support files into current working directory
+#' check_setup()
+#'
+#' # Download into a specific folder in current working directory
+#' check_setup(path = "shark_qc")
+#'
+#' # Force re-download if already present
+#' check_setup(force = TRUE)
+#'
+#' # Download and run the QC Shiny app
+#' check_setup(run_app = TRUE)
+#' }
+#'
+#' @export
+check_setup <- function(path = ".", run_app = FALSE, force = FALSE, verbose = TRUE) {
+  # Target folders
+  products_dir <- file.path(path, "products")
+
+  # If already present
+  if (!force && dir.exists(products_dir)) {
+    if (verbose) message("Products and scripts already exist in: ", normalizePath(path))
+  } else {
+    if (verbose) message("Downloading setup files for SHARK4R...")
+
+    # GitHub commit permalink (fixed for reproducibility)
+    commit <- "2b16911d55b18279ef6334f103b55f8202f727be"
+    zip_url <- sprintf("https://github.com/sharksmhi/SHARK4R/archive/%s.zip", commit)
+
+    # Temporary download location
+    tmp <- tempfile(fileext = ".zip")
+    utils::download.file(zip_url, tmp, quiet = !verbose)
+
+    # Unpack into temp folder
+    unpack_dir <- tempfile()
+    utils::unzip(tmp, exdir = unpack_dir)
+
+    # Source root inside the zip
+    src_root <- file.path(unpack_dir, sprintf("SHARK4R-%s", commit))
+
+    dir.create(path, showWarnings = FALSE, recursive = TRUE)
+
+    # Copy the wanted folders
+    file.copy(file.path(src_root, "products"), path, recursive = TRUE, overwrite = force)
+
+    # Clean up
+    unlink(tmp)
+    unlink(unpack_dir, recursive = TRUE)
+
+    if (verbose) message("Setup complete. Files are available in ", normalizePath(path))
+  }
+
+  # Run Shiny app if requested
+  if (run_app) {
+    # Check required packages
+    needed_pkgs <- c("shiny", "htmltools", "rmarkdown")
+    missing <- needed_pkgs[!vapply(needed_pkgs, requireNamespace, logical(1), quietly = TRUE)]
+    if (length(missing)) {
+      stop("The following packages are required to run the app: ",
+           paste(missing, collapse = ", "), ". Please install them.")
+    }
+
+    # Check that server.R and ui.R exist
+    if (!file.exists(file.path(products_dir, "server.R")) ||
+        !file.exists(file.path(products_dir, "ui.R"))) {
+      stop("Could not find 'server.R' and 'ui.R' in ", products_dir)
+    }
+
+    message("Launching QC Shiny app...")
+    shiny::runApp(products_dir, launch.browser = TRUE)
+  }
+
+  invisible(list(products = products_dir))
 }
 
 ## Helpers
@@ -244,8 +338,8 @@ cache_excel_download <- function(url = "https://smhi.se/oceanografi/oce_info_dat
 }
 
 cache_nomp_zip <- function(base_url = "https://www.smhi.se/oceanografi/oce_info_data/shark_web/downloads/sbdi/NOMP/biovolume",
-                            year = as.numeric(format(Sys.Date(), "%Y")),
-                            force = FALSE) {
+                           year = as.numeric(format(Sys.Date(), "%Y")),
+                           force = FALSE) {
 
   cache_dir <- tools::R_user_dir("SHARK4R", which = "cache")
   if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
