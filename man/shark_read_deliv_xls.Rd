@@ -2,8 +2,7 @@
 % Please edit documentation in R/shark_read.R
 \name{shark_read_deliv_xls}
 \alias{shark_read_deliv_xls}
-\title{Read .xls files delivered to SHARK
-Uses readxl to read excel files with standardized delivery format}
+\title{Read .xls files delivered to SHARK}
 \usage{
 shark_read_deliv_xls(filename, skip = 2, sheet = 2)
 }
@@ -18,6 +17,5 @@ shark_read_deliv_xls(filename, skip = 2, sheet = 2)
 Data frame of file
 }
 \description{
-Read .xls files delivered to SHARK
 Uses readxl to read excel files with standardized delivery format
 }

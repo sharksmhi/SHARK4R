@@ -69,4 +69,4 @@ This package is licensed under the MIT License.
 
 ## References
 
-Provoost, P. and Bosch, S. (2018). `obistools`: Tools for data enhancement and quality control. Ocean Biogeographic Information System. Intergovernmental Oceanographic Commission of UNESCO. <https://iobis.github.io/obistools/>.
+Provoost P, Bosch S (2024). `obistools`: Tools for data enhancement and quality control. Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, <https://iobis.github.io/obistools/>.

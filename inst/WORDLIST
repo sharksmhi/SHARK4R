@@ -8,7 +8,6 @@ Artdatabanken
 BQIm
 Bacillariophyceae
 Bacterioplankton
-Biogeographic
 Biovolume
 CMD
 Centre
@@ -59,7 +58,7 @@ Provoost
 README
 SLU
 SMHI
-SMHIs
+SMHI's
 Skagerrak
 Stationsregistret
 WoRMS
@@ -69,6 +68,7 @@ algaebase
 barcoding
 bathymetry
 benthic
+benthos
 biotoxin
 biovolume
 biovolumes
@@ -81,6 +81,7 @@ delim
 df
 dinoflagellate
 dyntaxa
+epibenthos
 forma
 funder
 geopackage
@@ -93,11 +94,13 @@ iRfcb
 infraspecies
 interquantile
 io
+lifecycle
 marinespecies
 microalgae
 microzooplankton
 nomp
 nrow
+obistools
 phycological
 phytoplankton
 plotly
@@ -106,6 +109,7 @@ pseudotaxon
 qc
 readxl
 rubrum
+sd
 se
 sharkdata
 shoremargin
@@ -115,9 +119,11 @@ spp
 sqkm
 subsp
 sv
+th
 tibble
 unparsed
 unz
+worrms
 www
 xls
 xlsx

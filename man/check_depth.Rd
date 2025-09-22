@@ -15,3 +15,9 @@ Problematic records or an errors report.
 \description{
 Check which points have potentially invalid depths.
 }
+\details{
+The function has been modified from the \code{obistools} package (Provoost and Bosch, 2024).
+}
+\references{
+Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, \url{https://iobis.github.io/obistools/}.
+}

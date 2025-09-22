@@ -29,6 +29,7 @@
 #' - When \code{areas} is a positive integer, all area values within that radius are returned. A value of \code{TRUE}
 #'   is equivalent to 0 m, while \code{FALSE} disables area retrieval.
 #' - Results are mapped back to the original input order, and duplicates in the input are correctly handled.
+#' - The function has been modified from the `obistools` package (Provoost and Bosch, 2024).
 #'
 #' @examples
 #' \dontrun{
@@ -42,6 +43,8 @@
 #' xy_list <- lookup_xy(abra, shoredistance = TRUE, grids = TRUE, areas = FALSE, as_data_frame = FALSE)
 #' }
 #'
+#'
+#' @references Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, <https://iobis.github.io/obistools/>.
 #' @seealso \code{\link{check_onland}}, \code{\link{check_depth}}
 #' @export
 lookup_xy <- function(data, shoredistance=TRUE, grids=TRUE, areas=FALSE, as_data_frame=TRUE) {

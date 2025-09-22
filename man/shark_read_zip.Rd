@@ -2,8 +2,7 @@
 % Please edit documentation in R/shark_read.R
 \name{shark_read_zip}
 \alias{shark_read_zip}
-\title{Read zip archive and unzip tab delimited files downloaded from SHARK
-Uses unzip (unz) and read_delim to unzip archive and read tab delimited files with standardized export format from SHARK}
+\title{Read zip archive and unzip tab delimited files downloaded from SHARK}
 \usage{
 shark_read_zip(zipname)
 }
@@ -14,6 +13,5 @@ shark_read_zip(zipname)
 Data frame of file
 }
 \description{
-Read zip archive and unzip tab delimited files downloaded from SHARK
 Uses unzip (unz) and read_delim to unzip archive and read tab delimited files with standardized export format from SHARK
 }

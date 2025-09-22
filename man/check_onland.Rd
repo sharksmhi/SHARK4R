@@ -49,6 +49,7 @@ is ignored in this mode.
 \item In online mode, \code{lookup_xy()} is used to fetch distances to the nearest shoreline.
 Points with negative distances (inland) beyond the \code{buffer} are flagged.
 \item Warnings are issued if \code{land} is provided in online mode or \code{buffer} is used in offline mode.
+\item The function has been modified from the \code{obistools} package (Provoost and Bosch, 2024).
 }
 }
 \examples{
@@ -66,6 +67,9 @@ ok <- check_onland(abra, report = FALSE, buffer = 100)
 print(nrow(ok))
 }
 
+}
+\references{
+Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, \url{https://iobis.github.io/obistools/}.
 }
 \seealso{
 \code{\link{check_depth}}, \code{\link{lookup_xy}}, \code{\link{clean_shark4r_cache}}

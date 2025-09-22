@@ -42,9 +42,11 @@ This function downloads a complete Darwin Core Archive (DwCA) of Dyntaxa from th
 extracts the archive, and reads the specified CSV file into R.
 }
 \details{
-By default, the archive is downloaded only once per R session. On subsequent calls,
+By default, the archive is downloaded and cached across R sessions. On subsequent calls,
 the function reuses the cached copy of the extracted files to avoid repeated downloads.
-Use the \code{force} parameter to re-download the archive if needed.
+Use the \code{force} parameter to re-download the archive if needed. The cache is cleared
+automatically after 24 hours, but you can also manually clear it using
+\code{\link{clean_shark4r_cache}}.
 
 A valid Dyntaxa API subscription key is required.
 You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:

@@ -2,6 +2,10 @@
 #'
 #' @usage check_depth(data)
 #'
+#' @details
+#' The function has been modified from the `obistools` package (Provoost and Bosch, 2024).
+#'
+#' @references Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, <https://iobis.github.io/obistools/>.
 #' @param data The data frame.
 #' @return Problematic records or an errors report.
 #' @export

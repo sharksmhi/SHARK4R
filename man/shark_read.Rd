@@ -2,8 +2,7 @@
 % Please edit documentation in R/shark_read.R
 \name{shark_read}
 \alias{shark_read}
-\title{Read tab delimited files downloaded from SHARK
-Uses read_delim to read tab delimited files with standardized export format from SHARK}
+\title{Read tab delimited files downloaded from SHARK}
 \usage{
 shark_read(filename, delimiters = "point-tab", encoding = "latin_1")
 }
@@ -22,6 +21,5 @@ Default is \code{"utf_8"}.}
 Data frame of file
 }
 \description{
-Read tab delimited files downloaded from SHARK
 Uses read_delim to read tab delimited files with standardized export format from SHARK
 }
