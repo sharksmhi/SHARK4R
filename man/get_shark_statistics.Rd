@@ -10,7 +10,8 @@ get_shark_statistics(
   datatype = NULL,
   min_obs = 3,
   max_non_numeric_frac = 0.05,
-  verbose = TRUE
+  verbose = TRUE,
+  cache_result = FALSE
 )
 }
 \arguments{
@@ -30,6 +31,9 @@ for a parameter to be included (default: 3).}
 for a parameter to be kept (default: 0.05).}
 
 \item{verbose}{Logical, whether to show download progress messages. Default is \code{TRUE}.}
+
+\item{cache_result}{Logical, whether to save the result in a persistent cache
+(\code{statistics.rds}) for use by other functions. Default is \code{FALSE}.}
 }
 \value{
 A tibble with one row per parameter and the following columns:
@@ -63,6 +67,9 @@ For example, if called in 2025 it will use data from 2020–2024.
 
   # Explicitly set years and datatype
   res <- get_shark_statistics(2018, 2022, datatype = "Chlorophyll")
+
+  # Save result in persistent cache
+  res <- get_shark_statistics(cache_result = TRUE)
 
   # Print result
   print(res)

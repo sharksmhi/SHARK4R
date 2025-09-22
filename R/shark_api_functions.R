@@ -818,6 +818,8 @@ get_shark_datasets <- function(dataset_name,
 #' @param max_non_numeric_frac Maximum allowed fraction of non-numeric values
 #'   for a parameter to be kept (default: 0.05).
 #' @param verbose Logical, whether to show download progress messages. Default is `TRUE`.
+#' @param cache_result Logical, whether to save the result in a persistent cache
+#'   (`statistics.rds`) for use by other functions. Default is `FALSE`.
 #'
 #' @return A tibble with one row per parameter and the following columns:
 #' \describe{
@@ -844,11 +846,15 @@ get_shark_datasets <- function(dataset_name,
 #'   # Explicitly set years and datatype
 #'   res <- get_shark_statistics(2018, 2022, datatype = "Chlorophyll")
 #'
+#'   # Save result in persistent cache
+#'   res <- get_shark_statistics(cache_result = TRUE)
+#'
 #'   # Print result
 #'   print(res)
 #' }
 get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL,
-                                 min_obs = 3, max_non_numeric_frac = 0.05, verbose = TRUE) {
+                                 min_obs = 3, max_non_numeric_frac = 0.05, verbose = TRUE,
+                                 cache_result = FALSE) {
 
   # Set default years
   current_year <- as.integer(format(Sys.Date(), "%Y"))
@@ -947,6 +953,14 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
     dplyr::summarise(stats = list(summarise_param(value_num)), .groups = "drop") %>%
     tidyr::unnest(stats) %>%
     dplyr::filter(n >= min_obs)
+
+  # Cache result if requested
+  if (cache_result) {
+    cache_dir <- file.path(tools::R_user_dir("SHARK4R", "cache"), "perm")
+    if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
+    saveRDS(result_tbl, file = file.path(cache_dir, "statistics.rds"))
+    if (verbose) message("Cached SHARK statistics at: ", file.path(cache_dir, "statistics.rds"))
+  }
 
   return(result_tbl)
 }

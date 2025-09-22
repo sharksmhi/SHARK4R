@@ -150,3 +150,40 @@ test_that("get_shark_statistics throws warning if no data are returned", {
                                              verbose = TRUE),
                         "No data retrieved from SHARK for the specified years and datatype")
 })
+
+test_that("get_shark_statistics caches results correctly", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable(shark_url)
+
+  # Use a small time window / known datatype to speed up test
+  fromYear <- 2020
+  toYear <- 2020
+  datatype <- "Chlorophyll"
+
+  # Define cache path
+  cache_dir <- file.path(tools::R_user_dir("SHARK4R", "cache"), "perm")
+  cache_file <- file.path(cache_dir, "statistics.rds")
+
+  # Ensure previous cache is removed
+  if (file.exists(cache_file)) file.remove(cache_file)
+
+  # Run function with caching
+  result <- get_shark_statistics(fromYear,
+                                 toYear,
+                                 datatype,
+                                 cache_result = TRUE,
+                                 verbose = TRUE)
+
+  # Check that file now exists
+  expect_true(file.exists(cache_file))
+
+  # Read cached file
+  cached_result <- readRDS(cache_file)
+
+  # Check that cached result equals the returned result
+  expect_equal(cached_result, result)
+
+  # Clean up
+  file.remove(cache_file)
+})
