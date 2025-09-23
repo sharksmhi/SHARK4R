@@ -684,13 +684,18 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 #'   (`TRUE`, default) or test (`FALSE`) SHARK server.
 #' @param unzip_file Logical, whether to extract downloaded zip
 #'   archives (`TRUE`) or only save them (`FALSE`, default).
+#' @param return_df Logical, whether to return a combined data frame
+#'   with the contents of all downloaded datasets (`TRUE`) instead
+#'   of a list of file paths (`FALSE`, default).
 #' @param verbose Logical, whether to show download and extraction
 #'   progress messages. Default is `TRUE`.
 #'
-#' @return A named list of character vectors. Each element
-#'   corresponds to one matched dataset and contains either the
-#'   path to the downloaded zip file (if `unzip_file = FALSE`) or
+#' @return If `return_df = FALSE`, a named list of character vectors.
+#'   Each element corresponds to one matched dataset and contains either
+#'   the path to the downloaded zip file (if `unzip_file = FALSE`) or
 #'   the path to the extraction directory (if `unzip_file = TRUE`).
+#'   If `return_df = TRUE`, a single combined data frame with all
+#'   dataset contents, including a `source` column indicating the dataset.
 #'
 #' @seealso \url{https://shark.smhi.se} for SHARK database.
 #' @seealso [get_shark_options()] for listing available datasets.
@@ -698,14 +703,15 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 #'
 #' @examples
 #' \dontrun{
-#' # Download one dataset to a temporary folder
 #' get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF")
-#'
-#' # Download multiple datasets and unzip them into the data directory
 #' get_shark_datasets(
 #'   dataset_name = c("Phytoplankton_2023", "Zooplankton_2022"),
 #'   save_dir = "data",
 #'   unzip_file = TRUE
+#' )
+#' combined_df <- get_shark_datasets(
+#'   dataset_name = "Phytoplankton_2023",
+#'   return_df = TRUE
 #' )
 #' }
 #'
@@ -714,27 +720,23 @@ get_shark_datasets <- function(dataset_name,
                                save_dir = "",
                                prod = TRUE,
                                unzip_file = FALSE,
+                               return_df = FALSE,
                                verbose = TRUE) {
-  # Validate input
+
   if (missing(dataset_name) || length(dataset_name) == 0) {
-    stop("Please provide at least one 'dataset_name' (e.g., 'SHARK_Phytoplankton_2023_PELA_GVVF').")
+    stop("Please provide at least one 'dataset_name'.")
   }
 
-  # Get complete list of available datasets
   available_datasets <- get_shark_options(prod = prod)$dataset
 
-  # Find all matches
-  matched_datasets <- unlist(lapply(dataset_name, function(dn) {
+  matched_datasets <- unique(unlist(lapply(dataset_name, function(dn) {
     available_datasets[grepl(dn, available_datasets)]
-  }))
-
-  matched_datasets <- unique(matched_datasets)
+  })))
 
   if (length(matched_datasets) == 0) {
     stop("No datasets found matching: ", paste(dataset_name, collapse = ", "))
   }
 
-  # Base URL
   base_url <- if (prod) {
     "https://shark.smhi.se/api/dataset/download/"
   } else {
@@ -746,42 +748,34 @@ get_shark_datasets <- function(dataset_name,
   url_response <- try(httr::GET(url_short), silent = TRUE)
   if (inherits(url_response, "try-error") || httr::http_error(url_response)) {
     stop("The SHARK ", ifelse(prod, "PROD", "TEST"),
-         " server cannot be reached: ", url_short,
-         ". Please check your network connection.")
+         " server cannot be reached: ", url_short)
   }
 
-  # Handle save_dir
   if (is.null(save_dir) || identical(save_dir, "") || nchar(save_dir) == 0) {
     save_dir <- getwd()
   }
   save_dir <- normalizePath(path.expand(save_dir), winslash = "/", mustWork = FALSE)
-  if (!dir.exists(save_dir)) {
-    dir.create(save_dir, recursive = TRUE, showWarnings = FALSE)
-  }
+  if (!dir.exists(save_dir)) dir.create(save_dir, recursive = TRUE, showWarnings = FALSE)
 
-  # Loop over matched datasets
   results <- lapply(matched_datasets, function(md) {
-    url <- paste0(base_url, md)
     zip_path <- file.path(save_dir, md)
 
-    if (file.exists(zip_path)) {
-      if (verbose) message("Already exists, skipping download: ", zip_path)
-    } else {
+    if (!file.exists(zip_path)) {
       if (verbose) message("Downloading zip archive: ", md)
       response <- httr::GET(
-        url,
+        paste0(base_url, md),
         httr::add_headers("accept" = "application/octet-stream"),
         httr::write_disk(zip_path, overwrite = TRUE),
         if (verbose) httr::progress()
       )
-
       if (httr::status_code(response) != 200) {
         warning("Failed to download dataset: ", md,
                 " HTTP Status: ", httr::status_code(response))
         return(NA_character_)
       }
-
-      if (verbose) message("\nZip file saved at: ", zip_path)
+      if (verbose) message("Zip file saved at: ", zip_path)
+    } else {
+      if (verbose) message("Already exists, skipping download: ", zip_path)
     }
 
     if (unzip_file) {
@@ -796,7 +790,35 @@ get_shark_datasets <- function(dataset_name,
   })
 
   names(results) <- matched_datasets
-  return(results)
+
+  if (return_df) {
+    if (!unzip_file) {
+      # temp_dirs <- results
+      dfs <- map(unlist(results, use.names = FALSE), shark_read_zip)
+    } else {
+      # Extract the vector of file paths
+      zip_files <- unlist(results, use.names = FALSE)
+
+      # Identify shark_data.txt
+      data_files <- file.path(gsub(".zip", "", zip_files), "shark_data.txt")
+
+      # temp_dirs <- results
+      dfs <- map(data_files, shark_read)
+    }
+
+    # Make everything character first
+    dfs <- purrr::map(dfs, ~ dplyr::mutate(.x, across(everything(), as.character)))
+
+    # Bind together, add source column
+    combined_df <- bind_rows(dfs, .id = "source")
+
+    # Let readr guess the best types again
+    combined_df <- type_convert(combined_df, col_types = readr::cols())
+
+    return(combined_df)
+  } else {
+    return(results)
+  }
 }
 
 #' Summarize numeric SHARK parameters with ranges and outlier thresholds

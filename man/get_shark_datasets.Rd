@@ -9,6 +9,7 @@ get_shark_datasets(
   save_dir = "",
   prod = TRUE,
   unzip_file = FALSE,
+  return_df = FALSE,
   verbose = TRUE
 )
 }
@@ -29,14 +30,20 @@ extracted contents) should be stored. Defaults to \code{""}. If
 \item{unzip_file}{Logical, whether to extract downloaded zip
 archives (\code{TRUE}) or only save them (\code{FALSE}, default).}
 
+\item{return_df}{Logical, whether to return a combined data frame
+with the contents of all downloaded datasets (\code{TRUE}) instead
+of a list of file paths (\code{FALSE}, default).}
+
 \item{verbose}{Logical, whether to show download and extraction
 progress messages. Default is \code{TRUE}.}
 }
 \value{
-A named list of character vectors. Each element
-corresponds to one matched dataset and contains either the
-path to the downloaded zip file (if \code{unzip_file = FALSE}) or
+If \code{return_df = FALSE}, a named list of character vectors.
+Each element corresponds to one matched dataset and contains either
+the path to the downloaded zip file (if \code{unzip_file = FALSE}) or
 the path to the extraction directory (if \code{unzip_file = TRUE}).
+If \code{return_df = TRUE}, a single combined data frame with all
+dataset contents, including a \code{source} column indicating the dataset.
 }
 \description{
 Downloads one or more datasets (zip-archives) from the SHARK database
@@ -46,14 +53,15 @@ names against all available SHARK datasets.
 }
 \examples{
 \dontrun{
-# Download one dataset to a temporary folder
 get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF")
-
-# Download multiple datasets and unzip them into the data directory
 get_shark_datasets(
   dataset_name = c("Phytoplankton_2023", "Zooplankton_2022"),
   save_dir = "data",
   unzip_file = TRUE
+)
+combined_df <- get_shark_datasets(
+  dataset_name = "Phytoplankton_2023",
+  return_df = TRUE
 )
 }
 

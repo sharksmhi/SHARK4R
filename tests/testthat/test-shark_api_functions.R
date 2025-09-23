@@ -78,6 +78,30 @@ test_that("get_shark_datasets and get_shark_options works", {
   unlink(tempdir(), recursive = TRUE)
 })
 
+test_that("get_shark_datasets returns data frame", {
+  skip_if_offline()
+  skip_if_resource_unavailable(shark_url)
+  skip_on_cran()
+
+  shark_options <- get_shark_options()
+
+  expect_type(shark_options, "list")
+  expected_fields <- c("datasets", "dataTypes", "parameters", "taxa")
+  expect_true(all(expected_fields %in% names(shark_options)))
+
+  dataset_name <- shark_options$datasets[1]
+
+  # Download the dataset as a zip-archive to a temporary directory
+  shark_data <- get_shark_datasets(dataset_name,
+                                   save_dir = tempdir(),
+                                   return_df = TRUE)
+
+  expect_s3_class(shark_data, "data.frame")
+  expect_gt(nrow(shark_data), 0)
+
+  unlink(tempdir(), recursive = TRUE)
+})
+
 test_that("get_shark_statistics returns expected columns for Chlorophyll", {
   skip_if_offline()
   skip_if_resource_unavailable(shark_url)
