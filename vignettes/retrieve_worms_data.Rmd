@@ -24,18 +24,18 @@ ref = remotes::github_release(),
 dependencies = TRUE)
 ```
 
-Load the `SHARK4R` and `dplyr` libraries:
+Load the `SHARK4R`, `dplyr` and `ggplot` libraries:
 ```{r, eval=FALSE}
 library(SHARK4R)
 library(dplyr)
-library(ggplot2)
+library(ggplot)
 ```
 
 ```{r, include=FALSE}
 suppressPackageStartupMessages({
   library(SHARK4R)
   library(dplyr)
-  library(ggplot2)
+  library(ggplot)
 })
 ```
 

@@ -26,7 +26,7 @@ remotes::install_github("sharksmhi/SHARK4R",
                         dependencies = TRUE)
 ```
 
-Load the `SHARK4R` and `tibble` libraries:
+Load the `SHARK4R` and `dplyr` libraries:
 ```{r, eval=FALSE}
 library(SHARK4R)
 library(dplyr)
