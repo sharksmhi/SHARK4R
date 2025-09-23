@@ -847,7 +847,7 @@ get_shark_datasets <- function(dataset_name,
 #' \describe{
 #'   \item{parameter}{Parameter name (character).}
 #'   \item{min, Q1, median, Q3, max}{Observed quantiles.}
-#'   \item{P05, P95}{5th and 95th percentiles.}
+#'   \item{P01, P05, P95, P99}{1st, 5th, 95th and 99th percentiles.}
 #'   \item{IQR}{Interquartile range.}
 #'   \item{mean}{Arithmetic mean of numeric values.}
 #'   \item{sd}{Standard deviation of numeric values.}
@@ -893,7 +893,10 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
   }
 
   # Download data
-  data <- get_shark_data(dataTypes = datatype, fromYear = fromYear, toYear = toYear)
+  data <- get_shark_data(dataTypes = datatype,
+                         fromYear = fromYear,
+                         toYear = toYear,
+                         verbose = verbose)
 
   if (nrow(data) == 0) {
     warning("No data retrieved from SHARK for the specified years and datatype.")
@@ -932,7 +935,7 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
     if (length(v) < min_obs) {
       return(tibble(
         min = NA_real_, Q1 = NA_real_, median = NA_real_, Q3 = NA_real_, max = NA_real_,
-        P05 = NA_real_, P95 = NA_real_,
+        P01 = NA_real_, P05 = NA_real_, P95 = NA_real_, P99 = NA_real_,
         IQR = NA_real_, mean = NA_real_, sd = NA_real_, var = NA_real_, cv = NA_real_,
         mad = NA_real_, mild_lower = NA_real_, mild_upper = NA_real_,
         extreme_lower = NA_real_, extreme_upper = NA_real_, n = length(v)
@@ -940,7 +943,7 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
     }
 
     q <- stats::quantile(v, probs = c(0, 0.25, 0.5, 0.75, 1), na.rm = TRUE, type = 7)
-    p <- stats::quantile(v, probs = c(0.05, 0.95), na.rm = TRUE, type = 7)
+    p <- stats::quantile(v, probs = c(0.01, 0.05, 0.95, 0.99), na.rm = TRUE, type = 7)
 
     lowerq <- q[2]; upperq <- q[4]; iqr <- upperq - lowerq
 
@@ -949,7 +952,7 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
 
     dplyr::tibble(
       min = q[1], Q1 = lowerq, median = q[3], Q3 = upperq, max = q[5],
-      P05 = p[1], P95 = p[2],
+      P01 = p[1], P05 = p[2], P95 = p[3], P99 = p[4],
       IQR = iqr,
       mean = m,
       sd = s,
@@ -971,10 +974,11 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
 
   # Flatten out nested tibble from summarise_param
   result_tbl <- df %>%
-    dplyr::group_by(parameter) %>%
+    dplyr::group_by(parameter, delivery_datatype) %>%
     dplyr::summarise(stats = list(summarise_param(value_num)), .groups = "drop") %>%
     tidyr::unnest(stats) %>%
-    dplyr::filter(n >= min_obs)
+    dplyr::filter(n >= min_obs) %>%
+    dplyr::rename(datatype = delivery_datatype)
 
   # Cache result if requested
   if (cache_result) {

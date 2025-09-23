@@ -40,7 +40,7 @@ A tibble with one row per parameter and the following columns:
 \describe{
 \item{parameter}{Parameter name (character).}
 \item{min, Q1, median, Q3, max}{Observed quantiles.}
-\item{P05, P95}{5th and 95th percentiles.}
+\item{P01, P05, P95, P99}{1st, 5th, 95th and 99th percentiles.}
 \item{IQR}{Interquartile range.}
 \item{mean}{Arithmetic mean of numeric values.}
 \item{sd}{Standard deviation of numeric values.}
