@@ -20,22 +20,22 @@ You can install the latest version of the package from GitHub using the `remotes
 ```{r, eval=FALSE}
 # install.packages("remotes")
 remotes::install_github("sharksmhi/SHARK4R",
-ref = remotes::github_release(),
-dependencies = TRUE)
+                        ref = remotes::github_release(),
+                        dependencies = TRUE)
 ```
 
-Load the `SHARK4R`, `dplyr` and `ggplot` libraries:
+Load the `SHARK4R`, `dplyr` and `ggplot2` libraries:
 ```{r, eval=FALSE}
 library(SHARK4R)
 library(dplyr)
-library(ggplot)
+library(ggplot2)
 ```
 
 ```{r, include=FALSE}
 suppressPackageStartupMessages({
   library(SHARK4R)
   library(dplyr)
-  library(ggplot)
+  library(ggplot2)
 })
 ```
 

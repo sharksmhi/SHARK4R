@@ -23,7 +23,7 @@ recommended fields are also checked and reported as warnings.}
 
 \item{field_definitions}{A named list of field definitions. Each element
 should contain two character vectors: \code{required} and \code{recommended}.
-Defaults to the package's built-in \code{.field_definitions}.}
+Defaults to the package's built-in \code{SHARK4R:::.field_definitions}.}
 }
 \value{
 A tibble with the following columns:

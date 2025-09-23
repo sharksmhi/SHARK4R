@@ -2,8 +2,8 @@ test_that("check_datatype returns empty tibble when all required and recommended
   data <- dplyr::tibble(
     visit_year = 2024,
     station_name = "Station A",
-    sample_project_name_sv = "Project",
-    sample_orderer_name_sv = "Orderer",
+    sample_project_name_en = "Project",
+    sample_orderer_name_en = "Orderer",
     platform_code = "PLAT",
     sample_date = as.Date("2024-01-01"),
     sample_latitude_dd = 56.0,
@@ -13,8 +13,8 @@ test_that("check_datatype returns empty tibble when all required and recommended
     monitoring_station_type_code = "TYPE",
     monitoring_purpose_code = "PURP",
     monitoring_program_code = "PROG",
-    reporting_institute_name_sv = "Institute",
-    analytical_laboratory_name_sv = "Lab"
+    reporting_institute_name_en = "Institute",
+    analytical_laboratory_name_en = "Lab"
   )
 
   result <- check_datatype(data, level = "warning")
@@ -35,8 +35,8 @@ test_that("check_datatype detects empty values in required fields", {
   data <- dplyr::tibble(
     visit_year = c(2024, NA),
     station_name = c("Station A", "Station B"),
-    sample_project_name_sv = c("Proj", "Proj"),
-    sample_orderer_name_sv = c("Ord", "Ord"),
+    sample_project_name_en = c("Proj", "Proj"),
+    sample_orderer_name_en = c("Ord", "Ord"),
     platform_code = c("PLAT", "PLAT"),
     sample_date = as.Date(c("2024-01-01", "2024-01-02")),
     sample_latitude_dd = c(56.0, 57.0),
@@ -55,8 +55,8 @@ test_that("check_datatype ignores recommended fields when level = 'error'", {
   data <- dplyr::tibble(
     visit_year = 2024,
     station_name = "Station A",
-    sample_project_name_sv = "Proj",
-    sample_orderer_name_sv = "Ord",
+    sample_project_name_en = "Proj",
+    sample_orderer_name_en = "Ord",
     platform_code = "PLAT",
     sample_date = as.Date("2024-01-01"),
     sample_latitude_dd = 56.0,
@@ -73,8 +73,8 @@ test_that("check_datatype detects missing recommended fields when level = 'warni
   data <- dplyr::tibble(
     visit_year = 2024,
     station_name = "Station A",
-    sample_project_name_sv = "Proj",
-    sample_orderer_name_sv = "Ord",
+    sample_project_name_en = "Proj",
+    sample_orderer_name_en = "Ord",
     platform_code = "PLAT",
     sample_date = as.Date("2024-01-01"),
     sample_latitude_dd = 56.0,
@@ -92,8 +92,8 @@ test_that("check_datatype detects empty values in recommended fields when level 
   data <- dplyr::tibble(
     visit_year = 2024,
     station_name = "Station A",
-    sample_project_name_sv = "Proj",
-    sample_orderer_name_sv = "Ord",
+    sample_project_name_en = "Proj",
+    sample_orderer_name_en = "Ord",
     platform_code = "PLAT",
     sample_date = as.Date("2024-01-01"),
     sample_latitude_dd = 56.0,
@@ -103,8 +103,8 @@ test_that("check_datatype detects empty values in recommended fields when level 
     monitoring_station_type_code = NA,
     monitoring_purpose_code = "PURP",
     monitoring_program_code = "PROG",
-    reporting_institute_name_sv = "Institute",
-    analytical_laboratory_name_sv = "Lab"
+    reporting_institute_name_en = "Institute",
+    analytical_laboratory_name_en = "Lab"
   )
 
   result <- check_datatype(data, level = "warning")
@@ -119,7 +119,7 @@ test_that("check_datatype catches multiple missing required fields", {
   )
 
   result <- check_datatype(data, level = "error")
-  expect_true(all(c("visit_year", "sample_project_name_sv") %in% result$field))
+  expect_true(all(c("visit_year", "sample_project_name_en") %in% result$field))
   expect_true(all(result$level == "error"))
 })
 

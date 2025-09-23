@@ -13,8 +13,8 @@
 check_datatype <- function(data, level = "error") {
 
   errors <- tibble()
-  required <- c("visit_year", "station_name", "sample_project_name_sv", "sample_orderer_name_sv", "platform_code", "sample_date", "sample_latitude_dd", "sample_longitude_dd", "positioning_system_code", "water_depth_m")
-  recommended <- c("monitoring_station_type_code", "monitoring_purpose_code", "monitoring_program_code", "reporting_institute_name_sv", "analytical_laboratory_name_sv")
+  required <- c("visit_year", "station_name", "sample_project_name_en", "sample_orderer_name_en", "platform_code", "sample_date", "sample_latitude_dd", "sample_longitude_dd", "positioning_system_code", "water_depth_m")
+  recommended <- c("monitoring_station_type_code", "monitoring_purpose_code", "monitoring_program_code", "reporting_institute_name_en", "analytical_laboratory_name_en")
 
   # find missing required fields
 
@@ -99,7 +99,7 @@ check_datatype <- function(data, level = "error") {
 #'   recommended fields are also checked and reported as warnings.
 #' @param field_definitions A named list of field definitions. Each element
 #'   should contain two character vectors: \code{required} and \code{recommended}.
-#'   Defaults to the package's built-in \code{.field_definitions}.
+#'   Defaults to the package's built-in \code{SHARK4R:::.field_definitions}.
 #'
 #' @return A tibble with the following columns:
 #' \describe{

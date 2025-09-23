@@ -55,16 +55,23 @@ get_shark_codes <- function(url = "https://smhi.se/oceanografi/oce_info_data/sha
 #'
 #' This function checks whether the codes reported in a specified column of a
 #' dataset (e.g., project codes, ship codes, etc.) are present in the
-#' official SHARK codelist provided by SMHI. It downloads and caches the
-#' codelist if necessary, compares the reported values against the valid codes,
-#' and returns a tibble showing which codes matched. Informative messages are
-#' printed if unmatched codes are found.
+#' official SHARK codelist provided by SMHI. If a cell contains multiple codes
+#' separated by commas, each code is checked individually. The function downloads
+#' and caches the codelist if necessary, compares the reported values against
+#' the valid codes, and returns a tibble showing which codes matched.
+#' Informative messages are printed if unmatched codes are found.
 #'
 #' @param data A tibble (or data.frame) containing the codes to check.
 #' @param field Character; name of the column in `data` that contains the codes
-#'   to be validated against the SHARK codelist. Default is "sample_project_name_sv".
-#' @param code_type Character; the type of code to check (e.g., "PROJ").
+#'   to be validated against the SHARK codelist. If a cell contains multiple
+#'   codes separated by commas, each code is validated separately.
+#'   Default is `"sample_project_name_en"`.
+#' @param code_type Character; the type of code to check (e.g., `"PROJ"`).
 #'   Defaults to `"PROJ"`.
+#' @param match_column Character; the column in the SHARK codelist to match
+#'   against. Must be one of `"Code"`, `"Beskrivning/Svensk översättning"`,
+#'   or `"Description/English translate"`. Defaults to
+#'   `"Description/English translate"`.
 #' @param clean_cache_days Numeric; if not `NULL`, cached SHARK code Excel files
 #'   older than this number of days will be automatically deleted and replaced
 #'   by a new download. Defaults to 30. Set to `NULL` to disable automatic cleanup.
@@ -72,22 +79,39 @@ get_shark_codes <- function(url = "https://smhi.se/oceanografi/oce_info_data/sha
 #' @seealso [get_shark_codes()] to get the current code list.
 #' @seealso [clean_shark4r_cache()] to manually clear cached files.
 #'
-#' @return A tibble with unique reported codes and a logical column `match_type`
-#'   indicating if they exist in the SHARK codelist.
+#' @return A tibble with unique reported codes (after splitting comma-separated
+#'   entries) and a logical column `match_type` indicating if they exist in the
+#'   SHARK codelist.
 #' @export
-check_codes <- function(data, field = "sample_project_name_sv", code_type = "PROJ", clean_cache_days = 30) {
-  # validate field
+check_codes <- function(data,
+                        field = "sample_project_name_en",
+                        code_type = "PROJ",
+                        match_column = "Description/English translate",
+                        clean_cache_days = 30) {
+  # validate field in data
   if (!field %in% names(data)) {
     stop(sprintf("Field '%s' not found in data.", field))
   }
 
-  to_match <- unique(data[[field]])
+  # validate match_column
+  valid_columns <- c("Code", "Beskrivning/Svensk översättning", "Description/English translate")
+  if (!match_column %in% valid_columns) {
+    stop(sprintf("Invalid match_column '%s'. Must be one of: %s",
+                 match_column, paste(valid_columns, collapse = ", ")))
+  }
+
+  # split codes by comma and trim whitespace
+  to_match <- data[[field]] %>%
+    strsplit(",") %>%
+    unlist() %>%
+    trimws() %>%
+    unique()
 
   # fetch codes
   shark_codes <- get_shark_codes(clean_cache_days = clean_cache_days)
   valid_codes <- shark_codes %>%
     dplyr::filter(Data_field == code_type) %>%
-    dplyr::pull(`Description/English translate`) %>%
+    dplyr::pull(match_column) %>%
     unique()
 
   # match check

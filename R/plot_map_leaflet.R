@@ -15,7 +15,10 @@ plot_map_leaflet <- function(data, provider = "Esri.OceanBasemap") {
     addProviderTiles(provider,
                      options = providerTileOptions(noWrap = TRUE)
     ) %>%
-    addMarkers(data = coord, popup = ~STATION)
+    addMarkers(data = coord,
+               lng = ~LON,
+               lat = ~LAT,
+               popup = ~STATION)
   return(m)
 }
 #' Create a Leaflet map.
@@ -35,6 +38,9 @@ plot_map_leaflet_deliv <- function(data, provider = "Esri.OceanBasemap") {
     addProviderTiles(provider,
                      options = providerTileOptions(noWrap = TRUE)
     ) %>%
-    addMarkers(data = coord, popup = ~STATION)
+    addMarkers(data = coord,
+               lng = ~LON,
+               lat = ~LAT,
+               popup = ~STATION)
   return(m)
 }
