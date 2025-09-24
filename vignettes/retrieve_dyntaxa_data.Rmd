@@ -158,6 +158,8 @@ taxonomy_table <- construct_dyntaxa_table(taxon_ids = dyntaxa_id,
 tibble(taxonomy_table)
 ```
 
+---
+
 ## Citation
 
 ```{r, echo=FALSE}

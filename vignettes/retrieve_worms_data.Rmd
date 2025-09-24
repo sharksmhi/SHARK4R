@@ -163,6 +163,8 @@ ggplot(plankton_group_sum,
   theme(plot.background = element_rect(fill = "white", color = NA))
 ```
 
+#### Assign Custom Phytoplankton Groups
+
 You can add custom plankton groups by using the `custom_groups` parameter, allowing flexibility to categorize plankton based on specific taxonomic criteria. Please note that the order of the list matters: taxa are assigned to the last matching group. For example: Mesodinium rubrum will be excluded from the Ciliates group because it appears after Ciliates in the list in the example below.
 
 ```{r}
@@ -205,6 +207,8 @@ ggplot(plankton_custom_group_sum,
   theme_void() +
   theme(plot.background = element_rect(fill = "white", color = NA))
 ```
+
+---
 
 ## Citation
 

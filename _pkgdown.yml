@@ -20,8 +20,8 @@ navbar:
           href: articles/retrieve_hab_data.html
         - text: "Retrieve Nordic Microalgae Data"
           href: articles/retrieve_nordic_microalgae_data.html
-    - text: "Quality Control"
-      href: articles/quality_control.html
+        - text: "Quality Control"
+          href: articles/quality_control.html
     - text: "Reference"
       href: reference/index.html
     - text: "Changelog"

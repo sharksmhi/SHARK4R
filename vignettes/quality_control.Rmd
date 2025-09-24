@@ -8,26 +8,21 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-### Quality Control Overview
+## Quality Control Overview
 
 The SHARK4R package provides a set of functions to perform quality control on SHARK occurrence data. These functions help identify missing or invalid values, spatial errors, and statistical outliers.
 
----
 
 ### Checking Required Fields
 
 - `check_datatype()` verifies that all global SHARK required fields are present in an occurrence table and checks for missing values. It returns a data frame listing any errors found.  
 - `check_fields()` validates datatype-specific fields (defined in the parameters) or values. Required and recommended fields are defined using the parameter `field_definitions` (e.g. `SHARK4R:::.threshold_values` as default). 
 
----
-
 ### Geospatial Checks
 
 - `plot_map_leaflet()` creates an interactive Leaflet map to visualize your data points.  
 - `check_onland()` uses the `lookup_xy()` web service to detect points located on land. You can also use alternative shapefiles if needed.  
 - `positions_are_near_land()` and `which_basin()` from the [iRfcb package](https://CRAN.R-project.org/package=iRfcb) can also be used for geospatial quality control.
-
----
 
 ### Depth Checks
 
@@ -39,8 +34,6 @@ The SHARK4R package provides a set of functions to perform quality control on SH
 - Depth exceeding bathymetry layer with margin (error)  
 - Negative depth offshore with shore margin (error)  
 - Minimum depth greater than maximum depth (error)
-
----
 
 ### Outlier Detection
 
@@ -54,6 +47,25 @@ Key points:
 - If all values are within the threshold, a message is printed to indicate that no outliers were detected.  
 
 This approach allows flexible, parameter-specific QC based on SHARK-defined thresholds rather than generic statistical deviation rules. The `scatterplot()` function can be used to visualize the data.
+
+### Interactive Quality Control with Shiny
+
+Instead of running individual QC functions manually as demonstrated below, you can use a **Shiny app** that provides an interactive interface for checking SHARK data.
+
+The app is part of the SHARK4R support files and can be downloaded and initialized with:
+
+```{r, eval=FALSE}
+# Download support files into current working directory
+check_setup()
+
+# Run Shiny app
+shiny::runApp("products/")
+
+# Or download and run the QC Shiny app directly
+check_setup(run_app = TRUE)
+```
+
+The Shiny app includes tools for running the same QC checks described above, but with a point-and-click interface. This is particularly useful for exploring datasets interactively and for users less familiar with R scripting.
 
 ---
 
@@ -82,115 +94,108 @@ library(SHARK4R)
 library(dplyr)
 ```
 
----
-
-## Retrieve Data Table
+### Retrieve Data Table
 
 You can fetch SHARK data using the same filtering options as the SHARK web interface. Available options can be explored using `get_shark_options()`.
 
 ```{r}
+# Retrieve available options from SHARK
 shark_options <- get_shark_options()
 
+# Find datasets containing "Chlorophyll"
 chlorophyll_datasets <- shark_options$datasets[grepl("Chlorophyll", 
                                                    shark_options$datasets)]
 
+# Select first matching dataset
 selected_dataset <- chlorophyll_datasets[1]
 
+# Print selected dataset name
+print(selected_dataset)
+
+# Download dataset and return as data frame
 chlorophyll_data <- get_shark_datasets(selected_dataset,
                                        save_dir = tempdir(),
                                        return_df = TRUE,
                                        verbose = FALSE)
 
-
-
 # Print data
 tibble(chlorophyll_data)
 ```
 
----
-
 ### Checking Fields
 
 ```{r}
-# Check fields
+# Check datatype-specific fields for Chlorophyll data
 check_fields(data = chlorophyll_data, 
              datatype = "Chlorophyll")
 ```
 
----
-
 ### Retrieve Statistics
 
 ```{r}
+# Retrieve SHARK statistics for Chlorophyll (2020–2024)
 shark_statistics <- get_shark_statistics(datatype = "Chlorophyll",
                                          fromYear = 2020,
                                          toYear = 2024,
                                          verbose = FALSE)
 
-
-
-# Print data
+# Print statistics
 tibble(shark_statistics)
 ```
-
----
 
 ### Outlier Detection
 
 ```{r}
+# Detect Chlorophyll-a outliers using the 99th percentile (P99)
 check_outliers(data = chlorophyll_data,
                parameter = "Chlorophyll-a",
                datatype = "Chlorophyll",
-               threshold_col = "P99", # 99th percentile
+               threshold_col = "P99",
                thresholds = shark_statistics)
 ```
-
----
 
 ### Points on Land
 
 ```{r}
+# Identify rows with coordinates falling on land
 n_rows_on_land <- check_onland(chlorophyll_data)
 
+# Count number of flagged rows
 nrow(n_rows_on_land)
 ```
-
----
 
 ### Station Matching
 
 ```{r}
+# Match station names against SHARK station registry
 station_match <- match_station(chlorophyll_data$station_name)
 
+# Show first rows of matches
 head(station_match)
 ```
-
----
 
 ### Code Validation
 
 ```{r}
-# Project codes
+# Validate project codes
 check_codes(chlorophyll_data)
 
-# Ship codes
+# Validate ship/platform codes
 check_codes(data = chlorophyll_data, 
             field = "platform_code", 
             code_type = "SHIPC", 
             match_column = "Code")
 ```
 
----
-
 ### Data Visualization
 
 ```{r}
-# Map
+# Visualize data on an interactive map
 plot_map_leaflet(chlorophyll_data)
 ```
 
 ```{r}
-# Scatterplot
+# Create an interactive scatterplot of parameter values
 scatterplot(chlorophyll_data)
 ```
 

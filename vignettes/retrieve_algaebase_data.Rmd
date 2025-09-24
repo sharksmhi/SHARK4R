@@ -104,6 +104,8 @@ algaebase_match <- match_algaebase_taxa(genus = parsed_taxa$genus,
 tibble(algaebase_match)
 ```
 
+---
+
 ## Citation
 
 ```{r, echo=FALSE}

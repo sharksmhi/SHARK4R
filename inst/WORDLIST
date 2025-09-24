@@ -29,6 +29,7 @@ EG
 EPSG
 Epibenthos
 FishBase
+Geospatial
 Greyseal
 HAB
 HABs
@@ -48,9 +49,7 @@ NOMP
 NotSet
 ORCID
 OSPAR
-OpenStreetMap
 Orderers
-PROJ
 Phyto
 Phytoplankton
 Picoplankton
@@ -106,13 +105,11 @@ phytoplankton
 plotly
 pre
 pseudotaxon
-qc
 readxl
 rubrum
 sd
 se
 sharkdata
-shoremargin
 smhi
 sp
 spp
@@ -127,5 +124,3 @@ worrms
 www
 xls
 xlsx
-xylookup
-zoomable

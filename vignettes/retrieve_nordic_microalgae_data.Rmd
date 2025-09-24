@@ -120,6 +120,8 @@ tibble(nomp_list)
 
 Please note that `SHARK4R` also includes a useful function for reading exported [Plankton Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files: `read_ptbx()`.
 
+---
+
 ## Citation
 
 ```{r, echo=FALSE}
