@@ -70,8 +70,16 @@ check_onland <- function(data, land = NULL, report = FALSE, buffer = 0, offline 
     if (!file.exists(landpath)) {
       utils::download.file("https://obis-resources.s3.amazonaws.com/land.gpkg", landpath, mode = "wb")
     }
-    land <- sf::read_sf(landpath) %>% terra::vect()
-  }
+    land <- tryCatch({
+      sf::read_sf(landpath) %>% terra::vect()
+    }, error = function(e) {
+      stop(
+        "Failed to read land shapefile at: ", landpath, "\n", "Error: ", e$message, "\n\n",
+        "Try clearing the cache:\n", "  clean_shark4r_cache(days = 0, clear_perm_cache = TRUE)",
+        call. = FALSE
+      )
+    })
+    }
 
   if (offline) {
     data_vect <- data %>% terra::vect(geom = c("sample_longitude_dd", "sample_latitude_dd"), crs = "EPSG:4326")
