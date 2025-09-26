@@ -14,6 +14,7 @@
 * Re-export functions from the `iRfcb` package: `which_basin()` and `positions_are_near_land()`.
 * Cache downloaded DwCA files in `get_dyntaxa_dwca()`, `get_shark_codes()`, `get_nomp_list()` and `get_peg_list()` to avoid repeated downloads.
 * Add unit tests for the majority of the package functions.
+* Update and correct `check_depth()`.
 * Fix bugs in check_* functions.
 * Fix various documentation issues.
 * Updated several OBIS-dependent functions using `lookup_xy()`.

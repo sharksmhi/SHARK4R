@@ -13,29 +13,29 @@ vignette: >
 The SHARK4R package provides a set of functions to perform quality control on SHARK occurrence data. These functions help identify missing or invalid values, spatial errors, and statistical outliers.
 
 
-### Checking Required Fields
+#### Checking Required Fields
 
 - `check_datatype()` verifies that all global SHARK required fields are present in an occurrence table and checks for missing values. It returns a data frame listing any errors found.  
 - `check_fields()` validates datatype-specific fields (defined in the parameters) or values. Required and recommended fields are defined using the parameter `field_definitions` (e.g. `SHARK4R:::.threshold_values` as default). 
 
-### Geospatial Checks
+#### Geospatial Checks
 
 - `plot_map_leaflet()` creates an interactive Leaflet map to visualize your data points.  
-- `check_onland()` uses the `lookup_xy()` web service to detect points located on land. You can also use alternative shapefiles if needed.  
+- `check_onland()` uses the `lookup_xy()` OBIS web service to detect points located on land. You can also use alternative shapefiles if needed.  
 - `positions_are_near_land()` and `which_basin()` from the [iRfcb package](https://CRAN.R-project.org/package=iRfcb) can also be used for geospatial quality control.
 
-### Depth Checks
+#### Depth Checks
 
 `check_depth()` performs several checks on depth values, including:
 
 - Missing depth column (warning)  
 - Empty depth values (warning)  
 - Non-numeric values (error)  
-- Depth exceeding bathymetry layer with margin (error)  
+- Depth exceeding bathymetry layer with margin using the `lookup_xy()` OBIS web service (error)  
 - Negative depth offshore with shore margin (error)  
 - Minimum depth greater than maximum depth (error)
 
-### Outlier Detection
+#### Outlier Detection
 
 `check_outliers()` identifies parameter values that exceed predefined thresholds. Thresholds are provided in a data frame (e.g., `SHARK4R:::.threshold_values` or retrieved from `get_shark_statistics()`), which must include columns for `parameter`, `datatype`, and at least one numeric threshold column (e.g., `extreme_upper`).  
 
@@ -48,7 +48,7 @@ Key points:
 
 This approach allows flexible, parameter-specific QC based on SHARK-defined thresholds rather than generic statistical deviation rules. The `scatterplot()` function can be used to visualize the data.
 
-### Interactive Quality Control with Shiny
+#### Interactive Quality Control with Shiny
 
 Instead of running individual QC functions manually as demonstrated below, you can use a **Shiny app** that provides an interactive interface for checking SHARK data.
 
@@ -69,9 +69,9 @@ The Shiny app includes tools for running the same QC checks described above, but
 
 ---
 
-## Getting Started
+## Using the QC-functions
 
-#### Installation
+### Installation
 
 You can install the latest version of the package from GitHub using the `remotes` package:
 ```{r, eval=FALSE}
@@ -130,6 +130,49 @@ check_fields(data = chlorophyll_data,
              datatype = "Chlorophyll")
 ```
 
+### Station Matching
+
+```{r}
+# Match station names against SHARK station registry
+station_match <- match_station(chlorophyll_data$station_name)
+
+# Show first rows of matches
+head(station_match)
+```
+
+### Points on Land
+
+```{r}
+# Identify rows with coordinates falling on land
+n_rows_on_land <- check_onland(chlorophyll_data)
+
+# Count number of flagged rows
+nrow(n_rows_on_land)
+```
+
+### Checking Depth
+
+```{r}
+# Check min/max depth
+check_depth(data = chlorophyll_data)
+
+# Check if reported water depth column is deeper than bathymetry
+check_depth(data = chlorophyll_data, "water_depth_m")
+```
+
+### Code Validation
+
+```{r}
+# Validate project codes
+check_codes(chlorophyll_data)
+
+# Validate ship/platform codes
+check_codes(data = chlorophyll_data, 
+            field = "platform_code", 
+            code_type = "SHIPC", 
+            match_column = "Code")
+```
+
 ### Retrieve Statistics
 
 ```{r}
@@ -152,39 +195,6 @@ check_outliers(data = chlorophyll_data,
                datatype = "Chlorophyll",
                threshold_col = "P99",
                thresholds = shark_statistics)
-```
-
-### Points on Land
-
-```{r}
-# Identify rows with coordinates falling on land
-n_rows_on_land <- check_onland(chlorophyll_data)
-
-# Count number of flagged rows
-nrow(n_rows_on_land)
-```
-
-### Station Matching
-
-```{r}
-# Match station names against SHARK station registry
-station_match <- match_station(chlorophyll_data$station_name)
-
-# Show first rows of matches
-head(station_match)
-```
-
-### Code Validation
-
-```{r}
-# Validate project codes
-check_codes(chlorophyll_data)
-
-# Validate ship/platform codes
-check_codes(data = chlorophyll_data, 
-            field = "platform_code", 
-            code_type = "SHIPC", 
-            match_column = "Code")
 ```
 
 ### Data Visualization

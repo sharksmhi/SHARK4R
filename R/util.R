@@ -183,21 +183,21 @@ missing_values <- function(data) {
   return(data %in% c(NA, ""))
 }
 
-check_lonlat <- function(data, report) {
+check_lonlat <- function(data, report = TRUE, latcol = "sample_latitude_dd", loncol = "sample_longitude_dd") {
   errors <- c()
-  if (!"sample_longitude_dd" %in% names(data)) {
-    errors <- c(errors, "Column sample_longitude_dd missing")
-  } else if (!is.numeric(data$sample_longitude_dd)) {
-    errors <- c(errors, "Column sample_longitude_dd is not numeric")
+  if (!loncol %in% names(data)) {
+    errors <- c(errors, sprintf("Column %s missing", loncol))
+  } else if (!is.numeric(data[[loncol]])) {
+    errors <- c(errors, sprintf("Column %s is not numeric", loncol))
   }
-  if (!"sample_latitude_dd" %in% names(data)) {
-    errors <- c(errors, "Column sample_latitude_dd missing")
-  } else if (!is.numeric(data$sample_latitude_dd)) {
-    errors <- c(errors, "Column sample_latitude_dd is not numeric")
+  if (!latcol %in% names(data)) {
+    errors <- c(errors, sprintf("Column %s missing", latcol))
+  } else if (!is.numeric(data[[latcol]])) {
+    errors <- c(errors, sprintf("Column %s is not numeric", latcol))
   }
   if(length(errors) > 0) {
     if(report) {
-      return(tibble(level = "error",  message = errors))
+      return(tibble(level = "error", message = errors))
     } else {
       stop(paste(errors, collapse = ", "))
     }
@@ -205,40 +205,42 @@ check_lonlat <- function(data, report) {
   return(NULL)
 }
 
-get_xy_clean <- function(data, returnisclean=FALSE) {
-  check_lonlat(data, report = FALSE)
-  sp <- data.frame(sample_longitude_dd = numeric(0), sample_latitude_dd = numeric(0))
+get_xy_clean <- function(data, returnisclean = FALSE, latcol = "sample_latitude_dd", loncol = "sample_longitude_dd") {
+  check_lonlat(data, report = FALSE, latcol = latcol, loncol = loncol)
+  sp <- data.frame(lon = numeric(0), lat = numeric(0))
   isclean <- NULL
+
   if(NROW(data) > 0) {
-    sp <- data %>% select(sample_longitude_dd, sample_latitude_dd)
-    # Only valid coordinates
+    sp <- data %>% dplyr::select(all_of(c(loncol, latcol)))
+    names(sp) <- c("lon", "lat")
     isclean <- stats::complete.cases(sp) &
-      sapply(sp$sample_longitude_dd, is.numeric) &
-      sapply(sp$sample_latitude_dd, is.numeric) &
-      !is.na(sp$sample_longitude_dd) & !is.na(sp$sample_latitude_dd) &
-      sp$sample_longitude_dd >= -180.0 & sp$sample_longitude_dd <= 180.0 &
-      sp$sample_latitude_dd >= -90.0 & sp$sample_latitude_dd <= 90.0
+      sapply(sp$lon, is.numeric) &
+      sapply(sp$lat, is.numeric) &
+      !is.na(sp$lon) & !is.na(sp$lat) &
+      sp$lon >= -180 & sp$lon <= 180 &
+      sp$lat >= -90 & sp$lat <= 90
   }
+
   cleansp <- sp[isclean,,drop=FALSE]
   if(returnisclean) {
-    return(list(cleansp=cleansp, isclean=isclean))
+    return(list(cleansp = cleansp, isclean = isclean))
   } else {
     return(cleansp)
   }
 }
 
-get_xy_clean_duplicates <- function(data) {
-  clean <- get_xy_clean(data, returnisclean = TRUE)
+get_xy_clean_duplicates <- function(data, latcol = "sample_latitude_dd", loncol = "sample_longitude_dd") {
+  clean <- get_xy_clean(data, returnisclean = TRUE, latcol = latcol, loncol = loncol)
   if(NROW(clean$cleansp) > 0) {
-    # Only lookup values for unique coordinates
-    key <- paste(clean$cleansp$sample_longitude_dd, clean$cleansp$sample_latitude_dd, sep='\r')
+    key <- paste(clean$cleansp$lon, clean$cleansp$lat, sep = "\r")
     notdup <- !duplicated(key)
-    uniquesp <- clean$cleansp[notdup,]
+    uniquesp <- clean$cleansp[notdup, , drop=FALSE]
     duplicated_lookup <- match(key, key[notdup])
-    list(uniquesp=uniquesp, isclean=clean$isclean, duplicated_lookup=duplicated_lookup)
+    list(uniquesp = uniquesp, isclean = clean$isclean, duplicated_lookup = duplicated_lookup)
   } else {
-    list(uniquesp = data.frame(sample_longitude_dd = numeric(0), sample_latitude_dd = numeric(0)),
-         isclean = NULL, duplicated_lookup = NULL)
+    list(uniquesp = data.frame(lon = numeric(0), lat = numeric(0)),
+         isclean = NULL,
+         duplicated_lookup = NULL)
   }
 }
 
