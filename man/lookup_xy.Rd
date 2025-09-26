@@ -54,14 +54,18 @@ is equivalent to 0 m, while \code{FALSE} disables area retrieval.
 }
 \examples{
 \dontrun{
+# Example data frame
+data <- data.frame(sample_longitude_dd = c(10.983229, 18.265451),
+                   sample_latitude_dd = c(58.121034, 58.331616))
+
 # Retrieve shore distances and environmental grids for a dataset
-xy_data <- lookup_xy(abra, shoredistance = TRUE, grids = TRUE, areas = FALSE)
+xy_data <- lookup_xy(data, shoredistance = TRUE, grids = TRUE, areas = FALSE)
 
 # Retrieve area data within a 500-meter radius
-xy_areas <- lookup_xy(abra, shoredistance = FALSE, grids = FALSE, areas = 500)
+xy_areas <- lookup_xy(data, shoredistance = FALSE, grids = FALSE, areas = 500)
 
 # Get results as a list instead of a data frame
-xy_list <- lookup_xy(abra, shoredistance = TRUE, grids = TRUE, areas = FALSE, as_data_frame = FALSE)
+xy_list <- lookup_xy(data, shoredistance = TRUE, grids = TRUE, areas = FALSE, as_data_frame = FALSE)
 }
 
 

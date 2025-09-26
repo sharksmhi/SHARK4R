@@ -146,7 +146,7 @@ match_station <- function(names, station_file = NULL) {
 #' check_station_distance(stations)
 #'
 #' @export
-check_station_distance<- function(names, station_file = NULL) {
+check_station_distance <- function(names, station_file = NULL) {
 
   if (!is.null(station_file)) {
     station_db <- read_delim(station_file,
