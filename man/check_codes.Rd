@@ -24,8 +24,7 @@ Default is \code{"sample_project_name_en"}.}
 Defaults to \code{"PROJ"}.}
 
 \item{match_column}{Character; the column in the SHARK codelist to match
-against. Must be one of \code{"Code"}, \code{"Beskrivning/Svensk översättning"},
-or \code{"Description/English translate"}. Defaults to
+against. Must be one of \code{"Code"} or \code{"Description/English translate"}. Defaults to
 \code{"Description/English translate"}.}
 
 \item{clean_cache_days}{Numeric; if not \code{NULL}, cached SHARK code Excel files

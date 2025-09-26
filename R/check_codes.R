@@ -69,8 +69,7 @@ get_shark_codes <- function(url = "https://smhi.se/oceanografi/oce_info_data/sha
 #' @param code_type Character; the type of code to check (e.g., `"PROJ"`).
 #'   Defaults to `"PROJ"`.
 #' @param match_column Character; the column in the SHARK codelist to match
-#'   against. Must be one of `"Code"`, `"Beskrivning/Svensk översättning"`,
-#'   or `"Description/English translate"`. Defaults to
+#'   against. Must be one of `"Code"` or `"Description/English translate"`. Defaults to
 #'   `"Description/English translate"`.
 #' @param clean_cache_days Numeric; if not `NULL`, cached SHARK code Excel files
 #'   older than this number of days will be automatically deleted and replaced
@@ -94,7 +93,7 @@ check_codes <- function(data,
   }
 
   # validate match_column
-  valid_columns <- c("Code", "Beskrivning/Svensk översättning", "Description/English translate")
+  valid_columns <- c("Code", "Description/English translate")
   if (!match_column %in% valid_columns) {
     stop(sprintf("Invalid match_column '%s'. Must be one of: %s",
                  match_column, paste(valid_columns, collapse = ", ")))
