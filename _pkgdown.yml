@@ -104,7 +104,6 @@ reference:
   - match_station
   - nominal_station
   - plot_map_leaflet
-  - plot_map_leaflet_deliv
   - positions_are_near_land
   - which_basin
 

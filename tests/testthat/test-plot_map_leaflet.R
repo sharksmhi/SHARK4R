@@ -22,14 +22,15 @@ test_that("plot_map_leaflet works with minimal data", {
   expect_true(any(grepl("Esri.OceanBasemap", m$x$calls[[1]]$args[[1]])))
 })
 
-test_that("plot_map_leaflet_deliv works with minimal data", {
+test_that("deprecated plot_map_leaflet_deliv still works", {
   df <- data.frame(
     STATN = c("Stn1", "Stn2", "Stn2"), # includes duplicate
     LONGI = c(13.0, 14.5, 14.5),
     LATIT = c(55.1, 56.3, 56.3)
   )
 
-  m <- plot_map_leaflet_deliv(df)
+  lifecycle::expect_deprecated(plot_map_leaflet_deliv(df))
+  m <- suppressWarnings(plot_map_leaflet_deliv(df))
 
   # Class check
   expect_s3_class(m, "leaflet")

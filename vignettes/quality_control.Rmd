@@ -81,7 +81,7 @@ remotes::install_github("sharksmhi/SHARK4R",
                         dependencies = TRUE)
 ```
 
-Load the `SHARK4R` and `dplyr` libraries:
+Once installed, load the package along with `dplyr` for data manipulation::
 ```{r, include=FALSE}
 suppressPackageStartupMessages({
   library(SHARK4R)
@@ -96,12 +96,16 @@ library(dplyr)
 
 ### Retrieve Data Table
 
-You can fetch SHARK data using the same filtering options as the SHARK web interface. Available options can be explored using `get_shark_options()`.
+You can fetch SHARK data using the same filtering options as the SHARK web interface. Available options can be explored using `get_shark_options()`. For more information, see the the [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html) tutorial.
 
 ```{r}
 # Retrieve available options from SHARK
 shark_options <- get_shark_options()
+```
 
+You can filter datasets to focus on specific parameters, such as "Chlorophyll":
+
+```{r}
 # Find datasets containing "Chlorophyll"
 chlorophyll_datasets <- shark_options$datasets[grepl("Chlorophyll", 
                                                    shark_options$datasets)]
@@ -111,7 +115,11 @@ selected_dataset <- chlorophyll_datasets[1]
 
 # Print selected dataset name
 print(selected_dataset)
+```
 
+Download the dataset and store it as a data frame:
+
+```{r}
 # Download dataset and return as data frame
 chlorophyll_data <- get_shark_datasets(selected_dataset,
                                        save_dir = tempdir(),
@@ -124,6 +132,8 @@ tibble(chlorophyll_data)
 
 ### Checking Fields
 
+Once the data is loaded, it is important to validate that all required fields are present and correctly formatted. `check_fields()` performs this check for datatype-specific fields:
+
 ```{r}
 # Check datatype-specific fields for Chlorophyll data
 check_fields(data = chlorophyll_data, 
@@ -131,6 +141,8 @@ check_fields(data = chlorophyll_data,
 ```
 
 ### Station Matching
+
+SHARK data often contains station names that need to be verified against the official SHARK station registry. This ensures correct geographic and metadata matching:
 
 ```{r}
 # Match station names against SHARK station registry
@@ -142,6 +154,8 @@ head(station_match)
 
 ### Points on Land
 
+Sometimes, geographic coordinates are misreported and fall on land instead of the ocean. Use `check_onland()` to identify such points:
+
 ```{r}
 # Identify rows with coordinates falling on land
 n_rows_on_land <- check_onland(chlorophyll_data)
@@ -152,6 +166,8 @@ nrow(n_rows_on_land)
 
 ### Checking Depth
 
+Depth values are critical for aquatic measurements. `check_depth()` verifies that reported depths are plausible and consistent:
+
 ```{r}
 # Check min/max depth
 check_depth(data = chlorophyll_data)
@@ -160,7 +176,11 @@ check_depth(data = chlorophyll_data)
 check_depth(data = chlorophyll_data, "water_depth_m")
 ```
 
+This helps detect missing values, negative depths, or depths exceeding local bathymetry.
+
 ### Code Validation
+
+Project or platform codes must follow SHARK conventions. `check_codes()` helps validate these codes:
 
 ```{r}
 # Validate project codes
@@ -175,6 +195,8 @@ check_codes(data = chlorophyll_data,
 
 ### Retrieve Statistics
 
+Some QC checks, like outlier detection, rely on reference statistics. `get_shark_statistics()` provides thresholds for different parameters and datatypes:
+
 ```{r}
 # Retrieve SHARK statistics for Chlorophyll (2020–2024)
 shark_statistics <- get_shark_statistics(datatype = "Chlorophyll",
@@ -186,7 +208,11 @@ shark_statistics <- get_shark_statistics(datatype = "Chlorophyll",
 tibble(shark_statistics)
 ```
 
+These statistics can be used to identify extreme or unusual values in your data.
+
 ### Outlier Detection
+
+`check_outliers()` flags values that exceed thresholds defined in SHARK statistics. This is useful for identifying unusual measurements that may indicate errors or extreme events:
 
 ```{r}
 # Detect Chlorophyll-a outliers using the 99th percentile (P99)
@@ -199,6 +225,8 @@ check_outliers(data = chlorophyll_data,
 
 ### Data Visualization
 
+Visualizing data geographically or as scatterplots is useful for spotting anomalies quickly.
+
 ```{r}
 # Visualize data on an interactive map
 plot_map_leaflet(chlorophyll_data)
@@ -208,6 +236,8 @@ plot_map_leaflet(chlorophyll_data)
 # Create an interactive scatterplot of parameter values
 scatterplot(chlorophyll_data)
 ```
+
+Maps help verify the location of points, while scatterplots highlight unusual measurements across stations or time.
 
 ---
 
