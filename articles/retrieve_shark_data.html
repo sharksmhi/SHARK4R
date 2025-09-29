@@ -43,9 +43,9 @@
     <li><a class="dropdown-item" href="../articles/retrieve_algaebase_data.html">Retrieve AlgaeBase Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_hab_data.html">Retrieve HAB Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_nordic_microalgae_data.html">Retrieve Nordic Microalgae Data</a></li>
+    <li><a class="dropdown-item" href="../articles/quality_control.html">QC of SHARK Data</a></li>
   </ul>
 </li>
-<li class="nav-item"><a class="nav-link" href="../articles/quality_control.html">Quality Control</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
@@ -213,30 +213,31 @@ you can pass their names (or partial names) to the
 <span><span class="co"># Print the paths to the downloaded files</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">shark_data_zip</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## $`SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip`</span></span>
-<span><span class="co">## [1] "/tmp/RtmpmNbkNM/SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip"</span></span>
+<span><span class="co">## [1] "/tmp/RtmpPlNPON/SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip`</span></span>
-<span><span class="co">## [1] "/tmp/RtmpmNbkNM/SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip"</span></span></code></pre>
+<span><span class="co">## [1] "/tmp/RtmpPlNPON/SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip"</span></span></code></pre>
 <p>Please note that <code>SHARK4R</code> also includes several useful
 functions for reading local SHARK data files, such as
 <code><a href="../reference/shark_read.html">shark_read()</a></code>, <code><a href="../reference/shark_read_zip.html">shark_read_zip()</a></code>,
 <code><a href="../reference/shark_read_deliv.html">shark_read_deliv()</a></code> and
 <code><a href="../reference/shark_read_deliv_xls.html">shark_read_deliv_xls()</a></code>.</p>
+<hr>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <pre><code><span><span class="co">## To cite package 'SHARK4R' in publications use:</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##   Markus Lindh, Anders Torstensson (2025). SHARK4R: Retrieving,</span></span>
-<span><span class="co">##   Analyzing, and Validating Marine Data from SHARK and Nordic</span></span>
-<span><span class="co">##   Microalgae. R package version 0.1.7.9000.</span></span>
+<span><span class="co">##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and</span></span>
+<span><span class="co">##   Validating Marine Environmental Data from SHARK and Related</span></span>
+<span><span class="co">##   Databases. R package version 0.1.7.9000.</span></span>
 <span><span class="co">##   https://doi.org/10.5281/zenodo.14169399</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##   @Manual{,</span></span>
-<span><span class="co">##     title = {SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae},</span></span>
+<span><span class="co">##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson},</span></span>
 <span><span class="co">##     year = {2025},</span></span>
 <span><span class="co">##     note = {R package version 0.1.7.9000},</span></span>
@@ -250,7 +251,7 @@ functions for reading local SHARK data files, such as
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Markus Lindh, Anders Torstensson.</p>
+  <p>Developed by Markus Lindh, Anders Torstensson, SBDI.</p>
 </div>
 
 <div class="pkgdown-footer-right">

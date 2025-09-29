@@ -34,7 +34,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item dropdown">
+<li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Tutorials</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials">
 <li><a class="dropdown-item" href="../articles/retrieve_shark_data.html">Retrieve SHARK Data</a></li>
@@ -43,9 +43,9 @@
     <li><a class="dropdown-item" href="../articles/retrieve_algaebase_data.html">Retrieve AlgaeBase Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_hab_data.html">Retrieve HAB Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_nordic_microalgae_data.html">Retrieve Nordic Microalgae Data</a></li>
+    <li><a class="dropdown-item" href="../articles/quality_control.html">QC of SHARK Data</a></li>
   </ul>
 </li>
-<li class="active nav-item"><a class="nav-link" href="../articles/quality_control.html">Quality Control</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
@@ -71,7 +71,14 @@
 
 
 
-
+<link href="quality_control_files/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="quality_control_files/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="quality_control_files/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="quality_control_files/leaflet-1.3.1/leaflet.js"></script><link href="quality_control_files/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="quality_control_files/proj4-2.6.2/proj4.min.js"></script><script src="quality_control_files/Proj4Leaflet-1.0.1/proj4leaflet.js"></script><link href="quality_control_files/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="quality_control_files/leaflet-binding-2.2.3/leaflet.js"></script><script src="quality_control_files/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script><script src="quality_control_files/leaflet-providers-plugin-2.2.3/leaflet-providers-plugin.js"></script><script src="quality_control_files/plotly-binding-4.11.0/plotly.js"></script><script src="quality_control_files/typedarray-0.1/typedarray.min.js"></script><link href="quality_control_files/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+<script src="quality_control_files/crosstalk-1.2.2/js/crosstalk.min.js"></script><link href="quality_control_files/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="quality_control_files/plotly-main-2.11.1/plotly-latest.min.js"></script><link href="quality_control_files/leaflet-awesomemarkers-2.0.3/leaflet.awesome-markers.css" rel="stylesheet">
+<script src="quality_control_files/leaflet-awesomemarkers-2.0.3/leaflet.awesome-markers.min.js"></script><link href="quality_control_files/fontawesome-4.7.0/font-awesome.min.css" rel="stylesheet">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Quality Control of SHARK Data</h1>
@@ -83,85 +90,382 @@
 
     
     
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>The SHARK4R package provides a set of functions to perform quality
+control (QC) on SHARK data. These functions help identify missing or
+invalid values, spatial errors, and statistical outliers and are mainly
+intended for internal data validation. The tutorial covers:</p>
+<ul>
+<li>
+<strong>Field validation</strong> (required and datatype-specific
+fields)<br>
+</li>
+<li>
+<strong>Code validation</strong> (project and platform codes)<br>
+</li>
+<li>
+<strong>Geospatial checks</strong> (points on land, basins,
+proximity to shore)<br>
+</li>
+<li>
+<strong>Depth checks</strong> (missing, negative, or implausible
+values)<br>
+</li>
+<li>
+<strong>Outlier detection</strong> (parameter-specific
+thresholds)<br>
+</li>
+<li>
+<strong>Interactive QC</strong> with a Shiny app</li>
+</ul>
+<p>This workflow ensures SHARK data are consistent, valid, and ready for
+analysis. Several quality control components, originally developed by
+Provoost and Bosch (2018), have been adapted for compatibility with the
+SHARK format.</p>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>Install the latest version of SHARK4R from GitHub:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"sharksmhi/SHARK4R"</span>,</span>
+<span>                        ref <span class="op">=</span> <span class="fu">remotes</span><span class="fu">::</span><span class="fu">github_release</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>                        dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>Load the package along with <code>dplyr</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sharksmhi.github.io/SHARK4R/">SHARK4R</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="retrieve-shark-data">Retrieve SHARK Data<a class="anchor" aria-label="anchor" href="#retrieve-shark-data"></a>
+</h2>
+<p>You can fetch SHARK data using the same filtering options as the
+SHARK web interface. Explore available options with:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">shark_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_shark_options.html">get_shark_options</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Filter datasets containing “Chlorophyll”:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">chlorophyll_datasets</span> <span class="op">&lt;-</span> <span class="va">shark_options</span><span class="op">$</span><span class="va">datasets</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Chlorophyll"</span>, </span>
+<span>                                                     <span class="va">shark_options</span><span class="op">$</span><span class="va">datasets</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Select the first dataset for demonstration</span></span>
+<span><span class="va">selected_dataset</span> <span class="op">&lt;-</span> <span class="va">chlorophyll_datasets</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Print the name of the selected dataset</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">selected_dataset</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "SHARK_Chlorophyll_1985_1989_SMHI_version_2023-04-27.zip"</span></span></code></pre>
+<p>Download the selected dataset as a data frame:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">chlorophyll_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_shark_datasets.html">get_shark_datasets</a></span><span class="op">(</span><span class="va">selected_dataset</span>,</span>
+<span>                                       save_dir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>                                       return_df <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                       verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">chlorophyll_data</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 80 × 73</span></span></span>
+<span><span class="co">##    source delivery_datatype check_status_sv data_checked_by_sv visit_year</span></span>
+<span><span class="co">##     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>      1 Chlorophyll       Klar            Leverantör               <span style="text-decoration: underline;">1</span>989</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>      1 Chlorophyll       Klar            Leverantör               <span style="text-decoration: underline;">1</span>989</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>      1 Chlorophyll       Klar            Leverantör               <span style="text-decoration: underline;">1</span>985</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>      1 Chlorophyll       Klar            Leverantör               <span style="text-decoration: underline;">1</span>989</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>      1 Chlorophyll       Klar            Leverantör               <span style="text-decoration: underline;">1</span>989</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>      1 Chlorophyll       Klar            Leverantör               <span style="text-decoration: underline;">1</span>989</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>      1 Chlorophyll       Klar            Leverantör               <span style="text-decoration: underline;">1</span>989</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>      1 Chlorophyll       Klar            Leverantör               <span style="text-decoration: underline;">1</span>989</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>      1 Chlorophyll       Klar            Leverantör               <span style="text-decoration: underline;">1</span>989</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>      1 Chlorophyll       Klar            Leverantör               <span style="text-decoration: underline;">1</span>989</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 70 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 68 more variables: visit_month &lt;dbl&gt;, station_name &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   reported_station_name &lt;chr&gt;, sample_location_id &lt;dbl&gt;, station_id &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   sample_project_name_en &lt;chr&gt;, sample_orderer_name_en &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   platform_code &lt;chr&gt;, visit_id &lt;dbl&gt;, expedition_id &lt;lgl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   shark_sample_id_md5 &lt;chr&gt;, sample_date &lt;date&gt;, sample_time &lt;time&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   sample_enddate &lt;lgl&gt;, sample_endtime &lt;lgl&gt;, sample_latitude_dm &lt;chr&gt;, …</span></span></span></code></pre>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="step-1-check-required-fields">Step 1: Check Required Fields<a class="anchor" aria-label="anchor" href="#step-1-check-required-fields"></a>
+</h2>
+<p>Validate mandatory fields:</p>
+<ul>
+<li>
+<strong>Global fields</strong>: <code><a href="../reference/check_datatype.html">check_datatype()</a></code><br>
+</li>
+<li>
+<strong>Datatype-specific fields</strong>:
+<code><a href="../reference/check_fields.html">check_fields()</a></code> with optional
+<code>field_definitions</code>
+</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_fields.html">check_fields</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">chlorophyll_data</span>, datatype <span class="op">=</span> <span class="st">"Chlorophyll"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1,195 × 4</span></span></span>
+<span><span class="co">##    level field                           row message                            </span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                              </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> error sample_project_name_sv           <span style="color: #BB0000;">NA</span> Required field sample_project_name…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> error sample_orderer_name_sv           <span style="color: #BB0000;">NA</span> Required field sample_orderer_name…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> error sampling_laboratory_name_sv      <span style="color: #BB0000;">NA</span> Required field sampling_laboratory…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> error analytical_laboratory_name_sv    <span style="color: #BB0000;">NA</span> Required field analytical_laborato…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> error reporting_institute_name_sv      <span style="color: #BB0000;">NA</span> Required field reporting_institute…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> error sample_enddate                    1 Empty value for required field sam…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> error sample_enddate                    2 Empty value for required field sam…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> error sample_enddate                    3 Empty value for required field sam…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> error sample_enddate                    4 Empty value for required field sam…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> error sample_enddate                    5 Empty value for required field sam…</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 1,185 more rows</span></span></span></code></pre>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="step-2-validate-project-and-platform-codes">Step 2: Validate Project and Platform Codes<a class="anchor" aria-label="anchor" href="#step-2-validate-project-and-platform-codes"></a>
+</h2>
+<p>Ensure metadata codes follow SHARK conventions:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Validate project codes</span></span>
+<span><span class="fu"><a href="../reference/check_codes.html">check_codes</a></span><span class="op">(</span><span class="va">chlorophyll_data</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## All PROJ codes found</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 2</span></span></span>
+<span><span class="co">##   reported_code              match_type</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> National marine monitoring TRUE</span></span></code></pre>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Validate ship/platform codes</span></span>
+<span><span class="fu"><a href="../reference/check_codes.html">check_codes</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">chlorophyll_data</span>, </span>
+<span>            field <span class="op">=</span> <span class="st">"platform_code"</span>, </span>
+<span>            code_type <span class="op">=</span> <span class="st">"SHIPC"</span>, </span>
+<span>            match_column <span class="op">=</span> <span class="st">"Code"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## All SHIPC codes found</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
+<span><span class="co">##   reported_code match_type</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> 77AR          TRUE      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> 77SN          TRUE</span></span></code></pre>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="step-3-geospatial-checks">Step 3: Geospatial Checks<a class="anchor" aria-label="anchor" href="#step-3-geospatial-checks"></a>
+</h2>
 <div class="section level3">
-<h3 id="quality-control">Quality Control<a class="anchor" aria-label="anchor" href="#quality-control"></a>
+<h3 id="visualize-data-points">Visualize Data Points<a class="anchor" aria-label="anchor" href="#visualize-data-points"></a>
 </h3>
-<p>Listed functions can be used for quality control of SHARK data.</p>
-<div class="section level4">
-<h4 id="check-required-fields">Check required fields<a class="anchor" aria-label="anchor" href="#check-required-fields"></a>
-</h4>
-<p><code><a href="../reference/check_datatype.html">check_datatype()</a></code> will check if all global SHARK required
-fields are present in an occurrence table and if any values are missing.
-These functions returns a dataframe of errors (if any).</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_map_leaflet.html">plot_map_leaflet</a></span><span class="op">(</span><span class="va">chlorophyll_data</span><span class="op">)</span></span></code></pre></div>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:700px;height:432.632880098888px;"></div>
+<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.OceanBasemap",null,null,{"errorTileUrl":"","noWrap":true,"detectRetina":false}]},{"method":"addMarkers","args":[[56.1,57.19167,58.16667,56.66667,57.74167,55.27167,57.465,57.80333,64.83667,57.98333,58.26667,56.23333,56.85,55.555,60.18333,57.2,57.73333,64.30500000000001,57.51667,62.58667,57.55,57.11667,56.85667,55,61.08333,57.505,57.33333,55.25,59.03333,57.43333,64.70833,56.95833,57.53333,58,57.23333,57.91667,57.75617,57.4,56.13167,57.31667,57.3],[11.15,11.66667,9.5,12.11667,10.4,12.575,10.9,10.66,23.16667,8.1,10.18333,12.37,10.8,18.4,19.15,10.73333,8.283329999999999,22.35833,9.65,19.975,8.366669999999999,17.66667,10.79167,14.08333,19.58333,11.14167,20.05,15.98333,21.08333,10.70833,22.06667,11.75833,11.325,8.76667,8.550000000000001,8.16667,10.38433,8.466670000000001,11.16,8.5,9.216670000000001],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["425 GNIBEN","FLADEN","M6","ANHOLT E","W SKAGEN","441 STEVNS KLINT","GF8","HS7","RR5","OH2","Å18","KULLEN","409 ÅLBORG BUGT","BCS III-10","F64 SOLOVJEVA","LÄSÖ RÄNNA","OH5","BO3 / A3","HS3","US5B / C1","OH7","BY38 KARLSÖDJ","409 ÅLBORG BUGT","BY2 ARKONA","SR5 / C4","GF7","BY15 GOTLANDSDJ","BY5 BORNHOLMSDJ","BY28 / LL17","GF9","F9 / A13","L:A MIDDELGRUND","GF6","SSE LILLESAND","OH11","OH3","W SKAGEN","OH9","925 KATTEGAT SW","OH10","HS2"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[55,64.83667],"lng":[8.1,23.16667]}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div class="section level4">
-<h4 id="plot-points-on-a-map">Plot points on a map<a class="anchor" aria-label="anchor" href="#plot-points-on-a-map"></a>
-</h4>
-<p><code>plot_map()</code> will generate a ggplot2 map of occurrence
-records, <code><a href="../reference/plot_map_leaflet.html">plot_map_leaflet()</a></code> creates a zoomable interactive
-Leaflet map.</p>
+<div class="section level3">
+<h3 id="identify-points-on-land">Identify Points on Land<a class="anchor" aria-label="anchor" href="#identify-points-on-land"></a>
+</h3>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">n_rows_on_land</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_onland.html">check_onland</a></span><span class="op">(</span><span class="va">chlorophyll_data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">n_rows_on_land</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 0</span></span></code></pre>
+<p>Optional geospatial QC functions:</p>
+<ul>
+<li>
+<code><a href="../reference/positions_are_near_land.html">positions_are_near_land()</a></code><br>
+</li>
+<li>
+<code><a href="../reference/which_basin.html">which_basin()</a></code> from the <a href="https://CRAN.R-project.org/package=iRfcb" class="external-link">iRfcb package</a>
+</li>
+</ul>
+<hr>
 </div>
-<div class="section level4">
-<h4 id="check-points-on-land">Check points on land<a class="anchor" aria-label="anchor" href="#check-points-on-land"></a>
-</h4>
-<p><code><a href="../reference/check_onland.html">check_onland()</a></code> uses the xylookup web service which
-internally uses land polygons from OpenStreetMap to check if any points
-are located on land. Other shapefiles can be used as well.</p>
 </div>
-<div class="section level4">
-<h4 id="check-depth">Check depth<a class="anchor" aria-label="anchor" href="#check-depth"></a>
-</h4>
-<p><code><a href="../reference/check_depth.html">check_depth()</a></code> uses the xylookup web service to identify
-which records have potentially invalid depths. Multiple checks are
-performed in this function: missing depth column (warning) empty depth
-column (warning) depth values that can’t be converted to numbers (error)
-values that are larger than the depth value in the bathymetry layer,
-after applying the provided depth margin (error) depth values that are
-negative for off shore points, after applying the provided shoremargin
-(error) minimum depth greater than maximum depth (error)</p>
+<div class="section level2">
+<h2 id="step-4-depth-checks">Step 4: Depth Checks<a class="anchor" aria-label="anchor" href="#step-4-depth-checks"></a>
+</h2>
+<p>Verify plausibility and consistency of depth values:</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_depth.html">check_depth</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">chlorophyll_data</span><span class="op">)</span> <span class="co"># default columns: min/max depth</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
+<span><span class="co">##   level     row field              message                                      </span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> warning    17 sample_max_depth_m Depth value (20) is greater than the value f…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> warning    80 sample_max_depth_m Depth value (20) is greater than the value f…</span></span></code></pre>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_depth.html">check_depth</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">chlorophyll_data</span>, <span class="st">"water_depth_m"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 57 × 4</span></span></span>
+<span><span class="co">##    level     row field         message                                          </span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                            </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> warning     2 water_depth_m Depth value (78) is greater than the value found…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> warning     3 water_depth_m Depth value (78) is greater than the value found…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> warning     4 water_depth_m Depth value (637) is greater than the value foun…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> warning     6 water_depth_m Depth value (86) is greater than the value found…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> warning     8 water_depth_m Depth value (25) is greater than the value found…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> warning     9 water_depth_m Depth value (41) is greater than the value found…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> warning    10 water_depth_m Depth value (90) is greater than the value found…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> warning    11 water_depth_m Depth value (74) is greater than the value found…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> warning    13 water_depth_m Depth value (465) is greater than the value foun…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> warning    14 water_depth_m Depth value (465) is greater than the value foun…</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 47 more rows</span></span></span></code></pre>
+<p>Checks performed:</p>
+<ul>
+<li>Missing depth column or empty values (warnings)<br>
+</li>
+<li>Non-numeric or negative values (errors)<br>
+</li>
+<li>Depth exceeding bathymetry or minimum &gt; maximum (errors)</li>
+</ul>
+<hr>
 </div>
-<div class="section level4">
-<h4 id="check-outliers">Check outliers<a class="anchor" aria-label="anchor" href="#check-outliers"></a>
-</h4>
-<p><code>check_outliers_dataset()</code> use the qc-service web service
-to identify which records are statistical outliers. For species outlier
-checks are performed for both environmental data (bathymetry, sea
-surface salinity and sea surface temperature) as well as spatially.
-Outliers are identified as all points that deviate more then six times
-the median absolute deviation (MAD) or three times the interquartile
-range (IQR) from the median. The list in the extra field of the debug
-level output in the report provides all relevant statistics on which the
-outlier analysis is based. The report also gives an overview of these
-outliers. Outliers can be plotted with
-<code>plot_outliers(report)</code></p>
+<div class="section level2">
+<h2 id="step-5-outlier-detection">Step 5: Outlier Detection<a class="anchor" aria-label="anchor" href="#step-5-outlier-detection"></a>
+</h2>
+<p>Retrieve reference statistics for your datatype:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">shark_statistics</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_shark_statistics.html">get_shark_statistics</a></span><span class="op">(</span>datatype <span class="op">=</span> <span class="st">"Chlorophyll"</span>,</span>
+<span>                                         fromYear <span class="op">=</span> <span class="fl">2020</span>,</span>
+<span>                                         toYear <span class="op">=</span> <span class="fl">2024</span>,</span>
+<span>                                         verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">shark_statistics</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 22</span></span></span>
+<span><span class="co">##   parameter     datatype    min    Q1 median    Q3   max   P01   P05   P95   P99</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> Chlorophyll-a Chloroph…  0.19  1.39    2.2   3.3  22.2 0.307  0.45  6.73  11.6</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 11 more variables: IQR &lt;dbl&gt;, mean &lt;dbl&gt;, sd &lt;dbl&gt;, var &lt;dbl&gt;, cv &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   mad &lt;dbl&gt;, mild_lower &lt;dbl&gt;, mild_upper &lt;dbl&gt;, extreme_lower &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   extreme_upper &lt;dbl&gt;, n &lt;int&gt;</span></span></span></code></pre>
+<p>Detect extreme values using thresholds (e.g., 99th percentile):</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_outliers.html">check_outliers</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">chlorophyll_data</span>,</span>
+<span>               parameter <span class="op">=</span> <span class="st">"Chlorophyll-a"</span>,</span>
+<span>               datatype <span class="op">=</span> <span class="st">"Chlorophyll"</span>,</span>
+<span>               threshold_col <span class="op">=</span> <span class="st">"P99"</span>,</span>
+<span>               thresholds <span class="op">=</span> <span class="va">shark_statistics</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Chlorophyll-a is within the P99 range.</span></span></code></pre>
+<p>Visualize anomalies:</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Scatterplot with horizontal line at 99th percentile</span></span>
+<span><span class="fu"><a href="../reference/scatterplot.html">scatterplot</a></span><span class="op">(</span><span class="va">chlorophyll_data</span>,</span>
+<span>            hline <span class="op">=</span> <span class="va">shark_statistics</span><span class="op">$</span><span class="va">P99</span><span class="op">)</span></span></code></pre></div>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-e5c8c404fe174e4c81bd" style="width:700px;height:432.632880098888px;"></div>
+<script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"visdat":{"2ab61a1a7e04":["function () ","plotlyVisDat"]},"cur_data":"2ab61a1a7e04","attrs":{"2ab61a1a7e04":{"x":{},"y":{},"mode":"markers","visible":true,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":100,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"","zeroline":false,"showline":false,"showticklabels":true,"showgrid":true,"type":"category","categoryorder":"array","categoryarray":["409 ÅLBORG BUGT","425 GNIBEN","441 STEVNS KLINT","925 KATTEGAT SW","Å18","ANHOLT E","BCS III-10","BO3 / A3","BY15 GOTLANDSDJ","BY2 ARKONA","BY28 / LL17","BY38 KARLSÖDJ","BY5 BORNHOLMSDJ","F64 SOLOVJEVA","F9 / A13","FLADEN","GF6","GF7","GF8","GF9","HS2","HS3","HS7","KULLEN","L:A MIDDELGRUND","LÄSÖ RÄNNA","M6","OH10","OH11","OH2","OH3","OH5","OH7","OH9","RR5","SR5 / C4","SSE LILLESAND","US5B / C1","W SKAGEN"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Chlorophyll-a ( ug/l )","zeroline":false,"showline":false,"showticklabels":true,"showgrid":true},"updatemenus":[{"buttons":[{"method":"update","args":[{"visible":true},{"yaxis":{"title":"Chlorophyll-a ( ug/l )"},"shapes":[{"type":"line","xref":"paper","x0":0,"x1":1,"yref":"y","y0":11.6435,"y1":11.6435,"line":{"color":"red","dash":"dash","width":2}}]}],"label":"Chlorophyll-a"}],"direction":"down","x":0,"y":1.1499999999999999,"xanchor":"left","yanchor":"bottom"},{"buttons":[{"method":"restyle","args":["x",[["425 GNIBEN","FLADEN","FLADEN","M6","ANHOLT E","W SKAGEN","ANHOLT E","441 STEVNS KLINT","GF8","HS7","RR5","GF8","OH2","Å18","KULLEN","FLADEN","409 ÅLBORG BUGT","BCS III-10","F64 SOLOVJEVA","KULLEN","KULLEN","LÄSÖ RÄNNA","FLADEN","ANHOLT E","ANHOLT E","OH5","BO3 / A3","425 GNIBEN","FLADEN","BO3 / A3","HS3","US5B / C1","RR5","OH7","BY38 KARLSÖDJ","409 ÅLBORG BUGT","BY2 ARKONA","SR5 / C4","GF8","409 ÅLBORG BUGT","GF7","BY15 GOTLANDSDJ","BY5 BORNHOLMSDJ","BY28 / LL17","GF9","W SKAGEN","F9 / A13","L:A MIDDELGRUND","F64 SOLOVJEVA","F9 / A13","HS7","US5B / C1","BY28 / LL17","HS7","KULLEN","BY38 KARLSÖDJ","BCS III-10","BY2 ARKONA","441 STEVNS KLINT","GF6","SSE LILLESAND","OH11","GF8","OH3","GF8","W SKAGEN","FLADEN","ANHOLT E","OH9","409 ÅLBORG BUGT","925 KATTEGAT SW","HS7","SR5 / C4","OH10","BY15 GOTLANDSDJ","BY5 BORNHOLMSDJ","441 STEVNS KLINT","W SKAGEN","KULLEN","HS2"]]],"label":"X = STATION_NAME"},{"method":"restyle","args":["x",[["1989-06-15","1989-03-02","1985-04-09","1989-02-28","1989-11-19","1989-05-18","1989-05-22","1989-04-12","1989-04-22","1989-05-18","1989-05-31","1989-05-18","1989-03-01","1989-02-28","1989-11-18","1986-05-20","1989-03-02","1989-05-24","1989-06-03","1989-04-12","1989-04-12","1989-03-02","1989-04-10","1989-04-11","1989-03-02","1989-03-01","1989-05-31","1989-04-12","1989-11-23","1989-11-09","1989-03-01","1989-05-30","1989-11-08","1989-03-01","1989-11-15","1989-06-16","1989-05-23","1989-05-29","1989-06-16","1989-04-13","1989-06-16","1989-11-16","1989-11-17","1989-05-26","1989-03-01","1989-04-21","1989-06-01","1989-03-02","1989-11-11","1989-11-09","1989-04-22","1989-11-07","1989-11-13","1989-03-01","1987-12-01","1989-05-24","1989-11-17","1989-11-18","1989-11-18","1989-02-27","1989-02-28","1989-03-01","1989-04-13","1989-03-01","1989-03-01","1989-04-13","1989-05-16","1989-06-15","1989-03-01","1989-11-22","1989-11-22","1989-04-13","1989-11-06","1989-03-01","1989-05-25","1989-05-23","1989-05-22","1989-03-01","1989-05-22","1989-03-01"]]],"label":"X = SAMPLE_DATE"}],"direction":"down","x":0.34999999999999998,"y":1.1499999999999999,"xanchor":"left","yanchor":"bottom"},{"buttons":[{"method":"relayout","args":[{"yaxis":{"type":"linear","title":"Chlorophyll-a ( ug/l )"}}],"label":"Y Linear"},{"method":"relayout","args":[{"yaxis":{"type":"log","title":"Chlorophyll-a ( ug/l )"}}],"label":"Y Log"}],"direction":"down","x":0.69999999999999996,"y":1.1499999999999999,"xanchor":"left","yanchor":"bottom"}],"shapes":[{"type":"line","xref":"paper","x0":0,"x1":1,"yref":"y","y0":11.6435,"y1":11.6435,"line":{"color":"red","dash":"dash","width":2}}],"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["425 GNIBEN","FLADEN","FLADEN","M6","ANHOLT E","W SKAGEN","ANHOLT E","441 STEVNS KLINT","GF8","HS7","RR5","GF8","OH2","Å18","KULLEN","FLADEN","409 ÅLBORG BUGT","BCS III-10","F64 SOLOVJEVA","KULLEN","KULLEN","LÄSÖ RÄNNA","FLADEN","ANHOLT E","ANHOLT E","OH5","BO3 / A3","425 GNIBEN","FLADEN","BO3 / A3","HS3","US5B / C1","RR5","OH7","BY38 KARLSÖDJ","409 ÅLBORG BUGT","BY2 ARKONA","SR5 / C4","GF8","409 ÅLBORG BUGT","GF7","BY15 GOTLANDSDJ","BY5 BORNHOLMSDJ","BY28 / LL17","GF9","W SKAGEN","F9 / A13","L:A MIDDELGRUND","F64 SOLOVJEVA","F9 / A13","HS7","US5B / C1","BY28 / LL17","HS7","KULLEN","BY38 KARLSÖDJ","BCS III-10","BY2 ARKONA","441 STEVNS KLINT","GF6","SSE LILLESAND","OH11","GF8","OH3","GF8","W SKAGEN","FLADEN","ANHOLT E","OH9","409 ÅLBORG BUGT","925 KATTEGAT SW","HS7","SR5 / C4","OH10","BY15 GOTLANDSDJ","BY5 BORNHOLMSDJ","441 STEVNS KLINT","W SKAGEN","KULLEN","HS2"],"y":[1.8,1.1799999999999999,1.4099999999999999,0.69999999999999996,1.49,1.3899999999999999,0.98999999999999999,0.47999999999999998,0.87,1.3500000000000001,1.8899999999999999,1.51,0.40000000000000002,0.78000000000000003,0.51000000000000001,1.72,0.78000000000000003,5.5199999999999996,3.1899999999999999,1.3899999999999999,1.8999999999999999,1.27,1.95,1.5700000000000001,1.1100000000000001,0.55000000000000004,4.2000000000000002,1.7,2.6800000000000002,1.3700000000000001,1.77,6.2000000000000002,1.2,0.57999999999999996,1.7,2.3199999999999998,0.90000000000000002,3.6800000000000002,1.03,1.47,0.90000000000000002,3.2000000000000002,4.4000000000000004,2.4199999999999999,1.4199999999999999,0.91000000000000003,2.4100000000000001,1.3300000000000001,1.3100000000000001,1.3400000000000001,1.8999999999999999,1.1799999999999999,3,0.92000000000000004,1.73,1.3700000000000001,2.8999999999999999,4.9299999999999997,2.2999999999999998,0.69999999999999996,0.51000000000000001,1.1100000000000001,1.71,0.64000000000000001,1.22,3.8199999999999998,1.24,0.98999999999999999,0.81999999999999995,1.6200000000000001,2.1699999999999999,2.96,1.1100000000000001,0.98999999999999999,1.8700000000000001,2.5,0.75,0.70999999999999996,1.49,2.46],"mode":"markers","visible":true,"type":"scatter","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script><hr>
 </div>
-<div class="section level4">
-<h4 id="irfcb-functions">iRfcb functions<a class="anchor" aria-label="anchor" href="#irfcb-functions"></a>
-</h4>
-<p><code><a href="../reference/positions_are_near_land.html">positions_are_near_land()</a></code> and <code><a href="../reference/which_basin.html">which_basin()</a></code>
-are functions sourced from the <a href="https://CRAN.R-project.org/package=iRfcb/" class="external-link">iRfcb package</a>, and
-can be used for geospatial quality control of SHARK data.</p>
+<div class="section level2">
+<h2 id="step-6-station-matching">Step 6: Station Matching<a class="anchor" aria-label="anchor" href="#step-6-station-matching"></a>
+</h2>
+<p>Verify station names against the official SHARK registry:</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">station_match</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/match_station.html">match_station</a></span><span class="op">(</span><span class="va">chlorophyll_data</span><span class="op">$</span><span class="va">station_name</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## All stations found</span></span></code></pre>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">station_match</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##   reported_station_name match_type</span></span>
+<span><span class="co">## 1            425 GNIBEN       TRUE</span></span>
+<span><span class="co">## 2                FLADEN       TRUE</span></span>
+<span><span class="co">## 3                FLADEN       TRUE</span></span>
+<span><span class="co">## 4                    M6       TRUE</span></span>
+<span><span class="co">## 5              ANHOLT E       TRUE</span></span>
+<span><span class="co">## 6              W SKAGEN       TRUE</span></span></code></pre>
+<p>To plot stations and their distances from the station register in an
+interactive map:</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_station_distance.html">check_station_distance</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">chlorophyll_data</span>,</span>
+<span>                       plot_leaflet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## WARNING: Some stations are outside the allowed distance limit</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
+<span><span class="co">##   station_name distance_m OUT_OF_BOUNDS_RADIUS</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> LÄSÖ RÄNNA       <span style="text-decoration: underline;">10</span>360.                 <span style="text-decoration: underline;">1</span>200</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> OH7               <span style="text-decoration: underline;">2</span>233.                 <span style="text-decoration: underline;">1</span>200</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> HS2               <span style="text-decoration: underline;">2</span>233.                 <span style="text-decoration: underline;">1</span>200</span></span></code></pre>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-36aa3d2a04d42bbc2145" style="width:700px;height:432.632880098888px;"></div>
+<script type="application/json" data-for="htmlwidget-36aa3d2a04d42bbc2145">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Esri.OceanBasemap",null,null,{"errorTileUrl":"","noWrap":true,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[64.709,54.97116,55.25,57.31217,59.04183,55.2715,55.55533,57.11717,60.1835,64.30500000000001,64.83750000000001,61.08367,62.58667,56.2335,57.5375,57.505,57.46533,57.43317,57.293,56.95683,56.85666,56.13183,56.1,58.2667,57.8033,58.1667,58,57.9833,57.9167,57.7333,57.3167,57.2333,57.5167,57.28,57.53,57.75,57.4,56.66866,57.19266],[22.06467,14.09883,15.98417,20.07617,21.10084,12.572,18.40017,17.66867,19.14999,22.3585,23.17051,19.58466,19.97117,12.37,11.32833,11.1417,10.90067,10.70833,10.74383,11.74717,10.79133,11.15734,11.15,10.1833,10.66,9.5,8.7667,8.1,8.166700000000001,8.283300000000001,8.5,8.550000000000001,9.65,9.220000000000001,8.369999999999999,10.39,8.466699999999999,12.11117,11.65783],5,null,null,{"interactive":true,"className":"","stroke":true,"color":"blue","weight":5,"opacity":0.5,"fill":true,"fillColor":"blue","fillOpacity":0.7},null,null,["F9 / A13 (Radius: 1200 m)","BY2 ARKONA (Radius: 7000 m)","BY5 BORNHOLMSDJ (Radius: 2000 m)","BY15 GOTLANDSDJ (Radius: 8000 m)","BY28 / LL17 (Radius: 3000 m)","441 STEVNS KLINT (Radius: 1200 m)","BCS III-10 (Radius: 2000 m)","BY38 KARLSÖDJ (Radius: 2000 m)","F64 SOLOVJEVA (Radius: 1200 m)","BO3 / A3 (Radius: 1200 m)","RR5 (Radius: 1200 m)","SR5 / C4 (Radius: 1200 m)","US5B / C1 (Radius: 1200 m)","KULLEN (Radius: 1200 m)","GF6 (Radius: 1200 m)","GF7 (Radius: 1200 m)","GF8 (Radius: 1200 m)","GF9 (Radius: 1200 m)","LÄSÖ RÄNNA (Radius: 1200 m)","L:A MIDDELGRUND (Radius: 2000 m)","409 ÅLBORG BUGT (Radius: 2000 m)","925 KATTEGAT SW (Radius: 1200 m)","425 GNIBEN (Radius: 1200 m)","Å18 (Radius: 2000 m)","HS7 (Radius: 1200 m)","M6 (Radius: 1200 m)","SSE LILLESAND (Radius: 1200 m)","OH2 (Radius: 1200 m)","OH3 (Radius: 1200 m)","OH5 (Radius: 1200 m)","OH10 (Radius: 1200 m)","OH11 (Radius: 1200 m)","HS3 (Radius: 1200 m)","HS2 (Radius: 1200 m)","OH7 (Radius: 1200 m)","W SKAGEN (Radius: 1200 m)","OH9 (Radius: 1200 m)","ANHOLT E (Radius: 3000 m)","FLADEN (Radius: 2000 m)"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircles","args":[[64.709,54.97116,55.25,57.31217,59.04183,55.2715,55.55533,57.11717,60.1835,64.30500000000001,64.83750000000001,61.08367,62.58667,56.2335,57.5375,57.505,57.46533,57.43317,57.293,56.95683,56.85666,56.13183,56.1,58.2667,57.8033,58.1667,58,57.9833,57.9167,57.7333,57.3167,57.2333,57.5167,57.28,57.53,57.75,57.4,56.66866,57.19266],[22.06467,14.09883,15.98417,20.07617,21.10084,12.572,18.40017,17.66867,19.14999,22.3585,23.17051,19.58466,19.97117,12.37,11.32833,11.1417,10.90067,10.70833,10.74383,11.74717,10.79133,11.15734,11.15,10.1833,10.66,9.5,8.7667,8.1,8.166700000000001,8.283300000000001,8.5,8.550000000000001,9.65,9.220000000000001,8.369999999999999,10.39,8.466699999999999,12.11117,11.65783],[1200,7000,2000,8000,3000,1200,2000,2000,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,2000,2000,1200,1200,2000,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,3000,2000],null,null,{"interactive":true,"className":"","stroke":true,"color":"blue","weight":5,"opacity":0.5,"fill":false,"fillColor":"blue","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addAwesomeMarkers","args":[[56.1,57.19167,57.19167,58.16667,56.66667,57.74167,56.66667,55.27167,57.465,57.80333,64.83667,57.465,57.98333,58.26667,56.23333,57.19167,56.85,55.555,60.18333,56.23333,56.23333,57.2,57.19167,56.66667,56.66667,57.73333,64.30500000000001,56.1,57.19167,64.30500000000001,57.51667,62.58667,64.83667,57.55,57.11667,56.85667,55,61.08333,57.465,56.85,57.505,57.33333,55.25,59.03333,57.43333,57.74167,64.70833,56.95833,60.18333,64.70833,57.80333,62.58667,59.03333,57.80333,56.23333,57.11667,55.555,55,55.27167,57.53333,58,57.23333,57.465,57.91667,57.465,57.75617,57.19167,56.66667,57.4,56.85667,56.13167,57.80333,61.08333,57.31667,57.33333,55.25,55.27167,57.74167,56.23333,57.3],[11.15,11.66667,11.66667,9.5,12.11667,10.4,12.11667,12.575,10.9,10.66,23.16667,10.9,8.1,10.18333,12.37,11.66667,10.8,18.4,19.15,12.37,12.37,10.73333,11.66667,12.11667,12.11667,8.283329999999999,22.35833,11.15,11.66667,22.35833,9.65,19.975,23.16667,8.366669999999999,17.66667,10.79167,14.08333,19.58333,10.9,10.8,11.14167,20.05,15.98333,21.08333,10.70833,10.4,22.06667,11.75833,19.15,22.06667,10.66,19.975,21.08333,10.66,12.37,17.66667,18.4,14.08333,12.575,11.325,8.76667,8.550000000000001,10.9,8.16667,10.9,10.38433,11.66667,12.11667,8.466670000000001,10.79167,11.16,10.66,19.58333,8.5,20.05,15.98333,12.575,10.4,12.37,9.216670000000001],{"icon":"map-marker","markerColor":["green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","red","green","green","green","green","green","green","green","green","green","green","green","red","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","green","red"],"iconColor":"white","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"fa"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["425 GNIBEN","FLADEN","FLADEN","M6","ANHOLT E","W SKAGEN","ANHOLT E","441 STEVNS KLINT","GF8","HS7","RR5","GF8","OH2","Å18","KULLEN","FLADEN","409 ÅLBORG BUGT","BCS III-10","F64 SOLOVJEVA","KULLEN","KULLEN","LÄSÖ RÄNNA","FLADEN","ANHOLT E","ANHOLT E","OH5","BO3 / A3","425 GNIBEN","FLADEN","BO3 / A3","HS3","US5B / C1","RR5","OH7","BY38 KARLSÖDJ","409 ÅLBORG BUGT","BY2 ARKONA","SR5 / C4","GF8","409 ÅLBORG BUGT","GF7","BY15 GOTLANDSDJ","BY5 BORNHOLMSDJ","BY28 / LL17","GF9","W SKAGEN","F9 / A13","L:A MIDDELGRUND","F64 SOLOVJEVA","F9 / A13","HS7","US5B / C1","BY28 / LL17","HS7","KULLEN","BY38 KARLSÖDJ","BCS III-10","BY2 ARKONA","441 STEVNS KLINT","GF6","SSE LILLESAND","OH11","GF8","OH3","GF8","W SKAGEN","FLADEN","ANHOLT E","OH9","409 ÅLBORG BUGT","925 KATTEGAT SW","HS7","SR5 / C4","OH10","BY15 GOTLANDSDJ","BY5 BORNHOLMSDJ","441 STEVNS KLINT","W SKAGEN","KULLEN","HS2"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[54.97116,64.83750000000001],"lng":[8.1,23.17051]}},"evals":[],"jsHooks":[]}</script><p>To check if stations are nominal (comparing unique coordinates per
+station):</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/check_nominal_station.html">check_nominal_station</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">chlorophyll_data</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Positions are not suspected to be nominal</span></span></code></pre>
+<hr>
 </div>
+<div class="section level2">
+<h2 id="interactive-qc-with-shiny">Interactive QC with Shiny<a class="anchor" aria-label="anchor" href="#interactive-qc-with-shiny"></a>
+</h2>
+<p>For a more user-friendly interface, use the Shiny QC app:</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Download support files</span></span>
+<span><span class="fu"><a href="../reference/check_setup.html">check_setup</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Run Shiny app</span></span>
+<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="st">"products/"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or download and run directly</span></span>
+<span><span class="fu"><a href="../reference/check_setup.html">check_setup</a></span><span class="op">(</span>run_app <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>The app provides point-and-click access to the same QC checks
+described above.</p>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="recommended-workflow-summary">Recommended Workflow Summary<a class="anchor" aria-label="anchor" href="#recommended-workflow-summary"></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Check Required Fields</strong>
+(<code><a href="../reference/check_datatype.html">check_datatype()</a></code>, <code><a href="../reference/check_fields.html">check_fields()</a></code>)<br>
+</li>
+<li>
+<strong>Validate Codes</strong> (<code><a href="../reference/check_codes.html">check_codes()</a></code>)<br>
+</li>
+<li>
+<strong>Geospatial Checks</strong> (<code><a href="../reference/plot_map_leaflet.html">plot_map_leaflet()</a></code>,
+<code><a href="../reference/check_onland.html">check_onland()</a></code>, optional
+<code><a href="../reference/positions_are_near_land.html">positions_are_near_land()</a></code>,
+<code><a href="../reference/which_basin.html">which_basin()</a></code>)<br>
+</li>
+<li>
+<strong>Depth Checks</strong> (<code><a href="../reference/check_depth.html">check_depth()</a></code>)<br>
+</li>
+<li>
+<strong>Outlier Detection</strong> (<code><a href="../reference/check_outliers.html">check_outliers()</a></code>,
+<code><a href="../reference/scatterplot.html">scatterplot()</a></code>)<br>
+</li>
+<li>
+<strong>Station Matching</strong>
+(<code><a href="../reference/match_station.html">match_station()</a></code>)<br>
+</li>
+<li>
+<strong>Final Review &amp; Visualization</strong> (interactive maps
+and scatterplots)</li>
+</ol>
+<p>Following this order ensures comprehensive QC and prepares your SHARK
+data for analysis.</p>
+<hr>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <pre><code><span><span class="co">## To cite package 'SHARK4R' in publications use:</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##   Markus Lindh, Anders Torstensson (2025). SHARK4R: Retrieving,</span></span>
-<span><span class="co">##   Analyzing, and Validating Marine Data from SHARK and Nordic</span></span>
-<span><span class="co">##   Microalgae. R package version 0.1.7.9000.</span></span>
+<span><span class="co">##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and</span></span>
+<span><span class="co">##   Validating Marine Environmental Data from SHARK and Related</span></span>
+<span><span class="co">##   Databases. R package version 0.1.7.9000.</span></span>
 <span><span class="co">##   https://doi.org/10.5281/zenodo.14169399</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##   @Manual{,</span></span>
-<span><span class="co">##     title = {SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae},</span></span>
+<span><span class="co">##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson},</span></span>
 <span><span class="co">##     year = {2025},</span></span>
 <span><span class="co">##     note = {R package version 0.1.7.9000},</span></span>
 <span><span class="co">##     url = {https://doi.org/10.5281/zenodo.14169399},</span></span>
 <span><span class="co">##   }</span></span></code></pre>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<ul>
+<li>Provoost P, Bosch S (2024). <code>obistools</code>: Tools for data
+enhancement and quality control. Ocean Biodiversity Information System.
+Intergovernmental Oceanographic Commission of UNESCO. R package version
+0.1.0, <a href="https://iobis.github.io/obistools/" class="external-link uri">https://iobis.github.io/obistools/</a>.</li>
+</ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -170,7 +474,7 @@ can be used for geospatial quality control of SHARK data.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Markus Lindh, Anders Torstensson.</p>
+  <p>Developed by Markus Lindh, Anders Torstensson, SBDI.</p>
 </div>
 
 <div class="pkgdown-footer-right">

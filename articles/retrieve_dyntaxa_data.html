@@ -43,9 +43,9 @@
     <li><a class="dropdown-item" href="../articles/retrieve_algaebase_data.html">Retrieve AlgaeBase Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_hab_data.html">Retrieve HAB Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_nordic_microalgae_data.html">Retrieve Nordic Microalgae Data</a></li>
+    <li><a class="dropdown-item" href="../articles/quality_control.html">QC of SHARK Data</a></li>
   </ul>
 </li>
-<li class="nav-item"><a class="nav-link" href="../articles/quality_control.html">Quality Control</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
@@ -108,11 +108,10 @@ of <code>SHARK4R</code> are not affiliated with Dyntaxa.</p>
 the <code>remotes</code> package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"sharksmhi/SHARK4R"</span>,</span>
-<span>                        ref <span class="op">=</span> <span class="fu">remotes</span><span class="fu">::</span><span class="fu">github_release</span><span class="op">(</span><span class="op">)</span>,</span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"sharksmhi/SHARK4R"</span>, </span>
+<span>                        ref <span class="op">=</span> <span class="fu">remotes</span><span class="fu">::</span><span class="fu">github_release</span><span class="op">(</span><span class="op">)</span>, </span>
 <span>                        dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>Load the <code>SHARK4R</code>, <code>tibble</code> and
-<code>dplyr</code> libraries:</p>
+<p>Load the <code>SHARK4R</code> and <code>dplyr</code> libraries:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sharksmhi.github.io/SHARK4R/">SHARK4R</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
@@ -235,10 +234,10 @@ Tutorial</a>.</p>
 <span><span class="va">taxon_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">shark_taxon</span><span class="op">$</span><span class="va">scientific_name</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Match taxon_names with Dyntaxa API</span></span>
-<span><span class="va">matches</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/match_taxon_name.html">match_taxon_name</a></span><span class="op">(</span>taxon_names <span class="op">=</span> <span class="va">taxon_names</span>, </span>
-<span>                            subscription_key <span class="op">=</span> <span class="va">dyntaxa_key</span>, </span>
-<span>                            multiple_options <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">matches</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/match_dyntaxa_taxa.html">match_dyntaxa_taxa</a></span><span class="op">(</span>taxon_names <span class="op">=</span> <span class="va">taxon_names</span>, </span>
+<span>                              subscription_key <span class="op">=</span> <span class="va">dyntaxa_key</span>, </span>
+<span>                              multiple_options <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                              verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print the result</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">matches</span><span class="op">)</span></span></code></pre></div>
@@ -277,16 +276,16 @@ Tutorial</a>.</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10 × 24</span></span></span>
 <span><span class="co">##    taxonId parentId secondaryParents sortOrder isMicrospecies externalComment   </span></span>
 <span><span class="co">##      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">236</span>939  6<span style="text-decoration: underline;">018</span>284 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">68</span>775 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">237</span>763  1<span style="text-decoration: underline;">010</span>465 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">71</span>257 FALSE          <span style="color: #949494;">"</span>Illustration (LM…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">238</span>027  1<span style="text-decoration: underline;">010</span>523 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">73</span>171 FALSE          <span style="color: #949494;">"</span>Illustration (LM…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">238</span>248  1<span style="text-decoration: underline;">010</span>596 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>720 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">238</span>927  1<span style="text-decoration: underline;">016</span>130 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">113</span>141 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">257</span>418  6<span style="text-decoration: underline;">001</span>140 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">112</span>276 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">263</span>645  1<span style="text-decoration: underline;">016</span>291 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">67</span>477 FALSE          <span style="color: #949494;">"</span>2005. Published …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 1<span style="text-decoration: underline;">010</span>578  2<span style="text-decoration: underline;">003</span>230 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>661 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 1<span style="text-decoration: underline;">010</span>594  2<span style="text-decoration: underline;">003</span>235 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>704 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> 3<span style="text-decoration: underline;">000</span>573  4<span style="text-decoration: underline;">000</span>161 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">71</span>017 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">236</span>939  6<span style="text-decoration: underline;">018</span>284 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">68</span>779 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">237</span>763  1<span style="text-decoration: underline;">010</span>465 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">71</span>263 FALSE          <span style="color: #949494;">"</span>Illustration (LM…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">238</span>027  1<span style="text-decoration: underline;">010</span>523 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">73</span>177 FALSE          <span style="color: #949494;">"</span>Illustration (LM…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">238</span>248  1<span style="text-decoration: underline;">010</span>596 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>702 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">238</span>927  1<span style="text-decoration: underline;">016</span>130 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">113</span>269 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">257</span>418  6<span style="text-decoration: underline;">001</span>140 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">112</span>404 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">263</span>645  1<span style="text-decoration: underline;">016</span>291 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">67</span>481 FALSE          <span style="color: #949494;">"</span>2005. Published …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 1<span style="text-decoration: underline;">010</span>578  6<span style="text-decoration: underline;">332</span>738 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>824 FALSE          <span style="color: #949494;">"</span>Scrippsiella han…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 1<span style="text-decoration: underline;">010</span>594  2<span style="text-decoration: underline;">003</span>235 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>686 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> 3<span style="text-decoration: underline;">000</span>573  4<span style="text-decoration: underline;">000</span>161 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">71</span>023 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 18 more variables: redlistCategory &lt;lgl&gt;, excludeFromReportingSystem &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   nrOfChilds &lt;int&gt;, names &lt;list&gt;, typedRelations.parentRelations &lt;list&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   typedRelations.childRelations &lt;list&gt;, status.id &lt;int&gt;, status.value &lt;chr&gt;,</span></span></span>
@@ -327,7 +326,7 @@ Tutorial</a>.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[6]]</span></span>
 <span><span class="co">##  [1] 5000055 6011755 6011756 6011759 6011678 5000062 6011725 6011726 4000169</span></span>
-<span><span class="co">## [10] 3000850 2003230 1010578</span></span>
+<span><span class="co">## [10] 3000681 6332738 1010578</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[7]]</span></span>
 <span><span class="co">## [1] 5000045 6000581 6000582 5000046 4000178 3000405 2003796 1016130  238927</span></span>
@@ -372,38 +371,39 @@ argument.</p>
 <span></span>
 <span><span class="co"># Print the taxonomy table as a tibble</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">taxonomy_table</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 287 × 16</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 296 × 16</span></span></span>
 <span><span class="co">##    taxonId        acceptedNameUsageID parentNameUsageID scientificName taxonRank</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Chrysotila ca… species  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Scrippsiella   genus    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 3</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Pseudopediast… species  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Binuclearia l… species  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Oblea          genus    </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Cuspidothrix … species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Oblea          genus    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Scrippsiella   genus    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Cuspidothrix … species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Binuclearia l… species  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Dictyochales   order    </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Bacillaria pa… species  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Protoperidini… species  </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 277 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 286 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 11 more variables: scientificNameAuthorship &lt;chr&gt;, taxonomicStatus &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   nomenclaturalStatus &lt;chr&gt;, taxonRemarks &lt;chr&gt;, kingdom &lt;chr&gt;, phylum &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   class &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;, species &lt;chr&gt;</span></span></span></code></pre>
+<hr>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <pre><code><span><span class="co">## To cite package 'SHARK4R' in publications use:</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##   Markus Lindh, Anders Torstensson (2025). SHARK4R: Retrieving,</span></span>
-<span><span class="co">##   Analyzing, and Validating Marine Data from SHARK and Nordic</span></span>
-<span><span class="co">##   Microalgae. R package version 0.1.7.9000.</span></span>
+<span><span class="co">##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and</span></span>
+<span><span class="co">##   Validating Marine Environmental Data from SHARK and Related</span></span>
+<span><span class="co">##   Databases. R package version 0.1.7.9000.</span></span>
 <span><span class="co">##   https://doi.org/10.5281/zenodo.14169399</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##   @Manual{,</span></span>
-<span><span class="co">##     title = {SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae},</span></span>
+<span><span class="co">##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson},</span></span>
 <span><span class="co">##     year = {2025},</span></span>
 <span><span class="co">##     note = {R package version 0.1.7.9000},</span></span>
@@ -417,7 +417,7 @@ argument.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Markus Lindh, Anders Torstensson.</p>
+  <p>Developed by Markus Lindh, Anders Torstensson, SBDI.</p>
 </div>
 
 <div class="pkgdown-footer-right">

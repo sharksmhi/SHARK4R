@@ -43,9 +43,9 @@
     <li><a class="dropdown-item" href="../articles/retrieve_algaebase_data.html">Retrieve AlgaeBase Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_hab_data.html">Retrieve HAB Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_nordic_microalgae_data.html">Retrieve Nordic Microalgae Data</a></li>
+    <li><a class="dropdown-item" href="../articles/quality_control.html">QC of SHARK Data</a></li>
   </ul>
 </li>
-<li class="nav-item"><a class="nav-link" href="../articles/quality_control.html">Quality Control</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
@@ -134,7 +134,7 @@ information from the results.</p>
 <span></span>
 <span><span class="co"># Print result as tibble</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">hab_list</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 703 × 29</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 704 × 29</span></span></span>
 <span><span class="co">##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹</span></span>
 <span><span class="co">##      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 1<span style="text-decoration: underline;">653</span>558 Aerosakkonemataceae Struneck…          1<span style="text-decoration: underline;">653</span>558 Aerosakkonemataceae   </span></span>
@@ -147,7 +147,7 @@ information from the results.</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">231</span>872 Alexandrium anders… Balech, …           <span style="text-decoration: underline;">246</span>835 Alexandrium andersonii</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">246</span>835 Alexandrium anders… Balech, …           <span style="text-decoration: underline;">246</span>835 Alexandrium andersonii</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">233</span>452 Alexandrium angust… F.J.R.Ta…           <span style="text-decoration: underline;">109</span>711 Alexandrium minutum   </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 693 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 694 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ abbreviated name: ¹​ScientificName_accepted</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 24 more variables: Authority_accepted &lt;chr&gt;, Fossil &lt;dbl&gt;, Kingdom &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   Phylum &lt;chr&gt;, Class &lt;chr&gt;, Order &lt;chr&gt;, Family &lt;chr&gt;, taxonRank &lt;chr&gt;,</span></span></span>
@@ -186,21 +186,22 @@ database</a> using the <code><a href="../reference/get_toxin_list.html">get_toxi
 <span><span class="co">## <span style="color: #949494;">#   inchi_key &lt;chr&gt;, alternative_inchi_keys &lt;lgl&gt;, inchi &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   alternative_inchies &lt;lgl&gt;, spectra_available &lt;lgl&gt;, certified &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   non_certified_reference_material &lt;lgl&gt;, chemical_analysis_research &lt;lgl&gt;, …</span></span></span></code></pre>
+<hr>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <pre><code><span><span class="co">## To cite package 'SHARK4R' in publications use:</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##   Markus Lindh, Anders Torstensson (2025). SHARK4R: Retrieving,</span></span>
-<span><span class="co">##   Analyzing, and Validating Marine Data from SHARK and Nordic</span></span>
-<span><span class="co">##   Microalgae. R package version 0.1.7.9000.</span></span>
+<span><span class="co">##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and</span></span>
+<span><span class="co">##   Validating Marine Environmental Data from SHARK and Related</span></span>
+<span><span class="co">##   Databases. R package version 0.1.7.9000.</span></span>
 <span><span class="co">##   https://doi.org/10.5281/zenodo.14169399</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##   @Manual{,</span></span>
-<span><span class="co">##     title = {SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae},</span></span>
+<span><span class="co">##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson},</span></span>
 <span><span class="co">##     year = {2025},</span></span>
 <span><span class="co">##     note = {R package version 0.1.7.9000},</span></span>
@@ -214,7 +215,7 @@ database</a> using the <code><a href="../reference/get_toxin_list.html">get_toxi
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Markus Lindh, Anders Torstensson.</p>
+  <p>Developed by Markus Lindh, Anders Torstensson, SBDI.</p>
 </div>
 
 <div class="pkgdown-footer-right">

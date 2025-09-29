@@ -27,8 +27,8 @@ Excel file by default. You can also specify which file in the archive to read.">
     <li><a class="dropdown-item" href="../articles/retrieve_algaebase_data.html">Retrieve AlgaeBase Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_hab_data.html">Retrieve HAB Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_nordic_microalgae_data.html">Retrieve Nordic Microalgae Data</a></li>
+    <li><a class="dropdown-item" href="../articles/quality_control.html">QC of SHARK Data</a></li>
   </ul></li>
-<li class="nav-item"><a class="nav-link" href="../articles/quality_control.html">Quality Control</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -63,6 +63,7 @@ Excel file by default. You can also specify which file in the archive to read.</
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_nomp_list</span><span class="op">(</span></span>
 <span>  year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"%Y"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sheet <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  force <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  base_url <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  clean_cache_days <span class="op">=</span> <span class="fl">30</span></span>
@@ -81,6 +82,11 @@ previous years are automatically tried.</p></dd>
 <dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
 <dd><p>Character string specifying which file in the zip archive to read.
 Defaults to the first Excel file in the archive.</p></dd>
+
+
+<dt id="arg-sheet">sheet<a class="anchor" aria-label="anchor" href="#arg-sheet"></a></dt>
+<dd><p>Character or numeric; the name or index of the sheet to read from the Excel file.
+If neither argument specifies the sheet, defaults to the first sheet.</p></dd>
 
 
 <dt id="arg-force">force<a class="anchor" aria-label="anchor" href="#arg-force"></a></dt>
@@ -122,7 +128,7 @@ Defaults to 30. Set to <code>NULL</code> to disable automatic cleanup.</p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Markus Lindh, Anders Torstensson.</p>
+  <p>Developed by Markus Lindh, Anders Torstensson, SBDI.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -43,9 +43,9 @@
     <li><a class="dropdown-item" href="../articles/retrieve_algaebase_data.html">Retrieve AlgaeBase Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_hab_data.html">Retrieve HAB Data</a></li>
     <li><a class="dropdown-item" href="../articles/retrieve_nordic_microalgae_data.html">Retrieve Nordic Microalgae Data</a></li>
+    <li><a class="dropdown-item" href="../articles/quality_control.html">QC of SHARK Data</a></li>
   </ul>
 </li>
-<li class="nav-item"><a class="nav-link" href="../articles/quality_control.html">Quality Control</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
@@ -107,10 +107,10 @@ AlgaeBase.</p>
 the <code>remotes</code> package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"sharksmhi/SHARK4R"</span>,</span>
-<span>                        ref <span class="op">=</span> <span class="fu">remotes</span><span class="fu">::</span><span class="fu">github_release</span><span class="op">(</span><span class="op">)</span>,</span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"sharksmhi/SHARK4R"</span>, </span>
+<span>                        ref <span class="op">=</span> <span class="fu">remotes</span><span class="fu">::</span><span class="fu">github_release</span><span class="op">(</span><span class="op">)</span>, </span>
 <span>                        dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>Load the <code>SHARK4R</code> and <code>tibble</code> libraries:</p>
+<p>Load the <code>SHARK4R</code> and <code>dplyr</code> libraries:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sharksmhi.github.io/SHARK4R/">SHARK4R</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
@@ -130,11 +130,11 @@ example below, the key is retrieved from an environment variable.</p>
 <h2 id="match-genus-name">Match Genus Name<a class="anchor" aria-label="anchor" href="#match-genus-name"></a>
 </h2>
 <p>Taxonomic records can be retrieved for individual genera names using
-the <code><a href="../reference/get_algaebase_genus.html">get_algaebase_genus()</a></code> function.</p>
+the <code><a href="../reference/match_algaebase_genus.html">match_algaebase_genus()</a></code> function.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Match a genus name with AlgaeBase API</span></span>
-<span><span class="va">genus_records</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_algaebase_genus.html">get_algaebase_genus</a></span><span class="op">(</span>genus <span class="op">=</span> <span class="st">"Gymnodinium"</span>,</span>
-<span>                                     subscription_key <span class="op">=</span> <span class="va">algaebase_key</span><span class="op">)</span></span>
+<span><span class="va">genus_records</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/match_algaebase_genus.html">match_algaebase_genus</a></span><span class="op">(</span>genus <span class="op">=</span> <span class="st">"Gymnodinium"</span>,</span>
+<span>                                       subscription_key <span class="op">=</span> <span class="va">algaebase_key</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print the result</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">genus_records</span><span class="op">)</span></span></code></pre></div>
@@ -151,12 +151,12 @@ the <code><a href="../reference/get_algaebase_genus.html">get_algaebase_genus()<
 <h2 id="match-species-name">Match Species Name<a class="anchor" aria-label="anchor" href="#match-species-name"></a>
 </h2>
 <p>Taxonomic records can be retrieved for individual species names using
-the <code><a href="../reference/get_algaebase_species.html">get_algaebase_species()</a></code> function.</p>
+the <code><a href="../reference/match_algaebase_species.html">match_algaebase_species()</a></code> function.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Match a species with AlgaeBase API</span></span>
-<span><span class="va">species_records</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_algaebase_species.html">get_algaebase_species</a></span><span class="op">(</span>genus <span class="op">=</span> <span class="st">"Tripos"</span>,</span>
-<span>                                         species <span class="op">=</span> <span class="st">"muelleri"</span>,</span>
-<span>                                         subscription_key <span class="op">=</span> <span class="va">algaebase_key</span><span class="op">)</span></span>
+<span><span class="va">species_records</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/match_algaebase_species.html">match_algaebase_species</a></span><span class="op">(</span>genus <span class="op">=</span> <span class="st">"Tripos"</span>,</span>
+<span>                                           species <span class="op">=</span> <span class="st">"muelleri"</span>,</span>
+<span>                                           subscription_key <span class="op">=</span> <span class="va">algaebase_key</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print the result</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">species_records</span><span class="op">)</span></span></code></pre></div>
@@ -172,10 +172,11 @@ the <code><a href="../reference/get_algaebase_species.html">get_algaebase_specie
 <div class="section level2">
 <h2 id="match-multiple-scientific-names">Match Multiple Scientific Names<a class="anchor" aria-label="anchor" href="#match-multiple-scientific-names"></a>
 </h2>
-<p>Multiple names can be matched with the <code><a href="../reference/match_algaebase.html">match_algaebase()</a></code>
-function. The scientific names need to be parsed into <code>genus</code>
-and <code>species</code> names before being passed to the API, which can
-be achieved by the <code><a href="../reference/parse_scientific_names.html">parse_scientific_names()</a></code> function.</p>
+<p>Multiple names can be matched with the
+<code><a href="../reference/match_algaebase_taxa.html">match_algaebase_taxa()</a></code> function. The scientific names need
+to be parsed into <code>genus</code> and <code>species</code> names
+before being passed to the API, which can be achieved by the
+<code><a href="../reference/parse_scientific_names.html">parse_scientific_names()</a></code> function.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve all phytoplankton data from April 2015</span></span>
 <span><span class="va">shark_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_shark_data.html">get_shark_data</a></span><span class="op">(</span>fromYear <span class="op">=</span> <span class="fl">2015</span>, </span>
@@ -205,10 +206,10 @@ be achieved by the <code><a href="../reference/parse_scientific_names.html">pars
 <span><span class="co">## 10      Mesodinium     rubrum</span></span></code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Match the taxa with AlgaeBase</span></span>
-<span><span class="va">algaebase_match</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/match_algaebase.html">match_algaebase</a></span><span class="op">(</span>genus <span class="op">=</span> <span class="va">parsed_taxa</span><span class="op">$</span><span class="va">genus</span>,</span>
-<span>                                   species <span class="op">=</span> <span class="va">parsed_taxa</span><span class="op">$</span><span class="va">species</span>,</span>
-<span>                                   subscription_key <span class="op">=</span> <span class="va">algaebase_key</span>,</span>
-<span>                                   verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">algaebase_match</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/match_algaebase_taxa.html">match_algaebase_taxa</a></span><span class="op">(</span>genus <span class="op">=</span> <span class="va">parsed_taxa</span><span class="op">$</span><span class="va">genus</span>,</span>
+<span>                                        species <span class="op">=</span> <span class="va">parsed_taxa</span><span class="op">$</span><span class="va">species</span>,</span>
+<span>                                        subscription_key <span class="op">=</span> <span class="va">algaebase_key</span>,</span>
+<span>                                        verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print the result</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">algaebase_match</span><span class="op">)</span></span></code></pre></div>
@@ -228,21 +229,22 @@ be achieved by the <code><a href="../reference/parse_scientific_names.html">pars
 <span><span class="co">## <span style="color: #949494;">#   class &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;, infrasp &lt;lgl&gt;, long_name &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   taxonomic_status &lt;chr&gt;, nomenclatural_status &lt;lgl&gt;, taxon_rank &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   mod_date &lt;date&gt;, authorship &lt;chr&gt;</span></span></span></code></pre>
+<hr>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <pre><code><span><span class="co">## To cite package 'SHARK4R' in publications use:</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##   Markus Lindh, Anders Torstensson (2025). SHARK4R: Retrieving,</span></span>
-<span><span class="co">##   Analyzing, and Validating Marine Data from SHARK and Nordic</span></span>
-<span><span class="co">##   Microalgae. R package version 0.1.7.9000.</span></span>
+<span><span class="co">##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and</span></span>
+<span><span class="co">##   Validating Marine Environmental Data from SHARK and Related</span></span>
+<span><span class="co">##   Databases. R package version 0.1.7.9000.</span></span>
 <span><span class="co">##   https://doi.org/10.5281/zenodo.14169399</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##   @Manual{,</span></span>
-<span><span class="co">##     title = {SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae},</span></span>
+<span><span class="co">##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson},</span></span>
 <span><span class="co">##     year = {2025},</span></span>
 <span><span class="co">##     note = {R package version 0.1.7.9000},</span></span>
@@ -256,7 +258,7 @@ be achieved by the <code><a href="../reference/parse_scientific_names.html">pars
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Markus Lindh, Anders Torstensson.</p>
+  <p>Developed by Markus Lindh, Anders Torstensson, SBDI.</p>
 </div>
 
 <div class="pkgdown-footer-right">
