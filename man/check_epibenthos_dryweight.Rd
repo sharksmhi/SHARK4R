@@ -2,8 +2,7 @@
 % Please edit documentation in R/check_outliers.R
 \name{check_epibenthos_dryweight}
 \alias{check_epibenthos_dryweight}
-\title{Uses data from national marine monitoring for the last 5 years to identify outliers
-Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype}
+\title{Uses data from national marine monitoring for the last 5 years to identify outliers}
 \usage{
 check_epibenthos_dryweight(data)
 }
@@ -14,6 +13,10 @@ check_epibenthos_dryweight(data)
 tibble of data with outliers
 }
 \description{
-Uses data from national marine monitoring for the last 5 years to identify outliers
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function is deprecated and has been replaced by \code{\link[=check_outliers]{check_outliers()}}.
+
 Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
 }
+\keyword{internal}

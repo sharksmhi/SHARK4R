@@ -135,347 +135,300 @@ check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, r
   }
 }
 
-#' Check if Epibenthos Total Cover exceeds 100%
+#' General checker for parameter-specific logical rules
 #'
-#' @usage check_epibenthos_totcover_logical(data, return_df = FALSE, return_logical = FALSE)
+#' This function checks for logical rule violations in benthos/epibenthos data
+#' by applying a user-defined condition to values for a given parameter.
+#' It is intended to replace the old family of `check_*_*_logical()` functions.
+#'
+#' @param data A data frame. Must contain columns `parameter` and `value`.
+#' @param param_name Character; the name of the parameter to check.
+#' @param condition A function that takes a numeric vector of values and
+#'   returns a logical vector (TRUE for rows considered problematic).
+#' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
+#' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data).
+#'        Overrides return_df.
+#'
+#' @return A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
+#' @export
+#' @examples
+#' # Example dataset
+#' df <- dplyr::tibble(
+#'   station_name = c("A1", "A2", "A3", "A4"),
+#'   sample_date = as.Date("2023-05-01") + 0:3,
+#'   sample_id = 101:104,
+#'   parameter = c("Biomass", "Biomass", "Abundance", "Biomass"),
+#'   value = c(5, -2, 10, 0)
+#' )
+#'
+#' # 1. Check that Biomass is never negative (returns DT datatable by default)
+#' check_logical_parameter(df, "Biomass", function(x) x < 0)
+#'
+#' # 2. Same check, but return problematic rows as a data frame
+#' check_logical_parameter(df, "Biomass", function(x) x < 0, return_df = TRUE)
+#'
+#' # 3. Return logical vector marking problematic rows
+#' check_logical_parameter(df, "Biomass", function(x) x < 0, return_logical = TRUE)
+#'
+#' # 4. Check that Abundance is not zero (no problems found -> returns NULL)
+#' check_logical_parameter(df, "Abundance", function(x) x == 0)
+#'
+check_logical_parameter <- function(data, param_name, condition,
+                                    return_df = FALSE, return_logical = FALSE) {
+  required_cols <- c("parameter", "value")
+  missing_cols <- setdiff(required_cols, names(data))
+  if (length(missing_cols) > 0) {
+    stop("data must contain column(s): ", paste(missing_cols, collapse = ", "))
+  }
+
+  if (return_df & return_logical) {
+    warning("Both return_df and return_logical are TRUE. Ignoring return_df and returning logical vector.")
+    return_df <- FALSE
+  }
+
+  value_num <- suppressWarnings(as.numeric(as.character(data$value)))
+  is_param <- data$parameter == param_name
+  error_vec <- is_param & (!is.na(value_num) & condition(value_num))
+
+  if (return_logical) return(error_vec)
+
+  if (any(error_vec)) {
+    logical_error <- data %>%
+      dplyr::filter(error_vec) %>%
+      dplyr::select(dplyr::any_of(c(
+        "station_name", "sample_date", "sample_id",
+        "shark_sample_id_md5", "sample_min_depth_m",
+        "sample_max_depth_m", "parameter", "value"
+      )))
+
+    if (return_df) {
+      return(logical_error)
+    } else {
+      return(DT::datatable(logical_error))
+    }
+  } else {
+    invisible(NULL)
+  }
+}
+
+#' Check if Epibenthos total cover exceeds 100%
+#'
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
 #'        indicating which rows exceed 100% for Total cover. Overrides return_df.
 #' @return A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
+#' @keywords internal
 #' @export
 check_epibenthos_totcover_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
+  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_totcover_logical()", "check_logical_parameter()")
 
-  if(return_df & return_logical) {
-    warning("Both return_df and return_logical are TRUE. Ignoring return_df and returning logical vector.")
-    return_df <- FALSE
-  }
+  res <- check_logical_parameter(
+    data,
+    param_name = "Total cover of all species (%)",
+    condition = function(x) x > 100,
+    return_df = return_df,
+    return_logical = return_logical
+  )
 
-  # Required columns
-  required_cols <- c("parameter", "value")
-  missing_cols <- setdiff(required_cols, names(data))
-  if (length(missing_cols) > 0) {
-    stop("data must contain column(s): ", paste(missing_cols, collapse = ", "))
-  }
+  if (is.logical(res)) return(res)
 
-  # Coerce value to numeric safely
-  value_num <- suppressWarnings(as.numeric(as.character(data$value)))
-
-  # Identify rows of the parameter exceeding 100%
-  is_totcover <- data$parameter == "Total cover of all species (%)"
-  error_vec <- is_totcover & (!is.na(value_num) & value_num > 100)
-
-  if (return_logical) return(error_vec)
-
-  if (any(error_vec)) {
-    message("Parameter Total cover of all species (%), measurement(s) exceed 100%")
-    logical_error <- data %>%
-      dplyr::filter(error_vec) %>%
-      dplyr::select(dplyr::any_of(c(
-        "station_name", "sample_date", "sample_id",
-        "shark_sample_id_md5", "sample_min_depth_m",
-        "sample_max_depth_m", "parameter", "value"
-      )))
-
-    if (return_df) {
-      return(logical_error)
-    } else {
-      return(DT::datatable(logical_error))
-    }
-
+  if (!is.null(res)) {
+    message("Parameter Total cover of all species (%), measurement(s) > 100%")
+    return(res)
   } else {
     message("Parameter Total cover of all species (%), measurement(s) are within 0-100%")
-    invisible(NULL)
+    return(invisible(NULL))
   }
 }
-#' Check if Epibenthos Cover (%) exceeds 100%
+
+#' Check if Epibenthos cover (%) exceeds 100%
 #'
-#' @usage check_epibenthos_coverpercent_logical(data, return_df = FALSE, return_logical = FALSE)
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
-#'        indicating which rows exceed 100% for Cover (%). Overrides return_df.
+#'        indicating which rows exceed 100% for Total cover. Overrides return_df.
 #' @return A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
+#' @keywords internal
 #' @export
 check_epibenthos_coverpercent_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
+  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_coverpercent_logical()", "check_logical_parameter()")
 
-  if(return_df & return_logical) {
-    warning("Both return_df and return_logical are TRUE. Ignoring return_df and returning logical vector.")
-    return_df <- FALSE
-  }
+  res <- check_logical_parameter(
+    data,
+    param_name = "Cover (%)",
+    condition = function(x) x > 100,
+    return_df = return_df,
+    return_logical = return_logical
+  )
 
-  # Required columns
-  required_cols <- c("parameter", "value")
-  missing_cols <- setdiff(required_cols, names(data))
-  if (length(missing_cols) > 0) {
-    stop("data must contain column(s): ", paste(missing_cols, collapse = ", "))
-  }
+  if (is.logical(res)) return(res)
 
-  # Coerce value to numeric safely
-  value_num <- suppressWarnings(as.numeric(as.character(data$value)))
-
-  # Identify rows with parameter "Cover (%)" exceeding 100%
-  is_cover <- data$parameter == "Cover (%)"
-  error_vec <- is_cover & (!is.na(value_num) & value_num > 100)
-
-  if (return_logical) return(error_vec)
-
-  if (any(error_vec)) {
-    message("Parameter Cover (%), measurement(s) exceed 100%")
-    logical_error <- data %>%
-      dplyr::filter(error_vec) %>%
-      dplyr::select(dplyr::any_of(c(
-        "station_name", "sample_date", "sample_id",
-        "shark_sample_id_md5", "sample_min_depth_m",
-        "sample_max_depth_m", "parameter", "value"
-      )))
-
-    if (return_df) {
-      return(logical_error)
-    } else {
-      return(DT::datatable(logical_error))
-    }
-
+  if (!is.null(res)) {
+    message("Parameter Cover (%), measurement(s) > 100%")
+    return(res)
   } else {
     message("Parameter Cover (%), measurement(s) are within 0-100%")
-    invisible(NULL)
+    return(invisible(NULL))
   }
 }
-#' Check if Epibenthos Cover exceeds 100%
+
+#' Check if Epibenthos cover exceeds 100%
 #'
-#' @usage check_epibenthos_cover_logical(data, return_df = FALSE, return_logical = FALSE)
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
-#'        indicating which rows exceed 100% for Cover. Overrides return_df.
+#'        indicating which rows exceed 100% for Total cover. Overrides return_df.
 #' @return A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
+#' @keywords internal
 #' @export
 check_epibenthos_cover_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
+  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_cover_logical()", "check_logical_parameter()")
 
-  # Required columns
-  required_cols <- c("parameter", "value")
-  missing_cols <- setdiff(required_cols, names(data))
-  if (length(missing_cols) > 0) {
-    stop("data must contain column(s): ", paste(missing_cols, collapse = ", "))
-  }
+  res <- check_logical_parameter(
+    data,
+    param_name = "Cover",
+    condition = function(x) x > 100,
+    return_df = return_df,
+    return_logical = return_logical
+  )
 
-  # Resolve conflicting return options
-  if (return_df & return_logical) {
-    warning("Both return_df and return_logical are TRUE. Ignoring return_df and returning logical vector.")
-    return_df <- FALSE
-  }
+  if (is.logical(res)) return(res)
 
-  # Coerce value to numeric safely
-  value_num <- suppressWarnings(as.numeric(as.character(data$value)))
-
-  # Identify rows with parameter "Cover" exceeding 100%
-  is_cover <- data$parameter == "Cover"
-  error_vec <- is_cover & (!is.na(value_num) & value_num > 100)
-
-  if (return_logical) return(error_vec)
-
-  if (any(error_vec)) {
-    message("Parameter Cover, measurement(s) exceed 100%")
-    logical_error <- data %>%
-      dplyr::filter(error_vec) %>%
-      dplyr::select(dplyr::any_of(c(
-        "station_name", "sample_date", "sample_id",
-        "shark_sample_id_md5", "sample_min_depth_m",
-        "sample_max_depth_m", "parameter", "value"
-      )))
-
-    if (return_df) {
-      return(logical_error)
-    } else {
-      return(DT::datatable(logical_error))
-    }
-
+  if (!is.null(res)) {
+    message("Parameter Cover, measurement(s) > 100%")
+    return(res)
   } else {
     message("Parameter Cover, measurement(s) are within 0-100%")
-    invisible(NULL)
+    return(invisible(NULL))
   }
 }
-#' Check if Epibenthos Cover class exceeds 10
+
+#' Check if Epibenthos cover class exceeds 10
 #'
-#' @usage check_epibenthos_coverclass_logical(data, return_df = FALSE, return_logical = FALSE)
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
-#'        indicating which rows exceed 10 for Cover class. Overrides return_df.
+#'        indicating which rows exceed 100% for Total cover. Overrides return_df.
 #' @return A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
+#' @keywords internal
 #' @export
 check_epibenthos_coverclass_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
+  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_coverclass_logical()", "check_logical_parameter()")
 
-  # Required columns
-  required_cols <- c("parameter", "value")
-  missing_cols <- setdiff(required_cols, names(data))
-  if (length(missing_cols) > 0) {
-    stop("data must contain column(s): ", paste(missing_cols, collapse = ", "))
-  }
+  res <- check_logical_parameter(
+    data,
+    param_name = "Cover class",
+    condition = function(x) x > 10,
+    return_df = return_df,
+    return_logical = return_logical
+  )
 
-  # Resolve conflicting return options
-  if (return_df & return_logical) {
-    warning("Both return_df and return_logical are TRUE. Ignoring return_df and returning logical vector.")
-    return_df <- FALSE
-  }
+  if (is.logical(res)) return(res)
 
-  # Coerce value to numeric safely
-  value_num <- suppressWarnings(as.numeric(as.character(data$value)))
-
-  # Identify rows with parameter "Cover class" exceeding 10
-  is_coverclass <- data$parameter == "Cover class"
-  error_vec <- is_coverclass & (!is.na(value_num) & value_num > 10)
-
-  if (return_logical) return(error_vec)
-
-  if (any(error_vec)) {
-    message("Parameter Cover class, measurement(s) exceed 10")
-    logical_error <- data %>%
-      dplyr::filter(error_vec) %>%
-      dplyr::select(dplyr::any_of(c(
-        "station_name", "sample_date", "sample_id",
-        "shark_sample_id_md5", "sample_min_depth_m",
-        "sample_max_depth_m", "parameter", "value"
-      )))
-
-    if (return_df) {
-      return(logical_error)
-    } else {
-      return(DT::datatable(logical_error))
-    }
-
+  if (!is.null(res)) {
+    message("Parameter Cover class, measurement(s) > 10")
+    return(res)
   } else {
     message("Parameter Cover class, measurement(s) are within 0-10")
-    invisible(NULL)
+    return(invisible(NULL))
   }
 }
+
 #' Check if Sediment deposition cover (%) exceeds 100%
 #'
-#' @usage check_epibenthos_sedimentdepos_logical(data, return_df = FALSE, return_logical = FALSE)
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
-#'        indicating which rows exceed 100% for Sediment deposition cover (%). Overrides return_df.
+#'        indicating which rows exceed 100% for Total cover. Overrides return_df.
 #' @return A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
+#' @keywords internal
 #' @export
 check_epibenthos_sedimentdepos_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
+  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_sedimentdepos_logical()", "check_logical_parameter()")
 
-  # Required columns
-  required_cols <- c("parameter", "value")
-  missing_cols <- setdiff(required_cols, names(data))
-  if (length(missing_cols) > 0) {
-    stop("data must contain column(s): ", paste(missing_cols, collapse = ", "))
-  }
+  res <- check_logical_parameter(
+    data,
+    param_name = "Sediment deposition cover (%)",
+    condition = function(x) x > 100,
+    return_df = return_df,
+    return_logical = return_logical
+  )
 
-  # Resolve conflicting return options
-  if (return_df & return_logical) {
-    warning("Both return_df and return_logical are TRUE. Ignoring return_df and returning logical vector.")
-    return_df <- FALSE
-  }
+  if (is.logical(res)) return(res)
 
-  # Coerce value to numeric safely
-  value_num <- suppressWarnings(as.numeric(as.character(data$value)))
-
-  # Identify rows with parameter "Sediment deposition cover (%)" exceeding 100%
-  is_sediment <- data$parameter == "Sediment deposition cover (%)"
-  error_vec <- is_sediment & (!is.na(value_num) & value_num > 100)
-
-  if (return_logical) return(error_vec)
-
-  if (any(error_vec)) {
-    message("Parameter Sediment deposition cover (%), measurement(s) exceed 100%")
-    logical_error <- data %>%
-      dplyr::filter(error_vec) %>%
-      dplyr::select(dplyr::any_of(c(
-        "station_name", "sample_date", "sample_id",
-        "shark_sample_id_md5", "sample_min_depth_m",
-        "sample_max_depth_m", "parameter", "value"
-      )))
-
-    if (return_df) {
-      return(logical_error)
-    } else {
-      return(DT::datatable(logical_error))
-    }
-
+  if (!is.null(res)) {
+    message("Parameter Sediment deposition cover (%), measurement(s) > 100%")
+    return(res)
   } else {
     message("Parameter Sediment deposition cover (%), measurement(s) are within 0-100%")
-    invisible(NULL)
+    return(invisible(NULL))
   }
 }
 
 #' Check if Abundance class exceeds 10
 #'
-#' @usage check_epibenthos_abundclass_logical(data, return_df = FALSE, return_logical = FALSE)
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
-#'        indicating which rows exceed 10 for Abundance class. Overrides return_df.
+#'        indicating which rows exceed 100% for Total cover. Overrides return_df.
 #' @return A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
+#' @keywords internal
 #' @export
 check_epibenthos_abundclass_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
+  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_abundclass_logical()", "check_logical_parameter()")
 
-  # Required columns
-  required_cols <- c("parameter", "value")
-  missing_cols <- setdiff(required_cols, names(data))
-  if (length(missing_cols) > 0) {
-    stop("data must contain column(s): ", paste(missing_cols, collapse = ", "))
-  }
+  res <- check_logical_parameter(
+    data,
+    param_name = "Abundance class",
+    condition = function(x) x > 10,
+    return_df = return_df,
+    return_logical = return_logical
+  )
 
-  # Resolve conflicting return options
-  if (return_df & return_logical) {
-    warning("Both return_df and return_logical are TRUE. Ignoring return_df and returning logical vector.")
-    return_df <- FALSE
-  }
+  if (is.logical(res)) return(res)
 
-  # Coerce value to numeric safely
-  value_num <- suppressWarnings(as.numeric(as.character(data$value)))
-
-  # Identify rows with parameter "Abundance class" exceeding 10
-  is_abundclass <- data$parameter == "Abundance class"
-  error_vec <- is_abundclass & (!is.na(value_num) & value_num > 10)
-
-  if (return_logical) return(error_vec)
-
-  if (any(error_vec)) {
-    message("Parameter Abundance class, measurement(s) exceed 10")
-    logical_error <- data %>%
-      dplyr::filter(error_vec) %>%
-      dplyr::select(dplyr::any_of(c(
-        "station_name", "sample_date", "sample_id",
-        "shark_sample_id_md5", "sample_min_depth_m",
-        "sample_max_depth_m", "parameter", "value"
-      )))
-
-    if (return_df) {
-      return(logical_error)
-    } else {
-      return(DT::datatable(logical_error))
-    }
-
+  if (!is.null(res)) {
+    message("Parameter Abundance class, measurement(s) > 10")
+    return(res)
   } else {
     message("Parameter Abundance class, measurement(s) are within 0-10")
-    invisible(NULL)
+    return(invisible(NULL))
   }
 }
 
 #' Check logical relationship between Abundance and BQIm
 #'
-#' @usage check_zoobenthos_BQIm_logical(data, return_df = FALSE, return_logical = FALSE)
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
-#'        indicating which rows violate the logical assumption. Overrides return_df.
+#'        indicating which rows exceed 100% for Total cover. Overrides return_df.
 #' @return A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
+#' @keywords internal
 #' @export
 check_zoobenthos_BQIm_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
+  lifecycle::deprecate_warn("0.1.7.9000", "check_zoobenthos_BQIm_logical()", "check_logical_parameter()")
 
   # Required columns
   required_cols <- c("parameter", "value")
@@ -493,20 +446,20 @@ check_zoobenthos_BQIm_logical <- function(data, return_df = FALSE, return_logica
   # Coerce value to numeric safely
   value_num <- suppressWarnings(as.numeric(as.character(data$value)))
 
-  # Create logical vectors for parameters
+  # Row-wise logic (keeps the original behavior expected by your tests):
+  # - Flag Abundance rows where value == 0
+  # - Flag BQIm rows where value > 0
   is_abundance <- data$parameter == "Abundance"
   is_BQIm <- data$parameter == "BQIm"
 
-  # Identify rows violating the logical assumption: Abundance == 0 & BQIm > 0
   error_vec <- (!is.na(value_num) & ((is_abundance & value_num == 0) | (is_BQIm & value_num > 0)))
 
-  # More strict: only flag BQIm > 0 when Abundance == 0 in same row (if structure allows it)
-  # For simplicity, we keep row-wise logical vector
+  # If user asked for logical vector, return it immediately
   if (return_logical) return(error_vec)
 
+  # If any violation, prepare and return data.frame or DT::datatable
   if (any(error_vec)) {
-    message("Parameter BQIm, measurement(s) violate logical assumption: Abundance == 0 then BQIm should <= 0")
-
+    message("Parameter BQIm, measurement(s) > 0 when Abundance = 0")
     logical_error <- data %>%
       dplyr::filter(error_vec) %>%
       dplyr::select(dplyr::any_of(c(
@@ -527,59 +480,36 @@ check_zoobenthos_BQIm_logical <- function(data, return_df = FALSE, return_logica
   }
 }
 
-#' Check if Wet weight measurements are zero
+#' Check if wet weight measurements are zero
 #'
-#' @usage check_zoobenthos_wetweight_logical(data, return_df = FALSE, return_logical = FALSE)
+#' `r lifecycle::badge("deprecated")`
+#' This function is deprecated and has been replaced by [check_logical_parameter()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
-#'        indicating which rows have Wet weight == 0. Overrides return_df.
+#'        indicating which rows exceed 100% for Total cover. Overrides return_df.
 #' @return A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
+#' @keywords internal
 #' @export
 check_zoobenthos_wetweight_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
+  lifecycle::deprecate_warn("0.1.7.9000", "check_zoobenthos_wetweight_logical()", "check_logical_parameter()")
 
-  # Required columns
-  required_cols <- c("parameter", "value")
-  missing_cols <- setdiff(required_cols, names(data))
-  if (length(missing_cols) > 0) {
-    stop("data must contain column(s): ", paste(missing_cols, collapse = ", "))
-  }
+  res <- check_logical_parameter(
+    data,
+    param_name = "Wet weight",
+    condition = function(x) x == 0,
+    return_df = return_df,
+    return_logical = return_logical
+  )
 
-  # Resolve conflicting return options
-  if (return_df & return_logical) {
-    warning("Both return_df and return_logical are TRUE. Ignoring return_df and returning logical vector.")
-    return_df <- FALSE
-  }
+  if (is.logical(res)) return(res)
 
-  # Coerce value to numeric safely
-  value_num <- suppressWarnings(as.numeric(as.character(data$value)))
-
-  # Identify rows where parameter "Wet weight" is zero
-  is_wetweight <- data$parameter == "Wet weight"
-  error_vec <- is_wetweight & (!is.na(value_num) & value_num == 0)
-
-  if (return_logical) return(error_vec)
-
-  if (any(error_vec)) {
+  if (!is.null(res)) {
     message("Parameter Wet weight, measurement(s) violate logical assumption: should not be 0")
-
-    logical_error <- data %>%
-      dplyr::filter(error_vec) %>%
-      dplyr::select(dplyr::any_of(c(
-        "station_name", "sample_date", "sample_id",
-        "shark_sample_id_md5", "sample_min_depth_m",
-        "sample_max_depth_m", "parameter", "value"
-      )))
-
-    if (return_df) {
-      return(logical_error)
-    } else {
-      return(DT::datatable(logical_error))
-    }
-
+    return(res)
   } else {
     message("Parameter Wet weight, measurement(s) follow logical assumption: > 0")
-    invisible(NULL)
+    return(invisible(NULL))
   }
 }

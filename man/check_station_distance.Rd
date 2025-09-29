@@ -2,20 +2,73 @@
 % Please edit documentation in R/check_stations.R
 \name{check_station_distance}
 \alias{check_station_distance}
-\title{Station distance check using SMHI station list}
+\title{Check station distances against SMHI station list}
 \usage{
-check_station_distance(names, station_file = NULL)
+check_station_distance(
+  data,
+  station_file = NULL,
+  plot_leaflet = FALSE,
+  try_synonyms = TRUE,
+  fallback_crs = 4326
+)
 }
 \arguments{
-\item{names}{Character vector of station names to check.}
+\item{data}{A data frame containing at least the columns:
+\code{station_name}, \code{sample_longitude_dd}, \code{sample_latitude_dd}.}
 
 \item{station_file}{Optional path to a custom station file (tab-delimited).
-If NULL (default), the function will extract and use the bundled
-"station.zip" from the SHARK4R package.}
+If \code{NULL} (default), the function will extract and use the bundled
+\code{"station.zip"} from the \code{SHARK4R} package.}
+
+\item{plot_leaflet}{Logical; if \code{TRUE}, displays a leaflet map with
+SMHI stations (blue circles with radius in popup) and reported stations
+(green/red/gray markers). Default is \code{FALSE}.}
+
+\item{try_synonyms}{Logical; if \code{TRUE} (default), unmatched station
+names are also compared against the \code{SYNONYM_NAMES} column in
+the station database.}
+
+\item{fallback_crs}{Integer; CRS (EPSG code) to use when creating spatial
+points if no CRS is available. Defaults to \code{4326} (WGS84). Change this
+if your coordinates are reported in another CRS (e.g., \code{3006} for
+SWEREF99 TM).}
+}
+\value{
+If \code{plot_leaflet = FALSE}, returns a data frame with columns:
+\describe{
+\item{station_name}{Reported station name.}
+\item{match_type}{\code{TRUE} if station matched in SMHI list, \code{FALSE} otherwise.}
+\item{distance_m}{Distance in meters from reported station to matched SMHI station.}
+\item{within_limit}{\code{TRUE} if distance <= allowed radius, \code{FALSE} if outside, \code{NA} if unmatched.}
+}
+
+If \code{plot_leaflet = TRUE}, the function also produces a leaflet map
+(returned invisibly). SMHI station popups include both the station name
+and allowed radius.
 }
 \description{
-Matches reported station names in your data with a curated station list
-("station.txt"), synced with "Stationsregistret":
-\url{https://stationsregister.miljodatasamverkan.se/}, and checks if the stations
-are within preset distance limits.
+Matches reported station names against the SMHI curated station list
+(\code{"station.txt"}) and checks whether matched stations fall within
+pre-defined distance limits. This helps ensure that station assignments
+are spatially consistent.
+}
+\details{
+Optionally, a leaflet map of stations can be plotted. SMHI stations that
+match the reported data are shown as blue circles, with their allowed
+radius visualized and displayed in the popup (e.g., "ST1 (Radius: 1000 m)").
+Reported stations are shown as markers colored by whether they fall within
+the radius (green), outside the radius (red), or unmatched (gray).
+
+If \code{try_synonyms = TRUE}, the function will attempt a second match
+using the \code{SYNONYM_NAMES} column in the station database, splitting
+multiple synonyms separated by \code{<or>}.
+}
+\examples{
+df <- data.frame(
+  station_name = c("ANHOLT E", "BY5 BORNHOLMSDJ", "NEW STATION"),
+  sample_longitude_dd = c(12.1, 15.97, 17.5),
+  sample_latitude_dd  = c(56.7, 55.25, 58.7)
+)
+check_station_distance(df, plot_leaflet = FALSE, try_synonyms = TRUE)
+
 }

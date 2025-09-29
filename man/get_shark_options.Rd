@@ -2,7 +2,7 @@
 % Please edit documentation in R/shark_api_functions.R
 \name{get_shark_options}
 \alias{get_shark_options}
-\title{Retrieve Available Search Options from SHARK API}
+\title{Retrieve available search options from SHARK API}
 \usage{
 get_shark_options(prod = TRUE, unparsed = FALSE)
 }

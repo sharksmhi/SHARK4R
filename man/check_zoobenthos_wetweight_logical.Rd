@@ -2,9 +2,13 @@
 % Please edit documentation in R/check_logical.R
 \name{check_zoobenthos_wetweight_logical}
 \alias{check_zoobenthos_wetweight_logical}
-\title{Check if Wet weight measurements are zero}
+\title{Check if wet weight measurements are zero}
 \usage{
-check_zoobenthos_wetweight_logical(data, return_df = FALSE, return_logical = FALSE)
+check_zoobenthos_wetweight_logical(
+  data,
+  return_df = FALSE,
+  return_logical = FALSE
+)
 }
 \arguments{
 \item{data}{A data frame. Must contain columns \code{parameter} and \code{value}.}
@@ -12,11 +16,13 @@ check_zoobenthos_wetweight_logical(data, return_df = FALSE, return_logical = FAL
 \item{return_df}{Logical. If TRUE, return a plain data.frame of problematic rows.}
 
 \item{return_logical}{Logical. If TRUE, return a logical vector of length nrow(data)
-indicating which rows have Wet weight == 0. Overrides return_df.}
+indicating which rows exceed 100\% for Total cover. Overrides return_df.}
 }
 \value{
 A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
 }
 \description{
-Check if Wet weight measurements are zero
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+This function is deprecated and has been replaced by \code{\link[=check_logical_parameter]{check_logical_parameter()}}.
 }
+\keyword{internal}

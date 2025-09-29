@@ -2,16 +2,116 @@
 % Please edit documentation in R/check_depth.R
 \name{check_depth}
 \alias{check_depth}
-\title{Check which points have potentially invalid depths.}
+\title{Validate depth values against bathymetry and logical constraints}
 \usage{
-check_depth(data)
+check_depth(
+  data,
+  depth_cols = c("sample_min_depth_m", "sample_max_depth_m"),
+  lat_col = "sample_latitude_dd",
+  lon_col = "sample_longitude_dd",
+  report = TRUE,
+  depthmargin = 0,
+  shoremargin = NA,
+  bathymetry = NULL
+)
 }
 \arguments{
-\item{data}{The data frame.}
+\item{data}{A data frame containing sample metadata, including longitude,
+latitude, and one or two depth columns.}
+
+\item{depth_cols}{Character vector naming the depth column(s). Can be one
+column (e.g., \code{"water_depth_m"}) or two columns (minimum and maximum
+depth, e.g., \code{c("sample_min_depth_m", "sample_max_depth_m")}).}
+
+\item{lat_col}{Name of the column containing latitude values. Default:
+\code{"sample_latitude_dd"}.}
+
+\item{lon_col}{Name of the column containing longitude values. Default:
+\code{"sample_longitude_dd"}.}
+
+\item{report}{Logical. If \code{TRUE} (default), returns a tibble of detected
+problems. If \code{FALSE}, returns the subset of input rows that failed
+validation.}
+
+\item{depthmargin}{Numeric. Allowed deviation (in meters) above bathymetry
+before a depth is flagged as an error. Default = \code{0}.}
+
+\item{shoremargin}{Numeric. Minimum offshore distance (in meters) required
+for negative depths to be considered valid. If \code{NA} (default), this check
+is skipped.}
+
+\item{bathymetry}{Optional \link[terra:SpatRaster-class]{terra::SpatRaster} object with one layer giving
+bathymetry values. If \code{NULL} (default), bathymetry and shore distance are
+retrieved using \code{\link[=lookup_xy]{lookup_xy()}}, which calls the OBIS XY lookup API.}
 }
 \value{
-Problematic records or an errors report.
+A tibble with one row per detected problem, containing:
+\describe{
+\item{level}{Severity of the issue ("warning" or "error").}
+\item{row}{Row index in the input data where the issue occurred.}
+\item{field}{Name of the column(s) involved.}
+\item{message}{Human-readable description of the problem.}
+}
+
+If \code{report = FALSE}, returns the subset of input rows that failed any check.
 }
 \description{
-Check which points have potentially invalid depths.
+\code{check_depth()} inspects one or two depth columns in a dataset and reports
+potential problems such as missing values, non-numeric entries, or values
+that conflict with bathymetry and shoreline information. It can also
+validate depths against bathymetry data retrieved from a \link[terra:SpatRaster-class]{terra::SpatRaster}
+object or, if \code{bathymetry = NULL}, via the \code{lookup_xy()} function, which calls
+the OBIS XY lookup API to obtain bathymetry and shore distance.
+}
+\details{
+The following checks are performed:
+\enumerate{
+\item \strong{Missing depth column} → warning
+\item \strong{Empty depth column} (all values missing) → warning
+\item \strong{Non-numeric depth values} → error
+\item \strong{Depth exceeds bathymetry + margin} (\code{depthmargin}) → error
+\item \strong{Negative depth at offshore locations} (beyond \code{shoremargin}) → error
+\item \strong{Minimum depth greater than maximum depth} (if two columns supplied) → error
+\item \strong{Longitude/latitude outside raster bounds} → warning
+\item \strong{Missing bathymetry value} at coordinate → warning
+}
+
+The function has been modified from the \code{obistools} package (Provoost and Bosch, 2024).
+}
+\examples{
+# Example dataset with one depth column
+example_data <- data.frame(
+  sample_latitude_dd = c(59.3, 58.1, 57.5),
+  sample_longitude_dd = c(18.0, 17.5, 16.2),
+  sample_depth_m = c(10, -5, NA)
+)
+
+# Validate depths using OBIS XY lookup (bathymetry = NULL)
+\dontrun{
+check_depth(example_data, depth_cols = "sample_depth_m")
+}
+
+# Example dataset with min/max depth columns
+example_data2 <- data.frame(
+  sample_latitude_dd = c(59.0, 58.5),
+  sample_longitude_dd = c(18.0, 17.5),
+  sample_min_depth_m = c(5, 15),
+  sample_max_depth_m = c(3, 20)
+)
+
+\dontrun{
+check_depth(example_data2, depth_cols = c("sample_min_depth_m", "sample_max_depth_m"))
+}
+
+# Return only failing rows
+\dontrun{
+check_depth(example_data, depth_cols = "sample_depth_m", report = FALSE)
+}
+
+}
+\references{
+Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, \url{https://iobis.github.io/obistools/}.
+}
+\seealso{
+\code{\link{lookup_xy}}, \code{\link{check_onland}}
 }

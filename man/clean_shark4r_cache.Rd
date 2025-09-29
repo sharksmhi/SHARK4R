@@ -20,7 +20,8 @@ Defaults to the SHARK4R cache directory in the user-specific R folder
 (via \code{tools::R_user_dir("SHARK4R", "cache")}). You can override this
 parameter for custom cache locations.}
 
-\item{clear_perm_cache}{Logical. If \code{TRUE}, filed that are cached across R sessions are cleared. Defaults to \code{FALSE}.}
+\item{clear_perm_cache}{Logical. If \code{TRUE}, filed that are cached across R sessions are cleared, i.e. geographical shape files.
+Defaults to \code{FALSE}.}
 
 \item{search_pattern}{Character; optional regex pattern to filter which files to consider for deletion.}
 
@@ -32,8 +33,7 @@ and whether the in-memory session cache was cleared.
 }
 \description{
 Deletes cached files in the SHARK4R cache directory that are older than
-a specified number of days, and also clears the in-memory session cache
-used by functions like \code{get_dyntaxa_dwca()}.
+a specified number of days.
 }
 \details{
 The cache is automatically cleared after 24h.
@@ -45,6 +45,6 @@ The cache is automatically cleared after 24h.
 }
 }
 \seealso{
-\code{\link[=get_peg_list]{get_peg_list()}}, \code{\link[=get_nomp_list]{get_nomp_list()}}, \code{\link[=get_shark_codes]{get_shark_codes()}}, \code{\link[=get_dyntaxa_dwca]{get_dyntaxa_dwca()}}
+\code{\link[=get_peg_list]{get_peg_list()}}, \code{\link[=get_nomp_list]{get_nomp_list()}}, \code{\link[=get_shark_codes]{get_shark_codes()}}, \code{\link[=get_dyntaxa_dwca]{get_dyntaxa_dwca()}}, \code{\link[=get_shark_statistics]{get_shark_statistics()}}
 for functions that populate the cache.
 }

@@ -1,3 +1,107 @@
+# Sample thresholds
+test_thresholds <- dplyr::tibble(
+  parameter = c("TestParam1", "TestParam2"),
+  datatype = c("TypeA", "TypeA"),
+  extreme_upper = c(10, 100),
+  mild_upper = c(5, 50)
+)
+
+# Sample data
+test_data <- dplyr::tibble(
+  station_name = c("S1", "S2", "S3"),
+  sample_date = as.Date(c("2025-01-01", "2025-01-02", "2025-01-03")),
+  sample_id = 1:3,
+  shark_sample_id_md5 = letters[1:3],
+  sample_min_depth_m = c(0, 5, 10),
+  sample_max_depth_m = c(1, 6, 11),
+  parameter = c("TestParam1", "TestParam1", "TestParam1"),
+  value = c(8, 12, 9),
+  delivery_datatype = c("TypeA", "TypeA", "TypeA")
+)
+
+test_that("check_outliers returns datatable for outliers", {
+  out <- check_outliers(
+    data = test_data,
+    parameter = "TestParam1",
+    datatype = "TypeA",
+    threshold_col = "extreme_upper",
+    thresholds = test_thresholds
+  )
+
+  expect_s3_class(out, "datatables")
+  expect_equal(nrow(out$x$data), 1) # Only the second row exceeds threshold
+  expect_equal(out$x$data$value, 12)
+})
+
+test_that("check_outliers prints message if no outliers", {
+  data_no_outliers <- test_data %>% mutate(value = value - 10)
+
+  expect_message(
+    check_outliers(
+      data = data_no_outliers,
+      parameter = "TestParam1",
+      datatype = "TypeA",
+      threshold_col = "extreme_upper",
+      thresholds = test_thresholds
+    ),
+    "is within the extreme_upper range"
+  )
+})
+
+test_that("check_outliers errors if threshold_col is missing", {
+  expect_error(
+    check_outliers(
+      data = test_data,
+      parameter = "TestParam1",
+      datatype = "TypeA",
+      threshold_col = "nonexistent_col",
+      thresholds = test_thresholds
+    ),
+    "Column nonexistent_col not found in thresholds dataframe"
+  )
+})
+
+test_that("check_outliers errors if parameter not in thresholds", {
+  expect_error(
+    check_outliers(
+      data = test_data,
+      parameter = "NonexistentParam",
+      datatype = "TypeA",
+      threshold_col = "extreme_upper",
+      thresholds = test_thresholds
+    ),
+    "Parameter NonexistentParam not found in thresholds dataframe"
+  )
+})
+
+test_that("check_outliers only filters by datatype", {
+  data_mixed <- test_data %>%
+    dplyr::add_row(
+      station_name = "S4",
+      sample_date = as.Date("2025-01-04"),
+      sample_id = 4,
+      shark_sample_id_md5 = "d",
+      sample_min_depth_m = 2,
+      sample_max_depth_m = 3,
+      parameter = "TestParam1",
+      value = 200,
+      delivery_datatype = "TypeB"
+    )
+
+  out <- check_outliers(
+    data = data_mixed,
+    parameter = "TestParam1",
+    datatype = "TypeA",
+    threshold_col = "extreme_upper",
+    thresholds = test_thresholds
+  )
+
+  # Only TypeA row above threshold should be flagged
+  expect_equal(nrow(out$x$data), 1)
+  expect_equal(out$x$data$delivery_datatype, "TypeA")
+})
+
+
 # List the outlier-check functions you want to test:
 outlier_checks <- list(
   bacterial_production               = check_bacterial_production,
@@ -37,48 +141,9 @@ outlier_checks <- list(
   harbporp_positivemin               = check_harbporp_positivemin
 )
 
-# Define any manual fallback thresholds (add as needed)
-manual_map <- list(
-  bacterial_production                = 1200706084,
-  bacterial_concentration             = 6779382000,
-  bacterial_carbon                    = 20.76,
-  chlorophyll_conc                    = 9.4,
-  picoplankton_abundance              = 133564616,
-  picoplankton_biovol                 = 0.09323008,
-  picoplankton_carbon                 = 20.85692,
-  picoplankton_counted                = 733,
-  zooplankton_abund                   = 1731.232,
-  zooplankton_counted                 = 86,
-  zooplankton_length_mean             = 1898.325,
-  zooplankton_length_median           = 1899,
-  zooplankton_wetweight               = 1.3,
-  zooplankton_carbon                  = 6.16,
-  zooplankton_wetweight_volume        = 15.54263,
-  zooplankton_wetweight_area          = 593.9886,
-  phytoplankton_abund                 = 62920,
-  phytoplankton_biovol                = 0.02397705,
-  phytoplankton_carbon                = 2.653602,
-  phytoplankton_counted               = 82,
-  primaryproduction_carbonprod        = 58.41079,
-  primaryproduction_carbonprodlight   = 58.41079,
-  primaryproduction_carbonprod_hour   = 18.6775,
-  epibenthos_counted                  = 138,
-  epibenthos_dryweight                = 0.367895,
-  epibenthos_specdistr_maxdepth       = 44.425,
-  epibenthos_specdistr_mindepth       = 20.65,
-  harbourseal_counted                 = 260,
-  greyseal_counted                    = 632,
-  zoobenthos_BQIm                     = 26.96423,
-  zoobenthos_abund                    = 290,
-  zoobenthos_counted                  = 33,
-  zoobenthos_wetweight                = 0.859,
-  ringedseal_calccounted              = 41.6792,
-  harbporp_positivemin                = 299
-)
-
 manual_param_map <- list(
-  bacterial_production                = "Bacterial production",
-  bacterial_concentration             = "Bacterial concentration",
+  bacterial_production                = "Bacterial carbon production",
+  bacterial_concentration             = "Bacterial abundance",
   bacterial_carbon                    = "Bacterial cell carbon content",
   chlorophyll_conc                    = "Chlorophyll-a",
   picoplankton_abundance              = "Abundance",
@@ -120,12 +185,15 @@ for (fname in names(outlier_checks)) {
 
   print(fname) # for debugging
 
-  test_that(paste0(fname, " returns datatable and message when extreme outlier present"), {
-    extreme_threshold <- get_extreme_threshold(fn, fname, manual_map = manual_map)
+  test_that(paste0("deprecated ", fname, " function still works"), {
+    # extreme_threshold <- get_extreme_threshold(fn, fname, manual_map = manual_map)
+    extreme_threshold <- .threshold_values$extreme_upper[.threshold_values$parameter == manual_param_map[fname][[1]]]
     if (is.null(extreme_threshold) || !is.numeric(extreme_threshold)) {
       skip(paste("No numeric extreme threshold for", fname))
     }
-    param_string <- get_parameter_string(fn, fname, manual_map = manual_param_map)
+    # param_string <- get_parameter_string(fn, fname, manual_map = manual_param_map)
+    param_string <- .threshold_values$parameter[.threshold_values$parameter == manual_param_map[fname][[1]]]
+    datatype_string <- .threshold_values$datatype[.threshold_values$parameter == manual_param_map[fname][[1]]]
 
     # Build a small tibble with the columns these functions select/expect
     df_trigger <- dplyr::tibble(
@@ -136,47 +204,14 @@ for (fname in names(outlier_checks)) {
       sample_min_depth_m = 1,
       sample_max_depth_m = 2,
       parameter = param_string,
+      delivery_datatype = datatype_string,
       # make value exceed the extreme threshold by 1 (works for numeric thresholds)
       value = as.numeric(extreme_threshold) + 1
     )
 
-    # Expect a WARNING message and that the function returns a datatable object (htmlwidget)
-    expect_message(
-      out <- fn(df_trigger),
-      regexp = "WARNING",
-      info = paste("function:", fname)
+    # Expect deprecated warning
+    lifecycle::expect_deprecated(
+      out <- fn(df_trigger)
     )
-
-    # Returned value must be a DT htmlwidget (non-NULL)
-    expect_true(!is.null(out), info = paste("function should return a datatable when outlier present:", fname))
-    expect_true(inherits(out, "htmlwidget") || inherits(out, "datatables"),
-                info = paste("expected returned object to be a DT htmlwidget for", fname))
-  })
-
-  test_that(paste0(fname, " returns NULL and 'within range' message when no extreme outlier present"), {
-    extreme_threshold <- get_extreme_threshold(fn, fname, manual_map = manual_map)
-    if (is.null(extreme_threshold) || !is.numeric(extreme_threshold)) {
-      skip(paste("No numeric extreme threshold for", fname))
-    }
-    param_string <- get_parameter_string(fn, fname, manual_map = manual_param_map)
-
-    df_ok <- dplyr::tibble(
-      station_name = "S2",
-      sample_date = as.Date("2020-02-02"),
-      sample_id = "id2",
-      shark_sample_id_md5 = "md5_2",
-      sample_min_depth_m = 1,
-      sample_max_depth_m = 2,
-      parameter = param_string,
-      value = as.numeric(extreme_threshold) - 1
-    )
-
-    expect_message(
-      out2 <- fn(df_ok),
-      regexp = "within range",
-      info = paste("function:", fname)
-    )
-
-    expect_true(is.null(out2), info = paste("function should return NULL when no outlier present:", fname))
   })
 }

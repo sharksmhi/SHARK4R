@@ -224,6 +224,8 @@ get_dyntaxa_parent_ids <- function(taxon_ids,
 #'
 #' @return A data frame containing children taxon information corresponding to the specified taxon IDs.
 #'
+#' @noRd
+#'
 #' @keywords internal
 #'
 #' @examples
@@ -331,6 +333,8 @@ get_dyntaxa_children_hierarchy <- function(taxon_ids,
 #'
 #' @return A list containing children taxon IDs corresponding to the specified taxon IDs.
 #'
+#' @noRd
+#'
 #' @keywords internal
 #'
 #' @examples
@@ -398,7 +402,7 @@ get_dyntaxa_children_ids <- function(taxon_ids,
   return(results)
 }
 
-#' Construct Dyntaxa Taxonomy Table From Individual API
+#' Construct Dyntaxa taxonomy table from individually API calls
 #'
 #' This internal function constructs a taxonomy table by individually querying the SLU Artdatabanken API (Dyntaxa)
 #' using a list of parent taxon IDs. It fetches taxonomy information for the provided taxon IDs and
@@ -442,6 +446,8 @@ get_dyntaxa_children_ids <- function(taxon_ids,
 #'
 #' @return A data frame with taxonomy information, including taxon IDs, parent IDs, ranks, names, and other details.
 #'         The data frame may also include hierarchical information depending on the parameters set.
+#'
+#' @noRd
 #'
 #' @keywords internal
 #'
@@ -824,14 +830,16 @@ construct_dyntaxa_missing_table <- function(parent_ids,
   }
 
   # Remove blank parent taxon ID (root)
-  taxa_filtered <- taxa_filtered %>%
-    mutate(parentNameUsageID = gsub("urn:lsid:dyntaxa.se:Taxon:NA", NA, parentNameUsageID))
+  if (!shark_output) {
+    taxa_filtered <- taxa_filtered %>%
+      mutate(parentNameUsageID = gsub("urn:lsid:dyntaxa.se:Taxon:NA", NA, parentNameUsageID))
+  }
 
   # Print the counters, for debugging
   if (verbose) {
     cat("Cached taxa requests:", if_counter, "\n")
     cat("Unique taxa requests:", else_counter, "\n")
-    }
+  }
 
   return(taxa_filtered)
 }
@@ -842,6 +850,8 @@ construct_dyntaxa_missing_table <- function(parent_ids,
 #'
 #' @param x A vector.
 #' @return A vector with NAs filled below the first non-NA value.
+#'
+#' @noRd
 #'
 #' @keywords internal
 fill_na_below_first_non_na <- function(x) {
@@ -967,7 +977,7 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{match_taxon_name("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'       \code{match_dyntaxa_taxa("Skeletonema marinoi", subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
@@ -990,25 +1000,25 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids,
 #' @examples
 #' \dontrun{
 #' # Match taxon names against SLU Artdatabanken API
-#' matched_taxa <- match_taxon_name(c("Homo sapiens", "Canis lupus"), "your_subscription_key")
+#' matched_taxa <- match_dyntaxa_taxa(c("Homo sapiens", "Canis lupus"), "your_subscription_key")
 #' print(matched_taxa)
 #' }
 #'
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
-match_taxon_name <- function(taxon_names,
-                             subscription_key = Sys.getenv("DYNTAXA_KEY"),
-                             multiple_options = FALSE,
-                             searchFields = 'Both',
-                             isRecommended = 'NotSet',
-                             isOkForObservationSystems = 'NotSet',
-                             culture = 'sv_SE',
-                             page = 1,
-                             pageSize = 100,
-                             verbose = TRUE) {
+match_dyntaxa_taxa <- function(taxon_names,
+                               subscription_key = Sys.getenv("DYNTAXA_KEY"),
+                               multiple_options = FALSE,
+                               searchFields = 'Both',
+                               isRecommended = 'NotSet',
+                               isOkForObservationSystems = 'NotSet',
+                               culture = 'sv_SE',
+                               page = 1,
+                               pageSize = 100,
+                               verbose = TRUE) {
 
   if (is.null(subscription_key) || subscription_key == "") {
-    stop("No Dyntaxa subscription key provided. See ?match_taxon_name for setup instructions.")
+    stop("No Dyntaxa subscription key provided. See ?match_dyntaxa_taxa for setup instructions.")
   }
 
   # Make sure there are no NA
@@ -1101,15 +1111,98 @@ match_taxon_name <- function(taxon_names,
     distinct()
   return(result_df)
 }
-#' Download and Read Darwin Core Archive Files from Dyntaxa
+
+#' Match Dyntaxa taxon names via API
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function has been deprecated. Users are encouraged to use \code{\link{match_dyntaxa_taxa}} instead.
+#'
+#' This function matches a list of taxon names against the SLU Artdatabanken API (Dyntaxa) and retrieves the best matches along with their taxon IDs.
+#'
+#' @details
+#' A valid Dyntaxa API subscription key is required.
+#' You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
+#' <https://api-portal.artdatabanken.se/>
+#'
+#' **Note**: Please review the [API conditions](https://www.slu.se/artdatabanken/rapportering-och-fynd/oppna-data-och-apier/)
+#' and [register for access](https://api-portal.artdatabanken.se/) before using the API. Data collected through the API
+#' is stored at SLU Artdatabanken. Please also note that the authors of `SHARK4R` are not affiliated with SLU Artdatabanken.
+#'
+#' @param taxon_names A vector of taxon names to match.
+#' @param subscription_key A Dyntaxa API subscription key. By default, the key
+#'   is read from the environment variable \code{DYNTAXA_KEY}.
+#'
+#'   You can provide the key in three ways:
+#'   \itemize{
+#'     \item **Directly as a parameter**:
+#'       \code{match_taxon_name("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'     \item **Temporarily for the session**:
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
+#'       Use \code{usethis::edit_r_environ()} to open the file, then add:
+#'       \code{DYNTAXA_KEY=your_key_here}
+#'   }
+#' @param multiple_options Logical. If TRUE, the function will return multiple matching names. Default is FALSE, selecting the first match.
+#' @param searchFields A character string indicating the search fields. Defaults to 'Both'.
+#' @param isRecommended A character string indicating whether the taxon is recommended. Defaults to 'NotSet'.
+#' @param isOkForObservationSystems A character string indicating whether the taxon is suitable for observation systems. Defaults to 'NotSet'.
+#' @param culture A character string indicating the culture. Defaults to 'sv_SE'.
+#' @param page An integer specifying the page number for pagination. Defaults to 1.
+#' @param pageSize An integer specifying the page size for pagination. Defaults to 100.
+#' @param verbose Logical. Print progress bar. Default is TRUE.
+#'
+#' @return A data frame containing the search pattern, taxon ID, and best match for each taxon name.
+#'
+#' @keywords internal
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # Match taxon names against SLU Artdatabanken API
+#' matched_taxa <- match_taxon_name(c("Homo sapiens", "Canis lupus"), "your_subscription_key")
+#' print(matched_taxa)
+#' }
+#'
+#' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
+#'
+match_taxon_name <- function(taxon_names,
+                             subscription_key = Sys.getenv("DYNTAXA_KEY"),
+                             multiple_options = FALSE,
+                             searchFields = 'Both',
+                             isRecommended = 'NotSet',
+                             isOkForObservationSystems = 'NotSet',
+                             culture = 'sv_SE',
+                             page = 1,
+                             pageSize = 100,
+                             verbose = TRUE) {
+
+  lifecycle::deprecate_warn("0.1.7.9000", "match_taxon_name()", "match_dyntaxa_taxa()")
+
+  match_dyntaxa_taxa(taxon_names = taxon_names,
+                     subscription_key = subscription_key,
+                     multiple_options = multiple_options,
+                     searchFields = searchFields,
+                     isRecommended = isRecommended,
+                     isOkForObservationSystems = isOkForObservationSystems,
+                     culture = culture,
+                     page = page,
+                     pageSize = pageSize,
+                     verbose = verbose)
+}
+
+#' Download and read Darwin Core Archive files from Dyntaxa
 #'
 #' This function downloads a complete Darwin Core Archive (DwCA) of Dyntaxa from the SLU Artdatabanken API,
 #' extracts the archive, and reads the specified CSV file into R.
 #'
 #' @details
-#' By default, the archive is downloaded only once per R session. On subsequent calls,
+#' By default, the archive is downloaded and cached across R sessions. On subsequent calls,
 #' the function reuses the cached copy of the extracted files to avoid repeated downloads.
-#' Use the `force` parameter to re-download the archive if needed.
+#' Use the `force` parameter to re-download the archive if needed. The cache is cleared
+#' automatically after 24 hours, but you can also manually clear it using
+#' \code{\link{clean_shark4r_cache}}.
 #'
 #' A valid Dyntaxa API subscription key is required.
 #' You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
@@ -1168,52 +1261,58 @@ get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
          paste(allowed_files, collapse = ", "))
   }
 
+  cache_dir <- tools::R_user_dir("SHARK4R", "cache")
+  csv_path <- file.path(cache_dir, file_to_read)
+
   # Check cache
-  if (!force && !is.null(.shark4r_cache$extracted_dir) &&
-      dir.exists(.shark4r_cache$extracted_dir)) {
-
-    csv_path <- file.path(.shark4r_cache$extracted_dir, file_to_read)
-    if (file.exists(csv_path)) {
-      if (verbose) message("Using cached copy of ", file_to_read)
-      return(readr::read_tsv(csv_path, col_types = cols(), progress = FALSE))
-    } else {
-      stop(file_to_read, " not found in cached extracted files.")
-    }
-  }
-
-  # Download if no cache or force = TRUE
-  url <- "https://api.artdatabanken.se/taxonservice/v1/darwincore/download"
-  headers <- c(
-    'Cache-Control' = 'no-cache',
-    'Ocp-Apim-Subscription-Key' = subscription_key
-  )
-
-  response <- httr::GET(url,
-                        httr::add_headers(headers),
-                        if (verbose) httr::progress())
-
-  if (httr::status_code(response) == 200) {
-    temp_file <- tempfile(fileext = ".zip")
-    writeBin(httr::content(response, "raw"), temp_file)
-
-    temp_dir <- tempfile(pattern = "dyntaxa_dwca_")
-    dir.create(temp_dir)
-    utils::unzip(temp_file, exdir = temp_dir)
-
-    # Store in cache
-    .shark4r_cache$extracted_dir <- temp_dir
-
-    csv_path <- file.path(temp_dir, file_to_read)
-    if (file.exists(csv_path)) {
-      return(readr::read_tsv(csv_path, col_types = cols(), progress = FALSE))
-    } else {
-      stop(file_to_read, " not found in the extracted files.")
-    }
+  if (!force && file.exists(csv_path)) {
+    if (verbose) message("Using cached copy of ", file_to_read)
+    csv <- tryCatch(
+      readr::read_tsv(csv_path, col_types = cols(), progress = FALSE),
+      error = function(e) stop(
+        sprintf(
+          "Failed to read CSV file at '%s': %s\nConsider using force = TRUE to re-download the file.",
+          csv_path, e$message
+        ),
+        call. = FALSE
+      )
+    )
+    return(csv)
   } else {
-    stop("Failed to download the zip file: ", httr::status_code(response))
+    # Download if no cache or force = TRUE
+    url <- "https://api.artdatabanken.se/taxonservice/v1/darwincore/download"
+    headers <- c(
+      'Cache-Control' = 'no-cache',
+      'Ocp-Apim-Subscription-Key' = subscription_key
+    )
+
+    response <- httr::GET(url,
+                          httr::add_headers(headers),
+                          if (verbose) httr::progress())
+
+    if (httr::status_code(response) == 200) {
+      temp_file <- tempfile(fileext = ".zip")
+      writeBin(httr::content(response, "raw"), temp_file)
+
+      # temp_dir <- tempfile(pattern = "dyntaxa_dwca_")
+      # dir.create(temp_dir)
+      utils::unzip(temp_file, exdir = cache_dir)
+
+      # Store in cache
+      # .shark4r_cache$extracted_dir <- temp_dir
+
+      csv_path <- file.path(cache_dir, file_to_read)
+      if (file.exists(csv_path)) {
+        return(readr::read_tsv(csv_path, col_types = cols(), progress = FALSE))
+      } else {
+        stop(file_to_read, " not found in the extracted files.")
+      }
+    } else {
+      stop("Failed to download the zip file: ", httr::status_code(response))
+    }
   }
 }
-#' Construct Dyntaxa Taxonomy Table From API
+#' Construct Dyntaxa taxonomy table from API
 #'
 #' This function constructs a taxonomy table based on Dyntaxa taxon IDs.
 #' It queries the SLU Artdatabanken API (Dyntaxa) to fetch taxonomy information and organizes the data into a hierarchical table.
@@ -1475,7 +1574,7 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DY
   # Return the final data table with all requested modifications
   return(data_all)
 }
-#' Find All Descendants of a Taxon
+#' Find all descendants of a taxon
 #'
 #' This helper function recursively finds all descendant taxa of a given taxon ID
 #' by traversing the parent-child hierarchy in the provided dataset.
@@ -1498,6 +1597,8 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DY
 #' # Find descendants of taxon "1"
 #' SHARK4R:::find_descendants("1", data)
 #'
+#' @noRd
+#'
 #' @keywords internal
 find_descendants <- function(taxon_id, data) {
   # Get immediate children of the current taxon
@@ -1518,7 +1619,7 @@ find_descendants <- function(taxon_id, data) {
 
   return(all_descendants)
 }
-#' Get All Parent Taxa for a Set of Taxon IDs
+#' Get all parent taxa for a set of taxon IDs
 #'
 #' This helper function iteratively retrieves all parent taxa for a given set
 #' of initial taxon IDs, traversing up the taxonomic hierarchy until the root
@@ -1546,6 +1647,8 @@ find_descendants <- function(taxon_id, data) {
 #' # Find all parents of taxon IDs "3" and "4"
 #' SHARK4R:::get_all_parents(data, initial_taxon_ids = c("3", "4"))
 #'
+#' @noRd
+#'
 #' @keywords internal
 get_all_parents <- function(data, initial_taxon_ids) {
   # Start with the initial filtered data
@@ -1568,7 +1671,7 @@ get_all_parents <- function(data, initial_taxon_ids) {
 
   return(all_parents)
 }
-#' Recursively Retrieve Parent Taxonomic Hierarchy
+#' Recursively retrieve parent taxonomic hierarchy
 #'
 #' This helper function retrieves the taxonomic hierarchy for a given taxon ID by
 #' recursively traversing its parent relationships in the provided dataset.
@@ -1590,6 +1693,8 @@ get_all_parents <- function(data, initial_taxon_ids) {
 #' SHARK4R:::get_hierarchy("3", data)
 #' # [1] "Phylum" "Kingdom"
 #'
+#' @noRd
+#'
 #' @keywords internal
 get_hierarchy <- function(taxon_id, data) {
   # Find the parentNameUsageID for the given taxon_id
@@ -1607,7 +1712,7 @@ get_hierarchy <- function(taxon_id, data) {
   # Recurse to find the hierarchy of the parent
   c(get_hierarchy(parent_id, data), parent_name) # Reverse order, add parent first
 }
-#' Add Taxonomic Hierarchy Column to a Dataset
+#' Add taxonomic hierarchy column to a dataset
 #'
 #' This function adds a new column, `hierarchy`, to a dataset, where each row contains
 #' the taxonomic hierarchy of parent `scientificName` values for the given `taxonId`.
@@ -1634,8 +1739,9 @@ get_hierarchy <- function(taxon_id, data) {
 #' data_with_hierarchy <- SHARK4R:::add_hierarchy_column(data)
 #' print(data_with_hierarchy)
 #'
+#' @noRd
+#'
 #' @keywords internal
-# Main function to calculate hierarchy with a progress bar
 add_hierarchy_column <- function(data, data_dwca = NULL, verbose = TRUE) {
 
   if (is.null(data_dwca)) {
@@ -1762,7 +1868,7 @@ is_in_dyntaxa <- function(taxon_names,
     stop("No Dyntaxa subscription key provided. See ?is_in_dyntaxa for setup instructions.")
   }
 
-  dyntaxa_match <- match_taxon_name(taxon_names, subscription_key, verbose = FALSE)
+  dyntaxa_match <- match_dyntaxa_taxa(taxon_names, subscription_key, verbose = FALSE)
 
   match <- taxon_names %in% dyntaxa_match$best_match
 

@@ -1,4 +1,4 @@
-#' Retrieve and Organize WoRMS Taxonomy for SHARK Aphia IDs
+#' Retrieve and organize WoRMS taxonomy for SHARK Aphia IDs
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
@@ -42,7 +42,7 @@ update_worms_taxonomy <- function(aphia_id, aphiaid=deprecated()) {
 
   add_worms_taxonomy(aphia_id)
 }
-#' Retrieve and Organize WoRMS Taxonomy for SHARK Aphia IDs
+#' Retrieve and organize WoRMS taxonomy for SHARK Aphia IDs
 #'
 #' This function collects WoRMS (World Register of Marine Species) taxonomy information for a given set of Aphia IDs.
 #' The data is organized into a full taxonomic table that can be joined with data downloaded from [SHARK](https://shark.smhi.se/).
@@ -88,7 +88,7 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE)
       if (verbose) cat("Retrieving", length(to_match), "'aphia_ids' from 'scientific_name'.\n")
 
       # Get all records from scientific_name
-      worms_records <- get_worms_records_name(to_match,
+      worms_records <- match_worms_taxa(to_match,
                                               verbose = verbose)
 
       # Select relevant information
@@ -107,7 +107,7 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE)
   if (verbose) {
     cat("Retrieving", length(aphia_id), "records from 'aphia_ids'.\n")
     pb <- utils::txtProgressBar(min = 0, max = length(aphia_id), style = 3)
-    }
+  }
 
   worms_class <- data.frame()
   for (i in seq_along(aphia_id)) {
@@ -154,7 +154,7 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE)
            select(any_of(names)) %>%
            relocate(worms_hierarchy, .after = last_col()))
 }
-#' Retrieve WoRMS Records
+#' Retrieve WoRMS records
 #'
 #' This function retrieves records from the WoRMS (World Register of Marine Species) database using the `worrms` R package for a given list of Aphia IDs.
 #' If the retrieval fails, it retries a specified number of times before stopping.
@@ -174,7 +174,7 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE)
 #' \dontrun{
 #' # Example usage with a vector of Aphia IDs
 #' aphia_ids <- c(12345, 67890, 112233)
-#' worms_records <- retrieve_worms_records(aphia_ids)
+#' worms_records <- get_worms_records(aphia_ids)
 #' }
 #'
 #' @seealso \url{https://marinespecies.org/} for WoRMS website.
@@ -250,7 +250,7 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
 
   worms_records
 }
-#' Retrieve WoRMS Records by Taxonomic Names with Retry Logic
+#' Retrieve WoRMS records by taxonomic names with retry logic
 #'
 #' This function retrieves records from the WoRMS database using the `worrms` R package for a vector of taxonomic names.
 #' It includes retry logic to handle temporary failures and ensures all names are processed.
@@ -273,17 +273,18 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
 #' @examples
 #' \dontrun{
 #' # Retrieve WoRMS records for the taxonomic names "Amphidinium" and "Karenia"
-#' records <- retrieve_worms_records_name(c("Amphidinium", "Karenia"),
-#'                                        max_retries = 3, sleep_time = 5, marine_only = TRUE)
+#' records <- match_worms_taxa(c("Amphidinium", "Karenia"),
+#'                             max_retries = 3, sleep_time = 5, marine_only = TRUE)
 #' }
 #'
+#' @seealso [match_worms_taxa_interactive()] to match taxa names interactively.
 #' @seealso \url{https://marinespecies.org/} for WoRMS website.
 #' @seealso \url{https://CRAN.R-project.org/package=worrms}
 #'
 #' @export
-get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = TRUE,
-                                   max_retries = 3, sleep_time = 10, marine_only = TRUE,
-                                   verbose = TRUE) {
+match_worms_taxa <- function(taxa_names, fuzzy = TRUE, best_match_only = TRUE,
+                             max_retries = 3, sleep_time = 10, marine_only = TRUE,
+                             verbose = TRUE) {
   worms_records <- list()  # Initialize an empty list to collect records for each name
 
   # Set up progress bar
@@ -352,7 +353,61 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 
   worms_records
 }
-#' Assign Phytoplankton Group to Scientific Names
+
+
+#' Retrieve WoRMS records by taxonomic names with retry logic
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function has been deprecated. Users are encouraged to use \code{\link{match_worms_taxa}} instead.
+#'
+#' This function retrieves records from the WoRMS database using the `worrms` R package for a vector of taxonomic names.
+#' It includes retry logic to handle temporary failures and ensures all names are processed.
+#'
+#' @param taxa_names A vector of taxonomic names for which to retrieve records.
+#' @param fuzzy A logical value indicating whether to search using a fuzzy search pattern. Default is TRUE.
+#' @param best_match_only A logical value indicating whether to automatically select the first match and return a single match. Default is TRUE.
+#' @param max_retries An integer specifying the maximum number of retries for the request in case of failure. Default is 3.
+#' @param sleep_time A numeric value specifying the number of seconds to wait before retrying a failed request. Default is 10.
+#' @param marine_only A logical value indicating whether to restrict the results to marine taxa only. Default is `FALSE`.
+#' @param verbose A logical indicating whether to print progress messages. Default is TRUE.
+#'
+#' @return A data frame containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
+#'
+#' @details
+#' The function attempts to retrieve records for the input taxonomic names using the `wm_records_names` function from the WoRMS API.
+#' If a request fails, it retries up to `max_retries` times, pausing for `sleep_time` seconds between attempts.
+#' If all attempts fail, the function stops and throws an error.
+#'
+#' @examples
+#' \dontrun{
+#' # Retrieve WoRMS records for the taxonomic names "Amphidinium" and "Karenia"
+#' records <- get_worms_records_name(c("Amphidinium", "Karenia"),
+#'                                   max_retries = 3, sleep_time = 5, marine_only = TRUE)
+#' }
+#'
+#' @seealso \url{https://marinespecies.org/} for WoRMS website.
+#' @seealso \url{https://CRAN.R-project.org/package=worrms}
+#'
+#' @keywords internal
+#' @export
+get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = TRUE,
+                                   max_retries = 3, sleep_time = 10, marine_only = TRUE,
+                                   verbose = TRUE) {
+
+  lifecycle::deprecate_warn("0.1.7.9000", "get_worms_records_name()", "match_worms_taxa()")
+
+  match_worms_taxa(taxa_names = taxa_names,
+                   fuzzy = fuzzy,
+                   best_match_only = best_match_only,
+                   max_retries = max_retries,
+                   sleep_time = sleep_time,
+                   marine_only = marine_only,
+                   verbose = verbose)
+}
+
+#' Assign phytoplankton group to scientific names
 #'
 #' This function assigns default phytoplankton groups (Diatoms, Dinoflagellates, Cyanobacteria, or Other)
 #' to a list of scientific names or Aphia IDs by retrieving species information from the
@@ -363,7 +418,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #'
 #' @param scientific_names A character vector of scientific names of marine species.
 #' @param aphia_ids A numeric vector of Aphia IDs corresponding to the scientific names. If provided, it improves the accuracy and speed of the matching process. The length of `aphia_ids` must match the length of `scientific_names`. Defaults to `NULL`, in which case the function will attempt to assign plankton groups based only on the scientific names.
-#' @param diatom_class A character string or vector representing the diatom class. Default is "Bacillariophyceae", "Coscinodiscophyceae" and "Mediophyceae".
+#' @param diatom_class A character string or vector representing the diatom class. Default is "Bacillariophyceae", "Coscinodiscophyceae", "Mediophyceae" and "Diatomophyceae".
 #' @param dinoflagellate_class A character string or vector representing the dinoflagellate class. Default is "Dinophyceae".
 #' @param cyanobacteria_class A character string or vector representing the cyanobacteria class. Default is "Cyanophyceae".
 #' @param cyanobacteria_phylum A character string or vector representing the cyanobacteria phylum. Default is "Cyanobacteria".
@@ -485,7 +540,7 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
 
   if (nrow(missing_aphia_data) > 0) {
     if (verbose) cat("Retrieving", nrow(missing_aphia_data), "WoRMS records from input 'scientific_names'.\n")
-    missing_aphia_records <- get_worms_records_name(missing_aphia_data$scientific_name,
+    missing_aphia_records <- match_worms_taxa(missing_aphia_data$scientific_name,
                                                     marine_only = marine_only,
                                                     verbose = verbose) %>%
       mutate(class = as.character(ifelse(status == "no content", NA, class)),
@@ -514,7 +569,7 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
     if (verbose) cat("Retrieving", length(first_words), "WoRMS records from the first word in 'scientific_names'.\n")
     first_word_records <- data.frame(
       scientific_name = unresolved_data$scientific_name,
-      get_worms_records_name(first_words,
+      match_worms_taxa(first_words,
                              marine_only = marine_only,
                              verbose = verbose)
     ) %>%
@@ -602,4 +657,154 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
     select(-aphia_id)
 
   return(final_output)
+}
+
+#' Interactive taxon matching using WoRMS
+#'
+#' This function matches a vector of scientific names against the [World Register of Marine Species (WoRMS)](https://marinespecies.org/)
+#' taxon database. It allows the user to interactively resolve cases where multiple matches are found.
+#'
+#' @param names Character vector of scientific names to match.
+#' @param ask Logical; if `TRUE` (default), the user is prompted to resolve multiple matches interactively.
+#'
+#' @return A `data.frame` with the following columns:
+#' \describe{
+#'   \item{scientificName}{The matched scientific name from WoRMS.}
+#'   \item{scientificNameID}{The unique WoRMS identifier (LSID) for the matched name.}
+#'   \item{match_type}{Type of match returned by WoRMS (e.g., exact, fuzzy).}
+#'   \item{acceptedNameUsageID}{WoRMS AphiaID of the currently accepted taxon name.}
+#' }
+#'
+#' @details
+#' The function queries WoRMS in batches to improve efficiency. For names that return multiple matches, the user
+#' can inspect the matches and select the correct one. If `ask = FALSE`, the function will not prompt the user,
+#' and ambiguous names will be returned as `NA`.
+#'
+#' The function has been modified from the `obistools` package (Provoost and Bosch, 2024).
+#'
+#' @seealso
+#' - [WoRMS website](https://marinespecies.org/)
+#' - [worrms R package on CRAN](https://CRAN.R-project.org/package=worrms)
+#' - [match_worms_taxa()] to match taxa names non-interactively.
+#' - [`obistools` R package](https://iobis.github.io/obistools/)
+#'
+#' @examples
+#' \dontrun{
+#' names <- c("Aurelia aurita", "Mnemiopsis leidyi", "Unknown species")
+#' # Interactive mode (default)
+#' match_worms_taxa_interactive(names)
+#'
+#' # Non-interactive mode
+#' match_worms_taxa_interactive(names, ask = FALSE)
+#' }
+#'
+#'
+#' @references Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, <https://iobis.github.io/obistools/>.
+#' @export
+match_worms_taxa_interactive <- function(names, ask = TRUE) {
+
+  f <- as.factor(names)
+  indices <- as.numeric(f)
+  unames <- levels(f)
+
+  pages <- split(unames, as.integer((seq_along(unames) - 1) / 50))
+  paged_worms_taxamatch_call <- function(page) { cache_call(page, expression(worrms::wm_records_taxamatch(page, marine_only = FALSE)))}
+  matches <- unlist(lapply(pages, paged_worms_taxamatch_call), recursive = FALSE)
+
+  results <- data.frame(scientificName = character(), scientificNameID = character(), match_type = character(), acceptedNameUsageID = character(), stringsAsFactors = FALSE)
+
+  # count no matches and multiple matches
+
+  no <- NULL
+  multiple <- NULL
+  for (i in 1:length(matches)) {
+    if (is.data.frame(matches[[i]])) {
+      if (nrow(matches[[i]]) > 1) {
+        multiple <- c(multiple, unames[i])
+      }
+    } else {
+      no <- c(no, unames[i])
+    }
+  }
+
+  message(sprintf("%s names, %s without matches, %s with multiple matches", length(unames), length(no), length(multiple)))
+
+  # ask user to resolve names, skip, or print names with multiple matches
+
+  if (ask) {
+    proceed <- NA
+    while (is.na(proceed)) {
+      r <- readline(prompt = "Proceed to resolve names (y/n/info)? ")
+      if (r == "y") {
+        proceed <- TRUE
+      } else if (r == "n") {
+        proceed <- TRUE
+        ask <- FALSE
+      } else if (substr(r, 1, 1) == "i") {
+        print(multiple)
+      }
+    }
+  }
+
+  # populate data frame
+
+  for (i in seq_along(matches)) {
+
+    row <- list(scientificName = NA, scientificNameID = NA, match_type = NA, acceptedNameUsageID = NA)
+
+    match <- matches[[i]]
+    if (is.data.frame(match) & nrow(match) > 0) {
+
+      if (nrow(match) == 1) {
+
+        # single match
+
+        row$scientificName = match$scientificname
+        row$scientificNameID = match$lsid
+        row$match_type = match$match_type
+        row$acceptedNameUsageID = as.character(match$valid_AphiaID)
+
+      } else if (ask) {
+
+        # multiple matches
+
+        print(match %>% select(AphiaID, scientificname, authority, status, match_type))
+        message(unames[i])
+        n <- readline(prompt = "Multiple matches, pick a number or leave empty to skip: ")
+        s <- as.integer(n)
+        if (!is.na(n) & n > 0 & n <= nrow(match)) {
+          row$scientificName = match$scientificname[s]
+          row$scientificNameID = match$lsid[s]
+          row$match_type = match$match_type[s]
+          row$acceptedNameUsageID = as.character(match$valid_AphiaID[s])
+        }
+
+      }
+
+    }
+
+    results <- bind_rows(results, row)
+
+  }
+
+  return(results[indices,])
+}
+
+#' Taxon matching using WoRMS (http://www.marinespecies.org/)
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function has been deprecated. Users are encouraged to use \code{\link{match_worms_taxa_interactive}} instead.
+#'
+#' matches latin name in data with WoRMS taxon list
+#' @param names Vector of scientific names.
+#' @param ask Ask user in case of multiple matches.
+#' @return Data frame with scientific name, scientific name ID and match type.
+#' @references Provoost P, Bosch S (2025). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, <https://iobis.github.io/obistools/>.
+#' @keywords internal
+#' @export
+match_wormstaxa <- function(names, ask = TRUE) {
+  lifecycle::deprecate_warn("0.1.7.9000", "match_wormstaxa()", "match_worms_taxa_interactive()")
+
+  match_worms_taxa_interactive(names = names, ask = ask)
 }

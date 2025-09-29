@@ -2,7 +2,7 @@
 % Please edit documentation in R/algaebase_api_functions.R
 \name{get_algaebase_species}
 \alias{get_algaebase_species}
-\title{AlgaeBase Species Search}
+\title{Search AlgaeBase for information about a species of algae}
 \usage{
 get_algaebase_species(
   genus,
@@ -57,6 +57,10 @@ A data frame with details about the species, including:
 }
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function has been deprecated. Users are encouraged to use \code{\link{match_algaebase_species}} instead.
+
 This function searches the AlgaeBase API for species based on genus and species names.
 It allows for flexible search parameters such as filtering by exact matches, returning
 the most recent results, and including higher taxonomy details.
@@ -81,5 +85,6 @@ print(result)
 
 }
 \seealso{
-\url{https://algaebase.org/} for AlgaeBase website.
+\url{https://www.algaebase.org/} for AlgaeBase website.
 }
+\keyword{internal}

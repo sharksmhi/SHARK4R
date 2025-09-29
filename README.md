@@ -1,21 +1,24 @@
-# SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae <a href="https://sharksmhi.github.io/SHARK4R/"><img src="man/figures/logo.png" align="right" height="139" alt="SHARK4R website" /></a>
+# SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases <a href="https://sharksmhi.github.io/SHARK4R/"><img src="man/figures/logo.png" align="right" height="139" alt="SHARK4R website" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14169399.svg)](https://doi.org/10.5281/zenodo.14169399)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![codecov](https://codecov.io/gh/sharksmhi/SHARK4R/graph/badge.svg?token=187ZJ0O9R8)](https://codecov.io/gh/sharksmhi/SHARK4R)
+[![codecov](https://codecov.io/gh/sharksmhi/SHARK4R/graph/badge.svg?token=187ZJ0O9R8)](https://app.codecov.io/gh/sharksmhi/SHARK4R)
 <!-- badges: end -->
 
 ## Overview
 
 This R package is equipped with a client application designed for integration 
 with API functions. It facilitates access to various databases, 
-including [SHARK](https://shark.smhi.se/), 
-[SLU Artdatabanken (Dyntaxa)](https://api-portal.artdatabanken.se/), [WoRMS](https://www.marinespecies.org/rest/), [AlgaeBase](https://www.algaebase.org/), [IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae](https://www.marinespecies.org/hab/), [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/) and [Nordic Microalgae](https://nordicmicroalgae.org/). 
-The package serves a dual purpose, supporting both data analysis and automatic quality control of physical, 
-chemical, and marine biological data. Developed by SMHI, quality control functions 
-modified from <https://iobis.github.io/obistools/>
+including [SHARK](https://shark.smhi.se/), [SLU Artdatabanken (Dyntaxa)](https://artfakta.se/), 
+[WoRMS](https://www.marinespecies.org/rest/), [AlgaeBase](https://www.algaebase.org/), 
+[IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae](https://www.marinespecies.org/hab/), 
+[IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/), [OBIS xylookup web service](https://iobis.github.io/xylookup/) 
+and [Nordic Microalgae](https://nordicmicroalgae.org/). The package serves a dual purpose, 
+supporting both data analysis and automatic quality control of physical, chemical, and marine biological data. 
+Several quality control components, originally developed by Provoost and Bosch (2018), 
+have been adapted for compatibility with the SHARK format.
 
 ## Installation
 
@@ -68,4 +71,4 @@ This package is licensed under the MIT License.
 
 ## References
 
-Provoost P and Bosch S (2018). `obistools`: Tools for data enhancement and quality control. Ocean Biogeographic Information System. Intergovernmental Oceanographic Commission of UNESCO. <https://iobis.github.io/obistools/>.
+Provoost P, Bosch S (2024). `obistools`: Tools for data enhancement and quality control. Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, <https://iobis.github.io/obistools/>.

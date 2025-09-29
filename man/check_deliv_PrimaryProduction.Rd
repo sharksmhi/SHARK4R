@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_fields.R
 \name{check_deliv_PrimaryProduction}
 \alias{check_deliv_PrimaryProduction}
-\title{Check if the required and recommended datatype-specific SHARK system fields (different between different datatypes) are present.}
+\title{Check if the required and recommended datatype-specific SHARK system fields are present}
 \usage{
 check_deliv_PrimaryProduction(data, level = "error")
 }
@@ -15,6 +15,7 @@ check_deliv_PrimaryProduction(data, level = "error")
 Any warnings or errors.
 }
 \description{
-Missing or empty required fields are reported as errors,
-missing or empty recommended fields are reported as warnings.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+This function is deprecated and has been replaced by \code{\link[=check_fields]{check_fields()}}.
 }
+\keyword{internal}

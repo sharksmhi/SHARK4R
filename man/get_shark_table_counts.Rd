@@ -2,7 +2,7 @@
 % Please edit documentation in R/shark_api_functions.R
 \name{get_shark_table_counts}
 \alias{get_shark_table_counts}
-\title{Retrieve SHARK Data Table Row Counts}
+\title{Retrieve SHARK data table row counts}
 \usage{
 get_shark_table_counts(
   tableView = "sharkweb_overview",
@@ -115,9 +115,15 @@ Default is \code{"sharkweb_overview"}.}
 
 \item{prod}{Logical. Query against PROD or TEST (SMHI internal) server. Default is \code{TRUE} (PROD).}
 }
+\value{
+An integer representing the total number of rows in the requested SHARK table
+after applying the specified filters.
+}
 \description{
-The \code{get_shark_table_counts} function retrieves the row counts of data records from various SHARK data tables.
-To view available filter options, see \code{\link{get_shark_options}}.
+The \code{get_shark_table_counts} function retrieves the number of records (row counts)
+from various SHARK data tables based on specified filters such as year, months,
+data type, stations, and taxa. To view available filter options, see
+\code{\link{get_shark_options}}.
 }
 \examples{
 \dontrun{

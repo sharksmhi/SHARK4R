@@ -20,8 +20,8 @@ navbar:
           href: articles/retrieve_hab_data.html
         - text: "Retrieve Nordic Microalgae Data"
           href: articles/retrieve_nordic_microalgae_data.html
-    - text: "Quality Control"
-      href: articles/quality_control.html
+        - text: "QC of SHARK Data"
+          href: articles/quality_control.html
     - text: "Reference"
       href: reference/index.html
     - text: "Changelog"
@@ -37,6 +37,7 @@ reference:
   - get_shark_codes
   - get_shark_data
   - get_shark_datasets
+  - get_shark_statistics
   - get_shark_table_counts
   - shark_read
   - shark_read_deliv
@@ -51,7 +52,7 @@ reference:
   - get_dyntaxa_parent_ids
   - get_dyntaxa_records
   - is_in_dyntaxa
-  - match_taxon_name
+  - match_dyntaxa_taxa
   - update_dyntaxa_taxonomy
 
 - subtitle: WoRMS
@@ -60,15 +61,15 @@ reference:
   - add_worms_taxonomy
   - assign_phytoplankton_group
   - get_worms_records
-  - get_worms_records_name
-  - match_wormstaxa
+  - match_worms_taxa
+  - match_worms_taxa_interactive
 
 - subtitle: AlgaeBase
   desc: These functions are used to retrieve data from the AlgaeBase API
   contents:
-  - get_algaebase_genus
-  - get_algaebase_species
-  - match_algaebase
+  - match_algaebase_genus
+  - match_algaebase_species
+  - match_algaebase_taxa
   - parse_scientific_names
 
 - subtitle: IOC-UNESCO HAB
@@ -96,99 +97,27 @@ reference:
 
 - subtitle: Geographical Data Checks
   contents:
+  - check_nominal_station
   - check_onland
   - check_station_distance
   - check_zero_positions
   - lookup_xy
   - match_station
-  - nominal_station
   - plot_map_leaflet
-  - plot_map_leaflet_deliv
   - positions_are_near_land
   - which_basin
 
 - subtitle: SHARK Data Checks
   contents:
-  - check_Bacterioplankton
-  - check_Chlorophyll
-  - check_Epibenthos
-  - check_EpibenthosDropvideo
-  - check_GreySeal
-  - check_HarbourPorpoise
-  - check_HarbourSeal
-  - check_PhysicalChemical
-  - check_Phytoplankton
-  - check_Picoplankton
-  - check_PrimaryProduction
-  - check_RingedSeal
-  - check_SealPathology
-  - check_Sedimentation
-  - check_Zoobenthos
-  - check_Zooplankton
-  - check_bacterial_carbon
-  - check_bacterial_concentration
-  - check_bacterial_production
-  - check_chlorophyll_conc
-  - check_code_proj
+  - check_codes
   - check_datatype
-  - check_deliv_Bacterioplankton
-  - check_deliv_Chlorophyll
-  - check_deliv_Epibenthos
-  - check_deliv_EpibenthosDropvideo
-  - check_deliv_GreySeal
-  - check_deliv_HarbourPorpoise
-  - check_deliv_HarbourSeal
-  - check_deliv_PhysicalChemical
-  - check_deliv_Phytoplankton
-  - check_deliv_Picoplankton
-  - check_deliv_PrimaryProduction
-  - check_deliv_RingedSeal
-  - check_deliv_SealPathology
-  - check_deliv_Sedimentation
-  - check_deliv_Zoobenthos
-  - check_deliv_Zooplankton
   - check_depth
-  - check_epibenthos_abundclass_logical
-  - check_epibenthos_counted
-  - check_epibenthos_cover_logical
-  - check_epibenthos_coverclass_logical
-  - check_epibenthos_coverpercent_logical
-  - check_epibenthos_dryweight
-  - check_epibenthos_sedimentdepos_logical
-  - check_epibenthos_specdistr_maxdepth
-  - check_epibenthos_specdistr_mindepth
-  - check_epibenthos_totcover_logical
-  - check_greyseal_counted
-  - check_harbourseal_counted
-  - check_harbporp_positivemin
-  - check_phytoplankton_abund
-  - check_phytoplankton_biovol
-  - check_phytoplankton_counted
-  - check_phytoplankton_carbon
-  - check_picoplankton_abundance
-  - check_picoplankton_biovol
-  - check_picoplankton_carbon
-  - check_picoplankton_counted
-  - check_primaryproduction_carbonprod
-  - check_primaryproduction_carbonprod_hour
-  - check_primaryproduction_carbonprodlight
-  - check_ringedseal_calccounted
+  - check_fields
+  - check_logical_parameter
+  - check_outliers
+  - check_setup
   - check_value_logical
   - check_zero_value
-  - check_zoobenthos_BQIm
-  - check_zoobenthos_BQIm_logical
-  - check_zoobenthos_abund
-  - check_zoobenthos_counted
-  - check_zoobenthos_wetweight
-  - check_zoobenthos_wetweight_logical
-  - check_zooplankton_abund
-  - check_zooplankton_carbon
-  - check_zooplankton_counted
-  - check_zooplankton_length_mean
-  - check_zooplankton_length_median
-  - check_zooplankton_wetweight
-  - check_zooplankton_wetweight_area
-  - check_zooplankton_wetweight_volume
 
 - subtitle: MISC
   contents:

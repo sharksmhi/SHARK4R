@@ -2,7 +2,7 @@
 % Please edit documentation in R/nua_api_functions.R
 \name{get_nua_media_links}
 \alias{get_nua_media_links}
-\title{Retrieve and Extract Media URLs from Nordic Microalgae}
+\title{Retrieve and extract media URLs from Nordic Microalgae}
 \usage{
 get_nua_media_links(unparsed = FALSE)
 }

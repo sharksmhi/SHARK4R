@@ -2,7 +2,7 @@
 % Please edit documentation in R/nua_api_functions.R
 \name{get_nua_taxa}
 \alias{get_nua_taxa}
-\title{Retrieve Taxa Information from Nordic Microalgae}
+\title{Retrieve taxa information from Nordic Microalgae}
 \usage{
 get_nua_taxa(unparsed = FALSE)
 }
@@ -17,7 +17,7 @@ When unparsed = \code{FALSE}: a data frame containing the following columns:
 \item{rank}{The taxonomic rank of the taxon.}
 }
 \description{
-This function retrieves taxonomic information for algae taxa from the Nordic Microalgae API.
+This function retrieves all taxonomic information for algae taxa from the Nordic Microalgae API.
 It fetches details including scientific names, authorities, ranks, and image URLs (in different sizes: large, medium, original, and small).
 }
 \examples{

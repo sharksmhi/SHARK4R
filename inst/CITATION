@@ -1,19 +1,17 @@
 bibentry(
   bibtype = "Manual",
-  title = "SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae",
+  title = "SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases",
   author = c(
     person(given = "Markus",
            family = "Lindh",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "https://orcid.org/0000-0002-7120-4145")),
+           comment = c(ORCID = "0000-0002-7120-4145")),
     person("Anders", "Torstensson",
            role = c("aut"),
-           email = "first.last@example.com",
            comment = c(affiliation = "Swedish Meteorological and Hydrological Institute",
                        ORCID = "0000-0002-8283-656X"))),
   year = "2025",
   note = "R package version 0.1.7.9000",
   url = "https://doi.org/10.5281/zenodo.14169399",
-  textVersion = paste("Markus Lindh, Anders Torstensson (2025). SHARK4R: Retrieving, Analyzing, and Validating Marine Data from SHARK and Nordic Microalgae. R package version 0.1.7.9000. https://doi.org/10.5281/zenodo.14169399")
+  textVersion = paste("Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases. R package version 0.1.7.9000. https://doi.org/10.5281/zenodo.14169399")
 )

@@ -2,20 +2,83 @@
 % Please edit documentation in R/scatterplot.R
 \name{scatterplot}
 \alias{scatterplot}
-\title{Scatterplot of user-defined variables and parameters with x- and y-axes automatic selection
-Interactive plotly plot}
+\title{Interactive scatterplot with parameter selection and flexible axes}
 \usage{
-scatterplot(data, ...)
+scatterplot(
+  data,
+  x = NULL,
+  hline = NULL,
+  hline_style = list(color = "red", dash = "dash", width = 2),
+  ...
+)
 }
 \arguments{
-\item{data}{for tibble be be checked}
+\item{data}{A data frame or tibble containing at least the following columns:
+\itemize{
+\item \code{station_name}: Name of the station (default x-axis)
+\item \code{sample_date}: Sample date (optional alternative x-axis)
+\item \code{value}: Numeric variable to plot on the y-axis
+\item \code{parameter}: Parameter name (used for y-axis labeling and selection)
+\item \code{unit}: Measurement unit corresponding to the parameter
+}}
 
-\item{...}{Additional parameters}
+\item{x}{Optional. Character string specifying a column in \code{data} to use as
+the x-axis instead of \code{station_name}. Defaults to \code{NULL}.}
+
+\item{hline}{Optional. Numeric value or named list of values giving a
+horizontal reference line (e.g., from \code{get_shark_statistics}).
+If a named list, names should match \code{parameter} values.}
+
+\item{hline_style}{List of styling options for the line
+(default: red, dashed, width 2).}
+
+\item{...}{Additional arguments passed to \code{\link[plotly:plot_ly]{plotly::plot_ly()}}, such as
+marker styling.}
 }
 \value{
-plotly plot
+A \code{plotly} object representing the interactive scatterplot.
 }
 \description{
-Scatterplot of user-defined variables and parameters with x- and y-axes automatic selection
-Interactive plotly plot
+Creates an interactive scatterplot using \code{plotly}, where the y-axis
+represents measured values (\code{value}) for different parameters, and the
+x-axis can be switched interactively between available options.
+}
+\examples{
+\dontrun{
+
+df <- dplyr::tibble(
+  station_name = c("A", "B", "C", "A", "B", "C"),
+  sample_date = rep(as.Date(c("2025-01-01", "2025-01-02", "2025-01-03")), 2),
+  expedition_id = rep(1:3, 2),
+  value = c(10, 15, 8, 5, 7, 6),
+  parameter = rep(c("Chlorophyll-a", "POC"), each = 3),
+  unit = rep(c("µg/L", "mg/L"), each = 3)
+)
+
+# Default: station_name on x-axis
+scatterplot(df)
+
+# Use expedition_id on x-axis
+scatterplot(df, x = "expedition_id")
+
+# Add custom marker styling
+scatterplot(df, marker = list(size = 12, color = "red"))
+
+# Add a fixed horizontal reference line
+scatterplot(df, hline = 10)
+
+# Supply different reference lines per parameter
+scatterplot(
+  df,
+  hline = list("Chlorophyll-a" = 7, "POC" = 12)
+)
+
+# Custom styled horizontal line
+scatterplot(
+  df,
+  hline = 5,
+  hline_style = list(color = "blue", dash = "dot", width = 3)
+)
+}
+
 }

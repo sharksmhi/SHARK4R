@@ -2,7 +2,7 @@
 % Please edit documentation in R/dyntaxa_api_functions.R
 \name{construct_dyntaxa_table}
 \alias{construct_dyntaxa_table}
-\title{Construct Dyntaxa Taxonomy Table From API}
+\title{Construct Dyntaxa taxonomy table from API}
 \usage{
 construct_dyntaxa_table(
   taxon_ids,

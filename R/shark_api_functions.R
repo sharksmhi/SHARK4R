@@ -1,4 +1,4 @@
-#' Retrieve Available Search Options from SHARK API
+#' Retrieve available search options from SHARK API
 #'
 #' The `get_shark_options` function retrieves available search options from the SHARK database.
 #' It sends a GET request to the SHARK API and returns the results as a structured `data.frame`.
@@ -75,10 +75,12 @@ get_shark_options <- function(prod = TRUE, unparsed = FALSE) {
     stop("Failed to retrieve options: ", status_code(response))
   }
 }
-#' Retrieve SHARK Data Table Row Counts
+#' Retrieve SHARK data table row counts
 #'
-#' The `get_shark_table_counts` function retrieves the row counts of data records from various SHARK data tables.
-#' To view available filter options, see \code{\link{get_shark_options}}.
+#' The `get_shark_table_counts` function retrieves the number of records (row counts)
+#' from various SHARK data tables based on specified filters such as year, months,
+#' data type, stations, and taxa. To view available filter options, see
+#' \code{\link{get_shark_options}}.
 #'
 #' @param tableView Character. Specifies the view of the table to retrieve. Options include:
 #'   \itemize{
@@ -138,6 +140,9 @@ get_shark_options <- function(prod = TRUE, unparsed = FALSE) {
 #'
 #' @seealso \url{https://shark.smhi.se} for SHARK database.
 #' @seealso \code{\link{get_shark_options}}
+#'
+#' @return An integer representing the total number of rows in the requested SHARK table
+#'   after applying the specified filters.
 #'
 #' @examples
 #' \dontrun{
@@ -221,7 +226,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
     stop("Failed to retrieve data: ", status_code(response))
   }
 }
-#' Retrieve Data from SHARK API
+#' Retrieve data from the SHARK API
 #'
 #' The `get_shark_data` function retrieves tabular data from the SHARK database hosted by SMHI. The function sends a POST request
 #' to the SHARK API with customizable filters, including year, month, taxon name, water category, and more, and returns the
@@ -567,7 +572,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 
     if (save_data) {
       utils::write.table(combined_data, file = file_path, sep = sep_char, row.names = FALSE, col.names = TRUE,
-                  quote = FALSE, fileEncoding = content_encoding)
+                         quote = FALSE, fileEncoding = content_encoding)
     }
 
     return(combined_data)
@@ -679,13 +684,18 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 #'   (`TRUE`, default) or test (`FALSE`) SHARK server.
 #' @param unzip_file Logical, whether to extract downloaded zip
 #'   archives (`TRUE`) or only save them (`FALSE`, default).
+#' @param return_df Logical, whether to return a combined data frame
+#'   with the contents of all downloaded datasets (`TRUE`) instead
+#'   of a list of file paths (`FALSE`, default).
 #' @param verbose Logical, whether to show download and extraction
 #'   progress messages. Default is `TRUE`.
 #'
-#' @return A named list of character vectors. Each element
-#'   corresponds to one matched dataset and contains either the
-#'   path to the downloaded zip file (if `unzip_file = FALSE`) or
+#' @return If `return_df = FALSE`, a named list of character vectors.
+#'   Each element corresponds to one matched dataset and contains either
+#'   the path to the downloaded zip file (if `unzip_file = FALSE`) or
 #'   the path to the extraction directory (if `unzip_file = TRUE`).
+#'   If `return_df = TRUE`, a single combined data frame with all
+#'   dataset contents, including a `source` column indicating the dataset.
 #'
 #' @seealso \url{https://shark.smhi.se} for SHARK database.
 #' @seealso [get_shark_options()] for listing available datasets.
@@ -693,14 +703,20 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 #'
 #' @examples
 #' \dontrun{
-#' # Download one dataset to a temporary folder
+#' # Get a specific dataset
 #' get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF")
 #'
-#' # Download multiple datasets and unzip them into the data directory
+#' # Get all Zooplankton datasets from 2022 and unzip them
 #' get_shark_datasets(
-#'   dataset_name = c("Phytoplankton_2023", "Zooplankton_2022"),
+#'   dataset_name = c("Zooplankton_2022"),
 #'   save_dir = "data",
 #'   unzip_file = TRUE
+#' )
+#'
+#' # Get all Phytoplankton datasets and return as a combined data frame
+#' combined_df <- get_shark_datasets(
+#'   dataset_name = "Phytoplankton_2023",
+#'   return_df = TRUE
 #' )
 #' }
 #'
@@ -709,27 +725,23 @@ get_shark_datasets <- function(dataset_name,
                                save_dir = "",
                                prod = TRUE,
                                unzip_file = FALSE,
+                               return_df = FALSE,
                                verbose = TRUE) {
-  # Validate input
+
   if (missing(dataset_name) || length(dataset_name) == 0) {
-    stop("Please provide at least one 'dataset_name' (e.g., 'SHARK_Phytoplankton_2023_PELA_GVVF').")
+    stop("Please provide at least one 'dataset_name'.")
   }
 
-  # Get complete list of available datasets
   available_datasets <- get_shark_options(prod = prod)$dataset
 
-  # Find all matches
-  matched_datasets <- unlist(lapply(dataset_name, function(dn) {
+  matched_datasets <- unique(unlist(lapply(dataset_name, function(dn) {
     available_datasets[grepl(dn, available_datasets)]
-  }))
-
-  matched_datasets <- unique(matched_datasets)
+  })))
 
   if (length(matched_datasets) == 0) {
     stop("No datasets found matching: ", paste(dataset_name, collapse = ", "))
   }
 
-  # Base URL
   base_url <- if (prod) {
     "https://shark.smhi.se/api/dataset/download/"
   } else {
@@ -741,42 +753,34 @@ get_shark_datasets <- function(dataset_name,
   url_response <- try(httr::GET(url_short), silent = TRUE)
   if (inherits(url_response, "try-error") || httr::http_error(url_response)) {
     stop("The SHARK ", ifelse(prod, "PROD", "TEST"),
-         " server cannot be reached: ", url_short,
-         ". Please check your network connection.")
+         " server cannot be reached: ", url_short)
   }
 
-  # Handle save_dir
   if (is.null(save_dir) || identical(save_dir, "") || nchar(save_dir) == 0) {
     save_dir <- getwd()
   }
   save_dir <- normalizePath(path.expand(save_dir), winslash = "/", mustWork = FALSE)
-  if (!dir.exists(save_dir)) {
-    dir.create(save_dir, recursive = TRUE, showWarnings = FALSE)
-  }
+  if (!dir.exists(save_dir)) dir.create(save_dir, recursive = TRUE, showWarnings = FALSE)
 
-  # Loop over matched datasets
   results <- lapply(matched_datasets, function(md) {
-    url <- paste0(base_url, md)
     zip_path <- file.path(save_dir, md)
 
-    if (file.exists(zip_path)) {
-      if (verbose) message("Already exists, skipping download: ", zip_path)
-    } else {
+    if (!file.exists(zip_path)) {
       if (verbose) message("Downloading zip archive: ", md)
       response <- httr::GET(
-        url,
+        paste0(base_url, md),
         httr::add_headers("accept" = "application/octet-stream"),
         httr::write_disk(zip_path, overwrite = TRUE),
         if (verbose) httr::progress()
       )
-
       if (httr::status_code(response) != 200) {
         warning("Failed to download dataset: ", md,
                 " HTTP Status: ", httr::status_code(response))
         return(NA_character_)
       }
-
-      if (verbose) message("\nZip file saved at: ", zip_path)
+      if (verbose) message("Zip file saved at: ", zip_path)
+    } else {
+      if (verbose) message("Already exists, skipping download: ", zip_path)
     }
 
     if (unzip_file) {
@@ -791,5 +795,223 @@ get_shark_datasets <- function(dataset_name,
   })
 
   names(results) <- matched_datasets
-  return(results)
+
+  if (return_df) {
+    if (!unzip_file) {
+      # temp_dirs <- results
+      dfs <- map(unlist(results, use.names = FALSE), shark_read_zip)
+    } else {
+      # Extract the vector of file paths
+      zip_files <- unlist(results, use.names = FALSE)
+
+      # Identify shark_data.txt
+      data_files <- file.path(gsub(".zip", "", zip_files), "shark_data.txt")
+
+      # temp_dirs <- results
+      dfs <- map(data_files, shark_read)
+    }
+
+    # Make everything character first
+    dfs <- purrr::map(dfs, ~ dplyr::mutate(.x, across(everything(), as.character)))
+
+    # Bind together, add source column
+    combined_df <- bind_rows(dfs, .id = "source")
+
+    # Let readr guess the best types again
+    combined_df <- type_convert(combined_df, col_types = readr::cols())
+
+    return(combined_df)
+  } else {
+    return(results)
+  }
+}
+
+#' Summarize numeric SHARK parameters with ranges and outlier thresholds
+#'
+#' Downloads SHARK data for a given time period, filters to numeric parameters,
+#' and calculates descriptive statistics and Tukey outlier thresholds.
+#'
+#' By default, the function uses the *previous five complete years*.
+#' For example, if called in 2025 it will use data from 2020–2024.
+#'
+#' @param fromYear Start year for download (numeric).
+#'   Defaults to 5 years before the last complete year.
+#' @param toYear End year for download (numeric).
+#'   Defaults to the last complete year.
+#' @param datatype Optional, one or more datatypes to filter on
+#'   (e.g. `"Bacterioplankton"`). If `NULL`, all datatypes are included.
+#' @param group_col Optional column name in the SHARK data to group by
+#'   (e.g. `"station_name"`). If provided, statistics will be computed separately
+#'   for each group. Default is `NULL`.
+#' @param min_obs Minimum number of numeric observations required
+#'   for a parameter to be included (default: 3).
+#' @param max_non_numeric_frac Maximum allowed fraction of non-numeric values
+#'   for a parameter to be kept (default: 0.05).
+#' @param verbose Logical, whether to show download progress messages. Default is `TRUE`.
+#' @param cache_result Logical, whether to save the result in a persistent cache
+#'   (`statistics.rds`) for use by other functions. Default is `FALSE`.
+#'
+#' @return A tibble with one row per parameter (and optionally per group) and the following columns:
+#' \describe{
+#'   \item{parameter}{Parameter name (character).}
+#'   \item{datatype}{SHARK datatype (character).}
+#'   \item{min, Q1, median, Q3, max}{Observed quantiles.}
+#'   \item{P01, P05, P95, P99}{1st, 5th, 95th and 99th percentiles.}
+#'   \item{IQR}{Interquartile range.}
+#'   \item{mean}{Arithmetic mean of numeric values.}
+#'   \item{sd}{Standard deviation of numeric values.}
+#'   \item{var}{Variance of numeric values.}
+#'   \item{cv}{Coefficient of variation (sd / mean).}
+#'   \item{mad}{Median absolute deviation.}
+#'   \item{mild_lower, mild_upper}{Lower/upper bounds for mild outliers (1.5 × IQR).}
+#'   \item{extreme_lower, extreme_upper}{Lower/upper bounds for extreme outliers (3 × IQR).}
+#'   \item{n}{Number of numeric observations used.}
+#'   \item{<group_col>}{Optional grouping column if provided.}
+#' }
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#'   # Uses previous 5 years automatically
+#'   res <- get_shark_statistics()
+#'
+#'   # Explicitly set years and datatype
+#'   res <- get_shark_statistics(2018, 2022, datatype = "Chlorophyll")
+#'
+#'   # Group by station name and save result in persistent cache
+#'   res <- get_shark_statistics(group_col = "station_name", cache_result = TRUE)
+#'
+#'   # Print result
+#'   print(res)
+#' }
+get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL, group_col = NULL,
+                                 min_obs = 3, max_non_numeric_frac = 0.05, verbose = TRUE,
+                                 cache_result = FALSE) {
+
+  # Set default years
+  current_year <- as.integer(format(Sys.Date(), "%Y"))
+  last_complete_year <- current_year - 1
+  if (is.null(toYear)) toYear <- last_complete_year
+  if (is.null(fromYear)) fromYear <- toYear - 4
+
+  if (verbose) {
+    message(sprintf("Downloading SHARK data from %d to %d...", fromYear, toYear))
+  }
+
+  if (is.null(datatype)) {
+    datatype <- c()
+  }
+
+  # Download data
+  data <- get_shark_data(dataTypes = datatype,
+                         fromYear = fromYear,
+                         toYear = toYear,
+                         verbose = verbose)
+
+  if (nrow(data) == 0) {
+    warning("No data retrieved from SHARK for the specified years and datatype.")
+    return(tibble())
+  }
+
+  df <- data %>%
+    dplyr::select(dplyr::any_of(c("delivery_datatype", "parameter", "value", group_col))) %>%
+    dplyr::filter(!is.na(value))
+
+  if (!is.null(datatype)) {
+    df <- df %>% dplyr::filter(delivery_datatype %in% datatype)
+  }
+
+  # Parse numeric
+  df <- df %>% dplyr::mutate(value_num = parse_shark_value(value))
+
+  # Compute non-numeric fractions per parameter
+  param_quality <- df %>%
+    dplyr::group_by(parameter) %>%
+    dplyr::summarise(n_total = n(),
+                     n_non_numeric = sum(is.na(value_num)),
+                     frac_non_numeric = n_non_numeric / n_total,
+                     .groups = "drop")
+
+  # Keep only numeric-like parameters
+  keep_params <- param_quality %>%
+    dplyr::filter(frac_non_numeric <= max_non_numeric_frac) %>%
+    dplyr::pull(parameter)
+
+  df <- df %>% dplyr::filter(parameter %in% keep_params)
+
+  # Summariser
+  summarise_param <- function(v) {
+    v <- v[!is.na(v)]
+    if (length(v) < min_obs) {
+      return(tibble(
+        min = NA_real_, Q1 = NA_real_, median = NA_real_, Q3 = NA_real_, max = NA_real_,
+        P01 = NA_real_, P05 = NA_real_, P95 = NA_real_, P99 = NA_real_,
+        IQR = NA_real_, mean = NA_real_, sd = NA_real_, var = NA_real_, cv = NA_real_,
+        mad = NA_real_, mild_lower = NA_real_, mild_upper = NA_real_,
+        extreme_lower = NA_real_, extreme_upper = NA_real_, n = length(v)
+      ))
+    }
+
+    q <- stats::quantile(v, probs = c(0, 0.25, 0.5, 0.75, 1), na.rm = TRUE, type = 7)
+    p <- stats::quantile(v, probs = c(0.01, 0.05, 0.95, 0.99), na.rm = TRUE, type = 7)
+
+    lowerq <- q[2]; upperq <- q[4]; iqr <- upperq - lowerq
+
+    m <- mean(v)
+    s <- stats::sd(v)
+
+    dplyr::tibble(
+      min = q[1], Q1 = lowerq, median = q[3], Q3 = upperq, max = q[5],
+      P01 = p[1], P05 = p[2], P95 = p[3], P99 = p[4],
+      IQR = iqr,
+      mean = m,
+      sd = s,
+      var = s^2,
+      cv = if (!is.na(m) && m != 0) s / m else NA_real_,
+      mad = stats::mad(v, constant = 1),
+      mild_lower = lowerq - 1.5 * iqr,
+      mild_upper = upperq + 1.5 * iqr,
+      extreme_lower = lowerq - 3 * iqr,
+      extreme_upper = upperq + 3 * iqr,
+      n = length(v)
+    )
+  }
+
+  # Grouping variables: always by parameter & datatype, optionally by user-specified col
+  group_vars <- c("parameter", "delivery_datatype")
+  if (!is.null(group_col)) {
+    if (!group_col %in% names(df)) {
+      stop("Column '", group_col, "' not found in SHARK data.")
+    }
+    group_vars <- c(group_vars, group_col)
+  }
+
+  # Summarize per group
+  result_tbl <- df %>%
+    dplyr::group_by(dplyr::across(all_of(group_vars))) %>%
+    dplyr::summarise(stats = list(summarise_param(value_num)), .groups = "drop") %>%
+    tidyr::unnest(stats) %>%
+    dplyr::filter(n >= min_obs) %>%
+    dplyr::rename(datatype = delivery_datatype)
+
+  # Cache result if requested
+  if (cache_result) {
+    cache_dir <- file.path(tools::R_user_dir("SHARK4R", "cache"), "perm")
+    if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
+    saveRDS(result_tbl, file = file.path(cache_dir, "statistics.rds"))
+    if (verbose) message("Cached SHARK statistics at: ", file.path(cache_dir, "statistics.rds"))
+  }
+
+  return(result_tbl)
+}
+
+# Helper: parse SHARK values to numeric
+parse_shark_value <- function(x) {
+  x <- as.character(x)
+  x <- trimws(x)
+  x <- gsub(",", ".", x)              # fix decimal commas
+  x <- gsub("^\\s*[<>~=]+\\s*", "", x) # drop <, >, = signs
+  x <- gsub("[^0-9eE+\\-\\.]", "", x) # keep only numeric chars
+  x[nzchar(x) == FALSE] <- NA_character_
+  suppressWarnings(as.numeric(x))
 }

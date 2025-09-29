@@ -1,4 +1,4 @@
-#' Determine if Positions are Near Land
+#' Determine if positions are near land
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`

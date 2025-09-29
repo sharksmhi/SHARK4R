@@ -2,19 +2,44 @@
 % Please edit documentation in R/check_stations.R
 \name{match_station}
 \alias{match_station}
-\title{Station matching using SMHI station list}
+\title{Match station names against SMHI station list}
 \usage{
-match_station(names, station_file = NULL)
+match_station(names, station_file = NULL, try_synonyms = TRUE)
 }
 \arguments{
 \item{names}{Character vector of station names to match.}
 
 \item{station_file}{Optional path to a custom station file (tab-delimited).
-If NULL (default), the function will extract and use the bundled
-"station.zip" from the SHARK4R package.}
+If \code{NULL} (default), the function will extract and use the bundled
+\code{"station.zip"} from the \code{SHARK4R} package.}
+
+\item{try_synonyms}{Logical; if \code{TRUE} (default), unmatched names
+are also compared against the \code{SYNONYM_NAMES} column in the database.}
+}
+\value{
+A data frame with two columns:
+\describe{
+\item{reported_station_name}{The input station names.}
+\item{match_type}{Logical; \code{TRUE} if the station was found in the SMHI station list (including synonyms if enabled), otherwise \code{FALSE}.}
+}
 }
 \description{
-Matches reported station names in your data with a curated station list
-("station.txt"), which is synced with "Stationsregistret":
+Matches reported station names in your dataset against a curated station list
+(\code{"station.txt"}), which is synced with "Stationsregistret":
 \url{https://stationsregister.miljodatasamverkan.se/}.
+}
+\details{
+This is useful for validating station names and identifying any unmatched
+or misspelled entries.
+
+If \code{try_synonyms = TRUE}, unmatched station names are also compared
+against the \code{SYNONYM_NAMES} column in the station database, splitting
+multiple synonyms separated by \code{<or>}.
+}
+\examples{
+\dontrun{
+stations <- c("ANHOLT E", "BY5 BORNHOLMSDJ", "STX999")
+match_station(stations, try_synonyms = TRUE)
+}
+
 }

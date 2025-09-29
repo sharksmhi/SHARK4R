@@ -2,7 +2,7 @@
 % Please edit documentation in R/iRfcb_functions.R
 \name{positions_are_near_land}
 \alias{positions_are_near_land}
-\title{Determine if Positions are Near Land}
+\title{Determine if positions are near land}
 \usage{
 positions_are_near_land(
   latitudes,

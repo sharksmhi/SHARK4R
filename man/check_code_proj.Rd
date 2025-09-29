@@ -2,20 +2,25 @@
 % Please edit documentation in R/check_codes.R
 \name{check_code_proj}
 \alias{check_code_proj}
-\title{Check matches of reported project (PROJ) codes in SMHIs codelist}
+\title{Check matches of reported codes in SMHI's SHARK codelist}
 \usage{
 check_code_proj(data, clean_cache_days = 30)
 }
 \arguments{
 \item{data}{for tibble be be checked}
 
-\item{clean_cache_days}{Numeric; if not \code{NULL}, cached SHARK code Excel files older than
+\item{clean_cache_days}{Numeric; if not NULL, cached SHARK code Excel files older than
 this number of days will be automatically deleted and be replaced by a new download.
-Defaults to 30. Set to \code{NULL} to disable automatic cleanup.}
+Defaults to 30. Set to NULL to disable automatic cleanup.}
 }
 \value{
 unmatched codes with true or false results
 }
 \description{
-Check matches of reported project (PROJ) codes in SMHIs codelist
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+This function is deprecated and has been replaced by \code{\link[=check_codes]{check_codes()}}.
 }
+\seealso{
+\code{\link[=get_shark_codes]{get_shark_codes()}} to get the current code list.
+}
+\keyword{internal}

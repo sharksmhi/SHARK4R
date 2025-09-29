@@ -2,7 +2,7 @@
 % Please edit documentation in R/algaebase_api_functions.R
 \name{match_algaebase}
 \alias{match_algaebase}
-\title{Search AlgaeBase for Taxonomic Information}
+\title{Search AlgaeBase for taxonomic information}
 \usage{
 match_algaebase(
   genus,
@@ -73,6 +73,10 @@ The following columns may be included:
 }
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function has been deprecated. Users are encouraged to use \code{\link{match_algaebase_taxa}} instead.
+
 This function queries the AlgaeBase API to retrieve taxonomic information for a list of algae names based on genus and (optionally) species.
 It supports exact matching, genus-only searches, and retrieval of higher taxonomic ranks.
 }
@@ -103,7 +107,8 @@ head(algaebase_results)
 }
 }
 \seealso{
-\url{https://algaebase.org/} for AlgaeBase website.
+\url{https://www.algaebase.org/} for AlgaeBase website.
 
 \code{\link{parse_scientific_names}}
 }
+\keyword{internal}

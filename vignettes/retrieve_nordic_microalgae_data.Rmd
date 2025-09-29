@@ -26,7 +26,7 @@ remotes::install_github("sharksmhi/SHARK4R",
                         dependencies = TRUE)
 ```
 
-Load the `SHARK4R` and `tibble` libraries:
+Load the `SHARK4R` and `dplyr` libraries:
 ```{r, eval=FALSE}
 library(SHARK4R)
 library(dplyr)
@@ -119,6 +119,8 @@ tibble(nomp_list)
 ```
 
 Please note that `SHARK4R` also includes a useful function for reading exported [Plankton Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files: `read_ptbx()`.
+
+---
 
 ## Citation
 

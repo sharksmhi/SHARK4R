@@ -1,6 +1,6 @@
-#' Retrieve Taxa Information from Nordic Microalgae
+#' Retrieve taxa information from Nordic Microalgae
 #'
-#' This function retrieves taxonomic information for algae taxa from the Nordic Microalgae API.
+#' This function retrieves all taxonomic information for algae taxa from the Nordic Microalgae API.
 #' It fetches details including scientific names, authorities, ranks, and image URLs (in different sizes: large, medium, original, and small).
 #'
 #' @param unparsed Logical. If `TRUE`, complete API response is returned as an unparsed list. Default is `FALSE`.
@@ -80,7 +80,7 @@ get_nua_taxa <- function(unparsed = FALSE) {
     stop("Failed to retrieve options: ", status_code(response))
   }
 }
-#' Retrieve External Links or Facts for Taxa from Nordic Microalgae
+#' Retrieve external links or facts for taxa from Nordic Microalgae
 #'
 #' This function retrieves external links related to algae taxa from the Nordic Microalgae API.
 #' It takes a vector of slugs (taxon identifiers) and returns a data frame containing the external links
@@ -181,7 +181,7 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
 
   return(nua_facts)
 }
-#' Retrieve Harmfulness for Taxa from Nordic Microalgae
+#' Retrieve harmfulness for taxa from Nordic Microalgae
 #'
 #' This function retrieves harmfulness information related to algae taxa from the Nordic Microalgae API.
 #' It takes a vector of slugs (taxon identifiers) and returns a data frame containing the harmfulness information
@@ -274,7 +274,7 @@ get_nua_harmfulness <- function(slug, verbose = TRUE) {
 
   return(nua_facts)
 }
-#' Retrieve and Extract Media URLs from Nordic Microalgae
+#' Retrieve and extract media URLs from Nordic Microalgae
 #'
 #' This function retrieves media information from the Nordic Microalgae API and extracts slugs
 #' and URLs for different renditions (large, original, small, medium) for each media item.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/worms_api_functions.R
 \name{update_worms_taxonomy}
 \alias{update_worms_taxonomy}
-\title{Retrieve and Organize WoRMS Taxonomy for SHARK Aphia IDs}
+\title{Retrieve and organize WoRMS taxonomy for SHARK Aphia IDs}
 \usage{
 update_worms_taxonomy(aphia_id, aphiaid = deprecated())
 }

@@ -55,3 +55,67 @@ test_that("get_xy_clean_duplicates works", {
   replicate[!xy$isclean,] <- lots_duplicates[!xy$isclean,]
   expect_equal(lots_duplicates, replicate)
 })
+
+test_that("check_setup downloads and sets up products and scripts", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable("https://github.com/")
+
+  tmpdir <- file.path(tempdir(), paste0("shark_setup_", as.integer(Sys.time())))
+  dir.create(tmpdir)
+
+  result <- check_setup(path = tmpdir, verbose = TRUE)
+
+  expect_true(dir.exists(result$products))
+
+  unlink(tmpdir, recursive = TRUE)
+})
+
+test_that("check_setup skips download if already present", {
+
+  tmpdir <- file.path(tempdir(), paste0("shark_setup_", as.integer(Sys.time())))
+  dir.create(tmpdir)
+
+  products <- file.path(tmpdir, "products")
+  dir.create(products, recursive = TRUE)
+
+  result <- check_setup(path = tmpdir, verbose = TRUE)
+
+  expect_true(dir.exists(result$products))
+
+  unlink(tmpdir, recursive = TRUE)
+})
+
+test_that("check_setup forces re-download when force = TRUE", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable("https://github.com/")
+
+  tmpdir <- file.path(tempdir(), paste0("shark_setup_", as.integer(Sys.time())))
+  dir.create(tmpdir)
+
+  products <- file.path(tmpdir, "products")
+  dir.create(products, recursive = TRUE)
+
+  result <- check_setup(path = tmpdir, force = TRUE, verbose = FALSE)
+
+  expect_true(dir.exists(result$products))
+
+  unlink(tmpdir, recursive = TRUE)
+})
+
+test_that("check_setup errors if run_app = TRUE but no ui/server", {
+
+  tmpdir <- file.path(tempdir(), paste0("shark_setup_", as.integer(Sys.time())))
+  dir.create(tmpdir)
+
+  products <- file.path(tmpdir, "products")
+  dir.create(products, recursive = TRUE)
+
+  expect_error(
+    check_setup(path = tmpdir, run_app = TRUE, verbose = FALSE),
+    "Could not find 'server.R' and 'ui.R'"
+  )
+
+  unlink(tmpdir, recursive = TRUE)
+})

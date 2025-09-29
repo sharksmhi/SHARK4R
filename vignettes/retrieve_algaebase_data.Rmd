@@ -7,24 +7,24 @@ vignette: >
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
-
+  
 ## AlgaeBase
-
+  
 AlgaeBase is a comprehensive database containing information on a wide variety of algae species, including terrestrial, marine, and freshwater organisms, with an emphasis on marine botany. AlgaeBase is continually updated and funded by various phycological societies, with contributions from researchers and institutions worldwide. It can be accessed via a [web interface](https://www.algaebase.org/) or through the [API](https://www.algaebase.org/api/), as demonstrated in this tutorial using `SHARK4R`. Please note that the authors of `SHARK4R` are not affiliated with AlgaeBase.
-
+  
 ## Getting Started
-
+  
 ### Installation
-
+  
 You can install the latest version of the package from GitHub using the `remotes` package:
 ```{r, eval=FALSE}
 # install.packages("remotes")
-remotes::install_github("sharksmhi/SHARK4R",
-                        ref = remotes::github_release(),
+remotes::install_github("sharksmhi/SHARK4R", 
+                        ref = remotes::github_release(), 
                         dependencies = TRUE)
 ```
 
-Load the `SHARK4R` and `tibble` libraries:
+Load the `SHARK4R` and `dplyr` libraries:
 ```{r, eval=FALSE}
 library(SHARK4R)
 library(dplyr)
@@ -48,12 +48,12 @@ algaebase_key <- Sys.getenv("ALGAEBASE_KEY")
 
 ## Match Genus Name
 
-Taxonomic records can be retrieved for individual genera names using the `get_algaebase_genus()` function.
+Taxonomic records can be retrieved for individual genera names using the `match_algaebase_genus()` function.
 
 ```{r}
 # Match a genus name with AlgaeBase API
-genus_records <- get_algaebase_genus(genus = "Gymnodinium",
-                                     subscription_key = algaebase_key)
+genus_records <- match_algaebase_genus(genus = "Gymnodinium",
+                                       subscription_key = algaebase_key)
 
 # Print the result
 print(genus_records)
@@ -61,13 +61,13 @@ print(genus_records)
 
 ## Match Species Name
 
-Taxonomic records can be retrieved for individual species names using the `get_algaebase_species()` function.
+Taxonomic records can be retrieved for individual species names using the `match_algaebase_species()` function.
 
 ```{r}
 # Match a species with AlgaeBase API
-species_records <- get_algaebase_species(genus = "Tripos",
-                                         species = "muelleri",
-                                         subscription_key = algaebase_key)
+species_records <- match_algaebase_species(genus = "Tripos",
+                                           species = "muelleri",
+                                           subscription_key = algaebase_key)
 
 # Print the result
 print(species_records)
@@ -75,7 +75,7 @@ print(species_records)
 
 ## Match Multiple Scientific Names
 
-Multiple names can be matched with the `match_algaebase()` function. The scientific names need to be parsed into `genus` and `species` names before being passed to the API, which can be achieved by the `parse_scientific_names()` function.
+Multiple names can be matched with the `match_algaebase_taxa()` function. The scientific names need to be parsed into `genus` and `species` names before being passed to the API, which can be achieved by the `parse_scientific_names()` function.
 
 ```{r}
 # Retrieve all phytoplankton data from April 2015
@@ -95,14 +95,16 @@ parsed_taxa <- parse_scientific_names(random_rows$scientific_name)
 print(parsed_taxa)
 
 # Match the taxa with AlgaeBase
-algaebase_match <- match_algaebase(genus = parsed_taxa$genus,
-                                   species = parsed_taxa$species,
-                                   subscription_key = algaebase_key,
-                                   verbose = FALSE)
+algaebase_match <- match_algaebase_taxa(genus = parsed_taxa$genus,
+                                        species = parsed_taxa$species,
+                                        subscription_key = algaebase_key,
+                                        verbose = FALSE)
 
 # Print the result
 tibble(algaebase_match)
 ```
+
+---
 
 ## Citation
 

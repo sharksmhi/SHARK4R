@@ -2,7 +2,7 @@
 % Please edit documentation in R/ifcb_which_basin.R
 \name{ifcb_which_basin}
 \alias{ifcb_which_basin}
-\title{Determine if Points are in a Specified Sea Basin}
+\title{Determine if points are in a specified sea basin}
 \usage{
 ifcb_which_basin(latitudes, longitudes, plot = FALSE, shape_file = NULL)
 }

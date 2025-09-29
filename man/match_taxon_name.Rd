@@ -54,6 +54,10 @@ Use \code{usethis::edit_r_environ()} to open the file, then add:
 A data frame containing the search pattern, taxon ID, and best match for each taxon name.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function has been deprecated. Users are encouraged to use \code{\link{match_dyntaxa_taxa}} instead.
+
 This function matches a list of taxon names against the SLU Artdatabanken API (Dyntaxa) and retrieves the best matches along with their taxon IDs.
 }
 \details{
@@ -76,3 +80,4 @@ print(matched_taxa)
 \seealso{
 \href{https://api-portal.artdatabanken.se/}{SLU Artdatabanken API Documentation}
 }
+\keyword{internal}

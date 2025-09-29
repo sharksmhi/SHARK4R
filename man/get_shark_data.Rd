@@ -2,7 +2,7 @@
 % Please edit documentation in R/shark_api_functions.R
 \name{get_shark_data}
 \alias{get_shark_data}
-\title{Retrieve Data from SHARK API}
+\title{Retrieve data from the SHARK API}
 \usage{
 get_shark_data(
   tableView = "sharkweb_overview",

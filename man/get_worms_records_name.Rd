@@ -2,7 +2,7 @@
 % Please edit documentation in R/worms_api_functions.R
 \name{get_worms_records_name}
 \alias{get_worms_records_name}
-\title{Retrieve WoRMS Records by Taxonomic Names with Retry Logic}
+\title{Retrieve WoRMS records by taxonomic names with retry logic}
 \usage{
 get_worms_records_name(
   taxa_names,
@@ -33,6 +33,10 @@ get_worms_records_name(
 A data frame containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function has been deprecated. Users are encouraged to use \code{\link{match_worms_taxa}} instead.
+
 This function retrieves records from the WoRMS database using the \code{worrms} R package for a vector of taxonomic names.
 It includes retry logic to handle temporary failures and ensures all names are processed.
 }
@@ -44,8 +48,8 @@ If all attempts fail, the function stops and throws an error.
 \examples{
 \dontrun{
 # Retrieve WoRMS records for the taxonomic names "Amphidinium" and "Karenia"
-records <- retrieve_worms_records_name(c("Amphidinium", "Karenia"),
-                                       max_retries = 3, sleep_time = 5, marine_only = TRUE)
+records <- get_worms_records_name(c("Amphidinium", "Karenia"),
+                                  max_retries = 3, sleep_time = 5, marine_only = TRUE)
 }
 
 }
@@ -54,3 +58,4 @@ records <- retrieve_worms_records_name(c("Amphidinium", "Karenia"),
 
 \url{https://CRAN.R-project.org/package=worrms}
 }
+\keyword{internal}

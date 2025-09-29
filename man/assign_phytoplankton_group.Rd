@@ -2,7 +2,7 @@
 % Please edit documentation in R/worms_api_functions.R
 \name{assign_phytoplankton_group}
 \alias{assign_phytoplankton_group}
-\title{Assign Phytoplankton Group to Scientific Names}
+\title{Assign phytoplankton group to scientific names}
 \usage{
 assign_phytoplankton_group(
   scientific_names,
@@ -24,7 +24,7 @@ assign_phytoplankton_group(
 
 \item{aphia_ids}{A numeric vector of Aphia IDs corresponding to the scientific names. If provided, it improves the accuracy and speed of the matching process. The length of \code{aphia_ids} must match the length of \code{scientific_names}. Defaults to \code{NULL}, in which case the function will attempt to assign plankton groups based only on the scientific names.}
 
-\item{diatom_class}{A character string or vector representing the diatom class. Default is "Bacillariophyceae", "Coscinodiscophyceae" and "Mediophyceae".}
+\item{diatom_class}{A character string or vector representing the diatom class. Default is "Bacillariophyceae", "Coscinodiscophyceae", "Mediophyceae" and "Diatomophyceae".}
 
 \item{dinoflagellate_class}{A character string or vector representing the dinoflagellate class. Default is "Dinophyceae".}
 

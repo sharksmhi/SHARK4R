@@ -1,4 +1,4 @@
-#' Determine if Points are in a Specified Sea Basin
+#' Determine if points are in a specified sea basin
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`

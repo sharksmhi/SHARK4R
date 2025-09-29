@@ -1,4 +1,4 @@
-#' Retrieve Toxin Data from IOC-UNESCO Toxins Database
+#' Retrieve marine biotoxin data from IOC-UNESCO Toxins Database
 #'
 #' This function collects data from the [IOC-UNESCO Toxins Database](https://toxins.hais.ioc-unesco.org/api/toxins/) and returns information about toxins.
 #'

@@ -7,6 +7,7 @@
 get_nomp_list(
   year = as.numeric(format(Sys.Date(), "\%Y")),
   file = NULL,
+  sheet = NULL,
   force = FALSE,
   base_url = NULL,
   clean_cache_days = 30
@@ -18,6 +19,9 @@ previous years are automatically tried.}
 
 \item{file}{Character string specifying which file in the zip archive to read.
 Defaults to the first Excel file in the archive.}
+
+\item{sheet}{Character or numeric; the name or index of the sheet to read from the Excel file.
+If neither argument specifies the sheet, defaults to the first sheet.}
 
 \item{force}{Logical; if \code{TRUE}, forces re-download of the zip file even if cached copy exists.}
 

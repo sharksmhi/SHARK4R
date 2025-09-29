@@ -6,6 +6,7 @@
 \usage{
 get_peg_list(
   file = NULL,
+  sheet = NULL,
   force = FALSE,
   url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL.zip",
   clean_cache_days = 30
@@ -14,6 +15,9 @@ get_peg_list(
 \arguments{
 \item{file}{Character string specifying which file in the zip archive to read.
 Defaults to the first Excel file in the archive.}
+
+\item{sheet}{Character or numeric; the name or index of the sheet to read from the Excel file.
+If neither argument specifies the sheet, defaults to the first sheet.}
 
 \item{force}{Logical; if \code{TRUE}, forces re-download of the zip file even if a cached copy exists.}
 
@@ -28,7 +32,7 @@ Defaults to 30. Set to \code{NULL} to disable automatic cleanup.}
 A tibble with the contents of the requested Excel file.
 }
 \description{
-This function downloads the PEG biovolume zip archive from ICES (using
+This function downloads the EG-Phyto (previously PEG) biovolume zip archive from ICES (using
 \code{cache_peg_zip()}), unzips it, and reads the first Excel file by default.
 You can also specify which file in the archive to read.
 }
@@ -37,8 +41,8 @@ You can also specify which file in the archive to read.
   # Read the first Excel file from the PEG zip
   peg_list <- get_peg_list()
 
-  # Read a specific file inside the zip
-  peg_list2 <- get_peg_list(file = "PEG_extra_sheet.xlsx")
+  # Read the latest list and clean old cache files older than 60 days
+  peg_list2 <- get_peg_list(clean_cache_days = 60)
 }
 }
 \seealso{

@@ -65,6 +65,8 @@ toxin_list <- get_toxin_list()
 tibble(toxin_list)
 ```
 
+---
+
 ## Citation
 
 ```{r, echo=FALSE}

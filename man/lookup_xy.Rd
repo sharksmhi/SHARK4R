@@ -2,7 +2,7 @@
 % Please edit documentation in R/xylookup.R
 \name{lookup_xy}
 \alias{lookup_xy}
-\title{Lookup Spatial Data for a Set of Points}
+\title{Lookup spatial data for a set of points}
 \usage{
 lookup_xy(
   data,
@@ -49,20 +49,29 @@ and identifying unique points to avoid redundant lookups.
 \item When \code{areas} is a positive integer, all area values within that radius are returned. A value of \code{TRUE}
 is equivalent to 0 m, while \code{FALSE} disables area retrieval.
 \item Results are mapped back to the original input order, and duplicates in the input are correctly handled.
+\item The function has been modified from the \code{obistools} package (Provoost and Bosch, 2024).
 }
 }
 \examples{
 \dontrun{
+# Example data frame
+data <- data.frame(sample_longitude_dd = c(10.983229, 18.265451),
+                   sample_latitude_dd = c(58.121034, 58.331616))
+
 # Retrieve shore distances and environmental grids for a dataset
-xy_data <- lookup_xy(abra, shoredistance = TRUE, grids = TRUE, areas = FALSE)
+xy_data <- lookup_xy(data, shoredistance = TRUE, grids = TRUE, areas = FALSE)
 
 # Retrieve area data within a 500-meter radius
-xy_areas <- lookup_xy(abra, shoredistance = FALSE, grids = FALSE, areas = 500)
+xy_areas <- lookup_xy(data, shoredistance = FALSE, grids = FALSE, areas = 500)
 
 # Get results as a list instead of a data frame
-xy_list <- lookup_xy(abra, shoredistance = TRUE, grids = TRUE, areas = FALSE, as_data_frame = FALSE)
+xy_list <- lookup_xy(data, shoredistance = TRUE, grids = TRUE, areas = FALSE, as_data_frame = FALSE)
 }
 
+
+}
+\references{
+Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, \url{https://iobis.github.io/obistools/}.
 }
 \seealso{
 \code{\link{check_onland}}, \code{\link{check_depth}}
