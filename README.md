@@ -11,12 +11,14 @@
 
 This R package is equipped with a client application designed for integration 
 with API functions. It facilitates access to various databases, 
-including [SHARK](https://shark.smhi.se/), [SLU Artdatabanken (Dyntaxa)](https://api-portal.artdatabanken.se/), 
+including [SHARK](https://shark.smhi.se/), [SLU Artdatabanken (Dyntaxa)](https://artfakta.se/), 
 [WoRMS](https://www.marinespecies.org/rest/), [AlgaeBase](https://www.algaebase.org/), 
 [IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae](https://www.marinespecies.org/hab/), 
-[IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/) and [Nordic Microalgae](https://nordicmicroalgae.org/). 
-The package serves a dual purpose, supporting both data analysis and automatic quality control of physical, 
-chemical, and marine biological data. Several quality control components originate from Provoost and Bosch (2018).
+[IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/), [OBIS xylookup web service](https://iobis.github.io/xylookup/) 
+and [Nordic Microalgae](https://nordicmicroalgae.org/). The package serves a dual purpose, 
+supporting both data analysis and automatic quality control of physical, chemical, and marine biological data. 
+Several quality control components, originally developed by Provoost and Bosch (2018), 
+have been adapted for compatibility with the SHARK format.
 
 ## Installation
 

@@ -18,6 +18,8 @@
 * Fix bugs in check_* functions.
 * Fix various documentation issues.
 * Updated several OBIS-dependent functions using `lookup_xy()`.
+* Updated `scatterplot()` function to allow plotting of multiple parameters.
+* Added `plot_leaflet` argument to functions `check_station_distance()` and `check_onland()`.
 
 ## Deprecated
 * Deprecated functions: `ifcb_is_near_land()` and `ifcb_which_basin()` (replaced by re-exported functions with improved cache behavior)
@@ -26,9 +28,11 @@
 * Deprecated functions: Datatype-specific field check functions `check_*()` and `check_*_deliv()` replaced by a general `check_fields()` function.
 * Deprecated functions: Parameter and datatype-specific `check_*_*()` functions to check for outliers replaced by a general `check_outliers()` function.
 * Deprecated function: `match_dyntaxa()` is now replaced by `is_in_dyntaxa()`.
+* Deprecated function: `plot_map_leaflet_deliv()` is now replaced by `plot_map_leaflet()`.
 * Deprecated function: `check_code_proj()` is now replaced by `check_codes()`.
 * Deprecated function: `match_taxon_name()` is now replaced by `match_dyntaxa_taxa()`.
 * Deprecated function: `get_worms_records_name()` is now replaced by `match_worms_taxa()`.
+* Deprecated function: `nominal_station()` is now replaced by `check_nominal_station()`.
 * Deprecated function: `match_wormstaxa()` is now replaced by `match_worms_taxa_interactive()`.
 * Deprecated argument: `apikey` replaced by `subscription_key` in `get_algaebase_genus()`, `get_algaebase_species()` and `match_algaebase()`
 

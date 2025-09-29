@@ -174,7 +174,7 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE)
 #' \dontrun{
 #' # Example usage with a vector of Aphia IDs
 #' aphia_ids <- c(12345, 67890, 112233)
-#' worms_records <- retrieve_worms_records(aphia_ids)
+#' worms_records <- get_worms_records(aphia_ids)
 #' }
 #'
 #' @seealso \url{https://marinespecies.org/} for WoRMS website.
@@ -659,7 +659,7 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
   return(final_output)
 }
 
-#' Interactive Taxon Matching Using WoRMS
+#' Interactive taxon matching using WoRMS
 #'
 #' This function matches a vector of scientific names against the [World Register of Marine Species (WoRMS)](https://marinespecies.org/)
 #' taxon database. It allows the user to interactively resolve cases where multiple matches are found.
@@ -686,7 +686,7 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
 #' - [WoRMS website](https://marinespecies.org/)
 #' - [worrms R package on CRAN](https://CRAN.R-project.org/package=worrms)
 #' - [match_worms_taxa()] to match taxa names non-interactively.
-#' - [`obistools` R package](https://iobis.github.io/obistools)
+#' - [`obistools` R package](https://iobis.github.io/obistools/)
 #'
 #' @examples
 #' \dontrun{

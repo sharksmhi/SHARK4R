@@ -2,19 +2,48 @@
 % Please edit documentation in R/check_fields.R
 \name{check_datatype}
 \alias{check_datatype}
-\title{Check if the required and recommended global and datatype-specific SHARK system fields (different between different datatypes) are present.}
+\title{Validate SHARK system fields in a data frame}
 \usage{
 check_datatype(data, level = "error")
 }
 \arguments{
-\item{data}{The data frame.}
+\item{data}{A \code{data.frame} or \code{tibble} containing SHARK data to validate.}
 
-\item{level}{The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".}
+\item{level}{Character. The level of validation:
+\itemize{
+\item \code{"error"} (default) — checks only required fields.
+\item \code{"warning"} — checks both required and recommended fields.
+}}
 }
 \value{
-Any warnings or errors.
+A \code{tibble} summarizing missing or empty fields, with columns:
+\itemize{
+\item \code{level}: \code{"error"} or \code{"warning"}.
+\item \code{field}: Name of the missing or empty field.
+\item \code{row}: Row number where the value is missing (NA) or \code{NA} if the whole column is missing.
+\item \code{message}: Description of the issue.
+}
 }
 \description{
-Missing or empty required fields are reported as errors,
-missing or empty recommended fields are reported as warnings.
+This function checks whether the required and recommended global and
+datatype-specific SHARK system fields are present in a data frame.
+}
+\details{
+\itemize{
+\item \strong{Required fields}: Missing or empty required fields are reported as \strong{errors}.
+\item \strong{Recommended fields}: Missing or empty recommended fields are reported as \strong{warnings},
+but only if \code{level = "warning"} is specified.
+}
+}
+\examples{
+# Example with required fields missing
+df <- data.frame(
+  visit_year = 2024,
+  station_name = NA
+)
+check_datatype(df, level = "error")
+
+# Example checking recommended fields as warnings
+check_datatype(df, level = "warning")
+
 }

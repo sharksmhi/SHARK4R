@@ -2,7 +2,7 @@
 % Please edit documentation in R/worms_api_functions.R
 \name{match_worms_taxa_interactive}
 \alias{match_worms_taxa_interactive}
-\title{Interactive Taxon Matching Using WoRMS}
+\title{Interactive taxon matching using WoRMS}
 \usage{
 match_worms_taxa_interactive(names, ask = TRUE)
 }
@@ -51,6 +51,6 @@ Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality
 \item \href{https://marinespecies.org/}{WoRMS website}
 \item \href{https://CRAN.R-project.org/package=worrms}{worrms R package on CRAN}
 \item \code{\link[=match_worms_taxa]{match_worms_taxa()}} to match taxa names non-interactively.
-\item \href{https://iobis.github.io/obistools}{\code{obistools} R package}
+\item \href{https://iobis.github.io/obistools/}{\code{obistools} R package}
 }
 }

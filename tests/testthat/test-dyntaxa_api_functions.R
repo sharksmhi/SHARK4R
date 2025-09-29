@@ -5,6 +5,7 @@ test_id <- 238460  # Dinophysis acuta
 test_genus_id <- 1010631  # Dinophysis
 test_complex_id <- 235007 # Bonnemaisonia hamifera/Spermothamnion repens, not in Taxon.csv
 test_species_name <- "Dinophysis acuta"
+multple_entries_name <- "Glaucophyta" # There is more than one entry for this name in Dyntaxa, 2025
 
 dyntaxa_url <- "https://artfakta.se/"
 
@@ -72,11 +73,19 @@ test_that("taxon match is working as expected", {
   skip_if_offline()
   skip_if_resource_unavailable(dyntaxa_url)
 
-  taxon_match <- match_dyntaxa_taxa(test_species_name, dyntaxa_key)
+  taxon_match <- match_dyntaxa_taxa(test_species_name, dyntaxa_key, multiple_options = FALSE)
 
   expect_s3_class(taxon_match, "data.frame")
-  expect_true(nrow(taxon_match) > 0)
+  expect_true(nrow(taxon_match) == 1) # Should return a single match
   expect_true(all(c("search_pattern", "taxon_id", "best_match", "author", "valid_name") %in% names(taxon_match)))
+
+  # Test a name with multiple matches (2025)
+  taxon_multiple_match <- match_dyntaxa_taxa(multple_entries_name, dyntaxa_key, multiple_options = TRUE)
+
+  expect_s3_class(taxon_multiple_match, "data.frame")
+  expect_true(nrow(taxon_multiple_match) > 1) # Should return multiple matches
+  expect_true(all(c("search_pattern", "taxon_id", "best_match", "author", "valid_name") %in% names(taxon_multiple_match)))
+
 })
 
 test_that("deprecated taxon match is working as expected", {
@@ -136,12 +145,36 @@ test_that("match_dyntaxa calls is_in_dyntaxa and warns about deprecation", {
   expect_length(res, length(taxa))
 })
 
-test_that("is_in_dyntaxa stops if subscription key is missing", {
+test_that("construct_dyntaxa_missing_table caches results", {
   skip_on_cran()
   skip_if_offline()
   skip_if_resource_unavailable(dyntaxa_url)
 
-  Sys.setenv(DYNTAXA_KEY = "")
+  parent_ids <- get_dyntaxa_parent_ids(test_genus_id, dyntaxa_key)
+  related_parent_ids <- get_dyntaxa_parent_ids(tail(parent_ids[[1]], 2), dyntaxa_key)
+  output <- capture.output(SHARK4R:::construct_dyntaxa_missing_table(related_parent_ids,
+                                                         subscription_key = dyntaxa_key,
+                                                         add_genus_children = TRUE))
 
-  expect_error(is_in_dyntaxa("Skeletonema marinoi"), "No Dyntaxa subscription key provided")
+  # Collapse the output lines into a single string (optional)
+  output_text <- paste(output, collapse = " ")
+
+  # Test with regex
+  expect_match(output_text, "Cached taxa requests: [0-9]+")
+  expect_match(output_text, "Unique taxa requests: [0-9]+")
+})
+
+test_that("functions stops if input key is missing or wrong", {
+  expect_error(is_in_dyntaxa("Skeletonema marinoi", subscription_key = NULL), "No Dyntaxa subscription key provided")
+  expect_error(construct_dyntaxa_missing_table(1234, subscription_key = NULL), "No Dyntaxa subscription key provided")
+  expect_error(get_dyntaxa_records(1234, subscription_key = NULL), "No Dyntaxa subscription key provided")
+  expect_error(get_dyntaxa_parent_ids(1234, subscription_key = NULL), "No Dyntaxa subscription key provided")
+  expect_error(get_dyntaxa_children_hierarchy(1234, subscription_key = NULL), "No Dyntaxa subscription key provided")
+  expect_error(get_dyntaxa_children_ids(1234, subscription_key = NULL), "No Dyntaxa subscription key provided")
+  expect_error(update_dyntaxa_taxonomy(1234, subscription_key = NULL), "No Dyntaxa subscription key provided")
+  expect_error(construct_dyntaxa_table(1234, subscription_key = NULL), "No Dyntaxa subscription key provided")
+  expect_error(get_dyntaxa_dwca(subscription_key = NULL), "No Dyntaxa subscription key provided")
+
+  expect_error(get_dyntaxa_dwca(subscription_key = dyntaxa_key,
+                                file_to_read = "non-existing-file"), "Invalid file_to_read")
 })

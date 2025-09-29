@@ -175,6 +175,27 @@ test_that("get_shark_statistics throws warning if no data are returned", {
                         "No data retrieved from SHARK for the specified years and datatype")
 })
 
+test_that("get_shark_statistics returns results grouped by station", {
+  skip_if_offline()
+  skip_if_resource_unavailable(shark_url)
+  skip_on_cran()
+
+  res <- get_shark_statistics(datatype = "Chlorophyll",
+                              group_col = "station_name",
+                              fromYear = 2020,
+                              toYear = 2020,
+                              verbose = FALSE)
+
+  expect_s3_class(res, "data.frame")
+  expect_true(all(c(
+    "parameter", "datatype", "station_name", "min", "Q1", "median", "Q3", "max", "IQR",
+    "mild_lower", "mild_upper", "extreme_lower", "extreme_upper", "n"
+  ) %in% names(res)))
+
+  expect_gt(nrow(res), 0)
+  expect_true(all(res$n >= 3))
+})
+
 test_that("get_shark_statistics caches results correctly", {
   skip_on_cran()
   skip_if_offline()

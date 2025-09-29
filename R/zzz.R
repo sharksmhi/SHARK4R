@@ -17,7 +17,10 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
                          "author", "guid", "name", "Kingdom", "Phylum", "Class", "Order", "Family",
                          "Genus", "Species", "hierarchy", "kingdom", "AphiaID", "worms_hierarchy", "taxon_hierarchy",
                          "up_to_date", "Data_field", "DT", "phylum", "plankton_group", "longitude", "latitude",
-                         "value_num", "n_non_numeric", "frac_non_numeric", "n_total", "stats"))
+                         "value_num", "n_non_numeric", "frac_non_numeric", "n_total", "stats",
+                         "distance_m", "within_limit", "SYNONYM_NAMES", "LATITUDE_WGS84_SWEREF99_DD",
+                         "LAT_REF", "LONGITUDE_WGS84_SWEREF99_DD", "LON_REF", "OUT_OF_BOUNDS_RADIUS",
+                         "RADIUS", "STATION", "STATION_NAME"))
 
 .onLoad <- function(libname, pkgname){
   clean_shark4r_cache(days = 1, verbose = FALSE)

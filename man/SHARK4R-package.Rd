@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Provides functions to retrieve, process, analyze, and quality-control marine physical, chemical, and biological data. The main focus is on Swedish monitoring data available through the SHARK database \url{https://shark.smhi.se/}, with additional support for Nordic Microalgae \url{https://nordicmicroalgae.org/}, Dyntaxa \url{https://artfakta.se/}, WoRMS \url{https://www.marinespecies.org}, AlgaeBase \url{https://www.algaebase.org}, and IOC-UNESCO databases on harmful algae and toxins \url{https://www.marinespecies.org/hab/} and \url{https://toxins.hais.ioc-unesco.org/}.
+Provides functions to retrieve, process, analyze, and quality-control marine physical, chemical, and biological data. The main focus is on Swedish monitoring data available through the SHARK database \url{https://shark.smhi.se/}, with additional API support for Nordic Microalgae \url{https://nordicmicroalgae.org/}, Dyntaxa \url{https://artfakta.se/}, WoRMS \url{https://www.marinespecies.org}, AlgaeBase \url{https://www.algaebase.org}, OBIS xylookup web service \url{https://iobis.github.io/xylookup/} and IOC-UNESCO databases on harmful algae and toxins \url{https://www.marinespecies.org/hab/} and \url{https://toxins.hais.ioc-unesco.org/}.
 }
 \seealso{
 Useful links:

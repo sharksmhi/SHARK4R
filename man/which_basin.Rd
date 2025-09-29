@@ -2,7 +2,7 @@
 % Please edit documentation in R/iRfcb_functions.R
 \name{which_basin}
 \alias{which_basin}
-\title{Determine if Points are in a Specified Sea Basin}
+\title{Determine if points are in a specified sea basin}
 \usage{
 which_basin(latitudes, longitudes, plot = FALSE, shape_file = NULL)
 }

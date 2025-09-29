@@ -31,7 +31,7 @@ stops with an error message.
 \dontrun{
 # Example usage with a vector of Aphia IDs
 aphia_ids <- c(12345, 67890, 112233)
-worms_records <- retrieve_worms_records(aphia_ids)
+worms_records <- get_worms_records(aphia_ids)
 }
 
 }

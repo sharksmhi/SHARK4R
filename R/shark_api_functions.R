@@ -703,12 +703,17 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 #'
 #' @examples
 #' \dontrun{
+#' # Get a specific dataset
 #' get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF")
+#'
+#' # Get all Zooplankton datasets from 2022 and unzip them
 #' get_shark_datasets(
-#'   dataset_name = c("Phytoplankton_2023", "Zooplankton_2022"),
+#'   dataset_name = c("Zooplankton_2022"),
 #'   save_dir = "data",
 #'   unzip_file = TRUE
 #' )
+#'
+#' # Get all Phytoplankton datasets and return as a combined data frame
 #' combined_df <- get_shark_datasets(
 #'   dataset_name = "Phytoplankton_2023",
 #'   return_df = TRUE
@@ -835,6 +840,9 @@ get_shark_datasets <- function(dataset_name,
 #'   Defaults to the last complete year.
 #' @param datatype Optional, one or more datatypes to filter on
 #'   (e.g. `"Bacterioplankton"`). If `NULL`, all datatypes are included.
+#' @param group_col Optional column name in the SHARK data to group by
+#'   (e.g. `"station_name"`). If provided, statistics will be computed separately
+#'   for each group. Default is `NULL`.
 #' @param min_obs Minimum number of numeric observations required
 #'   for a parameter to be included (default: 3).
 #' @param max_non_numeric_frac Maximum allowed fraction of non-numeric values
@@ -843,9 +851,10 @@ get_shark_datasets <- function(dataset_name,
 #' @param cache_result Logical, whether to save the result in a persistent cache
 #'   (`statistics.rds`) for use by other functions. Default is `FALSE`.
 #'
-#' @return A tibble with one row per parameter and the following columns:
+#' @return A tibble with one row per parameter (and optionally per group) and the following columns:
 #' \describe{
 #'   \item{parameter}{Parameter name (character).}
+#'   \item{datatype}{SHARK datatype (character).}
 #'   \item{min, Q1, median, Q3, max}{Observed quantiles.}
 #'   \item{P01, P05, P95, P99}{1st, 5th, 95th and 99th percentiles.}
 #'   \item{IQR}{Interquartile range.}
@@ -857,6 +866,7 @@ get_shark_datasets <- function(dataset_name,
 #'   \item{mild_lower, mild_upper}{Lower/upper bounds for mild outliers (1.5 × IQR).}
 #'   \item{extreme_lower, extreme_upper}{Lower/upper bounds for extreme outliers (3 × IQR).}
 #'   \item{n}{Number of numeric observations used.}
+#'   \item{<group_col>}{Optional grouping column if provided.}
 #' }
 #' @export
 #'
@@ -868,13 +878,13 @@ get_shark_datasets <- function(dataset_name,
 #'   # Explicitly set years and datatype
 #'   res <- get_shark_statistics(2018, 2022, datatype = "Chlorophyll")
 #'
-#'   # Save result in persistent cache
-#'   res <- get_shark_statistics(cache_result = TRUE)
+#'   # Group by station name and save result in persistent cache
+#'   res <- get_shark_statistics(group_col = "station_name", cache_result = TRUE)
 #'
 #'   # Print result
 #'   print(res)
 #' }
-get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL,
+get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL, group_col = NULL,
                                  min_obs = 3, max_non_numeric_frac = 0.05, verbose = TRUE,
                                  cache_result = FALSE) {
 
@@ -904,7 +914,7 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
   }
 
   df <- data %>%
-    dplyr::select(delivery_datatype, parameter, value) %>%
+    dplyr::select(dplyr::any_of(c("delivery_datatype", "parameter", "value", group_col))) %>%
     dplyr::filter(!is.na(value))
 
   if (!is.null(datatype)) {
@@ -967,14 +977,18 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
     )
   }
 
-  # Summarize per parameter -> dataframe
-  result_tbl <- df %>%
-    dplyr::group_by(parameter) %>%
-    dplyr::summarise(dplyr::across(value_num, summarise_param), .groups = "drop")
+  # Grouping variables: always by parameter & datatype, optionally by user-specified col
+  group_vars <- c("parameter", "delivery_datatype")
+  if (!is.null(group_col)) {
+    if (!group_col %in% names(df)) {
+      stop("Column '", group_col, "' not found in SHARK data.")
+    }
+    group_vars <- c(group_vars, group_col)
+  }
 
-  # Flatten out nested tibble from summarise_param
+  # Summarize per group
   result_tbl <- df %>%
-    dplyr::group_by(parameter, delivery_datatype) %>%
+    dplyr::group_by(dplyr::across(all_of(group_vars))) %>%
     dplyr::summarise(stats = list(summarise_param(value_num)), .groups = "drop") %>%
     tidyr::unnest(stats) %>%
     dplyr::filter(n >= min_obs) %>%

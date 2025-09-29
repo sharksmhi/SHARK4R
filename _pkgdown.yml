@@ -20,7 +20,7 @@ navbar:
           href: articles/retrieve_hab_data.html
         - text: "Retrieve Nordic Microalgae Data"
           href: articles/retrieve_nordic_microalgae_data.html
-        - text: "Quality Control"
+        - text: "QC of SHARK Data"
           href: articles/quality_control.html
     - text: "Reference"
       href: reference/index.html
@@ -97,12 +97,12 @@ reference:
 
 - subtitle: Geographical Data Checks
   contents:
+  - check_nominal_station
   - check_onland
   - check_station_distance
   - check_zero_positions
   - lookup_xy
   - match_station
-  - nominal_station
   - plot_map_leaflet
   - positions_are_near_land
   - which_basin

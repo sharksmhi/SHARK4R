@@ -8,72 +8,25 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## Quality Control Overview
+## Overview
 
-The SHARK4R package provides a set of functions to perform quality control on SHARK occurrence data. These functions help identify missing or invalid values, spatial errors, and statistical outliers.
+The SHARK4R package provides a set of functions to perform quality control (QC) on SHARK data. These functions help identify missing or invalid values, spatial errors, and statistical outliers and are mainly intended for internal data validation. The tutorial covers:
 
+- **Field validation** (required and datatype-specific fields)  
+- **Code validation** (project and platform codes)  
+- **Geospatial checks** (points on land, basins, proximity to shore)  
+- **Depth checks** (missing, negative, or implausible values)  
+- **Outlier detection** (parameter-specific thresholds)  
+- **Interactive QC** with a Shiny app  
 
-#### Checking Required Fields
-
-- `check_datatype()` verifies that all global SHARK required fields are present in an occurrence table and checks for missing values. It returns a data frame listing any errors found.  
-- `check_fields()` validates datatype-specific fields (defined in the parameters) or values. Required and recommended fields are defined using the parameter `field_definitions` (e.g. `SHARK4R:::.threshold_values` as default). 
-
-#### Geospatial Checks
-
-- `plot_map_leaflet()` creates an interactive Leaflet map to visualize your data points.  
-- `check_onland()` uses the `lookup_xy()` OBIS web service to detect points located on land. You can also use alternative shapefiles if needed.  
-- `positions_are_near_land()` and `which_basin()` from the [iRfcb package](https://CRAN.R-project.org/package=iRfcb) can also be used for geospatial quality control.
-
-#### Depth Checks
-
-`check_depth()` performs several checks on depth values, including:
-
-- Missing depth column (warning)  
-- Empty depth values (warning)  
-- Non-numeric values (error)  
-- Depth exceeding bathymetry layer with margin using the `lookup_xy()` OBIS web service (error)  
-- Negative depth offshore with shore margin (error)  
-- Minimum depth greater than maximum depth (error)
-
-#### Outlier Detection
-
-`check_outliers()` identifies parameter values that exceed predefined thresholds. Thresholds are provided in a data frame (e.g., `SHARK4R:::.threshold_values` or retrieved from `get_shark_statistics()`), which must include columns for `parameter`, `datatype`, and at least one numeric threshold column (e.g., `extreme_upper`).  
-
-Key points:
-
-- Only rows in `data` matching both the specified `parameter` and `datatype` are considered.  
-- The threshold column to check (e.g., `extreme_upper`) can be specified via `threshold_col`.  
-- Values exceeding the threshold are flagged as outliers and returned in an interactive table using `DT::datatable()`.  
-- If all values are within the threshold, a message is printed to indicate that no outliers were detected.  
-
-This approach allows flexible, parameter-specific QC based on SHARK-defined thresholds rather than generic statistical deviation rules. The `scatterplot()` function can be used to visualize the data.
-
-#### Interactive Quality Control with Shiny
-
-Instead of running individual QC functions manually as demonstrated below, you can use a **Shiny app** that provides an interactive interface for checking SHARK data.
-
-The app is part of the SHARK4R support files and can be downloaded and initialized with:
-
-```{r, eval=FALSE}
-# Download support files into current working directory
-check_setup()
-
-# Run Shiny app
-shiny::runApp("products/")
-
-# Or download and run the QC Shiny app directly
-check_setup(run_app = TRUE)
-```
-
-The Shiny app includes tools for running the same QC checks described above, but with a point-and-click interface. This is particularly useful for exploring datasets interactively and for users less familiar with R scripting.
+This workflow ensures SHARK data are consistent, valid, and ready for analysis. Several quality control components, originally developed by Provoost and Bosch (2018), have been adapted for compatibility with the SHARK format.
 
 ---
 
-## Using the QC-functions
+## Installation
 
-### Installation
+Install the latest version of SHARK4R from GitHub:
 
-You can install the latest version of the package from GitHub using the `remotes` package:
 ```{r, eval=FALSE}
 # install.packages("remotes")
 remotes::install_github("sharksmhi/SHARK4R",
@@ -81,7 +34,8 @@ remotes::install_github("sharksmhi/SHARK4R",
                         dependencies = TRUE)
 ```
 
-Once installed, load the package along with `dplyr` for data manipulation::
+Load the package along with `dplyr`:
+
 ```{r, include=FALSE}
 suppressPackageStartupMessages({
   library(SHARK4R)
@@ -94,93 +48,58 @@ library(SHARK4R)
 library(dplyr)
 ```
 
-### Retrieve Data Table
+---
 
-You can fetch SHARK data using the same filtering options as the SHARK web interface. Available options can be explored using `get_shark_options()`. For more information, see the the [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html) tutorial.
+## Retrieve SHARK Data
+
+You can fetch SHARK data using the same filtering options as the SHARK web interface. Explore available options with:
 
 ```{r}
-# Retrieve available options from SHARK
 shark_options <- get_shark_options()
 ```
 
-You can filter datasets to focus on specific parameters, such as "Chlorophyll":
+Filter datasets containing "Chlorophyll":
 
 ```{r}
-# Find datasets containing "Chlorophyll"
 chlorophyll_datasets <- shark_options$datasets[grepl("Chlorophyll", 
-                                                   shark_options$datasets)]
+                                                     shark_options$datasets)]
 
-# Select first matching dataset
+# Select the first dataset for demonstration
 selected_dataset <- chlorophyll_datasets[1]
 
-# Print selected dataset name
+# Print the name of the selected dataset
 print(selected_dataset)
 ```
 
-Download the dataset and store it as a data frame:
+Download the selected dataset as a data frame:
 
 ```{r}
-# Download dataset and return as data frame
 chlorophyll_data <- get_shark_datasets(selected_dataset,
                                        save_dir = tempdir(),
                                        return_df = TRUE,
                                        verbose = FALSE)
 
-# Print data
 tibble(chlorophyll_data)
 ```
 
-### Checking Fields
+---
 
-Once the data is loaded, it is important to validate that all required fields are present and correctly formatted. `check_fields()` performs this check for datatype-specific fields:
+## Step 1: Check Required Fields
 
-```{r}
-# Check datatype-specific fields for Chlorophyll data
-check_fields(data = chlorophyll_data, 
-             datatype = "Chlorophyll")
-```
+Validate mandatory fields:
 
-### Station Matching
-
-SHARK data often contains station names that need to be verified against the official SHARK station registry. This ensures correct geographic and metadata matching:
+- **Global fields**: `check_datatype()`  
+- **Datatype-specific fields**: `check_fields()` with optional `field_definitions`  
 
 ```{r}
-# Match station names against SHARK station registry
-station_match <- match_station(chlorophyll_data$station_name)
-
-# Show first rows of matches
-head(station_match)
+check_fields(data = chlorophyll_data, datatype = "Chlorophyll")
 ```
 
-### Points on Land
+---
 
-Sometimes, geographic coordinates are misreported and fall on land instead of the ocean. Use `check_onland()` to identify such points:
+## Step 2: Validate Project and Platform Codes
 
-```{r}
-# Identify rows with coordinates falling on land
-n_rows_on_land <- check_onland(chlorophyll_data)
-
-# Count number of flagged rows
-nrow(n_rows_on_land)
-```
-
-### Checking Depth
-
-Depth values are critical for aquatic measurements. `check_depth()` verifies that reported depths are plausible and consistent:
-
-```{r}
-# Check min/max depth
-check_depth(data = chlorophyll_data)
-
-# Check if reported water depth column is deeper than bathymetry
-check_depth(data = chlorophyll_data, "water_depth_m")
-```
-
-This helps detect missing values, negative depths, or depths exceeding local bathymetry.
-
-### Code Validation
-
-Project or platform codes must follow SHARK conventions. `check_codes()` helps validate these codes:
+Ensure metadata codes follow SHARK conventions:
 
 ```{r}
 # Validate project codes
@@ -193,29 +112,63 @@ check_codes(data = chlorophyll_data,
             match_column = "Code")
 ```
 
-### Retrieve Statistics
+---
 
-Some QC checks, like outlier detection, rely on reference statistics. `get_shark_statistics()` provides thresholds for different parameters and datatypes:
+## Step 3: Geospatial Checks
+
+### Visualize Data Points
 
 ```{r}
-# Retrieve SHARK statistics for Chlorophyll (2020–2024)
+plot_map_leaflet(chlorophyll_data)
+```
+
+### Identify Points on Land
+
+```{r}
+n_rows_on_land <- check_onland(chlorophyll_data)
+nrow(n_rows_on_land)
+```
+
+Optional geospatial QC functions:
+
+- `positions_are_near_land()`  
+- `which_basin()` from the [iRfcb package](https://CRAN.R-project.org/package=iRfcb)  
+
+---
+
+## Step 4: Depth Checks
+
+Verify plausibility and consistency of depth values:
+
+```{r}
+check_depth(data = chlorophyll_data) # default columns: min/max depth
+check_depth(data = chlorophyll_data, "water_depth_m")
+```
+
+Checks performed:
+
+- Missing depth column or empty values (warnings)  
+- Non-numeric or negative values (errors)  
+- Depth exceeding bathymetry or minimum > maximum (errors)  
+
+---
+
+## Step 5: Outlier Detection
+
+Retrieve reference statistics for your datatype:
+
+```{r}
 shark_statistics <- get_shark_statistics(datatype = "Chlorophyll",
                                          fromYear = 2020,
                                          toYear = 2024,
                                          verbose = FALSE)
 
-# Print statistics
 tibble(shark_statistics)
 ```
 
-These statistics can be used to identify extreme or unusual values in your data.
-
-### Outlier Detection
-
-`check_outliers()` flags values that exceed thresholds defined in SHARK statistics. This is useful for identifying unusual measurements that may indicate errors or extreme events:
+Detect extreme values using thresholds (e.g., 99th percentile):
 
 ```{r}
-# Detect Chlorophyll-a outliers using the 99th percentile (P99)
 check_outliers(data = chlorophyll_data,
                parameter = "Chlorophyll-a",
                datatype = "Chlorophyll",
@@ -223,58 +176,78 @@ check_outliers(data = chlorophyll_data,
                thresholds = shark_statistics)
 ```
 
-### Data Visualization
-
-Visualizing data geographically or as scatterplots is useful for spotting anomalies quickly.
+Visualize anomalies:
 
 ```{r}
-# Visualize data on an interactive map
-plot_map_leaflet(chlorophyll_data)
+# Scatterplot with horizontal line at 99th percentile
+scatterplot(chlorophyll_data,
+            hline = shark_statistics$P99)
 ```
-
-```{r}
-# Create an interactive scatterplot of parameter values
-scatterplot(chlorophyll_data)
-```
-
-Maps help verify the location of points, while scatterplots highlight unusual measurements across stations or time.
 
 ---
 
-## Recommended Workflow
+## Step 6: Station Matching
 
-For a comprehensive quality control of SHARK data, we recommend the following order of steps:
+Verify station names against the official SHARK registry:
 
-1. **Check Required Fields**  
-   Validate all mandatory fields using `check_datatype()` and datatype-specific fields with `check_fields()`.
+```{r}
+station_match <- match_station(chlorophyll_data$station_name)
+head(station_match)
+```
 
-2. **Validate Codes**  
-   Check project and platform codes with `check_codes()` to ensure proper metadata.
+To plot stations and their distances from the station register in an interactive map:
 
-3. **Geospatial Checks**  
-   - Visualize points on a map with `plot_map_leaflet()`.  
-   - Identify points on land using `check_onland()`.  
-   - Optionally, use `positions_are_near_land()` and `which_basin()` for additional spatial QC.
+```{r}
+check_station_distance(data = chlorophyll_data,
+                       plot_leaflet = TRUE)
+```
 
-4. **Depth Checks**  
-   Run `check_depth()` to detect missing, invalid, or inconsistent depth values.
+To check if stations are nominal (comparing unique coordinates per station):
 
-5. **Outlier Detection**  
-   Use `check_outliers()` along with `scatterplot()` to identify statistical anomalies in environmental parameters and measurements.
+```{r}
+check_nominal_station(data = chlorophyll_data)
+```
 
-6. **Station Matching**  
-   Validate station information using `match_station()` to ensure correct station identifiers.
+---
 
-7. **Final Review & Visualization**  
-   After all checks, plot your cleaned dataset on maps or scatterplots to confirm data quality.
+## Interactive QC with Shiny
 
-Following this workflow ensures that SHARK occurrence data are consistent, valid, and ready for analysis.
+For a more user-friendly interface, use the Shiny QC app:
+
+```{r, eval=FALSE}
+# Download support files
+check_setup()
+
+# Run Shiny app
+shiny::runApp("products/")
+
+# Or download and run directly
+check_setup(run_app = TRUE)
+```
+
+The app provides point-and-click access to the same QC checks described above.
+
+---
+
+## Recommended Workflow Summary
+
+1. **Check Required Fields** (`check_datatype()`, `check_fields()`)  
+2. **Validate Codes** (`check_codes()`)  
+3. **Geospatial Checks** (`plot_map_leaflet()`, `check_onland()`, optional `positions_are_near_land()`, `which_basin()`)  
+4. **Depth Checks** (`check_depth()`)  
+5. **Outlier Detection** (`check_outliers()`, `scatterplot()`)  
+6. **Station Matching** (`match_station()`)  
+7. **Final Review & Visualization** (interactive maps and scatterplots)  
+
+Following this order ensures comprehensive QC and prepares your SHARK data for analysis.
 
 ---
 
 ## Citation
 
 ```{r, echo=FALSE}
-# Print citation
 citation("SHARK4R")
 ```
+
+## References
+- Provoost P, Bosch S (2024). `obistools`: Tools for data enhancement and quality control. Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, <https://iobis.github.io/obistools/>.

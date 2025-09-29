@@ -17,12 +17,15 @@ latitude/longitude positions, if nominal positions are suspected.
 Otherwise, returns \code{NULL}.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+This function is deprecated and has been replaced by \code{\link[=check_nominal_station]{check_nominal_station()}}.
+}
+\details{
 This function attempts to determine whether stations in a dataset are reported
 using nominal positions (i.e., generic or repeated coordinates across events),
 rather than actual measured coordinates. It compares the number of unique
 sampling dates with the number of unique station coordinates.
-}
-\details{
+
 If the number of unique sampling dates is larger than the number of unique
 station coordinates, the function suspects nominal station positions and
 issues a warning.
@@ -37,3 +40,4 @@ df <- data.frame(
 nominal_station(df)
 
 }
+\keyword{internal}

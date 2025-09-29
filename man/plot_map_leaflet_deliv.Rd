@@ -16,5 +16,7 @@ https://leaflet-extras.github.io/leaflet-providers/preview/. Default is \code{Es
 HTML widget object.
 }
 \description{
-Create a Leaflet map.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+This function is deprecated and has been replaced by \code{\link[=plot_map_leaflet]{plot_map_leaflet()}}.
 }
+\keyword{internal}

@@ -14,10 +14,11 @@ Authors@R: c(
 Description: Provides functions to retrieve, process, analyze, and
     quality-control marine physical, chemical, and biological data. The
     main focus is on Swedish monitoring data available through the SHARK
-    database <https://shark.smhi.se/>, with additional support for Nordic
+    database <https://shark.smhi.se/>, with additional API support for Nordic
     Microalgae <https://nordicmicroalgae.org/>, Dyntaxa
     <https://artfakta.se/>, WoRMS <https://www.marinespecies.org>,
-    AlgaeBase <https://www.algaebase.org>, and IOC-UNESCO databases on
+    AlgaeBase <https://www.algaebase.org>, OBIS xylookup web service 
+    <https://iobis.github.io/xylookup/> and IOC-UNESCO databases on
     harmful algae and toxins <https://www.marinespecies.org/hab/> and 
     <https://toxins.hais.ioc-unesco.org/>.
 License: MIT + file LICENSE

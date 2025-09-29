@@ -1,15 +1,35 @@
-#' Check if the required and recommended global and datatype-specific SHARK system fields (different between different datatypes) are present.
+#' Validate SHARK system fields in a data frame
 #'
-#' Missing or empty required fields are reported as errors,
-#' missing or empty recommended fields are reported as warnings.
+#' This function checks whether the required and recommended global and
+#' datatype-specific SHARK system fields are present in a data frame.
 #'
-#' @param data The data frame.
-#' @param level The level of error reporting, i.e. "error" or "warning". Recommended fields are only checked in case of "warning".
-#' @return Any warnings or errors.
+#' - **Required fields**: Missing or empty required fields are reported as **errors**.
+#' - **Recommended fields**: Missing or empty recommended fields are reported as **warnings**,
+#'   but only if `level = "warning"` is specified.
 #'
+#' @param data A `data.frame` or `tibble` containing SHARK data to validate.
+#' @param level Character. The level of validation:
+#'   - `"error"` (default) — checks only required fields.
+#'   - `"warning"` — checks both required and recommended fields.
+#'
+#' @return A `tibble` summarizing missing or empty fields, with columns:
+#'   - `level`: `"error"` or `"warning"`.
+#'   - `field`: Name of the missing or empty field.
+#'   - `row`: Row number where the value is missing (NA) or `NA` if the whole column is missing.
+#'   - `message`: Description of the issue.
+#'
+#' @examples
+#' # Example with required fields missing
+#' df <- data.frame(
+#'   visit_year = 2024,
+#'   station_name = NA
+#' )
+#' check_datatype(df, level = "error")
+#'
+#' # Example checking recommended fields as warnings
+#' check_datatype(df, level = "warning")
 #'
 #' @export
-
 check_datatype <- function(data, level = "error") {
 
   errors <- tibble()

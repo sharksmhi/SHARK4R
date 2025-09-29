@@ -8,6 +8,7 @@ get_shark_statistics(
   fromYear = NULL,
   toYear = NULL,
   datatype = NULL,
+  group_col = NULL,
   min_obs = 3,
   max_non_numeric_frac = 0.05,
   verbose = TRUE,
@@ -24,6 +25,10 @@ Defaults to the last complete year.}
 \item{datatype}{Optional, one or more datatypes to filter on
 (e.g. \code{"Bacterioplankton"}). If \code{NULL}, all datatypes are included.}
 
+\item{group_col}{Optional column name in the SHARK data to group by
+(e.g. \code{"station_name"}). If provided, statistics will be computed separately
+for each group. Default is \code{NULL}.}
+
 \item{min_obs}{Minimum number of numeric observations required
 for a parameter to be included (default: 3).}
 
@@ -36,9 +41,10 @@ for a parameter to be kept (default: 0.05).}
 (\code{statistics.rds}) for use by other functions. Default is \code{FALSE}.}
 }
 \value{
-A tibble with one row per parameter and the following columns:
+A tibble with one row per parameter (and optionally per group) and the following columns:
 \describe{
 \item{parameter}{Parameter name (character).}
+\item{datatype}{SHARK datatype (character).}
 \item{min, Q1, median, Q3, max}{Observed quantiles.}
 \item{P01, P05, P95, P99}{1st, 5th, 95th and 99th percentiles.}
 \item{IQR}{Interquartile range.}
@@ -50,6 +56,7 @@ A tibble with one row per parameter and the following columns:
 \item{mild_lower, mild_upper}{Lower/upper bounds for mild outliers (1.5 × IQR).}
 \item{extreme_lower, extreme_upper}{Lower/upper bounds for extreme outliers (3 × IQR).}
 \item{n}{Number of numeric observations used.}
+\item{<group_col>}{Optional grouping column if provided.}
 }
 }
 \description{
@@ -68,8 +75,8 @@ For example, if called in 2025 it will use data from 2020–2024.
   # Explicitly set years and datatype
   res <- get_shark_statistics(2018, 2022, datatype = "Chlorophyll")
 
-  # Save result in persistent cache
-  res <- get_shark_statistics(cache_result = TRUE)
+  # Group by station name and save result in persistent cache
+  res <- get_shark_statistics(group_col = "station_name", cache_result = TRUE)
 
   # Print result
   print(res)

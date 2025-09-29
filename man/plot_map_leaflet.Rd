@@ -2,19 +2,48 @@
 % Please edit documentation in R/plot_map_leaflet.R
 \name{plot_map_leaflet}
 \alias{plot_map_leaflet}
-\title{Create a Leaflet map.}
+\title{Create an interactive Leaflet map of sampling stations}
 \usage{
 plot_map_leaflet(data, provider = "Esri.OceanBasemap")
 }
 \arguments{
-\item{data}{The data frame.}
+\item{data}{A data frame containing station coordinates and names. The function
+accepts either:
+\itemize{
+\item Standard format: \code{station_name}, \code{sample_longitude_dd}, \code{sample_latitude_dd}
+\item Delivery format: \code{STATN}, \code{LONGI}, \code{LATIT}
+}}
 
-\item{provider}{Tile provider, see
-https://leaflet-extras.github.io/leaflet-providers/preview/. Default is \code{Esri.OceanBasemap}.}
+\item{provider}{Character. The tile provider to use for the map background.
+See available providers at
+\url{https://leaflet-extras.github.io/leaflet-providers/preview/}.
+Defaults to \code{"Esri.OceanBasemap"}.}
 }
 \value{
-HTML widget object.
+An HTML widget object (\code{leaflet} map) that can be printed or displayed
+in R Markdown or Shiny applications.
 }
 \description{
-Create a Leaflet map.
+Generates an interactive map using the \code{leaflet} package, plotting sampling
+stations from a data frame. The function automatically detects column names
+for station, longitude, and latitude, supporting both standard and
+delivery-style datasets.
+}
+\examples{
+\dontrun{
+df <- data.frame(
+  station_name = c("Station A", "Station B"),
+  sample_longitude_dd = c(10.0, 10.5),
+  sample_latitude_dd = c(59.0, 59.5)
+)
+plot_map_leaflet(df)
+
+df_deliv <- data.frame(
+  STATN = c("Station A", "Station B"),
+  LONGI = c(10.0, 10.5),
+  LATIT = c(59.0, 59.5)
+)
+plot_map_leaflet(df_deliv)
+}
+
 }

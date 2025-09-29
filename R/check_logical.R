@@ -151,6 +151,28 @@ check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, r
 #'
 #' @return A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
 #' @export
+#' @examples
+#' # Example dataset
+#' df <- dplyr::tibble(
+#'   station_name = c("A1", "A2", "A3", "A4"),
+#'   sample_date = as.Date("2023-05-01") + 0:3,
+#'   sample_id = 101:104,
+#'   parameter = c("Biomass", "Biomass", "Abundance", "Biomass"),
+#'   value = c(5, -2, 10, 0)
+#' )
+#'
+#' # 1. Check that Biomass is never negative (returns DT datatable by default)
+#' check_logical_parameter(df, "Biomass", function(x) x < 0)
+#'
+#' # 2. Same check, but return problematic rows as a data frame
+#' check_logical_parameter(df, "Biomass", function(x) x < 0, return_df = TRUE)
+#'
+#' # 3. Return logical vector marking problematic rows
+#' check_logical_parameter(df, "Biomass", function(x) x < 0, return_logical = TRUE)
+#'
+#' # 4. Check that Abundance is not zero (no problems found -> returns NULL)
+#' check_logical_parameter(df, "Abundance", function(x) x == 0)
+#'
 check_logical_parameter <- function(data, param_name, condition,
                                     return_df = FALSE, return_logical = FALSE) {
   required_cols <- c("parameter", "value")
