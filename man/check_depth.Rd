@@ -80,7 +80,7 @@ The function has been modified from the \code{obistools} package (Provoost and B
 }
 \examples{
 # Example dataset with one depth column
-test_data <- data.frame(
+example_data <- data.frame(
   sample_latitude_dd = c(59.3, 58.1, 57.5),
   sample_longitude_dd = c(18.0, 17.5, 16.2),
   sample_depth_m = c(10, -5, NA)
@@ -88,11 +88,11 @@ test_data <- data.frame(
 
 # Validate depths using OBIS XY lookup (bathymetry = NULL)
 \dontrun{
-check_depth(test_data, depth_cols = "sample_depth_m")
+check_depth(example_data, depth_cols = "sample_depth_m")
 }
 
 # Example dataset with min/max depth columns
-test_data2 <- data.frame(
+example_data2 <- data.frame(
   sample_latitude_dd = c(59.0, 58.5),
   sample_longitude_dd = c(18.0, 17.5),
   sample_min_depth_m = c(5, 15),
@@ -100,14 +100,17 @@ test_data2 <- data.frame(
 )
 
 \dontrun{
-check_depth(test_data2, depth_cols = c("sample_min_depth_m", "sample_max_depth_m"))
+check_depth(example_data2, depth_cols = c("sample_min_depth_m", "sample_max_depth_m"))
 }
 
 # Return only failing rows
 \dontrun{
-check_depth(test_data, depth_cols = "sample_depth_m", report = FALSE)
+check_depth(example_data, depth_cols = "sample_depth_m", report = FALSE)
 }
 
+}
+\references{
+Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, \url{https://iobis.github.io/obistools/}.
 }
 \seealso{
 \code{\link{lookup_xy}}, \code{\link{check_onland}}

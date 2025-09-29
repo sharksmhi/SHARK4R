@@ -4,7 +4,14 @@
 \alias{check_onland}
 \title{Check whether points are located on land}
 \usage{
-check_onland(data, land = NULL, report = FALSE, buffer = 0, offline = FALSE)
+check_onland(
+  data,
+  land = NULL,
+  report = FALSE,
+  buffer = 0,
+  offline = FALSE,
+  plot_leaflet = FALSE
+)
 }
 \arguments{
 \item{data}{A data frame containing at least \code{sample_longitude_dd} and \code{sample_latitude_dd}.
@@ -20,6 +27,9 @@ Only used in online mode. Default is 0.}
 
 \item{offline}{Logical; if \code{TRUE}, the function uses the local cached shoreline. If \code{FALSE} (default),
 the OBIS web service is queried.}
+
+\item{plot_leaflet}{Logical; if \code{TRUE}, returns a leaflet map showing all points colored by
+whether they are on land (red) or water (green). Default is \code{FALSE}.}
 }
 \value{
 If \code{report = TRUE}, a tibble with columns:
@@ -29,7 +39,8 @@ If \code{report = TRUE}, a tibble with columns:
 \item \code{row}: row numbers in \code{data} flagged as located on land
 \item \code{message}: description of the issue
 }
-If \code{report = FALSE}, returns a subset of \code{data} with only the flagged rows.
+If \code{report = FALSE} and \code{plot_leaflet = FALSE}, returns a subset of \code{data} with only the flagged rows.
+If \code{plot_leaflet = TRUE}, returns a leaflet map showing points on land (red) and in water (green).
 }
 \description{
 Identifies records whose coordinates fall on land, optionally applying a buffer to allow
@@ -41,36 +52,29 @@ points near the coast. The function supports both offline and online modes:
 geopackage (\code{land.gpkg}). If the file does not exist, it is downloaded automatically and cached across R sessions.
 \item \strong{Online mode (\code{offline = FALSE})}: uses the OBIS web service to determine distance to the shore.
 }
-\itemize{
-\item The function first validates longitude and latitude columns using.
-\item In offline mode, \code{land} is converted to a \code{terra::SpatVector} and points are tested using
-\code{terra::relate()} to detect intersections with land polygons. The \code{buffer} parameter
-is ignored in this mode.
-\item In online mode, \code{lookup_xy()} is used to fetch distances to the nearest shoreline.
-Points with negative distances (inland) beyond the \code{buffer} are flagged.
-\item Warnings are issued if \code{land} is provided in online mode or \code{buffer} is used in offline mode.
-\item The function has been modified from the \code{obistools} package (Provoost and Bosch, 2024).
-}
+
+Optionally, a leaflet map can be plotted. Points on land are displayed as red markers,
+while points in water are green.
 }
 \examples{
 \dontrun{
+# Example data frame with coordinates
+example_data <- data.frame(
+  sample_latitude_dd = c(59.3, 58.1, 57.5),
+  sample_longitude_dd = c(18.6, 17.5, 16.7)
+)
+
 # Report points on land with a 100 m buffer
-report <- check_onland(abra, report = TRUE, buffer = 100)
+report <- check_onland(example_data, report = TRUE, buffer = 100)
 print(report)
 
-# Plot flagged points on a map
-plot_map_leaflet(abra[report$row, ], popup = "id")
+# Plot all points colored by land/water
+m <- check_onland(example_data, plot_leaflet = TRUE)
+m
 
-# Remove points on land
-ok <- abra[-report$row, ]
-ok <- check_onland(abra, report = FALSE, buffer = 100)
+# Remove points on land by adding a buffer of 2000 m
+ok <- check_onland(example_data, report = FALSE, buffer = 2000)
 print(nrow(ok))
 }
 
-}
-\references{
-Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, \url{https://iobis.github.io/obistools/}.
-}
-\seealso{
-\code{\link{check_depth}}, \code{\link{lookup_xy}}, \code{\link{clean_shark4r_cache}}
 }

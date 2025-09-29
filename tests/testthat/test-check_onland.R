@@ -58,3 +58,20 @@ test_that("check_onland buffer parameter works", {
   df <- check_onland(data, buffer=1000, report=TRUE)
   expect_equal(nrow(df), 0)
 })
+
+test_that("check_onland plot_leaflet parameter works", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable("https://obis-resources.s3.amazonaws.com",
+                               allow_status = c(0:399, 403))
+
+  data <- test_data(x = c(2.89052, 2.921677), y = c(51.243543, 51.229194))
+  m <- check_onland(data, offline = FALSE, plot_leaflet = TRUE)
+
+  # Class check
+  expect_s3_class(m, "leaflet")
+  expect_s3_class(m, "htmlwidget")
+
+  # Provider check
+  expect_true(any(grepl("Esri.OceanBasemap", m$x$calls[[1]]$args[[1]])))
+})

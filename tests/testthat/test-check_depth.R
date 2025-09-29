@@ -53,10 +53,11 @@ test_that("check_depth detects invalid or impossible depth values", {
   r <- check_depth(t, depthmargin = 0, shoremargin = 0, report = TRUE)
   expect_equal(1, sum(grepl("empty", r$message)))
   t$sample_min_depth_m <- c("", "a", "1")
-  expect_warning(expect_warning({
+  expect_warning({
     r <- check_depth(t, depthmargin = 0, shoremargin = 0, report = TRUE)
     expect_equal(1, sum(grepl("not numeric", r$message)))
-  }, "NAs"))
+  }, "NAs")
+  expect_equal(1, sum(grepl("not numeric", r$message)))
 })
 
 test_that("support for tibble", {

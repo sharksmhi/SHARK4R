@@ -7,6 +7,9 @@
 #'   geopackage (`land.gpkg`). If the file does not exist, it is downloaded automatically and cached across R sessions.
 #' * **Online mode (`offline = FALSE`)**: uses the OBIS web service to determine distance to the shore.
 #'
+#' Optionally, a leaflet map can be plotted. Points on land are displayed as red markers,
+#' while points in water are green.
+#'
 #' @param data A data frame containing at least `sample_longitude_dd` and `sample_latitude_dd`.
 #'   These columns must be numeric and within valid ranges (-180 to 180 for longitude, -90 to 90 for latitude).
 #' @param land Optional `sf` object containing land polygons. Used only in offline mode.
@@ -16,6 +19,8 @@
 #'   Only used in online mode. Default is 0.
 #' @param offline Logical; if `TRUE`, the function uses the local cached shoreline. If `FALSE` (default),
 #'   the OBIS web service is queried.
+#' @param plot_leaflet Logical; if `TRUE`, returns a leaflet map showing all points colored by
+#'   whether they are on land (red) or water (green). Default is `FALSE`.
 #'
 #' @return If `report = TRUE`, a tibble with columns:
 #'   \itemize{
@@ -24,42 +29,36 @@
 #'     \item `row`: row numbers in `data` flagged as located on land
 #'     \item `message`: description of the issue
 #'   }
-#'   If `report = FALSE`, returns a subset of `data` with only the flagged rows.
-#'
-#' @details
-#' - The function first validates longitude and latitude columns using.
-#' - In offline mode, `land` is converted to a `terra::SpatVector` and points are tested using
-#'   `terra::relate()` to detect intersections with land polygons. The `buffer` parameter
-#'   is ignored in this mode.
-#' - In online mode, `lookup_xy()` is used to fetch distances to the nearest shoreline.
-#'   Points with negative distances (inland) beyond the `buffer` are flagged.
-#' - Warnings are issued if `land` is provided in online mode or `buffer` is used in offline mode.
-#' - The function has been modified from the `obistools` package (Provoost and Bosch, 2024).
+#'   If `report = FALSE` and `plot_leaflet = FALSE`, returns a subset of `data` with only the flagged rows.
+#'   If `plot_leaflet = TRUE`, returns a leaflet map showing points on land (red) and in water (green).
 #'
 #' @examples
 #' \dontrun{
+#' # Example data frame with coordinates
+#' example_data <- data.frame(
+#'   sample_latitude_dd = c(59.3, 58.1, 57.5),
+#'   sample_longitude_dd = c(18.6, 17.5, 16.7)
+#' )
+#'
 #' # Report points on land with a 100 m buffer
-#' report <- check_onland(abra, report = TRUE, buffer = 100)
+#' report <- check_onland(example_data, report = TRUE, buffer = 100)
 #' print(report)
 #'
-#' # Plot flagged points on a map
-#' plot_map_leaflet(abra[report$row, ], popup = "id")
+#' # Plot all points colored by land/water
+#' m <- check_onland(example_data, plot_leaflet = TRUE)
+#' m
 #'
-#' # Remove points on land
-#' ok <- abra[-report$row, ]
-#' ok <- check_onland(abra, report = FALSE, buffer = 100)
+#' # Remove points on land by adding a buffer of 2000 m
+#' ok <- check_onland(example_data, report = FALSE, buffer = 2000)
 #' print(nrow(ok))
 #' }
 #'
-#' @references Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, <https://iobis.github.io/obistools/>.
-#'
-#' @seealso \code{\link{check_depth}}, \code{\link{lookup_xy}}, \code{\link{clean_shark4r_cache}}
 #' @export
-check_onland <- function(data, land = NULL, report = FALSE, buffer = 0, offline = FALSE) {
+check_onland <- function(data, land = NULL, report = FALSE, buffer = 0, offline = FALSE,
+                         plot_leaflet = FALSE) {
   errors <- check_lonlat(data, report)
-  if (NROW(errors) > 0 && report) {
-    return(errors)
-  }
+  if (NROW(errors) > 0 && report) return(errors)
+
   if(!is.null(land) && !offline) warning("The land parameter is not supported when offline = FALSE")
   if (buffer !=0 && offline) warning("The buffer parameter is not supported when offline = TRUE")
 
@@ -79,7 +78,7 @@ check_onland <- function(data, land = NULL, report = FALSE, buffer = 0, offline 
         call. = FALSE
       )
     })
-    }
+  }
 
   if (offline) {
     data_vect <- data %>% terra::vect(geom = c("sample_longitude_dd", "sample_latitude_dd"), crs = "EPSG:4326")
@@ -88,18 +87,44 @@ check_onland <- function(data, land = NULL, report = FALSE, buffer = 0, offline 
     shoredistances <- lookup_xy(data, shoredistance = TRUE, grids = FALSE, areas = FALSE, as_data_frame = TRUE)
     i <- which(as.vector(shoredistances$shoredistance) < (-1*buffer))
   }
+
+  if (plot_leaflet) {
+    data_plot <- data %>%
+      dplyr::mutate(
+        color = ifelse(seq_len(nrow(data)) %in% i, "red", "green"),
+        popup_text = paste0("Row: ", seq_len(nrow(data)),
+                            "<br>Lat: ", sample_latitude_dd,
+                            "<br>Lon: ", sample_longitude_dd)
+      )
+
+    icons_rep <- awesomeIcons(
+      icon = "map-marker",
+      iconColor = "white",
+      markerColor = data_plot$color,
+      library = "fa"
+    )
+
+    m <- leaflet(data_plot) %>%
+      addProviderTiles("Esri.OceanBasemap", options = providerTileOptions(noWrap = TRUE)) %>%
+      addAwesomeMarkers(lng = ~sample_longitude_dd, lat = ~sample_latitude_dd,
+                        icon = icons_rep,
+                        popup = ~popup_text)
+
+    return(m)
+  }
+
   if (report) {
     if (length(i) > 0) {
       return(tibble(
         field = NA,
         level = "warning",
         row = i,
-        message = paste0("Coordinates are located on land")
+        message = "Coordinates are located on land"
       ))
     } else {
       return(tibble())
     }
   } else {
-    return(data[i,])
+    return(data[i, ])
   }
 }
