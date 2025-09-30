@@ -68,7 +68,8 @@ are spatially consistent.</p>
 <span>  station_file <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  plot_leaflet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  try_synonyms <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  fallback_crs <span class="op">=</span> <span class="fl">4326</span></span>
+<span>  fallback_crs <span class="op">=</span> <span class="fl">4326</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -83,8 +84,9 @@ are spatially consistent.</p>
 
 <dt id="arg-station-file">station_file<a class="anchor" aria-label="anchor" href="#arg-station-file"></a></dt>
 <dd><p>Optional path to a custom station file (tab-delimited).
-If <code>NULL</code> (default), the function will extract and use the bundled
-<code>"station.zip"</code> from the <code>SHARK4R</code> package.</p></dd>
+If <code>NULL</code> (default), the function will first attempt to use the
+<code>NODC_CONFIG</code> environment variable, and if that fails, will use the
+bundled <code>"station.zip"</code> from the <code>SHARK4R</code> package.</p></dd>
 
 
 <dt id="arg-plot-leaflet">plot_leaflet<a class="anchor" aria-label="anchor" href="#arg-plot-leaflet"></a></dt>
@@ -104,6 +106,10 @@ the station database.</p></dd>
 points if no CRS is available. Defaults to <code>4326</code> (WGS84). Change this
 if your coordinates are reported in another CRS (e.g., <code>3006</code> for
 SWEREF99 TM).</p></dd>
+
+
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
+<dd><p>Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -135,6 +141,14 @@ the radius (green), outside the radius (red), or unmatched (gray).</p>
 <p>If <code>try_synonyms = TRUE</code>, the function will attempt a second match
 using the <code>SYNONYM_NAMES</code> column in the station database, splitting
 multiple synonyms separated by <code>&lt;or&gt;</code>.</p>
+<p>The function first checks if a station file path is provided via the
+<code>station_file</code> argument. If not, it looks for the
+<code>NODC_CONFIG</code> environment variable. This variable can point to a folder
+where the NODC (Swedish National Oceanographic Data Center) configuration and station file
+are stored, typically including:</p><ul><li><p><code>&lt;NODC_CONFIG&gt;/nodc_station/station.txt</code></p></li>
+</ul><p>If <code>NODC_CONFIG</code> is set and the folder exists, the function will use
+<code>station.txt</code> from that location. Otherwise, it falls back to the
+bundled <code>station.zip</code> included in the <code>SHARK4R</code> package.</p>
     </div>
 
     <div class="section level2">
@@ -145,6 +159,7 @@ multiple synonyms separated by <code>&lt;or&gt;</code>.</p>
 <span class="r-in"><span>  sample_latitude_dd  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">56.7</span>, <span class="fl">55.25</span>, <span class="fl">58.7</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">check_station_distance</span><span class="op">(</span><span class="va">df</span>, plot_leaflet <span class="op">=</span> <span class="cn">FALSE</span>, try_synonyms <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Using station.txt from SHARK4R bundle:/home/runner/work/_temp/Library/SHARK4R/extdata/station.zip</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> WARNING: Unmatched stations found, check synonyms</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "NEW STATION"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> WARNING: Some stations are outside the allowed distance limit</span>
