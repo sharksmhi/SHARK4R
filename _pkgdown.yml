@@ -122,6 +122,8 @@ reference:
 - subtitle: MISC
   contents:
   - clean_shark4r_cache
+  - find_required_fields
+  - get_delivery_template
   - scatterplot
 
 - title: Deprecated functions

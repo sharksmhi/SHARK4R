@@ -8,6 +8,8 @@ check_fields(
   data,
   datatype,
   level = "error",
+  nat = FALSE,
+  bacterioplankton_subtype = "abundance",
   field_definitions = .field_definitions
 )
 }
@@ -20,6 +22,12 @@ Must exist as a name in the provided \code{field_definitions}.}
 \item{level}{Character string, either \code{"error"} or \code{"warning"}.
 If \code{"error"}, only required fields are validated. If \code{"warning"},
 recommended fields are also checked and reported as warnings.}
+
+\item{nat}{Logical. If TRUE, includes both single "\emph{" and double "**" required fields (fields used in national monitoring)
+from delivery template (\code{get_delivery_template}). If FALSE (default), only single "}" required fields are returned.}
+
+\item{bacterioplankton_subtype}{Character. For "Bacterioplankton" only: either
+"abundance" (default) or "production". Ignored for other datatypes.}
 
 \item{field_definitions}{A named list of field definitions. Each element
 should contain two character vectors: \code{required} and \code{recommended}.

@@ -120,6 +120,10 @@ check_datatype <- function(data, level = "error") {
 #' @param field_definitions A named list of field definitions. Each element
 #'   should contain two character vectors: \code{required} and \code{recommended}.
 #'   Defaults to the package's built-in \code{SHARK4R:::.field_definitions}.
+#' @param nat Logical. If TRUE, includes both single "*" and double "**" required fields (fields used in national monitoring)
+#'   from delivery template (\code{get_delivery_template}). If FALSE (default), only single "*" required fields are returned.
+#' @param bacterioplankton_subtype Character. For "Bacterioplankton" only: either
+#'   "abundance" (default) or "production". Ignored for other datatypes.
 #'
 #' @return A tibble with the following columns:
 #' \describe{
@@ -163,13 +167,28 @@ check_datatype <- function(data, level = "error") {
 #' check_fields(df_empty, "ExampleType", field_definitions = defs)
 #'
 #' @export
-check_fields <- function(data, datatype, level = "error", field_definitions = .field_definitions) {
+check_fields <- function(data, datatype, level = "error", nat = FALSE,
+                         bacterioplankton_subtype = "abundance", field_definitions = .field_definitions) {
 
-  if (!datatype %in% names(field_definitions)) {
+  if (!datatype %in% names(field_definitions) && !grepl("^deliv_", datatype)) {
     stop("Unknown datatype: ", datatype)
   }
 
-  defs <- field_definitions[[datatype]]
+  all_caps <- all(names(data) == toupper(names(data)))
+
+  if (all_caps) {
+    required <- find_required_fields(datatype,
+                                     nat = nat,
+                                     bacterioplankton_subtype = bacterioplankton_subtype)
+
+    defs <- list(
+      required = required,
+      recommended = c() # No recommended fields defined for all-caps datasets
+    )
+  } else {
+    defs <- field_definitions[[datatype]]
+  }
+
   required <- defs$required
   recommended <- defs$recommended
 
