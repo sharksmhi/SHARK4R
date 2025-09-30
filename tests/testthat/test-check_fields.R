@@ -250,13 +250,21 @@ check_functions <- list(
 )
 
 test_that("deprecated check functions still works", {
+  skip_if_offline()
+  skip_if_resource_unavailable("https://smhi.se/")
+
   for (fname in names(check_functions)) {
     fn <- check_functions[[fname]]
 
-    # print(fname) # for debugging
+    print(fname) # for debugging
 
-    required <- .field_definitions[[fname]]$required
-    recommended <- .field_definitions[[fname]]$recommended
+    if (grepl("deliv_", fname)) {
+      required <- find_required_fields(fname)
+      recommended <- c()
+    } else {
+      required <- .field_definitions[[fname]]$required
+      recommended <- .field_definitions[[fname]]$recommended
+    }
 
     # Create data frame with all required fields filled
     df <- dplyr::as_tibble(setNames(rep(list("x"), length(required)), required))

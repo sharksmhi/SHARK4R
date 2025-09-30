@@ -9,6 +9,7 @@
 * Add new function `clean_shark4r_cache()` to clear cached files.
 * Add new function `check_setup()` to download and run SHARK QC scripts and Shiny App.
 * Add new function `get_shark_statistics()` to download SHARK data and extract summary statistics for numeric parameters.
+* Add new functions: `get_delivery_template()` and `find_required_fields()` to get SHARK delivery templates and required fields from the web.
 
 ## Enhancements
 * Re-export functions from the `iRfcb` package: `which_basin()` and `positions_are_near_land()`.

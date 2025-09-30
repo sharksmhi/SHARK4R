@@ -297,3 +297,11 @@ test_that("plot_leaflet = TRUE returns a leaflet object", {
   # Clean up
   unlink(tmp_file)
 })
+
+test_that("match_station reads a bundled station_file correctly", {
+  # Clear NODC_CONFIG to avoid interference
+  Sys.setenv("NODC_CONFIG" = "")
+
+  # Run match_station with custom station file
+  result <- expect_message(match_station("N7 OST NIDINGEN"), "Using station.txt from SHARK4R bundle")
+})

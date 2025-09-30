@@ -9,7 +9,8 @@ check_station_distance(
   station_file = NULL,
   plot_leaflet = FALSE,
   try_synonyms = TRUE,
-  fallback_crs = 4326
+  fallback_crs = 4326,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -17,8 +18,9 @@ check_station_distance(
 \code{station_name}, \code{sample_longitude_dd}, \code{sample_latitude_dd}.}
 
 \item{station_file}{Optional path to a custom station file (tab-delimited).
-If \code{NULL} (default), the function will extract and use the bundled
-\code{"station.zip"} from the \code{SHARK4R} package.}
+If \code{NULL} (default), the function will first attempt to use the
+\code{NODC_CONFIG} environment variable, and if that fails, will use the
+bundled \code{"station.zip"} from the \code{SHARK4R} package.}
 
 \item{plot_leaflet}{Logical; if \code{TRUE}, displays a leaflet map with
 SMHI stations (blue circles with radius in popup) and reported stations
@@ -32,6 +34,8 @@ the station database.}
 points if no CRS is available. Defaults to \code{4326} (WGS84). Change this
 if your coordinates are reported in another CRS (e.g., \code{3006} for
 SWEREF99 TM).}
+
+\item{verbose}{Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.}
 }
 \value{
 If \code{plot_leaflet = FALSE}, returns a data frame with columns:
@@ -62,6 +66,18 @@ the radius (green), outside the radius (red), or unmatched (gray).
 If \code{try_synonyms = TRUE}, the function will attempt a second match
 using the \code{SYNONYM_NAMES} column in the station database, splitting
 multiple synonyms separated by \code{<or>}.
+
+The function first checks if a station file path is provided via the
+\code{station_file} argument. If not, it looks for the
+\code{NODC_CONFIG} environment variable. This variable can point to a folder
+where the NODC (Swedish National Oceanographic Data Center) configuration and station file
+are stored, typically including:
+\itemize{
+\item \code{<NODC_CONFIG>/nodc_station/station.txt}
+}
+If \code{NODC_CONFIG} is set and the folder exists, the function will use
+\code{station.txt} from that location. Otherwise, it falls back to the
+bundled \code{station.zip} included in the \code{SHARK4R} package.
 }
 \examples{
 df <- data.frame(

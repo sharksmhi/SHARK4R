@@ -21,6 +21,7 @@ DT
 Diatomophyceae
 Dinoflagellates
 Dinophyceae
+Dropvideo
 DwC
 DwCA
 Dyntaxa
@@ -39,6 +40,7 @@ Hydrological
 IOC
 IPHAB
 Kattegat
+Kolumner
 LSID
 Lifecycle
 Mediophyceae
@@ -49,6 +51,7 @@ NOMP
 NotSet
 ORCID
 OSPAR
+Obligatorisk
 Orderers
 Phyto
 Phytoplankton
@@ -82,7 +85,6 @@ datatypes
 delim
 df
 dinoflagellate
-dropdown
 dyntaxa
 epibenthos
 forma
@@ -117,6 +119,7 @@ sp
 spp
 sqkm
 subsp
+subtypes
 sv
 th
 tibble

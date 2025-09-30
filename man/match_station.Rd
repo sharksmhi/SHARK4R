@@ -4,17 +4,20 @@
 \alias{match_station}
 \title{Match station names against SMHI station list}
 \usage{
-match_station(names, station_file = NULL, try_synonyms = TRUE)
+match_station(names, station_file = NULL, try_synonyms = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{names}{Character vector of station names to match.}
 
 \item{station_file}{Optional path to a custom station file (tab-delimited).
-If \code{NULL} (default), the function will extract and use the bundled
-\code{"station.zip"} from the \code{SHARK4R} package.}
+If \code{NULL} (default), the function will first attempt to use the
+\code{NODC_CONFIG} environment variable, and if that fails, will use the
+bundled \code{"station.zip"} from the \code{SHARK4R} package.}
 
 \item{try_synonyms}{Logical; if \code{TRUE} (default), unmatched names
 are also compared against the \code{SYNONYM_NAMES} column in the database.}
+
+\item{verbose}{Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.}
 }
 \value{
 A data frame with two columns:
@@ -35,6 +38,18 @@ or misspelled entries.
 If \code{try_synonyms = TRUE}, unmatched station names are also compared
 against the \code{SYNONYM_NAMES} column in the station database, splitting
 multiple synonyms separated by \code{<or>}.
+
+The function first checks if a station file path is provided via the
+\code{station_file} argument. If not, it looks for the
+\code{NODC_CONFIG} environment variable. This variable can point to a folder
+where the NODC (Swedish National Oceanographic Data Center) configuration and station file
+are stored, typically including:
+\itemize{
+\item \code{<NODC_CONFIG>/nodc_station/station.txt}
+}
+If \code{NODC_CONFIG} is set and the folder exists, the function will use
+\code{station.txt} from that location. Otherwise, it falls back to the
+bundled \code{station.zip} included in the \code{SHARK4R} package.
 }
 \examples{
 \dontrun{
