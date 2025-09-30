@@ -99,12 +99,26 @@ nominal_station <- function(data) {
 #' against the \code{SYNONYM_NAMES} column in the station database, splitting
 #' multiple synonyms separated by \code{<or>}.
 #'
+#' The function first checks if a station file path is provided via the
+#' \code{station_file} argument. If not, it looks for the
+#' \code{NODC_CONFIG} environment variable. This variable can point to a folder
+#' where the NODC (Swedish National Oceanographic Data Center) configuration and station file
+#' are stored, typically including:
+#' \itemize{
+#'   \item \code{<NODC_CONFIG>/nodc_station/station.txt}
+#' }
+#' If \code{NODC_CONFIG} is set and the folder exists, the function will use
+#' \code{station.txt} from that location. Otherwise, it falls back to the
+#' bundled \code{station.zip} included in the \code{SHARK4R} package.
+#'
 #' @param names Character vector of station names to match.
 #' @param station_file Optional path to a custom station file (tab-delimited).
-#'   If \code{NULL} (default), the function will extract and use the bundled
-#'   \code{"station.zip"} from the \code{SHARK4R} package.
+#'   If \code{NULL} (default), the function will first attempt to use the
+#'   \code{NODC_CONFIG} environment variable, and if that fails, will use the
+#'   bundled \code{"station.zip"} from the \code{SHARK4R} package.
 #' @param try_synonyms Logical; if \code{TRUE} (default), unmatched names
 #'   are also compared against the \code{SYNONYM_NAMES} column in the database.
+#' @param verbose Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.
 #'
 #' @return A data frame with two columns:
 #'   \describe{
@@ -119,29 +133,35 @@ nominal_station <- function(data) {
 #' }
 #'
 #' @export
-match_station <- function(names, station_file = NULL, try_synonyms = TRUE) {
+match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbose = TRUE) {
 
-  if (!is.null(station_file)) {
-    station_db <- readr::read_delim(station_file,
-                                    delim ="\t",
-                                    guess_max = 2000,
-                                    col_names = TRUE,
-                                    locale = readr::locale(encoding = "latin1"),
-                                    col_types = readr::cols(),
-                                    progress = FALSE)
-  } else {
-    zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
-    tmp_dir <- tempdir()
-    utils::unzip(zip_path, exdir = tmp_dir)
-    station_file <- file.path(tmp_dir, "station.txt")
-    station_db <- readr::read_delim(station_file,
-                                    delim ="\t",
-                                    guess_max = 2000,
-                                    col_names = TRUE,
-                                    locale = readr::locale(encoding = "latin1"),
-                                    col_types = readr::cols(),
-                                    progress = FALSE)
+  # ---- Determine station file ----
+  if (is.null(station_file)) {
+    # Check environment variable
+    env_path <- Sys.getenv("NODC_CONFIG", unset = NA)
+    if (!is.na(env_path) && dir.exists(env_path)) {
+      station_file <- file.path(env_path, "nodc_station", "station.txt")
+      if(verbose) message("Using station.txt from NODC_CONFIG:", station_file)
+    } else {
+      # Fallback to bundled station.zip
+      zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
+      tmp_dir <- tempdir()
+      utils::unzip(zip_path, exdir = tmp_dir)
+      station_file <- file.path(tmp_dir, "station.txt")
+      if(verbose) message("Using station.txt from SHARK4R bundle:", zip_path)
+    }
   }
+
+  # ---- Read station database ----
+  station_db <- readr::read_delim(
+    station_file,
+    delim = "\t",
+    guess_max = 2000,
+    col_names = TRUE,
+    locale = readr::locale(encoding = "latin1"),
+    col_types = readr::cols(),
+    progress = FALSE
+  )
 
   # ---- Initial match against STATION_NAME ----
   match_type <- names %in% station_db$STATION_NAME
@@ -191,11 +211,24 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE) {
 #' using the \code{SYNONYM_NAMES} column in the station database, splitting
 #' multiple synonyms separated by \code{<or>}.
 #'
+#' The function first checks if a station file path is provided via the
+#' \code{station_file} argument. If not, it looks for the
+#' \code{NODC_CONFIG} environment variable. This variable can point to a folder
+#' where the NODC (Swedish National Oceanographic Data Center) configuration and station file
+#' are stored, typically including:
+#' \itemize{
+#'   \item \code{<NODC_CONFIG>/nodc_station/station.txt}
+#' }
+#' If \code{NODC_CONFIG} is set and the folder exists, the function will use
+#' \code{station.txt} from that location. Otherwise, it falls back to the
+#' bundled \code{station.zip} included in the \code{SHARK4R} package.
+#'
 #' @param data A data frame containing at least the columns:
 #'   \code{station_name}, \code{sample_longitude_dd}, \code{sample_latitude_dd}.
 #' @param station_file Optional path to a custom station file (tab-delimited).
-#'   If \code{NULL} (default), the function will extract and use the bundled
-#'   \code{"station.zip"} from the \code{SHARK4R} package.
+#'   If \code{NULL} (default), the function will first attempt to use the
+#'   \code{NODC_CONFIG} environment variable, and if that fails, will use the
+#'   bundled \code{"station.zip"} from the \code{SHARK4R} package.
 #' @param plot_leaflet Logical; if \code{TRUE}, displays a leaflet map with
 #'   SMHI stations (blue circles with radius in popup) and reported stations
 #'   (green/red/gray markers). Default is \code{FALSE}.
@@ -206,6 +239,7 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE) {
 #'   points if no CRS is available. Defaults to \code{4326} (WGS84). Change this
 #'   if your coordinates are reported in another CRS (e.g., \code{3006} for
 #'   SWEREF99 TM).
+#' @param verbose Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.
 #'
 #' @return If \code{plot_leaflet = FALSE}, returns a data frame with columns:
 #'   \describe{
@@ -231,7 +265,8 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE) {
 check_station_distance <- function(data, station_file = NULL,
                                    plot_leaflet = FALSE,
                                    try_synonyms = TRUE,
-                                   fallback_crs = 4326) {
+                                   fallback_crs = 4326,
+                                   verbose = TRUE) {
   # ---- Required columns in reported data ----
   required_data_cols <- c("station_name", "sample_longitude_dd", "sample_latitude_dd")
   missing_data_cols <- setdiff(required_data_cols, names(data))
@@ -240,28 +275,33 @@ check_station_distance <- function(data, station_file = NULL,
          paste(missing_data_cols, collapse = ", "))
   }
 
-  # ---- Load station database ----
-  if (!is.null(station_file)) {
-    station_db <- readr::read_delim(station_file,
-                                    delim ="\t",
-                                    guess_max = 2000,
-                                    col_names = TRUE,
-                                    locale = readr::locale(encoding = "latin1"),
-                                    col_types = readr::cols(),
-                                    progress = FALSE)
-  } else {
-    zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
-    tmp_dir <- tempdir()
-    utils::unzip(zip_path, exdir = tmp_dir)
-    station_file <- file.path(tmp_dir, "station.txt")
-    station_db <- readr::read_delim(station_file,
-                                    delim ="\t",
-                                    guess_max = 2000,
-                                    col_names = TRUE,
-                                    locale = readr::locale(encoding = "latin1"),
-                                    col_types = readr::cols(),
-                                    progress = FALSE)
+  # ---- Determine station file ----
+  if (is.null(station_file)) {
+    # Check environment variable
+    env_path <- Sys.getenv("NODC_CONFIG", unset = NA)
+    if (!is.na(env_path) && dir.exists(env_path)) {
+      station_file <- file.path(env_path, "nodc_station", "station.txt")
+      if(verbose) message("Using station.txt from NODC_CONFIG:", station_file)
+    } else {
+      # Fallback to bundled station.zip
+      zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
+      tmp_dir <- tempdir()
+      utils::unzip(zip_path, exdir = tmp_dir)
+      station_file <- file.path(tmp_dir, "station.txt")
+      if(verbose) message("Using station.txt from SHARK4R bundle:", zip_path)
+    }
   }
+
+  # ---- Read station database ----
+  station_db <- readr::read_delim(
+    station_file,
+    delim = "\t",
+    guess_max = 2000,
+    col_names = TRUE,
+    locale = readr::locale(encoding = "latin1"),
+    col_types = readr::cols(),
+    progress = FALSE
+  )
 
   # ---- Required columns in station_db ----
   required_db_cols <- c("STATION_NAME",
