@@ -152,7 +152,7 @@ check_setup <- function(path = ".", run_app = FALSE, force = FALSE, verbose = TR
   # Run Shiny app if requested
   if (run_app) {
     # Check required packages
-    needed_pkgs <- c("shiny", "htmltools", "rmarkdown")
+    needed_pkgs <- c("shiny", "shinythemes", "htmltools", "rmarkdown", "skimr")
     missing <- needed_pkgs[!vapply(needed_pkgs, requireNamespace, logical(1), quietly = TRUE)]
     if (length(missing)) {
       stop("The following packages are required to run the app: ",
@@ -165,7 +165,7 @@ check_setup <- function(path = ".", run_app = FALSE, force = FALSE, verbose = TR
       stop("Could not find 'server.R' and 'ui.R' in ", products_dir)
     }
 
-    message("Launching QC Shiny app...")
+    message("Launching SHARK4R Bio-QC Shiny app...")
     shiny::runApp(products_dir, launch.browser = TRUE)
   }
 
@@ -410,4 +410,43 @@ cache_peg_zip <- function(url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL
   }
 
   destfile
+}
+
+read_translate_file <- function(file = NULL, verbose = TRUE) {
+  # ---- Determine file ----
+  if (is.null(file)) {
+    # Check environment variable
+    env_path <- Sys.getenv("NODC_CONFIG", unset = NA)
+    if (!is.na(env_path) && dir.exists(env_path)) {
+      file <- file.path(env_path, "nodc_codes", "translate_codes.txt")
+      if (verbose) message("Using station.txt from NODC_CONFIG: ", file)
+    }
+  }
+
+  translate <- readr::read_delim(
+    file,
+    delim = "\t",
+    guess_max = 2000,
+    col_names = TRUE,
+    locale = readr::locale(encoding = "latin1"),
+    col_types = readr::cols(),
+    progress = FALSE
+  )
+
+  return(translate)
+}
+
+# Helper to normalize stringi detected encodings to our keys
+normalize_encoding <- function(enc) {
+  enc <- toupper(enc)
+
+  # Map common variants
+  if (enc %in% c("WINDOWS-1252", "CP1252")) return("cp1252")
+  if (enc %in% c("UTF-8", "UTF8")) return("utf_8")
+  if (enc %in% c("UTF-16BE", "UTF-16LE", "UTF16")) return("utf_16")
+  if (enc %in% c("ISO-8859-1", "LATIN1", "LATIN_1")) return("latin_1")
+
+  # Fallback for unknowns
+  warning("Unknown encoding detected: ", enc, ". Defaulting to 'utf_8'.")
+  return("utf_8")
 }

@@ -138,6 +138,10 @@ check_codes <- function(data,
 #' This function is deprecated and has been replaced by [check_codes()].
 #'
 #' @param data for tibble be be checked
+#' @param field Character; name of the column in `data` that contains the codes
+#'   to be validated against the SHARK codelist. If a cell contains multiple
+#'   codes separated by commas, each code is validated separately.
+#'   Default is `"sample_project_name_en"`.
 #' @param clean_cache_days Numeric; if not NULL, cached SHARK code Excel files older than
 #' this number of days will be automatically deleted and be replaced by a new download.
 #' Defaults to 30. Set to NULL to disable automatic cleanup.
@@ -147,10 +151,10 @@ check_codes <- function(data,
 #'
 #' @keywords internal
 #' @export
-check_code_proj <- function(data, clean_cache_days = 30) {
+check_code_proj <- function(data, field = "sample_project_name_sv", clean_cache_days = 30) {
   lifecycle::deprecate_warn("0.1.7.9000", "check_code_proj()", "check_codes()")
   check_codes(data = data,
-              field = "sample_project_name_sv",
+              field = field,
               code_type = "PROJ",
               clean_cache_days = clean_cache_days)
 }

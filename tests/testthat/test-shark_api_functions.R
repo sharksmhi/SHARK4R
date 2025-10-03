@@ -232,3 +232,25 @@ test_that("get_shark_statistics caches results correctly", {
   # Clean up
   file.remove(cache_file)
 })
+
+test_that("chlorophyll data are retrieved for all years", {
+  skip_if_offline()
+  skip_if_resource_unavailable(shark_url)
+  skip_on_cran()
+
+  shark_data <- get_shark_data(
+    tableView = "sharkdata_chlorophyll",
+    dataTypes = "Chlorophyll",
+    fromYear = NULL,
+    toYear = NULL,
+    stationName = "B7"
+  )
+
+  expect_s3_class(shark_data, "data.frame")
+  expect_true(nrow(shark_data) > 0)
+  expect_true(all(c("delivery_datatype", "check_status_sv", "data_checked_by_sv") %in% names(shark_data)))
+  min_year <- min(shark_data$visit_year)
+  max_year <- max(shark_data$visit_year)
+
+  expect_true(max_year > min_year)
+})

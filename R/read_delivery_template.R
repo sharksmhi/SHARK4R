@@ -185,8 +185,13 @@ get_delivery_template <- function(datatype,
 #' Find required fields in a SHARK delivery template
 #'
 #' Identifies which columns are mandatory in the SHARK delivery template based on
-#' the row starting with "* = Obligatorisk". Can optionally include both single "*"
-#' and double "**" required fields.
+#' rows starting with "*" (one or more). You can specify how many levels of
+#' asterisks to include.
+#'
+#' Note: A single "*" marks required fields in the standard SHARK template.
+#' A double "**" is often used to specify columns required for **national monitoring only**.
+#' For more information, see:
+#' https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data
 #'
 #' @param datatype Character. The datatype name.
 #'   Available options include:
@@ -209,8 +214,10 @@ get_delivery_template <- function(datatype,
 #'     \item "Zooplankton"
 #'     \item "Zoobenthos"
 #'   }
-#' @param nat Logical. If TRUE, includes both single "*" and double "**" required fields (fields used in national monitoring).
-#'   If FALSE (default), only single "*" required fields are returned.
+#' @param stars Integer. Maximum number of "*" levels to include.
+#'   Default = 1 (only single "*").
+#'   For example, `stars = 2` includes "*" and "**",
+#'   `stars = 3` includes "*", "**", and "***".
 #' @param bacterioplankton_subtype Character. For "Bacterioplankton" only: either
 #'   "abundance" (default) or "production". Ignored for other datatypes.
 #'
@@ -221,48 +228,49 @@ get_delivery_template <- function(datatype,
 #' # Only single "*" required columns
 #' find_required_fields("Bacterioplankton")
 #'
-#' # Include both "*" and "**" required columns
-#' find_required_fields("Bacterioplankton", nat = TRUE)
+#' # Include both "*" and "**" required columns (national monitoring too)
+#' find_required_fields("Bacterioplankton", stars = 2)
 #'
-#' # Bacterial production
-#' find_required_fields("Bacterioplankton",
-#'                      bacterioplankton_subtype = "production")
-#'
-#' # Phytoplankton required columns
-#' find_required_fields("Phytoplankton")
+#' # Include up to three levels of "*"
+#' find_required_fields("Phytoplankton", stars = 3)
 #' }
 #'
 #' @export
 find_required_fields <- function(datatype,
-                                 nat = FALSE,
+                                 stars = 1,
                                  bacterioplankton_subtype = "abundance") {
-  # Read the delivery template
+
   df <- get_delivery_template(datatype,
                               sheet = 3,
                               header_row = 1,
                               skip = 0,
                               bacterioplankton_subtype = bacterioplankton_subtype)
 
-  req_rows <- df[df[,1] == "*" & !is.na(df[,1]),]
+  # ensure first column is character
+  col1 <- as.character(df[[1]])
 
-  # Convert to data.frame
-  df <- as.data.frame(req_rows)
+  # compute number of leading stars in each entry (0 if none)
+  m <- regexpr("^\\*+", col1)
+  leading_stars <- ifelse(m > 0, attr(m, "match.length"), 0L)
 
-  # Loop over columns to find one where most entries are all caps
-  all_caps_mask <- sapply(df, function(col) {
-    vals <- stats::na.omit(col)
+  # select rows with 1..stars leading stars
+  req_idx <- which(leading_stars > 0 & leading_stars <= stars)
+  req_rows <- df[req_idx, , drop = FALSE]
+
+  # convert to data.frame (keeps behavior from your original)
+  df_req <- as.data.frame(req_rows)
+
+  # find the column with most ALL_CAPS-like entries
+  all_caps_mask <- sapply(df_req, function(col) {
+    vals <- stats::na.omit(as.character(col))
     vals <- vals[vals != ""]
-    # Count how many are fully uppercase letters (allow digits and underscore)
+    if (length(vals) == 0) return(FALSE)
     sum(grepl("^[A-Z0-9_]+$", vals)) / length(vals) > 0.5
   })
 
-  # Get the index of the first matching column
   all_caps_col_index <- which(all_caps_mask)[1]
 
-  # Extract the vector of values from that column
-  required <- df[[all_caps_col_index]]
-
-  # Remove NA
+  required <- df_req[[all_caps_col_index]]
   required <- required[!is.na(required) & required != ""]
 
   return(required)
