@@ -17,6 +17,7 @@ The SHARK4R package provides a set of functions to perform quality control (QC) 
 - **Geospatial checks** (points on land, basins, proximity to shore)  
 - **Depth checks** (missing, negative, or implausible values)  
 - **Outlier detection** (parameter-specific thresholds)  
+- **Logical Parameter Checks** (parameter-specific rules)  
 - **Interactive QC** with a Shiny app  
 
 This workflow ensures SHARK data are consistent, valid, and ready for analysis. Several quality control components, originally developed by Provoost and Bosch (2018), have been adapted for compatibility with the SHARK format.
@@ -81,6 +82,8 @@ chlorophyll_data <- get_shark_datasets(selected_dataset,
 
 tibble(chlorophyll_data)
 ```
+
+SHARK data can be downloaded and saved locally using the `save_dir` argument, then imported into R using the function `shark_read()` for both ZIP archives or text files.
 
 ---
 
@@ -186,7 +189,22 @@ scatterplot(chlorophyll_data,
 
 ---
 
-## Step 6: Station Matching
+## Step 6: Logical Parameter Checks
+
+Use `check_parameter_rules()` to flag measurements that violate parameter-specific or row-wise logical rules.
+
+```{r}
+check_parameter_rules(data = chlorophyll_data)
+```
+
+* `return_df = TRUE` gives a data frame of violations.
+* `return_logical = TRUE` gives logical vectors for each parameter.
+* Only parameters present in the dataset are checked; available parameters are listed if none match.
+* You can define custom rules by providing your own `param_conditions` or `rowwise_conditions` lists.
+
+---
+
+## Step 7: Station Matching
 
 Verify station names against the official SHARK registry:
 
@@ -236,8 +254,9 @@ The app provides point-and-click access to the same QC checks described above.
 3. **Geospatial Checks** (`plot_map_leaflet()`, `check_onland()`, optional `positions_are_near_land()`, `which_basin()`)  
 4. **Depth Checks** (`check_depth()`)  
 5. **Outlier Detection** (`check_outliers()`, `scatterplot()`)  
-6. **Station Matching** (`match_station()`)  
-7. **Final Review & Visualization** (interactive maps and scatterplots)  
+6. **Logical Parameter Checks** (`check_parameter_rules()`)  
+7. **Station Matching** (`match_station()`)  
+8. **Final Review & Visualization** (interactive maps and scatterplots)  
 
 Following this order ensures comprehensive QC and prepares your SHARK data for analysis.
 

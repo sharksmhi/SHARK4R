@@ -25,9 +25,11 @@
 ## Deprecated
 * Deprecated functions: `ifcb_is_near_land()` and `ifcb_which_basin()` (replaced by re-exported functions with improved cache behavior)
 * Deprecated functions: `get_algaebase_species()`, `get_algaebase_genus()` and `match_algaebase()` are now replaced by `match_algaebase_species()`, `match_algaebase_genus()` and `match_algaebase_taxa()`.
-* Deprecated functions: Parameter and datatype-specific `check_*_*_logical()` functions replaced by a general `check_logical_parameter()` function.
+* Deprecated functions: Parameter and datatype-specific `check_*_*_logical()` functions replaced by general functions `check_parameter_rules` and `check_logical_parameter()` function.
 * Deprecated functions: Datatype-specific field check functions `check_*()` and `check_*_deliv()` replaced by a general `check_fields()` function.
 * Deprecated functions: Parameter and datatype-specific `check_*_*()` functions to check for outliers replaced by a general `check_outliers()` function.
+* Deprecated functions: `shark_read_deliv()` and `shark_read_deliv_xls()` are now replaced by `read_shark_deliv()`.
+* Deprecated functions: `shark_read()` and `shark_read_zip()` are now replaced by `read_shark()`.
 * Deprecated function: `match_dyntaxa()` is now replaced by `is_in_dyntaxa()`.
 * Deprecated function: `plot_map_leaflet_deliv()` is now replaced by `plot_map_leaflet()`.
 * Deprecated function: `check_code_proj()` is now replaced by `check_codes()`.

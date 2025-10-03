@@ -286,3 +286,41 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
   "Calculated # counted",      28.247,          41.6792,        "Ringed seal",
   "Porpoise positive minutes",               189.5,           299,            "Harbour Porpoise"
 )
+
+# --- Define parameter-specific conditions ---
+.param_conditions <- list(
+  "Total cover of all species" = list(
+    condition = function(x) x > 100,
+    range_msg = "0-100%"
+  ),
+  "Cover" = list(
+    condition = function(x) x > 100,
+    range_msg = "0-100%"
+  ),
+  "Cover class" = list(
+    condition = function(x) x > 10,
+    range_msg = "0-10"
+  ),
+  "Sediment deposition cover" = list(
+    condition = function(x) x > 100,
+    range_msg = "0-100%"
+  ),
+  "Abundance class" = list(
+    condition = function(x) x > 10,
+    range_msg = "0-10"
+  ),
+  "Wet weight" = list(
+    condition = function(x) x == 0,
+    range_msg = "> 0"
+  )
+)
+
+# --- Row-wise dependent rules ---
+.rowwise_conditions <- list(
+  "BQIm" = function(df) {
+    val <- suppressWarnings(as.numeric(as.character(df$value)))
+    is_abund <- df$parameter == "Abundance"
+    is_BQIm  <- df$parameter == "BQIm"
+    (!is.na(val)) & ((is_abund & val == 0) | (is_BQIm & val > 0))
+  }
+)

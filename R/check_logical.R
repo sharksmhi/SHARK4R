@@ -214,7 +214,7 @@ check_logical_parameter <- function(data, param_name, condition,
 #' Check if Epibenthos total cover exceeds 100%
 #'
 #' `r lifecycle::badge("deprecated")`
-#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#' This function is deprecated and has been replaced by [check_logical_parameter()]. Alternatively, you can use [check_parameter_rules()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
@@ -248,7 +248,7 @@ check_epibenthos_totcover_logical <- function(data, return_df = FALSE, return_lo
 #' Check if Epibenthos cover (%) exceeds 100%
 #'
 #' `r lifecycle::badge("deprecated")`
-#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#' This function is deprecated and has been replaced by [check_logical_parameter()]. Alternatively, you can use [check_parameter_rules()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
@@ -282,7 +282,7 @@ check_epibenthos_coverpercent_logical <- function(data, return_df = FALSE, retur
 #' Check if Epibenthos cover exceeds 100%
 #'
 #' `r lifecycle::badge("deprecated")`
-#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#' This function is deprecated and has been replaced by [check_logical_parameter()]. Alternatively, you can use [check_parameter_rules()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
@@ -316,7 +316,7 @@ check_epibenthos_cover_logical <- function(data, return_df = FALSE, return_logic
 #' Check if Epibenthos cover class exceeds 10
 #'
 #' `r lifecycle::badge("deprecated")`
-#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#' This function is deprecated and has been replaced by [check_logical_parameter()]. Alternatively, you can use [check_parameter_rules()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
@@ -350,7 +350,7 @@ check_epibenthos_coverclass_logical <- function(data, return_df = FALSE, return_
 #' Check if Sediment deposition cover (%) exceeds 100%
 #'
 #' `r lifecycle::badge("deprecated")`
-#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#' This function is deprecated and has been replaced by [check_logical_parameter()]. Alternatively, you can use [check_parameter_rules()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
@@ -384,7 +384,7 @@ check_epibenthos_sedimentdepos_logical <- function(data, return_df = FALSE, retu
 #' Check if Abundance class exceeds 10
 #'
 #' `r lifecycle::badge("deprecated")`
-#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#' This function is deprecated and has been replaced by [check_logical_parameter()]. Alternatively, you can use [check_parameter_rules()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
@@ -418,7 +418,7 @@ check_epibenthos_abundclass_logical <- function(data, return_df = FALSE, return_
 #' Check logical relationship between Abundance and BQIm
 #'
 #' `r lifecycle::badge("deprecated")`
-#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#' This function is deprecated and has been replaced by [check_logical_parameter()]. Alternatively, you can use [check_parameter_rules()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
@@ -483,7 +483,7 @@ check_zoobenthos_BQIm_logical <- function(data, return_df = FALSE, return_logica
 #' Check if wet weight measurements are zero
 #'
 #' `r lifecycle::badge("deprecated")`
-#' This function is deprecated and has been replaced by [check_logical_parameter()].
+#' This function is deprecated and has been replaced by [check_logical_parameter()]. Alternatively, you can use [check_parameter_rules()].
 #'
 #' @param data A data frame. Must contain columns `parameter` and `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows.
@@ -512,4 +512,140 @@ check_zoobenthos_wetweight_logical <- function(data, return_df = FALSE, return_l
     message("Parameter Wet weight, measurement(s) follow logical assumption: > 0")
     return(invisible(NULL))
   }
+}
+
+#' Check parameter values against logical rules
+#'
+#' Applies parameter-specific and row-wise logical rules to benthos/epibenthos data,
+#' flagging measurements that violate defined conditions. This function replaces
+#' multiple deprecated `check_*_logical()` functions with a general, flexible implementation.
+#'
+#' @param data A data frame containing at least the columns `parameter` and `value`.
+#' @param param_conditions A named list of parameter-specific rules.
+#'        Each element should be a list with:
+#'        \describe{
+#'          \item{condition}{Function taking a numeric vector and returning a logical vector (TRUE = violation).}
+#'          \item{range_msg}{Character string describing the expected range.}
+#'        }
+#'        Defaults to `SHARK4R:::.param_conditions` defined in the package namespace.
+#' @param rowwise_conditions A named list of row-wise rules applied across multiple parameters.
+#'        Each element should be a function taking the full data frame and returning a logical vector.
+#'        Defaults to `SHARK4R:::.rowwise_conditions` defined in the package namespace.
+#' @param return_df Logical. If TRUE, problematic rows are returned as plain `data.frame`s.
+#' @param return_logical Logical. If TRUE, problematic rows are returned as logical vectors.
+#'        Overrides `return_df`.
+#'
+#' @return A named list of results for each parameter:
+#'         \describe{
+#'           \item{Logical vector}{If `return_logical = TRUE`.}
+#'           \item{Data frame}{If `return_df = TRUE` and violations exist.}
+#'           \item{DT datatable}{If violations exist and `return_df = FALSE`.}
+#'           \item{NULL}{If no violations exist for the parameter.}
+#'         }
+#'         Invisible return.
+#'
+#' @details
+#' This function evaluates each parameter in `param_conditions` and `rowwise_conditions`.
+#' Only parameters present in the dataset are checked. Messages are printed
+#' indicating whether values are within expected ranges or which rows violate rules.
+#'
+#' @examples
+#' df <- data.frame(
+#'   station_name = c("A1", "A2", "A3", "A4"),
+#'   sample_date = as.Date("2023-05-01") + 0:3,
+#'   sample_id = 101:104,
+#'   parameter = c("Wet weight", "Wet weight", "Abundance", "BQIm"),
+#'   value = c(0, 5, 0, 3)
+#' )
+#'
+#' # Check against default package rules
+#' check_parameter_rules(df)
+#'
+#' # Return problematic rows as data.frame
+#' check_parameter_rules(df, return_df = TRUE)
+#'
+#' # Return logical vectors for each parameter
+#' check_parameter_rules(df, return_logical = TRUE)
+#'
+#' @export
+check_parameter_rules <- function(
+    data,
+    param_conditions = get(".param_conditions", envir = asNamespace("SHARK4R")),
+    rowwise_conditions = get(".rowwise_conditions", envir = asNamespace("SHARK4R")),
+    return_df = FALSE,
+    return_logical = FALSE) {
+
+  # --- Validate input ---
+  required_cols <- c("parameter", "value")
+  missing_cols <- setdiff(required_cols, names(data))
+  if (length(missing_cols) > 0) {
+    stop("data must contain column(s): ", paste(missing_cols, collapse = ", "))
+  }
+
+  if (return_df & return_logical) {
+    warning("Both return_df and return_logical are TRUE. Returning logical vectors.")
+    return_df <- FALSE
+  }
+
+  # --- Check if dataset contains any relevant parameters ---
+  all_params <- c(names(param_conditions), names(rowwise_conditions))
+  params_in_data <- intersect(all_params, unique(data$parameter))
+
+  if (length(params_in_data) == 0) {
+    message(
+      "No parameters from the logical rules are present in the dataset. ",
+      "Available parameters are: ", paste(names(param_conditions), collapse = ", ")
+    )
+    return(invisible(NULL))
+  }
+
+  results <- list()
+
+  # --- Simple threshold-based rules ---
+  for (param in names(param_conditions)) {
+    if (!param %in% data$parameter) {
+      results[[param]] <- NULL
+      next
+    }
+    cond <- param_conditions[[param]]$condition
+    range_msg <- param_conditions[[param]]$range_msg
+    value_num <- suppressWarnings(as.numeric(as.character(data$value)))
+    is_param <- data$parameter == param
+    error_vec <- is_param & (!is.na(value_num) & cond(value_num))
+
+    if (return_logical) {
+      results[[param]] <- error_vec
+    } else if (any(error_vec)) {
+      res_df <- data[error_vec, ]
+      message("Parameter ", param, ", measurement(s) outside expected range: ", range_msg)
+      results[[param]] <- if (return_df) res_df else DT::datatable(res_df)
+    } else {
+      results[[param]] <- NULL
+      message("Parameter ", param, ", all measurements within expected range: ", range_msg)
+    }
+  }
+
+  # --- Row-wise dependent rules ---
+  for (param in names(rowwise_conditions)) {
+    relevant_params <- c(param, "Abundance") # adjust if needed
+    if (!any(relevant_params %in% data$parameter)) {
+      results[[param]] <- NULL
+      next
+    }
+    cond_fun <- rowwise_conditions[[param]]
+    error_vec <- cond_fun(data)
+
+    if (return_logical) {
+      results[[param]] <- error_vec
+    } else if (any(error_vec)) {
+      res_df <- data[error_vec, ]
+      message("Parameter ", param, ", row-wise logical check failed")
+      results[[param]] <- if (return_df) res_df else DT::datatable(res_df)
+    } else {
+      results[[param]] <- NULL
+      message("Parameter ", param, ", row-wise logical check passed")
+    }
+  }
+
+  invisible(results)
 }
