@@ -14,7 +14,6 @@ tibble of data with outliers
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-
 This function is deprecated and has been replaced by \code{\link[=check_outliers]{check_outliers()}}.
 
 Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype

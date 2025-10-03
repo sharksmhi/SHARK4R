@@ -8,7 +8,7 @@ check_fields(
   data,
   datatype,
   level = "error",
-  nat = FALSE,
+  stars = 1,
   bacterioplankton_subtype = "abundance",
   field_definitions = .field_definitions
 )
@@ -23,8 +23,10 @@ Must exist as a name in the provided \code{field_definitions}.}
 If \code{"error"}, only required fields are validated. If \code{"warning"},
 recommended fields are also checked and reported as warnings.}
 
-\item{nat}{Logical. If TRUE, includes both single "\emph{" and double "**" required fields (fields used in national monitoring)
-from delivery template (\code{get_delivery_template}). If FALSE (default), only single "}" required fields are returned.}
+\item{stars}{Integer. Maximum number of "\emph{" levels to include.
+Default = 1 (only single "}").
+For example, \code{stars = 2} includes "\emph{" and "**",
+\code{stars = 3} includes "}", "\strong{", and "}*".}
 
 \item{bacterioplankton_subtype}{Character. For "Bacterioplankton" only: either
 "abundance" (default) or "production". Ignored for other datatypes.}
@@ -49,6 +51,12 @@ This function checks a SHARK data frame against the required and recommended
 fields defined for a specific datatype. It verifies that all required fields
 are present and contain non-empty values. If \code{level = "warning"}, it
 also checks for recommended fields and empty values within them.
+}
+\details{
+Note: A single "*" marks required fields in the standard SHARK template.
+A double "**" is often used to specify columns required for \strong{national monitoring only}.
+For more information, see:
+https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data
 }
 \examples{
 # Example 1: Using built-in field definitions for "Phytoplankton"
