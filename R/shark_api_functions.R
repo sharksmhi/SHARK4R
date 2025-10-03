@@ -799,7 +799,7 @@ get_shark_datasets <- function(dataset_name,
   if (return_df) {
     if (!unzip_file) {
       # temp_dirs <- results
-      dfs <- map(unlist(results, use.names = FALSE), shark_read_zip)
+      dfs <- map(unlist(results, use.names = FALSE), read_shark)
     } else {
       # Extract the vector of file paths
       zip_files <- unlist(results, use.names = FALSE)

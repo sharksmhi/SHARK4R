@@ -41,6 +41,7 @@ Imports:
     readxl,
     sf,
     sp,
+    stringi,
     terra,
     tidyr,
     vroom,
@@ -50,8 +51,10 @@ Suggests:
     iRfcb,
     knitr,
     rmarkdown,
+    skimr,
     spelling,
     shiny,
+    shinythemes,
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr

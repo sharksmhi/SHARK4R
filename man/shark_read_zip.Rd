@@ -4,14 +4,35 @@
 \alias{shark_read_zip}
 \title{Read zip archive and unzip tab delimited files downloaded from SHARK}
 \usage{
-shark_read_zip(zipname)
+shark_read_zip(zipname, delimiters = "point-tab", encoding = "latin_1")
 }
 \arguments{
-\item{zipname}{path to file to be read}
+\item{zipname}{Path to the zip archive containing SHARK data (expects a file named \code{shark_data.txt} inside).}
+
+\item{delimiters}{Character. Specifies the delimiter used to separate values in the file.
+Options are \code{"point-tab"} (tab-separated) or \code{"point-semi"} (semicolon-separated).
+Default is \code{"point-tab"}.}
+
+\item{encoding}{Character. Specifies the text encoding of the file.
+Options are \code{"cp1252"}, \code{"utf_8"}, \code{"utf_16"}, or \code{"latin_1"}.
+Default is \code{"utf_8"}. If encoding mismatch is detected, the detected encoding is used.}
 }
 \value{
-Data frame of file
+A data frame containing the parsed contents of the SHARK export file.
 }
 \description{
-Uses unzip (unz) and read_delim to unzip archive and read tab delimited files with standardized export format from SHARK
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+This function is deprecated and has been replaced by \code{\link[=read_shark]{read_shark()}}.
 }
+\details{
+Uses \code{unz()} and \code{read_delim()} to extract and read tab-delimited or
+semicolon-delimited files with standardized export format from SHARK.
+
+Like \code{\link[=shark_read]{shark_read()}}, this function is tolerant to encoding issues.
+It allows a user-specified encoding (\code{cp1252}, \code{utf_8}, \code{utf_16}, or \code{latin_1}),
+but also automatically detects the encoding from the file content.
+If the detected encoding does not match the specified one,
+the detected encoding is preferred.
+This ensures files with wrongly labeled or inconsistent encodings are still read correctly.
+}
+\keyword{internal}

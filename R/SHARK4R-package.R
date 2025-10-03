@@ -104,6 +104,7 @@
 #' @importFrom sp over
 #' @importFrom sp proj4string
 #' @importFrom sp spTransform
+#' @importFrom stringi stri_enc_detect
 #' @importFrom terra buffer
 #' @importFrom terra crs
 #' @importFrom terra vect
