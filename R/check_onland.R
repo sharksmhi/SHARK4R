@@ -8,7 +8,7 @@
 #' * **Online mode (`offline = FALSE`)**: uses the OBIS web service to determine distance to the shore.
 #'
 #' Optionally, a leaflet map can be plotted. Points on land are displayed as red markers,
-#' while points in water are green.
+#' while points in water are green. If \code{only_bad = TRUE}, only the red points (on land) are plotted.
 #'
 #' @param data A data frame containing at least `sample_longitude_dd` and `sample_latitude_dd`.
 #'   These columns must be numeric and within valid ranges (-180 to 180 for longitude, -90 to 90 for latitude).
@@ -19,8 +19,10 @@
 #'   Only used in online mode. Default is 0.
 #' @param offline Logical; if `TRUE`, the function uses the local cached shoreline. If `FALSE` (default),
 #'   the OBIS web service is queried.
-#' @param plot_leaflet Logical; if `TRUE`, returns a leaflet map showing all points colored by
-#'   whether they are on land (red) or water (green). Default is `FALSE`.
+#' @param plot_leaflet Logical; if `TRUE`, returns a leaflet map showing points colored by
+#'   whether they are on land (red) or in water (green). Default is `FALSE`.
+#' @param only_bad Logical; if `TRUE` and `plot_leaflet = TRUE`, only points on land (red) are plotted.
+#'   Default is `FALSE`, meaning all points are plotted.
 #'
 #' @return If `report = TRUE`, a tibble with columns:
 #'   \itemize{
@@ -30,7 +32,8 @@
 #'     \item `message`: description of the issue
 #'   }
 #'   If `report = FALSE` and `plot_leaflet = FALSE`, returns a subset of `data` with only the flagged rows.
-#'   If `plot_leaflet = TRUE`, returns a leaflet map showing points on land (red) and in water (green).
+#'   If `plot_leaflet = TRUE`, returns a leaflet map showing points on land (red) and in water (green),
+#'   unless `only_bad = TRUE`, in which case only red points are plotted.
 #'
 #' @examples
 #' \dontrun{
@@ -48,6 +51,10 @@
 #' m <- check_onland(example_data, plot_leaflet = TRUE)
 #' m
 #'
+#' # Plot only bad points on land
+#' m_bad <- check_onland(example_data, plot_leaflet = TRUE, only_bad = TRUE)
+#' m_bad
+#'
 #' # Remove points on land by adding a buffer of 2000 m
 #' ok <- check_onland(example_data, report = FALSE, buffer = 2000)
 #' print(nrow(ok))
@@ -55,7 +62,7 @@
 #'
 #' @export
 check_onland <- function(data, land = NULL, report = FALSE, buffer = 0, offline = FALSE,
-                         plot_leaflet = FALSE) {
+                         plot_leaflet = FALSE, only_bad = FALSE) {
   errors <- check_lonlat(data, report)
   if (NROW(errors) > 0 && report) return(errors)
 
@@ -91,24 +98,63 @@ check_onland <- function(data, land = NULL, report = FALSE, buffer = 0, offline 
   if (plot_leaflet) {
     data_plot <- data %>%
       dplyr::mutate(
-        color = ifelse(seq_len(nrow(data)) %in% i, "red", "green"),
+        bad_point = seq_len(nrow(data)) %in% i,
+        color = ifelse(bad_point, "red", "green"),
         popup_text = paste0("Row: ", seq_len(nrow(data)),
                             "<br>Lat: ", sample_latitude_dd,
                             "<br>Lon: ", sample_longitude_dd)
       )
 
-    icons_rep <- awesomeIcons(
+    # Optionally keep only bad points
+    if (only_bad) {
+      data_plot <- dplyr::filter(data_plot, bad_point)
+      data_good <- NULL
+      data_bad <- data_plot
+    } else {
+      data_good <- dplyr::filter(data_plot, !bad_point)
+      data_bad  <- dplyr::filter(data_plot, bad_point)
+    }
+
+    # Icons
+    icons_good <- leaflet::awesomeIcons(
       icon = "map-marker",
       iconColor = "white",
-      markerColor = data_plot$color,
+      markerColor = "green",
       library = "fa"
     )
 
-    m <- leaflet(data_plot) %>%
-      addProviderTiles("Esri.OceanBasemap", options = providerTileOptions(noWrap = TRUE)) %>%
-      addAwesomeMarkers(lng = ~sample_longitude_dd, lat = ~sample_latitude_dd,
-                        icon = icons_rep,
-                        popup = ~popup_text)
+    icons_bad <- leaflet::awesomeIcons(
+      icon = "map-marker",
+      iconColor = "white",
+      markerColor = "red",
+      library = "fa"
+    )
+
+    # Build map
+    m <- leaflet() %>%
+      addProviderTiles("CartoDB.Positron", options = providerTileOptions(noWrap = TRUE)) %>%
+      addTiles(
+        urlTemplate = "https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png",
+        attribution = "&copy; OpenSeaMap contributors, OpenStreetMap contributors",
+        options = providerTileOptions(noWrap = TRUE)
+      )
+
+    if (!only_bad && nrow(data_good) > 0) {
+      m <- m %>%
+        addAwesomeMarkers(data = data_good,
+                          lng = ~sample_longitude_dd, lat = ~sample_latitude_dd,
+                          icon = icons_good,
+                          popup = ~popup_text,
+                          clusterOptions = leaflet::markerClusterOptions())
+    }
+
+    if (nrow(data_bad) > 0) {
+      m <- m %>%
+        addAwesomeMarkers(data = data_bad,
+                          lng = ~sample_longitude_dd, lat = ~sample_latitude_dd,
+                          icon = icons_bad,
+                          popup = ~popup_text)
+    }
 
     return(m)
   }

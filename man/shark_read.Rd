@@ -7,7 +7,7 @@
 shark_read(filename, delimiters = "point-tab", encoding = "latin_1")
 }
 \arguments{
-\item{filename}{Path to file to be read}
+\item{filename}{Path to file to be read.}
 
 \item{delimiters}{Character. Specifies the delimiter used to separate values in \code{filename}.
 Options are \code{"point-tab"} (tab-separated) or \code{"point-semi"} (semicolon-separated).
@@ -15,11 +15,25 @@ Default is \code{"point-tab"}.}
 
 \item{encoding}{Character. Specifies the text encoding of \code{filename}.
 Options are \code{"cp1252"}, \code{"utf_8"}, \code{"utf_16"}, or \code{"latin_1"}.
-Default is \code{"utf_8"}.}
+Default is \code{"utf_8"}. If an encoding mismatch is detected, the detected encoding is used.}
 }
 \value{
-Data frame of file
+A data frame containing the parsed contents of the SHARK export file.
 }
 \description{
-Uses read_delim to read tab delimited files with standardized export format from SHARK
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+This function is deprecated and has been replaced by \code{\link[=read_shark]{read_shark()}}.
 }
+\details{
+Uses \code{read_delim()} to read tab-delimited or semicolon-delimited files
+with standardized export format from SHARK.
+
+This function is robust to encoding issues:
+it accepts a user-specified encoding (\code{cp1252}, \code{utf_8}, \code{utf_16}, or \code{latin_1})
+but also attempts to automatically detect the file encoding.
+If the detected encoding differs from the specified one,
+the detected encoding will be used instead.
+This helps in cases where the file encoding has been wrongly specified,
+mislabeled, or varies between SHARK exports.
+}
+\keyword{internal}

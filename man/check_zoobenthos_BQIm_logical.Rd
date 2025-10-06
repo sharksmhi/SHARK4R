@@ -19,6 +19,6 @@ A DT datatable, a data.frame, a logical vector, or NULL if no problems found.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-This function is deprecated and has been replaced by \code{\link[=check_logical_parameter]{check_logical_parameter()}}.
+This function is deprecated and has been replaced by \code{\link[=check_logical_parameter]{check_logical_parameter()}}. Alternatively, you can use \code{\link[=check_parameter_rules]{check_parameter_rules()}}.
 }
 \keyword{internal}

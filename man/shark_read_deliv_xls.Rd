@@ -17,5 +17,10 @@ shark_read_deliv_xls(filename, skip = 2, sheet = 2)
 Data frame of file
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function is deprecated and has been replaced by \code{\link[=read_shark_deliv]{read_shark_deliv()}}.
+
 Uses readxl to read excel files with standardized delivery format
 }
+\keyword{internal}

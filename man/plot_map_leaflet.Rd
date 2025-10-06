@@ -4,7 +4,7 @@
 \alias{plot_map_leaflet}
 \title{Create an interactive Leaflet map of sampling stations}
 \usage{
-plot_map_leaflet(data, provider = "Esri.OceanBasemap")
+plot_map_leaflet(data, provider = "CartoDB.Positron")
 }
 \arguments{
 \item{data}{A data frame containing station coordinates and names. The function
@@ -17,7 +17,7 @@ accepts either:
 \item{provider}{Character. The tile provider to use for the map background.
 See available providers at
 \url{https://leaflet-extras.github.io/leaflet-providers/preview/}.
-Defaults to \code{"Esri.OceanBasemap"}.}
+Defaults to \code{"CartoDB.Positron"}.}
 }
 \value{
 An HTML widget object (\code{leaflet} map) that can be printed or displayed

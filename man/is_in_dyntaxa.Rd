@@ -7,6 +7,8 @@
 is_in_dyntaxa(
   taxon_names,
   subscription_key = Sys.getenv("DYNTAXA_KEY"),
+  use_dwca = FALSE,
+  return_df = FALSE,
   verbose = FALSE
 )
 }
@@ -27,15 +29,27 @@ Use \code{usethis::edit_r_environ()} to open the file, then add:
 \code{DYNTAXA_KEY=your_key_here}
 }}
 
-\item{verbose}{Logical; if TRUE (default), prints messages about unmatched taxa.}
+\item{use_dwca}{Logical; if TRUE, uses the DwCA version of Dyntaxa instead of querying the API.}
+
+\item{return_df}{Logical; if TRUE, returns a data frame with columns \code{taxon_names},
+\code{taxon_id}, and \code{match}. Default is FALSE (returns a logical vector).}
+
+\item{verbose}{Logical; if TRUE, prints messages about unmatched taxa.}
 }
 \value{
-A logical vector indicating whether each input name was found in Dyntaxa.
-Returned invisibly if \code{verbose = TRUE}.
+If \code{return_df = FALSE} (default), a logical vector indicating whether each input
+name was found in Dyntaxa. Returned invisibly if \code{verbose = TRUE}.
+If \code{return_df = TRUE}, a data frame with columns:
+\itemize{
+\item \code{taxon_names}: original input names
+\item \code{taxon_id}: corresponding Dyntaxa taxon IDs (NA if not found)
+\item \code{match}: logical indicating presence in Dyntaxa
+}
 }
 \description{
 Checks whether the supplied scientific names exist in the
-Swedish taxonomic database Dyntaxa.
+Swedish taxonomic database Dyntaxa. Optionally, returns a data frame
+with taxon names, taxon IDs, and match status.
 }
 \details{
 A valid Dyntaxa API subscription key is required.
@@ -47,6 +61,9 @@ You can request a free key for the "Taxonomy" service from the ArtDatabanken API
 # Using an environment variable (recommended for convenience)
 Sys.setenv(DYNTAXA_KEY = "your_key_here")
 is_in_dyntaxa(c("Skeletonema marinoi", "Nonexistent species"))
+
+# Return a data frame instead of logical vector
+is_in_dyntaxa(c("Skeletonema marinoi", "Nonexistent species"), return_df = TRUE)
 
 # Or pass the key directly
 is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")

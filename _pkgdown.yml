@@ -39,10 +39,8 @@ reference:
   - get_shark_datasets
   - get_shark_statistics
   - get_shark_table_counts
-  - shark_read
-  - shark_read_deliv
-  - shark_read_deliv_xls
-  - shark_read_zip
+  - read_shark_deliv
+  - read_shark
 
 - subtitle: Dyntaxa
   desc: These functions are used to retrieve data from the Dyntaxa API
@@ -115,9 +113,11 @@ reference:
   - check_fields
   - check_logical_parameter
   - check_outliers
+  - check_parameter_rules
   - check_setup
   - check_value_logical
   - check_zero_value
+  - run_qc_app
 
 - subtitle: MISC
   contents:

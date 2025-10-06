@@ -20,7 +20,7 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
                          "value_num", "n_non_numeric", "frac_non_numeric", "n_total", "stats",
                          "distance_m", "within_limit", "SYNONYM_NAMES", "LATITUDE_WGS84_SWEREF99_DD",
                          "LAT_REF", "LONGITUDE_WGS84_SWEREF99_DD", "LON_REF", "OUT_OF_BOUNDS_RADIUS",
-                         "RADIUS", "STATION", "STATION_NAME"))
+                         "RADIUS", "STATION", "STATION_NAME", "bad_point"))
 
 .onLoad <- function(libname, pkgname){
   clean_shark4r_cache(days = 1, verbose = FALSE)
@@ -285,4 +285,42 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
   "Wet weight",                 0.5395,          0.859,          "Zoobenthos",
   "Calculated # counted",      28.247,          41.6792,        "Ringed seal",
   "Porpoise positive minutes",               189.5,           299,            "Harbour Porpoise"
+)
+
+# --- Define parameter-specific conditions ---
+.param_conditions <- list(
+  "Total cover of all species" = list(
+    condition = function(x) x > 100,
+    range_msg = "0-100%"
+  ),
+  "Cover" = list(
+    condition = function(x) x > 100,
+    range_msg = "0-100%"
+  ),
+  "Cover class" = list(
+    condition = function(x) x > 10,
+    range_msg = "0-10"
+  ),
+  "Sediment deposition cover" = list(
+    condition = function(x) x > 100,
+    range_msg = "0-100%"
+  ),
+  "Abundance class" = list(
+    condition = function(x) x > 10,
+    range_msg = "0-10"
+  ),
+  "Wet weight" = list(
+    condition = function(x) x == 0,
+    range_msg = "> 0"
+  )
+)
+
+# --- Row-wise dependent rules ---
+.rowwise_conditions <- list(
+  "BQIm" = function(df) {
+    val <- suppressWarnings(as.numeric(as.character(df$value)))
+    is_abund <- df$parameter == "Abundance"
+    is_BQIm  <- df$parameter == "BQIm"
+    (!is.na(val)) & ((is_abund & val == 0) | (is_BQIm & val > 0))
+  }
 )

@@ -34,14 +34,17 @@ test_that("deprecated match_algaebase works", {
   species_parsed <- parse_scientific_names(test_species)
 
   algaebase_taxa <- expect_error(
-    lifecycle::expect_deprecated(match_algaebase(species_parsed$genus,
-                                                 species_parsed$species,
-                                                 NULL)))
+    lifecycle::expect_deprecated(
+      lifecycle::expect_deprecated(match_algaebase(species_parsed$genus,
+                                                   species_parsed$species,
+                                                   apikey = NULL))))
   algaebase_genus <- expect_error(
-    lifecycle::expect_deprecated(get_algaebase_genus(species_parsed$genus,
-                                                     NULL)))
+    lifecycle::expect_deprecated(
+      lifecycle::expect_deprecated(get_algaebase_genus(species_parsed$genus,
+                                                       apikey = NULL))))
   algaebase_species <- expect_error(
-    lifecycle::expect_deprecated(get_algaebase_species(species_parsed$genus,
-                                                       species_parsed$species,
-                                                       NULL)))
+    lifecycle::expect_deprecated(
+      lifecycle::expect_deprecated(get_algaebase_species(species_parsed$genus,
+                                                         species_parsed$species,
+                                                         apikey = NULL))))
 })

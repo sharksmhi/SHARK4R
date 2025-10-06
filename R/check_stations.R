@@ -12,6 +12,7 @@
 #' @param data A data frame containing at least the columns:
 #'   \code{sample_date}, \code{station_name},
 #'   \code{sample_longitude_dd}, and \code{sample_latitude_dd}.
+#' @param verbose Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.
 #'
 #' @return A data frame with distinct station names and their corresponding
 #'   latitude/longitude positions, if nominal positions are suspected.
@@ -27,7 +28,7 @@
 #' check_nominal_station(df)
 #'
 #' @export
-check_nominal_station <- function(data) {
+check_nominal_station <- function(data, verbose = TRUE) {
   eventdate = data %>%
     select(sample_date) %>%
     rename(DATE = sample_date) %>%
@@ -39,10 +40,10 @@ check_nominal_station <- function(data) {
     distinct()
 
   if (nrow(eventdate) > nrow(coord)) {
-    message("WARNING: Suspected nominal positions reported! Is this correct?")
+    if (verbose) message("WARNING: Suspected nominal positions reported! Is this correct?")
     return(coord)
   } else {
-    message("Positions are not suspected to be nominal")
+    if (verbose) message("Positions are not suspected to be nominal")
     return(invisible(NULL))
   }
 }
@@ -137,13 +138,11 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 
   # ---- Determine station file ----
   if (is.null(station_file)) {
-    # Check environment variable
     env_path <- Sys.getenv("NODC_CONFIG", unset = NA)
     if (!is.na(env_path) && dir.exists(env_path)) {
       station_file <- file.path(env_path, "nodc_station", "station.txt")
       if(verbose) message("Using station.txt from NODC_CONFIG:", station_file)
     } else {
-      # Fallback to bundled station.zip
       zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
       tmp_dir <- tempdir()
       utils::unzip(zip_path, exdir = tmp_dir)
@@ -163,22 +162,27 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
     progress = FALSE
   )
 
-  # ---- Initial match against STATION_NAME ----
-  match_type <- names %in% station_db$STATION_NAME
+  # ---- Match unique names first ----
+  unique_names <- unique(names)
+  match_type_unique <- unique_names %in% station_db$STATION_NAME
 
   # ---- Try matching against synonyms if enabled ----
-  if (try_synonyms && any(!match_type) && "SYNONYM_NAMES" %in% names(station_db)) {
-    unmatched_idx <- which(!match_type)
-    for (i in unmatched_idx) {
-      s_name <- names[i]
-      syn_match <- sapply(station_db$SYNONYM_NAMES, function(x) {
-        any(trimws(unlist(strsplit(x, "<or>"))) == s_name)
-      })
-      if (any(syn_match, na.rm = TRUE)) {
-        match_type[i] <- TRUE
-      }
-    }
+  if (try_synonyms && any(!match_type_unique) && "SYNONYM_NAMES" %in% names(station_db)) {
+    unmatched_unique <- unique_names[!match_type_unique]
+
+    # Preprocess synonyms once
+    syn_list <- strsplit(station_db$SYNONYM_NAMES, "<or>")
+    syn_list <- lapply(syn_list, trimws)
+
+    syn_matches <- sapply(unmatched_unique, function(s_name) {
+      any(sapply(syn_list, function(x) s_name %in% x), na.rm = TRUE)
+    })
+
+    match_type_unique[unique_names %in% unmatched_unique] <- syn_matches
   }
+
+  # ---- Map results back to original names ----
+  match_type <- match_type_unique[match(names, unique_names)]
 
   matches <- data.frame(
     reported_station_name = names,
@@ -186,9 +190,9 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
   )
 
   if (any(!match_type)) {
-    message("WARNING: Unmatched stations found, check synonyms")
+    if (verbose) message("WARNING: Unmatched stations found, check synonyms")
   } else {
-    message("All stations found")
+    if (verbose) message("All stations found")
   }
 
   return(matches)
@@ -239,6 +243,8 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #'   points if no CRS is available. Defaults to \code{4326} (WGS84). Change this
 #'   if your coordinates are reported in another CRS (e.g., \code{3006} for
 #'   SWEREF99 TM).
+#' @param only_bad Logical; if \code{TRUE}, the leaflet map will only display
+#'   stations that are outside the allowed radius (red markers). Default is \code{FALSE}.
 #' @param verbose Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.
 #'
 #' @return If \code{plot_leaflet = FALSE}, returns a data frame with columns:
@@ -249,9 +255,12 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #'     \item{within_limit}{\code{TRUE} if distance <= allowed radius, \code{FALSE} if outside, \code{NA} if unmatched.}
 #'   }
 #'
-#' If \code{plot_leaflet = TRUE}, the function also produces a leaflet map
-#' (returned invisibly). SMHI station popups include both the station name
-#' and allowed radius.
+#' If \code{plot_leaflet = TRUE}, the function produces a leaflet map showing:
+#' \itemize{
+#'   \item Blue circles for SMHI stations with radius in the popup.
+#'   \item Reported stations colored by status: green (within radius), red (outside radius), gray (unmatched).
+#'   \item If \code{only_bad = TRUE}, only the red stations (outside radius) are displayed.
+#' }
 #'
 #' @examples
 #' df <- data.frame(
@@ -260,12 +269,14 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #'   sample_latitude_dd  = c(56.7, 55.25, 58.7)
 #' )
 #' check_station_distance(df, plot_leaflet = FALSE, try_synonyms = TRUE)
+#' check_station_distance(df, plot_leaflet = TRUE, only_bad = TRUE)
 #'
 #' @export
 check_station_distance <- function(data, station_file = NULL,
                                    plot_leaflet = FALSE,
                                    try_synonyms = TRUE,
                                    fallback_crs = 4326,
+                                   only_bad = FALSE,
                                    verbose = TRUE) {
   # ---- Required columns in reported data ----
   required_data_cols <- c("station_name", "sample_longitude_dd", "sample_latitude_dd")
@@ -277,18 +288,16 @@ check_station_distance <- function(data, station_file = NULL,
 
   # ---- Determine station file ----
   if (is.null(station_file)) {
-    # Check environment variable
     env_path <- Sys.getenv("NODC_CONFIG", unset = NA)
     if (!is.na(env_path) && dir.exists(env_path)) {
       station_file <- file.path(env_path, "nodc_station", "station.txt")
-      if(verbose) message("Using station.txt from NODC_CONFIG:", station_file)
+      if (verbose) message("Using station.txt from NODC_CONFIG:", station_file)
     } else {
-      # Fallback to bundled station.zip
       zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
       tmp_dir <- tempdir()
       utils::unzip(zip_path, exdir = tmp_dir)
       station_file <- file.path(tmp_dir, "station.txt")
-      if(verbose) message("Using station.txt from SHARK4R bundle:", zip_path)
+      if (verbose) message("Using station.txt from SHARK4R bundle:", zip_path)
     }
   }
 
@@ -303,7 +312,6 @@ check_station_distance <- function(data, station_file = NULL,
     progress = FALSE
   )
 
-  # ---- Required columns in station_db ----
   required_db_cols <- c("STATION_NAME",
                         "LATITUDE_WGS84_SWEREF99_DD",
                         "LONGITUDE_WGS84_SWEREF99_DD",
@@ -328,47 +336,58 @@ check_station_distance <- function(data, station_file = NULL,
 
   # ---- Try matching using synonyms if enabled ----
   if (try_synonyms) {
-    unmatched_idx <- which(is.na(merged$LAT_REF))
-    if (length(unmatched_idx) > 0) {
-      for (i in unmatched_idx) {
-        s_name <- merged$station_name[i]
-        syn_idx <- which(sapply(station_db$SYNONYM_NAMES, function(x) {
-          any(trimws(unlist(strsplit(x, "<or>"))) == s_name)
-        }))
-        if (length(syn_idx) == 1) {
-          merged$LAT_REF[i] <- station_db$LATITUDE_WGS84_SWEREF99_DD[syn_idx]
-          merged$LON_REF[i] <- station_db$LONGITUDE_WGS84_SWEREF99_DD[syn_idx]
-          merged$OUT_OF_BOUNDS_RADIUS[i] <- station_db$OUT_OF_BOUNDS_RADIUS[syn_idx]
+    unmatched_names <- unique(merged$station_name[is.na(merged$LAT_REF)])
+    if (length(unmatched_names) > 0) {
+      syn_list <- strsplit(station_db$SYNONYM_NAMES, "<or>")
+      syn_list <- lapply(syn_list, trimws)
+      syn_match_idx <- sapply(unmatched_names, function(s_name) {
+        idx <- which(sapply(syn_list, function(x) s_name %in% x))
+        if (length(idx) == 1) return(idx) else return(NA_integer_)
+      })
+      for (i in seq_along(unmatched_names)) {
+        idx_in_merged <- which(merged$station_name == unmatched_names[i] & is.na(merged$LAT_REF))
+        if (!is.na(syn_match_idx[i])) {
+          merged$LAT_REF[idx_in_merged] <- station_db$LATITUDE_WGS84_SWEREF99_DD[syn_match_idx[i]]
+          merged$LON_REF[idx_in_merged] <- station_db$LONGITUDE_WGS84_SWEREF99_DD[syn_match_idx[i]]
+          merged$OUT_OF_BOUNDS_RADIUS[idx_in_merged] <- station_db$OUT_OF_BOUNDS_RADIUS[syn_match_idx[i]]
         }
       }
     }
   }
 
-  # ---- Calculate distances (sf, with configurable fallback CRS) ----
+  # ---- Distance calculation (optimized) ----
   merged <- merged %>%
-    dplyr::mutate(
-      match_type = !is.na(LAT_REF) & !is.na(LON_REF),
-      distance_m = purrr::pmap_dbl(list(sample_longitude_dd, sample_latitude_dd, LON_REF, LAT_REF, match_type),
-                                   function(lon1, lat1, lon2, lat2, matched) {
-                                     if (!matched) return(NA_real_)
-                                     p1 <- sf::st_sfc(sf::st_point(c(lon1, lat1)), crs = fallback_crs)
-                                     p2 <- sf::st_sfc(sf::st_point(c(lon2, lat2)), crs = fallback_crs)
-                                     as.numeric(sf::st_distance(p1, p2, by_element = TRUE))
-                                   }),
-      within_limit = ifelse(match_type & !is.na(OUT_OF_BOUNDS_RADIUS),
-                            distance_m <= OUT_OF_BOUNDS_RADIUS,
-                            NA)
-    )
+    dplyr::mutate(match_type = !is.na(LAT_REF) & !is.na(LON_REF))
+
+  matched_rows <- merged %>%
+    dplyr::filter(match_type) %>%
+    dplyr::distinct(sample_longitude_dd, sample_latitude_dd, LON_REF, LAT_REF, OUT_OF_BOUNDS_RADIUS)
+
+  if (nrow(matched_rows) > 0) {
+    p1 <- sf::st_as_sf(matched_rows, coords = c("sample_longitude_dd", "sample_latitude_dd"), crs = fallback_crs)
+    p2 <- sf::st_as_sf(matched_rows, coords = c("LON_REF", "LAT_REF"), crs = fallback_crs)
+    matched_rows$distance_m <- as.numeric(sf::st_distance(p1, p2, by_element = TRUE))
+    matched_rows$within_limit <- matched_rows$distance_m <= matched_rows$OUT_OF_BOUNDS_RADIUS
+    merged <- merged %>%
+      dplyr::left_join(
+        matched_rows %>%
+          dplyr::select(sample_longitude_dd, sample_latitude_dd, LON_REF, LAT_REF, distance_m, within_limit),
+        by = c("sample_longitude_dd", "sample_latitude_dd", "LON_REF", "LAT_REF")
+      )
+  } else {
+    merged$distance_m <- NA_real_
+    merged$within_limit <- NA
+  }
 
   # ---- Messages ----
   if (any(!merged$match_type, na.rm = TRUE)) {
-    message("WARNING: Unmatched stations found, check synonyms")
-    print(merged[!merged$match_type, c("station_name")])
+    if (verbose) message("WARNING: Unmatched stations found, check synonyms")
+    if (verbose) print(merged[!merged$match_type, c("station_name")])
   }
   if (any(merged$match_type & !merged$within_limit, na.rm = TRUE)) {
-    message("WARNING: Some stations are outside the allowed distance limit")
-    print(merged[merged$match_type & !merged$within_limit,
-                 c("station_name", "distance_m", "OUT_OF_BOUNDS_RADIUS")])
+    if (verbose) message("WARNING: Some stations are outside the allowed distance limit")
+    if (verbose) print(merged[merged$match_type & !merged$within_limit,
+                              c("station_name", "distance_m", "OUT_OF_BOUNDS_RADIUS")])
   }
 
   # ---- Leaflet map ----
@@ -396,31 +415,57 @@ check_station_distance <- function(data, station_file = NULL,
       )) %>%
       dplyr::rename(LON = sample_longitude_dd,
                     LAT = sample_latitude_dd,
-                    STATION = station_name)
+                    STATION = station_name) %>%
+      distinct()
 
-    icons_rep <- leaflet::awesomeIcons(
-      icon = "map-marker",
-      iconColor = "white",
-      markerColor = reported_points$color,
-      library = "fa"
-    )
+    if (only_bad) {
+      # Only show bad points
+      reported_points_bad <- reported_points %>% dplyr::filter(!within_limit)
+      icons_bad <- leaflet::awesomeIcons(icon = "map-marker", iconColor = "white",
+                                         markerColor = "red", library = "fa")
+      m <- leaflet::leaflet() %>%
+        leaflet::addProviderTiles("CartoDB.Positron", options = leaflet::providerTileOptions(noWrap = TRUE)) %>%
+        leaflet::addAwesomeMarkers(data = reported_points_bad, lng = ~LON, lat = ~LAT,
+                                   icon = icons_bad, popup = ~STATION)
+    } else {
+      # Split reported points
+      reported_points_ok <- reported_points %>% dplyr::filter(within_limit == TRUE)
+      reported_points_bad <- reported_points %>% dplyr::filter(within_limit == FALSE)
 
-    m <- leaflet::leaflet() %>%
-      leaflet::addProviderTiles("Esri.OceanBasemap", options = leaflet::providerTileOptions(noWrap = TRUE)) %>%
-      leaflet::addCircleMarkers(data = station_points, lng = ~LON, lat = ~LAT,
-                                color = "blue", radius = 5, fill = TRUE, fillOpacity = 0.7,
-                                popup = ~popup_text) %>%
-      leaflet::addCircles(data = station_points, lng = ~LON, lat = ~LAT,
-                          radius = ~RADIUS, color = "blue", fill = FALSE) %>%
-      leaflet::addAwesomeMarkers(data = reported_points, lng = ~LON, lat = ~LAT,
-                                 icon = icons_rep, popup = ~STATION)
+      icons_ok <- leaflet::awesomeIcons(icon = "map-marker", iconColor = "white",
+                                        markerColor = "green", library = "fa")
+      icons_bad <- leaflet::awesomeIcons(icon = "map-marker", iconColor = "white",
+                                         markerColor = "red", library = "fa")
+
+      m <- leaflet::leaflet() %>%
+        leaflet::addProviderTiles("CartoDB.Positron", options = leaflet::providerTileOptions(noWrap = TRUE)) %>%
+        leaflet::addCircleMarkers(data = station_points, lng = ~LON, lat = ~LAT,
+                                  color = "blue", radius = 5, fill = TRUE, fillOpacity = 0.7,
+                                  popup = ~popup_text) %>%
+        leaflet::addCircles(data = station_points, lng = ~LON, lat = ~LAT,
+                            radius = ~RADIUS, color = "blue", fill = FALSE) %>%
+        leaflet::addAwesomeMarkers(data = reported_points_ok, lng = ~LON, lat = ~LAT,
+                                   icon = icons_ok, popup = ~STATION,
+                                   clusterOptions = leaflet::markerClusterOptions()) %>%
+        leaflet::addAwesomeMarkers(data = reported_points_bad, lng = ~LON, lat = ~LAT,
+                                   icon = icons_bad, popup = ~STATION)
+    }
+
+    m <- m %>%
+      addTiles(
+        urlTemplate = "https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png",
+        attribution = "&copy; OpenSeaMap contributors, OpenStreetMap contributors",
+        options = providerTileOptions(noWrap = TRUE)
+      )
 
     return(m)
   }
 
   return(merged %>%
            dplyr::select(station_name,
-                         match_type,
+                         sample_longitude_dd,
+                         sample_latitude_dd,
                          distance_m,
                          within_limit))
 }
+

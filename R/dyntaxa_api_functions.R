@@ -1818,9 +1818,9 @@ match_dyntaxa <- function(names,
 
 #' Check if taxon names exist in Dyntaxa
 #'
-#' @description
 #' Checks whether the supplied scientific names exist in the
-#' Swedish taxonomic database Dyntaxa.
+#' Swedish taxonomic database Dyntaxa. Optionally, returns a data frame
+#' with taxon names, taxon IDs, and match status.
 #'
 #' @param taxon_names Character vector of taxon names to check.
 #' @param subscription_key A Dyntaxa API subscription key. By default, the key
@@ -1836,21 +1836,33 @@ match_dyntaxa <- function(names,
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{DYNTAXA_KEY=your_key_here}
 #'   }
-#' @param verbose Logical; if TRUE (default), prints messages about unmatched taxa.
+#' @param use_dwca Logical; if TRUE, uses the DwCA version of Dyntaxa instead of querying the API.
+#' @param return_df Logical; if TRUE, returns a data frame with columns \code{taxon_names},
+#'   \code{taxon_id}, and \code{match}. Default is FALSE (returns a logical vector).
+#' @param verbose Logical; if TRUE, prints messages about unmatched taxa.
 #'
 #' @details
 #' A valid Dyntaxa API subscription key is required.
 #' You can request a free key for the "Taxonomy" service from the ArtDatabanken API portal:
 #' <https://api-portal.artdatabanken.se/>
 #'
-#' @return A logical vector indicating whether each input name was found in Dyntaxa.
-#'   Returned invisibly if \code{verbose = TRUE}.
+#' @return If \code{return_df = FALSE} (default), a logical vector indicating whether each input
+#'   name was found in Dyntaxa. Returned invisibly if \code{verbose = TRUE}.
+#'   If \code{return_df = TRUE}, a data frame with columns:
+#'   \itemize{
+#'     \item \code{taxon_names}: original input names
+#'     \item \code{taxon_id}: corresponding Dyntaxa taxon IDs (NA if not found)
+#'     \item \code{match}: logical indicating presence in Dyntaxa
+#'   }
 #'
 #' @examples
 #' \dontrun{
 #' # Using an environment variable (recommended for convenience)
 #' Sys.setenv(DYNTAXA_KEY = "your_key_here")
 #' is_in_dyntaxa(c("Skeletonema marinoi", "Nonexistent species"))
+#'
+#' # Return a data frame instead of logical vector
+#' is_in_dyntaxa(c("Skeletonema marinoi", "Nonexistent species"), return_df = TRUE)
 #'
 #' # Or pass the key directly
 #' is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")
@@ -1862,15 +1874,48 @@ match_dyntaxa <- function(names,
 #' @export
 is_in_dyntaxa <- function(taxon_names,
                           subscription_key = Sys.getenv("DYNTAXA_KEY"),
+                          use_dwca = FALSE,
+                          return_df = FALSE,
                           verbose = FALSE) {
 
   if (is.null(subscription_key) || subscription_key == "") {
     stop("No Dyntaxa subscription key provided. See ?is_in_dyntaxa for setup instructions.")
   }
 
-  dyntaxa_match <- match_dyntaxa_taxa(taxon_names, subscription_key, verbose = FALSE)
+  # Get unique taxon names
+  unique_taxa <- unique(taxon_names)
 
-  match <- taxon_names %in% dyntaxa_match$best_match
+  if (use_dwca) {
+    # Get dyntaxa DwCA
+    dyntaxa_dwca <- get_dyntaxa_dwca(subscription_key, verbose = verbose)
+
+    subset <- dyntaxa_dwca[dyntaxa_dwca$scientificName %in% unique_taxa, ] %>%
+      dplyr::filter(grepl(":Taxon:", taxonId)) %>%
+      dplyr::select(scientificName, taxonId)
+
+    # Logical vector for unique taxa
+    unique_match <- unique_taxa %in% dyntaxa_dwca$scientificName
+
+    # Map taxon IDs
+    taxon_ids <- subset$taxonId[match(unique_taxa, subset$scientificName)]
+
+    # Convert to numeric
+    taxon_ids <- as.numeric(sub(".*:Taxon:", "", taxon_ids))
+
+  } else {
+    # Query Dyntaxa for unique taxa
+    dyntaxa_match <- match_dyntaxa_taxa(unique_taxa, subscription_key, verbose = FALSE)
+
+    # Logical vector for unique taxa
+    unique_match <- unique_taxa %in% dyntaxa_match$best_match
+
+    # Map taxon IDs
+    taxon_ids <- dyntaxa_match$taxon_id[match(unique_taxa, dyntaxa_match$best_match)]
+  }
+
+  # Map back to original input length
+  match <- unique_match[match(taxon_names, unique_taxa)]
+  taxon_ids <- taxon_ids[match(taxon_names, unique_taxa)]
 
   if (verbose) {
     if (any(!match)) {
@@ -1884,8 +1929,13 @@ is_in_dyntaxa <- function(taxon_names,
     }
   }
 
-  if (verbose) {
-    invisible(match)
+  if (return_df) {
+    return(data.frame(
+      taxon_names = taxon_names,
+      in_dyntaxa = match,
+      dyntaxa_id = taxon_ids,
+      stringsAsFactors = FALSE
+    ))
   } else {
     return(match)
   }

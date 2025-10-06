@@ -89,7 +89,7 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE)
 
       # Get all records from scientific_name
       worms_records <- match_worms_taxa(to_match,
-                                              verbose = verbose)
+                                        verbose = verbose)
 
       # Select relevant information
       name <- select(worms_records, name, AphiaID)
@@ -250,31 +250,41 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
 
   worms_records
 }
+
 #' Retrieve WoRMS records by taxonomic names with retry logic
 #'
 #' This function retrieves records from the WoRMS database using the `worrms` R package for a vector of taxonomic names.
-#' It includes retry logic to handle temporary failures and ensures all names are processed.
+#' It includes retry logic to handle temporary failures and ensures all names are processed. The function can query
+#' all names at once using a bulk API call or iterate over names individually.
 #'
-#' @param taxa_names A vector of taxonomic names for which to retrieve records.
-#' @param fuzzy A logical value indicating whether to search using a fuzzy search pattern. Default is TRUE.
+#' @param taxa_names A character vector of taxonomic names for which to retrieve records.
+#' @param fuzzy A logical value indicating whether to perform a fuzzy search. Default is TRUE.
+#'   **Note:** Fuzzy search is only applied in iterative mode (`bulk = FALSE`) and is ignored in bulk mode.
 #' @param best_match_only A logical value indicating whether to automatically select the first match and return a single match. Default is TRUE.
-#' @param max_retries An integer specifying the maximum number of retries for the request in case of failure. Default is 3.
-#' @param sleep_time A numeric value specifying the number of seconds to wait before retrying a failed request. Default is 10.
-#' @param marine_only A logical value indicating whether to restrict the results to marine taxa only. Default is `FALSE`.
-#' @param verbose A logical indicating whether to print progress messages. Default is TRUE.
+#' @param max_retries Integer specifying the maximum number of retries for the request in case of failure. Default is 3.
+#' @param sleep_time Numeric specifying the number of seconds to wait before retrying a failed request. Default is 10.
+#' @param marine_only Logical indicating whether to restrict results to marine taxa only. Default is TRUE.
+#' @param bulk Logical indicating whether to perform a bulk API call for all unique names at once. Default is FALSE.
+#' @param verbose Logical indicating whether to print progress messages. Default is TRUE.
 #'
 #' @return A data frame containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
+#'   Repeated taxa in the input are preserved in the output.
 #'
 #' @details
-#' The function attempts to retrieve records for the input taxonomic names using the `wm_records_names` function from the WoRMS API.
-#' If a request fails, it retries up to `max_retries` times, pausing for `sleep_time` seconds between attempts.
-#' If all attempts fail, the function stops and throws an error.
+#' - If `bulk = TRUE`, all unique names are sent to the API in a single request. Fuzzy matching is ignored.
+#' - If `bulk = FALSE`, the function iterates over names individually, optionally using fuzzy matching.
+#' - The function retries failed requests up to `max_retries` times, pausing for `sleep_time` seconds between attempts.
+#' - Names for which no records are found will have `status = "no content"` and `AphiaID = NA`.
 #'
 #' @examples
 #' \dontrun{
-#' # Retrieve WoRMS records for the taxonomic names "Amphidinium" and "Karenia"
+#' # Retrieve WoRMS records iteratively for two taxonomic names
 #' records <- match_worms_taxa(c("Amphidinium", "Karenia"),
 #'                             max_retries = 3, sleep_time = 5, marine_only = TRUE)
+#'
+#' # Retrieve WoRMS records in bulk mode (faster for many names)
+#' records_bulk <- match_worms_taxa(c("Amphidinium", "Karenia", "Navicula"),
+#'                                  bulk = TRUE, marine_only = TRUE)
 #' }
 #'
 #' @seealso [match_worms_taxa_interactive()] to match taxa names interactively.
@@ -284,76 +294,133 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
 #' @export
 match_worms_taxa <- function(taxa_names, fuzzy = TRUE, best_match_only = TRUE,
                              max_retries = 3, sleep_time = 10, marine_only = TRUE,
-                             verbose = TRUE) {
-  worms_records <- list()  # Initialize an empty list to collect records for each name
+                             bulk = FALSE, verbose = TRUE) {
 
-  # Set up progress bar
-  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(taxa_names), style = 3)}
+  # Handle repeated taxa names
+  unique_names <- unique(taxa_names)
 
-  no_content_messages <- c()  # Store "No content" messages
+  no_content_messages <- c()  # Collect messages
 
-  for (i in seq_along(taxa_names)) {
+  if (bulk) {
+    # Bulk retrieval logic (from ifcb_match_taxa_names)
     attempt <- 1
-    worms_record <- NULL  # Reset for the current taxon name
-    success <- FALSE      # Track whether retrieval was successful
-
-    # Update progress bar
-    if (verbose) {utils::setTxtProgressBar(pb, i)}
+    success <- FALSE
+    worms_unique <- NULL
 
     while (attempt <= max_retries && !success) {
       tryCatch({
-        worms_record <- data.frame(
-          name = taxa_names[i],
-          wm_records_name(taxa_names[i],
-                          fuzzy = fuzzy,
-                          marine_only = marine_only)
-        )
+        # API call for all unique names at once
+        raw_records <- wm_records_names(unique_names, marine_only = marine_only)
 
-        if (best_match_only) {
-          worms_record <- worms_record[1,]
-        }
+        # Ensure all taxa are represented
+        worms_unique <- lapply(seq_along(unique_names), function(i) {
+          rec <- raw_records[[i]]
+          if (length(rec) == 0) {
+            data.frame(name = unique_names[i],
+                       status = "no content",
+                       AphiaID = NA,
+                       rank = NA,
+                       valid_name = NA,
+                       stringsAsFactors = FALSE)
+          } else {
+            if (best_match_only) rec <- rec[1, , drop = FALSE]
+            data.frame(name = unique_names[i], rec)
+          }
+        }) %>% bind_rows()
 
-        if (!is.null(worms_record)) {
-          success <- TRUE  # Mark success to exit loop
-        }
+        success <- TRUE
       }, error = function(err) {
-        error_message <- conditionMessage(err)
-
-        # Check for 204 "No Content" response
-        if (grepl("204", error_message)) {
-          no_content_messages <<- c(no_content_messages,
-                                    paste0("No WoRMS content for '", taxa_names[i], "'"))
-          worms_record <<- data.frame(name = taxa_names[i], status = "no content", AphiaID = NA, stringsAsFactors = FALSE)
-          success <<- TRUE  # Mark success to prevent further retries
+        msg <- conditionMessage(err)
+        if (grepl("204", msg)) {
+          no_content_messages <<- c(no_content_messages, "No WoRMS content for some taxa.")
+          worms_unique <<- data.frame(name = unique_names,
+                                      status = "no content",
+                                      AphiaID = NA,
+                                      rank = NA,
+                                      stringsAsFactors = FALSE)
+          success <<- TRUE
         } else if (attempt == max_retries) {
-          stop("Error occurred while retrieving WoRMS record for '", taxa_names[i],
-               "' after ", max_retries, " attempts: ", error_message)
+          stop("Error retrieving WoRMS records after ", max_retries, " attempts: ", msg)
         } else {
           Sys.sleep(sleep_time)
         }
       })
-
       attempt <- attempt + 1
     }
 
-    # If still NULL after retries, insert NA
-    if (is.null(worms_record)) {
-      worms_record <- data.frame(name = taxa_names[i], status = "Failed", stringsAsFactors = FALSE)
+    # Fallback if still NULL
+    if (is.null(worms_unique)) {
+      worms_unique <- data.frame(name = unique_names,
+                                 status = "Failed",
+                                 AphiaID = NA,
+                                 rank = NA,
+                                 stringsAsFactors = FALSE)
     }
 
-    worms_records <- bind_rows(worms_records, worms_record)  # Combine results into a single data frame
+  } else {
+    # Iterative approach for each unique name
+    worms_unique <- list()
+    if (verbose) pb <- utils::txtProgressBar(min = 0, max = length(unique_names), style = 3)
+
+    for (i in seq_along(unique_names)) {
+      attempt <- 1
+      worms_record <- NULL
+      success <- FALSE
+      if (verbose) utils::setTxtProgressBar(pb, i)
+
+      while (attempt <= max_retries && !success) {
+        tryCatch({
+          worms_record <- data.frame(
+            name = unique_names[i],
+            wm_records_name(unique_names[i], fuzzy = fuzzy, marine_only = marine_only)
+          )
+          if (best_match_only && nrow(worms_record) > 1) {
+            worms_record <- worms_record[1, , drop = FALSE]
+          }
+          success <- TRUE
+        }, error = function(err) {
+          msg <- conditionMessage(err)
+          if (grepl("204", msg)) {
+            no_content_messages <<- c(no_content_messages,
+                                      paste0("No WoRMS content for '", unique_names[i], "'"))
+            worms_record <<- data.frame(name = unique_names[i],
+                                        status = "no content",
+                                        AphiaID = NA,
+                                        stringsAsFactors = FALSE)
+            success <<- TRUE
+          } else if (attempt == max_retries) {
+            stop("Error retrieving WoRMS record for '", unique_names[i],
+                 "' after ", max_retries, " attempts: ", msg)
+          } else {
+            Sys.sleep(sleep_time)
+          }
+        })
+        attempt <- attempt + 1
+      }
+
+      if (is.null(worms_record)) {
+        worms_record <- data.frame(name = unique_names[i],
+                                   status = "Failed",
+                                   stringsAsFactors = FALSE)
+      }
+
+      worms_unique <- bind_rows(worms_unique, worms_record)
+    }
+
+    if (verbose) close(pb)
   }
 
-  if (verbose) {close(pb)}
+  # Map back to original taxa_names including duplicates
+  worms_records <- lapply(taxa_names, function(x) {
+    worms_unique[worms_unique$name == x, , drop = FALSE]
+  }) %>% bind_rows()
 
-  # Print all "No content" messages after progress bar finishes
   if (verbose && length(no_content_messages) > 0) {
     cat(paste(no_content_messages, collapse = "\n"), "\n")
   }
 
   worms_records
 }
-
 
 #' Retrieve WoRMS records by taxonomic names with retry logic
 #'
@@ -541,8 +608,8 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
   if (nrow(missing_aphia_data) > 0) {
     if (verbose) cat("Retrieving", nrow(missing_aphia_data), "WoRMS records from input 'scientific_names'.\n")
     missing_aphia_records <- match_worms_taxa(missing_aphia_data$scientific_name,
-                                                    marine_only = marine_only,
-                                                    verbose = verbose) %>%
+                                              marine_only = marine_only,
+                                              verbose = verbose) %>%
       mutate(class = as.character(ifelse(status == "no content", NA, class)),
              phylum = as.character(ifelse(status == "no content", NA, phylum)))
   } else {
@@ -570,8 +637,8 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
     first_word_records <- data.frame(
       scientific_name = unresolved_data$scientific_name,
       match_worms_taxa(first_words,
-                             marine_only = marine_only,
-                             verbose = verbose)
+                       marine_only = marine_only,
+                       verbose = verbose)
     ) %>%
       filter(!is.na(AphiaID)) %>%
       mutate(aphia_id = AphiaID)

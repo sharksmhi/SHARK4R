@@ -17,12 +17,15 @@
 #'   to use for comparison. Default is `"extreme_upper"`, with the default option `"mild_upper"`.
 #' @param thresholds A tibble/data frame of thresholds. Must include columns `parameter`,
 #'   `datatype`, and at least one numeric threshold column. Defaults to `.threshold_values`.
+#' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows
+#'        instead of a DT datatable. Default = FALSE.
+#' @param verbose Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.
 #'
-#' @return If outliers are found, returns a `DT::datatable` containing:
+#' @return If outliers are found, returns a `DT::datatable` or a data.frame (if `return_df` is set to TRUE) containing:
 #'   `delivery_datatype`, `station_name`, `sample_date`, `sample_id`,
 #'   `shark_sample_id_md5`, `sample_min_depth_m`, `sample_max_depth_m`,
 #'   `parameter`, `value`, and `threshold`. Otherwise, prints a message indicating
-#'   that values are within the threshold range.
+#'   that values are within the threshold range (if `verbose` is set to TRUE).
 #'
 #' @details
 #' - Only rows in `data` matching both `parameter` and `delivery_datatype` are checked.
@@ -66,11 +69,14 @@ check_outliers <- function(data,
                            parameter,
                            datatype,
                            threshold_col = "extreme_upper",
-                           thresholds = .threshold_values) {
+                           thresholds = .threshold_values,
+                           return_df = FALSE,
+                           verbose = TRUE) {
 
   # Check if requested threshold exists
   if (!threshold_col %in% names(thresholds)) {
-    stop(paste("Column", threshold_col, "not found in thresholds dataframe"))
+    warning(paste("Column", threshold_col, "not found in thresholds dataframe"))
+    return(invisible(NULL))
   }
 
   # Get threshold for this parameter
@@ -78,7 +84,8 @@ check_outliers <- function(data,
                     threshold_col, drop = TRUE]
 
   if (length(thr) == 0) {
-    stop(paste("Parameter", parameter, "not found in thresholds dataframe"))
+    warning(paste("Parameter", parameter, "not found in thresholds dataframe"))
+    return(invisible(NULL))
   }
 
   if (length(thr) > 1) {
@@ -94,16 +101,23 @@ check_outliers <- function(data,
   outliers <- data_param %>%
     dplyr::filter(value > thr) %>%
     dplyr::mutate(threshold = thr) %>%
-    dplyr::select(delivery_datatype, station_name, sample_date, sample_id,
-                  shark_sample_id_md5, sample_min_depth_m,
-                  sample_max_depth_m, parameter, value, threshold)
+    dplyr::select(any_of(c(
+      "delivery_datatype", "station_name", "sample_date", "sample_id",
+      "shark_sample_id_md5", "sample_min_depth_m", "sample_max_depth_m",
+      "parameter", "value", "threshold"
+    )))
 
   if (nrow(outliers) > 0) {
-    message(paste("WARNING:", parameter, "exceeds", threshold_col,
-                  "- please check outliers!"))
-    return(DT::datatable(outliers))
+    if (verbose) message(paste("WARNING:", parameter, "exceeds", threshold_col,
+                               "- please check outliers!"))
+    if (return_df) {
+      return(outliers)
+    } else {
+      return(DT::datatable(outliers))
+    }
   } else {
-    message(paste(parameter, "is within the", threshold_col, "range."))
+    if (verbose) message(paste(parameter, "is within the", threshold_col, "range."))
+    return(invisible(outliers))
   }
 }
 
@@ -111,7 +125,6 @@ check_outliers <- function(data,
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -132,7 +145,6 @@ check_bacterial_production <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -148,7 +160,6 @@ check_bacterial_concentration <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -164,7 +175,6 @@ check_bacterial_carbon <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -180,7 +190,6 @@ check_chlorophyll_conc <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -196,7 +205,6 @@ check_picoplankton_abundance <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -212,7 +220,6 @@ check_picoplankton_biovol <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -228,7 +235,6 @@ check_picoplankton_carbon <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -244,7 +250,6 @@ check_picoplankton_counted <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -260,7 +265,6 @@ check_zooplankton_abund <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -276,7 +280,6 @@ check_zooplankton_counted <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -292,7 +295,6 @@ check_zooplankton_length_mean <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -308,7 +310,6 @@ check_zooplankton_length_median <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -324,7 +325,6 @@ check_zooplankton_wetweight <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -340,7 +340,6 @@ check_zooplankton_carbon <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -356,7 +355,6 @@ check_zooplankton_wetweight_volume <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -372,7 +370,6 @@ check_zooplankton_wetweight_area <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -388,7 +385,6 @@ check_phytoplankton_abund <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -404,7 +400,6 @@ check_phytoplankton_biovol <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -420,7 +415,6 @@ check_phytoplankton_carbon <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -436,7 +430,6 @@ check_phytoplankton_counted <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -452,7 +445,6 @@ check_primaryproduction_carbonprod <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -468,7 +460,6 @@ check_primaryproduction_carbonprodlight <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -484,7 +475,6 @@ check_primaryproduction_carbonprod_hour <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -500,7 +490,6 @@ check_epibenthos_counted <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -516,7 +505,6 @@ check_epibenthos_dryweight <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -532,7 +520,6 @@ check_epibenthos_specdistr_maxdepth <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -548,7 +535,6 @@ check_epibenthos_specdistr_mindepth <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -564,7 +550,6 @@ check_harbourseal_counted <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -580,7 +565,6 @@ check_greyseal_counted <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -597,7 +581,6 @@ check_zoobenthos_BQIm <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -614,7 +597,6 @@ check_zoobenthos_abund <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -631,7 +613,6 @@ check_zoobenthos_counted <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -648,7 +629,6 @@ check_zoobenthos_wetweight <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype
@@ -665,7 +645,6 @@ check_ringedseal_calccounted <- function(data) {
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
-#'
 #' This function is deprecated and has been replaced by [check_outliers()].
 #'
 #' Ranges and IQR (interquantile range) for specific parameters is adapted to each datatype

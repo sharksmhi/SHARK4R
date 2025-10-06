@@ -9,7 +9,8 @@ check_codes(
   field = "sample_project_name_en",
   code_type = "PROJ",
   match_column = "Description/English translate",
-  clean_cache_days = 30
+  clean_cache_days = 30,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ against. Must be one of \code{"Code"} or \code{"Description/English translate"}.
 \item{clean_cache_days}{Numeric; if not \code{NULL}, cached SHARK code Excel files
 older than this number of days will be automatically deleted and replaced
 by a new download. Defaults to 30. Set to \code{NULL} to disable automatic cleanup.}
+
+\item{verbose}{Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.}
 }
 \value{
 A tibble with unique reported codes (after splitting comma-separated

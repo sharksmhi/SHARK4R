@@ -103,19 +103,3 @@ test_that("check_setup forces re-download when force = TRUE", {
 
   unlink(tmpdir, recursive = TRUE)
 })
-
-test_that("check_setup errors if run_app = TRUE but no ui/server", {
-
-  tmpdir <- file.path(tempdir(), paste0("shark_setup_", as.integer(Sys.time())))
-  dir.create(tmpdir)
-
-  products <- file.path(tmpdir, "products")
-  dir.create(products, recursive = TRUE)
-
-  expect_error(
-    check_setup(path = tmpdir, run_app = TRUE, verbose = FALSE),
-    "Could not find 'server.R' and 'ui.R'"
-  )
-
-  unlink(tmpdir, recursive = TRUE)
-})

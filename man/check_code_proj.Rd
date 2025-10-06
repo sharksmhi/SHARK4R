@@ -4,10 +4,15 @@
 \alias{check_code_proj}
 \title{Check matches of reported codes in SMHI's SHARK codelist}
 \usage{
-check_code_proj(data, clean_cache_days = 30)
+check_code_proj(data, field = "sample_project_name_sv", clean_cache_days = 30)
 }
 \arguments{
 \item{data}{for tibble be be checked}
+
+\item{field}{Character; name of the column in \code{data} that contains the codes
+to be validated against the SHARK codelist. If a cell contains multiple
+codes separated by commas, each code is validated separately.
+Default is \code{"sample_project_name_en"}.}
 
 \item{clean_cache_days}{Numeric; if not NULL, cached SHARK code Excel files older than
 this number of days will be automatically deleted and be replaced by a new download.

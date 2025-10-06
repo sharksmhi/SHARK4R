@@ -122,9 +122,8 @@ check_setup <- function(path = ".", run_app = FALSE, force = FALSE, verbose = TR
   } else {
     if (verbose) message("Downloading setup files for SHARK4R...")
 
-    # GitHub commit permalink (fixed for reproducibility)
-    commit <- "2b16911d55b18279ef6334f103b55f8202f727be"
-    zip_url <- sprintf("https://github.com/sharksmhi/SHARK4R/archive/%s.zip", commit)
+    # GitHub master url
+    zip_url <- "https://github.com/sharksmhi/SHARK4R/archive/refs/heads/master.zip"
 
     # Temporary download location
     tmp <- tempfile(fileext = ".zip")
@@ -135,12 +134,13 @@ check_setup <- function(path = ".", run_app = FALSE, force = FALSE, verbose = TR
     utils::unzip(tmp, exdir = unpack_dir)
 
     # Source root inside the zip
-    src_root <- file.path(unpack_dir, sprintf("SHARK4R-%s", commit))
+    src_root <- file.path(unpack_dir, "SHARK4R-master")
 
     dir.create(path, showWarnings = FALSE, recursive = TRUE)
 
     # Copy the wanted folders
     file.copy(file.path(src_root, "products"), path, recursive = TRUE, overwrite = force)
+    # file.copy(file.path(src_root, "inst", "shiny", "shark-qc", "report.Rmd"), path, recursive = TRUE, overwrite = force)
 
     # Clean up
     unlink(tmp)
@@ -151,22 +151,9 @@ check_setup <- function(path = ".", run_app = FALSE, force = FALSE, verbose = TR
 
   # Run Shiny app if requested
   if (run_app) {
-    # Check required packages
-    needed_pkgs <- c("shiny", "htmltools", "rmarkdown")
-    missing <- needed_pkgs[!vapply(needed_pkgs, requireNamespace, logical(1), quietly = TRUE)]
-    if (length(missing)) {
-      stop("The following packages are required to run the app: ",
-           paste(missing, collapse = ", "), ". Please install them.")
-    }
 
-    # Check that server.R and ui.R exist
-    if (!file.exists(file.path(products_dir, "server.R")) ||
-        !file.exists(file.path(products_dir, "ui.R"))) {
-      stop("Could not find 'server.R' and 'ui.R' in ", products_dir)
-    }
-
-    message("Launching QC Shiny app...")
-    shiny::runApp(products_dir, launch.browser = TRUE)
+    message("Launching SHARK4R Bio-QC Shiny app...")
+    run_qc_app()
   }
 
   invisible(list(products = products_dir))
@@ -410,4 +397,19 @@ cache_peg_zip <- function(url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL
   }
 
   destfile
+}
+
+# Helper to normalize stringi detected encodings to our keys
+normalize_encoding <- function(enc) {
+  enc <- toupper(enc)
+
+  # Map common variants
+  if (enc %in% c("WINDOWS-1252", "CP1252")) return("cp1252")
+  if (enc %in% c("UTF-8", "UTF8")) return("utf_8")
+  if (enc %in% c("UTF-16BE", "UTF-16LE", "UTF16")) return("utf_16")
+  if (enc %in% c("ISO-8859-1", "LATIN1", "LATIN_1")) return("latin_1")
+
+  # Fallback for unknowns
+  warning("Unknown encoding detected: ", enc, ". Defaulting to 'utf_8'.")
+  return("utf_8")
 }

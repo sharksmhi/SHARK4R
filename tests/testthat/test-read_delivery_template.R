@@ -28,21 +28,23 @@ test_that("find_required_fields returns correct columns", {
   skip_if_offline()
   skip_if_resource_unavailable("https://smhi.se/")
 
-  req_cols <- find_required_fields("Bacterioplankton", nat = FALSE, bacterioplankton_subtype = "abundance")
+  req_cols <- find_required_fields("Bacterioplankton", stars = 1, bacterioplankton_subtype = "abundance")
   expect_type(req_cols, "character")
   expect_true("MYEAR" %in% req_cols)       # Known required field
   expect_false("Tabellhuvud:" %in% req_cols)  # First column should be excluded
 
-  req_cols_nat <- find_required_fields("Bacterioplankton", nat = TRUE, bacterioplankton_subtype = "abundance")
+  req_cols_nat <- find_required_fields("Bacterioplankton", stars = 2, bacterioplankton_subtype = "abundance")
   expect_true("MYEAR" %in% req_cols_nat)
   expect_false("Tabellhuvud:" %in% req_cols_nat)
+
+  expect_true(length(req_cols_nat) > length(req_cols))
 })
 
 test_that("find_required_fields works for other datatypes", {
   skip_if_offline()
   skip_if_resource_unavailable("https://smhi.se/")
 
-  req_phyt <- find_required_fields("Phytoplankton", nat = TRUE)
+  req_phyt <- find_required_fields("Phytoplankton", stars = 2)
   expect_type(req_phyt, "character")
   expect_false("Tabellhuvud:" %in% req_phyt)
 })

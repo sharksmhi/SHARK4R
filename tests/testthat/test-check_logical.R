@@ -576,3 +576,100 @@ test_that("works with different parameter names", {
   res <- check_logical_parameter(df_test, "Param2", function(x) x == 10, return_logical = TRUE)
   expect_equal(res, c(FALSE, FALSE, TRUE, FALSE))
 })
+
+test_that("parameter-specific violations are detected", {
+  df <- data.frame(
+    station_name = c("A1", "A2"),
+    parameter = c("Wet weight", "Wet weight"),
+    value = c(0, 5)
+  )
+
+  res <- check_parameter_rules(df, return_logical = TRUE)
+
+  expect_true(is.list(res))
+  expect_true("Wet weight" %in% names(res))
+  expect_equal(res[["Wet weight"]], c(TRUE, FALSE))
+})
+
+test_that("row-wise violations are detected", {
+  df <- data.frame(
+    station_name = c("S1", "S2", "S3"),
+    parameter = c("Abundance", "BQIm", "BQIm"),
+    value = c(0, 0, 3)
+  )
+
+  res <- check_parameter_rules(df, return_logical = TRUE)
+
+  expect_equal(res$BQIm, c(TRUE, FALSE, TRUE))
+})
+
+test_that("datasets with no relevant parameters return NULL", {
+  df <- data.frame(
+    station_name = c("A1", "A2"),
+    parameter = c("Unknown1", "Unknown2"),
+    value = c(1, 2)
+  )
+
+  res <- check_parameter_rules(df)
+  expect_null(res)
+})
+
+test_that("return_df returns a data.frame", {
+  df <- data.frame(
+    station_name = c("A1", "A2"),
+    parameter = c("Wet weight", "Wet weight"),
+    value = c(0, 5)
+  )
+
+  res <- check_parameter_rules(df, return_df = TRUE)
+  expect_true(is.data.frame(res[["Wet weight"]]))
+  expect_equal(nrow(res[["Wet weight"]]), 1)
+})
+
+test_that("DT datatable is returned by default for violations", {
+  df <- data.frame(
+    station_name = c("A1", "A2"),
+    parameter = c("Wet weight", "Wet weight"),
+    value = c(0, 5)
+  )
+
+  res <- check_parameter_rules(df)
+  expect_true("datatables" %in% class(res[["Wet weight"]]))
+})
+
+test_that("messages for all measurements within range are printed", {
+  df <- data.frame(
+    station_name = c("A1", "A2"),
+    parameter = c("Wet weight", "Wet weight"),
+    value = c(5, 10)
+  )
+
+  expect_message(
+    check_parameter_rules(df),
+    "all measurements within expected range"
+  )
+})
+
+test_that("both return_df and return_logical triggers warning", {
+  df <- data.frame(
+    station_name = c("A1"),
+    parameter = c("Wet weight"),
+    value = c(0)
+  )
+
+  expect_warning(
+    check_parameter_rules(df, return_df = TRUE, return_logical = TRUE),
+    "Both return_df and return_logical are TRUE"
+  )
+})
+
+test_that("numeric coercion handles character values", {
+  df <- data.frame(
+    station_name = c("A1", "A2"),
+    parameter = c("Wet weight", "Wet weight"),
+    value = c("0", "5")
+  )
+
+  res <- check_parameter_rules(df, return_logical = TRUE)
+  expect_equal(res[["Wet weight"]], c(TRUE, FALSE))
+})
