@@ -1,8 +1,14 @@
 ---
-title: "`SHARK4R` Bio-QC Report"
+title: "**`SHARK4R`** Bio-QC Report"
 output: html_document
 params:
-  targetDataset: NA
+  targetDataset: NULL
+  depthmargin: 0
+  buffer: 0
+  field: "sample_project_name_en"
+  code_type: "PROJ"
+  only_bad:  FALSE
+  only_bad_distance: FALSE
 ---
 
 ## Check data
@@ -41,7 +47,7 @@ if (dir.exists(params$targetDataset)) {
 ## Name of dataset checked
 
 ```{r datasetname, echo=FALSE}
-print(paste("Processing dataset:", unique(myfile$dataset_name), sep=" "))
+cat("Processing dataset:", unique(myfile$dataset_name), sep=" ")
 
 datatype <- unique(myfile$delivery_datatype)
 parameters <- unique(myfile$parameter)
@@ -52,8 +58,8 @@ parameters <- unique(myfile$parameter)
 Uses `check_fields()` function to control if all required fields are present.
 
 ```{r checkfields, echo=FALSE}
-check_fields(myfile,
-             datatype)
+safe_datatable(check_fields(myfile,
+                            datatype))
 ```
 
 ## Overview of data
@@ -66,7 +72,7 @@ skim(myfile)
 ## View full dataset in table format
 
 ```{r viewtable, echo=FALSE}
-DT::datatable(myfile)
+safe_datatable(myfile)
 ```
 
 ## Check station name and geographical bounding box
@@ -74,12 +80,13 @@ DT::datatable(myfile)
 Uses `check_stations()` to control if station name is found in the SMHI curated list and location is within preset distance limit
 
 ```{r checkstations, echo = FALSE}
-match_station(myfile$station_name)
+safe_datatable(match_station(myfile$station_name))
 
-check_nominal_station(myfile)
+safe_datatable(check_nominal_station(myfile))
 
 check_station_distance(myfile,
-                       plot_leaflet = TRUE)
+                       plot_leaflet = TRUE,
+                       only_bad = params$only_bad_distance)
 ```
 
 ## Check onland
@@ -87,8 +94,12 @@ check_station_distance(myfile,
 Uses `check_onland()` to control if any locations are on land.
 
 ```{r checkonland, echo=FALSE}
+cat("Buffer distance used:", params$buffer, "\n")
+
 check_onland(myfile,
-             plot_leaflet = TRUE)
+             buffer = params$buffer,
+             plot_leaflet = TRUE,
+             only_bad = params$only_bad)
 ```
 
 ## Check depth
@@ -96,7 +107,10 @@ check_onland(myfile,
 Uses `check_depth()` to control if any sample depths are incorrect.
 
 ```{r checkdepth, echo=FALSE}
-DT::datatable(check_depth(myfile))
+cat("Depth margin used:", params$depthmargin, "\n")
+
+safe_datatable(check_depth(myfile,
+                           depthmargin = params$depthmargin))
 ```
 
 ## Check outliers
@@ -123,19 +137,19 @@ all_tables
 Uses `check_parameter_rules()` function to control if data follows logical assumptions.
 
 ```{r checkrules, echo=FALSE}
-check_parameter_rules(myfile)
+safe_datatable(check_parameter_rules(myfile))
 ```
 
 ```{r checkzeroes, echo=FALSE}
-check_zero_value(myfile)
+safe_datatable(check_zero_value(myfile))
 ```
 
 ```{r checkzeropositions, echo=FALSE}
-check_zero_positions(myfile)
+safe_datatable(check_zero_positions(myfile))
 ```
 
 ```{r checklogical_a, echo=FALSE}
-check_value_logical(myfile)
+safe_datatable(check_value_logical(myfile))
 ```
 
 ## Check codes
@@ -143,7 +157,10 @@ check_value_logical(myfile)
 Uses `check_codes()` function to control if data follows the SMHI codelist.
 
 ```{r checkcode, echo=FALSE}
-check_codes(myfile, field = "sample_project_name_en")
+cat("Field used:", params$field, "\n")
+cat("Code type used:", params$code_type, "\n")
+
+safe_datatable(check_codes(myfile, field = params$field, code_type = params$code_type))
 ```
 
 ## Match taxa
@@ -152,9 +169,11 @@ Uses `is_in_dyntaxa()` to find and match taxa names provided in the data against
 
 ```{r matchtaxa, echo=FALSE}
 if ("scientific_name" %in% colnames(myfile)) {
-  is_in_dyntaxa(myfile$scientific_name)
-
-  match_worms_taxa_interactive(myfile$scientific_name, ask = FALSE)
+  safe_datatable(is_in_dyntaxa(myfile$scientific_name,
+                               use_dwca = TRUE,
+                               return_df = TRUE))
+  
+  safe_datatable(match_worms_taxa_interactive(myfile$scientific_name, ask = FALSE))
 }
 ```
 

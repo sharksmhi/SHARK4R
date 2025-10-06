@@ -538,7 +538,7 @@ shinyServer(function(input, output, session) {
       shark_data(),
       options = list(
         pageLength = 10,
-        scrollX = TRUE,   # enables horizontal scroll
+        scrollX = TRUE,
         autoWidth = TRUE
       ),
       rownames = FALSE
@@ -547,7 +547,6 @@ shinyServer(function(input, output, session) {
 
   # --- Render report
   output$report <- downloadHandler(
-
     filename = "report.html",
     content = function(file) {
       nid <- showNotification("Rendering report...", duration = NULL)
@@ -555,15 +554,29 @@ shinyServer(function(input, output, session) {
       tempReport <- file.path(tempdir(), "report.Rmd")
       file.copy("report.Rmd", tempReport, overwrite = TRUE)
 
-      params <- list(targetDataset = if (!is.null(input$file1)) {
-        input$file1$datapath
-      } else if (!is.null(dataset_path())) {
-        dataset_path()
-      } else {
-        return(NULL)
-      })
+      params <- list(
+        targetDataset = if (!is.null(input$file1)) {
+          input$file1$datapath
+        } else if (!is.null(dataset_path())) {
+          dataset_path()
+        } else {
+          NULL
+        },
+        depthmargin = input$depthmargin,
+        buffer = input$buffer,
+        field = input$field,
+        code_type = input$available_code,
+        only_bad = input$only_bad,
+        only_bad_distance = input$only_bad_distance
+      )
 
-      rmarkdown::render(tempReport, output_file = file, params = params, envir = new.env(parent = globalenv()))
+      rmarkdown::render(
+        tempReport,
+        output_file = file,
+        params = params,
+        envir = new.env(parent = globalenv())
+      )
+
       removeNotification(nid)
     }
   )
