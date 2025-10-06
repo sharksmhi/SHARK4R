@@ -117,6 +117,7 @@ reference:
   - check_setup
   - check_value_logical
   - check_zero_value
+  - run_qc_app
 
 - subtitle: MISC
   contents:

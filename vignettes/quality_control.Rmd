@@ -62,6 +62,7 @@ shark_options <- get_shark_options()
 Filter datasets containing "Chlorophyll":
 
 ```{r}
+# Filter names using grepl
 chlorophyll_datasets <- shark_options$datasets[grepl("Chlorophyll", 
                                                      shark_options$datasets)]
 
@@ -83,7 +84,7 @@ chlorophyll_data <- get_shark_datasets(selected_dataset,
 tibble(chlorophyll_data)
 ```
 
-SHARK data can be downloaded and saved locally using the `save_dir` argument, then imported into R using the function `shark_read()` for both ZIP archives or text files.
+SHARK data can be downloaded and saved locally using the `save_dir` argument, then imported into R using the function `read_shark()` for both ZIP archives or text files.
 
 ---
 
@@ -233,14 +234,11 @@ check_nominal_station(data = chlorophyll_data)
 For a more user-friendly interface, use the Shiny QC app:
 
 ```{r, eval=FALSE}
-# Download support files
+# Run the app
+run_qc_app()
+
+# Alternative, download support files and knit documents locally
 check_setup()
-
-# Run Shiny app
-shiny::runApp("products/")
-
-# Or download and run directly
-check_setup(run_app = TRUE)
 ```
 
 The app provides point-and-click access to the same QC checks described above.

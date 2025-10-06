@@ -1,15 +1,15 @@
 # SHARK4R (development version)
 
 ## New features
+* Add new functions: `get_delivery_template()` and `find_required_fields()` to get SHARK delivery templates and required fields from the web.
 * Add new function `get_shark_datasets()` to retrieve available SHARK datasets from API.
 * Add new function `get_nomp_list()` to download and read the latest NOMP biovolume Excel lists.
 * Add new function `get_peg_list()` to download and read the PEG biovolume Excel list.
 * Add new function `read_ptbx()` to read Plankton Toolbox files.
 * Add new function `get_shark_codes()` to download and read the current SHARK code lists.
 * Add new function `clean_shark4r_cache()` to clear cached files.
-* Add new function `check_setup()` to download and run SHARK QC scripts and Shiny App.
+* Add new function `check_setup()` and `run_qc_app()` to download and run SHARK QC scripts and Shiny App.
 * Add new function `get_shark_statistics()` to download SHARK data and extract summary statistics for numeric parameters.
-* Add new functions: `get_delivery_template()` and `find_required_fields()` to get SHARK delivery templates and required fields from the web.
 
 ## Enhancements
 * Re-export functions from the `iRfcb` package: `which_basin()` and `positions_are_near_land()`.
@@ -21,6 +21,8 @@
 * Updated several OBIS-dependent functions using `lookup_xy()`.
 * Updated `scatterplot()` function to allow plotting of multiple parameters.
 * Added `plot_leaflet` argument to functions `check_station_distance()` and `check_onland()`.
+* `match_worms_taxa()` now handles bulk API requests using the `bulk` argument.
+* Add SHARK4R Bio-QC Tool Shiny App to bundle, with improved performance (initialized by `run_qc_app()`).
 
 ## Deprecated
 * Deprecated functions: `ifcb_is_near_land()` and `ifcb_which_basin()` (replaced by re-exported functions with improved cache behavior)

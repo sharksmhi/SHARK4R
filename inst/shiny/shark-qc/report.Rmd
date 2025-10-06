@@ -1,0 +1,175 @@
+---
+title: "`SHARK4R` Bio-QC Report"
+output: html_document
+params:
+  targetDataset: NA
+---
+
+## Check data
+
+This is an R Markdown document that checks data that has passed initial delivery QC and is now in the test phase.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## Load library and data
+
+```{r loadlibdata, echo=FALSE, include = FALSE}
+scriptstart = Sys.time()
+library(SHARK4R)
+library(DT)
+library(skimr)
+library(dplyr)
+library(htmltools)
+```
+
+## Load dataset
+
+```{r dataset, echo=FALSE, include=FALSE}
+# params$targetDataset may be a zip file (uploaded) or a folder (downloaded)
+if (dir.exists(params$targetDataset)) {
+  # downloaded/unzipped folder
+  data_file <- file.path(params$targetDataset, "shark_data.txt")
+  myfile <- read_shark(data_file)
+} else if (file.exists(params$targetDataset) && grepl("\\.zip$", params$targetDataset)) {
+  # uploaded ZIP file
+  myfile <- read_shark(params$targetDataset)
+} else {
+  stop("Target dataset not found or invalid: ", params$targetDataset)
+}
+```
+
+## Name of dataset checked
+
+```{r datasetname, echo=FALSE}
+print(paste("Processing dataset:", unique(myfile$dataset_name), sep=" "))
+
+datatype <- unique(myfile$delivery_datatype)
+parameters <- unique(myfile$parameter)
+```
+
+## Check fields
+
+Uses `check_fields()` function to control if all required fields are present.
+
+```{r checkfields, echo=FALSE}
+check_fields(myfile,
+             datatype)
+```
+
+## Overview of data
+
+```{r overview, echo=FALSE}
+# glimpse(myfile)
+skim(myfile)
+```
+
+## View full dataset in table format
+
+```{r viewtable, echo=FALSE}
+DT::datatable(myfile)
+```
+
+## Check station name and geographical bounding box
+
+Uses `check_stations()` to control if station name is found in the SMHI curated list and location is within preset distance limit
+
+```{r checkstations, echo = FALSE}
+match_station(myfile$station_name)
+
+check_nominal_station(myfile)
+
+check_station_distance(myfile,
+                       plot_leaflet = TRUE)
+```
+
+## Check onland
+
+Uses `check_onland()` to control if any locations are on land.
+
+```{r checkonland, echo=FALSE}
+check_onland(myfile,
+             plot_leaflet = TRUE)
+```
+
+## Check depth
+
+Uses `check_depth()` to control if any sample depths are incorrect.
+
+```{r checkdepth, echo=FALSE}
+DT::datatable(check_depth(myfile))
+```
+
+## Check outliers
+
+Uses `check_outliers()` function to control if all values are within range.
+
+```{r checkoutliers, echo=FALSE, results='asis'}
+all_tables <- tagList()
+
+for (param in parameters) {
+  data <- myfile %>% filter(parameter == param)
+  all_tables <- tagAppendChild(all_tables,
+                               tagList(
+                                 tags$h4(param),
+                                 check_outliers(data, param, datatype)
+                               ))
+}
+
+all_tables
+```
+
+## Check logical
+
+Uses `check_parameter_rules()` function to control if data follows logical assumptions.
+
+```{r checkrules, echo=FALSE}
+check_parameter_rules(myfile)
+```
+
+```{r checkzeroes, echo=FALSE}
+check_zero_value(myfile)
+```
+
+```{r checkzeropositions, echo=FALSE}
+check_zero_positions(myfile)
+```
+
+```{r checklogical_a, echo=FALSE}
+check_value_logical(myfile)
+```
+
+## Check codes
+
+Uses `check_codes()` function to control if data follows the SMHI codelist.
+
+```{r checkcode, echo=FALSE}
+check_codes(myfile, field = "sample_project_name_en")
+```
+
+## Match taxa
+
+Uses `is_in_dyntaxa()` to find and match taxa names provided in the data against the Dyntaxa database. In addition to the Dyntaxa match it is recommended to run the `match_worms_taxa_interactive()` function to match against the WoRMS database.
+
+```{r matchtaxa, echo=FALSE}
+if ("scientific_name" %in% colnames(myfile)) {
+  is_in_dyntaxa(myfile$scientific_name)
+
+  match_worms_taxa_interactive(myfile$scientific_name, ask = FALSE)
+}
+```
+
+## Reproducibility
+
+```{r reproducibility, echo=FALSE, include=TRUE}
+# Date time
+Sys.time()
+# Here we store the session info for this script
+sessioninfo::session_info()
+```
+
+## Runtime of script
+
+```{r runtime, echo = FALSE, include=TRUE}
+scriptend = Sys.time()
+print(scriptend-scriptstart)
+```
