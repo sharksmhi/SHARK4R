@@ -73,5 +73,5 @@ test_that("check_onland plot_leaflet parameter works", {
   expect_s3_class(m, "htmlwidget")
 
   # Provider check
-  expect_true(any(grepl("Esri.OceanBasemap", m$x$calls[[1]]$args[[1]])))
+  expect_true(any(grepl("CartoDB.Positron", m$x$calls[[1]]$args[[1]])))
 })

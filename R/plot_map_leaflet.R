@@ -12,7 +12,7 @@
 #' @param provider Character. The tile provider to use for the map background.
 #'   See available providers at
 #'   \url{https://leaflet-extras.github.io/leaflet-providers/preview/}.
-#'   Defaults to `"Esri.OceanBasemap"`.
+#'   Defaults to `"CartoDB.Positron"`.
 #'
 #' @return An HTML widget object (`leaflet` map) that can be printed or displayed
 #'   in R Markdown or Shiny applications.
@@ -35,7 +35,7 @@
 #' }
 #'
 #' @export
-plot_map_leaflet <- function(data, provider = "Esri.OceanBasemap") {
+plot_map_leaflet <- function(data, provider = "CartoDB.Positron") {
   # Determine which column naming style is present
   if (all(c("station_name", "sample_longitude_dd", "sample_latitude_dd") %in% names(data))) {
     coord <- data %>%
@@ -56,7 +56,12 @@ plot_map_leaflet <- function(data, provider = "Esri.OceanBasemap") {
   # Create the Leaflet map
   m <- leaflet() %>%
     addProviderTiles(provider, options = providerTileOptions(noWrap = TRUE)) %>%
-    addMarkers(data = coord, lng = ~LON, lat = ~LAT, popup = ~STATION)
+    addMarkers(data = coord, lng = ~LON, lat = ~LAT, popup = ~STATION) %>%
+    addTiles(
+      urlTemplate = "https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png",
+      attribution = "&copy; OpenSeaMap contributors, OpenStreetMap contributors",
+      options = providerTileOptions(noWrap = TRUE)
+    )
 
   return(m)
 }

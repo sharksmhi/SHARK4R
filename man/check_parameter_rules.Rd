@@ -9,7 +9,8 @@ check_parameter_rules(
   param_conditions = get(".param_conditions", envir = asNamespace("SHARK4R")),
   rowwise_conditions = get(".rowwise_conditions", envir = asNamespace("SHARK4R")),
   return_df = FALSE,
-  return_logical = FALSE
+  return_logical = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ Defaults to \code{SHARK4R:::.rowwise_conditions} defined in the package namespac
 
 \item{return_logical}{Logical. If TRUE, problematic rows are returned as logical vectors.
 Overrides \code{return_df}.}
+
+\item{verbose}{Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.}
 }
 \value{
 A named list of results for each parameter:

@@ -74,6 +74,7 @@ get_shark_codes <- function(url = "https://smhi.se/oceanografi/oce_info_data/sha
 #' @param clean_cache_days Numeric; if not `NULL`, cached SHARK code Excel files
 #'   older than this number of days will be automatically deleted and replaced
 #'   by a new download. Defaults to 30. Set to `NULL` to disable automatic cleanup.
+#' @param verbose Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.
 #'
 #' @seealso [get_shark_codes()] to get the current code list.
 #' @seealso [clean_shark4r_cache()] to manually clear cached files.
@@ -86,7 +87,8 @@ check_codes <- function(data,
                         field = "sample_project_name_en",
                         code_type = "PROJ",
                         match_column = "Description/English translate",
-                        clean_cache_days = 30) {
+                        clean_cache_days = 30,
+                        verbose = TRUE) {
   # validate field in data
   if (!field %in% names(data)) {
     stop(sprintf("Field '%s' not found in data.", field))
@@ -121,11 +123,13 @@ check_codes <- function(data,
   )
 
   # message
-  if (any(!match_type)) {
-    message(sprintf("ERROR: Unmatched %s code(s) found", code_type))
-    print(dplyr::filter(matches, !match_type))
-  } else {
-    message(sprintf("All %s codes found", code_type))
+  if (verbose) {
+    if (any(!match_type)) {
+      message(sprintf("ERROR: Unmatched %s code(s) found", code_type))
+      print(dplyr::filter(matches, !match_type))
+    } else {
+      message(sprintf("All %s codes found", code_type))
+    }
   }
 
   return(matches)

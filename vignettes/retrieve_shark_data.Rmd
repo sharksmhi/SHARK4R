@@ -90,7 +90,7 @@ shark_data_zip <- get_shark_datasets(dataset_name,
 print(shark_data_zip)
 ```
 
-Please note that `SHARK4R` also includes several useful functions for reading local SHARK data files, such as `shark_read()`, `shark_read_zip()`, `shark_read_deliv()` and `shark_read_deliv_xls()`.
+Please note that `SHARK4R` also includes useful functions for reading local SHARK data files, such as `read_shark()` and `read_shark_deliv()`.
 
 ---
 

@@ -19,7 +19,7 @@ test_that("plot_map_leaflet works with minimal data", {
   expect_equal(sort(coord$STATION), c("StationA", "StationB"))
 
   # Provider check
-  expect_true(any(grepl("Esri.OceanBasemap", m$x$calls[[1]]$args[[1]])))
+  expect_true(any(grepl("CartoDB.Positron", m$x$calls[[1]]$args[[1]])))
 })
 
 test_that("deprecated plot_map_leaflet_deliv still works", {
@@ -55,8 +55,8 @@ test_that("plot_map_leaflet works with custom provider", {
     sample_latitude_dd = 60.0
   )
 
-  m <- plot_map_leaflet(df, provider = "CartoDB.Positron")
+  m <- plot_map_leaflet(df, provider = "Esri.OceanBasemap")
 
   expect_s3_class(m, "leaflet")
-  expect_true(any(grepl("CartoDB.Positron", m$x$calls[[1]]$args[[1]])))
+  expect_true(any(grepl("Esri.OceanBasemap", m$x$calls[[1]]$args[[1]])))
 })

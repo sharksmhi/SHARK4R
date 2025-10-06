@@ -10,6 +10,7 @@ check_station_distance(
   plot_leaflet = FALSE,
   try_synonyms = TRUE,
   fallback_crs = 4326,
+  only_bad = FALSE,
   verbose = TRUE
 )
 }
@@ -35,6 +36,9 @@ points if no CRS is available. Defaults to \code{4326} (WGS84). Change this
 if your coordinates are reported in another CRS (e.g., \code{3006} for
 SWEREF99 TM).}
 
+\item{only_bad}{Logical; if \code{TRUE}, the leaflet map will only display
+stations that are outside the allowed radius (red markers). Default is \code{FALSE}.}
+
 \item{verbose}{Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.}
 }
 \value{
@@ -46,9 +50,12 @@ If \code{plot_leaflet = FALSE}, returns a data frame with columns:
 \item{within_limit}{\code{TRUE} if distance <= allowed radius, \code{FALSE} if outside, \code{NA} if unmatched.}
 }
 
-If \code{plot_leaflet = TRUE}, the function also produces a leaflet map
-(returned invisibly). SMHI station popups include both the station name
-and allowed radius.
+If \code{plot_leaflet = TRUE}, the function produces a leaflet map showing:
+\itemize{
+\item Blue circles for SMHI stations with radius in the popup.
+\item Reported stations colored by status: green (within radius), red (outside radius), gray (unmatched).
+\item If \code{only_bad = TRUE}, only the red stations (outside radius) are displayed.
+}
 }
 \description{
 Matches reported station names against the SMHI curated station list
@@ -86,5 +93,6 @@ df <- data.frame(
   sample_latitude_dd  = c(56.7, 55.25, 58.7)
 )
 check_station_distance(df, plot_leaflet = FALSE, try_synonyms = TRUE)
+check_station_distance(df, plot_leaflet = TRUE, only_bad = TRUE)
 
 }

@@ -54,6 +54,7 @@
 #' @importFrom jsonlite toJSON
 #' @importFrom leaflet addMarkers
 #' @importFrom leaflet addProviderTiles
+#' @importFrom leaflet addTiles
 #' @importFrom leaflet leaflet
 #' @importFrom leaflet icons
 #' @importFrom leaflet addAwesomeMarkers
@@ -117,5 +118,6 @@
 #' @importFrom worrms wm_name2id_
 #' @importFrom worrms wm_record
 #' @importFrom worrms wm_records_name
+#' @importFrom worrms wm_records_names
 ## usethis namespace: end
 NULL

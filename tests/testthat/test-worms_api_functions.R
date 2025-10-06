@@ -64,6 +64,18 @@ test_that("match_worms_taxa works when taxa does not exist", {
   expect_true(all(c("name", "AphiaID", "status") %in% names(worms_name_no_content)))
 })
 
+test_that("match_worms_taxa works when request is in bulk", {
+  skip_if_offline()
+  skip_if_resource_unavailable(url)
+
+  worms_name_no_content <- match_worms_taxa(test_scientific_name, bulk = TRUE)
+
+  expect_s3_class(worms_name_no_content, "data.frame")
+  expect_equal(nrow(worms_name_no_content), 1)
+
+  expect_true(all(c("name", "AphiaID", "status") %in% names(worms_name_no_content)))
+})
+
 test_that("deprecated get_worms_records_name works", {
   skip_if_offline()
   skip_if_resource_unavailable(url)

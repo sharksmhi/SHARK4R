@@ -10,7 +10,8 @@ check_onland(
   report = FALSE,
   buffer = 0,
   offline = FALSE,
-  plot_leaflet = FALSE
+  plot_leaflet = FALSE,
+  only_bad = FALSE
 )
 }
 \arguments{
@@ -28,8 +29,11 @@ Only used in online mode. Default is 0.}
 \item{offline}{Logical; if \code{TRUE}, the function uses the local cached shoreline. If \code{FALSE} (default),
 the OBIS web service is queried.}
 
-\item{plot_leaflet}{Logical; if \code{TRUE}, returns a leaflet map showing all points colored by
-whether they are on land (red) or water (green). Default is \code{FALSE}.}
+\item{plot_leaflet}{Logical; if \code{TRUE}, returns a leaflet map showing points colored by
+whether they are on land (red) or in water (green). Default is \code{FALSE}.}
+
+\item{only_bad}{Logical; if \code{TRUE} and \code{plot_leaflet = TRUE}, only points on land (red) are plotted.
+Default is \code{FALSE}, meaning all points are plotted.}
 }
 \value{
 If \code{report = TRUE}, a tibble with columns:
@@ -40,7 +44,8 @@ If \code{report = TRUE}, a tibble with columns:
 \item \code{message}: description of the issue
 }
 If \code{report = FALSE} and \code{plot_leaflet = FALSE}, returns a subset of \code{data} with only the flagged rows.
-If \code{plot_leaflet = TRUE}, returns a leaflet map showing points on land (red) and in water (green).
+If \code{plot_leaflet = TRUE}, returns a leaflet map showing points on land (red) and in water (green),
+unless \code{only_bad = TRUE}, in which case only red points are plotted.
 }
 \description{
 Identifies records whose coordinates fall on land, optionally applying a buffer to allow
@@ -54,7 +59,7 @@ geopackage (\code{land.gpkg}). If the file does not exist, it is downloaded auto
 }
 
 Optionally, a leaflet map can be plotted. Points on land are displayed as red markers,
-while points in water are green.
+while points in water are green. If \code{only_bad = TRUE}, only the red points (on land) are plotted.
 }
 \examples{
 \dontrun{
@@ -71,6 +76,10 @@ print(report)
 # Plot all points colored by land/water
 m <- check_onland(example_data, plot_leaflet = TRUE)
 m
+
+# Plot only bad points on land
+m_bad <- check_onland(example_data, plot_leaflet = TRUE, only_bad = TRUE)
+m_bad
 
 # Remove points on land by adding a buffer of 2000 m
 ok <- check_onland(example_data, report = FALSE, buffer = 2000)

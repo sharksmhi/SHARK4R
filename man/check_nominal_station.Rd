@@ -4,12 +4,14 @@
 \alias{check_nominal_station}
 \title{Check if stations are reported as nominal positions}
 \usage{
-check_nominal_station(data)
+check_nominal_station(data, verbose = TRUE)
 }
 \arguments{
 \item{data}{A data frame containing at least the columns:
 \code{sample_date}, \code{station_name},
 \code{sample_longitude_dd}, and \code{sample_latitude_dd}.}
+
+\item{verbose}{Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.}
 }
 \value{
 A data frame with distinct station names and their corresponding

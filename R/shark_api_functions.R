@@ -799,7 +799,8 @@ get_shark_datasets <- function(dataset_name,
   if (return_df) {
     if (!unzip_file) {
       # temp_dirs <- results
-      dfs <- map(unlist(results, use.names = FALSE), read_shark)
+      dfs <- map(unlist(results, use.names = FALSE),
+                 ~ read_shark(.x, encoding = "latin_1"))
     } else {
       # Extract the vector of file paths
       zip_files <- unlist(results, use.names = FALSE)
@@ -808,7 +809,7 @@ get_shark_datasets <- function(dataset_name,
       data_files <- file.path(gsub(".zip", "", zip_files), "shark_data.txt")
 
       # temp_dirs <- results
-      dfs <- map(data_files, shark_read)
+      dfs <- map(data_files, ~ read_shark(.x, encoding = "latin_1"))
     }
 
     # Make everything character first

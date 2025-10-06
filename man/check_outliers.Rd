@@ -9,7 +9,9 @@ check_outliers(
   parameter,
   datatype,
   threshold_col = "extreme_upper",
-  thresholds = .threshold_values
+  thresholds = .threshold_values,
+  return_df = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -28,13 +30,18 @@ to use for comparison. Default is \code{"extreme_upper"}, with the default optio
 
 \item{thresholds}{A tibble/data frame of thresholds. Must include columns \code{parameter},
 \code{datatype}, and at least one numeric threshold column. Defaults to \code{.threshold_values}.}
+
+\item{return_df}{Logical. If TRUE, return a plain data.frame of problematic rows
+instead of a DT datatable. Default = FALSE.}
+
+\item{verbose}{Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.}
 }
 \value{
-If outliers are found, returns a \code{DT::datatable} containing:
+If outliers are found, returns a \code{DT::datatable} or a data.frame (if \code{return_df} is set to TRUE) containing:
 \code{delivery_datatype}, \code{station_name}, \code{sample_date}, \code{sample_id},
 \code{shark_sample_id_md5}, \code{sample_min_depth_m}, \code{sample_max_depth_m},
 \code{parameter}, \code{value}, and \code{threshold}. Otherwise, prints a message indicating
-that values are within the threshold range.
+that values are within the threshold range (if \code{verbose} is set to TRUE).
 }
 \description{
 This function checks whether values for a specified parameter exceed a predefined

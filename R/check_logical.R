@@ -76,10 +76,13 @@ check_zero_value <- function(data, return_df = FALSE) {
 #'        instead of a DT datatable. Default = FALSE.
 #' @param return_logical Logical. If TRUE, return a logical vector of length nrow(data)
 #'        indicating which rows have zero in the selected coordinate(s). Overrides return_df. Default = FALSE.
+#' @param verbose Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.
+#'
 #' @return A DT datatable, a data.frame, a logical vector, or NULL (if no problems found
 #'         and return_logical = FALSE).
 #' @export
-check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, return_logical = FALSE) {
+check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, return_logical = FALSE,
+                                 verbose = TRUE) {
   if(return_df & return_logical) {
     warning("Both return_df and return_logical are TRUE. Ignoring return_df and returning logical vector.")
     return_df <- FALSE
@@ -112,7 +115,7 @@ check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, r
   if (return_logical) return(zero_vec)
 
   if (any(zero_vec)) {
-    message("ERROR: Positions contain zeroes (0). Please check station coordinates with zero values!")
+    if (verbose) message("ERROR: Positions contain zeroes (0). Please check station coordinates with zero values!")
 
     zero_positions <- data %>%
       dplyr::filter(zero_vec) %>%
@@ -130,7 +133,7 @@ check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, r
       return(DT::datatable(zero_positions))
     }
   } else {
-    message("No zero positions were found")
+    if (verbose) message("No zero positions were found")
     invisible(NULL)
   }
 }
@@ -534,6 +537,7 @@ check_zoobenthos_wetweight_logical <- function(data, return_df = FALSE, return_l
 #' @param return_df Logical. If TRUE, problematic rows are returned as plain `data.frame`s.
 #' @param return_logical Logical. If TRUE, problematic rows are returned as logical vectors.
 #'        Overrides `return_df`.
+#' @param verbose Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.
 #'
 #' @return A named list of results for each parameter:
 #'         \describe{
@@ -573,7 +577,8 @@ check_parameter_rules <- function(
     param_conditions = get(".param_conditions", envir = asNamespace("SHARK4R")),
     rowwise_conditions = get(".rowwise_conditions", envir = asNamespace("SHARK4R")),
     return_df = FALSE,
-    return_logical = FALSE) {
+    return_logical = FALSE,
+    verbose = TRUE) {
 
   # --- Validate input ---
   required_cols <- c("parameter", "value")
@@ -592,7 +597,7 @@ check_parameter_rules <- function(
   params_in_data <- intersect(all_params, unique(data$parameter))
 
   if (length(params_in_data) == 0) {
-    message(
+    if (verbose) message(
       "No parameters from the logical rules are present in the dataset. ",
       "Available parameters are: ", paste(names(param_conditions), collapse = ", ")
     )
@@ -617,11 +622,11 @@ check_parameter_rules <- function(
       results[[param]] <- error_vec
     } else if (any(error_vec)) {
       res_df <- data[error_vec, ]
-      message("Parameter ", param, ", measurement(s) outside expected range: ", range_msg)
+      if (verbose) message("Parameter ", param, ", measurement(s) outside expected range: ", range_msg)
       results[[param]] <- if (return_df) res_df else DT::datatable(res_df)
     } else {
       results[[param]] <- NULL
-      message("Parameter ", param, ", all measurements within expected range: ", range_msg)
+      if (verbose) message("Parameter ", param, ", all measurements within expected range: ", range_msg)
     }
   }
 
@@ -639,11 +644,11 @@ check_parameter_rules <- function(
       results[[param]] <- error_vec
     } else if (any(error_vec)) {
       res_df <- data[error_vec, ]
-      message("Parameter ", param, ", row-wise logical check failed")
+      if (verbose) message("Parameter ", param, ", row-wise logical check failed")
       results[[param]] <- if (return_df) res_df else DT::datatable(res_df)
     } else {
       results[[param]] <- NULL
-      message("Parameter ", param, ", row-wise logical check passed")
+      if (verbose) message("Parameter ", param, ", row-wise logical check passed")
     }
   }
 

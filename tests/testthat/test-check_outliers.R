@@ -49,7 +49,7 @@ test_that("check_outliers prints message if no outliers", {
 })
 
 test_that("check_outliers errors if threshold_col is missing", {
-  expect_error(
+  expect_warning(
     check_outliers(
       data = test_data,
       parameter = "TestParam1",
@@ -62,7 +62,7 @@ test_that("check_outliers errors if threshold_col is missing", {
 })
 
 test_that("check_outliers errors if parameter not in thresholds", {
-  expect_error(
+  expect_warning(
     check_outliers(
       data = test_data,
       parameter = "NonexistentParam",

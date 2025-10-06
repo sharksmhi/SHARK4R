@@ -8,7 +8,8 @@ check_zero_positions(
   data,
   coord = "longitude",
   return_df = FALSE,
-  return_logical = FALSE
+  return_logical = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -21,6 +22,8 @@ instead of a DT datatable. Default = FALSE.}
 
 \item{return_logical}{Logical. If TRUE, return a logical vector of length nrow(data)
 indicating which rows have zero in the selected coordinate(s). Overrides return_df. Default = FALSE.}
+
+\item{verbose}{Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.}
 }
 \value{
 A DT datatable, a data.frame, a logical vector, or NULL (if no problems found

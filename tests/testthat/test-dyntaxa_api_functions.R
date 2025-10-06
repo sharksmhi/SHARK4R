@@ -69,6 +69,21 @@ test_that("construct_dyntaxa_table is working", {
   expect_gt(nrow(dyntaxa_table_missing), nrow(dyntaxa_table))
 })
 
+test_that("construct_dyntaxa_table is working with deprecated arguments", {
+  skip_if_offline()
+  skip_if_resource_unavailable(dyntaxa_url)
+
+  parent_ids <- get_dyntaxa_parent_ids(test_genus_id, dyntaxa_key)
+
+  lifecycle::expect_deprecated(res1 <- construct_dyntaxa_table(parent_ids, dyntaxa_key))
+  lifecycle::expect_deprecated(res2 <- construct_dyntaxa_table(test_id, dyntaxa_key, add_genus_children = FALSE))
+  lifecycle::expect_deprecated(res3 <- construct_dyntaxa_table(test_id, dyntaxa_key, recommended_only = TRUE))
+
+  expect_s3_class(res1, "data.frame")
+  expect_s3_class(res2, "data.frame")
+  expect_s3_class(res3, "data.frame")
+})
+
 test_that("taxon match is working as expected", {
   skip_if_offline()
   skip_if_resource_unavailable(dyntaxa_url)
@@ -118,6 +133,22 @@ test_that("is_in_dyntaxa returns logical vector", {
 
   expect_type(result, "logical")
   expect_length(result, length(taxa))
+})
+
+test_that("is_in_dyntaxa use dwca and returns dataframe", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable(dyntaxa_url)
+
+  # Replace with your real DYNTAXA_KEY for local testing
+  Sys.setenv(DYNTAXA_KEY = Sys.getenv("DYNTAXA_KEY"))
+
+  taxa <- c("Skeletonema marinoi", "Nonexistent species")
+
+  result <- is_in_dyntaxa(taxa, verbose = FALSE, use_dwca = TRUE, return_df = TRUE)
+
+  expect_s3_class(result, "data.frame")
+  expect_true(nrow(result) == 2)
 })
 
 test_that("is_in_dyntaxa detects unmatched taxa", {
