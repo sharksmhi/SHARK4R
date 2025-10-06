@@ -63,7 +63,8 @@ points near the coast. The function supports both offline and online modes:</p>
 <span>  report <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  buffer <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  offline <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  plot_leaflet <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  plot_leaflet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  only_bad <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -96,8 +97,13 @@ the OBIS web service is queried.</p></dd>
 
 
 <dt id="arg-plot-leaflet">plot_leaflet<a class="anchor" aria-label="anchor" href="#arg-plot-leaflet"></a></dt>
-<dd><p>Logical; if <code>TRUE</code>, returns a leaflet map showing all points colored by
-whether they are on land (red) or water (green). Default is <code>FALSE</code>.</p></dd>
+<dd><p>Logical; if <code>TRUE</code>, returns a leaflet map showing points colored by
+whether they are on land (red) or in water (green). Default is <code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-only-bad">only_bad<a class="anchor" aria-label="anchor" href="#arg-only-bad"></a></dt>
+<dd><p>Logical; if <code>TRUE</code> and <code>plot_leaflet = TRUE</code>, only points on land (red) are plotted.
+Default is <code>FALSE</code>, meaning all points are plotted.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -107,7 +113,8 @@ whether they are on land (red) or water (green). Default is <code>FALSE</code>.<
 <li><p><code>row</code>: row numbers in <code>data</code> flagged as located on land</p></li>
 <li><p><code>message</code>: description of the issue</p></li>
 </ul><p>If <code>report = FALSE</code> and <code>plot_leaflet = FALSE</code>, returns a subset of <code>data</code> with only the flagged rows.
-If <code>plot_leaflet = TRUE</code>, returns a leaflet map showing points on land (red) and in water (green).</p>
+If <code>plot_leaflet = TRUE</code>, returns a leaflet map showing points on land (red) and in water (green),
+unless <code>only_bad = TRUE</code>, in which case only red points are plotted.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -116,7 +123,7 @@ If <code>plot_leaflet = TRUE</code>, returns a leaflet map showing points on lan
 geopackage (<code>land.gpkg</code>). If the file does not exist, it is downloaded automatically and cached across R sessions.</p></li>
 <li><p><strong>Online mode (<code>offline = FALSE</code>)</strong>: uses the OBIS web service to determine distance to the shore.</p></li>
 </ul><p>Optionally, a leaflet map can be plotted. Points on land are displayed as red markers,
-while points in water are green.</p>
+while points in water are green. If <code>only_bad = TRUE</code>, only the red points (on land) are plotted.</p>
     </div>
 
     <div class="section level2">
@@ -135,6 +142,10 @@ while points in water are green.</p>
 <span class="r-in"><span><span class="co"># Plot all points colored by land/water</span></span></span>
 <span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu">check_onland</span><span class="op">(</span><span class="va">example_data</span>, plot_leaflet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">m</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Plot only bad points on land</span></span></span>
+<span class="r-in"><span><span class="va">m_bad</span> <span class="op">&lt;-</span> <span class="fu">check_onland</span><span class="op">(</span><span class="va">example_data</span>, plot_leaflet <span class="op">=</span> <span class="cn">TRUE</span>, only_bad <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">m_bad</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Remove points on land by adding a buffer of 2000 m</span></span></span>
 <span class="r-in"><span><span class="va">ok</span> <span class="op">&lt;-</span> <span class="fu">check_onland</span><span class="op">(</span><span class="va">example_data</span>, report <span class="op">=</span> <span class="cn">FALSE</span>, buffer <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span></span>

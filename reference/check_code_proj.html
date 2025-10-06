@@ -57,7 +57,7 @@ This function is deprecated and has been replaced by <code><a href="check_codes.
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_code_proj</span><span class="op">(</span><span class="va">data</span>, clean_cache_days <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_code_proj</span><span class="op">(</span><span class="va">data</span>, field <span class="op">=</span> <span class="st">"sample_project_name_sv"</span>, clean_cache_days <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -66,6 +66,13 @@ This function is deprecated and has been replaced by <code><a href="check_codes.
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>for tibble be be checked</p></dd>
+
+
+<dt id="arg-field">field<a class="anchor" aria-label="anchor" href="#arg-field"></a></dt>
+<dd><p>Character; name of the column in <code>data</code> that contains the codes
+to be validated against the SHARK codelist. If a cell contains multiple
+codes separated by commas, each code is validated separately.
+Default is <code>"sample_project_name_en"</code>.</p></dd>
 
 
 <dt id="arg-clean-cache-days">clean_cache_days<a class="anchor" aria-label="anchor" href="#arg-clean-cache-days"></a></dt>

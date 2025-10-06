@@ -5,7 +5,7 @@ pre-defined distance limits. This helps ensure that station assignments
 are spatially consistent.'><meta property="og:description" content='Matches reported station names against the SMHI curated station list
 ("station.txt") and checks whether matched stations fall within
 pre-defined distance limits. This helps ensure that station assignments
-are spatially consistent.'><meta property="og:image" content="https://sharksmhi.github.io/SHARK4R/logo.png"></head><body>
+are spatially consistent.'><meta property="og:image" content="https://sharksmhi.github.io/SHARK4R/logo.png"><!-- dependencies from examples --><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet"><script src="libs/leaflet-1.3.1/leaflet.js"></script><link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet"><script src="libs/proj4-2.6.2/proj4.min.js"></script><script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script><link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet"><script src="libs/leaflet-binding-2.2.3/leaflet.js"></script><script src="libs/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script><script src="libs/leaflet-providers-plugin-2.2.3/leaflet-providers-plugin.js"></script><link href="libs/leaflet-awesomemarkers-2.0.3/leaflet.awesome-markers.css" rel="stylesheet"><script src="libs/leaflet-awesomemarkers-2.0.3/leaflet.awesome-markers.min.js"></script><link href="libs/fontawesome-4.7.0/font-awesome.min.css" rel="stylesheet"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -69,6 +69,7 @@ are spatially consistent.</p>
 <span>  plot_leaflet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  try_synonyms <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  fallback_crs <span class="op">=</span> <span class="fl">4326</span>,</span>
+<span>  only_bad <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -108,6 +109,11 @@ if your coordinates are reported in another CRS (e.g., <code>3006</code> for
 SWEREF99 TM).</p></dd>
 
 
+<dt id="arg-only-bad">only_bad<a class="anchor" aria-label="anchor" href="#arg-only-bad"></a></dt>
+<dd><p>Logical; if <code>TRUE</code>, the leaflet map will only display
+stations that are outside the allowed radius (red markers). Default is <code>FALSE</code>.</p></dd>
+
+
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.</p></dd>
 
@@ -127,10 +133,10 @@ SWEREF99 TM).</p></dd>
 <dd><p><code>TRUE</code> if distance &lt;= allowed radius, <code>FALSE</code> if outside, <code>NA</code> if unmatched.</p></dd>
 
 
-</dl><p>If <code>plot_leaflet = TRUE</code>, the function also produces a leaflet map
-(returned invisibly). SMHI station popups include both the station name
-and allowed radius.</p>
-    </div>
+</dl><p>If <code>plot_leaflet = TRUE</code>, the function produces a leaflet map showing:</p><ul><li><p>Blue circles for SMHI stations with radius in the popup.</p></li>
+<li><p>Reported stations colored by status: green (within radius), red (outside radius), gray (unmatched).</p></li>
+<li><p>If <code>only_bad = TRUE</code>, only the red stations (outside radius) are displayed.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Optionally, a leaflet map of stations can be plotted. SMHI stations that
@@ -165,11 +171,23 @@ bundled <code>station.zip</code> included in the <code>SHARK4R</code> package.</
 <span class="r-msg co"><span class="r-pr">#&gt;</span> WARNING: Some stations are outside the allowed distance limit</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   station_name distance_m OUT_OF_BOUNDS_RADIUS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     ANHOLT E       3551                 3000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      station_name match_type distance_m within_limit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        ANHOLT E       TRUE  3551.0004        FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 BY5 BORNHOLMSDJ       TRUE   898.1066         TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     NEW STATION      FALSE         NA           NA</span>
-<span class="r-in"><span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      station_name sample_longitude_dd sample_latitude_dd distance_m</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        ANHOLT E               12.10              56.70  3551.0004</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 BY5 BORNHOLMSDJ               15.97              55.25   898.1066</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     NEW STATION               17.50              58.70         NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   within_limit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3           NA</span>
+<span class="r-in"><span><span class="fu">check_station_distance</span><span class="op">(</span><span class="va">df</span>, plot_leaflet <span class="op">=</span> <span class="cn">TRUE</span>, only_bad <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Using station.txt from SHARK4R bundle:/home/runner/work/_temp/Library/SHARK4R/extdata/station.zip</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> WARNING: Unmatched stations found, check synonyms</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "NEW STATION"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> WARNING: Some stations are outside the allowed distance limit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   station_name distance_m OUT_OF_BOUNDS_RADIUS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     ANHOLT E       3551                 3000</span>
+<div id="htmlwidget-36aa3d2a04d42bbc2145" style="width:700px;height:432.632880098888px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-36aa3d2a04d42bbc2145">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":true,"detectRetina":false}]},{"method":"addAwesomeMarkers","args":[56.7,12.1,{"icon":"map-marker","markerColor":"red","iconColor":"white","spin":false,"squareMarker":false,"iconRotate":0,"font":"monospace","prefix":"fa"},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},"ANHOLT E",null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addTiles","args":["https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png",null,null,{"errorTileUrl":"","noWrap":true,"detectRetina":false,"attribution":"&copy; OpenSeaMap contributors, OpenStreetMap contributors"}]}],"limits":{"lat":[56.7,56.7],"lng":[12.1,12.1]}},"evals":[],"jsHooks":[]}</script><span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

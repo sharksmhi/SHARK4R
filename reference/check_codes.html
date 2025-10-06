@@ -77,7 +77,8 @@ Informative messages are printed if unmatched codes are found.</p>
 <span>  field <span class="op">=</span> <span class="st">"sample_project_name_en"</span>,</span>
 <span>  code_type <span class="op">=</span> <span class="st">"PROJ"</span>,</span>
 <span>  match_column <span class="op">=</span> <span class="st">"Description/English translate"</span>,</span>
-<span>  clean_cache_days <span class="op">=</span> <span class="fl">30</span></span>
+<span>  clean_cache_days <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -111,6 +112,10 @@ against. Must be one of <code>"Code"</code> or <code>"Description/English transl
 <dd><p>Numeric; if not <code>NULL</code>, cached SHARK code Excel files
 older than this number of days will be automatically deleted and replaced
 by a new download. Defaults to 30. Set to <code>NULL</code> to disable automatic cleanup.</p></dd>
+
+
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
+<dd><p>Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.</p></dd>
 
 </dl></div>
     <div class="section level2">

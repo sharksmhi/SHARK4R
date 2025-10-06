@@ -129,7 +129,7 @@ API.</p>
 <span></span>
 <span><span class="co"># Print data</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">taxa</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6,852 × 5</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6,860 × 5</span></span></span>
 <span><span class="co">##    scientific_name           authority                       rank  slug  nua_url</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Abollifer                 Vørs, 1992                      Genus abol… https:…</span></span>
@@ -142,7 +142,7 @@ API.</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Acanthocorbis asymmetrica (Thomsen) Hara &amp; Takahashi, 19… Spec… acan… https:…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Acanthocorbis campanula   (Espeland) Thomsen, 1991        Spec… acan… https:…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> Acanthocorbis haurakiana  Thomsen, 1991                   Spec… acan… https:…</span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 6,842 more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># ℹ 6,850 more rows</span></span></span></code></pre>
 <p>The full taxonomic information can be accessed as an unparsed list by
 enabling the <code>unparsed</code> parameter.</p>
 </div>
@@ -163,20 +163,20 @@ can be retrieved through the API.</p>
 <span></span>
 <span><span class="co"># Print list</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">external_links</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 56 × 6</span></span></span>
-<span><span class="co">##    slug               provider  label        external_id external_url collection</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> ptychocylis-minor  AlgaeBase AlgaeBase    141096      https://www… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> ptychocylis-minor  Dyntaxa   Dyntaxa      238510      https://nam… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> ptychocylis-minor  ENA       ENA          1925337     https://www… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> ptychocylis-minor  GBIF      GBIF         7865442     https://www… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> ptychocylis-minor  NCBI      NCBI         1925337     https://www… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> ptychocylis-minor  WoRMS     WoRMS        427510      https://www… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> ptychocylis-minor  PR2       PR2: Ptycho… Ptychocyli… https://app… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> rusalka-fusiformis AlgaeBase AlgaeBase    133790      https://www… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> rusalka-fusiformis Dyntaxa   Dyntaxa      257549      https://nam… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> rusalka-fusiformis ENA       ENA          71744       https://www… External …</span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 46 more rows</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 52 × 6</span></span></span>
+<span><span class="co">##    slug                     provider  label  external_id external_url collection</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> pterosperma-vanhoeffenii AlgaeBase Algae… 56416       https://www… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> pterosperma-vanhoeffenii Dyntaxa   Dynta… 238959      https://nam… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> pterosperma-vanhoeffenii GBIF      GBIF   2688130     https://www… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> pterosperma-vanhoeffenii WoRMS     WoRMS  345881      https://www… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> rosenvingiellopsis       AlgaeBase Algae… 52010       https://www… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> rosenvingiellopsis       Dyntaxa   Dynta… 6046635     https://nam… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> rosenvingiellopsis       ENA       ENA    1936980     https://www… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> rosenvingiellopsis       GBIF      GBIF   9916441     https://www… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> rosenvingiellopsis       NCBI      NCBI   1936980     https://www… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> rosenvingiellopsis       WoRMS     WoRMS  1312598     https://www… External …</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 42 more rows</span></span></span></code></pre>
 <p>The full list of facts can be accessed as an unparsed list by setting
 the <code>unparsed</code> parameter to <code>TRUE</code>.</p>
 </div>
