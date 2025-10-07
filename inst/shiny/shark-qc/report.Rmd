@@ -3,8 +3,9 @@ title: "**`SHARK4R`** Bio-QC Report"
 output: html_document
 params:
   targetDataset: NULL
-  depthmargin: 0
-  buffer: 0
+  depth_margin: 0
+  depth_col: "water_depth_m"
+  land_buffer: 0
   field: "sample_project_name_en"
   code_type: "PROJ"
   only_bad:  FALSE
@@ -94,10 +95,10 @@ check_station_distance(myfile,
 Uses `check_onland()` to control if any locations are on land.
 
 ```{r checkonland, echo=FALSE}
-cat("Buffer distance used:", params$buffer, "\n")
+cat("Buffer distance used:", params$land_buffer, "\n")
 
 check_onland(myfile,
-             buffer = params$buffer,
+             buffer = params$land_buffer,
              plot_leaflet = TRUE,
              only_bad = params$only_bad)
 ```
@@ -107,10 +108,11 @@ check_onland(myfile,
 Uses `check_depth()` to control if any sample depths are incorrect.
 
 ```{r checkdepth, echo=FALSE}
-cat("Depth margin used:", params$depthmargin, "\n")
+cat("Depth margin used:", params$depth_margin, "\n")
+cat("Depth column used:", params$depth_col, "\n")
 
 safe_datatable(check_depth(myfile,
-                           depthmargin = params$depthmargin))
+                           depthmargin = params$depth_margin))
 ```
 
 ## Check outliers

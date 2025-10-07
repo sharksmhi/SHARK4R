@@ -1,3 +1,5 @@
+library(SHARK4R)
+
 # Load helper functions
 source("helpers.R")
 

@@ -11,8 +11,59 @@ shinyServer(function(input, output, session) {
 
   options(shiny.maxRequestSize = 100*1024^2)
 
-  # --- Reactive values for options
-  options_data <- reactiveVal(load_shark_options())
+  # --- Reactive expression for whether we're in PROD or TEST
+  is_prod <- reactive({
+    req(input$env)
+    input$env == "PROD"
+  })
+
+  # --- Reactive values for options, depends on environment
+  options_data <- reactiveVal()
+
+  # --- Load options when app starts or when environment changes
+  observeEvent(is_prod(), {
+    env_label <- ifelse(is_prod(), "PROD", "TEST")
+
+    # Remove previous error notification if it exists
+    if (!is.null(session$userData$server_error_nid)) {
+      removeNotification(session$userData$server_error_nid)
+      session$userData$server_error_nid <- NULL
+    }
+
+    showNotification(paste("Loading", env_label, "options..."), type = "message")
+
+    tryCatch({
+      opts <- load_shark_options(prod = is_prod())
+      options_data(opts)
+
+      # Update Data Type dropdown
+      types <- opts$types
+      canonical_types <- type_lookup[types]
+      updateSelectizeInput(session, "datatype", choices = canonical_types, server = TRUE)
+
+      # Reset dataset dropdown
+      updateSelectizeInput(session, "dataset", choices = NULL, server = TRUE)
+
+      showNotification(paste(env_label, "environment loaded ✅"), type = "message")
+
+    }, error = function(e) {
+      # Persistent error notification
+      nid <- showNotification(
+        paste("❌ Could not connect to", env_label, "server:", conditionMessage(e)),
+        type = "error",
+        duration = NULL
+      )
+      # Store the notification ID so we can remove it later
+      session$userData$server_error_nid <- nid
+
+      # Reset options_data to NULL to prevent follow-up errors
+      options_data(NULL)
+
+      # Optionally disable dropdowns
+      updateSelectizeInput(session, "datatype", choices = NULL, server = TRUE)
+      updateSelectizeInput(session, "dataset", choices = NULL, server = TRUE)
+    })
+  })
 
   # --- Populate first dropdown (Data Type)
   observe({
@@ -43,25 +94,19 @@ shinyServer(function(input, output, session) {
                          server = TRUE)
   })
 
-  # --- Refresh button to reload from SHARK
+  # --- Refresh button to reload datasets for the selected environment
   observeEvent(input$refreshData, {
-    showNotification("Refreshing data list from SHARK...", type = "message")
+    showNotification("Refreshing dataset list...", type = "message")
 
-    options_data(load_shark_options())
+    options_data(load_shark_options(prod = is_prod()))
 
-    # Update data type select
     types <- options_data()$types
     canonical_types <- type_lookup[types]
-    updateSelectizeInput(session, "datatype",
-                         choices = canonical_types,
-                         server = TRUE)
+    updateSelectizeInput(session, "datatype", choices = canonical_types, server = TRUE)
 
-    # Reset dataset select
-    updateSelectizeInput(session, "dataset",
-                         choices = NULL,
-                         server = TRUE)
+    updateSelectizeInput(session, "dataset", choices = NULL, server = TRUE)
 
-    showNotification("Data list refreshed ✅", type = "message")
+    showNotification("Dataset list refreshed ✅", type = "message")
   })
 
   # --- Reactive value to store dataset paths
@@ -77,6 +122,7 @@ shinyServer(function(input, output, session) {
         dataset_name = input$dataset,
         return_df = FALSE,  # we can switch to TRUE if you want combined dataframe
         unzip_file = TRUE,
+        prod = is_prod(),
         verbose = FALSE
       )
       dataset_path(df_or_path[[1]])  # store first dataset path (unzip dir)
@@ -115,6 +161,28 @@ shinyServer(function(input, output, session) {
     } else {
       return(NULL)
     }
+  })
+
+  observe({
+    req(shark_data())
+
+    # Columns to check if present
+    possible_depth_cols <- c(
+      "water_depth_m", "secchi_depth_m", "sample_depth_m",
+      "sample_min_depth_m", "sample_max_depth_m",
+      "transect_max_depth_m", "transect_min_depth_m",
+      "transect_start_depth_m", "transect_stop_depth_m",
+      "section_start_depth_m", "section_end_depth_m"
+    )
+
+    available_depth_cols <- intersect(possible_depth_cols, colnames(shark_data()))
+
+    updateSelectInput(
+      session,
+      "depth_col",
+      choices = available_depth_cols,
+      selected = ifelse(length(available_depth_cols) > 0, available_depth_cols[1], NULL)
+    )
   })
 
   # Update dropdown choices based on shark_data() columns
@@ -402,16 +470,23 @@ shinyServer(function(input, output, session) {
 
   # --- Render depth QC table
   output$depth_table <- DT::renderDT({
-    req(shark_data(), input$depthmargin)
+    req(shark_data(), input$depthmargin, input$depth_col)
+
+    if (input$depth_col %in% c("sample_min_depth_m", "sample_max_depth_m")) {
+      depth_col <- c("sample_min_depth_m", "sample_max_depth_m")
+    } else {
+      depth_col <- input$depth_col
+    }
 
     check_depth(
       shark_data(),
+      depth_cols = depth_col,
       depthmargin = input$depthmargin
     ) %>%
       DT::datatable(
         options = list(pageLength = 10, autoWidth = TRUE),
         rownames = FALSE,
-        caption = "Issues found"
+        caption = paste("Issues found (depth column:", paste(depth_col, collapse = ", "), ")")
       )
   })
 
@@ -562,12 +637,13 @@ shinyServer(function(input, output, session) {
         } else {
           NULL
         },
-        depthmargin = input$depthmargin,
-        buffer = input$buffer,
+        depth_margin = input$depthmargin,
+        land_buffer = input$buffer,
         field = input$field,
         code_type = input$available_code,
         only_bad = input$only_bad,
-        only_bad_distance = input$only_bad_distance
+        only_bad_distance = input$only_bad_distance,
+        depth_col = input$depth_col
       )
 
       rmarkdown::render(
