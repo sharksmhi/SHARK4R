@@ -65,33 +65,34 @@ shinyServer(function(input, output, session) {
     })
   })
 
-  # --- Populate first dropdown (Data Type)
   observe({
-    types <- options_data()$types
-    canonical_types <- type_lookup[types]
-
-    updateSelectizeInput(session, "datatype",
-                         choices = canonical_types,
-                         server = TRUE)
+    req(options_data())                # <- prevent runs with NULL options_data
+    types <- options_data()$types      # internal keys, e.g. "Grey seal"
+    # display labels (human) come from type_lookup[types], keep values = types
+    choices <- setNames(types, type_lookup[types])
+    updateSelectizeInput(session, "datatype", choices = choices, server = TRUE)
   })
 
-  # --- Populate second dropdown (Dataset) based on selected datatype
   observeEvent(input$datatype, {
-    req(input$datatype)
+    req(input$datatype, options_data())
 
     all_datasets <- options_data()$datasets
 
-    # Filter by selected datatype
-    filtered <- grep(input$datatype, all_datasets, value = TRUE)
+    # build tolerant patterns (with/without space, underscore)
+    key <- input$datatype                            # e.g. "Grey seal"
+    no_space <- gsub(" ", "", key)                   # "Greyseal"
+    underscore <- gsub(" ", "_", key)                # "Grey_seal"
+    canonical <- type_lookup[key] %||% ""            # "GreySeal" (use %||% from rlang or fallback)
+    patterns <- paste(c(key, no_space, underscore, canonical), collapse = "|")
 
-    # Extract and sort by version date (YYYY-MM-DD)
+    filtered <- grep(patterns, all_datasets, value = TRUE, ignore.case = TRUE, perl = TRUE)
+
+    # rest unchanged: parse versions and sort
     dates <- sub(".*_version_(\\d{4}-\\d{2}-\\d{2})\\.zip$", "\\1", filtered)
-    dates <- suppressWarnings(as.Date(dates))  # avoid NA warnings
+    dates <- suppressWarnings(as.Date(dates))
     filtered_sorted <- filtered[order(dates, decreasing = TRUE)]
 
-    updateSelectizeInput(session, "dataset",
-                         choices = filtered_sorted,
-                         server = TRUE)
+    updateSelectizeInput(session, "dataset", choices = filtered_sorted, server = TRUE)
   })
 
   # --- Refresh button to reload datasets for the selected environment
@@ -166,7 +167,6 @@ shinyServer(function(input, output, session) {
   observe({
     req(shark_data())
 
-    # Columns to check if present
     possible_depth_cols <- c(
       "water_depth_m", "secchi_depth_m", "sample_depth_m",
       "sample_min_depth_m", "sample_max_depth_m",
@@ -177,12 +177,16 @@ shinyServer(function(input, output, session) {
 
     available_depth_cols <- intersect(possible_depth_cols, colnames(shark_data()))
 
-    updateSelectInput(
-      session,
-      "depth_col",
-      choices = available_depth_cols,
-      selected = ifelse(length(available_depth_cols) > 0, available_depth_cols[1], NULL)
-    )
+    if (length(available_depth_cols) > 0) {
+      selected_col <- available_depth_cols[1]
+    } else {
+      selected_col <- NULL
+    }
+
+    updateSelectInput(session,
+                      "depth_col",
+                      choices = available_depth_cols,
+                      selected = selected_col)
   })
 
   # Update dropdown choices based on shark_data() columns
@@ -226,11 +230,18 @@ shinyServer(function(input, output, session) {
   output$fields_table <- DT::renderDT({
     req(shark_data(), input$datatype)
 
-    datatype_input <- names(type_lookup)[match(input$datatype, type_lookup)]
+    datatype_key <- input$datatype
+    datatype_canonical <- type_lookup[datatype_key]
+
+    if (is.na(datatype_canonical)) {
+      m <- match(tolower(gsub("\\s+", "", input$datatype)), tolower(gsub("\\s+", "", type_lookup)))
+      if (!is.na(m)) datatype_key <- names(type_lookup)[m]
+      datatype_canonical <- type_lookup[datatype_key]
+    }
 
     df <- check_fields(
       data = shark_data(),
-      datatype = input$datatype,
+      datatype = datatype_canonical,
       level = input$check_level
     ) %>%
       select(-row) %>%
@@ -247,8 +258,6 @@ shinyServer(function(input, output, session) {
   # --- Render check codes QC table
   output$codes_table <- DT::renderDT({
     req(shark_data(), input$field, input$available_code)
-
-    datatype_input <- names(type_lookup)[match(input$datatype, type_lookup)]
 
     df <- check_codes(
       data = shark_data(),
@@ -270,18 +279,32 @@ shinyServer(function(input, output, session) {
   output$outliers_table <- DT::renderDT({
     req(shark_data(), input$parameter, input$datatype)
 
-    datatype_input <- names(type_lookup)[match(input$datatype, type_lookup)]
+    # Determine datatype safely
+    datatype_input <- input$datatype
 
-    df <- check_outliers(data = shark_data(),
-                         parameter = input$parameter,
-                         datatype = datatype_input,
-                         return_df = TRUE,
-                         verbose = FALSE)
+    # If not found in thresholds, try matching by canonical form (remove spaces)
+    if (!datatype_input %in% SHARK4R:::.threshold_values$datatype) {
+      alt_form <- gsub("\\s+", "", datatype_input)
+      match_idx <- match(tolower(alt_form),
+                         tolower(gsub("\\s+", "", SHARK4R:::.threshold_values$datatype)))
+      if (!is.na(match_idx)) {
+        datatype_input <- SHARK4R:::.threshold_values$datatype[match_idx]
+      }
+    }
+
+    # Now run check_outliers()
+    df <- check_outliers(
+      data = shark_data(),
+      parameter = input$parameter,
+      datatype = datatype_input,
+      return_df = TRUE,
+      verbose = FALSE
+    )
 
     if (is.null(df) || nrow(df) == 0) {
       # Empty datatable with a message
       message_text <- if (is.null(df)) {
-        paste("Parameter", input$parameter, "not found in the dataset")
+        paste("Parameter", input$parameter, "not found in the dataset or in the threshold dataset")
       } else {
         paste(input$parameter, "is within the expected range")
       }
@@ -421,10 +444,23 @@ shinyServer(function(input, output, session) {
   output$scatter_plot <- renderPlotly({
     req(shark_data(), input$datatype)  # ensure dataset is loaded
 
-    datatype_input <- names(type_lookup)[match(input$datatype, type_lookup)]
+    datatype_input <- input$datatype
 
+    # If not directly found in the thresholds, try a space-insensitive match
+    if (!datatype_input %in% SHARK4R:::.threshold_values$datatype) {
+      alt_form <- gsub("\\s+", "", datatype_input)
+      match_idx <- match(
+        tolower(alt_form),
+        tolower(gsub("\\s+", "", SHARK4R:::.threshold_values$datatype))
+      )
+      if (!is.na(match_idx)) {
+        datatype_input <- SHARK4R:::.threshold_values$datatype[match_idx]
+      }
+    }
+
+    # Filter thresholds
     thresh <- SHARK4R:::.threshold_values %>%
-      filter(datatype == datatype_input)
+      dplyr::filter(datatype == datatype_input)
 
     threshold_list <- setNames(thresh$extreme_upper, thresh$parameter)
 

@@ -159,6 +159,30 @@ check_setup <- function(path = ".", run_app = FALSE, force = FALSE, verbose = TR
   invisible(list(products = products_dir))
 }
 
+#' Translate SHARK4R datatype names
+#'
+#' Converts user-facing datatype names (e.g., "Grey seal") to internal SHARK4R names
+#' (e.g., "GreySeal") based on `SHARK4R:::.type_lookup`.
+#'
+#' @param x Character vector of datatype names to translate
+#' @return Character vector of translated datatype names
+#' @export
+translate_shark_datatype <- function(x) {
+  if (is.null(x)) return(NULL)
+  if (!is.character(x)) x <- as.character(x)
+
+  translated <- SHARK4R:::.type_lookup[x]
+
+  # Warn if some names are unknown
+  unknown <- x[is.na(translated)]
+  if (length(unknown) > 0) {
+    warning("Unknown datatype(s) not in .type_lookup: ", paste(unknown, collapse = ", "))
+    translated[is.na(translated)] <- unknown  # keep original
+  }
+
+  unname(translated)
+}
+
 ## Helpers
 
 missing_fields <- function(data, fields) {
