@@ -103,3 +103,28 @@ test_that("check_setup forces re-download when force = TRUE", {
 
   unlink(tmpdir, recursive = TRUE)
 })
+
+test_that("translate_shark_datatype translates known names correctly", {
+  expect_equal(translate_shark_datatype("Grey seal"), "GreySeal")
+  expect_equal(translate_shark_datatype("Harbour Porpoise"), "HarbourPorpoise")
+  expect_equal(translate_shark_datatype("Bacterioplankton"), "Bacterioplankton")
+})
+
+test_that("translate_shark_datatype works for vectors", {
+  input <- c("Grey seal", "Phytoplankton", "Ringed seal")
+  expected <- c("GreySeal", "Phytoplankton", "RingedSeal")
+  expect_equal(translate_shark_datatype(input), expected)
+})
+
+test_that("translate_shark_datatype handles unknown names gracefully", {
+  input <- c("Grey seal", "UnknownType")
+  expect_warning(
+    out <- translate_shark_datatype(input),
+    "Unknown datatype"
+  )
+  expect_equal(out, c("GreySeal", "UnknownType"))
+})
+
+test_that("translate_shark_datatype returns NULL for NULL input", {
+  expect_null(translate_shark_datatype(NULL))
+})

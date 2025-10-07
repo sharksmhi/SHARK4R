@@ -324,3 +324,25 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
     (!is.na(val)) & ((is_abund & val == 0) | (is_BQIm & val > 0))
   }
 )
+
+# Translate datatype names
+.type_lookup <- c(
+  "Bacterioplankton"       = "Bacterioplankton",
+  "Chlorophyll"            = "Chlorophyll",
+  "Epibenthos"             = "Epibenthos",
+  "Grey seal"              = "GreySeal",
+  "Harbour Porpoise"       = "HarbourPorpoise",
+  "Harbour seal"           = "HarbourSeal",
+  "Physical and Chemical"  = "PhysicalChemical",
+  "Phytoplankton"          = "Phytoplankton",
+  "Picoplankton"           = "Picoplankton",
+  "Plankton Barcoding"     = "PlanktonBarcoding",
+  "Plankton Imaging"       = "PlanktonImaging",
+  "Primary production"     = "PrimaryProduction",
+  "Profile"                = "Profile",
+  "Ringed seal"            = "RingedSeal",
+  "Seal pathology"         = "SealPathology",
+  "Sedimentation"          = "Sedimentation",
+  "Zoobenthos"             = "Zoobenthos",
+  "Zooplankton"            = "Zooplankton"
+)

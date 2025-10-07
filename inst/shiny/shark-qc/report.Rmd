@@ -3,8 +3,9 @@ title: "**`SHARK4R`** Bio-QC Report"
 output: html_document
 params:
   targetDataset: NULL
-  depthmargin: 0
-  buffer: 0
+  depth_margin: 0
+  depth_col: "water_depth_m"
+  land_buffer: 0
   field: "sample_project_name_en"
   code_type: "PROJ"
   only_bad:  FALSE
@@ -49,8 +50,12 @@ if (dir.exists(params$targetDataset)) {
 ```{r datasetname, echo=FALSE}
 cat("Processing dataset:", unique(myfile$dataset_name), sep=" ")
 
+# Identify datatype and parameters in the dataset
 datatype <- unique(myfile$delivery_datatype)
 parameters <- unique(myfile$parameter)
+
+# Translate datatype names
+datatype_internal <- translate_shark_datatype(datatype)
 ```
 
 ## Check fields
@@ -59,7 +64,7 @@ Uses `check_fields()` function to control if all required fields are present.
 
 ```{r checkfields, echo=FALSE}
 safe_datatable(check_fields(myfile,
-                            datatype))
+                            datatype_internal))
 ```
 
 ## Overview of data
@@ -94,10 +99,10 @@ check_station_distance(myfile,
 Uses `check_onland()` to control if any locations are on land.
 
 ```{r checkonland, echo=FALSE}
-cat("Buffer distance used:", params$buffer, "\n")
+cat("Buffer distance used:", params$land_buffer, "\n")
 
 check_onland(myfile,
-             buffer = params$buffer,
+             buffer = params$land_buffer,
              plot_leaflet = TRUE,
              only_bad = params$only_bad)
 ```
@@ -107,10 +112,11 @@ check_onland(myfile,
 Uses `check_depth()` to control if any sample depths are incorrect.
 
 ```{r checkdepth, echo=FALSE}
-cat("Depth margin used:", params$depthmargin, "\n")
+cat("Depth margin used:", params$depth_margin, "\n")
+cat("Depth column used:", params$depth_col, "\n")
 
 safe_datatable(check_depth(myfile,
-                           depthmargin = params$depthmargin))
+                           depthmargin = params$depth_margin))
 ```
 
 ## Check outliers
@@ -169,11 +175,14 @@ Uses `is_in_dyntaxa()` to find and match taxa names provided in the data against
 
 ```{r matchtaxa, echo=FALSE}
 if ("scientific_name" %in% colnames(myfile)) {
-  safe_datatable(is_in_dyntaxa(myfile$scientific_name,
-                               use_dwca = TRUE,
-                               return_df = TRUE))
-  
-  safe_datatable(match_worms_taxa_interactive(myfile$scientific_name, ask = FALSE))
+  tagList(
+    tags$h4("Matched taxa (Dyntaxa)"),
+    safe_datatable(is_in_dyntaxa(myfile$scientific_name,
+                                 use_dwca = TRUE,
+                                 return_df = TRUE)),
+    tags$h4("Matched taxa (WoRMS)"),
+    safe_datatable(match_worms_taxa_interactive(myfile$scientific_name, ask = FALSE))
+  )
 }
 ```
 

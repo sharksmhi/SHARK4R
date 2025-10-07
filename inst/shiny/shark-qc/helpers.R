@@ -1,6 +1,6 @@
 # --- Function to load shark options
-load_shark_options <- function() {
-  shark_options <- get_shark_options()
+load_shark_options <- function(prod) {
+  shark_options <- SHARK4R::get_shark_options(prod)
   list(
     types = shark_options$dataTypes,
     datasets = shark_options$datasets

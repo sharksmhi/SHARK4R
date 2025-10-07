@@ -11,57 +11,103 @@ shinyServer(function(input, output, session) {
 
   options(shiny.maxRequestSize = 100*1024^2)
 
-  # --- Reactive values for options
-  options_data <- reactiveVal(load_shark_options())
-
-  # --- Populate first dropdown (Data Type)
-  observe({
-    types <- options_data()$types
-    canonical_types <- type_lookup[types]
-
-    updateSelectizeInput(session, "datatype",
-                         choices = canonical_types,
-                         server = TRUE)
+  # --- Reactive expression for whether we're in PROD or TEST
+  is_prod <- reactive({
+    req(input$env)
+    input$env == "PROD"
   })
 
-  # --- Populate second dropdown (Dataset) based on selected datatype
+  # --- Reactive values for options, depends on environment
+  options_data <- reactiveVal()
+
+  # --- Load options when app starts or when environment changes
+  observeEvent(is_prod(), {
+    env_label <- ifelse(is_prod(), "PROD", "TEST")
+
+    # Remove previous error notification if it exists
+    if (!is.null(session$userData$server_error_nid)) {
+      removeNotification(session$userData$server_error_nid)
+      session$userData$server_error_nid <- NULL
+    }
+
+    showNotification(paste("Loading", env_label, "options..."), type = "message")
+
+    tryCatch({
+      opts <- load_shark_options(prod = is_prod())
+      options_data(opts)
+
+      # Update Data Type dropdown
+      types <- opts$types
+      canonical_types <- type_lookup[types]
+      updateSelectizeInput(session, "datatype", choices = canonical_types, server = TRUE)
+
+      # Reset dataset dropdown
+      updateSelectizeInput(session, "dataset", choices = NULL, server = TRUE)
+
+      showNotification(paste(env_label, "environment loaded ✅"), type = "message")
+
+    }, error = function(e) {
+      # Persistent error notification
+      nid <- showNotification(
+        paste("❌ Could not connect to", env_label, "server:", conditionMessage(e)),
+        type = "error",
+        duration = NULL
+      )
+      # Store the notification ID so we can remove it later
+      session$userData$server_error_nid <- nid
+
+      # Reset options_data to NULL to prevent follow-up errors
+      options_data(NULL)
+
+      # Optionally disable dropdowns
+      updateSelectizeInput(session, "datatype", choices = NULL, server = TRUE)
+      updateSelectizeInput(session, "dataset", choices = NULL, server = TRUE)
+    })
+  })
+
+  observe({
+    req(options_data())                # <- prevent runs with NULL options_data
+    types <- options_data()$types      # internal keys, e.g. "Grey seal"
+    # display labels (human) come from type_lookup[types], keep values = types
+    choices <- setNames(types, type_lookup[types])
+    updateSelectizeInput(session, "datatype", choices = choices, server = TRUE)
+  })
+
   observeEvent(input$datatype, {
-    req(input$datatype)
+    req(input$datatype, options_data())
 
     all_datasets <- options_data()$datasets
 
-    # Filter by selected datatype
-    filtered <- grep(input$datatype, all_datasets, value = TRUE)
+    # build tolerant patterns (with/without space, underscore)
+    key <- input$datatype                            # e.g. "Grey seal"
+    no_space <- gsub(" ", "", key)                   # "Greyseal"
+    underscore <- gsub(" ", "_", key)                # "Grey_seal"
+    canonical <- type_lookup[key] %||% ""            # "GreySeal" (use %||% from rlang or fallback)
+    patterns <- paste(c(key, no_space, underscore, canonical), collapse = "|")
 
-    # Extract and sort by version date (YYYY-MM-DD)
+    filtered <- grep(patterns, all_datasets, value = TRUE, ignore.case = TRUE, perl = TRUE)
+
+    # rest unchanged: parse versions and sort
     dates <- sub(".*_version_(\\d{4}-\\d{2}-\\d{2})\\.zip$", "\\1", filtered)
-    dates <- suppressWarnings(as.Date(dates))  # avoid NA warnings
+    dates <- suppressWarnings(as.Date(dates))
     filtered_sorted <- filtered[order(dates, decreasing = TRUE)]
 
-    updateSelectizeInput(session, "dataset",
-                         choices = filtered_sorted,
-                         server = TRUE)
+    updateSelectizeInput(session, "dataset", choices = filtered_sorted, server = TRUE)
   })
 
-  # --- Refresh button to reload from SHARK
+  # --- Refresh button to reload datasets for the selected environment
   observeEvent(input$refreshData, {
-    showNotification("Refreshing data list from SHARK...", type = "message")
+    showNotification("Refreshing dataset list...", type = "message")
 
-    options_data(load_shark_options())
+    options_data(load_shark_options(prod = is_prod()))
 
-    # Update data type select
     types <- options_data()$types
     canonical_types <- type_lookup[types]
-    updateSelectizeInput(session, "datatype",
-                         choices = canonical_types,
-                         server = TRUE)
+    updateSelectizeInput(session, "datatype", choices = canonical_types, server = TRUE)
 
-    # Reset dataset select
-    updateSelectizeInput(session, "dataset",
-                         choices = NULL,
-                         server = TRUE)
+    updateSelectizeInput(session, "dataset", choices = NULL, server = TRUE)
 
-    showNotification("Data list refreshed ✅", type = "message")
+    showNotification("Dataset list refreshed ✅", type = "message")
   })
 
   # --- Reactive value to store dataset paths
@@ -77,6 +123,7 @@ shinyServer(function(input, output, session) {
         dataset_name = input$dataset,
         return_df = FALSE,  # we can switch to TRUE if you want combined dataframe
         unzip_file = TRUE,
+        prod = is_prod(),
         verbose = FALSE
       )
       dataset_path(df_or_path[[1]])  # store first dataset path (unzip dir)
@@ -115,6 +162,31 @@ shinyServer(function(input, output, session) {
     } else {
       return(NULL)
     }
+  })
+
+  observe({
+    req(shark_data())
+
+    possible_depth_cols <- c(
+      "water_depth_m", "secchi_depth_m", "sample_depth_m",
+      "sample_min_depth_m", "sample_max_depth_m",
+      "transect_max_depth_m", "transect_min_depth_m",
+      "transect_start_depth_m", "transect_stop_depth_m",
+      "section_start_depth_m", "section_end_depth_m"
+    )
+
+    available_depth_cols <- intersect(possible_depth_cols, colnames(shark_data()))
+
+    if (length(available_depth_cols) > 0) {
+      selected_col <- available_depth_cols[1]
+    } else {
+      selected_col <- NULL
+    }
+
+    updateSelectInput(session,
+                      "depth_col",
+                      choices = available_depth_cols,
+                      selected = selected_col)
   })
 
   # Update dropdown choices based on shark_data() columns
@@ -158,11 +230,18 @@ shinyServer(function(input, output, session) {
   output$fields_table <- DT::renderDT({
     req(shark_data(), input$datatype)
 
-    datatype_input <- names(type_lookup)[match(input$datatype, type_lookup)]
+    datatype_key <- input$datatype
+    datatype_canonical <- type_lookup[datatype_key]
+
+    if (is.na(datatype_canonical)) {
+      m <- match(tolower(gsub("\\s+", "", input$datatype)), tolower(gsub("\\s+", "", type_lookup)))
+      if (!is.na(m)) datatype_key <- names(type_lookup)[m]
+      datatype_canonical <- type_lookup[datatype_key]
+    }
 
     df <- check_fields(
       data = shark_data(),
-      datatype = input$datatype,
+      datatype = datatype_canonical,
       level = input$check_level
     ) %>%
       select(-row) %>%
@@ -179,8 +258,6 @@ shinyServer(function(input, output, session) {
   # --- Render check codes QC table
   output$codes_table <- DT::renderDT({
     req(shark_data(), input$field, input$available_code)
-
-    datatype_input <- names(type_lookup)[match(input$datatype, type_lookup)]
 
     df <- check_codes(
       data = shark_data(),
@@ -202,18 +279,32 @@ shinyServer(function(input, output, session) {
   output$outliers_table <- DT::renderDT({
     req(shark_data(), input$parameter, input$datatype)
 
-    datatype_input <- names(type_lookup)[match(input$datatype, type_lookup)]
+    # Determine datatype safely
+    datatype_input <- input$datatype
 
-    df <- check_outliers(data = shark_data(),
-                         parameter = input$parameter,
-                         datatype = datatype_input,
-                         return_df = TRUE,
-                         verbose = FALSE)
+    # If not found in thresholds, try matching by canonical form (remove spaces)
+    if (!datatype_input %in% SHARK4R:::.threshold_values$datatype) {
+      alt_form <- gsub("\\s+", "", datatype_input)
+      match_idx <- match(tolower(alt_form),
+                         tolower(gsub("\\s+", "", SHARK4R:::.threshold_values$datatype)))
+      if (!is.na(match_idx)) {
+        datatype_input <- SHARK4R:::.threshold_values$datatype[match_idx]
+      }
+    }
+
+    # Now run check_outliers()
+    df <- check_outliers(
+      data = shark_data(),
+      parameter = input$parameter,
+      datatype = datatype_input,
+      return_df = TRUE,
+      verbose = FALSE
+    )
 
     if (is.null(df) || nrow(df) == 0) {
       # Empty datatable with a message
       message_text <- if (is.null(df)) {
-        paste("Parameter", input$parameter, "not found in the dataset")
+        paste("Parameter", input$parameter, "not found in the dataset or in the threshold dataset")
       } else {
         paste(input$parameter, "is within the expected range")
       }
@@ -353,10 +444,23 @@ shinyServer(function(input, output, session) {
   output$scatter_plot <- renderPlotly({
     req(shark_data(), input$datatype)  # ensure dataset is loaded
 
-    datatype_input <- names(type_lookup)[match(input$datatype, type_lookup)]
+    datatype_input <- input$datatype
 
+    # If not directly found in the thresholds, try a space-insensitive match
+    if (!datatype_input %in% SHARK4R:::.threshold_values$datatype) {
+      alt_form <- gsub("\\s+", "", datatype_input)
+      match_idx <- match(
+        tolower(alt_form),
+        tolower(gsub("\\s+", "", SHARK4R:::.threshold_values$datatype))
+      )
+      if (!is.na(match_idx)) {
+        datatype_input <- SHARK4R:::.threshold_values$datatype[match_idx]
+      }
+    }
+
+    # Filter thresholds
     thresh <- SHARK4R:::.threshold_values %>%
-      filter(datatype == datatype_input)
+      dplyr::filter(datatype == datatype_input)
 
     threshold_list <- setNames(thresh$extreme_upper, thresh$parameter)
 
@@ -402,16 +506,23 @@ shinyServer(function(input, output, session) {
 
   # --- Render depth QC table
   output$depth_table <- DT::renderDT({
-    req(shark_data(), input$depthmargin)
+    req(shark_data(), input$depthmargin, input$depth_col)
+
+    if (input$depth_col %in% c("sample_min_depth_m", "sample_max_depth_m")) {
+      depth_col <- c("sample_min_depth_m", "sample_max_depth_m")
+    } else {
+      depth_col <- input$depth_col
+    }
 
     check_depth(
       shark_data(),
+      depth_cols = depth_col,
       depthmargin = input$depthmargin
     ) %>%
       DT::datatable(
         options = list(pageLength = 10, autoWidth = TRUE),
         rownames = FALSE,
-        caption = "Issues found"
+        caption = paste("Issues found (depth column:", paste(depth_col, collapse = ", "), ")")
       )
   })
 
@@ -562,12 +673,13 @@ shinyServer(function(input, output, session) {
         } else {
           NULL
         },
-        depthmargin = input$depthmargin,
-        buffer = input$buffer,
+        depth_margin = input$depthmargin,
+        land_buffer = input$buffer,
         field = input$field,
         code_type = input$available_code,
         only_bad = input$only_bad,
-        only_bad_distance = input$only_bad_distance
+        only_bad_distance = input$only_bad_distance,
+        depth_col = input$depth_col
       )
 
       rmarkdown::render(

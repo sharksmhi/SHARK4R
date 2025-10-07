@@ -125,6 +125,7 @@ reference:
   - find_required_fields
   - get_delivery_template
   - scatterplot
+  - translate_shark_datatype
 
 - title: Deprecated functions
   contents:
