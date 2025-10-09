@@ -113,7 +113,7 @@ tibble(worms_taxonomy)
 
 # Enrich data with data from WoRMS
 shark_data_with_worms <- shark_data %>%
-  left_join(worms_taxonomy, by = c("aphia_id", "scientific_name"))
+  left_join(worms_taxonomy, by = "aphia_id")
 ```
 
 ### Assign Phytoplankton Groups
