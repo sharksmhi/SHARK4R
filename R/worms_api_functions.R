@@ -74,85 +74,99 @@ update_worms_taxonomy <- function(aphia_id, aphiaid=deprecated()) {
 #' @seealso \code{\link{get_shark_data}}, \code{\link{update_dyntaxa_taxonomy}}, \url{https://www.marinespecies.org/rest/}, \url{https://CRAN.R-project.org/package=worrms}
 add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE) {
 
-  # Ensure input lengths match
-  if (!length(aphia_id) == length(scientific_name) & !is.null(scientific_name)) {
+  # --- Input validation ---
+  if (!is.null(scientific_name) && length(aphia_id) != length(scientific_name)) {
     stop("'scientific_name' and 'aphia_id' must have the same length.")
   }
 
+  # --- Resolve missing aphia_ids from scientific names ---
   if (!is.null(scientific_name)) {
-    aphia_id_df <- data.frame(aphia_id, scientific_name)
-
+    aphia_id_df <- data.frame(aphia_id, scientific_name, stringsAsFactors = FALSE)
     to_match <- scientific_name[is.na(aphia_id)]
 
-    if (!length(to_match) == 0) {
-      if (verbose) cat("Retrieving", length(to_match), "'aphia_ids' from 'scientific_name'.\n")
+    if (length(to_match) > 0) {
+      if (verbose) cat("Retrieving", length(unique(to_match)), "'aphia_ids' from 'scientific_name'.\n")
 
-      # Get all records from scientific_name
-      worms_records <- match_worms_taxa(to_match,
-                                        verbose = verbose)
-
-      # Select relevant information
-      name <- select(worms_records, name, AphiaID)
+      worms_records <- match_worms_taxa(unique(to_match), verbose = verbose)
+      name <- dplyr::select(worms_records, name, AphiaID)
 
       aphia_id_df <- aphia_id_df %>%
-        left_join(name, by = c("scientific_name" = "name")) %>%
-        mutate(aphia_id = coalesce(aphia_id, AphiaID))
-    } else {
-      if (verbose) cat("All 'aphia_id' provided, no need to retrieve from 'scientific_name'.\n")
+        dplyr::left_join(name, by = c("scientific_name" = "name")) %>%
+        dplyr::mutate(aphia_id = dplyr::coalesce(aphia_id, AphiaID))
+    } else if (verbose) {
+      cat("All 'aphia_id' provided, no need to retrieve from 'scientific_name'.\n")
     }
+
     aphia_id <- aphia_id_df$aphia_id
   }
 
-  # Set up progress bar
+  # --- Unique IDs to avoid redundant API calls ---
+  unique_ids <- unique(aphia_id[!is.na(aphia_id)])
+
   if (verbose) {
-    cat("Retrieving", length(aphia_id), "records from 'aphia_ids'.\n")
-    pb <- utils::txtProgressBar(min = 0, max = length(aphia_id), style = 3)
+    cat("Retrieving higher taxonomy for", length(unique_ids), "unique 'aphia_ids'.\n")
+    pb <- utils::txtProgressBar(min = 0, max = length(unique_ids), style = 3)
   }
 
-  worms_class <- data.frame()
-  for (i in seq_along(aphia_id)) {
+  # --- Retrieve taxonomy data for unique aphia_ids ---
+  worms_unique <- data.frame()
+  for (i in seq_along(unique_ids)) {
+    if (verbose) utils::setTxtProgressBar(pb, i)
 
-    # Update progress bar
-    if (verbose) {utils::setTxtProgressBar(pb, i)}
+    id <- unique_ids[i]
 
     tryCatch({
-      worms_class_i <- wm_classification(aphia_id[i]) %>%
-        select(-AphiaID) %>%
-        mutate(scientific_name = last(scientificname)) %>%
-        pivot_wider(names_from = rank, values_from = scientificname) %>%
-        mutate(worms_hierarchy = paste(drop_na(.), collapse = " - "),
-               aphia_id = aphia_id[i]) %>%
-        mutate(Kingdom = ifelse("Kingdom" %in% names(.), Kingdom, NA),
-               Phylum = ifelse("Phylum" %in% names(.), Phylum, NA),
-               Class = ifelse("Class" %in% names(.), Class, NA),
-               Order = ifelse("Order" %in% names(.), Order, NA),
-               Family = ifelse("Family" %in% names(.), Family, NA),
-               Genus = ifelse("Genus" %in% names(.), Genus, NA),
-               Species = ifelse("Species" %in% names(.), Species, NA)) %>%
-        rename(worms_kingdom = Kingdom,
-               worms_phylum = Phylum,
-               worms_class = Class,
-               worms_order = Order,
-               worms_family = Family,
-               worms_genus = Genus,
-               worms_species = Species)
-    }, error=function(e) {
-      worms_class_i <<- data.frame(aphia_id = aphia_id[i])
+      worms_i <- wm_classification(id) %>%
+        dplyr::select(-AphiaID) %>%
+        dplyr::mutate(worms_scientific_name = dplyr::last(scientificname)) %>%
+        tidyr::pivot_wider(names_from = rank, values_from = scientificname) %>%
+        dplyr::mutate(
+          worms_hierarchy = paste(stats::na.omit(unlist(.)), collapse = " - "),
+          aphia_id = id
+        ) %>%
+        dplyr::mutate(
+          Kingdom = ifelse("Kingdom" %in% names(.), Kingdom, NA),
+          Phylum  = ifelse("Phylum"  %in% names(.), Phylum, NA),
+          Class   = ifelse("Class"   %in% names(.), Class, NA),
+          Order   = ifelse("Order"   %in% names(.), Order, NA),
+          Family  = ifelse("Family"  %in% names(.), Family, NA),
+          Genus   = ifelse("Genus"   %in% names(.), Genus, NA),
+          Species = ifelse("Species" %in% names(.), Species, NA)
+        ) %>%
+        dplyr::rename(
+          worms_kingdom = Kingdom,
+          worms_phylum  = Phylum,
+          worms_class   = Class,
+          worms_order   = Order,
+          worms_family  = Family,
+          worms_genus   = Genus,
+          worms_species = Species
+        )
+    }, error = function(e) {
+      worms_i <<- data.frame(aphia_id = id)
     })
-    worms_class <- bind_rows(worms_class, worms_class_i)
+
+    worms_unique <- dplyr::bind_rows(worms_unique, worms_i)
   }
 
-  if (verbose) {close(pb)}
+  if (verbose) close(pb)
 
-  if (ncol(worms_class) == 1) {
-    stop("No WoRMS records found")
+  if (ncol(worms_unique) == 1) stop("No WoRMS records found.")
+
+  # --- Re-map results to input order and length ---
+  worms_full <- dplyr::tibble(aphia_id = aphia_id) %>%
+    dplyr::left_join(worms_unique, by = "aphia_id")
+
+  if (!is.null(scientific_name)) {
+    worms_full$scientific_name <- scientific_name
   }
 
-  names <- c("aphia_id", "scientific_name", names(worms_class)[grepl("worms_", names(worms_class))])
+  names_out <- c("aphia_id", "scientific_name",
+                 names(worms_unique)[grepl("worms_", names(worms_unique))])
 
-  return(worms_class %>%
-           select(any_of(names)) %>%
-           relocate(worms_hierarchy, .after = last_col()))
+  worms_full %>%
+    dplyr::select(dplyr::any_of(names_out)) %>%
+    dplyr::relocate(worms_hierarchy, .after = dplyr::last_col())
 }
 #' Retrieve WoRMS records
 #'
