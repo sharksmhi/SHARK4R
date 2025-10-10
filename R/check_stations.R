@@ -106,7 +106,7 @@ nominal_station <- function(data) {
 #' where the NODC (Swedish National Oceanographic Data Center) configuration and station file
 #' are stored, typically including:
 #' \itemize{
-#'   \item \code{<NODC_CONFIG>/nodc_station/station.txt}
+#'   \item \code{<NODC_CONFIG>/config/station.txt}
 #' }
 #' If \code{NODC_CONFIG} is set and the folder exists, the function will use
 #' \code{station.txt} from that location. Otherwise, it falls back to the
@@ -140,7 +140,7 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
   if (is.null(station_file)) {
     env_path <- Sys.getenv("NODC_CONFIG", unset = NA)
     if (!is.na(env_path) && dir.exists(env_path)) {
-      files <- list.files(file.path(env_path, "nodc_station"),
+      files <- list.files(file.path(env_path),
                           pattern = "^station\\.txt$", recursive = TRUE, full.names = TRUE)
       if (length(files) > 0) {
         station_file <- files[1]
@@ -229,7 +229,7 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #' where the NODC (Swedish National Oceanographic Data Center) configuration and station file
 #' are stored, typically including:
 #' \itemize{
-#'   \item \code{<NODC_CONFIG>/nodc_station/station.txt}
+#'   \item \code{<NODC_CONFIG>/config/station.txt}
 #' }
 #' If \code{NODC_CONFIG} is set and the folder exists, the function will use
 #' \code{station.txt} from that location. Otherwise, it falls back to the
