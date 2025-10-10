@@ -45,7 +45,7 @@ The function first checks if a station file path is provided via the
 where the NODC (Swedish National Oceanographic Data Center) configuration and station file
 are stored, typically including:
 \itemize{
-\item \code{<NODC_CONFIG>/nodc_station/station.txt}
+\item \code{<NODC_CONFIG>/config/station.txt}
 }
 If \code{NODC_CONFIG} is set and the folder exists, the function will use
 \code{station.txt} from that location. Otherwise, it falls back to the
