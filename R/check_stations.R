@@ -298,7 +298,7 @@ check_station_distance <- function(data, station_file = NULL,
   if (is.null(station_file)) {
     env_path <- Sys.getenv("NODC_CONFIG", unset = NA)
     if (!is.na(env_path) && dir.exists(env_path)) {
-      files <- list.files(file.path(env_path, "nodc_station"),
+      files <- list.files(file.path(env_path),
                           pattern = "^station\\.txt$", recursive = TRUE, full.names = TRUE)
       if (length(files) > 0) {
         station_file <- files[1]

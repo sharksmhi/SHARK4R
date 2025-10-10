@@ -339,3 +339,63 @@ test_that("match_station reads a bundled station_file correctly", {
   # Run match_station with custom station file
   result <- expect_message(match_station("N7 OST NIDINGEN"), "Using station.txt from SHARK4R bundle")
 })
+
+test_that("match_station reads a NODC_CONFIG station_file correctly", {
+
+  tempdir <- tempdir()
+
+  # Clear NODC_CONFIG to avoid interference
+  Sys.setenv("NODC_CONFIG" = tempdir)
+
+  # Create a temporary station file
+  tmp_file <- file.path(tempdir, "station.txt")
+
+  # Write a small example station table
+  station_data <- data.frame(
+    STATION_NAME = c("ST1", "ST2", "ST3"),
+    LATITUDE = c(58.5, 58.6, 58.7),
+    LONGITUDE = c(15.0, 16.0, 17.0)
+  )
+
+  readr::write_delim(station_data, tmp_file, delim = "\t")
+
+  # Test input: some stations match, some don't
+  stations_to_check <- c("ST1", "STX")
+
+  # Run match_station with custom station file
+  expect_message(match_station(stations_to_check), "NODC_CONFIG")
+
+  # Clean up
+  unlink(tmp_file)
+
+  # Clear NODC_CONFIG to avoid interference
+  Sys.setenv("NODC_CONFIG" = "")
+})
+
+test_that("check_station_distance reads a NODC_CONFIG station_file correctly", {
+
+  tempdir <- tempdir()
+
+  # Clear NODC_CONFIG to avoid interference
+  Sys.setenv("NODC_CONFIG" = tempdir)
+
+  df <- dplyr::tibble(
+    station_name = c("ST1", "ST2"),
+    sample_longitude_dd = c(15.0, 16.0),
+    sample_latitude_dd  = c(58.5, 58.6)
+  )
+
+  # Create a temporary station file
+  tmp_file <- file.path(tempdir, "station.txt")
+
+  readr::write_delim(mock_station_db, tmp_file, delim = "\t")
+
+  expect_message(check_station_distance(df,
+                                        plot_leaflet = FALSE), "NODC_CONFIG")
+
+  # Clean up
+  unlink(tmp_file)
+
+  # Clear NODC_CONFIG to avoid interference
+  Sys.setenv("NODC_CONFIG" = "")
+})
