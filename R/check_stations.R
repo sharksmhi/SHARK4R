@@ -419,12 +419,29 @@ check_station_distance <- function(data, station_file = NULL,
       distinct()
 
     if (only_bad) {
-      # Only show bad points
+      # Only show bad reported points
       reported_points_bad <- reported_points %>% dplyr::filter(!within_limit)
+
+      # Filter station_points to only those matching the bad reported points
+      bad_station_names <- reported_points_bad$STATION
+      station_points_bad <- station_points %>%
+        dplyr::filter(
+          STATION %in% bad_station_names |
+            (try_synonyms & sapply(SYNONYM_NAMES, function(x) any(trimws(unlist(strsplit(x, "<or>"))) %in% bad_station_names)))
+        )
+
       icons_bad <- leaflet::awesomeIcons(icon = "map-marker", iconColor = "white",
                                          markerColor = "red", library = "fa")
+
       m <- leaflet::leaflet() %>%
         leaflet::addProviderTiles("CartoDB.Positron", options = leaflet::providerTileOptions(noWrap = TRUE)) %>%
+        # Add only matched station points
+        leaflet::addCircleMarkers(data = station_points_bad, lng = ~LON, lat = ~LAT,
+                                  color = "blue", radius = 5, fill = TRUE, fillOpacity = 0.7,
+                                  popup = ~popup_text) %>%
+        leaflet::addCircles(data = station_points_bad, lng = ~LON, lat = ~LAT,
+                            radius = ~RADIUS, color = "blue", fill = FALSE) %>%
+        # Add only bad reported points
         leaflet::addAwesomeMarkers(data = reported_points_bad, lng = ~LON, lat = ~LAT,
                                    icon = icons_bad, popup = ~STATION)
     } else {
@@ -468,4 +485,3 @@ check_station_distance <- function(data, station_file = NULL,
                          distance_m,
                          within_limit))
 }
-
