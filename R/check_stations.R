@@ -140,14 +140,22 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
   if (is.null(station_file)) {
     env_path <- Sys.getenv("NODC_CONFIG", unset = NA)
     if (!is.na(env_path) && dir.exists(env_path)) {
-      station_file <- file.path(env_path, "nodc_station", "station.txt")
-      if(verbose) message("Using station.txt from NODC_CONFIG:", station_file)
-    } else {
+      files <- list.files(file.path(env_path, "nodc_station"),
+                          pattern = "^station\\.txt$", recursive = TRUE, full.names = TRUE)
+      if (length(files) > 0) {
+        station_file <- files[1]
+        if(verbose) message("Using station.txt from NODC_CONFIG: ", station_file)
+      }
+    }
+    if (is.null(station_file)) {
       zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
       tmp_dir <- tempdir()
       utils::unzip(zip_path, exdir = tmp_dir)
-      station_file <- file.path(tmp_dir, "station.txt")
-      if(verbose) message("Using station.txt from SHARK4R bundle:", zip_path)
+      files <- list.files(tmp_dir, pattern = "^station\\.txt$", recursive = TRUE, full.names = TRUE)
+      if (length(files) > 0) {
+        station_file <- files[1]
+        if(verbose) message("Using station.txt from SHARK4R bundle: ", files[1])
+      }
     }
   }
 
@@ -290,14 +298,22 @@ check_station_distance <- function(data, station_file = NULL,
   if (is.null(station_file)) {
     env_path <- Sys.getenv("NODC_CONFIG", unset = NA)
     if (!is.na(env_path) && dir.exists(env_path)) {
-      station_file <- file.path(env_path, "nodc_station", "station.txt")
-      if (verbose) message("Using station.txt from NODC_CONFIG:", station_file)
-    } else {
+      files <- list.files(file.path(env_path, "nodc_station"),
+                          pattern = "^station\\.txt$", recursive = TRUE, full.names = TRUE)
+      if (length(files) > 0) {
+        station_file <- files[1]
+        if(verbose) message("Using station.txt from NODC_CONFIG: ", station_file)
+      }
+    }
+    if (is.null(station_file)) {
       zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
       tmp_dir <- tempdir()
       utils::unzip(zip_path, exdir = tmp_dir)
-      station_file <- file.path(tmp_dir, "station.txt")
-      if (verbose) message("Using station.txt from SHARK4R bundle:", zip_path)
+      files <- list.files(tmp_dir, pattern = "^station\\.txt$", recursive = TRUE, full.names = TRUE)
+      if (length(files) > 0) {
+        station_file <- files[1]
+        if(verbose) message("Using station.txt from SHARK4R bundle: ", files[1])
+      }
     }
   }
 
