@@ -171,7 +171,7 @@ translate_shark_datatype <- function(x) {
   if (is.null(x)) return(NULL)
   if (!is.character(x)) x <- as.character(x)
 
-  translated <- SHARK4R:::.type_lookup[x]
+  translated <- .type_lookup[x]
 
   # Warn if some names are unknown
   unknown <- x[is.na(translated)]
@@ -181,6 +181,68 @@ translate_shark_datatype <- function(x) {
   }
 
   unname(translated)
+}
+
+#' Load SHARK4R Statistics from GitHub
+#'
+#' This function downloads and loads precomputed SHARK4R statistical data
+#' (e.g., threshold or summary statistics) directly from the
+#' [SHARK4R-statistics](https://github.com/nodc-sweden/SHARK4R-statistics) GitHub repository.
+#' The data are stored as `.rds` files and read into R as objects.
+#'
+#' @param file_name Character string specifying the name of the `.rds` file to download.
+#'   Defaults to `"sea_basin.rds"`.
+#' @param verbose Logical; if `TRUE` (default), prints progress messages during download and loading.
+#'
+#' @details
+#' The function retrieves the file from the GitHub repository’s `data/` folder.
+#' It temporarily downloads the file to the local system and then reads it into R using `readRDS()`.
+#'
+#' If the download fails (e.g., due to a network issue or invalid filename), the function
+#' throws an error with a descriptive message.
+#'
+#' @return
+#' An R object (typically a `tibble` or `data.frame`) read from the specified `.rds` file.
+#'
+#' @seealso
+#' \code{\link{check_outliers}} for detecting threshold exceedances using the loaded statistics,
+#' \code{\link{get_shark_statistics}} for generating and caching statistical summaries used in SHARK4R.
+#' \code{\link{scatterplot}} for generating interactive plots with threshold values.
+#'
+#' @examples
+#' \dontrun{
+#' # Load the default SHARK4R statistics file
+#' stats <- load_shark4r_stats()
+#'
+#' # Load a specific file
+#' thresholds <- load_shark4r_stats("scientific_name.rds")
+#' }
+#'
+#' @export
+load_shark4r_stats <- function(file_name = "sea_basin.rds",
+                               verbose = TRUE) {
+
+  base_url <- "https://raw.githubusercontent.com/nodc-sweden/SHARK4R-statistics/main/statistics/"
+
+  url <- paste0(base_url, file_name)
+
+  # Create a temporary file to store the download
+  tmp <- tempfile(fileext = ".rds")
+
+  # Try downloading the file
+  tryCatch({
+    if (verbose) message("Downloading stats data from GitHub...")
+    utils::download.file(url, destfile = tmp, mode = "wb", quiet = !verbose)
+
+    if (verbose) message("Reading ", file_name, " file into R...")
+    data <- readRDS(tmp)
+
+    if (verbose) message("Data successfully loaded.")
+    return(data)
+  },
+  error = function(e) {
+    stop("Failed to load data from GitHub: ", e$message)
+  })
 }
 
 ## Helpers
