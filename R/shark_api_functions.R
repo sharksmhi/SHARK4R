@@ -848,9 +848,9 @@ get_shark_datasets <- function(dataset_name,
 #'   for a parameter to be included (default: 3).
 #' @param max_non_numeric_frac Maximum allowed fraction of non-numeric values
 #'   for a parameter to be kept (default: 0.05).
-#' @param verbose Logical, whether to show download progress messages. Default is `TRUE`.
 #' @param cache_result Logical, whether to save the result in a persistent cache
 #'   (`statistics.rds`) for use by other functions. Default is `FALSE`.
+#' @param verbose Logical, whether to show download progress messages. Default is `TRUE`.
 #'
 #' @return A tibble with one row per parameter (and optionally per group) and the following columns:
 #' \describe{
@@ -867,6 +867,8 @@ get_shark_datasets <- function(dataset_name,
 #'   \item{mild_lower, mild_upper}{Lower/upper bounds for mild outliers (1.5 × IQR).}
 #'   \item{extreme_lower, extreme_upper}{Lower/upper bounds for extreme outliers (3 × IQR).}
 #'   \item{n}{Number of numeric observations used.}
+#'   \item{fromYear}{First year included in the SHARK data download (numeric).}
+#'   \item{toYear}{Last year included in the SHARK data download (numeric).}
 #'   \item{<group_col>}{Optional grouping column if provided.}
 #' }
 #' @export
@@ -886,8 +888,8 @@ get_shark_datasets <- function(dataset_name,
 #'   print(res)
 #' }
 get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL, group_col = NULL,
-                                 min_obs = 3, max_non_numeric_frac = 0.05, verbose = TRUE,
-                                 cache_result = FALSE) {
+                                 min_obs = 3, max_non_numeric_frac = 0.05, cache_result = FALSE,
+                                 verbose = TRUE) {
 
   # Set default years
   current_year <- as.integer(format(Sys.Date(), "%Y"))
@@ -915,7 +917,7 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
   }
 
   df <- data %>%
-    dplyr::select(dplyr::any_of(c("delivery_datatype", "parameter", "value", group_col))) %>%
+    dplyr::select(dplyr::any_of(c("delivery_datatype", "parameter", "value", "visit_year", group_col))) %>%
     dplyr::filter(!is.na(value))
 
   if (!is.null(datatype)) {
@@ -962,6 +964,7 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
     s <- stats::sd(v)
 
     dplyr::tibble(
+      n = length(v),
       min = q[1], Q1 = lowerq, median = q[3], Q3 = upperq, max = q[5],
       P01 = p[1], P05 = p[2], P95 = p[3], P99 = p[4],
       IQR = iqr,
@@ -973,8 +976,7 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
       mild_lower = lowerq - 1.5 * iqr,
       mild_upper = upperq + 1.5 * iqr,
       extreme_lower = lowerq - 3 * iqr,
-      extreme_upper = upperq + 3 * iqr,
-      n = length(v)
+      extreme_upper = upperq + 3 * iqr
     )
   }
 
@@ -990,7 +992,9 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
   # Summarize per group
   result_tbl <- df %>%
     dplyr::group_by(dplyr::across(all_of(group_vars))) %>%
-    dplyr::summarise(stats = list(summarise_param(value_num)), .groups = "drop") %>%
+    dplyr::summarise(fromYear = min(visit_year),
+                     toYear = max(visit_year),
+                     stats = list(summarise_param(value_num)), .groups = "drop") %>%
     tidyr::unnest(stats) %>%
     dplyr::filter(n >= min_obs) %>%
     dplyr::rename(datatype = delivery_datatype)

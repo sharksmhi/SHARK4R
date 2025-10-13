@@ -176,18 +176,114 @@ shinyUI(
                        DT::DTOutput("depth_table")
                      )
             ),
+
             tabPanel(
               "Outliers",
-              # Dropdown for selecting parameter
-              selectInput(
-                inputId = "parameter",
-                label = "Select parameter:",
-                choices = NULL,
-                selected = NULL
+
+              fluidRow(
+                column(
+                  width = 4,
+                  selectInput(
+                    inputId = "threshold_group",
+                    label = "Group thresholds by:",
+                    choices = c("Parameter", "Sea basin", "Scientific name"),
+                    selected = "Sea basin"
+                  )
+                )
               ),
+
+              # Show the threshold period
+              fluidRow(
+                column(
+                  width = 12,
+                  htmlOutput("threshold_period")
+                )
+              ),
+
+              # Wrap inputs in a fluidRow for horizontal alignment
+              fluidRow(
+                column(
+                  width = 4,
+                  selectInput(
+                    inputId = "parameter",
+                    label = "Select parameter:",
+                    choices = NULL,
+                    selected = NULL
+                  )
+                ),
+                column(
+                  width = 4,
+                  selectInput(
+                    inputId = "threshold_col",
+                    label = "Select threshold type:",
+                    choices = NULL,
+                    selected = "extreme_upper"
+                  )
+                ),
+                column(
+                  width = 4,
+                  selectInput(
+                    inputId = "direction",
+                    label = "Select direction:",
+                    choices = c("above", "below"),
+                    selected = "above"
+                  )
+                )
+              ),
+
+              # DataTable output
               DT::DTOutput("outliers_table")
             ),
-            tabPanel("Scatterplot", plotlyOutput("scatter_plot", height = 600)),
+            tabPanel(
+              "Scatterplot",
+
+              # First row of inputs
+              fluidRow(
+                column(
+                  width = 4,
+                  selectInput(
+                    inputId = "scatter_parameter",
+                    label = "Select parameter:",
+                    choices = NULL,
+                    selected = NULL
+                  )
+                ),
+                column(
+                  width = 4,
+                  selectInput(
+                    inputId = "threshold_col_scatter",
+                    label = "Select statistical threshold value:",
+                    choices = NULL,
+                    selected = "P99"
+                  )
+                )
+              ),
+
+              # Second row of inputs
+              fluidRow(
+                column(
+                  width = 4,
+                  selectInput(
+                    inputId = "threshold_group_scatter",
+                    label = "Group thresholds by:",
+                    choices = c("Parameter", "Sea basin", "Scientific name"),
+                    selected = "Sea basin"
+                  )
+                ),
+                column(
+                  width = 4,
+                  selectInput(
+                    inputId = "scatter_group_value",
+                    label = "Select group:",
+                    choices = NULL,
+                    selected = NULL
+                  )
+                )
+              ),
+
+              # Plotly output
+              plotlyOutput("scatter_plot", height = 600)
+            ),
             tabPanel("Dyntaxa", DT::DTOutput("dyntaxa_table")),
             tabPanel("WoRMS", DT::DTOutput("worms_table")),
             tabPanel(
@@ -199,7 +295,7 @@ shinyUI(
                     inputId = "available_code",
                     label = "Select code:",
                     choices = unique(shark_codes$Data_field),
-                    selected = "PROJ"
+                    selected = "SHIPC"
                   )
                 ),
                 column(
@@ -208,7 +304,7 @@ shinyUI(
                     inputId = "field",
                     label = "Select code column:",
                     choices = NULL,
-                    selected = "sample_project_name_en"
+                    selected = "platform_code"
                   )
                 )
               ),
