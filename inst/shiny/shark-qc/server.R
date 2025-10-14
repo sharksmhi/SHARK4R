@@ -108,6 +108,9 @@ shinyServer(function(input, output, session) {
     showNotification("Dataset list refreshed ✅", type = "message")
   })
 
+  # --- Reactive value to store datasets
+  dataset <- reactiveVal(NULL)
+
   # --- Reactive value to store dataset paths
   dataset_path <- reactiveVal(NULL)
 
@@ -118,7 +121,7 @@ shinyServer(function(input, output, session) {
     file_path <- file.path(tempdir(), gsub(".zip", ".txt", basename(input$dataset)))
 
     shiny::withProgress(message = "Downloading dataset...", {
-      df_or_path <- get_shark_data(
+      df <- get_shark_data(
         tableView = "sharkweb_all",
         save_data = TRUE,
         encoding = "latin_1",
@@ -130,7 +133,10 @@ shinyServer(function(input, output, session) {
       ) %>%
         select(where(~ any(!is.na(.))))
 
-      dataset_path(df_or_path)  # store first dataset path (unzip dir)
+      dataset(df)
+
+      dataset_path(file_path)
+
     })
 
     # Show a notification with a copy-to-clipboard action
@@ -157,9 +163,9 @@ shinyServer(function(input, output, session) {
   shark_data <- reactive({
     if (!is.null(input$file1)) {
       read_shark(input$file1$datapath, encoding = "latin_1")
-    } else if (!is.null(dataset_path()) && is.data.frame(dataset_path())) {
+    } else if (!is.null(dataset()) && is.data.frame(dataset())) {
       # Read downloaded dataset folder
-      dataset_path()
+      dataset()
     } else {
       return(NULL)
     }
@@ -225,8 +231,6 @@ shinyServer(function(input, output, session) {
       selected = unique(shark_data()$parameter)[1]
     )
   })
-
-
 
   # Load thresholds
   thresholds <- reactive({
@@ -350,7 +354,8 @@ shinyServer(function(input, output, session) {
     df <- check_fields(
       data = shark_data(),
       datatype = datatype_canonical,
-      level = input$check_level
+      level = input$check_level,
+      field_definitions = shark_fields
     ) %>%
       select(-row) %>%
       distinct()
@@ -383,6 +388,31 @@ shinyServer(function(input, output, session) {
       rownames = FALSE,
       caption = "Issues found"
     )
+  })
+
+  # --- Check on land map
+  output$onland_map <- renderLeaflet({
+    req(shark_data(), input$buffer)  # Ensure dataset is available
+    check_onland(shark_data(),
+                 plot_leaflet = TRUE,
+                 buffer = input$buffer,
+                 only_bad = input$only_bad)
+  })
+
+  # --- Station distance map
+  output$station_distance <- renderLeaflet({
+    req(shark_data())  # Ensure dataset is available
+    nid <- showNotification("Calculating distance...", duration = NULL)
+
+    # Capture leaflet object
+    leaf <- check_station_distance(shark_data(),
+                                   plot_leaflet = TRUE,
+                                   verbose = FALSE,
+                                   only_bad = input$only_bad_distance)
+    removeNotification(nid)
+
+    # Return the leaflet object
+    leaf
   })
 
   # --- Station distance table
@@ -514,12 +544,12 @@ shinyServer(function(input, output, session) {
     # Determine datatype safely
     datatype_input <- input$datatype
 
-    if (!datatype_input %in% SHARK4R:::.threshold_values$datatype) {
+    if (!datatype_input %in% thresholds()$datatype) {
       alt_form <- gsub("\\s+", "", datatype_input)
       match_idx <- match(tolower(alt_form),
-                         tolower(gsub("\\s+", "", SHARK4R:::.threshold_values$datatype)))
+                         tolower(gsub("\\s+", "", thresholds()$datatype)))
       if (!is.na(match_idx)) {
-        datatype_input <- SHARK4R:::.threshold_values$datatype[match_idx]
+        datatype_input <- thresholds()$datatype[match_idx]
       }
     }
 
@@ -582,57 +612,6 @@ shinyServer(function(input, output, session) {
     }
   })
 
-  # # --- Scatterplot tab
-  # output$scatter_plot <- renderPlotly({
-  #   req(shark_data(), input$datatype, input$threshold_col_scatter, input$threshold_group_scatter)  # ensure dataset is loaded
-  #
-  #   datatype_input <- input$datatype
-  #
-  #   # If not directly found in the thresholds, try a space-insensitive match
-  #   if (!datatype_input %in% SHARK4R:::.threshold_values$datatype) {
-  #     alt_form <- gsub("\\s+", "", datatype_input)
-  #     match_idx <- match(
-  #       tolower(alt_form),
-  #       tolower(gsub("\\s+", "", SHARK4R:::.threshold_values$datatype))
-  #     )
-  #     if (!is.na(match_idx)) {
-  #       datatype_input <- SHARK4R:::.threshold_values$datatype[match_idx]
-  #     }
-  #   }
-  #
-  #   # Map dropdown choices to specific RDS files
-  #   group_col <- switch(input$threshold_group_scatter,
-  #                       "Parameter" = "parameter",
-  #                       "Sea basin" = "location_sea_basin",
-  #                       "Scientific name" = "scientific_name",
-  #                       "parameter"  # fallback (default)
-  #   )
-  #
-  #   # Filter thresholds
-  #   thresh <- thresholds_scatter() %>%
-  #     dplyr::filter(datatype == datatype_input)
-  #
-  #   threshold_col <- input$threshold_col_scatter
-  #   threshold_group <- input$threshold_group_scatter
-  #
-  #   # Build a smaller threshold tibble with only the relevant columns
-  #   thresh_subset <- thresh %>%
-  #     dplyr::select(
-  #       parameter,
-  #       !!sym(group_col),
-  #       !!sym(threshold_col)
-  #     )
-  #
-  #   # threshold_list <- setNames(thresh[[threshold_col]], thresh$parameter)
-  #
-  #   scatterplot(
-  #     shark_data(),
-  #     hline = thresh_subset,
-  #     hline_group_col = group_col,
-  #     hline_value_col = threshold_col
-  #   )
-  # })
-
   # --- Scatterplot tab
   output$scatter_plot <- renderPlotly({
     req(shark_data(), input$datatype, input$scatter_parameter, input$threshold_col_scatter, input$threshold_group_scatter, input$scatter_group_value)
@@ -640,14 +619,14 @@ shinyServer(function(input, output, session) {
     datatype_input <- input$datatype
 
     # If not directly found in the thresholds, try a space-insensitive match
-    if (!datatype_input %in% SHARK4R:::.threshold_values$datatype) {
+    if (!datatype_input %in% thresholds_scatter()$datatype) {
       alt_form <- gsub("\\s+", "", datatype_input)
       match_idx <- match(
         tolower(alt_form),
-        tolower(gsub("\\s+", "", SHARK4R:::.threshold_values$datatype))
+        tolower(gsub("\\s+", "", thresholds_scatter()$datatype))
       )
       if (!is.na(match_idx)) {
-        datatype_input <- SHARK4R:::.threshold_values$datatype[match_idx]
+        datatype_input <- thresholds_scatter()$datatype[match_idx]
       }
     }
 
@@ -674,8 +653,6 @@ shinyServer(function(input, output, session) {
         !!sym(group_col),
         !!sym(threshold_col)
       )
-
-    # threshold_list <- setNames(thresh[[threshold_col]], thresh$parameter)
 
     data <- shark_data() %>%
       filter(parameter == input$scatter_parameter)
@@ -898,7 +875,11 @@ shinyServer(function(input, output, session) {
         code_type = input$available_code,
         only_bad = input$only_bad,
         only_bad_distance = input$only_bad_distance,
-        depth_col = input$depth_col
+        depth_col = input$depth_col,
+        threshold_col = input$threshold_col,
+        parameter = input$parameter,
+        direction = input$direction,
+        threshold_group = input$threshold_group
       )
 
       rmarkdown::render(

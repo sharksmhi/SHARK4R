@@ -66,6 +66,7 @@ read_ptbx <- function(file_path, sheet = c("sample_data.txt", "sample_info.txt",
 #' @param clean_cache_days Numeric; if not `NULL`, cached NOMP zip files older than
 #'   this number of days will be automatically deleted and replaced by a new download.
 #'   Defaults to 30. Set to `NULL` to disable automatic cleanup.
+#' @param verbose A logical indicating whether to print progress messages. Default is TRUE.
 #'
 #' @return A tibble with the contents of the requested Excel file.
 #' @export
@@ -85,7 +86,8 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
                           sheet = NULL,
                           force = FALSE,
                           base_url = NULL,
-                          clean_cache_days = 30) {
+                          clean_cache_days = 30,
+                          verbose = TRUE) {
 
   # Optional: remove old NOMP cache files
   if (!is.null(clean_cache_days) && clean_cache_days > 0) {
@@ -101,7 +103,7 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
     base_url <- "https://www.smhi.se/oceanografi/oce_info_data/shark_web/downloads/sbdi/NOMP/biovolume"
   }
 
-  zip_path <- cache_nomp_zip(base_url = base_url, year = year, force = force)
+  zip_path <- cache_nomp_zip(base_url = base_url, year = year, force = force, verbose = verbose)
 
   # utils::unzip to a temporary directory
   tmp_dir <- tempdir()
@@ -144,6 +146,7 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
 #' @param clean_cache_days Numeric; if not `NULL`, cached PEG zip files older than
 #'   this number of days will be automatically deleted and replaced by a new download.
 #'   Defaults to 30. Set to `NULL` to disable automatic cleanup.
+#' @param verbose A logical indicating whether to print progress messages. Default is TRUE.
 #'
 #' @return A tibble with the contents of the requested Excel file.
 #' @export
@@ -162,7 +165,8 @@ get_peg_list <- function(file = NULL,
                          sheet = NULL,
                          force = FALSE,
                          url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL.zip",
-                         clean_cache_days = 30) {
+                         clean_cache_days = 30,
+                         verbose = TRUE) {
 
   # Optional: remove old PEG cache files
   if (!is.null(clean_cache_days) && clean_cache_days > 0) {
@@ -200,7 +204,7 @@ get_peg_list <- function(file = NULL,
   # Extract year from filename
   year_match <- regmatches(basename(file_to_read), regexpr("\\d{4}", basename(file_to_read)))
   if (length(year_match) == 1) {
-    message("Reading PEG biovolume Excel file for year: ", year_match)
+    if (verbose) message("Reading PEG biovolume Excel file for year: ", year_match)
   }
 
   # Read Excel

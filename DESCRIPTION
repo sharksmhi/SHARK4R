@@ -50,6 +50,7 @@ Suggests:
     iRfcb,
     knitr,
     plotly,
+    RColorBrewer,
     rmarkdown,
     skimr,
     spelling,

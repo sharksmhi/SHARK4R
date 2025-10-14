@@ -6,10 +6,10 @@
 #' @param prod Logical. Query against PROD or TEST (SMHI internal) server. Default is TRUE (PROD).
 #' @param unparsed Logical. If `TRUE`, returns the complete JSON output as list. Defaults to `FALSE`.
 #'
-#' @return A `data.frame` containing the available search options from the SHARK API.
+#' @return A named `list` containing the available search options from the SHARK API.
 #'
 #' @details This function sends a GET request to the SHARK API options endpoint to retrieve available search filters and options
-#' for querying the database. The API returns data in JSON format, which is then parsed into a `data.frame`.
+#' for querying the database.
 #'
 #' @seealso \url{https://shark.smhi.se} for SHARK database.
 #' @seealso \code{\link{get_shark_data}}

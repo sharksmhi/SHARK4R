@@ -2,7 +2,7 @@
 % Please edit documentation in R/util.R
 \name{load_shark4r_stats}
 \alias{load_shark4r_stats}
-\title{Load SHARK4R Statistics from GitHub}
+\title{Load SHARK4R statistics from GitHub}
 \usage{
 load_shark4r_stats(file_name = "sea_basin.rds", verbose = TRUE)
 }

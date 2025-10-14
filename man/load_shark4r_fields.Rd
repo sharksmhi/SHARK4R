@@ -2,7 +2,7 @@
 % Please edit documentation in R/util.R
 \name{load_shark4r_fields}
 \alias{load_shark4r_fields}
-\title{Load SHARK4R Fields from GitHub}
+\title{Load SHARK4R fields from GitHub}
 \usage{
 load_shark4r_fields(verbose = TRUE)
 }

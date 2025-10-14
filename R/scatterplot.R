@@ -39,8 +39,8 @@
 #'   data = my_data,
 #'   x = "sample_date",
 #'   hline = thresholds_df,
-#'   hline_group_col = "location",
-#'   hline_value_col = "value"
+#'   hline_group_col = "location_sea_basin",
+#'   hline_value_col = "P99"
 #' )
 #' }
 #'
@@ -109,7 +109,7 @@ scatterplot <- function(data,
       groups_in_data <- unique(data[[hline_group_col]])
       hline <- hline[hline[[hline_group_col]] %in% groups_in_data, ]
       all_groups <- sort(unique(hline[[hline_group_col]]))
-      selected_groups <- head(all_groups, max_hlines)
+      selected_groups <- utils::head(all_groups, max_hlines)
       hline_filtered <- hline[hline[[hline_group_col]] %in% selected_groups, , drop = FALSE]
 
       # Factorize for consistent colors
@@ -129,15 +129,16 @@ scatterplot <- function(data,
 
   if (!is.null(hline_group_col) && !is.null(selected_groups)) {
     n_colors <- length(selected_groups)
+
     if (requireNamespace("RColorBrewer", quietly = TRUE)) {
       palette <- RColorBrewer::brewer.pal(min(max(3, n_colors), 8), "Set1")
+      p <- p + ggplot2::scale_color_manual(
+        values = stats::setNames(palette[seq_len(n_colors)], selected_groups),
+        drop = TRUE
+      )
     } else {
-      palette <- ggplot2::hue_pal()(n_colors)
+      p <- p + ggplot2::scale_color_hue(drop = TRUE)
     }
-    p <- p + ggplot2::scale_color_manual(
-      values = setNames(palette[seq_len(n_colors)], selected_groups),
-      drop = TRUE
-    )
   }
 
   if (!interactive) return(p)

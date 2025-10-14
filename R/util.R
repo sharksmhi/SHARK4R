@@ -183,7 +183,7 @@ translate_shark_datatype <- function(x) {
   unname(translated)
 }
 
-#' Load SHARK4R Statistics from GitHub
+#' Load SHARK4R statistics from GitHub
 #'
 #' This function downloads and loads precomputed SHARK4R statistical data
 #' (e.g., threshold or summary statistics) directly from the
@@ -245,7 +245,7 @@ load_shark4r_stats <- function(file_name = "sea_basin.rds",
   })
 }
 
-#' Load SHARK4R Fields from GitHub
+#' Load SHARK4R fields from GitHub
 #'
 #' This function downloads and sources the SHARK4R required and recommended field definitions
 #' directly from the
@@ -490,7 +490,8 @@ cache_excel_download <- function(url = "https://smhi.se/oceanografi/oce_info_dat
 
 cache_nomp_zip <- function(base_url = "https://www.smhi.se/oceanografi/oce_info_data/shark_web/downloads/sbdi/NOMP/biovolume",
                            year = as.numeric(format(Sys.Date(), "%Y")),
-                           force = FALSE) {
+                           force = FALSE,
+                           verbose = TRUE) {
 
   cache_dir <- tools::R_user_dir("SHARK4R", which = "cache")
   if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
@@ -515,16 +516,18 @@ cache_nomp_zip <- function(base_url = "https://www.smhi.se/oceanografi/oce_info_
       }, error = function(e) FALSE, warning = function(w) FALSE)
 
       if (ok) {
+        if (verbose) message("File for year ", year, " downloaded and cached.")
         return(destfile)
       } else if (file.exists(destfile)) {
         warning("Download failed, using cached copy at: ", destfile)
         return(destfile)
       } else {
-        message("File for year ", year, " not available. Trying previous year...")
+        if (verbose) message("File for year ", year, " not available. Trying previous year...")
         year <- year - 1
         next
       }
     } else {
+      if (verbose) message("File for year ", year, " found in cache.")
       # Already cached
       return(destfile)
     }

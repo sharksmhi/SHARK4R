@@ -62,8 +62,8 @@ scatterplot(
   data = my_data,
   x = "sample_date",
   hline = thresholds_df,
-  hline_group_col = "location",
-  hline_value_col = "value"
+  hline_group_col = "location_sea_basin",
+  hline_value_col = "P99"
 )
 }
 

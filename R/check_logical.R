@@ -25,7 +25,8 @@ check_value_logical <- function(data) {
     message("Common problems are e.g. '<', '>' signs or letters not matching TRUE/FALSE.")
     matches <- unique(vals_chr[non_valid_idx])
     matches_df <- data.frame(value = matches, stringsAsFactors = FALSE)
-    return(DT::datatable(matches_df))
+    return(DT::datatable(matches_df,
+                         style = "bootstrap"))
   } else {
     message("Expected values are correctly formatted (numeric or logical).")
     invisible(NULL)
@@ -61,7 +62,8 @@ check_zero_value <- function(data, return_df = FALSE) {
     if (return_df) {
       return(zero_values)
     } else {
-      return(DT::datatable(zero_values))
+      return(DT::datatable(zero_values,
+                           style = "bootstrap"))
     }
   } else {
     message("No zero values were found")
@@ -130,7 +132,8 @@ check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, r
     if (return_df) {
       return(zero_positions)
     } else {
-      return(DT::datatable(zero_positions))
+      return(DT::datatable(zero_positions,
+                           style = "bootstrap"))
     }
   } else {
     if (verbose) message("No zero positions were found")
@@ -207,7 +210,8 @@ check_logical_parameter <- function(data, param_name, condition,
     if (return_df) {
       return(logical_error)
     } else {
-      return(DT::datatable(logical_error))
+      return(DT::datatable(logical_error,
+                           style = "bootstrap"))
     }
   } else {
     invisible(NULL)
