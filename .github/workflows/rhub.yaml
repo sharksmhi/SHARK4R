@@ -49,6 +49,9 @@ jobs:
         config: ${{ fromJson(needs.setup.outputs.containers) }}
     container:
       image: ${{ matrix.config.container }}
+    env:
+      DYNTAXA_KEY: ${{ secrets.DYNTAXA_KEY }}
+      ALGAEBASE_KEY: ${{ secrets.ALGAEBASE_KEY }}
 
     steps:
       - uses: r-hub/actions/checkout@v1
@@ -74,6 +77,9 @@ jobs:
       fail-fast: false
       matrix:
         config: ${{ fromJson(needs.setup.outputs.platforms) }}
+    env:
+      DYNTAXA_KEY: ${{ secrets.DYNTAXA_KEY }}
+      ALGAEBASE_KEY: ${{ secrets.ALGAEBASE_KEY }}
 
     steps:
       - uses: r-hub/actions/checkout@v1
