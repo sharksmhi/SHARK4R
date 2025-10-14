@@ -125,12 +125,56 @@ check_datatype <- function(data, level = "error") {
 #' @param field_definitions A named list of field definitions. Each element
 #'   should contain two character vectors: \code{required} and \code{recommended}.
 #'   Defaults to the package's built-in \code{SHARK4R:::.field_definitions}.
+#'   Alternatively, the latest definitions can be loaded directly from the
+#'   official SHARK4R GitHub repository using
+#'   \code{\link{load_shark4r_fields}()}.
 #' @param stars Integer. Maximum number of "*" levels to include.
 #'   Default = 1 (only single "*").
 #'   For example, `stars = 2` includes "*" and "**",
 #'   `stars = 3` includes "*", "**", and "***".
 #' @param bacterioplankton_subtype Character. For "Bacterioplankton" only: either
 #'   "abundance" (default) or "production". Ignored for other datatypes.
+#'
+#' @details
+#' Field definitions for SHARK data can be loaded in two ways:
+#' \enumerate{
+#'   \item **From the SHARK4R package bundle (default):**
+#'     The package contains a built-in object, \code{.field_definitions},
+#'     which stores required and recommended fields for each datatype.
+#'
+#'   \item **From GitHub (latest official version):**
+#'     To use the most up-to-date field definitions, you can load them directly from the
+#'     \href{https://github.com/nodc-sweden/SHARK4R-statistics}{SHARK4R-statistics} repository:
+#'     \preformatted{
+#'     defs <- load_shark4r_fields()
+#'     check_fields(my_data, "Phytoplankton", field_definitions = defs)
+#'     }
+#' }
+#'
+#' **Delivery-format (all-caps) data:**
+#' If the column names in \code{data} are all uppercase (e.g. SDATE), \code{check_fields()} assumes
+#' the dataset follows the official SHARK delivery template. In this case:
+#' \itemize{
+#'   \item Required fields are determined from the delivery template using
+#'         \code{\link{get_delivery_template}()} and \code{\link{find_required_fields}()}.
+#'   \item Recommended fields are ignored because the delivery templates do not define them.
+#'   \item The function validates that all required columns exist and contain non-empty values.
+#' }
+#' This ensures that both internal `SHARK4R` datasets (with camelCase or snake_case columns)
+#' and official delivery files (ALL_CAPS columns) are validated correctly using the appropriate rules.
+#'
+#' Stars in the template
+#'
+#' Leading asterisks in the delivery template indicate required levels:
+#'
+#' \itemize{
+#'   \item \emph{*} = standard required column
+#'   \item * = required for national monitoring
+#'   \item Other symbols = additional requirement level
+#' }
+#'
+#' The \code{stars} parameter in \code{check_fields()} controls how many levels of required
+#' columns to include.
 #'
 #' @return A tibble with the following columns:
 #' \describe{
@@ -142,6 +186,10 @@ check_datatype <- function(data, level = "error") {
 #' }
 #' The tibble will be empty if no problems are found.
 #'
+#' @seealso
+#' \code{\link{load_shark4r_fields}} for fetching the latest field definitions from GitHub,
+#' \code{\link{get_delivery_template}} for downloading delivery templates from SMHI's website.
+#'
 #' @examples
 #' # Example 1: Using built-in field definitions for "Phytoplankton"
 #' df_phyto <- data.frame(
@@ -150,10 +198,15 @@ check_datatype <- function(data, level = "error") {
 #'   scientific_name = "Skeletonema marinoi",
 #'   value = 123
 #' )
-#'
 #' check_fields(df_phyto, "Phytoplankton", level = "warning")
 #'
-#' # Example 2: Define a custom datatype with required + recommended fields
+#' # Example 2: Load latest definitions from GitHub and use them
+#' \dontrun{
+#' defs <- load_shark4r_fields()
+#' check_fields(df_phyto, "Phytoplankton", field_definitions = defs)
+#' }
+#'
+#' # Example 3: Custom datatype with required + recommended fields
 #' defs <- list(
 #'   ExampleType = list(
 #'     required = c("id", "value"),
@@ -161,17 +214,8 @@ check_datatype <- function(data, level = "error") {
 #'   )
 #' )
 #'
-#' # All fields present and filled
 #' df_ok <- data.frame(id = 1, value = "x", comment = "ok")
 #' check_fields(df_ok, "ExampleType", level = "warning", field_definitions = defs)
-#'
-#' # Missing required field
-#' df_missing <- data.frame(id = 1)
-#' check_fields(df_missing, "ExampleType", field_definitions = defs)
-#'
-#' # Empty values in required field
-#' df_empty <- data.frame(id = 1, value = c("", NA))
-#' check_fields(df_empty, "ExampleType", field_definitions = defs)
 #'
 #' @export
 check_fields <- function(data, datatype, level = "error", stars = 1,

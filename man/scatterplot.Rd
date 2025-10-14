@@ -2,7 +2,7 @@
 % Please edit documentation in R/scatterplot.R
 \name{scatterplot}
 \alias{scatterplot}
-\title{Scatterplot for SHARK data with optional horizontal threshold lines}
+\title{Scatterplot with optional horizontal threshold lines}
 \usage{
 scatterplot(
   data,
@@ -19,39 +19,56 @@ scatterplot(
 \item{data}{A data.frame or tibble containing at least the following columns:
 \code{"station_name"}, \code{"sample_date"}, \code{"value"}, \code{"parameter"}, \code{"unit"}.}
 
-\item{x}{Character. The column to use for the x-axis. Choices are \code{"station_name"} or \code{"sample_date"}.}
+\item{x}{Character. The column to use for the x-axis. Either \code{"station_name"} or \code{"sample_date"}.}
 
 \item{hline}{Numeric or data.frame. Horizontal line(s) to add. If numeric, a single line
-is added. If a data.frame, must contain \code{parameter}, a grouping column (\code{hline_group_col})
-and a value column (\code{hline_value_col}).}
+is drawn at that y-value. If a data.frame, must contain \code{hline_group_col} and \code{hline_value_col} columns.}
 
-\item{hline_group_col}{Character. Column in \code{data} and \code{hline} used for grouping (optional).}
+\item{hline_group_col}{Character. Column used for grouping when \code{hline} is a data.frame and/or for coloring points (optional).}
 
 \item{hline_value_col}{Character. Column in \code{hline} used for the y-values of horizontal lines.}
 
-\item{hline_style}{List. A list with \code{linetype} and \code{size} controlling the appearance of hlines.}
+\item{hline_style}{List. Appearance settings for horizontal lines. Should contain \code{linetype} and \code{size}.}
 
-\item{interactive}{Logical. If TRUE, returns a Plotly interactive plot. If FALSE, returns ggplot2.}
+\item{interactive}{Logical. If TRUE, returns an interactive \code{plotly} plot; if FALSE, returns a static \code{ggplot2} plot.}
 
-\item{max_hlines}{Integer. Maximum number of horizontal lines to display per parameter when showing all groups.}
+\item{max_hlines}{Integer. Maximum number of horizontal line groups to display per parameter when \code{hline} is a data.frame.}
 }
 \value{
 A \code{ggplot} object (if \code{interactive = FALSE}) or a \code{plotly} object (if \code{interactive = TRUE}).
 }
 \description{
-This function creates a scatterplot of SHARK data, optionally coloring points
+This function creates a scatterplot from a data frame, optionally coloring points
 by a grouping column and adding horizontal threshold lines. Supports both static
-\code{ggplot2} plots and interactive \code{Plotly} plots with a log/linear toggle.
+\code{ggplot2} plots and interactive \code{plotly} plots with a linear/log toggle.
+}
+\details{
+\itemize{
+\item If \code{hline} is numeric, a single horizontal line is drawn across the plot.
+\item If \code{hline} is a data.frame, only the first \code{max_hlines} groups (sorted alphabetically) are displayed.
+\item Points can be colored by \code{hline_group_col} if provided.
+\item Interactive plots include buttons to switch between linear and log y-axis scales.
+}
 }
 \examples{
 \dontrun{
 scatterplot(
-  data = my_ifcb_data,
+  data = my_data,
   x = "station_name",
+  hline = c(10, 20)
+)
+
+scatterplot(
+  data = my_data,
+  x = "sample_date",
   hline = thresholds_df,
-  hline_group_col = "location_sea_basin",
-  hline_value_col = "P99"
+  hline_group_col = "location",
+  hline_value_col = "value"
 )
 }
 
+}
+\seealso{
+\code{\link{load_shark4r_stats}} for loading threshold or summary statistics that
+can be used to define horizontal lines in the plot.
 }
