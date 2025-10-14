@@ -245,6 +245,82 @@ load_shark4r_stats <- function(file_name = "sea_basin.rds",
   })
 }
 
+#' Load SHARK4R Fields from GitHub
+#'
+#' This function downloads and sources the SHARK4R required and recommended field definitions
+#' directly from the
+#' [SHARK4R-statistics](https://github.com/nodc-sweden/SHARK4R-statistics) GitHub repository.
+#'
+#' The definitions are stored in an R script (`fields.R`) located in the `fields/` folder of the repository.
+#' The function sources this file directly from GitHub into the current R session.
+#'
+#' @param verbose Logical; if `TRUE` (default), prints progress messages during download and loading.
+#'
+#' @details
+#' The sourced script defines two main objects:
+#' \itemize{
+#'   \item `required_fields` — vector or data frame of required SHARK fields.
+#'   \item `recommended_fields` — vector or data frame of recommended SHARK fields.
+#' }
+#'
+#' The output of this function can be directly supplied to the
+#' \code{\link{check_fields}} function through its `field_definitions` argument
+#' for validating SHARK4R data consistency.
+#'
+#' If sourcing fails (e.g., due to a network issue or repository changes), the function throws
+#' an error with a descriptive message.
+#'
+#' @return
+#' Invisibly returns a list with two elements:
+#' \describe{
+#'   \item{required_fields}{Object containing required SHARK fields.}
+#'   \item{recommended_fields}{Object containing recommended SHARK fields.}
+#' }
+#'
+#' @seealso
+#' \code{\link{check_fields}} for validating datasets using the loaded field definitions (as `field_definitions`).
+#' \code{\link{load_shark4r_stats}} for loading precomputed SHARK4R statistics,
+#'
+#' @examples
+#' \dontrun{
+#' # Load SHARK4R field definitions from GitHub
+#' fields <- load_shark4r_fields()
+#'
+#' # Access required or recommended fields
+#' fields$required_fields
+#' fields$recommended_fields
+#'
+#' # Use the loaded definitions in check_fields()
+#' check_fields(my_data, field_definitions = fields)
+#' }
+#'
+#' @export
+load_shark4r_fields <- function(verbose = TRUE) {
+  base_url <- "https://raw.githubusercontent.com/nodc-sweden/SHARK4R-statistics/main/fields/fields.R"
+  tmp <- tempfile(fileext = ".R")
+
+  tryCatch({
+    if (verbose) message("Downloading SHARK4R field definitions from GitHub...")
+    utils::download.file(base_url, destfile = tmp, quiet = !verbose)
+
+    if (verbose) message("Sourcing field definitions into R...")
+    env <- new.env()
+    sys.source(tmp, envir = env)
+
+    if (!exists(".field_definitions", envir = env)) {
+      stop("The sourced file does not contain an object named '.field_definitions'.")
+    }
+
+    defs <- get(".field_definitions", envir = env)
+
+    if (verbose) message("Field definitions successfully loaded.")
+    return(defs)
+  },
+  error = function(e) {
+    stop("Failed to load SHARK4R field definitions from GitHub: ", e$message)
+  })
+}
+
 ## Helpers
 
 missing_fields <- function(data, fields) {

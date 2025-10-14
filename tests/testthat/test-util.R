@@ -135,7 +135,7 @@ test_that("check_outliers works with minimal dataset", {
   skip_if_resource_unavailable("https://github.com/")
 
   # Load threshold data
-  thresholds <- load_shark4r_stats(verbose = FALSE)
+  thresholds <- load_shark4r_stats(verbose = TRUE)
 
   # Create a minimal test dataset
   example_data <- tibble(
@@ -191,4 +191,28 @@ test_that("check_outliers works with minimal dataset", {
   # Only first row (0.5) is below threshold
   expect_equal(nrow(out_below), 1)
   expect_equal(out_below$value, 0.5)
+})
+
+test_that("load_shark4r_fields() successfully loads .field_definitions", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable("https://github.com/")
+
+  defs <- load_shark4r_fields(verbose = TRUE)
+
+  expect_type(defs, "list")
+  expect_true(all(c("Phytoplankton", "Zooplankton") %in% names(defs)))
+  expect_true(all(c("required", "recommended") %in% names(defs$Phytoplankton)))
+
+  expect_true(is.character(defs$Phytoplankton$required))
+  expect_true(is.character(defs$Phytoplankton$recommended))
+})
+
+test_that("load_shark4r_fields() prints messages when verbose = TRUE", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable("https://github.com/")
+
+  expect_message(load_shark4r_fields(verbose = TRUE),
+                 "Downloading SHARK4R field definitions from GitHub")
 })
