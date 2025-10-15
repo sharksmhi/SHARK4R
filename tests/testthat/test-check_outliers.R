@@ -70,7 +70,7 @@ test_that("check_outliers errors if parameter not in thresholds", {
       threshold_col = "extreme_upper",
       thresholds = test_thresholds
     ),
-    "Parameter NonexistentParam not found in thresholds dataframe"
+    "No thresholds found for NonexistentParam and TypeA"
   )
 })
 
@@ -215,3 +215,49 @@ for (fname in names(outlier_checks)) {
     )
   })
 }
+
+test_that("check_outliers stops if custom_group missing from data", {
+  expect_error(
+    check_outliers(
+      data = test_data,
+      parameter = "TestParam1",
+      datatype = "TypeA",
+      thresholds = test_thresholds,
+      custom_group = "nonexistent_column"
+    ),
+    "Grouping column nonexistent_column not found in data"
+  )
+})
+
+test_that("check_outliers works with custom_group", {
+  # Add a grouping column to data and thresholds
+  data_grouped <- test_data %>% mutate(group = c("A", "A", "B"))
+  thresholds_grouped <- test_thresholds %>% mutate(group = c("A", "B"))
+
+  out <- check_outliers(
+    data = data_grouped,
+    parameter = "TestParam1",
+    datatype = "TypeA",
+    thresholds = thresholds_grouped,
+    threshold_col = "extreme_upper",
+    custom_group = "group",
+    return_df = TRUE
+  )
+
+  # Only the second row in group A exceeds threshold
+  expect_equal(nrow(out), 1)
+  expect_equal(out$value, 12)
+})
+
+test_that("check_outliers returns data.frame if return_df = TRUE", {
+  out <- check_outliers(
+    data = test_data,
+    parameter = "TestParam1",
+    datatype = "TypeA",
+    threshold_col = "extreme_upper",
+    thresholds = test_thresholds,
+    return_df = TRUE
+  )
+
+  expect_s3_class(out, "data.frame")
+})

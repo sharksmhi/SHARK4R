@@ -9,7 +9,8 @@ get_peg_list(
   sheet = NULL,
   force = FALSE,
   url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL.zip",
-  clean_cache_days = 30
+  clean_cache_days = 30,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -27,6 +28,8 @@ Defaults to the official ICES link.}
 \item{clean_cache_days}{Numeric; if not \code{NULL}, cached PEG zip files older than
 this number of days will be automatically deleted and replaced by a new download.
 Defaults to 30. Set to \code{NULL} to disable automatic cleanup.}
+
+\item{verbose}{A logical indicating whether to print progress messages. Default is TRUE.}
 }
 \value{
 A tibble with the contents of the requested Excel file.

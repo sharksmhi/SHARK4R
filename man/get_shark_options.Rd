@@ -12,7 +12,7 @@ get_shark_options(prod = TRUE, unparsed = FALSE)
 \item{unparsed}{Logical. If \code{TRUE}, returns the complete JSON output as list. Defaults to \code{FALSE}.}
 }
 \value{
-A \code{data.frame} containing the available search options from the SHARK API.
+A named \code{list} containing the available search options from the SHARK API.
 }
 \description{
 The \code{get_shark_options} function retrieves available search options from the SHARK database.
@@ -20,7 +20,7 @@ It sends a GET request to the SHARK API and returns the results as a structured 
 }
 \details{
 This function sends a GET request to the SHARK API options endpoint to retrieve available search filters and options
-for querying the database. The API returns data in JSON format, which is then parsed into a \code{data.frame}.
+for querying the database.
 }
 \examples{
 \dontrun{

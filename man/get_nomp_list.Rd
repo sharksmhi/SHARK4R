@@ -10,7 +10,8 @@ get_nomp_list(
   sheet = NULL,
   force = FALSE,
   base_url = NULL,
-  clean_cache_days = 30
+  clean_cache_days = 30,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ If neither argument specifies the sheet, defaults to the first sheet.}
 \item{clean_cache_days}{Numeric; if not \code{NULL}, cached NOMP zip files older than
 this number of days will be automatically deleted and replaced by a new download.
 Defaults to 30. Set to \code{NULL} to disable automatic cleanup.}
+
+\item{verbose}{A logical indicating whether to print progress messages. Default is TRUE.}
 }
 \value{
 A tibble with the contents of the requested Excel file.

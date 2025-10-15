@@ -11,6 +11,8 @@
 * Add new function `check_setup()` and `run_qc_app()` to download and run SHARK QC scripts and Shiny App.
 * Add new function `get_shark_statistics()` to download SHARK data and extract summary statistics for numeric parameters.
 * Add new function `translate_shark_datatype()` to translate user-facing datatype names to internal SHARK4R names.
+* Add new function `load_shark4r_stats()` to download and load precomputed SHARK4R statistical datasets (e.g., threshold or summary statistics) from a GitHub repository.
+* Add new function `load_shark4r_fields()` to download and load fields definitions from a GitHub repository.
 
 ## Enhancements
 * Re-export functions from the `iRfcb` package: `which_basin()` and `positions_are_near_land()`.

@@ -11,8 +11,8 @@ get_shark_statistics(
   group_col = NULL,
   min_obs = 3,
   max_non_numeric_frac = 0.05,
-  verbose = TRUE,
-  cache_result = FALSE
+  cache_result = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -35,10 +35,10 @@ for a parameter to be included (default: 3).}
 \item{max_non_numeric_frac}{Maximum allowed fraction of non-numeric values
 for a parameter to be kept (default: 0.05).}
 
-\item{verbose}{Logical, whether to show download progress messages. Default is \code{TRUE}.}
-
 \item{cache_result}{Logical, whether to save the result in a persistent cache
 (\code{statistics.rds}) for use by other functions. Default is \code{FALSE}.}
+
+\item{verbose}{Logical, whether to show download progress messages. Default is \code{TRUE}.}
 }
 \value{
 A tibble with one row per parameter (and optionally per group) and the following columns:
@@ -56,6 +56,8 @@ A tibble with one row per parameter (and optionally per group) and the following
 \item{mild_lower, mild_upper}{Lower/upper bounds for mild outliers (1.5 × IQR).}
 \item{extreme_lower, extreme_upper}{Lower/upper bounds for extreme outliers (3 × IQR).}
 \item{n}{Number of numeric observations used.}
+\item{fromYear}{First year included in the SHARK data download (numeric).}
+\item{toYear}{Last year included in the SHARK data download (numeric).}
 \item{<group_col>}{Optional grouping column if provided.}
 }
 }

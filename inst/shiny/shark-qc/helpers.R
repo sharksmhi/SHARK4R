@@ -11,6 +11,8 @@ safe_datatable <- function(x) {
   # Only create a datatable if x is a data.frame or matrix
   if (is.data.frame(x) || is.matrix(x)) {
     DT::datatable(x,
+                  style = "bootstrap",
+                  rownames = FALSE,
                   options = list(
                     pageLength = 10,
                     scrollX = TRUE,
@@ -18,6 +20,7 @@ safe_datatable <- function(x) {
                   ))
   } else {
     # Otherwise, show a message or an empty table
-    DT::datatable(data.frame(Message = "No data available"))
+    DT::datatable(data.frame(Message = "No data available"),
+                  style = "bootstrap")
   }
 }

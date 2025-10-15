@@ -2,83 +2,73 @@
 % Please edit documentation in R/scatterplot.R
 \name{scatterplot}
 \alias{scatterplot}
-\title{Interactive scatterplot with parameter selection and flexible axes}
+\title{Scatterplot with optional horizontal threshold lines}
 \usage{
 scatterplot(
   data,
-  x = NULL,
+  x = c("station_name", "sample_date"),
   hline = NULL,
-  hline_style = list(color = "red", dash = "dash", width = 2),
-  ...
+  hline_group_col = NULL,
+  hline_value_col = NULL,
+  hline_style = list(linetype = "dashed", size = 0.8),
+  interactive = TRUE,
+  max_hlines = 5
 )
 }
 \arguments{
-\item{data}{A data frame or tibble containing at least the following columns:
-\itemize{
-\item \code{station_name}: Name of the station (default x-axis)
-\item \code{sample_date}: Sample date (optional alternative x-axis)
-\item \code{value}: Numeric variable to plot on the y-axis
-\item \code{parameter}: Parameter name (used for y-axis labeling and selection)
-\item \code{unit}: Measurement unit corresponding to the parameter
-}}
+\item{data}{A data.frame or tibble containing at least the following columns:
+\code{"station_name"}, \code{"sample_date"}, \code{"value"}, \code{"parameter"}, \code{"unit"}.}
 
-\item{x}{Optional. Character string specifying a column in \code{data} to use as
-the x-axis instead of \code{station_name}. Defaults to \code{NULL}.}
+\item{x}{Character. The column to use for the x-axis. Either \code{"station_name"} or \code{"sample_date"}.}
 
-\item{hline}{Optional. Numeric value or named list of values giving a
-horizontal reference line (e.g., from \code{get_shark_statistics}).
-If a named list, names should match \code{parameter} values.}
+\item{hline}{Numeric or data.frame. Horizontal line(s) to add. If numeric, a single line
+is drawn at that y-value. If a data.frame, must contain \code{hline_group_col} and \code{hline_value_col} columns.}
 
-\item{hline_style}{List of styling options for the line
-(default: red, dashed, width 2).}
+\item{hline_group_col}{Character. Column used for grouping when \code{hline} is a data.frame and/or for coloring points (optional).}
 
-\item{...}{Additional arguments passed to \code{\link[plotly:plot_ly]{plotly::plot_ly()}}, such as
-marker styling.}
+\item{hline_value_col}{Character. Column in \code{hline} used for the y-values of horizontal lines.}
+
+\item{hline_style}{List. Appearance settings for horizontal lines. Should contain \code{linetype} and \code{size}.}
+
+\item{interactive}{Logical. If TRUE, returns an interactive \code{plotly} plot; if FALSE, returns a static \code{ggplot2} plot.}
+
+\item{max_hlines}{Integer. Maximum number of horizontal line groups to display per parameter when \code{hline} is a data.frame.}
 }
 \value{
-A \code{plotly} object representing the interactive scatterplot.
+A \code{ggplot} object (if \code{interactive = FALSE}) or a \code{plotly} object (if \code{interactive = TRUE}).
 }
 \description{
-Creates an interactive scatterplot using \code{plotly}, where the y-axis
-represents measured values (\code{value}) for different parameters, and the
-x-axis can be switched interactively between available options.
+This function creates a scatterplot from a data frame, optionally coloring points
+by a grouping column and adding horizontal threshold lines. Supports both static
+\code{ggplot2} plots and interactive \code{plotly} plots with a linear/log toggle.
+}
+\details{
+\itemize{
+\item If \code{hline} is numeric, a single horizontal line is drawn across the plot.
+\item If \code{hline} is a data.frame, only the first \code{max_hlines} groups (sorted alphabetically) are displayed.
+\item Points can be colored by \code{hline_group_col} if provided.
+\item Interactive plots include buttons to switch between linear and log y-axis scales.
+}
 }
 \examples{
 \dontrun{
-
-df <- dplyr::tibble(
-  station_name = c("A", "B", "C", "A", "B", "C"),
-  sample_date = rep(as.Date(c("2025-01-01", "2025-01-02", "2025-01-03")), 2),
-  expedition_id = rep(1:3, 2),
-  value = c(10, 15, 8, 5, 7, 6),
-  parameter = rep(c("Chlorophyll-a", "POC"), each = 3),
-  unit = rep(c("µg/L", "mg/L"), each = 3)
+scatterplot(
+  data = my_data,
+  x = "station_name",
+  hline = c(10, 20)
 )
 
-# Default: station_name on x-axis
-scatterplot(df)
-
-# Use expedition_id on x-axis
-scatterplot(df, x = "expedition_id")
-
-# Add custom marker styling
-scatterplot(df, marker = list(size = 12, color = "red"))
-
-# Add a fixed horizontal reference line
-scatterplot(df, hline = 10)
-
-# Supply different reference lines per parameter
 scatterplot(
-  df,
-  hline = list("Chlorophyll-a" = 7, "POC" = 12)
-)
-
-# Custom styled horizontal line
-scatterplot(
-  df,
-  hline = 5,
-  hline_style = list(color = "blue", dash = "dot", width = 3)
+  data = my_data,
+  x = "sample_date",
+  hline = thresholds_df,
+  hline_group_col = "location_sea_basin",
+  hline_value_col = "P99"
 )
 }
 
+}
+\seealso{
+\code{\link{load_shark4r_stats}} for loading threshold or summary statistics that
+can be used to define horizontal lines in the plot.
 }

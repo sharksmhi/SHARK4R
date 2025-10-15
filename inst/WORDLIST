@@ -59,6 +59,7 @@ Picoplankton
 PlanktonBarcoding
 Provoost
 README
+SDATE
 SLU
 SMHI
 SMHI's
@@ -77,6 +78,7 @@ benthos
 biotoxin
 biovolume
 biovolumes
+camelCase
 codecov
 codelist
 cyanobacteria

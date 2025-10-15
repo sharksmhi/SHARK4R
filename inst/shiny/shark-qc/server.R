@@ -30,8 +30,6 @@ shinyServer(function(input, output, session) {
       session$userData$server_error_nid <- NULL
     }
 
-    showNotification(paste("Loading", env_label, "options..."), type = "message")
-
     tryCatch({
       opts <- load_shark_options(prod = is_prod())
       options_data(opts)
@@ -110,6 +108,9 @@ shinyServer(function(input, output, session) {
     showNotification("Dataset list refreshed ✅", type = "message")
   })
 
+  # --- Reactive value to store datasets
+  dataset <- reactiveVal(NULL)
+
   # --- Reactive value to store dataset paths
   dataset_path <- reactiveVal(NULL)
 
@@ -117,19 +118,26 @@ shinyServer(function(input, output, session) {
   observeEvent(input$downloadDataset, {
     req(input$dataset)
 
+    file_path <- file.path(tempdir(), gsub(".zip", ".txt", basename(input$dataset)))
+
     shiny::withProgress(message = "Downloading dataset...", {
-      df_or_path <- get_shark_datasets(
-        save_dir = tempdir(),
-        dataset_name = input$dataset,
-        return_df = FALSE,  # we can switch to TRUE if you want combined dataframe
-        unzip_file = TRUE,
+      df <- get_shark_data(
+        tableView = "sharkweb_all",
+        save_data = TRUE,
+        encoding = "latin_1",
+        file_path = file_path,
+        datasets = input$dataset,
+        hideEmptyColumns = TRUE,
         prod = is_prod(),
         verbose = FALSE
-      )
-      dataset_path(df_or_path[[1]])  # store first dataset path (unzip dir)
-    })
+      ) %>%
+        select(where(~ any(!is.na(.))))
 
-    file_path <- file.path(tempdir(), input$dataset)
+      dataset(df)
+
+      dataset_path(file_path)
+
+    })
 
     # Show a notification with a copy-to-clipboard action
     showNotification(
@@ -155,10 +163,9 @@ shinyServer(function(input, output, session) {
   shark_data <- reactive({
     if (!is.null(input$file1)) {
       read_shark(input$file1$datapath, encoding = "latin_1")
-    } else if (!is.null(dataset_path())) {
+    } else if (!is.null(dataset()) && is.data.frame(dataset())) {
       # Read downloaded dataset folder
-      data_file <- file.path(dataset_path(), "shark_data.txt")
-      read_shark(data_file, encoding = "latin_1")
+      dataset()
     } else {
       return(NULL)
     }
@@ -197,7 +204,7 @@ shinyServer(function(input, output, session) {
       session,
       "field",
       choices = colnames(shark_data()),
-      selected = "sample_project_name_en"
+      selected = "platform_code"
     )
   })
 
@@ -210,6 +217,111 @@ shinyServer(function(input, output, session) {
       "parameter",
       choices = unique(shark_data()$parameter),
       selected = unique(shark_data()$parameter)[1]
+    )
+  })
+
+  # Update dropdown choices based on shark_data() columns
+  observe({
+    req(shark_data())
+
+    updateSelectInput(
+      session,
+      "scatter_parameter",
+      choices = unique(shark_data()$parameter),
+      selected = unique(shark_data()$parameter)[1]
+    )
+  })
+
+  # Load thresholds
+  thresholds <- reactive({
+    req(input$threshold_group)
+
+    # Map dropdown choices to specific RDS files
+    rds_file <- switch(input$threshold_group,
+                       "Parameter" = "parameter.rds",
+                       "Sea basin" = "sea_basin.rds",
+                       "Scientific name" = "scientific_name.rds",
+                       "parameter.rds"  # fallback (default)
+    )
+
+    load_shark4r_stats(file_name = rds_file,
+                       verbose = FALSE)
+  })
+
+  # Update dropdown choices based on shark_data() columns
+  observe({
+    req(shark_data(), input$threshold_group_scatter)
+
+    # Map dropdown choices to specific RDS files
+    group_col <- switch(input$threshold_group_scatter,
+                        "Parameter" = "parameter",
+                        "Sea basin" = "location_sea_basin",
+                        "Scientific name" = "scientific_name",
+                        "parameter"  # fallback (default)
+    )
+
+    unique(shark_data()[[group_col]]) %>%
+      na.omit() %>%
+      as.character() %>%
+      sort() -> choices
+
+    updateSelectInput(
+      session,
+      "scatter_group_value",
+      choices = c("All", choices),
+      selected = "All"
+    )
+  })
+
+  # Update threshold_col dropdown dynamically
+  observe({
+    req(thresholds())
+
+    # Columns to use
+    cols <- setdiff(
+      colnames(thresholds()),
+      c("parameter", "datatype", "location_sea_basin", "n", "fromYear", "toYear")
+    )
+
+    updateSelectInput(
+      session,
+      "threshold_col",
+      choices = cols,
+      selected = "P99"
+    )
+  })
+
+  # Load thresholds for scatterplot
+  thresholds_scatter <- reactive({
+    req(input$threshold_group_scatter)
+
+    # Map dropdown choices to specific RDS files
+    rds_file <- switch(input$threshold_group_scatter,
+                       "Parameter" = "parameter.rds",
+                       "Sea basin" = "sea_basin.rds",
+                       "Scientific name" = "scientific_name.rds",
+                       "parameter.rds"  # fallback (default)
+    )
+
+    load_shark4r_stats(file_name = rds_file,
+                       verbose = FALSE)
+  })
+
+  # Update threshold_col dropdown dynamically
+  observe({
+    req(thresholds_scatter())
+
+    # Columns to use
+    cols <- setdiff(
+      colnames(thresholds()),
+      c("parameter", "datatype", "location_sea_basin", "n", "fromYear", "toYear")
+    )
+
+    updateSelectInput(
+      session,
+      "threshold_col_scatter",
+      choices = cols,
+      selected = "P99"
     )
   })
 
@@ -242,13 +354,15 @@ shinyServer(function(input, output, session) {
     df <- check_fields(
       data = shark_data(),
       datatype = datatype_canonical,
-      level = input$check_level
+      level = input$check_level,
+      field_definitions = shark_fields
     ) %>%
       select(-row) %>%
       distinct()
 
     DT::datatable(
       df,
+      style = "bootstrap",
       options = list(pageLength = 10, autoWidth = TRUE),
       rownames = FALSE,
       caption = "Issues found"
@@ -269,65 +383,11 @@ shinyServer(function(input, output, session) {
 
     DT::datatable(
       df,
+      style = "bootstrap",
       options = list(pageLength = 10, autoWidth = TRUE),
       rownames = FALSE,
       caption = "Issues found"
     )
-  })
-
-  # --- Render check codes QC table
-  output$outliers_table <- DT::renderDT({
-    req(shark_data(), input$parameter, input$datatype)
-
-    # Determine datatype safely
-    datatype_input <- input$datatype
-
-    # If not found in thresholds, try matching by canonical form (remove spaces)
-    if (!datatype_input %in% SHARK4R:::.threshold_values$datatype) {
-      alt_form <- gsub("\\s+", "", datatype_input)
-      match_idx <- match(tolower(alt_form),
-                         tolower(gsub("\\s+", "", SHARK4R:::.threshold_values$datatype)))
-      if (!is.na(match_idx)) {
-        datatype_input <- SHARK4R:::.threshold_values$datatype[match_idx]
-      }
-    }
-
-    # Now run check_outliers()
-    df <- check_outliers(
-      data = shark_data(),
-      parameter = input$parameter,
-      datatype = datatype_input,
-      return_df = TRUE,
-      verbose = FALSE
-    )
-
-    if (is.null(df) || nrow(df) == 0) {
-      # Empty datatable with a message
-      message_text <- if (is.null(df)) {
-        paste("Parameter", input$parameter, "not found in the dataset or in the threshold dataset")
-      } else {
-        paste(input$parameter, "is within the expected range")
-      }
-
-      DT::datatable(
-        data.frame(Message = message_text),
-        options = list(dom = 't', paging = FALSE),  # hide search/pagination
-        rownames = FALSE,
-        caption = "Issues found"
-      )
-    } else {
-      # Show the dataframe
-      DT::datatable(
-        df,
-        options = list(
-          pageLength = 10,
-          scrollX = TRUE,
-          autoWidth = TRUE
-        ),
-        rownames = FALSE,
-        caption = "Issues found"
-      )
-    }
   })
 
   # --- Check on land map
@@ -365,6 +425,7 @@ shinyServer(function(input, output, session) {
 
     DT::datatable(
       res,
+      style = "bootstrap",
       options = list(pageLength = 10, autoWidth = TRUE),
       rownames = FALSE,
       caption = "Samples out of bounds from station registry (station.txt)"
@@ -382,6 +443,7 @@ shinyServer(function(input, output, session) {
     if (!is.null(res)) {
       DT::datatable(
         res,
+        style = "bootstrap",
         options = list(pageLength = 10, autoWidth = TRUE),
         rownames = FALSE,
         caption = "Station names matched with station.txt"
@@ -399,6 +461,7 @@ shinyServer(function(input, output, session) {
 
       DT::datatable(
         res,
+        style = "bootstrap",
         options = list(pageLength = 10, autoWidth = TRUE),
         rownames = FALSE,
         caption = "Stations suspected to be nominally reported"
@@ -407,6 +470,7 @@ shinyServer(function(input, output, session) {
       # Empty datatable with a message
       DT::datatable(
         data.frame(Message = "No stations are suspected nominally reported"),
+        style = "bootstrap",
         options = list(dom = 't', paging = FALSE),  # hide search/pagination
         rownames = FALSE,
         caption = "Stations suspected to be nominally reported"
@@ -425,6 +489,7 @@ shinyServer(function(input, output, session) {
 
       DT::datatable(
         res,
+        style = "bootstrap",
         options = list(pageLength = 10, autoWidth = TRUE),
         rownames = FALSE,
         caption = "Samples on NULL-island"
@@ -433,75 +498,12 @@ shinyServer(function(input, output, session) {
       # Empty datatable with a message
       DT::datatable(
         data.frame(Message = "No samples are on NULL-island"),
+        style = "bootstrap",
         options = list(dom = 't', paging = FALSE),  # hide search/pagination
         rownames = FALSE,
         caption = "Samples on NULL-island"
       )
     }
-  })
-
-  # --- Scatterplot tab
-  output$scatter_plot <- renderPlotly({
-    req(shark_data(), input$datatype)  # ensure dataset is loaded
-
-    datatype_input <- input$datatype
-
-    # If not directly found in the thresholds, try a space-insensitive match
-    if (!datatype_input %in% SHARK4R:::.threshold_values$datatype) {
-      alt_form <- gsub("\\s+", "", datatype_input)
-      match_idx <- match(
-        tolower(alt_form),
-        tolower(gsub("\\s+", "", SHARK4R:::.threshold_values$datatype))
-      )
-      if (!is.na(match_idx)) {
-        datatype_input <- SHARK4R:::.threshold_values$datatype[match_idx]
-      }
-    }
-
-    # Filter thresholds
-    thresh <- SHARK4R:::.threshold_values %>%
-      dplyr::filter(datatype == datatype_input)
-
-    threshold_list <- setNames(thresh$extreme_upper, thresh$parameter)
-
-    scatterplot(shark_data(),
-                hline = as.list(threshold_list))
-  })
-
-  # --- Render logic rules table
-  output$parameter_rules_table <- DT::renderDT({
-    req(shark_data())
-
-    df <- suppressWarnings(check_parameter_rules(
-      shark_data(),
-      verbose = FALSE
-    ))
-
-    if (is.null(df)) {
-      # Empty datatable with a message
-      DT::datatable(
-        data.frame(Message = "No rules defined for the parameters in the dataset"),
-        options = list(dom = 't', paging = FALSE),  # hide search/pagination
-        rownames = FALSE,
-        caption = "Issues found"
-      )
-    } else if (is.list(df) && length(df) == 0) {
-      # Empty datatable with a message
-      DT::datatable(
-        data.frame(Message = "All measurements within expected range"),
-        options = list(dom = 't', paging = FALSE),  # hide search/pagination
-        rownames = FALSE,
-        caption = "Issues found"
-      )
-    } else {
-      DT::datatable(
-        df,
-        options = list(pageLength = 10, autoWidth = TRUE),
-        rownames = FALSE,
-        caption = "Issues found"
-      )
-    }
-
   })
 
   # --- Render depth QC table
@@ -521,9 +523,198 @@ shinyServer(function(input, output, session) {
     ) %>%
       DT::datatable(
         options = list(pageLength = 10, autoWidth = TRUE),
+        style = "bootstrap",
         rownames = FALSE,
         caption = paste("Issues found (depth column:", paste(depth_col, collapse = ", "), ")")
       )
+  })
+
+  # --- Render check outliers QC table
+  output$outliers_table <- DT::renderDT({
+    req(shark_data(), thresholds(), input$parameter, input$datatype, input$threshold_col, input$direction, input$threshold_group)
+
+    # Map dropdown choices to specific RDS files
+    group_col <- switch(input$threshold_group,
+                        "Parameter" = "parameter",
+                        "Sea basin" = "location_sea_basin",
+                        "Scientific name" = "scientific_name",
+                        "parameter"  # fallback (default)
+    )
+
+    # Determine datatype safely
+    datatype_input <- input$datatype
+
+    if (!datatype_input %in% thresholds()$datatype) {
+      alt_form <- gsub("\\s+", "", datatype_input)
+      match_idx <- match(tolower(alt_form),
+                         tolower(gsub("\\s+", "", thresholds()$datatype)))
+      if (!is.na(match_idx)) {
+        datatype_input <- thresholds()$datatype[match_idx]
+      }
+    }
+
+    # --- Capture warnings from check_outliers()
+    warning_msg <- NULL
+    df <- withCallingHandlers(
+      check_outliers(
+        data = shark_data(),
+        parameter = input$parameter,
+        datatype = datatype_input,
+        thresholds = thresholds(),
+        threshold_col = input$threshold_col,
+        custom_group = group_col,
+        direction = input$direction,
+        return_df = TRUE,
+        verbose = FALSE
+      ),
+      warning = function(w) {
+        warning_msg <<- conditionMessage(w)
+        invokeRestart("muffleWarning")  # Prevent console warning
+      }
+    )
+
+    # --- Notify user if there was a warning
+    if (!is.null(warning_msg)) {
+      showNotification(
+        paste("check_outliers warning:", warning_msg),
+        type = "warning",
+        duration = 10
+      )
+    }
+
+    # --- Render results
+    if (is.null(df) || nrow(df) == 0) {
+      message_text <- if (is.null(df)) {
+        paste("Parameter", input$parameter, "not found in the dataset or in the threshold dataset")
+      } else {
+        paste(input$parameter, "is within the expected range")
+      }
+
+      DT::datatable(
+        data.frame(Message = message_text),
+        style = "bootstrap",
+        options = list(dom = 't', paging = FALSE),
+        rownames = FALSE,
+        caption = "Issues found"
+      )
+    } else {
+      DT::datatable(
+        df,
+        style = "bootstrap",
+        options = list(
+          pageLength = 10,
+          scrollX = TRUE,
+          autoWidth = TRUE
+        ),
+        rownames = FALSE,
+        caption = "Issues found"
+      )
+    }
+  })
+
+  # --- Scatterplot tab
+  output$scatter_plot <- renderPlotly({
+    req(shark_data(), input$datatype, input$scatter_parameter, input$threshold_col_scatter, input$threshold_group_scatter, input$scatter_group_value)
+
+    datatype_input <- input$datatype
+
+    # If not directly found in the thresholds, try a space-insensitive match
+    if (!datatype_input %in% thresholds_scatter()$datatype) {
+      alt_form <- gsub("\\s+", "", datatype_input)
+      match_idx <- match(
+        tolower(alt_form),
+        tolower(gsub("\\s+", "", thresholds_scatter()$datatype))
+      )
+      if (!is.na(match_idx)) {
+        datatype_input <- thresholds_scatter()$datatype[match_idx]
+      }
+    }
+
+    # Map dropdown choices to specific RDS files
+    group_col <- switch(input$threshold_group_scatter,
+                        "Parameter" = "parameter",
+                        "Sea basin" = "location_sea_basin",
+                        "Scientific name" = "scientific_name",
+                        "parameter"  # fallback (default)
+    )
+
+    # Filter thresholds
+    thresh <- thresholds_scatter() %>%
+      dplyr::filter(datatype == datatype_input) %>%
+      dplyr::filter(parameter == input$scatter_parameter)
+
+    threshold_col <- input$threshold_col_scatter
+    threshold_group <- input$threshold_group_scatter
+
+    # Build a smaller threshold tibble with only the relevant columns
+    thresh_subset <- thresh %>%
+      dplyr::select(
+        parameter,
+        !!sym(group_col),
+        !!sym(threshold_col)
+      )
+
+    data <- shark_data() %>%
+      filter(parameter == input$scatter_parameter)
+
+    available_groups <- unique(data[[group_col]])
+
+    thresh_subset <- thresh_subset %>%
+      filter((.data[[group_col]] %in% available_groups))
+
+    if (input$scatter_group_value != "All") {
+      data <- data %>%
+        filter((.data[[group_col]] == input$scatter_group_value))
+
+      thresh_subset <- thresh_subset %>%
+        filter((.data[[group_col]] == input$scatter_group_value))
+    }
+
+    scatterplot(
+        data,
+        hline = thresh_subset,
+        hline_group_col = group_col,
+        hline_value_col = threshold_col
+      )
+  })
+
+  # --- Render logic rules table
+  output$parameter_rules_table <- DT::renderDT({
+    req(shark_data())
+
+    df <- suppressWarnings(check_parameter_rules(
+      shark_data(),
+      verbose = FALSE
+    ))
+
+    if (is.null(df)) {
+      # Empty datatable with a message
+      DT::datatable(
+        data.frame(Message = "No rules defined for the parameters in the dataset"),
+        style = "bootstrap",
+        options = list(dom = 't', paging = FALSE),  # hide search/pagination
+        rownames = FALSE,
+        caption = "Issues found"
+      )
+    } else if (is.list(df) && length(df) == 0) {
+      # Empty datatable with a message
+      DT::datatable(
+        data.frame(Message = "All measurements within expected range"),
+        style = "bootstrap",
+        options = list(dom = 't', paging = FALSE),  # hide search/pagination
+        rownames = FALSE,
+        caption = "Issues found"
+      )
+    } else {
+      DT::datatable(
+        df,
+        style = "bootstrap",
+        options = list(pageLength = 10, autoWidth = TRUE),
+        rownames = FALSE,
+        caption = "Issues found"
+      )
+    }
+
   })
 
   # --- Dyntaxa table
@@ -553,6 +744,7 @@ shinyServer(function(input, output, session) {
 
       DT::datatable(
         dyntaxa_res,
+        style = "bootstrap",
         options = list(pageLength = 50, autoWidth = TRUE),
         rownames = FALSE,
         caption = "Taxa found in Dyntaxa"
@@ -577,6 +769,7 @@ shinyServer(function(input, output, session) {
       # Empty datatable with a message
       DT::datatable(
         data.frame(Dyntaxa = "Column 'scientific_name' not found in the input data"),
+        style = "bootstrap",
         options = list(dom = 't', paging = FALSE),  # hide search/pagination
         rownames = FALSE,
         caption = "Taxa found in Dyntaxa"
@@ -613,6 +806,7 @@ shinyServer(function(input, output, session) {
         worms_res,
         options = list(pageLength = 50, autoWidth = TRUE),
         rownames = FALSE,
+        style = "bootstrap",
         caption = "Taxa found in WoRMS"
       ) %>%
         DT::formatStyle(
@@ -635,6 +829,7 @@ shinyServer(function(input, output, session) {
       # Empty datatable with a message
       DT::datatable(
         data.frame(WoRMS = "Column 'scientific_name' not found in the input data"),
+        style = "bootstrap",
         options = list(dom = 't', paging = FALSE),  # hide search/pagination
         rownames = FALSE,
         caption = "Taxa found in WoRMS"
@@ -647,6 +842,7 @@ shinyServer(function(input, output, session) {
     req(shark_data())
     DT::datatable(
       shark_data(),
+      style = "bootstrap",
       options = list(
         pageLength = 10,
         scrollX = TRUE,
@@ -679,7 +875,11 @@ shinyServer(function(input, output, session) {
         code_type = input$available_code,
         only_bad = input$only_bad,
         only_bad_distance = input$only_bad_distance,
-        depth_col = input$depth_col
+        depth_col = input$depth_col,
+        threshold_col = input$threshold_col,
+        parameter = input$parameter,
+        direction = input$direction,
+        threshold_group = input$threshold_group
       )
 
       rmarkdown::render(

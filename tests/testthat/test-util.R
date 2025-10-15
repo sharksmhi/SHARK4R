@@ -128,3 +128,91 @@ test_that("translate_shark_datatype handles unknown names gracefully", {
 test_that("translate_shark_datatype returns NULL for NULL input", {
   expect_null(translate_shark_datatype(NULL))
 })
+
+test_that("check_outliers works with minimal dataset", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable("https://github.com/")
+
+  # Load threshold data
+  thresholds <- load_shark4r_stats(verbose = TRUE)
+
+  # Create a minimal test dataset
+  example_data <- tibble(
+    station_name = c("S1", "S2", "S3"),
+    sample_date = as.Date(c("2025-01-01", "2025-01-02", "2025-01-03")),
+    sample_id = 1:3,
+    shark_sample_id_md5 = letters[1:3],
+    sample_min_depth_m = c(0, 5, 2),
+    sample_max_depth_m = c(1, 6, 4),
+    parameter = c("Chlorophyll", "Chlorophyll", "Chlorophyll"),
+    value = c(0.5, 5, 50),  # third value should be an outlier
+    delivery_datatype = c("Measured", "Measured", "Measured")
+  )
+
+  # Use a simple threshold dataframe
+  example_thresholds <- tibble(
+    parameter = "Chlorophyll",
+    datatype = "Measured",
+    extreme_upper = 10
+  )
+
+  # Run check_outliers
+  out <- check_outliers(
+    data = example_data,
+    parameter = "Chlorophyll",
+    datatype = "Measured",
+    threshold_col = "extreme_upper",
+    thresholds = example_thresholds,
+    return_df = TRUE,
+    verbose = FALSE
+  )
+
+  # Expect a data frame
+  expect_s3_class(out, "data.frame")
+
+  # Expect only the third row (value 50) to be flagged
+  expect_equal(nrow(out), 1)
+  expect_equal(out$value, 50)
+
+  # Also test direction = "below"
+  example_thresholds$extreme_lower <- 1
+  out_below <- check_outliers(
+    data = example_data,
+    parameter = "Chlorophyll",
+    datatype = "Measured",
+    threshold_col = "extreme_lower",
+    thresholds = example_thresholds,
+    direction = "below",
+    return_df = TRUE,
+    verbose = FALSE
+  )
+
+  # Only first row (0.5) is below threshold
+  expect_equal(nrow(out_below), 1)
+  expect_equal(out_below$value, 0.5)
+})
+
+test_that("load_shark4r_fields() successfully loads .field_definitions", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable("https://github.com/")
+
+  defs <- load_shark4r_fields(verbose = TRUE)
+
+  expect_type(defs, "list")
+  expect_true(all(c("Phytoplankton", "Zooplankton") %in% names(defs)))
+  expect_true(all(c("required", "recommended") %in% names(defs$Phytoplankton)))
+
+  expect_true(is.character(defs$Phytoplankton$required))
+  expect_true(is.character(defs$Phytoplankton$recommended))
+})
+
+test_that("load_shark4r_fields() prints messages when verbose = TRUE", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable("https://github.com/")
+
+  expect_message(load_shark4r_fields(verbose = TRUE),
+                 "Downloading SHARK4R field definitions from GitHub")
+})

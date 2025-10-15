@@ -10,6 +10,8 @@ check_outliers(
   datatype,
   threshold_col = "extreme_upper",
   thresholds = .threshold_values,
+  custom_group = NULL,
+  direction = c("above", "below"),
   return_df = FALSE,
   verbose = TRUE
 )
@@ -17,7 +19,8 @@ check_outliers(
 \arguments{
 \item{data}{A tibble containing data in SHARK format. Must include columns:
 \code{parameter}, \code{value}, \code{delivery_datatype}, \code{station_name}, \code{sample_date},
-\code{sample_id}, \code{shark_sample_id_md5}, \code{sample_min_depth_m}, \code{sample_max_depth_m}.}
+\code{sample_id}, \code{shark_sample_id_md5}, \code{sample_min_depth_m}, \code{sample_max_depth_m},
+and any custom grouping column used in \code{custom_group}.}
 
 \item{parameter}{Character. Name of the parameter to check. Must exist in both
 \code{data$parameter} and \code{thresholds$parameter}.}
@@ -26,41 +29,50 @@ check_outliers(
 and \code{datatype} in \code{thresholds}.}
 
 \item{threshold_col}{Character. Name of the threshold column in \code{thresholds}
-to use for comparison. Default is \code{"extreme_upper"}, with the default option \code{"mild_upper"}.}
+to use for comparison. Defaults to \code{"extreme_upper"}. Other columns (e.g., \code{"min"},
+\code{"Q1"}, \code{"median"}, \code{"max"}, \code{"mild_upper"}, etc.) can also be used if present.}
 
 \item{thresholds}{A tibble/data frame of thresholds. Must include columns \code{parameter},
 \code{datatype}, and at least one numeric threshold column. Defaults to \code{.threshold_values}.}
 
-\item{return_df}{Logical. If TRUE, return a plain data.frame of problematic rows
-instead of a DT datatable. Default = FALSE.}
+\item{custom_group}{Character or NULL. Optional column name in \code{data} and \code{thresholds}
+for grouping (e.g., \code{"location_sea_basin"}). If specified, thresholds are matched by
+group as well as \code{parameter} and \code{datatype}.}
+
+\item{direction}{Character. Either \code{"above"} (flag values above threshold) or \code{"below"}
+(flag values below threshold). Default is \code{"above"}.}
+
+\item{return_df}{Logical. If TRUE, returns a plain data.frame of flagged rows instead of
+a DT datatable. Default = FALSE.}
 
 \item{verbose}{Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.}
 }
 \value{
-If outliers are found, returns a \code{DT::datatable} or a data.frame (if \code{return_df} is set to TRUE) containing:
-\code{delivery_datatype}, \code{station_name}, \code{sample_date}, \code{sample_id},
-\code{shark_sample_id_md5}, \code{sample_min_depth_m}, \code{sample_max_depth_m},
-\code{parameter}, \code{value}, and \code{threshold}. Otherwise, prints a message indicating
-that values are within the threshold range (if \code{verbose} is set to TRUE).
+If outliers are found, returns a \code{DT::datatable} or a data.frame (if \code{return_df = TRUE})
+containing:
+\code{datatype}, \code{station_name}, \code{sample_date}, \code{sample_id}, \code{parameter}, \code{value}, \code{threshold},
+and \code{custom_group} if specified. Otherwise, prints a message indicating that values
+are within the threshold range (if \code{verbose = TRUE}) and returns \code{invisible(NULL)}.
 }
 \description{
 This function checks whether values for a specified parameter exceed a predefined
 threshold. Thresholds are provided in a dataframe (default \code{.threshold_values}),
-which should contain columns for \code{parameter}, \code{datatype}, and at least one threshold
-column (e.g., \code{extreme_upper}). Only rows in \code{data} matching both the \code{parameter}
-and \code{delivery_datatype} (\code{datatype}) are considered.
+which should contain columns for \code{parameter}, \code{datatype}, and at least one numeric
+threshold column (e.g., \code{extreme_upper}). Only rows in \code{data} matching both the
+\code{parameter} and \code{delivery_datatype} (\code{datatype}) are considered. Optionally, data
+can be grouped by a custom column (e.g., \code{location_sea_basin}) when thresholds vary by group.
 }
 \details{
 \itemize{
 \item Only rows in \code{data} matching both \code{parameter} and \code{delivery_datatype} are checked.
-\item If \code{threshold_col} does not exist in \code{thresholds}, the function stops with an error.
-\item If no threshold is found for the specified \code{parameter} and \code{datatype}, the function
-stops with an error.
-\item Values exceeding the threshold are flagged as outliers and displayed in an interactive table.
+\item If \code{custom_group} is specified, thresholds are applied per group.
+\item If \code{threshold_col} does not exist in \code{thresholds}, the function stops with a warning.
+\item Values exceeding (or below) the threshold are flagged as outliers.
+\item Intended for interactive use in Shiny apps where \code{threshold_col} can be selected dynamically.
 }
 }
 \examples{
-# Create a minimal example dataset
+# Minimal example dataset
 example_data <- dplyr::tibble(
   station_name = c("S1", "S2"),
   sample_date = as.Date(c("2025-01-01", "2025-01-02")),
@@ -76,9 +88,11 @@ example_data <- dplyr::tibble(
 example_thresholds <- dplyr::tibble(
   parameter = "Param1",
   datatype = "TypeA",
-  extreme_upper = 10
+  extreme_upper = 10,
+  mild_upper = 8
 )
 
+# Check for values above "extreme_upper"
 check_outliers(
   data = example_data,
   parameter = "Param1",
@@ -87,7 +101,16 @@ check_outliers(
   thresholds = example_thresholds
 )
 
+# Check for values above "mild_upper"
+check_outliers(
+  data = example_data,
+  parameter = "Param1",
+  datatype = "TypeA",
+  threshold_col = "mild_upper",
+  thresholds = example_thresholds
+)
+
 }
 \seealso{
-\code{\link[=get_shark_statistics]{get_shark_statistics()}} for preparing an updated threshold data frame.
+\code{\link[=get_shark_statistics]{get_shark_statistics()}} for preparing updated threshold data.
 }

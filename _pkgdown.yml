@@ -124,6 +124,8 @@ reference:
   - clean_shark4r_cache
   - find_required_fields
   - get_delivery_template
+  - load_shark4r_stats
+  - load_shark4r_fields
   - scatterplot
   - translate_shark_datatype
 

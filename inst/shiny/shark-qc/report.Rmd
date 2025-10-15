@@ -6,10 +6,15 @@ params:
   depth_margin: 0
   depth_col: "water_depth_m"
   land_buffer: 0
-  field: "sample_project_name_en"
-  code_type: "PROJ"
+  field: "platform_code"
+  code_type: "SHIPC"
   only_bad:  FALSE
   only_bad_distance: FALSE
+  threshold_col: "P99" # 99th percentile
+  parameter: NULL
+  direction: "above"
+  threshold_group: "Parameter" # or "Sea basin" or "Scientific name"
+  
 ---
 
 ## Check data
@@ -33,26 +38,27 @@ library(htmltools)
 
 ```{r dataset, echo=FALSE, include=FALSE}
 # params$targetDataset may be a zip file (uploaded) or a folder (downloaded)
-if (dir.exists(params$targetDataset)) {
-  # downloaded/unzipped folder
-  data_file <- file.path(params$targetDataset, "shark_data.txt")
-  myfile <- read_shark(data_file)
+if (file.exists(params$targetDataset)) {
+  shark_data <- read_shark(params$targetDataset)
 } else if (file.exists(params$targetDataset) && grepl("\\.zip$", params$targetDataset)) {
   # uploaded ZIP file
-  myfile <- read_shark(params$targetDataset)
+  shark_data <- read_shark(params$targetDataset)
 } else {
   stop("Target dataset not found or invalid: ", params$targetDataset)
 }
+
+# Drop empty columns
+shark_data <- shark_data %>% select(where(~!all(is.na(.))))
 ```
 
 ## Name of dataset checked
 
 ```{r datasetname, echo=FALSE}
-cat("Processing dataset:", unique(myfile$dataset_name), sep=" ")
+cat("Processing dataset:", unique(shark_data$dataset_name), sep=" ")
 
 # Identify datatype and parameters in the dataset
-datatype <- unique(myfile$delivery_datatype)
-parameters <- unique(myfile$parameter)
+datatype <- unique(shark_data$delivery_datatype)
+parameters <- unique(shark_data$parameter)
 
 # Translate datatype names
 datatype_internal <- translate_shark_datatype(datatype)
@@ -63,21 +69,20 @@ datatype_internal <- translate_shark_datatype(datatype)
 Uses `check_fields()` function to control if all required fields are present.
 
 ```{r checkfields, echo=FALSE}
-safe_datatable(check_fields(myfile,
+safe_datatable(check_fields(shark_data,
                             datatype_internal))
 ```
 
 ## Overview of data
 
 ```{r overview, echo=FALSE}
-# glimpse(myfile)
-skim(myfile)
+skim(shark_data)
 ```
 
 ## View full dataset in table format
 
 ```{r viewtable, echo=FALSE}
-safe_datatable(myfile)
+safe_datatable(shark_data)
 ```
 
 ## Check station name and geographical bounding box
@@ -85,11 +90,11 @@ safe_datatable(myfile)
 Uses `check_stations()` to control if station name is found in the SMHI curated list and location is within preset distance limit
 
 ```{r checkstations, echo = FALSE}
-safe_datatable(match_station(myfile$station_name))
+safe_datatable(match_station(shark_data$station_name))
 
-safe_datatable(check_nominal_station(myfile))
+safe_datatable(check_nominal_station(shark_data))
 
-check_station_distance(myfile,
+check_station_distance(shark_data,
                        plot_leaflet = TRUE,
                        only_bad = params$only_bad_distance)
 ```
@@ -101,7 +106,7 @@ Uses `check_onland()` to control if any locations are on land.
 ```{r checkonland, echo=FALSE}
 cat("Buffer distance used:", params$land_buffer, "\n")
 
-check_onland(myfile,
+check_onland(shark_data,
              buffer = params$land_buffer,
              plot_leaflet = TRUE,
              only_bad = params$only_bad)
@@ -115,7 +120,7 @@ Uses `check_depth()` to control if any sample depths are incorrect.
 cat("Depth margin used:", params$depth_margin, "\n")
 cat("Depth column used:", params$depth_col, "\n")
 
-safe_datatable(check_depth(myfile,
+safe_datatable(check_depth(shark_data,
                            depthmargin = params$depth_margin))
 ```
 
@@ -124,15 +129,41 @@ safe_datatable(check_depth(myfile,
 Uses `check_outliers()` function to control if all values are within range.
 
 ```{r checkoutliers, echo=FALSE, results='asis'}
+# Map param choices to specific RDS files
+rds_file <- switch(params$threshold_group,
+                   "Parameter" = "parameter.rds",
+                   "Sea basin" = "sea_basin.rds",
+                   "Scientific name" = "scientific_name.rds",
+                   "parameter.rds"  # fallback (default)
+)
+
+
+# Map dropdown choices to specific RDS files
+group_col <- switch(params$threshold_group,
+                    "Parameter" = "parameter",
+                    "Sea basin" = "location_sea_basin",
+                    "Scientific name" = "scientific_name",
+                    "parameter"  # fallback (default)
+)
+
+thresholds <- load_shark4r_stats(rds_file, verbose = FALSE)
+
 all_tables <- tagList()
 
 for (param in parameters) {
-  data <- myfile %>% filter(parameter == param)
+  data <- shark_data %>% filter(parameter == param)
   all_tables <- tagAppendChild(all_tables,
                                tagList(
                                  tags$h4(param),
-                                 check_outliers(data, param, datatype)
-                               ))
+                                 check_outliers(data, 
+                                                param, 
+                                                datatype, 
+                                                params$threshold_col, 
+                                                thresholds, 
+                                                group_col, 
+                                                params$direction)
+                               )
+  )
 }
 
 all_tables
@@ -143,19 +174,19 @@ all_tables
 Uses `check_parameter_rules()` function to control if data follows logical assumptions.
 
 ```{r checkrules, echo=FALSE}
-safe_datatable(check_parameter_rules(myfile))
+safe_datatable(check_parameter_rules(shark_data))
 ```
 
 ```{r checkzeroes, echo=FALSE}
-safe_datatable(check_zero_value(myfile))
+safe_datatable(check_zero_value(shark_data))
 ```
 
 ```{r checkzeropositions, echo=FALSE}
-safe_datatable(check_zero_positions(myfile))
+safe_datatable(check_zero_positions(shark_data))
 ```
 
 ```{r checklogical_a, echo=FALSE}
-safe_datatable(check_value_logical(myfile))
+safe_datatable(check_value_logical(shark_data))
 ```
 
 ## Check codes
@@ -166,7 +197,7 @@ Uses `check_codes()` function to control if data follows the SMHI codelist.
 cat("Field used:", params$field, "\n")
 cat("Code type used:", params$code_type, "\n")
 
-safe_datatable(check_codes(myfile, field = params$field, code_type = params$code_type))
+safe_datatable(check_codes(shark_data, field = params$field, code_type = params$code_type))
 ```
 
 ## Match taxa
@@ -174,14 +205,14 @@ safe_datatable(check_codes(myfile, field = params$field, code_type = params$code
 Uses `is_in_dyntaxa()` to find and match taxa names provided in the data against the Dyntaxa database. In addition to the Dyntaxa match it is recommended to run the `match_worms_taxa_interactive()` function to match against the WoRMS database.
 
 ```{r matchtaxa, echo=FALSE}
-if ("scientific_name" %in% colnames(myfile)) {
+if ("scientific_name" %in% colnames(shark_data)) {
   tagList(
     tags$h4("Matched taxa (Dyntaxa)"),
-    safe_datatable(is_in_dyntaxa(myfile$scientific_name,
+    safe_datatable(is_in_dyntaxa(shark_data$scientific_name,
                                  use_dwca = TRUE,
                                  return_df = TRUE)),
     tags$h4("Matched taxa (WoRMS)"),
-    safe_datatable(match_worms_taxa_interactive(myfile$scientific_name, ask = FALSE))
+    safe_datatable(match_worms_taxa_interactive(shark_data$scientific_name, ask = FALSE))
   )
 }
 ```
