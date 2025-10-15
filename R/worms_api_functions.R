@@ -477,7 +477,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
                                    max_retries = 3, sleep_time = 10, marine_only = TRUE,
                                    verbose = TRUE) {
 
-  lifecycle::deprecate_warn("0.1.7.9000", "get_worms_records_name()", "match_worms_taxa()")
+  lifecycle::deprecate_warn("1.0.0", "get_worms_records_name()", "match_worms_taxa()")
 
   match_worms_taxa(taxa_names = taxa_names,
                    fuzzy = fuzzy,
@@ -885,7 +885,7 @@ match_worms_taxa_interactive <- function(names, ask = TRUE) {
 #' @keywords internal
 #' @export
 match_wormstaxa <- function(names, ask = TRUE) {
-  lifecycle::deprecate_warn("0.1.7.9000", "match_wormstaxa()", "match_worms_taxa_interactive()")
+  lifecycle::deprecate_warn("1.0.0", "match_wormstaxa()", "match_worms_taxa_interactive()")
 
   match_worms_taxa_interactive(names = names, ask = ask)
 }

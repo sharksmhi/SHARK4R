@@ -4,7 +4,7 @@
 \alias{defunct}
 \title{Defunct functions}
 \usage{
-# Deprecated in 0.1.7.9000 -------------------------------------
+# Deprecated in 1.0.0 -------------------------------------
 
 # Deprecated in 0.1.4 -------------------------------------
 }

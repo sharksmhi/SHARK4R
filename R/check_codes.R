@@ -156,7 +156,7 @@ check_codes <- function(data,
 #' @keywords internal
 #' @export
 check_code_proj <- function(data, field = "sample_project_name_sv", clean_cache_days = 30) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_code_proj()", "check_codes()")
+  lifecycle::deprecate_warn("1.0.0", "check_code_proj()", "check_codes()")
   check_codes(data = data,
               field = field,
               code_type = "PROJ",

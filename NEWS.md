@@ -1,4 +1,4 @@
-# SHARK4R (development version)
+# SHARK4R 1.0.0
 
 ## New features
 * Add new functions: `get_delivery_template()` and `find_required_fields()` to get SHARK delivery templates and required fields from the web.

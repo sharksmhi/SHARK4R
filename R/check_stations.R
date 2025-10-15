@@ -82,7 +82,7 @@ check_nominal_station <- function(data, verbose = TRUE) {
 #' @keywords internal
 #' @export
 nominal_station <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "nominal_station()", "check_nominal_station()")
+  lifecycle::deprecate_warn("1.0.0", "nominal_station()", "check_nominal_station()")
 
   check_nominal_station(data)
 }

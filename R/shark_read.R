@@ -221,7 +221,7 @@ read_shark <- function(filename,
 #' @keywords internal
 #' @export
 shark_read_deliv <- function(filename, skip = 2, sheet = 2) {
-  lifecycle::deprecate_warn("0.1.7.9000", "shark_read_deliv()", "read_shark_deliv()")
+  lifecycle::deprecate_warn("1.0.0", "shark_read_deliv()", "read_shark_deliv()")
   read_shark_deliv(filename = filename, skip = skip, sheet = sheet)
 }
 
@@ -240,7 +240,7 @@ shark_read_deliv <- function(filename, skip = 2, sheet = 2) {
 #' @keywords internal
 #' @export
 shark_read_deliv_xls <- function(filename, skip = 2, sheet = 2) {
-  lifecycle::deprecate_warn("0.1.7.9000", "shark_read_deliv_xls()", "read_shark_deliv()")
+  lifecycle::deprecate_warn("1.0.0", "shark_read_deliv_xls()", "read_shark_deliv()")
   read_shark_deliv(filename = filename, skip = skip, sheet = sheet)
 }
 
@@ -271,7 +271,7 @@ shark_read_deliv_xls <- function(filename, skip = 2, sheet = 2) {
 #' @keywords internal
 #' @export
 shark_read <- function(filename, delimiters = "point-tab", encoding = "latin_1") {
-  lifecycle::deprecate_warn("0.1.7.9000", "shark_read_zip()", "read_shark()")
+  lifecycle::deprecate_warn("1.0.0", "shark_read_zip()", "read_shark()")
   read_shark(filename = filename, delimiters = delimiters, encoding = encoding)
 }
 
@@ -301,6 +301,6 @@ shark_read <- function(filename, delimiters = "point-tab", encoding = "latin_1")
 #' @keywords internal
 #' @export
 shark_read_zip <- function(zipname, delimiters = "point-tab", encoding = "latin_1") {
-  lifecycle::deprecate_warn("0.1.7.9000", "shark_read_zip()", "read_shark()")
+  lifecycle::deprecate_warn("1.0.0", "shark_read_zip()", "read_shark()")
   read_shark(filename = zipname, delimiters = delimiters, encoding = encoding)
 }
