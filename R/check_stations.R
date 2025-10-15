@@ -71,6 +71,7 @@ check_nominal_station <- function(data, verbose = TRUE) {
 #'   Otherwise, returns \code{NULL}.
 #'
 #' @examples
+#' \dontrun{
 #' df <- data.frame(
 #'   sample_date = rep(seq.Date(Sys.Date(), by = "day", length.out = 3), each = 2),
 #'   station_name = rep(c("ST1", "ST2"), 3),
@@ -78,6 +79,7 @@ check_nominal_station <- function(data, verbose = TRUE) {
 #'   sample_latitude_dd = rep(c(58.5, 58.6), 3)
 #' )
 #' nominal_station(df)
+#' }
 #'
 #' @keywords internal
 #' @export
