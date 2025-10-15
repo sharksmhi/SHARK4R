@@ -65,7 +65,8 @@ You can also specify which file in the archive to read.</p>
 <span>  sheet <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  force <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  url <span class="op">=</span> <span class="st">"https://www.ices.dk/data/Documents/ENV/PEG_BVOL.zip"</span>,</span>
-<span>  clean_cache_days <span class="op">=</span> <span class="fl">30</span></span>
+<span>  clean_cache_days <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -96,6 +97,10 @@ Defaults to the official ICES link.</p></dd>
 <dd><p>Numeric; if not <code>NULL</code>, cached PEG zip files older than
 this number of days will be automatically deleted and replaced by a new download.
 Defaults to 30. Set to <code>NULL</code> to disable automatic cleanup.</p></dd>
+
+
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
+<dd><p>A logical indicating whether to print progress messages. Default is TRUE.</p></dd>
 
 </dl></div>
     <div class="section level2">

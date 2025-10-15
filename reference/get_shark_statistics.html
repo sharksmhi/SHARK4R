@@ -64,8 +64,8 @@ and calculates descriptive statistics and Tukey outlier thresholds.</p>
 <span>  group_col <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  min_obs <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  max_non_numeric_frac <span class="op">=</span> <span class="fl">0.05</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  cache_result <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  cache_result <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -104,13 +104,13 @@ for a parameter to be included (default: 3).</p></dd>
 for a parameter to be kept (default: 0.05).</p></dd>
 
 
-<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
-<dd><p>Logical, whether to show download progress messages. Default is <code>TRUE</code>.</p></dd>
-
-
 <dt id="arg-cache-result">cache_result<a class="anchor" aria-label="anchor" href="#arg-cache-result"></a></dt>
 <dd><p>Logical, whether to save the result in a persistent cache
 (<code>statistics.rds</code>) for use by other functions. Default is <code>FALSE</code>.</p></dd>
+
+
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
+<dd><p>Logical, whether to show download progress messages. Default is <code>TRUE</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -153,6 +153,12 @@ for a parameter to be kept (default: 0.05).</p></dd>
 
 <dt>n</dt>
 <dd><p>Number of numeric observations used.</p></dd>
+
+<dt>fromYear</dt>
+<dd><p>First year included in the SHARK data download (numeric).</p></dd>
+
+<dt>toYear</dt>
+<dd><p>Last year included in the SHARK data download (numeric).</p></dd>
 
 <dt>&lt;group_col&gt;</dt>
 <dd><p>Optional grouping column if provided.</p></dd>

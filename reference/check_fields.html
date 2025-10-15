@@ -107,7 +107,10 @@ For example, <code>stars = 2</code> includes "<em>" and "**",
 <dt id="arg-field-definitions">field_definitions<a class="anchor" aria-label="anchor" href="#arg-field-definitions"></a></dt>
 <dd><p>A named list of field definitions. Each element
 should contain two character vectors: <code>required</code> and <code>recommended</code>.
-Defaults to the package's built-in <code>SHARK4R:::.field_definitions</code>.</p></dd>
+Defaults to the package's built-in <code>SHARK4R:::.field_definitions</code>.
+Alternatively, the latest definitions can be loaded directly from the
+official SHARK4R GitHub repository using
+<code><a href="load_shark4r_fields.html">load_shark4r_fields</a>()</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -134,6 +137,35 @@ if the whole field is missing.</p></dd>
 A double "**" is often used to specify columns required for <strong>national monitoring only</strong>.
 For more information, see:
 https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data</p>
+<p>Field definitions for SHARK data can be loaded in two ways:</p><ol><li><p><strong>From the SHARK4R package bundle (default):</strong>
+The package contains a built-in object, <code>.field_definitions</code>,
+which stores required and recommended fields for each datatype.</p></li>
+<li><p><strong>From GitHub (latest official version):</strong>
+To use the most up-to-date field definitions, you can load them directly from the
+<a href="https://github.com/nodc-sweden/SHARK4R-statistics" class="external-link">SHARK4R-statistics</a> repository:</p><div class="sourceCode"><pre><code><span></span>
+<span>    <span class="va">defs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_shark4r_fields.html">load_shark4r_fields</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/check_fields.html">check_fields</a></span><span class="op">(</span><span class="va">my_data</span>, <span class="st">"Phytoplankton"</span>, field_definitions <span class="op">=</span> <span class="va">defs</span><span class="op">)</span></span>
+<span>    </span></code></pre></div></li>
+</ol><p><strong>Delivery-format (all-caps) data:</strong>
+If the column names in <code>data</code> are all uppercase (e.g. SDATE), <code>check_fields()</code> assumes
+the dataset follows the official SHARK delivery template. In this case:</p><ul><li><p>Required fields are determined from the delivery template using
+<code><a href="get_delivery_template.html">get_delivery_template</a>()</code> and <code><a href="find_required_fields.html">find_required_fields</a>()</code>.</p></li>
+<li><p>Recommended fields are ignored because the delivery templates do not define them.</p></li>
+<li><p>The function validates that all required columns exist and contain non-empty values.</p></li>
+</ul><p>This ensures that both internal <code>SHARK4R</code> datasets (with camelCase or snake_case columns)
+and official delivery files (ALL_CAPS columns) are validated correctly using the appropriate rules.</p>
+<p>Stars in the template</p>
+<p>Leading asterisks in the delivery template indicate required levels:</p>
+<ul><li><p><em>*</em> = standard required column</p></li>
+<li><p>* = required for national monitoring</p></li>
+<li><p>Other symbols = additional requirement level</p></li>
+</ul><p>The <code>stars</code> parameter in <code>check_fields()</code> controls how many levels of required
+columns to include.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="load_shark4r_fields.html">load_shark4r_fields</a></code> for fetching the latest field definitions from GitHub,
+<code><a href="get_delivery_template.html">get_delivery_template</a></code> for downloading delivery templates from SMHI's website.</p></div>
     </div>
 
     <div class="section level2">
@@ -145,7 +177,6 @@ https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbio
 <span class="r-in"><span>  scientific_name <span class="op">=</span> <span class="st">"Skeletonema marinoi"</span>,</span></span>
 <span class="r-in"><span>  value <span class="op">=</span> <span class="fl">123</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">check_fields</span><span class="op">(</span><span class="va">df_phyto</span>, <span class="st">"Phytoplankton"</span>, level <span class="op">=</span> <span class="st">"warning"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 42 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    level field                  row   message                                   </span>
@@ -162,7 +193,13 @@ https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbio
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> error sample_longitude_dd    <span style="color: #BB0000;">NA</span>    Required field sample_longitude_dd is mis…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 32 more rows</span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Example 2: Define a custom datatype with required + recommended fields</span></span></span>
+<span class="r-in"><span><span class="co"># Example 2: Load latest definitions from GitHub and use them</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="va">defs</span> <span class="op">&lt;-</span> <span class="fu"><a href="load_shark4r_fields.html">load_shark4r_fields</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">check_fields</span><span class="op">(</span><span class="va">df_phyto</span>, <span class="st">"Phytoplankton"</span>, field_definitions <span class="op">=</span> <span class="va">defs</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 3: Custom datatype with required + recommended fields</span></span></span>
 <span class="r-in"><span><span class="va">defs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  ExampleType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    required <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"value"</span><span class="op">)</span>,</span></span>
@@ -170,27 +207,9 @@ https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbio
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># All fields present and filled</span></span></span>
 <span class="r-in"><span><span class="va">df_ok</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span>, value <span class="op">=</span> <span class="st">"x"</span>, comment <span class="op">=</span> <span class="st">"ok"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">check_fields</span><span class="op">(</span><span class="va">df_ok</span>, <span class="st">"ExampleType"</span>, level <span class="op">=</span> <span class="st">"warning"</span>, field_definitions <span class="op">=</span> <span class="va">defs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 0 × 0</span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Missing required field</span></span></span>
-<span class="r-in"><span><span class="va">df_missing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">check_fields</span><span class="op">(</span><span class="va">df_missing</span>, <span class="st">"ExampleType"</span>, field_definitions <span class="op">=</span> <span class="va">defs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   level field row   message                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> error value <span style="color: #BB0000;">NA</span>    Required field value is missing</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Empty values in required field</span></span></span>
-<span class="r-in"><span><span class="va">df_empty</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span>, value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">""</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">check_fields</span><span class="op">(</span><span class="va">df_empty</span>, <span class="st">"ExampleType"</span>, field_definitions <span class="op">=</span> <span class="va">defs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   level field   row message                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> error value     1 Empty value for required field value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> error value     2 Empty value for required field value</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
