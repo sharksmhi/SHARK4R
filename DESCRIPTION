@@ -38,6 +38,7 @@ Imports:
     purrr,
     readr,
     readxl,
+    rlang,
     sf,
     sp,
     stringi,
