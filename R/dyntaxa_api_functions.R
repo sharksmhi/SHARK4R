@@ -1178,7 +1178,7 @@ match_taxon_name <- function(taxon_names,
                              pageSize = 100,
                              verbose = TRUE) {
 
-  lifecycle::deprecate_warn("0.1.7.9000", "match_taxon_name()", "match_dyntaxa_taxa()")
+  lifecycle::deprecate_warn("1.0.0", "match_taxon_name()", "match_dyntaxa_taxa()")
 
   match_dyntaxa_taxa(taxon_names = taxon_names,
                      subscription_key = subscription_key,
@@ -1809,7 +1809,7 @@ add_hierarchy_column <- function(data, data_dwca = NULL, verbose = TRUE) {
 match_dyntaxa <- function(names,
                           subscription_key = Sys.getenv("DYNTAXA_KEY")) {
 
-  lifecycle::deprecate_warn("0.1.7.9000", "match_dyntaxa()", "is_in_dyntaxa()", "Replaced by a new function name")
+  lifecycle::deprecate_warn("1.0.0", "match_dyntaxa()", "is_in_dyntaxa()", "Replaced by a new function name")
 
   is_in_dyntaxa(taxon_names = names,
                 subscription_key = subscription_key,

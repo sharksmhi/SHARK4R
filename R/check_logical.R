@@ -231,7 +231,7 @@ check_logical_parameter <- function(data, param_name, condition,
 #' @keywords internal
 #' @export
 check_epibenthos_totcover_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_totcover_logical()", "check_logical_parameter()")
+  lifecycle::deprecate_warn("1.0.0", "check_epibenthos_totcover_logical()", "check_logical_parameter()")
 
   res <- check_logical_parameter(
     data,
@@ -265,7 +265,7 @@ check_epibenthos_totcover_logical <- function(data, return_df = FALSE, return_lo
 #' @keywords internal
 #' @export
 check_epibenthos_coverpercent_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_coverpercent_logical()", "check_logical_parameter()")
+  lifecycle::deprecate_warn("1.0.0", "check_epibenthos_coverpercent_logical()", "check_logical_parameter()")
 
   res <- check_logical_parameter(
     data,
@@ -299,7 +299,7 @@ check_epibenthos_coverpercent_logical <- function(data, return_df = FALSE, retur
 #' @keywords internal
 #' @export
 check_epibenthos_cover_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_cover_logical()", "check_logical_parameter()")
+  lifecycle::deprecate_warn("1.0.0", "check_epibenthos_cover_logical()", "check_logical_parameter()")
 
   res <- check_logical_parameter(
     data,
@@ -333,7 +333,7 @@ check_epibenthos_cover_logical <- function(data, return_df = FALSE, return_logic
 #' @keywords internal
 #' @export
 check_epibenthos_coverclass_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_coverclass_logical()", "check_logical_parameter()")
+  lifecycle::deprecate_warn("1.0.0", "check_epibenthos_coverclass_logical()", "check_logical_parameter()")
 
   res <- check_logical_parameter(
     data,
@@ -367,7 +367,7 @@ check_epibenthos_coverclass_logical <- function(data, return_df = FALSE, return_
 #' @keywords internal
 #' @export
 check_epibenthos_sedimentdepos_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_sedimentdepos_logical()", "check_logical_parameter()")
+  lifecycle::deprecate_warn("1.0.0", "check_epibenthos_sedimentdepos_logical()", "check_logical_parameter()")
 
   res <- check_logical_parameter(
     data,
@@ -401,7 +401,7 @@ check_epibenthos_sedimentdepos_logical <- function(data, return_df = FALSE, retu
 #' @keywords internal
 #' @export
 check_epibenthos_abundclass_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_abundclass_logical()", "check_logical_parameter()")
+  lifecycle::deprecate_warn("1.0.0", "check_epibenthos_abundclass_logical()", "check_logical_parameter()")
 
   res <- check_logical_parameter(
     data,
@@ -435,7 +435,7 @@ check_epibenthos_abundclass_logical <- function(data, return_df = FALSE, return_
 #' @keywords internal
 #' @export
 check_zoobenthos_BQIm_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_zoobenthos_BQIm_logical()", "check_logical_parameter()")
+  lifecycle::deprecate_warn("1.0.0", "check_zoobenthos_BQIm_logical()", "check_logical_parameter()")
 
   # Required columns
   required_cols <- c("parameter", "value")
@@ -500,7 +500,7 @@ check_zoobenthos_BQIm_logical <- function(data, return_df = FALSE, return_logica
 #' @keywords internal
 #' @export
 check_zoobenthos_wetweight_logical <- function(data, return_df = FALSE, return_logical = FALSE) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_zoobenthos_wetweight_logical()", "check_logical_parameter()")
+  lifecycle::deprecate_warn("1.0.0", "check_zoobenthos_wetweight_logical()", "check_logical_parameter()")
 
   res <- check_logical_parameter(
     data,

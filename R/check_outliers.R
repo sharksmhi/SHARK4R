@@ -125,18 +125,11 @@ check_outliers <- function(data,
     dplyr::filter(delivery_datatype == !!datatype)
 
   if (!is.null(custom_group) && custom_group %in% names(thr_df)) {
-    by_cols <- c("parameter", "delivery_datatype" = "datatype")
-
-    # Only add custom_group if it’s not already listed
-    if (!custom_group %in% names(by_cols) && !custom_group %in% by_cols) {
-      by_cols <- c(by_cols, custom_group)
-    }
-
     data_joined <- dplyr::left_join(
       data_param,
       thr_df %>%
         dplyr::select(parameter, datatype, !!custom_group, !!threshold_col),
-      by = by_cols
+      by = c("parameter", "delivery_datatype" = "datatype", custom_group)
     )
   } else {
     data_joined <- dplyr::mutate(
@@ -170,8 +163,7 @@ check_outliers <- function(data,
     if (return_df) {
       return(outliers)
     } else {
-      return(DT::datatable(outliers,
-                           style = "bootstrap"))
+      return(DT::datatable(outliers))
     }
 
   } else {
@@ -192,7 +184,7 @@ check_outliers <- function(data,
 #' @keywords internal
 #' @export
 check_bacterial_production <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_bacterial_production()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_bacterial_production()", "check_outliers()")
   check_outliers(
     data = data,
     parameter = "Bacterial carbon production",
@@ -212,7 +204,7 @@ check_bacterial_production <- function(data) {
 #' @keywords internal
 #' @export
 check_bacterial_concentration <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_bacterial_concentration()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_bacterial_concentration()", "check_outliers()")
   check_outliers(data, parameter = "Bacterial abundance", datatype = "Bacterioplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -227,7 +219,7 @@ check_bacterial_concentration <- function(data) {
 #' @keywords internal
 #' @export
 check_bacterial_carbon <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_bacterial_carbon()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_bacterial_carbon()", "check_outliers()")
   check_outliers(data, parameter = "Bacterial cell carbon content", datatype = "Bacterioplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -242,7 +234,7 @@ check_bacterial_carbon <- function(data) {
 #' @keywords internal
 #' @export
 check_chlorophyll_conc <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_chlorophyll_conc()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_chlorophyll_conc()", "check_outliers()")
   check_outliers(data, parameter = "Chlorophyll-a", datatype = "Chlorophyll", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -257,7 +249,7 @@ check_chlorophyll_conc <- function(data) {
 #' @keywords internal
 #' @export
 check_picoplankton_abundance <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_picoplankton_abundance()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_picoplankton_abundance()", "check_outliers()")
   check_outliers(data, parameter = "Abundance", datatype = "Picoplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -272,7 +264,7 @@ check_picoplankton_abundance <- function(data) {
 #' @keywords internal
 #' @export
 check_picoplankton_biovol <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_picoplankton_biovol()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_picoplankton_biovol()", "check_outliers()")
   check_outliers(data, parameter = "Biovolume concentration", datatype = "Picoplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -287,7 +279,7 @@ check_picoplankton_biovol <- function(data) {
 #' @keywords internal
 #' @export
 check_picoplankton_carbon <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_picoplankton_carbon()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_picoplankton_carbon()", "check_outliers()")
   check_outliers(data, parameter = "Carbon concentration", datatype = "Picoplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -302,7 +294,7 @@ check_picoplankton_carbon <- function(data) {
 #' @keywords internal
 #' @export
 check_picoplankton_counted <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_picoplankton_counted()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_picoplankton_counted()", "check_outliers()")
   check_outliers(data, parameter = "# counted", datatype = "Picoplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -317,7 +309,7 @@ check_picoplankton_counted <- function(data) {
 #' @keywords internal
 #' @export
 check_zooplankton_abund <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_zooplankton_abund()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_zooplankton_abund()", "check_outliers()")
   check_outliers(data, parameter = "Abundance", datatype = "Zooplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -332,7 +324,7 @@ check_zooplankton_abund <- function(data) {
 #' @keywords internal
 #' @export
 check_zooplankton_counted <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_zooplankton_counted()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_zooplankton_counted()", "check_outliers()")
   check_outliers(data, parameter = "# counted", datatype = "Zooplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -347,7 +339,7 @@ check_zooplankton_counted <- function(data) {
 #' @keywords internal
 #' @export
 check_zooplankton_length_mean <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_zooplankton_length_mean()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_zooplankton_length_mean()", "check_outliers()")
   check_outliers(data, parameter = "Length (mean)", datatype = "Zooplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -362,7 +354,7 @@ check_zooplankton_length_mean <- function(data) {
 #' @keywords internal
 #' @export
 check_zooplankton_length_median <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_zooplankton_length_median()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_zooplankton_length_median()", "check_outliers()")
   check_outliers(data, parameter = "Length (median)", datatype = "Zooplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -377,7 +369,7 @@ check_zooplankton_length_median <- function(data) {
 #' @keywords internal
 #' @export
 check_zooplankton_wetweight <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_zooplankton_wetweight()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_zooplankton_wetweight()", "check_outliers()")
   check_outliers(data, parameter = "Wet weight", datatype = "Zooplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -392,7 +384,7 @@ check_zooplankton_wetweight <- function(data) {
 #' @keywords internal
 #' @export
 check_zooplankton_carbon <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_zooplankton_carbon()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_zooplankton_carbon()", "check_outliers()")
   check_outliers(data, parameter = "Carbon content", datatype = "Zooplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -407,7 +399,7 @@ check_zooplankton_carbon <- function(data) {
 #' @keywords internal
 #' @export
 check_zooplankton_wetweight_volume <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_zooplankton_wetweight_volume()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_zooplankton_wetweight_volume()", "check_outliers()")
   check_outliers(data, parameter = "Wet weight/volume", datatype = "Zooplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -422,7 +414,7 @@ check_zooplankton_wetweight_volume <- function(data) {
 #' @keywords internal
 #' @export
 check_zooplankton_wetweight_area <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_zooplankton_wetweight_area()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_zooplankton_wetweight_area()", "check_outliers()")
   check_outliers(data, parameter = "Wet weight/area", datatype = "Zooplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -437,7 +429,7 @@ check_zooplankton_wetweight_area <- function(data) {
 #' @keywords internal
 #' @export
 check_phytoplankton_abund <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_phytoplankton_abund()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_phytoplankton_abund()", "check_outliers()")
   check_outliers(data, parameter = "Abundance", datatype = "Phytoplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -452,7 +444,7 @@ check_phytoplankton_abund <- function(data) {
 #' @keywords internal
 #' @export
 check_phytoplankton_biovol <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_phytoplankton_biovol()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_phytoplankton_biovol()", "check_outliers()")
   check_outliers(data, parameter = "Biovolume concentration", datatype = "Phytoplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -467,7 +459,7 @@ check_phytoplankton_biovol <- function(data) {
 #' @keywords internal
 #' @export
 check_phytoplankton_carbon <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_phytoplankton_carbon()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_phytoplankton_carbon()", "check_outliers()")
   check_outliers(data, parameter = "Carbon concentration", datatype = "Phytoplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -482,7 +474,7 @@ check_phytoplankton_carbon <- function(data) {
 #' @keywords internal
 #' @export
 check_phytoplankton_counted <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_phytoplankton_counted()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_phytoplankton_counted()", "check_outliers()")
   check_outliers(data, parameter = "# counted", datatype = "Phytoplankton", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -497,7 +489,7 @@ check_phytoplankton_counted <- function(data) {
 #' @keywords internal
 #' @export
 check_primaryproduction_carbonprod <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_primaryproduction_carbonprod()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_primaryproduction_carbonprod()", "check_outliers()")
   check_outliers(data, parameter = "Carbon production", datatype = "Primary production", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -512,7 +504,7 @@ check_primaryproduction_carbonprod <- function(data) {
 #' @keywords internal
 #' @export
 check_primaryproduction_carbonprodlight <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_primaryproduction_carbonprodlight()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_primaryproduction_carbonprodlight()", "check_outliers()")
   check_outliers(data, parameter = "Carbon prod in light", datatype = "Primary production", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -527,7 +519,7 @@ check_primaryproduction_carbonprodlight <- function(data) {
 #' @keywords internal
 #' @export
 check_primaryproduction_carbonprod_hour <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_primaryproduction_carbonprod_hour()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_primaryproduction_carbonprod_hour()", "check_outliers()")
   check_outliers(data, parameter = "Carbon production/hour", datatype = "Primary production", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -542,7 +534,7 @@ check_primaryproduction_carbonprod_hour <- function(data) {
 #' @keywords internal
 #' @export
 check_epibenthos_counted <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_counted()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_epibenthos_counted()", "check_outliers()")
   check_outliers(data, parameter = "# counted", datatype = "Epibenthos", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -557,7 +549,7 @@ check_epibenthos_counted <- function(data) {
 #' @keywords internal
 #' @export
 check_epibenthos_dryweight <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_dryweight()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_epibenthos_dryweight()", "check_outliers()")
   check_outliers(data, parameter = "Dry weight", datatype = "Epibenthos", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -572,7 +564,7 @@ check_epibenthos_dryweight <- function(data) {
 #' @keywords internal
 #' @export
 check_epibenthos_specdistr_maxdepth <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_specdistr_maxdepth()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_epibenthos_specdistr_maxdepth()", "check_outliers()")
   check_outliers(data, parameter = "Species distribution max depth", datatype = "Epibenthos", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -587,7 +579,7 @@ check_epibenthos_specdistr_maxdepth <- function(data) {
 #' @keywords internal
 #' @export
 check_epibenthos_specdistr_mindepth <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_epibenthos_specdistr_mindepth()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_epibenthos_specdistr_mindepth()", "check_outliers()")
   check_outliers(data, parameter = "Species distribution min depth", datatype = "Epibenthos", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -602,7 +594,7 @@ check_epibenthos_specdistr_mindepth <- function(data) {
 #' @keywords internal
 #' @export
 check_harbourseal_counted <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_harbourseal_counted()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_harbourseal_counted()", "check_outliers()")
   check_outliers(data, parameter = "# counted", datatype = "Harbour seal", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -617,7 +609,7 @@ check_harbourseal_counted <- function(data) {
 #' @keywords internal
 #' @export
 check_greyseal_counted <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_greyseal_counted()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_greyseal_counted()", "check_outliers()")
   check_outliers(data, parameter = "# counted", datatype = "Grey seal", threshold_col = "extreme_upper")
 }
 #' Uses data from national marine monitoring for the last 5 years to identify outliers
@@ -632,7 +624,7 @@ check_greyseal_counted <- function(data) {
 #' @keywords internal
 #' @export
 check_zoobenthos_BQIm <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_zoobenthos_BQIm()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_zoobenthos_BQIm()", "check_outliers()")
   check_outliers(data, parameter = "BQIm", datatype = "Zoobenthos", threshold_col = "extreme_upper")
 }
 
@@ -648,7 +640,7 @@ check_zoobenthos_BQIm <- function(data) {
 #' @keywords internal
 #' @export
 check_zoobenthos_abund <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_zoobenthos_abund()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_zoobenthos_abund()", "check_outliers()")
   check_outliers(data = data, parameter = "Abundance", datatype = "Zoobenthos", threshold_col = "extreme_upper")
 }
 
@@ -664,7 +656,7 @@ check_zoobenthos_abund <- function(data) {
 #' @keywords internal
 #' @export
 check_zoobenthos_counted <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_zoobenthos_counted()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_zoobenthos_counted()", "check_outliers()")
   check_outliers(data = data, parameter = "# counted", datatype = "Zoobenthos", threshold_col = "extreme_upper")
 }
 
@@ -680,7 +672,7 @@ check_zoobenthos_counted <- function(data) {
 #' @keywords internal
 #' @export
 check_zoobenthos_wetweight <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_zoobenthos_wetweight()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_zoobenthos_wetweight()", "check_outliers()")
   check_outliers(data = data, parameter = "Wet weight", datatype = "Zoobenthos", threshold_col = "extreme_upper")
 }
 
@@ -696,7 +688,7 @@ check_zoobenthos_wetweight <- function(data) {
 #' @keywords internal
 #' @export
 check_ringedseal_calccounted <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_ringedseal_calccounted()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_ringedseal_calccounted()", "check_outliers()")
   check_outliers(data = data, parameter = "Calculated # counted", datatype = "Ringed seal", threshold_col = "extreme_upper")
 }
 
@@ -712,6 +704,6 @@ check_ringedseal_calccounted <- function(data) {
 #' @keywords internal
 #' @export
 check_harbporp_positivemin <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_harbporp_positivemin()", "check_outliers()")
+  lifecycle::deprecate_warn("1.0.0", "check_harbporp_positivemin()", "check_outliers()")
   check_outliers(data = data, parameter = "Porpoise positive minutes", datatype = "Harbour Porpoise", threshold_col = "extreme_upper")
 }
