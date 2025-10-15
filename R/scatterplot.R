@@ -53,7 +53,6 @@ scatterplot <- function(data,
                         hline_style = list(linetype = "dashed", size = 0.8),
                         interactive = TRUE,
                         max_hlines = 5) {
-
   x <- match.arg(x)
 
   required_cols <- c("station_name", "sample_date", "value", "parameter", "unit")
@@ -68,10 +67,11 @@ scatterplot <- function(data,
     warning("Multiple parameters found; only the first will be used for labeling.")
   y_label <- paste0(parameter_name[1], " (", unit_name[1], ")")
 
-  aes_mapping <- if (!is.null(hline_group_col) && hline_group_col %in% names(data)) {
-    ggplot2::aes_string(x = x, y = "value", color = hline_group_col)
+  # Use tidy evaluation instead of aes_string()
+  if (!is.null(hline_group_col) && hline_group_col %in% names(data)) {
+    aes_mapping <- ggplot2::aes(!!rlang::sym(x), value, color = !!rlang::sym(hline_group_col))
   } else {
-    ggplot2::aes_string(x = x, y = "value")
+    aes_mapping <- ggplot2::aes(!!rlang::sym(x), value)
   }
 
   p <- ggplot2::ggplot(data, aes_mapping) +
@@ -118,7 +118,10 @@ scatterplot <- function(data,
 
       p <- p + ggplot2::geom_hline(
         data = hline_filtered,
-        ggplot2::aes_string(yintercept = hline_value_col, color = hline_group_col),
+        ggplot2::aes(
+          yintercept = !!rlang::sym(hline_value_col),
+          color = !!rlang::sym(hline_group_col)
+        ),
         linetype = hline_style$linetype,
         linewidth = hline_style$size
       )
