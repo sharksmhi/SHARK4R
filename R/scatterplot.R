@@ -7,13 +7,16 @@
 #' @param data A data.frame or tibble containing at least the following columns:
 #'   `"station_name"`, `"sample_date"`, `"value"`, `"parameter"`, `"unit"`.
 #' @param x Character. The column to use for the x-axis. Either `"station_name"` or `"sample_date"`.
+#' @param parameter Optional character. If provided, only data for this parameter will be plotted.
+#'   If `NULL`, the function will plot the first parameter found in the dataset.
 #' @param hline Numeric or data.frame. Horizontal line(s) to add. If numeric, a single line
 #'   is drawn at that y-value. If a data.frame, must contain `hline_group_col` and `hline_value_col` columns.
 #' @param hline_group_col Character. Column used for grouping when `hline` is a data.frame and/or for coloring points (optional).
 #' @param hline_value_col Character. Column in `hline` used for the y-values of horizontal lines.
 #' @param hline_style List. Appearance settings for horizontal lines. Should contain `linetype` and `size`.
-#' @param interactive Logical. If TRUE, returns an interactive `plotly` plot; if FALSE, returns a static `ggplot2` plot.
 #' @param max_hlines Integer. Maximum number of horizontal line groups to display per parameter when `hline` is a data.frame.
+#' @param interactive Logical. If TRUE, returns an interactive `plotly` plot; if FALSE, returns a static `ggplot2` plot.
+#' @param verbose Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.
 #'
 #' @return A `ggplot` object (if `interactive = FALSE`) or a `plotly` object (if `interactive = TRUE`).
 #'
@@ -32,12 +35,14 @@
 #' scatterplot(
 #'   data = my_data,
 #'   x = "station_name",
+#'   parameter = "Chlorophyll-a",
 #'   hline = c(10, 20)
 #' )
 #'
 #' scatterplot(
 #'   data = my_data,
 #'   x = "sample_date",
+#'   parameter = "Bacterial abundance",
 #'   hline = thresholds_df,
 #'   hline_group_col = "location_sea_basin",
 #'   hline_value_col = "P99"
@@ -47,12 +52,14 @@
 #' @export
 scatterplot <- function(data,
                         x = c("station_name", "sample_date"),
+                        parameter = NULL,
                         hline = NULL,
                         hline_group_col = NULL,
                         hline_value_col = NULL,
                         hline_style = list(linetype = "dashed", size = 0.8),
+                        max_hlines = 5,
                         interactive = TRUE,
-                        max_hlines = 5) {
+                        verbose = TRUE) {
   x <- match.arg(x)
 
   required_cols <- c("station_name", "sample_date", "value", "parameter", "unit")
@@ -61,10 +68,23 @@ scatterplot <- function(data,
          paste(required_cols, collapse = ", "))
   }
 
+  # Filter by selected parameter (if specified)
+  available_params <- unique(data$parameter)
+  if (!is.null(parameter)) {
+    if (!parameter %in% available_params) {
+      stop("Parameter '", parameter, "' not found in data. Available parameters: ",
+           paste(available_params, collapse = ", "))
+    }
+    data <- data[data$parameter == parameter, ]
+  } else {
+    if (length(available_params) > 1) {
+      if (verbose) message("Multiple parameters found. Using the first: ", available_params[1])
+      data <- data[data$parameter == available_params[1], ]
+    }
+  }
+
   parameter_name <- unique(data$parameter)
   unit_name <- unique(data$unit)
-  if (length(parameter_name) > 1)
-    warning("Multiple parameters found; only the first will be used for labeling.")
   y_label <- paste0(parameter_name[1], " (", unit_name[1], ")")
 
   # Use tidy evaluation instead of aes_string()
@@ -132,7 +152,6 @@ scatterplot <- function(data,
 
   if (!is.null(hline_group_col) && !is.null(selected_groups)) {
     n_colors <- length(selected_groups)
-
     if (requireNamespace("RColorBrewer", quietly = TRUE)) {
       palette <- RColorBrewer::brewer.pal(min(max(3, n_colors), 8), "Set1")
       p <- p + ggplot2::scale_color_manual(

@@ -125,11 +125,17 @@ check_outliers <- function(data,
     dplyr::filter(delivery_datatype == !!datatype)
 
   if (!is.null(custom_group) && custom_group %in% names(thr_df)) {
+    if (custom_group == "parameter") {
+      by_cols <- c("parameter", "delivery_datatype" = "datatype")
+    } else {
+      by_cols <- c("parameter", "delivery_datatype" = "datatype", custom_group)
+    }
+
     data_joined <- dplyr::left_join(
       data_param,
       thr_df %>%
         dplyr::select(parameter, datatype, !!custom_group, !!threshold_col),
-      by = c("parameter", "delivery_datatype" = "datatype", custom_group)
+      by = by_cols
     )
   } else {
     data_joined <- dplyr::mutate(
