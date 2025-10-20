@@ -310,8 +310,17 @@ match_worms_taxa <- function(taxa_names, fuzzy = TRUE, best_match_only = TRUE,
                              max_retries = 3, sleep_time = 10, marine_only = TRUE,
                              bulk = FALSE, verbose = TRUE) {
 
-  # Handle repeated taxa names
-  unique_names <- unique(taxa_names)
+  # Handle repeated taxa names and keep mapping between original and cleaned names
+  unique_taxa <- unique(taxa_names)
+
+  # Create a lookup table for cleaned names
+  name_map <- data.frame(
+    original = unique_taxa,
+    cleaned = gsub("/", " ", unique_taxa),
+    stringsAsFactors = FALSE
+  )
+
+  unique_names <- unique(name_map$cleaned)
 
   no_content_messages <- c()  # Collect messages
 
@@ -426,7 +435,8 @@ match_worms_taxa <- function(taxa_names, fuzzy = TRUE, best_match_only = TRUE,
 
   # Map back to original taxa_names including duplicates
   worms_records <- lapply(taxa_names, function(x) {
-    worms_unique[worms_unique$name == x, , drop = FALSE]
+    cleaned_x <- name_map$cleaned[name_map$original == x]
+    worms_unique[worms_unique$name == cleaned_x, , drop = FALSE]
   }) %>% bind_rows()
 
   if (verbose && length(no_content_messages) > 0) {
