@@ -2,6 +2,7 @@ url <- "https://www.marinespecies.org/"
 test_aphia_id <- 109604 # Dinophysis acuta
 test_scientific_name <- "Dinophysis acuta"
 test_genus_name <- strsplit(test_scientific_name, " ")[[1]][1]
+test_names <- c("Abra", "Dinophysis", "ljkf hlqsdkf")
 
 test_that("add_worms_taxonomy works", {
   skip_if_offline()
@@ -76,6 +77,18 @@ test_that("match_worms_taxa works when request is in bulk", {
   expect_true(all(c("name", "AphiaID", "status") %in% names(worms_name_no_content)))
 })
 
+test_that("match_worms_taxa works with non-existing taxa when request is in bulk", {
+  skip_if_offline()
+  skip_if_resource_unavailable(url)
+
+  worms_name_no_content <- match_worms_taxa("notaname", bulk = TRUE)
+
+  expect_s3_class(worms_name_no_content, "data.frame")
+  expect_equal(nrow(worms_name_no_content), 1)
+
+  expect_true(all(c("name", "AphiaID", "status") %in% names(worms_name_no_content)))
+})
+
 test_that("deprecated get_worms_records_name works", {
   skip_if_offline()
   skip_if_resource_unavailable(url)
@@ -125,8 +138,6 @@ test_that("assign_phytoplankton_group works with custom groups", {
   expect_true(all(c("scientific_name", "plankton_group") %in% names(phytoplankton_custom_group)))
 })
 
-test_names <- c("Abra", "Dinophysis", "ljkf hlqsdkf")
-
 test_that("match_worms_taxa_interactive works as expected", {
   results <- match_worms_taxa_interactive(test_names, ask = FALSE)
   expect_true(nrow(results) == length(test_names))
@@ -140,4 +151,17 @@ test_that("deprecated update_worms_taxonomy with deprecated argument works as ex
   lifecycle::expect_deprecated(lifecycle::expect_deprecated(
     update_worms_taxonomy(aphiaid = test_aphia_id))
     )
+})
+
+test_that("match_worms_taxa handles empty or NA taxa gracefully", {
+  res_empty <- match_worms_taxa(c("", NA))
+  expect_s3_class(res_empty, "data.frame")
+  expect_true("" %in% res_empty$name)
+  expect_true(all(c("status", "AphiaID", "rank", "valid_name") %in% names(res_empty)))
+})
+
+test_that("clean_taxon removes problematic characters correctly", {
+  taxa <- c("Karenia/brevis", "Amphidinium|sp.", "Test#1(2)", "Weird_\\name?")
+  clean_taxa <- vapply(taxa, SHARK4R:::clean_taxon, character(1))
+  expect_true(all(grepl("^[A-Za-z0-9 _]+$", clean_taxa)))
 })

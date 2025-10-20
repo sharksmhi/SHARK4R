@@ -12,6 +12,7 @@ match_worms_taxa(
   sleep_time = 10,
   marine_only = TRUE,
   bulk = FALSE,
+  chunk_size = 500,
   verbose = TRUE
 )
 }
@@ -30,6 +31,9 @@ match_worms_taxa(
 \item{marine_only}{Logical indicating whether to restrict results to marine taxa only. Default is TRUE.}
 
 \item{bulk}{Logical indicating whether to perform a bulk API call for all unique names at once. Default is FALSE.}
+
+\item{chunk_size}{Integer specifying the maximum number of taxa per bulk API request. Default is 500.
+Only used when \code{bulk = TRUE}. WoRMS API may reject very large requests, so chunking prevents overload.}
 
 \item{verbose}{Logical indicating whether to print progress messages. Default is TRUE.}
 }
