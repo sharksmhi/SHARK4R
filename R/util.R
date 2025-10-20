@@ -578,3 +578,26 @@ normalize_encoding <- function(enc) {
   warning("Unknown encoding detected: ", enc, ". Defaulting to 'utf_8'.")
   return("utf_8")
 }
+
+# Cleaning function for worms names
+clean_taxon <- function(x) {
+  # ensure string
+  if (is.na(x)) x <- ""
+  x <- as.character(x)
+
+  # Normalize encoding to UTF-8
+  x <- iconv(x, to = "UTF-8", sub = "")
+
+  # Replace many problematic characters (including Unicode slash-like chars)
+  # we include: / | \ ? & % # ( ) [ ] { } : ; , . _ etc.
+  pattern <- "[/|\\\\?&%#()\\[\\]\\{\\}:;,_\\.]"
+  out <- gsub(pattern, " ", x, perl = TRUE)
+
+  # Collapse multiple spaces and trim
+  out <- gsub("\\s+", " ", out, perl = TRUE)
+  out <- trimws(out)
+
+  # If empty after cleaning, set placeholder
+  if (identical(out, "")) out <- "_empty_"
+  out
+}

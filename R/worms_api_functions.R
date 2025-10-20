@@ -121,7 +121,10 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE)
         dplyr::mutate(worms_scientific_name = dplyr::last(scientificname)) %>%
         tidyr::pivot_wider(names_from = rank, values_from = scientificname) %>%
         dplyr::mutate(
-          worms_hierarchy = paste(stats::na.omit(unlist(.)), collapse = " - "),
+          worms_hierarchy = paste(
+            stats::na.omit(unlist(dplyr::select(., -worms_scientific_name))),
+            collapse = " - "
+          ),
           aphia_id = id
         ) %>%
         dplyr::mutate(
@@ -279,6 +282,8 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
 #' @param sleep_time Numeric specifying the number of seconds to wait before retrying a failed request. Default is 10.
 #' @param marine_only Logical indicating whether to restrict results to marine taxa only. Default is TRUE.
 #' @param bulk Logical indicating whether to perform a bulk API call for all unique names at once. Default is FALSE.
+#' @param chunk_size Integer specifying the maximum number of taxa per bulk API request. Default is 500.
+#'   Only used when `bulk = TRUE`. WoRMS API may reject very large requests, so chunking prevents overload.
 #' @param verbose Logical indicating whether to print progress messages. Default is TRUE.
 #'
 #' @return A data frame containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
@@ -306,142 +311,254 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
 #' @seealso \url{https://CRAN.R-project.org/package=worrms}
 #'
 #' @export
-match_worms_taxa <- function(taxa_names, fuzzy = TRUE, best_match_only = TRUE,
-                             max_retries = 3, sleep_time = 10, marine_only = TRUE,
-                             bulk = FALSE, verbose = TRUE) {
+match_worms_taxa <- function(taxa_names,
+                             fuzzy = TRUE,
+                             best_match_only = TRUE,
+                             max_retries = 3,
+                             sleep_time = 10,
+                             marine_only = TRUE,
+                             bulk = FALSE,
+                             chunk_size = 500,
+                             verbose = TRUE) {
+  # Helper to rbind data.frames with different columns (like dplyr::bind_rows)
+  rbind_fill <- function(dfs) {
+    if (length(dfs) == 0) return(data.frame())
+    # keep only non-null dfs
+    dfs <- dfs[!vapply(dfs, is.null, logical(1))]
+    all_names <- unique(unlist(lapply(dfs, names)))
+    dfs2 <- lapply(dfs, function(df) {
+      missing <- setdiff(all_names, names(df))
+      if (length(missing) > 0) df[missing] <- NA
+      # ensure column order consistent
+      df[all_names]
+    })
+    do.call(rbind, dfs2)
+  }
 
-  # Handle repeated taxa names and keep mapping between original and cleaned names
+  # ---------------------------
+  # Build mapping table
+  # ---------------------------
   unique_taxa <- unique(taxa_names)
-
-  # Create a lookup table for cleaned names
   name_map <- data.frame(
-    original = unique_taxa,
-    cleaned = gsub("/", " ", unique_taxa),
-    stringsAsFactors = FALSE
+    taxa_names = unique_taxa,
+    cleaned = vapply(unique_taxa, clean_taxon, character(1)),
+    stringsAsFactors = FALSE,
+    row.names = NULL
   )
 
-  unique_names <- unique(name_map$cleaned)
+  # unique keys to query (exclude possible _empty_ for API calls)
+  unique_names_all <- unique(name_map$cleaned)
+  unique_names_api <- setdiff(unique_names_all, "_empty_")
 
-  no_content_messages <- c()  # Collect messages
+  # Prepare storage
+  no_content_messages <- character(0)
 
-  if (bulk) {
-    # Bulk retrieval logic (from ifcb_match_taxa_names)
+  # We'll collect results as list of data.frames, then rbind_fill()
+  worms_unique_list <- list()
+
+  # ---------------------------
+  # Add invalid/_empty_ entries up-front so mapping is consistent
+  # ---------------------------
+  if (any(name_map$cleaned == "_empty_")) {
+    empties <- unique(name_map$cleaned[name_map$cleaned == "_empty_"])
+    # create a single row for the _empty_ placeholder with status invalid
+    worms_unique_list <- c(worms_unique_list, list(
+      data.frame(
+        name = empties,
+        status = "no content",
+        AphiaID = NA,
+        rank = NA,
+        valid_name = NA,
+        stringsAsFactors = FALSE
+      )
+    ))
+  }
+
+  # ---------------------------
+  # Helper to call API with retry (single name)
+  # ---------------------------
+  fetch_single <- function(q, attempt_max) {
     attempt <- 1
-    success <- FALSE
-    worms_unique <- NULL
-
-    while (attempt <= max_retries && !success) {
-      tryCatch({
-        # API call for all unique names at once
-        raw_records <- wm_records_names(unique_names, marine_only = marine_only)
-
-        # Ensure all taxa are represented
-        worms_unique <- lapply(seq_along(unique_names), function(i) {
-          rec <- raw_records[[i]]
-          if (length(rec) == 0) {
-            data.frame(name = unique_names[i],
-                       status = "no content",
-                       AphiaID = NA,
-                       rank = NA,
-                       valid_name = NA,
-                       stringsAsFactors = FALSE)
-          } else {
-            if (best_match_only) rec <- rec[1, , drop = FALSE]
-            data.frame(name = unique_names[i], rec)
-          }
-        }) %>% bind_rows()
-
-        success <- TRUE
+    while (attempt <= attempt_max) {
+      res <- tryCatch({
+        df <- data.frame(name = q,
+                         worrms::wm_records_name(q, fuzzy = fuzzy, marine_only = marine_only),
+                         stringsAsFactors = FALSE)
+        if (best_match_only && nrow(df) > 1) df <- df[1, , drop = FALSE]
+        return(df)
       }, error = function(err) {
         msg <- conditionMessage(err)
-        if (grepl("204", msg)) {
-          no_content_messages <<- c(no_content_messages, "No WoRMS content for some taxa.")
-          worms_unique <<- data.frame(name = unique_names,
-                                      status = "no content",
-                                      AphiaID = NA,
-                                      rank = NA,
-                                      stringsAsFactors = FALSE)
-          success <<- TRUE
-        } else if (attempt == max_retries) {
-          stop("Error retrieving WoRMS records after ", max_retries, " attempts: ", msg)
+        # if 204 or "no content" treat as no content
+        if (grepl("204", msg) || grepl("No content", msg, ignore.case = TRUE)) {
+          no_content_messages <<- c(no_content_messages, paste0("No WoRMS content for '", q, "'"))
+          return(data.frame(name = q,
+                            status = "no content",
+                            AphiaID = NA,
+                            rank = NA,
+                            valid_name = NA,
+                            stringsAsFactors = FALSE))
+        }
+        if (attempt == attempt_max) {
+          stop("Error retrieving WoRMS record for '", q, "' after ", attempt_max, " attempts: ", msg)
         } else {
           Sys.sleep(sleep_time)
+          attempt <<- attempt + 1
+          return(NULL)
         }
       })
+      # If res is NULL, loop to retry
+      if (!is.null(res)) return(res)
       attempt <- attempt + 1
     }
+    # fallback
+    data.frame(name = q, status = "no content", stringsAsFactors = FALSE)
+  }
 
-    # Fallback if still NULL
-    if (is.null(worms_unique)) {
-      worms_unique <- data.frame(name = unique_names,
-                                 status = "Failed",
-                                 AphiaID = NA,
-                                 rank = NA,
-                                 stringsAsFactors = FALSE)
-    }
+  # ---------------------------
+  # Bulk or iterative retrieval
+  # ---------------------------
+  if (bulk) {
+    # Split the API queries into chunks
+    name_chunks <- split(unique_names_api, ceiling(seq_along(unique_names_api) / chunk_size))
 
-  } else {
-    # Iterative approach for each unique name
-    worms_unique <- list()
-    if (verbose) pb <- utils::txtProgressBar(min = 0, max = length(unique_names), style = 3)
+    attempt <- 1
+    success <- FALSE
 
-    for (i in seq_along(unique_names)) {
+    for (chunk_idx in seq_along(name_chunks)) {
+      chunk <- name_chunks[[chunk_idx]]
+
       attempt <- 1
-      worms_record <- NULL
       success <- FALSE
-      if (verbose) utils::setTxtProgressBar(pb, i)
 
       while (attempt <= max_retries && !success) {
         tryCatch({
-          worms_record <- data.frame(
-            name = unique_names[i],
-            wm_records_name(unique_names[i], fuzzy = fuzzy, marine_only = marine_only)
-          )
-          if (best_match_only && nrow(worms_record) > 1) {
-            worms_record <- worms_record[1, , drop = FALSE]
+          if (length(chunk) > 0) {
+            raw_records <- worrms::wm_records_names(chunk, marine_only = marine_only)
+          } else {
+            raw_records <- list()
           }
+
+          # Each element corresponds to one queried name
+          per_name <- lapply(seq_along(chunk), function(i) {
+            rec <- raw_records[[i]]
+            if (is.null(rec) || length(rec) == 0) {
+              data.frame(name = chunk[i],
+                         status = "no content",
+                         AphiaID = NA,
+                         rank = NA,
+                         valid_name = NA,
+                         stringsAsFactors = FALSE)
+            } else {
+              if (is.data.frame(rec)) {
+                if (best_match_only && nrow(rec) > 1) rec <- rec[1, , drop = FALSE]
+                rec2 <- rec
+                rec2$name <- chunk[i]
+                rec2 <- rec2[c("name", setdiff(names(rec2), "name"))]
+                rec2
+              } else {
+                data.frame(name = chunk[i], rec, stringsAsFactors = FALSE)
+              }
+            }
+          })
+
+          worms_unique_list <- c(worms_unique_list, per_name)
           success <- TRUE
+
+          if (verbose) message(sprintf("Processed chunk %d/%d (%d taxa)", chunk_idx, length(name_chunks), length(chunk)))
+
         }, error = function(err) {
           msg <- conditionMessage(err)
-          if (grepl("204", msg)) {
-            no_content_messages <<- c(no_content_messages,
-                                      paste0("No WoRMS content for '", unique_names[i], "'"))
-            worms_record <<- data.frame(name = unique_names[i],
-                                        status = "no content",
-                                        AphiaID = NA,
-                                        stringsAsFactors = FALSE)
+          if (grepl("204", msg) || grepl("No content", msg, ignore.case = TRUE)) {
+            no_content_messages <<- c(no_content_messages, sprintf("No WoRMS content in chunk %d.", chunk_idx))
+            fallback <- lapply(chunk, function(nm) {
+              data.frame(name = nm,
+                         status = "no content",
+                         AphiaID = NA,
+                         rank = NA,
+                         valid_name = NA,
+                         stringsAsFactors = FALSE)
+            })
+            worms_unique_list <<- c(worms_unique_list, fallback)
             success <<- TRUE
           } else if (attempt == max_retries) {
-            stop("Error retrieving WoRMS record for '", unique_names[i],
-                 "' after ", max_retries, " attempts: ", msg)
+            stop("Error retrieving WoRMS records for chunk ", chunk_idx,
+                 " after ", max_retries, " attempts: ", msg)
           } else {
             Sys.sleep(sleep_time)
           }
         })
         attempt <- attempt + 1
       }
-
-      if (is.null(worms_record)) {
-        worms_record <- data.frame(name = unique_names[i],
-                                   status = "Failed",
-                                   stringsAsFactors = FALSE)
-      }
-
-      worms_unique <- bind_rows(worms_unique, worms_record)
     }
-
-    if (verbose) close(pb)
+  } else {
+    # iterative calls for each cleaned name (excluding _empty_)
+    names_to_query <- unique_names_api
+    if (verbose && length(names_to_query) > 0) pb <- utils::txtProgressBar(min = 0, max = length(names_to_query), style = 3)
+    for (i in seq_along(names_to_query)) {
+      q <- names_to_query[i]
+      if (verbose) utils::setTxtProgressBar(pb, i)
+      # fetch with retries
+      worms_res <- fetch_single(q, max_retries)
+      worms_unique_list <- c(worms_unique_list, list(worms_res))
+    }
+    if (verbose && length(names_to_query) > 0) close(pb)
   }
 
-  # Map back to original taxa_names including duplicates
-  worms_records <- lapply(taxa_names, function(x) {
-    cleaned_x <- name_map$cleaned[name_map$original == x]
-    worms_unique[worms_unique$name == cleaned_x, , drop = FALSE]
-  }) %>% bind_rows()
+  # ---------------------------
+  # Combine into one data.frame
+  # ---------------------------
+  worms_unique <- rbind_fill(worms_unique_list)
 
-  if (verbose && length(no_content_messages) > 0) {
-    cat(paste(no_content_messages, collapse = "\n"), "\n")
+  # ensure name column exists (should)
+  if (!"name" %in% names(worms_unique)) {
+    worms_unique$name <- name_map$cleaned[1]  # fallback
   }
+
+  # ---------------------------
+  # Ensure consistent columns for mapping-back stage
+  # ---------------------------
+  # Guarantee some typical columns exist so mapping back creates consistent rows:
+  expected_cols <- c("name", "status", "AphiaID", "rank", "valid_name")
+  missing_cols <- setdiff(expected_cols, names(worms_unique))
+  if (length(missing_cols) > 0) {
+    worms_unique[missing_cols] <- NA
+  }
+  # Reorder columns to have name first
+  worms_unique <- worms_unique[c("name", setdiff(names(worms_unique), "name"))]
+
+  # ---------------------------
+  # Map back to original taxa_names (preserve duplicates and order)
+  # ---------------------------
+  worms_records_list <- lapply(taxa_names, function(orig) {
+    cleaned_x <- name_map$cleaned[name_map$taxa_names == orig]
+    # cleaned_x should be length 1 (since name_map built from unique_taxa)
+    if (length(cleaned_x) != 1) cleaned_x <- cleaned_x[1]
+    rows <- worms_unique[worms_unique$name == cleaned_x, , drop = FALSE]
+
+    if (nrow(rows) == 0) {
+      # create a consistent "no result" row
+      data.frame(
+        name = cleaned_x,
+        status = "no content",
+        AphiaID = NA,
+        rank = NA,
+        valid_name = NA,
+        stringsAsFactors = FALSE
+      )
+    } else {
+      # If the API returned multiple possible rows for the cleaned name,
+      # prefer the first (this matches previous best_match_only handling)
+      rows[1, , drop = FALSE]
+    }
+  })
+
+  worms_records <- rbind_fill(worms_records_list)
+
+  # Map the original taxa_names to 'name' column directly
+  worms_records$name <- taxa_names
+
+  # Reorder columns to have 'name' first (optional)
+  worms_records <- worms_records[c("name", setdiff(names(worms_records), "name"))]
 
   worms_records
 }
@@ -665,7 +782,9 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
                        verbose = verbose)
     ) %>%
       filter(!is.na(AphiaID)) %>%
-      mutate(aphia_id = AphiaID)
+      mutate(aphia_id = AphiaID,
+             rank = as.character(ifelse(status == "no content", NA, rank)),
+             valid_name = as.character(ifelse(status == "no content", NA, valid_name)))
 
     combined_data <- combined_data %>%
       filter(!scientific_name %in% first_word_records$scientific_name) %>%

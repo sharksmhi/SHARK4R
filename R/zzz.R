@@ -5,7 +5,7 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
                          "water_depth_m", "Statistic", "x", "y", "ymin", "ymax", "lower",
                          "middle", "upper", "Value", "Ok", "sample_id", "shark_sample_id_md5",
                          "sample_min_depth_m", "sample_max_depth_m", "parameter", "value",
-                         "taxon_species", "taxon_genus", "worms_species", "worms_genus",
+                         "taxon_species", "taxon_genus", "worms_species", "worms_genus", "worms_scientific_name",
                          "scientific_name", "nameShort", "isRecommended", "delivery_datatype",
                          "usage.name", "usage.value", "taxonId", ".", "Species", "taxonId_recommended",
                          "acceptedNameUsageID", "parentNameUsageID", "scientificName", "taxonRank",
@@ -20,7 +20,7 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
                          "value_num", "n_non_numeric", "frac_non_numeric", "n_total", "stats",
                          "distance_m", "within_limit", "SYNONYM_NAMES", "LATITUDE_WGS84_SWEREF99_DD",
                          "LAT_REF", "LONGITUDE_WGS84_SWEREF99_DD", "LON_REF", "OUT_OF_BOUNDS_RADIUS",
-                         "RADIUS", "STATION", "STATION_NAME", "bad_point", ".data", ":="))
+                         "RADIUS", "STATION", "STATION_NAME", "bad_point", ".data", ":=", "valid_name"))
 
 .onLoad <- function(libname, pkgname){
   clean_shark4r_cache(days = 1, verbose = FALSE)
