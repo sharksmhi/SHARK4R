@@ -121,7 +121,7 @@ shark_data_with_worms <- shark_data %>%
 Phytoplankton data are often categorized into major groups such as Dinoflagellates, Diatoms, Cyanobacteria, and Others. This grouping can be achieved by referencing information from WoRMS and assigning taxa to these groups based on their taxonomic classification, as demonstrated in the example below.
 
 ```{r}
-# Subset a few national monitoring stations
+# Subset data from one national monitoring station
 nat_stations <- shark_data %>%
   filter(station_name %in% c("BY5 BORNHOLMSDJ"))
 
