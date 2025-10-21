@@ -49,6 +49,7 @@ update_worms_taxonomy <- function(aphia_id, aphiaid=deprecated()) {
 #'
 #' @param aphia_id A numeric vector containing Aphia IDs for which WoRMS taxonomy needs to be updated.
 #' @param scientific_name A character vector of scientific names. If provided, Aphia IDs will be retrieved from the scientific names. The length of `scientific_name` must match the length of `aphia_id`. Defaults to `NULL`, in which case the function will only add taxonomy to the provided Aphia IDs.
+#' @param add_rank_to_hierarchy A logical indicating whether to include taxonomic rank names (e.g. `[Kingdom]`, `[Phylum]`) before each taxon name in the `worms_hierarchy` string. Default is `FALSE`.
 #' @param verbose A logical indicating whether to print progress messages. Default is TRUE.
 #'
 #' @return A data frame containing current WoRMS taxonomy information.
@@ -72,7 +73,7 @@ update_worms_taxonomy <- function(aphia_id, aphiaid=deprecated()) {
 #'
 #' @seealso \url{https://marinespecies.org/} for WoRMS website.
 #' @seealso \code{\link{get_shark_data}}, \code{\link{update_dyntaxa_taxonomy}}, \url{https://www.marinespecies.org/rest/}, \url{https://CRAN.R-project.org/package=worrms}
-add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE) {
+add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, add_rank_to_hierarchy = FALSE, verbose = TRUE) {
 
   # --- Input validation ---
   if (!is.null(scientific_name) && length(aphia_id) != length(scientific_name)) {
@@ -119,11 +120,21 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, verbose = TRUE)
       worms_i <- wm_classification(id) %>%
         dplyr::select(-AphiaID) %>%
         dplyr::mutate(worms_scientific_name = dplyr::last(scientificname)) %>%
-        tidyr::pivot_wider(names_from = rank, values_from = scientificname) %>%
+        tidyr::pivot_wider(names_from = rank, values_from = scientificname)
+
+      worms_i <- worms_i %>%
         dplyr::mutate(
-          worms_hierarchy = paste(
-            stats::na.omit(unlist(dplyr::select(., -worms_scientific_name))),
-            collapse = " - "
+          worms_hierarchy = purrr::pmap_chr(
+            dplyr::select(., -worms_scientific_name),
+            function(...) {
+              x <- list(...)
+              x <- x[!is.na(x)]  # remove NAs
+              if (add_rank_to_hierarchy) {
+                paste0("[", names(x), "] ", x) |> paste(collapse = " - ")
+              } else {
+                paste(unlist(x), collapse = " - ")
+              }
+            }
           ),
           aphia_id = id
         ) %>%

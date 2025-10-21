@@ -4,12 +4,19 @@
 \alias{add_worms_taxonomy}
 \title{Retrieve and organize WoRMS taxonomy for SHARK Aphia IDs}
 \usage{
-add_worms_taxonomy(aphia_id, scientific_name = NULL, verbose = TRUE)
+add_worms_taxonomy(
+  aphia_id,
+  scientific_name = NULL,
+  add_rank_to_hierarchy = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{aphia_id}{A numeric vector containing Aphia IDs for which WoRMS taxonomy needs to be updated.}
 
 \item{scientific_name}{A character vector of scientific names. If provided, Aphia IDs will be retrieved from the scientific names. The length of \code{scientific_name} must match the length of \code{aphia_id}. Defaults to \code{NULL}, in which case the function will only add taxonomy to the provided Aphia IDs.}
+
+\item{add_rank_to_hierarchy}{A logical indicating whether to include taxonomic rank names (e.g. \verb{[Kingdom]}, \verb{[Phylum]}) before each taxon name in the \code{worms_hierarchy} string. Default is \code{FALSE}.}
 
 \item{verbose}{A logical indicating whether to print progress messages. Default is TRUE.}
 }
