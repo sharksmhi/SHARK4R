@@ -590,7 +590,7 @@ clean_taxon <- function(x) {
 
   # Replace many problematic characters (including Unicode slash-like chars)
   # we include: / | \ ? & % # ( ) [ ] { } : ; , . _ etc.
-  pattern <- "[/|\\\\?&%#()\\[\\]\\{\\}:;,_\\.]"
+  pattern <- "[/|\\\\?&%#()\\[\\]\\{\\}:;,_]"
   out <- gsub(pattern, " ", x, perl = TRUE)
 
   # Collapse multiple spaces and trim
