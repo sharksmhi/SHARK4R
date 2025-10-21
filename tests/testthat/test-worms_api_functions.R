@@ -8,7 +8,8 @@ test_that("add_worms_taxonomy works", {
   skip_if_offline()
   skip_if_resource_unavailable(url)
 
-  worms_taxonomy <- add_worms_taxonomy(c(test_aphia_id, NA), c(test_scientific_name, strsplit(test_scientific_name, " ")[[1]][1]))
+  worms_taxonomy <- add_worms_taxonomy(c(test_aphia_id, NA), c(test_scientific_name, strsplit(test_scientific_name, " ")[[1]][1]),
+                                       add_rank_to_hierarchy = TRUE)
 
   expect_s3_class(worms_taxonomy, "data.frame")
   expect_equal(nrow(worms_taxonomy), 2)
