@@ -157,7 +157,7 @@ test_that("match_worms_taxa handles empty or NA taxa gracefully", {
   res_empty <- match_worms_taxa(c("", NA))
   expect_s3_class(res_empty, "data.frame")
   expect_true("" %in% res_empty$name)
-  expect_true(all(c("status", "AphiaID", "rank", "valid_name") %in% names(res_empty)))
+  expect_true(all(c("status", "AphiaID", "rank", "scientificname") %in% names(res_empty)))
 })
 
 test_that("clean_taxon removes problematic characters correctly", {

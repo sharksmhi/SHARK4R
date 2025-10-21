@@ -368,7 +368,7 @@ match_worms_taxa <- function(taxa_names,
         status = "no content",
         AphiaID = NA,
         rank = NA,
-        valid_name = NA,
+        scientificname = NA,
         stringsAsFactors = FALSE
       )
     ))
@@ -395,7 +395,7 @@ match_worms_taxa <- function(taxa_names,
                             status = "no content",
                             AphiaID = NA,
                             rank = NA,
-                            valid_name = NA,
+                            scientificname = NA,
                             stringsAsFactors = FALSE))
         }
         if (attempt == attempt_max) {
@@ -446,7 +446,7 @@ match_worms_taxa <- function(taxa_names,
                          status = "no content",
                          AphiaID = NA,
                          rank = NA,
-                         valid_name = NA,
+                         scientificname = NA,
                          stringsAsFactors = FALSE)
             } else {
               if (is.data.frame(rec)) {
@@ -475,7 +475,7 @@ match_worms_taxa <- function(taxa_names,
                          status = "no content",
                          AphiaID = NA,
                          rank = NA,
-                         valid_name = NA,
+                         scientificname = NA,
                          stringsAsFactors = FALSE)
             })
             worms_unique_list <<- c(worms_unique_list, fallback)
@@ -518,7 +518,7 @@ match_worms_taxa <- function(taxa_names,
   # Ensure consistent columns for mapping-back stage
   # ---------------------------
   # Guarantee some typical columns exist so mapping back creates consistent rows:
-  expected_cols <- c("name", "status", "AphiaID", "rank", "valid_name")
+  expected_cols <- c("name", "status", "AphiaID", "rank", "scientificname")
   missing_cols <- setdiff(expected_cols, names(worms_unique))
   if (length(missing_cols) > 0) {
     worms_unique[missing_cols] <- NA
@@ -542,7 +542,7 @@ match_worms_taxa <- function(taxa_names,
         status = "no content",
         AphiaID = NA,
         rank = NA,
-        valid_name = NA,
+        scientificname = NA,
         stringsAsFactors = FALSE
       )
     } else {
@@ -784,7 +784,7 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
       filter(!is.na(AphiaID)) %>%
       mutate(aphia_id = AphiaID,
              rank = as.character(ifelse(status == "no content", NA, rank)),
-             valid_name = as.character(ifelse(status == "no content", NA, valid_name)))
+             scientificname = as.character(ifelse(status == "no content", NA, scientificname)))
 
     combined_data <- combined_data %>%
       filter(!scientific_name %in% first_word_records$scientific_name) %>%
