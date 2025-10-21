@@ -7,6 +7,10 @@ Authors@R: c(
            comment = c("Swedish Meteorological and Hydrological Institute", ORCID = "0000-0002-7120-4145")),
     person("Anders", "Torstensson", email = "anders.torstensson@smhi.se", role = c("aut", "cre"),
            comment = c("Swedish Meteorological and Hydrological Institute", ORCID = "0000-0002-8283-656X")),
+    person("Mikael", "Hedblom", role = "ctb",
+           comment = c("Swedish Meteorological and Hydrological Institute")),
+    person("Bengt", "Karlson", role = "ctb",
+           comment = c("Swedish Meteorological and Hydrological Institute", ORCID = "0000-0002-7524-3504")),
     person("SHARK", email = "shark@smhi.se", role = "cph"),
     person("SBDI", role = "fnd",
            comment = "Swedish Research Council, 2019-00242")
