@@ -305,6 +305,8 @@ get_worms_records <- function(aphia_id, max_retries = 3, sleep_time = 10, verbos
 #' - If `bulk = FALSE`, the function iterates over names individually, optionally using fuzzy matching.
 #' - The function retries failed requests up to `max_retries` times, pausing for `sleep_time` seconds between attempts.
 #' - Names for which no records are found will have `status = "no content"` and `AphiaID = NA`.
+#' - Names are cleaned before being passed to the API call by converting them to UTF-8, replacing problematic symbols with spaces,
+#' removing trailing periods, collapsing extra spaces and by trimming whitespace.
 #'
 #' @examples
 #' \dontrun{

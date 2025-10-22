@@ -52,6 +52,8 @@ all names at once using a bulk API call or iterate over names individually.
 \item If \code{bulk = FALSE}, the function iterates over names individually, optionally using fuzzy matching.
 \item The function retries failed requests up to \code{max_retries} times, pausing for \code{sleep_time} seconds between attempts.
 \item Names for which no records are found will have \code{status = "no content"} and \code{AphiaID = NA}.
+\item Names are cleaned before being passed to the API call by converting them to UTF-8, replacing problematic symbols with spaces,
+removing trailing periods, collapsing extra spaces and by trimming whitespace.
 }
 }
 \examples{
