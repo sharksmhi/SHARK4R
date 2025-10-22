@@ -373,6 +373,14 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     stop("To save the data, set 'save_data' to TRUE and specify a valid 'file_path': ", file_path)
   }
 
+  if (!grepl("^(sharkweb_|sharkdata_|report_)", tableView)) {
+    stop(
+      "Invalid 'tableView' value: ", tableView,
+      ". It must start with one of the following prefixes: 'sharkweb_', 'sharkdata_', or 'report_'.\n",
+      "See ?get_shark_data for a list of valid 'tableView' options."
+    )
+  }
+
   # Define the URL
   url <- if (prod) "https://shark.smhi.se/api/sample/download" else "https://shark-tst.smhi.se/api/sample/download"
   url_short <- gsub("api/sample/download", "", url)
@@ -423,6 +431,20 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 
   if (length(dataTypes) == 0) {
     dataTypes <- unlist(options$dataTypes)
+  }
+
+  # Check if requested dataTypes exist in options$dataTypes
+  available_dataTypes <- unlist(options$dataTypes)
+  missing_dataTypes <- setdiff(dataTypes, available_dataTypes)
+
+  if (length(missing_dataTypes) > 0) {
+    warning(
+      "The following 'dataTypes' do not currently exist in the SHARK database: ",
+      paste(missing_dataTypes, collapse = ", "), ".\n",
+      "Valid 'dataTypes' (with available data) are: ",
+      paste(available_dataTypes, collapse = ", "), ".\n",
+      "See ?get_shark_options for more details."
+    )
   }
 
   # Check if either 'fromYear' or 'toYear' is NULL
