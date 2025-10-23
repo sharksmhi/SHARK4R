@@ -30,7 +30,7 @@ URL: https://sharksmhi.github.io/SHARK4R/,
     https://github.com/sharksmhi/SHARK4R
 BugReports: https://github.com/sharksmhi/SHARK4R/issues
 Depends:
-    R (>= 4.0.3)
+    R (>= 4.1.0)
 Imports:
     dplyr,
     DT,
