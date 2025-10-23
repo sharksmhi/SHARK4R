@@ -120,7 +120,12 @@ add_worms_taxonomy <- function(aphia_id, scientific_name = NULL, add_rank_to_hie
       worms_i <- wm_classification(id) %>%
         dplyr::select(-AphiaID) %>%
         dplyr::mutate(worms_scientific_name = dplyr::last(scientificname)) %>%
-        tidyr::pivot_wider(names_from = rank, values_from = scientificname)
+        tidyr::pivot_wider(
+          names_from = rank,
+          values_from = scientificname,
+          values_fn = \(x) paste(unique(x), collapse = " / "),
+          values_fill = NA
+        )
 
       worms_i <- worms_i %>%
         dplyr::mutate(
