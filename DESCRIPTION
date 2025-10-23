@@ -8,7 +8,7 @@ Authors@R: c(
     person("Anders", "Torstensson", email = "anders.torstensson@smhi.se", role = c("aut", "cre"),
            comment = c("Swedish Meteorological and Hydrological Institute", ORCID = "0000-0002-8283-656X")),
     person("Mikael", "Hedblom", role = "ctb",
-           comment = c("Swedish Meteorological and Hydrological Institute")),
+           comment = c("Swedish Meteorological and Hydrological Institute", ORCID = "0009-0007-5124-9956")),
     person("Bengt", "Karlson", role = "ctb",
            comment = c("Swedish Meteorological and Hydrological Institute", ORCID = "0000-0002-7524-3504")),
     person("SHARK", email = "shark@smhi.se", role = "cph"),
