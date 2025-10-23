@@ -589,7 +589,7 @@ clean_taxon <- function(x) {
   x <- iconv(x, to = "UTF-8", sub = "")
 
   # Replace problematic characters (excluding periods)
-  pattern <- "[/|\\\\?&%#()\\[\\]\\{\\}:;,_]"
+  pattern <- "[/|\\\\?&%#\\[\\]\\{\\}_]"
   out <- gsub(pattern, " ", x, perl = TRUE)
 
   # Remove trailing periods (one or more)
