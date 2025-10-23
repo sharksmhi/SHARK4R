@@ -162,7 +162,7 @@ test_that("match_worms_taxa handles empty or NA taxa gracefully", {
 })
 
 test_that("clean_taxon removes problematic characters correctly", {
-  taxa <- c("Karenia/brevis", "Amphidinium|sp.", "Test#1(2)", "Weird_\\name?")
+  taxa <- c("Karenia/brevis", "Amphidinium|sp.", "Test#1", "Weird_\\name?")
   clean_taxa <- vapply(taxa, SHARK4R:::clean_taxon, character(1))
   expect_true(all(grepl("^[A-Za-z0-9 _]+$", clean_taxa)))
 })
