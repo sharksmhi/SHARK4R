@@ -22,10 +22,12 @@
 #'     \item **Directly as a parameter**:
 #'       \code{get_dyntaxa_records(238366, subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{DYNTAXA_KEY=your_key_here}
+#'       \code{DYNTAXA_KEY=your_key_here}.
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #'
 #' @return A data frame containing taxonomic information for the specified taxon IDs.
@@ -113,9 +115,11 @@ get_dyntaxa_records <- function(taxon_ids,
 #'       \code{get_dyntaxa_parent_ids(238366, subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{DYNTAXA_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param verbose Logical. Default is TRUE.
 #'
@@ -214,9 +218,11 @@ get_dyntaxa_parent_ids <- function(taxon_ids,
 #'       \code{get_dyntaxa_children_hierarchy(1010608, subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{DYNTAXA_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param levels Integer. Default is 1
 #' @param main_children Logical. Default is TRUE.
@@ -324,9 +330,11 @@ get_dyntaxa_children_hierarchy <- function(taxon_ids,
 #'       \code{get_dyntaxa_children_ids(1010608, subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{DYNTAXA_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param main_children Logical. Default is TRUE.
 #' @param verbose Logical. Default is TRUE.
@@ -429,9 +437,11 @@ get_dyntaxa_children_ids <- function(taxon_ids,
 #'       \code{construct_dyntaxa_missing_table(list(c(5000055, 6011755)), subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{DYNTAXA_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param shark_output Logical. If TRUE, the function will return columns formatted to match the SHARK data submission format.
 #'                     If FALSE, it will return a broader set of taxonomy information. Defaults to TRUE.
@@ -894,9 +904,11 @@ fill_na_below_first_non_na <- function(x) {
 #'       \code{update_dyntaxa_taxonomy(238366, subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{DYNTAXA_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param add_missing_taxa Logical. If TRUE, the function will attempt to fetch missing taxa (i.e., taxon_ids not found in the initial Dyntaxa DwC-A query). Default is FALSE.
 #' @param verbose Logical. Print progress messages. Default is TRUE.
@@ -980,9 +992,11 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids,
 #'       \code{match_dyntaxa_taxa("Skeletonema marinoi", subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{DYNTAXA_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param multiple_options Logical. If TRUE, the function will return multiple matching names. Default is FALSE, selecting the first match.
 #' @param searchFields A character string indicating the search fields. Defaults to 'Both'.
@@ -1140,9 +1154,11 @@ match_dyntaxa_taxa <- function(taxon_names,
 #'       \code{match_taxon_name("Skeletonema marinoi", subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{DYNTAXA_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param multiple_options Logical. If TRUE, the function will return multiple matching names. Default is FALSE, selecting the first match.
 #' @param searchFields A character string indicating the search fields. Defaults to 'Both'.
@@ -1221,9 +1237,11 @@ match_taxon_name <- function(taxon_names,
 #'       \code{get_dyntaxa_dwca(subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{DYNTAXA_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param file_to_read A string specifying the name of the CSV file to read from the extracted archive.
 #'   Allowed options are: `"Reference.csv"`, `"SpeciesDistribution.csv"`, `"Taxon.csv"`, or `"VernacularName.csv"`. Defaults to `"Taxon.csv"`.
@@ -1336,9 +1354,11 @@ get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
 #'       \code{construct_dyntaxa_table(238366, subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{DYNTAXA_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param shark_output Logical. If TRUE, the function will return a table formatted with SHARK-compatible columns. If FALSE, all available columns are returned. Default is TRUE.
 #' @param add_parents Logical. If TRUE, the function will include parent taxa (higher ranks) for the specified taxon IDs in the output. Default is TRUE.
@@ -1832,9 +1852,11 @@ match_dyntaxa <- function(names,
 #'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{DYNTAXA_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param use_dwca Logical; if TRUE, uses the DwCA version of Dyntaxa instead of querying the API.
 #' @param return_df Logical; if TRUE, returns a data frame with columns \code{taxon_names},

@@ -49,7 +49,10 @@
 #'
 #'
 #' @references Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, <https://iobis.github.io/obistools/>.
-#' @seealso \code{\link{check_onland}}, \code{\link{check_depth}}
+#'
+#' @seealso
+#' \code{\link{check_onland}}, \code{\link{check_depth}}, \url{https://iobis.github.io/xylookup/} – OBIS xylookup web service
+#'
 #' @export
 lookup_xy <- function(data, shoredistance=TRUE, grids=TRUE, areas=FALSE, as_data_frame=TRUE) {
   xy <- get_xy_clean_duplicates(data)

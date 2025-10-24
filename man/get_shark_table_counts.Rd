@@ -137,5 +137,7 @@ data type, stations, and taxa. To view available filter options, see
 \seealso{
 \url{https://shark.smhi.se} for SHARK database.
 
-\code{\link{get_shark_options}}
+\code{\link{get_shark_options}} to see filter options
+
+\code{\link{get_shark_data}} to download SHARK data
 }

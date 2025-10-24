@@ -39,8 +39,8 @@ reference:
   - get_shark_datasets
   - get_shark_statistics
   - get_shark_table_counts
-  - read_shark_deliv
   - read_shark
+  - read_shark_deliv
 
 - subtitle: Dyntaxa
   desc: These functions are used to retrieve data from the Dyntaxa API

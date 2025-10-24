@@ -29,9 +29,11 @@ You can provide the key in three ways:
 \code{get_algaebase_species("Skeletonema", "marinoi", subscription_key = "your_key_here")}
 \item \strong{Temporarily for the session}:
 \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+After this, you do not need to pass \code{subscription_key} to the function.
 \item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
 Use \code{usethis::edit_r_environ()} to open the file, then add:
 \code{ALGAEBASE_KEY=your_key_here}
+After this, you do not need to pass \code{subscription_key} to the function.
 }}
 
 \item{higher}{A logical value indicating whether to include higher taxonomy details (default is \code{TRUE}).}

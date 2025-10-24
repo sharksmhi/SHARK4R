@@ -14,9 +14,11 @@
 #'       \code{match_algaebase_taxa("Skeletonema", "marinoi", subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{ALGAEBASE_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param genus_only Logical. If `TRUE`, searches are based solely on the genus name, ignoring species. Defaults to `FALSE`.
 #' @param higher Logical. If `TRUE`, includes higher taxonomy (e.g., kingdom, phylum) in the output. Defaults to `TRUE`.
@@ -58,7 +60,7 @@
 #' The function allows for integration with data analysis workflows that require resolving or verifying taxonomic names against AlgaeBase.
 #'
 #' @seealso \url{https://www.algaebase.org/} for AlgaeBase website.
-#' @seealso \code{\link{parse_scientific_names}}
+#' @seealso \code{\link{parse_scientific_names}} for parsing taxonomic names before passing them to the function.
 #'
 #' @export
 #'
@@ -212,9 +214,11 @@ match_algaebase_taxa <- function(genus, species, subscription_key = Sys.getenv("
 #'       \code{match_algaebase("Skeletonema", "marinoi", subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{ALGAEBASE_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param genus_only Logical. If `TRUE`, searches are based solely on the genus name, ignoring species. Defaults to `FALSE`.
 #' @param higher Logical. If `TRUE`, includes higher taxonomy (e.g., kingdom, phylum) in the output. Defaults to `TRUE`.
@@ -311,9 +315,11 @@ match_algaebase <- function(genus, species, subscription_key = Sys.getenv("ALGAE
 #'       \code{match_algaebase_species("Skeletonema", "marinoi", subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{ALGAEBASE_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param higher A logical value indicating whether to include higher taxonomy details (default is `TRUE`).
 #' @param unparsed A logical value indicating whether to print the full JSON response from the API (default is `FALSE`).
@@ -559,9 +565,11 @@ match_algaebase_species <- function(genus, species, subscription_key = Sys.geten
 #'       \code{get_algaebase_species("Skeletonema", "marinoi", subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{ALGAEBASE_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param higher A logical value indicating whether to include higher taxonomy details (default is `TRUE`).
 #' @param unparsed A logical value indicating whether to print the full JSON response from the API (default is `FALSE`).
@@ -633,9 +641,11 @@ get_algaebase_species <- function(genus, species, subscription_key = Sys.getenv(
 #'       \code{match_algaebase_genus("Skeletonema", subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{ALGAEBASE_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param higher A boolean flag indicating whether to include higher taxonomy in the output (default is TRUE).
 #' @param unparsed A boolean flag indicating whether to return the raw JSON output from the API (default is FALSE).
@@ -814,9 +824,11 @@ match_algaebase_genus <- function(genus, subscription_key = Sys.getenv("ALGAEBAS
 #'       \code{get_algaebase_genus("Skeletonema", subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{ALGAEBASE_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param higher A boolean flag indicating whether to include higher taxonomy in the output (default is TRUE).
 #' @param unparsed A boolean flag indicating whether to return the raw JSON output from the API (default is FALSE).
@@ -1019,9 +1031,11 @@ parse_scientific_names <- function(scientific_name,
 #'       \code{check_algaebase_api(subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
 #'       \code{ALGAEBASE_KEY=your_key_here}
+#'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param genus_id A numeric value. The unique genus ID used to test the API endpoint.
 #' Default is `43375`, corresponding to the `Haematococcus` genus record in AlgaeBase.
