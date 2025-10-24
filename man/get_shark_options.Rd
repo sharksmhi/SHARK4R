@@ -7,35 +7,41 @@
 get_shark_options(prod = TRUE, unparsed = FALSE)
 }
 \arguments{
-\item{prod}{Logical. Query against PROD or TEST (SMHI internal) server. Default is TRUE (PROD).}
+\item{prod}{Logical. If \code{TRUE}, queries the production (PROD) server. If \code{FALSE}, queries the SMHI internal test (TEST) server.
+Defaults to \code{TRUE}.}
 
-\item{unparsed}{Logical. If \code{TRUE}, returns the complete JSON output as list. Defaults to \code{FALSE}.}
+\item{unparsed}{Logical. If \code{TRUE}, returns the complete JSON response as a nested list without parsing.
+Defaults to \code{FALSE}.}
 }
 \value{
-A named \code{list} containing the available search options from the SHARK API.
+A named \code{list} of available search options from the SHARK API.
+If \code{unparsed = TRUE}, returns the raw JSON structure as a list.
+If \code{unparsed = FALSE}, returns a simplified list of character or numeric vectors.
 }
 \description{
-The \code{get_shark_options} function retrieves available search options from the SHARK database.
-It sends a GET request to the SHARK API and returns the results as a structured \code{data.frame}.
+The \code{get_shark_options()} function retrieves available search options from the SHARK database.
+It sends a GET request to the SHARK API and returns the results as a structured named list.
 }
 \details{
-This function sends a GET request to the SHARK API options endpoint to retrieve available search filters and options
-for querying the database.
+This function sends a GET request to the \verb{/api/options} endpoint of the SHARK API
+to retrieve available search filters and options that can be used in SHARK data queries.
 }
 \examples{
 \dontrun{
-  # Retrieve available search options
+  # Retrieve available search options (simplified)
   shark_options <- get_shark_options()
-  View(shark_options)
+  names(shark_options)
+
+  # Retrieve full unparsed JSON response
+  raw_options <- get_shark_options(unparsed = TRUE)
 
   # View available datatypes
-  dataTypes <- shark_options$dataTypes
-  print(dataTypes)
+  print(shark_options$dataTypes)
 }
 
 }
 \seealso{
-\url{https://shark.smhi.se} for SHARK database.
+\code{\link[=get_shark_data]{get_shark_data()}} for retrieving actual data from the SHARK API.
 
-\code{\link{get_shark_data}}
+\url{https://shark.smhi.se} for the SHARK database portal.
 }

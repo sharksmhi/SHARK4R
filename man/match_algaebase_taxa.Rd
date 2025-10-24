@@ -32,9 +32,11 @@ You can provide the key in three ways:
 \code{match_algaebase_taxa("Skeletonema", "marinoi", subscription_key = "your_key_here")}
 \item \strong{Temporarily for the session}:
 \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+After this, you do not need to pass \code{subscription_key} to the function.
 \item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
 Use \code{usethis::edit_r_environ()} to open the file, then add:
 \code{ALGAEBASE_KEY=your_key_here}
+After this, you do not need to pass \code{subscription_key} to the function.
 }}
 
 \item{genus_only}{Logical. If \code{TRUE}, searches are based solely on the genus name, ignoring species. Defaults to \code{FALSE}.}
@@ -105,5 +107,5 @@ head(algaebase_results)
 \seealso{
 \url{https://www.algaebase.org/} for AlgaeBase website.
 
-\code{\link{parse_scientific_names}}
+\code{\link{parse_scientific_names}} for parsing taxonomic names before passing them to the function.
 }

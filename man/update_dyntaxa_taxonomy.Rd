@@ -23,9 +23,11 @@ You can provide the key in three ways:
 \code{update_dyntaxa_taxonomy(238366, subscription_key = "your_key_here")}
 \item \strong{Temporarily for the session}:
 \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+After this, you do not need to pass \code{subscription_key} to the function.
 \item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
 Use \code{usethis::edit_r_environ()} to open the file, then add:
 \code{DYNTAXA_KEY=your_key_here}
+After this, you do not need to pass \code{subscription_key} to the function.
 }}
 
 \item{add_missing_taxa}{Logical. If TRUE, the function will attempt to fetch missing taxa (i.e., taxon_ids not found in the initial Dyntaxa DwC-A query). Default is FALSE.}

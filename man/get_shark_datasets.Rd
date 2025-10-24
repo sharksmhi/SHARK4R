@@ -76,5 +76,5 @@ combined_df <- get_shark_datasets(
 
 \code{\link[=get_shark_options]{get_shark_options()}} for listing available datasets.
 
-\code{\link[=get_shark_data]{get_shark_data()}} for listing available datasets.
+\code{\link[=get_shark_data]{get_shark_data()}} for downloading tabular data.
 }
