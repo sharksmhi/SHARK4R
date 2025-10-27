@@ -87,6 +87,7 @@ If \code{NODC_CONFIG} is set and the folder exists, the function will use
 bundled \code{station.zip} included in the \code{SHARK4R} package.
 }
 \examples{
+\dontrun{
 df <- data.frame(
   station_name = c("ANHOLT E", "BY5 BORNHOLMSDJ", "NEW STATION"),
   sample_longitude_dd = c(12.1, 15.97, 17.5),
@@ -94,5 +95,6 @@ df <- data.frame(
 )
 check_station_distance(df, plot_leaflet = FALSE, try_synonyms = TRUE)
 check_station_distance(df, plot_leaflet = TRUE, only_bad = TRUE)
+}
 
 }

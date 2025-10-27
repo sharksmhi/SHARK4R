@@ -1,4 +1,4 @@
-#' Retrieve available search options from SHARK API
+#' Retrieve available search options from SHARK
 #'
 #' The `get_shark_options()` function retrieves available search options from the SHARK database.
 #' It sends a GET request to the SHARK API and returns the results as a structured named list.
@@ -234,7 +234,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
     stop("Failed to retrieve data: ", status_code(response))
   }
 }
-#' Retrieve data from the SHARK API
+#' Retrieve tabular data from SHARK
 #'
 #' The `get_shark_data()` function retrieves tabular data from the SHARK database hosted by SMHI. The function sends a POST request
 #' to the SHARK API with customizable filters, including year, month, taxon name, water category, and more, and returns the
@@ -339,7 +339,9 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @param helcomOspar Character vector. HELCOM or OSPAR areas for regional filtering.
 #' @param seaAreas Character vector. Sea area codes to filter by specific sea areas.
 #' @param hideEmptyColumns Logical. Whether to hide empty columns. Default is FALSE.
-#' @param row_limit Numeric. Specifies the maximum number of rows that can be retrieved in a single request. If the requested data exceeds this limit, the function automatically downloads the data in yearly chunks. The default value is 10 million rows.
+#' @param row_limit Numeric. Specifies the maximum number of rows that can be retrieved in a single request.
+#'   If the requested data exceeds this limit, the function automatically downloads the data in yearly chunks
+#'   (ignored when `tableView = "report_*"`). The default value is 10 million rows.
 #' @param prod Logical. Whether to query the PROD (production) server or the SMHI internal TEST (testing) server. Default is TRUE (PROD).
 #' @param verbose Logical. Whether to display progress information. Default is TRUE.
 #'
@@ -365,6 +367,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' * \url{https://shark.smhi.se} – SHARK database portal
 #' * [get_shark_options()] – Retrieve available filters
 #' * [get_shark_table_counts()] – Check table row counts before download
+#' * [get_shark_datasets()] – To download datasets as zip-archives
 #'
 #' @examples
 #' \dontrun{
@@ -510,7 +513,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
                                   typOmraden = c(), helcomOspar = helcomOspar, seaAreas = seaAreas, prod = prod)
 
   # Download data in chunks or everything at once
-  if (count > row_limit) {
+  if (count > row_limit && !grepl("report_", tableView)) {
 
     # Print message
     if (verbose) {
@@ -926,9 +929,6 @@ get_shark_datasets <- function(dataset_name,
 #'
 #'   # Group by station name and save result in persistent cache
 #'   res <- get_shark_statistics(group_col = "station_name", cache_result = TRUE)
-#'
-#'   # Print result
-#'   print(res)
 #' }
 get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL, group_col = NULL,
                                  min_obs = 3, max_non_numeric_frac = 0.05, cache_result = FALSE,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plankton_toolbox.R
 \name{get_peg_list}
 \alias{get_peg_list}
-\title{Get PEG biovolume Excel list}
+\title{Get the latest EG-Phyto/PEG biovolume Excel list}
 \usage{
 get_peg_list(
   file = NULL,

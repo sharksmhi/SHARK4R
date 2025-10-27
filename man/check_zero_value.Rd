@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_logical.R
 \name{check_zero_value}
 \alias{check_zero_value}
-\title{Check logical assumptions of data for specific variables and parameters}
+\title{Identify records with zero-valued measurement data}
 \usage{
 check_zero_value(data, return_df = FALSE)
 }
@@ -13,8 +13,30 @@ check_zero_value(data, return_df = FALSE)
 instead of a DT datatable. Default = FALSE.}
 }
 \value{
-A DT datatable with zero-value records, or NULL (invisibly) if none found.
+A DT datatable or a data.frame of zero-value records, or \code{NULL} (invisibly)
+if no zero values are found.
 }
 \description{
-Check logical assumptions of data for specific variables and parameters
+This function scans a dataset for cases where the measurement column (\code{value})
+contains zero (0) values, which may indicate missing, censored, or erroneous data.
+It returns either a \code{DT::datatable} for easy inspection or a plain \code{data.frame} of
+the affected rows. This function is useful for quality control and validation
+prior to data aggregation, reporting, or database submission.
+}
+\examples{
+\dontrun{
+# Example dataset
+df <- data.frame(
+  station_name = c("A", "B", "C", "D"),
+  sample_date = as.Date(c("2023-06-01", "2023-06-02", "2023-06-03", "2023-06-04")),
+  value = c(3.2, 0, 1.5, 0)
+)
+
+# Check for zero values (returns an interactive datatable)
+check_zero_value(df)
+
+# Return a plain data.frame of zero-value records
+check_zero_value(df, return_df = TRUE)
+}
+
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_logical.R
 \name{check_zero_positions}
 \alias{check_zero_positions}
-\title{Check logical assumptions of data for station positions}
+\title{Identify samples with zero-valued station coordinates}
 \usage{
 check_zero_positions(
   data,
@@ -30,5 +30,32 @@ A DT datatable, a data.frame, a logical vector, or NULL (if no problems found
 and return_logical = FALSE).
 }
 \description{
-Check logical assumptions of data for station positions
+This function inspects a dataset containing sample coordinates to identify
+potential issues where longitude or latitude values are zero (0), which typically
+indicate missing or erroneous station positions. The function can return a summary
+table, a filtered data frame, or a logical vector highlighting problematic rows.
+It is useful as a data quality control step before spatial analyses or database imports.
+}
+\examples{
+\dontrun{
+# Example data
+df <- data.frame(
+  station_name = c("A", "B", "C"),
+  sample_longitude_dd = c(15.2, 0, 18.7),
+  sample_latitude_dd = c(56.3, 58.1, 0)
+)
+
+# Check for zero longitudes (default)
+check_zero_positions(df)
+
+# Check for zero latitudes
+check_zero_positions(df, coord = "latitude")
+
+# Check for zeroes in both coordinates and return as data.frame
+check_zero_positions(df, coord = "both", return_df = TRUE)
+
+# Return a logical vector instead of a table
+check_zero_positions(df, coord = "both", return_logical = TRUE)
+}
+
 }

@@ -44,7 +44,7 @@ match_worms_taxa_interactive(names, ask = FALSE)
 
 }
 \references{
-Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, \url{https://iobis.github.io/obistools/}.
+Provoost P, Bosch S (2024). obistools: Tools for data enhancement and quality control. Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, \url{https://iobis.github.io/obistools/}.
 }
 \seealso{
 \itemize{

@@ -1,6 +1,32 @@
-#' Check logical assumptions of data for specific variables and parameters
+#' Identify non-numeric or non-logical values in measurement data
+#'
+#' This function checks whether entries in the `value` column of a dataset are valid
+#' numeric or logical values. It is particularly useful for identifying common data
+#' entry errors such as inequality symbols (`<`, `>`) or unintended text strings
+#' (e.g., "NA", "below detection"). The function reports any invalid entries
+#' in an interactive `DT::datatable` for easy inspection.
+#'
 #' @param data A data frame. Must contain a column named `value`.
-#' @return A DT datatable with problematic entries, or NULL (invisibly) if all values are valid.
+#'
+#' @return A `DT::datatable` listing unique invalid entries, or `NULL` (invisibly)
+#'         if all values are correctly formatted as numeric or logical.
+#'
+#' @examples
+#' \dontrun{
+#' # Example dataset with mixed valid and invalid values
+#' df <- data.frame(
+#'   station_name = c("A", "B", "C", "D", "E"),
+#'   value = c("3.4", "<0.2", "TRUE", "NA", "5e-3")
+#' )
+#'
+#' # Check for invalid (non-numeric / non-logical) entries
+#' check_value_logical(df)
+#'
+#' # Example with all valid numeric and logical values
+#' df_valid <- data.frame(value = c(1.2, 0, TRUE, FALSE, 3.5))
+#' check_value_logical(df_valid)
+#' }
+#'
 #' @export
 check_value_logical <- function(data) {
   if (!"value" %in% names(data)) {
@@ -10,9 +36,9 @@ check_value_logical <- function(data) {
   vals <- data$value
   vals_chr <- as.character(vals)
 
-  # strict numeric/logical pattern
-  #  - numeric (int/float, with optional scientific notation)
-  #  - TRUE or FALSE (case-insensitive)
+  # Strict numeric/logical pattern:
+  # - Numeric (integer/float, with optional scientific notation)
+  # - TRUE or FALSE (case-insensitive)
   valid_pattern <- "^(TRUE|FALSE|[+-]?(?:[0-9]*\\.?[0-9]+)([eE][+-]?[0-9]+)?)$"
 
   valid_ok <- grepl(valid_pattern, vals_chr, ignore.case = TRUE)
@@ -21,23 +47,48 @@ check_value_logical <- function(data) {
   non_valid_idx <- !valid_ok
 
   if (any(non_valid_idx)) {
-    message("ERROR: Expected numerical/logical value but found invalid characters")
-    message("Common problems are e.g. '<', '>' signs or letters not matching TRUE/FALSE.")
+    message("ERROR: Expected numerical/logical value but found invalid characters.")
+    message("Common problems are e.g. '<', '>' signs, text labels, or malformed numbers.")
     matches <- unique(vals_chr[non_valid_idx])
     matches_df <- data.frame(value = matches, stringsAsFactors = FALSE)
-    return(DT::datatable(matches_df,
-                         style = "bootstrap"))
+    return(DT::datatable(matches_df, style = "bootstrap"))
   } else {
-    message("Expected values are correctly formatted (numeric or logical).")
+    message("All values are correctly formatted as numeric or logical.")
     invisible(NULL)
   }
 }
 
-#' Check logical assumptions of data for specific variables and parameters
+#' Identify records with zero-valued measurement data
+#'
+#' This function scans a dataset for cases where the measurement column (`value`)
+#' contains zero (0) values, which may indicate missing, censored, or erroneous data.
+#' It returns either a `DT::datatable` for easy inspection or a plain `data.frame` of
+#' the affected rows. This function is useful for quality control and validation
+#' prior to data aggregation, reporting, or database submission.
+#'
 #' @param data A data frame. Must contain a column named `value`.
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows
 #'        instead of a DT datatable. Default = FALSE.
-#' @return A DT datatable with zero-value records, or NULL (invisibly) if none found.
+#'
+#' @return A DT datatable or a data.frame of zero-value records, or `NULL` (invisibly)
+#'         if no zero values are found.
+#'
+#' @examples
+#' \dontrun{
+#' # Example dataset
+#' df <- data.frame(
+#'   station_name = c("A", "B", "C", "D"),
+#'   sample_date = as.Date(c("2023-06-01", "2023-06-02", "2023-06-03", "2023-06-04")),
+#'   value = c(3.2, 0, 1.5, 0)
+#' )
+#'
+#' # Check for zero values (returns an interactive datatable)
+#' check_zero_value(df)
+#'
+#' # Return a plain data.frame of zero-value records
+#' check_zero_value(df, return_df = TRUE)
+#' }
+#'
 #' @export
 check_zero_value <- function(data, return_df = FALSE) {
   if (!"value" %in% names(data)) {
@@ -71,7 +122,14 @@ check_zero_value <- function(data, return_df = FALSE) {
   }
 }
 
-#' Check logical assumptions of data for station positions
+#' Identify samples with zero-valued station coordinates
+#'
+#' This function inspects a dataset containing sample coordinates to identify
+#' potential issues where longitude or latitude values are zero (0), which typically
+#' indicate missing or erroneous station positions. The function can return a summary
+#' table, a filtered data frame, or a logical vector highlighting problematic rows.
+#' It is useful as a data quality control step before spatial analyses or database imports.
+#'
 #' @param data A data frame. Must contain `sample_longitude_dd` and/or `sample_latitude_dd`.
 #' @param coord Character. Which coordinate(s) to check: "longitude", "latitude", or "both". Default = "longitude".
 #' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows
@@ -82,6 +140,29 @@ check_zero_value <- function(data, return_df = FALSE) {
 #'
 #' @return A DT datatable, a data.frame, a logical vector, or NULL (if no problems found
 #'         and return_logical = FALSE).
+#'
+#' @examples
+#' \dontrun{
+#' # Example data
+#' df <- data.frame(
+#'   station_name = c("A", "B", "C"),
+#'   sample_longitude_dd = c(15.2, 0, 18.7),
+#'   sample_latitude_dd = c(56.3, 58.1, 0)
+#' )
+#'
+#' # Check for zero longitudes (default)
+#' check_zero_positions(df)
+#'
+#' # Check for zero latitudes
+#' check_zero_positions(df, coord = "latitude")
+#'
+#' # Check for zeroes in both coordinates and return as data.frame
+#' check_zero_positions(df, coord = "both", return_df = TRUE)
+#'
+#' # Return a logical vector instead of a table
+#' check_zero_positions(df, coord = "both", return_logical = TRUE)
+#' }
+#'
 #' @export
 check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, return_logical = FALSE,
                                  verbose = TRUE) {
@@ -167,8 +248,10 @@ check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, r
 #'   value = c(5, -2, 10, 0)
 #' )
 #'
+#' \dontrun{
 #' # 1. Check that Biomass is never negative (returns DT datatable by default)
 #' check_logical_parameter(df, "Biomass", function(x) x < 0)
+#' }
 #'
 #' # 2. Same check, but return problematic rows as a data frame
 #' check_logical_parameter(df, "Biomass", function(x) x < 0, return_df = TRUE)

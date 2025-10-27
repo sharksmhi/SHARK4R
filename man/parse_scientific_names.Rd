@@ -5,15 +5,16 @@
 \title{Parse scientific names into genus and species components.}
 \usage{
 parse_scientific_names(
-  scientific_name,
+  scientific_names,
   remove_undesired_descriptors = TRUE,
   remove_subspecies = TRUE,
   remove_invalid_species = TRUE,
-  encoding = "UTF-8"
+  encoding = "UTF-8",
+  scientific_name = deprecated()
 )
 }
 \arguments{
-\item{scientific_name}{A character vector containing scientific names, which may include binomials, additional descriptors, or varieties.}
+\item{scientific_names}{A character vector containing scientific names, which may include binomials, additional descriptors, or varieties.}
 
 \item{remove_undesired_descriptors}{Logical, if TRUE, undesired descriptors (e.g., 'Cfr.', 'cf.', 'colony', 'cells', etc.) are removed. Default is TRUE.}
 
@@ -22,6 +23,9 @@ parse_scientific_names(
 \item{remove_invalid_species}{Logical, if TRUE, invalid species names (e.g., 'sp.', 'spp.') are removed. Default is TRUE.}
 
 \item{encoding}{A string specifying the encoding to be used for the input names (e.g., 'UTF-8'). Default is 'UTF-8'.}
+
+\item{scientific_name}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Use \code{scientific_names} instead.}
 }
 \value{
 A data frame with two columns:

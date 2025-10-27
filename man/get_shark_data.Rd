@@ -2,7 +2,7 @@
 % Please edit documentation in R/shark_api_functions.R
 \name{get_shark_data}
 \alias{get_shark_data}
-\title{Retrieve data from the SHARK API}
+\title{Retrieve tabular data from SHARK}
 \usage{
 get_shark_data(
   tableView = "sharkweb_overview",
@@ -176,7 +176,9 @@ If set to \code{NULL} (default), the function will use the latest available year
 
 \item{hideEmptyColumns}{Logical. Whether to hide empty columns. Default is FALSE.}
 
-\item{row_limit}{Numeric. Specifies the maximum number of rows that can be retrieved in a single request. If the requested data exceeds this limit, the function automatically downloads the data in yearly chunks. The default value is 10 million rows.}
+\item{row_limit}{Numeric. Specifies the maximum number of rows that can be retrieved in a single request.
+If the requested data exceeds this limit, the function automatically downloads the data in yearly chunks
+(ignored when \code{tableView = "report_*"}). The default value is 10 million rows.}
 
 \item{prod}{Logical. Whether to query the PROD (production) server or the SMHI internal TEST (testing) server. Default is TRUE (PROD).}
 
@@ -219,5 +221,6 @@ by year, data type, or region for improved performance.
 \item \url{https://shark.smhi.se} – SHARK database portal
 \item \code{\link[=get_shark_options]{get_shark_options()}} – Retrieve available filters
 \item \code{\link[=get_shark_table_counts]{get_shark_table_counts()}} – Check table row counts before download
+\item \code{\link[=get_shark_datasets]{get_shark_datasets()}} – To download datasets as zip-archives
 }
 }
