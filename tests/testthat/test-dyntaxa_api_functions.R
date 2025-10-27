@@ -10,6 +10,7 @@ multple_entries_name <- "Glaucophyta" # There is more than one entry for this na
 dyntaxa_url <- "https://artfakta.se/"
 
 test_that("records are retrieved", {
+  skip_on_cran()
   skip_if_offline()
   skip_if_resource_unavailable(dyntaxa_url)
 
@@ -21,6 +22,7 @@ test_that("records are retrieved", {
 })
 
 test_that("parent ids are retrieved", {
+  skip_on_cran()
   skip_if_offline()
   skip_if_resource_unavailable(dyntaxa_url)
 
@@ -31,6 +33,7 @@ test_that("parent ids are retrieved", {
 })
 
 test_that("children hierarchy is retrieved", {
+  skip_on_cran()
   skip_if_offline()
   skip_if_resource_unavailable(dyntaxa_url)
 
@@ -42,6 +45,7 @@ test_that("children hierarchy is retrieved", {
 })
 
 test_that("parent ids are retrieved", {
+  skip_on_cran()
   skip_if_offline()
   skip_if_resource_unavailable(dyntaxa_url)
 
@@ -52,6 +56,7 @@ test_that("parent ids are retrieved", {
 })
 
 test_that("construct_dyntaxa_table is working", {
+  skip_on_cran()
   skip_if_offline()
   skip_if_resource_unavailable(dyntaxa_url)
 
@@ -70,6 +75,7 @@ test_that("construct_dyntaxa_table is working", {
 })
 
 test_that("construct_dyntaxa_table is working with deprecated arguments", {
+  skip_on_cran()
   skip_if_offline()
   skip_if_resource_unavailable(dyntaxa_url)
 
@@ -85,6 +91,7 @@ test_that("construct_dyntaxa_table is working with deprecated arguments", {
 })
 
 test_that("taxon match is working as expected", {
+  skip_on_cran()
   skip_if_offline()
   skip_if_resource_unavailable(dyntaxa_url)
 
@@ -109,6 +116,7 @@ test_that("deprecated taxon match is working as expected", {
 })
 
 test_that("update_dyntaxa_taxonomy is working as expected", {
+  skip_on_cran()
   skip_if_offline()
   skip_if_resource_unavailable(dyntaxa_url)
 

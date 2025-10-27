@@ -2,7 +2,7 @@
 % Please edit documentation in R/dyntaxa_api_functions.R
 \name{get_dyntaxa_records}
 \alias{get_dyntaxa_records}
-\title{Get taxonomic information from SLU Artdatabanken API for specified taxon IDs}
+\title{Get taxonomic information from Dyntaxa for specified taxon IDs}
 \usage{
 get_dyntaxa_records(taxon_ids, subscription_key = Sys.getenv("DYNTAXA_KEY"))
 }
@@ -15,7 +15,7 @@ is read from the environment variable \code{DYNTAXA_KEY}.
 You can provide the key in three ways:
 \itemize{
 \item \strong{Directly as a parameter}:
-\code{get_dyntaxa_records(238366, subscription_key = "your_key_here")}
+\code{get_dyntaxa_records(238366, subscription_key = "your_key_here")}.
 \item \strong{Temporarily for the session}:
 \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
 After this, you do not need to pass \code{subscription_key} to the function.

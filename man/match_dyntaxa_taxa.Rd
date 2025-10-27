@@ -2,7 +2,7 @@
 % Please edit documentation in R/dyntaxa_api_functions.R
 \name{match_dyntaxa_taxa}
 \alias{match_dyntaxa_taxa}
-\title{Match Dyntaxa taxon names via API}
+\title{Match Dyntaxa taxon names}
 \usage{
 match_dyntaxa_taxa(
   taxon_names,
@@ -26,13 +26,13 @@ is read from the environment variable \code{DYNTAXA_KEY}.
 You can provide the key in three ways:
 \itemize{
 \item \strong{Directly as a parameter}:
-\code{match_dyntaxa_taxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+\code{match_dyntaxa_taxa("Skeletonema marinoi", subscription_key = "your_key_here")}.
 \item \strong{Temporarily for the session}:
-\code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+\code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
 After this, you do not need to pass \code{subscription_key} to the function.
 \item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
 Use \code{usethis::edit_r_environ()} to open the file, then add:
-\code{DYNTAXA_KEY=your_key_here}
+\code{DYNTAXA_KEY=your_key_here}.
 After this, you do not need to pass \code{subscription_key} to the function.
 }}
 

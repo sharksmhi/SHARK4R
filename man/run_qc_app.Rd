@@ -4,13 +4,9 @@
 \alias{run_qc_app}
 \title{Launch the SHARK4R Bio-QC Tool}
 \usage{
-run_qc_app(additional_packages = NULL, interactive = TRUE)
+run_qc_app(interactive = TRUE)
 }
 \arguments{
-\item{additional_packages}{Character vector of additional package names
-required by the app. These will be checked alongside the core dependencies.
-Defaults to \code{NULL}.}
-
 \item{interactive}{Logical value whether the session is interactive or not.}
 }
 \value{
@@ -29,17 +25,11 @@ sessions, the function will prompt whether the missing packages should be
 installed automatically. In non-interactive sessions (e.g. scripts or CI),
 the function instead raises an error and lists the missing packages so they
 can be installed manually.
-
-Users can supply additional package names via \code{additional_packages} to ensure
-that optional features of the app also work.
 }
 \examples{
 \dontrun{
 # Launch the SHARK4R Bio-QC Tool
 run_qc_app()
-
-# Launch with additional package checks
-run_qc_app(additional_packages = c("plotly", "DT"))
 }
 
 }

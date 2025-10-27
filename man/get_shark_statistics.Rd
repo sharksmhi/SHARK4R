@@ -79,8 +79,5 @@ For example, if called in 2025 it will use data from 2020–2024.
 
   # Group by station name and save result in persistent cache
   res <- get_shark_statistics(group_col = "station_name", cache_result = TRUE)
-
-  # Print result
-  print(res)
 }
 }

@@ -17,7 +17,7 @@ test_that("check_value_logical passes with numeric values", {
 
   expect_message(
     res <- check_value_logical(df_num),
-    "Expected values are correctly formatted"
+    "All values are correctly formatted"
   )
   expect_null(res)
 })
@@ -27,7 +27,7 @@ test_that("check_value_logical passes with logical values", {
 
   expect_message(
     res <- check_value_logical(df_log),
-    "Expected values are correctly formatted"
+    "All values are correctly formatted"
   )
   expect_null(res)
 })

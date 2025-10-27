@@ -130,10 +130,8 @@ nominal_station <- function(data) {
 #'   }
 #'
 #' @examples
-#' \dontrun{
 #' stations <- c("ANHOLT E", "BY5 BORNHOLMSDJ", "STX999")
 #' match_station(stations, try_synonyms = TRUE)
-#' }
 #'
 #' @export
 match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbose = TRUE) {
@@ -273,6 +271,7 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #' }
 #'
 #' @examples
+#' \dontrun{
 #' df <- data.frame(
 #'   station_name = c("ANHOLT E", "BY5 BORNHOLMSDJ", "NEW STATION"),
 #'   sample_longitude_dd = c(12.1, 15.97, 17.5),
@@ -280,6 +279,7 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #' )
 #' check_station_distance(df, plot_leaflet = FALSE, try_synonyms = TRUE)
 #' check_station_distance(df, plot_leaflet = TRUE, only_bad = TRUE)
+#' }
 #'
 #' @export
 check_station_distance <- function(data, station_file = NULL,

@@ -52,9 +52,7 @@ If \code{NODC_CONFIG} is set and the folder exists, the function will use
 bundled \code{station.zip} included in the \code{SHARK4R} package.
 }
 \examples{
-\dontrun{
 stations <- c("ANHOLT E", "BY5 BORNHOLMSDJ", "STX999")
 match_station(stations, try_synonyms = TRUE)
-}
 
 }
