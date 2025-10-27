@@ -1,4 +1,4 @@
-#' Get taxonomic information from SLU Artdatabanken API for specified taxon IDs
+#' Get taxonomic information from Dyntaxa for specified taxon IDs
 #'
 #' This function queries the SLU Artdatabanken API (Dyntaxa) to retrieve taxonomic information for the specified taxon IDs.
 #' It constructs a request with the provided taxon IDs, sends the request to the SLU Artdatabanken API, and
@@ -20,7 +20,7 @@
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{get_dyntaxa_records(238366, subscription_key = "your_key_here")}
+#'       \code{get_dyntaxa_records(238366, subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
 #'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
@@ -90,7 +90,7 @@ get_dyntaxa_records <- function(taxon_ids,
     return(paste("Error: ", status_code(response), " - ", content(response, "text")))
   }
 }
-#' Get parent taxon IDs for specified taxon IDs from SLU Artdatabanken API (Dyntaxa)
+#' Get parent taxon IDs for specified taxon IDs from Dyntaxa
 #'
 #' This function queries the SLU Artdatabanken API (Dyntaxa) to retrieve parent taxon IDs for the specified taxon IDs.
 #' It constructs a request with the provided taxon IDs, sends the request to the SLU Artdatabanken API, and
@@ -112,13 +112,13 @@ get_dyntaxa_records <- function(taxon_ids,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{get_dyntaxa_parent_ids(238366, subscription_key = "your_key_here")}
+#'       \code{get_dyntaxa_parent_ids(238366, subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{DYNTAXA_KEY=your_key_here}
+#'       \code{DYNTAXA_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param verbose Logical. Default is TRUE.
@@ -193,7 +193,7 @@ get_dyntaxa_parent_ids <- function(taxon_ids,
   return(results)
 }
 
-#' Get children hierarchies for specified taxon IDs from SLU Artdatabanken API (Dyntaxa)
+#' Get children hierarchies for specified taxon IDs from Dyntaxa
 #'
 #' This function queries the SLU Artdatabanken API (Dyntaxa) to retrieve children taxon hierarchy information for the specified taxon IDs.
 #' It constructs a request with the provided taxon IDs, sends the request to the SLU Artdatabanken API, and
@@ -215,13 +215,13 @@ get_dyntaxa_parent_ids <- function(taxon_ids,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{get_dyntaxa_children_hierarchy(1010608, subscription_key = "your_key_here")}
+#'       \code{get_dyntaxa_children_hierarchy(1010608, subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{DYNTAXA_KEY=your_key_here}
+#'       \code{DYNTAXA_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param levels Integer. Default is 1
@@ -305,7 +305,7 @@ get_dyntaxa_children_hierarchy <- function(taxon_ids,
 
   return(results)
 }
-#' Get children taxon IDs for specified taxon IDs from SLU Artdatabanken API (Dyntaxa)
+#' Get children taxon IDs for specified taxon IDs from Dyntaxa
 #'
 #' This function queries the SLU Artdatabanken API (Dyntaxa) to retrieve children taxon IDs for the specified taxon IDs.
 #' It constructs a request with the provided taxon IDs, sends the request to the SLU Artdatabanken API, and
@@ -327,13 +327,13 @@ get_dyntaxa_children_hierarchy <- function(taxon_ids,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{get_dyntaxa_children_ids(1010608, subscription_key = "your_key_here")}
+#'       \code{get_dyntaxa_children_ids(1010608, subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{DYNTAXA_KEY=your_key_here}
+#'       \code{DYNTAXA_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param main_children Logical. Default is TRUE.
@@ -410,7 +410,7 @@ get_dyntaxa_children_ids <- function(taxon_ids,
   return(results)
 }
 
-#' Construct Dyntaxa taxonomy table from individually API calls
+#' Construct Dyntaxa taxonomy table from individually requests
 #'
 #' This internal function constructs a taxonomy table by individually querying the SLU Artdatabanken API (Dyntaxa)
 #' using a list of parent taxon IDs. It fetches taxonomy information for the provided taxon IDs and
@@ -434,13 +434,13 @@ get_dyntaxa_children_ids <- function(taxon_ids,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{construct_dyntaxa_missing_table(list(c(5000055, 6011755)), subscription_key = "your_key_here")}
+#'       \code{construct_dyntaxa_missing_table(list(c(5000055, 6011755)), subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{DYNTAXA_KEY=your_key_here}
+#'       \code{DYNTAXA_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param shark_output Logical. If TRUE, the function will return columns formatted to match the SHARK data submission format.
@@ -879,7 +879,7 @@ fill_na_below_first_non_na <- function(x) {
   return(x)
 }
 
-#' Update taxonomy from SHARK via SLU Artdatabanken API (Dyntaxa)
+#' Update SHARK taxonomy records using Dyntaxa
 #'
 #' This function updates Dyntaxa taxonomy records based on a list of Dyntaxa taxon IDs.
 #' It collects parent IDs from SLU Artdatabanken API (Dyntaxa), retrieves full taxonomy records, and organizes
@@ -901,13 +901,13 @@ fill_na_below_first_non_na <- function(x) {
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{update_dyntaxa_taxonomy(238366, subscription_key = "your_key_here")}
+#'       \code{update_dyntaxa_taxonomy(238366, subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{DYNTAXA_KEY=your_key_here}
+#'       \code{DYNTAXA_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param add_missing_taxa Logical. If TRUE, the function will attempt to fetch missing taxa (i.e., taxon_ids not found in the initial Dyntaxa DwC-A query). Default is FALSE.
@@ -969,7 +969,7 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids,
   return(tibble(output))
 }
 
-#' Match Dyntaxa taxon names via API
+#' Match Dyntaxa taxon names
 #'
 #' This function matches a list of taxon names against the SLU Artdatabanken API (Dyntaxa) and retrieves the best matches along with their taxon IDs.
 #'
@@ -989,13 +989,13 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{match_dyntaxa_taxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'       \code{match_dyntaxa_taxa("Skeletonema marinoi", subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{DYNTAXA_KEY=your_key_here}
+#'       \code{DYNTAXA_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param multiple_options Logical. If TRUE, the function will return multiple matching names. Default is FALSE, selecting the first match.
@@ -1126,7 +1126,7 @@ match_dyntaxa_taxa <- function(taxon_names,
   return(result_df)
 }
 
-#' Match Dyntaxa taxon names via API
+#' Match Dyntaxa taxon names
 #'
 #' @description
 #' `r lifecycle::badge("deprecated")`
@@ -1151,13 +1151,13 @@ match_dyntaxa_taxa <- function(taxon_names,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{match_taxon_name("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'       \code{match_taxon_name("Skeletonema marinoi", subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{DYNTAXA_KEY=your_key_here}
+#'       \code{DYNTAXA_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param multiple_options Logical. If TRUE, the function will return multiple matching names. Default is FALSE, selecting the first match.
@@ -1234,13 +1234,13 @@ match_taxon_name <- function(taxon_names,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{get_dyntaxa_dwca(subscription_key = "your_key_here")}
+#'       \code{get_dyntaxa_dwca(subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{DYNTAXA_KEY=your_key_here}
+#'       \code{DYNTAXA_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param file_to_read A string specifying the name of the CSV file to read from the extracted archive.
@@ -1330,7 +1330,7 @@ get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
     }
   }
 }
-#' Construct Dyntaxa taxonomy table from API
+#' Construct a hierarchical taxonomy table from Dyntaxa
 #'
 #' This function constructs a taxonomy table based on Dyntaxa taxon IDs.
 #' It queries the SLU Artdatabanken API (Dyntaxa) to fetch taxonomy information and organizes the data into a hierarchical table.
@@ -1351,13 +1351,13 @@ get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{construct_dyntaxa_table(238366, subscription_key = "your_key_here")}
+#'       \code{construct_dyntaxa_table(238366, subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{DYNTAXA_KEY=your_key_here}
+#'       \code{DYNTAXA_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param shark_output Logical. If TRUE, the function will return a table formatted with SHARK-compatible columns. If FALSE, all available columns are returned. Default is TRUE.
@@ -1390,6 +1390,7 @@ get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
 #' print(taxonomy_table)
 #' }
 #'
+#' @seealso \code{\link{get_worms_taxonomy_tree}} for an equivalent WoRMS function
 #' @seealso [SLU Artdatabanken API Documentation](https://api-portal.artdatabanken.se/)
 #'
 construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DYNTAXA_KEY"),
@@ -1849,17 +1850,17 @@ match_dyntaxa <- function(names,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+#'       \code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+#'       \code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{DYNTAXA_KEY=your_key_here}
+#'       \code{DYNTAXA_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param use_dwca Logical; if TRUE, uses the DwCA version of Dyntaxa instead of querying the API.
-#' @param return_df Logical; if TRUE, returns a data frame with columns \code{taxon_names},
+#' @param return_df Logical; if TRUE, returns a data frame with columns \code{taxon_name},
 #'   \code{taxon_id}, and \code{match}. Default is FALSE (returns a logical vector).
 #' @param verbose Logical; if TRUE, prints messages about unmatched taxa.
 #'
@@ -1872,7 +1873,7 @@ match_dyntaxa <- function(names,
 #'   name was found in Dyntaxa. Returned invisibly if \code{verbose = TRUE}.
 #'   If \code{return_df = TRUE}, a data frame with columns:
 #'   \itemize{
-#'     \item \code{taxon_names}: original input names
+#'     \item \code{taxon_name}: original input names
 #'     \item \code{taxon_id}: corresponding Dyntaxa taxon IDs (NA if not found)
 #'     \item \code{match}: logical indicating presence in Dyntaxa
 #'   }
@@ -1953,7 +1954,7 @@ is_in_dyntaxa <- function(taxon_names,
 
   if (return_df) {
     return(data.frame(
-      taxon_names = taxon_names,
+      taxon_name = taxon_names,
       in_dyntaxa = match,
       dyntaxa_id = taxon_ids,
       stringsAsFactors = FALSE

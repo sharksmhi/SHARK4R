@@ -21,19 +21,19 @@ is read from the environment variable \code{DYNTAXA_KEY}.
 You can provide the key in three ways:
 \itemize{
 \item \strong{Directly as a parameter}:
-\code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}
+\code{is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")}.
 \item \strong{Temporarily for the session}:
-\code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}
+\code{Sys.setenv(DYNTAXA_KEY = "your_key_here")}.
 After this, you do not need to pass \code{subscription_key} to the function.
 \item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
 Use \code{usethis::edit_r_environ()} to open the file, then add:
-\code{DYNTAXA_KEY=your_key_here}
+\code{DYNTAXA_KEY=your_key_here}.
 After this, you do not need to pass \code{subscription_key} to the function.
 }}
 
 \item{use_dwca}{Logical; if TRUE, uses the DwCA version of Dyntaxa instead of querying the API.}
 
-\item{return_df}{Logical; if TRUE, returns a data frame with columns \code{taxon_names},
+\item{return_df}{Logical; if TRUE, returns a data frame with columns \code{taxon_name},
 \code{taxon_id}, and \code{match}. Default is FALSE (returns a logical vector).}
 
 \item{verbose}{Logical; if TRUE, prints messages about unmatched taxa.}
@@ -43,7 +43,7 @@ If \code{return_df = FALSE} (default), a logical vector indicating whether each 
 name was found in Dyntaxa. Returned invisibly if \code{verbose = TRUE}.
 If \code{return_df = TRUE}, a data frame with columns:
 \itemize{
-\item \code{taxon_names}: original input names
+\item \code{taxon_name}: original input names
 \item \code{taxon_id}: corresponding Dyntaxa taxon IDs (NA if not found)
 \item \code{match}: logical indicating presence in Dyntaxa
 }
