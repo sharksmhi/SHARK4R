@@ -1,8 +1,8 @@
 # suppress warning for "no visible binding for global variable" in R CMD check
 utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv", "threshold",
-                         "sample_orderer_name_sv", "platform_code", "sample_date",
+                         "sample_orderer_name_sv", "platform_code", "sample_date", "parent_name",
                          "sample_latitude_dd", "sample_longitude_dd", "positioning_system_code",
-                         "water_depth_m", "Statistic", "x", "y", "ymin", "ymax", "lower",
+                         "water_depth_m", "Statistic", "x", "y", "ymin", "ymax", "lower", "parentName",
                          "middle", "upper", "Value", "Ok", "sample_id", "shark_sample_id_md5",
                          "sample_min_depth_m", "sample_max_depth_m", "parameter", "value",
                          "taxon_species", "taxon_genus", "worms_species", "worms_genus", "worms_scientific_name",

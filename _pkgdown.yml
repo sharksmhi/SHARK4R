@@ -58,7 +58,9 @@ reference:
   contents:
   - add_worms_taxonomy
   - assign_phytoplankton_group
+  - get_worms_classification
   - get_worms_records
+  - get_worms_taxonomy_tree
   - match_worms_taxa
   - match_worms_taxa_interactive
 
@@ -85,7 +87,7 @@ reference:
   - get_nua_taxa
 
 - subtitle: Plankton Toolbox
-  desc: These functions are used to read data exported from Plankton Toolbox
+  desc: These functions are used to read data related to Plankton Toolbox
   contents:
   - get_nomp_list
   - get_peg_list

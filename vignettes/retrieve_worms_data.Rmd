@@ -116,6 +116,23 @@ shark_data_with_worms <- shark_data %>%
   left_join(worms_taxonomy, by = "aphia_id")
 ```
 
+### Retrieve WoRMS Taxonomic Hierarchies
+
+To explore the full hierarchical taxonomy records of your Aphia IDs, you can use the `get_worms_taxonomy_tree()` function. This function retrieves records for the entire taxonomic tree from WoRMS, including parent-child relationships, and can optionally fetch all descendants (e.g. species) under a genus or known synonyms.
+
+```{r}
+# Retrieve taxonomic tree
+worms_tree <- get_worms_taxonomy_tree(
+  aphia_ids[1],                # use first id only in this example
+  add_descendants = FALSE,     # only retrieve hierarchy for given AphiaIDs
+  add_synonyms = FALSE,        # do not retrieve synonyms
+  verbose = FALSE              # suppress progress messages
+)
+
+# Print as tibble for easier viewing
+tibble(worms_tree)
+```
+
 ### Assign Phytoplankton Groups
 
 Phytoplankton data are often categorized into major groups such as Dinoflagellates, Diatoms, Cyanobacteria, and Others. This grouping can be achieved by referencing information from WoRMS and assigning taxa to these groups based on their taxonomic classification, as demonstrated in the example below.
