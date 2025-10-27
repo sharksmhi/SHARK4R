@@ -95,7 +95,7 @@ parsed_taxa <- parse_scientific_names(random_rows$scientific_name)
 print(parsed_taxa)
 
 # Match the taxa with AlgaeBase
-algaebase_match <- match_algaebase_taxa(genus = parsed_taxa$genus,
+algaebase_match <- match_algaebase_taxa(genera = parsed_taxa$genus,
                                         species = parsed_taxa$species,
                                         subscription_key = algaebase_key,
                                         verbose = FALSE)

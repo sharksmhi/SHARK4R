@@ -3,21 +3,20 @@
 #' This function queries the AlgaeBase API to retrieve taxonomic information for a list of algae names based on genus and (optionally) species.
 #'  It supports exact matching, genus-only searches, and retrieval of higher taxonomic ranks.
 #'
-#' @param genus A character vector of genus names.
-#' @param species A character vector of species names corresponding to the `genus` vector. Must be the same length as `genus`.
+#' @param genera A character vector of genus names.
+#' @param species A character vector of species names corresponding to the `genera` vector. Must be the same length as `genera`.
 #' @param subscription_key A character string containing the API key for accessing the AlgaeBase API. By default, the key
 #'   is read from the environment variable \code{ALGAEBASE_KEY}.
-#'
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
 #'       \code{match_algaebase_taxa("Skeletonema", "marinoi", subscription_key = "your_key_here")}
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+#'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{ALGAEBASE_KEY=your_key_here}
+#'       \code{ALGAEBASE_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param genus_only Logical. If `TRUE`, searches are based solely on the genus name, ignoring species. Defaults to `FALSE`.
@@ -30,6 +29,9 @@
 #' @param apikey
 #'     `r lifecycle::badge("deprecated")`
 #'     Use \code{subscription_key} instead.
+#' @param genus
+#'     `r lifecycle::badge("deprecated")`
+#'     Use \code{genera} instead.
 #'
 #' @return A data frame containing taxonomic information for each input genus–species combination.
 #' The following columns may be included:
@@ -71,7 +73,7 @@
 #' species_vec <- c("pseudonana", "costatum", "furca")
 #'
 #' algaebase_results <- match_algaebase_taxa(
-#'   genus = genus_vec,
+#'   genera = genus_vec,
 #'   species = species_vec,
 #'   subscription_key = "your_api_key",
 #'   exact_matches_only = TRUE,
@@ -79,13 +81,20 @@
 #' )
 #' head(algaebase_results)
 #' }
-match_algaebase_taxa <- function(genus, species, subscription_key = Sys.getenv("ALGAEBASE_KEY"), genus_only = FALSE,
+match_algaebase_taxa <- function(genera, species, subscription_key = Sys.getenv("ALGAEBASE_KEY"), genus_only = FALSE,
                                  higher = TRUE, unparsed = FALSE, exact_matches_only = TRUE,
-                                 sleep_time = 1, newest_only = TRUE, verbose = TRUE, apikey = deprecated()) {
+                                 sleep_time = 1, newest_only = TRUE, verbose = TRUE,
+                                 apikey = deprecated(), genus = deprecated()) {
+
+  if (is_present(genus)) {
+    lifecycle::deprecate_warn("1.0.0", "match_algaebase_taxa(genus = )", "match_algaebase_taxa(genera = )",
+                              "match_algaebase_taxa() handles multiple 'genus' inputs")
+    genera <- genus
+  }
 
   # Check input lengths
-  if (length(genus) != length(species)) {
-    stop("`genus` and `species` vectors must be of equal length.")
+  if (length(genera) != length(species)) {
+    stop("`genera` and `species` vectors must be of equal length.")
   }
 
   # Check for deprecated 'apikey' argument
@@ -106,8 +115,8 @@ match_algaebase_taxa <- function(genus, species, subscription_key = Sys.getenv("
     stop("API is not operational or the API key is invalid. Please check and try again.")
   }
 
-  # Create unique combinations of genus and species
-  input_data <- data.frame(genus = genus, species = species, stringsAsFactors = FALSE)
+  # Create unique combinations of genera and species
+  input_data <- data.frame(genus = genera, species = species, stringsAsFactors = FALSE)
   unique_data <- unique(input_data)
 
   # Prepare output dataframe
@@ -211,13 +220,13 @@ match_algaebase_taxa <- function(genus, species, subscription_key = Sys.getenv("
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{match_algaebase("Skeletonema", "marinoi", subscription_key = "your_key_here")}
+#'       \code{match_algaebase("Skeletonema", "marinoi", subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+#'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{ALGAEBASE_KEY=your_key_here}
+#'       \code{ALGAEBASE_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param genus_only Logical. If `TRUE`, searches are based solely on the genus name, ignoring species. Defaults to `FALSE`.
@@ -286,7 +295,7 @@ match_algaebase <- function(genus, species, subscription_key = Sys.getenv("ALGAE
 
   lifecycle::deprecate_warn("0.1.7.9000", "match_algaebase()", "match_algaebase_taxa()")
 
-  match_algaebase_taxa(genus = genus,
+  match_algaebase_taxa(genera = genus,
                        species = species,
                        subscription_key = subscription_key,
                        genus_only = genus_only,
@@ -312,13 +321,13 @@ match_algaebase <- function(genus, species, subscription_key = Sys.getenv("ALGAE
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{match_algaebase_species("Skeletonema", "marinoi", subscription_key = "your_key_here")}
+#'       \code{match_algaebase_species("Skeletonema", "marinoi", subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+#'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{ALGAEBASE_KEY=your_key_here}
+#'       \code{ALGAEBASE_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param higher A logical value indicating whether to include higher taxonomy details (default is `TRUE`).
@@ -372,6 +381,10 @@ match_algaebase_species <- function(genus, species, subscription_key = Sys.geten
 
     subscription_key <- apikey
   }
+
+  # Ensure that genus and species each contain exactly one value
+  if (length(genus) != 1) stop("The 'genus' argument must have length 1.")
+  if (length(species) != 1) stop("The 'species' argument must have length 1.")
 
   # Validate inputs
   if (is.null(genus) || genus == "" || is.na(genus)) stop("Genus name is required.")
@@ -562,13 +575,13 @@ match_algaebase_species <- function(genus, species, subscription_key = Sys.geten
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{get_algaebase_species("Skeletonema", "marinoi", subscription_key = "your_key_here")}
+#'       \code{get_algaebase_species("Skeletonema", "marinoi", subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+#'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{ALGAEBASE_KEY=your_key_here}
+#'       \code{ALGAEBASE_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param higher A logical value indicating whether to include higher taxonomy details (default is `TRUE`).
@@ -638,13 +651,13 @@ get_algaebase_species <- function(genus, species, subscription_key = Sys.getenv(
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{match_algaebase_genus("Skeletonema", subscription_key = "your_key_here")}
+#'       \code{match_algaebase_genus("Skeletonema", subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+#'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{ALGAEBASE_KEY=your_key_here}
+#'       \code{ALGAEBASE_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param higher A boolean flag indicating whether to include higher taxonomy in the output (default is TRUE).
@@ -695,6 +708,9 @@ match_algaebase_genus <- function(genus, subscription_key = Sys.getenv("ALGAEBAS
 
     subscription_key <- apikey
   }
+
+  # Ensure that genus and species each contain exactly one value
+  if (length(genus) != 1) stop("The 'genus' argument must have length 1.")
 
   # Validate inputs
   if (is.null(genus) || genus == "" || is.na(genus)) stop("No genus name supplied")
@@ -821,13 +837,13 @@ match_algaebase_genus <- function(genus, subscription_key = Sys.getenv("ALGAEBAS
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{get_algaebase_genus("Skeletonema", subscription_key = "your_key_here")}
+#'       \code{get_algaebase_genus("Skeletonema", subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+#'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{ALGAEBASE_KEY=your_key_here}
+#'       \code{ALGAEBASE_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param higher A boolean flag indicating whether to include higher taxonomy in the output (default is TRUE).
@@ -922,11 +938,14 @@ extract_algaebase_field <- function(query_result, field_name) {
 #' It handles binomial names (e.g., "Homo sapiens"), removes undesired descriptors (e.g., 'Cfr.', 'cf.', 'sp.', 'spp.'),
 #' and manages cases involving varieties, subspecies, or invalid species names. Special characters and whitespace are handled appropriately.
 #'
-#' @param scientific_name A character vector containing scientific names, which may include binomials, additional descriptors, or varieties.
+#' @param scientific_names A character vector containing scientific names, which may include binomials, additional descriptors, or varieties.
 #' @param remove_undesired_descriptors Logical, if TRUE, undesired descriptors (e.g., 'Cfr.', 'cf.', 'colony', 'cells', etc.) are removed. Default is TRUE.
 #' @param remove_subspecies Logical, if TRUE, subspecies/variety descriptors (e.g., 'var.', 'subsp.', 'f.', etc.) are removed. Default is TRUE.
 #' @param remove_invalid_species Logical, if TRUE, invalid species names (e.g., 'sp.', 'spp.') are removed. Default is TRUE.
 #' @param encoding A string specifying the encoding to be used for the input names (e.g., 'UTF-8'). Default is 'UTF-8'.
+#' @param scientific_name
+#'     `r lifecycle::badge("deprecated")`
+#'     Use \code{scientific_names} instead.
 #'
 #' @return A data frame with two columns:
 #' \itemize{
@@ -948,14 +967,25 @@ extract_algaebase_field <- function(query_result, field_name) {
 #' print(result)
 #'
 #' @export
-parse_scientific_names <- function(scientific_name,
+parse_scientific_names <- function(scientific_names,
                                    remove_undesired_descriptors = TRUE,
                                    remove_subspecies = TRUE,
                                    remove_invalid_species = TRUE,
-                                   encoding = 'UTF-8') {
+                                   encoding = 'UTF-8',
+                                   scientific_name = deprecated()) {
+
+  if (is_present(scientific_name)) {
+
+    # Signal the deprecation to the user
+    lifecycle::deprecate_warn("1.0.0", "SHARK4R::parse_scientific_names(scientific_name = )", "SHARK4R::parse_scientific_names(scientific_names = )",
+                              "parse_scientific_names() handles multiple 'scientific_name' inputs")
+
+    # Deal with the deprecated argument for compatibility
+    scientific_names <- scientific_name
+  }
 
   # Ensure the input is a character vector
-  spp_list <- as.character(scientific_name)
+  spp_list <- as.character(scientific_names)
 
   # Convert to specified encoding to handle special characters correctly
   spp_list <- iconv(spp_list, to = encoding)
@@ -1028,13 +1058,13 @@ parse_scientific_names <- function(scientific_name,
 #'   You can provide the key in three ways:
 #'   \itemize{
 #'     \item **Directly as a parameter**:
-#'       \code{check_algaebase_api(subscription_key = "your_key_here")}
+#'       \code{check_algaebase_api(subscription_key = "your_key_here")}.
 #'     \item **Temporarily for the session**:
-#'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+#'       \code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'     \item **Permanently across sessions** by adding it to your \code{~/.Renviron} file.
 #'       Use \code{usethis::edit_r_environ()} to open the file, then add:
-#'       \code{ALGAEBASE_KEY=your_key_here}
+#'       \code{ALGAEBASE_KEY=your_key_here}.
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #' @param genus_id A numeric value. The unique genus ID used to test the API endpoint.

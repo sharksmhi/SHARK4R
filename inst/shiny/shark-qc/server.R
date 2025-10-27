@@ -737,7 +737,7 @@ shinyServer(function(input, output, session) {
 
       dyntaxa_res <- dyntaxa_res %>%
         distinct() %>%
-        rename(scientific_name = taxon_names) %>%
+        rename(scientific_name = taxon_name) %>%
         left_join(shark_dyntaxa_id, by = "scientific_name") %>%
         mutate(shark_diff = ifelse(shark_dyntaxa_id == dyntaxa_id, FALSE, TRUE)) %>%
         arrange(scientific_name)
