@@ -397,11 +397,51 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     stop("To save the data, set 'save_data' to TRUE and specify a valid 'file_path': ", file_path)
   }
 
+  # Normalize user input (case-insensitive)
+  tableView <- tolower(trimws(tableView))
+
+  # Define short aliases → full table names
+  table_aliases <- c(
+    "overview" = "sharkweb_overview",
+    "all" = "sharkweb_all",
+    "bacterioplankton" = "sharkdata_bacterioplankton",
+    "chlorophyll" = "sharkdata_chlorophyll",
+    "epibenthos" = "sharkdata_epibenthos",
+    "greyseal" = "sharkdata_greyseal",
+    "harbourporpoise" = "sharkdata_harbourporpoise",
+    "harbourseal" = "sharkdata_harbourseal",
+    "jellyfish" = "sharkdata_jellyfish",
+    "physicalchemical" = "sharkdata_physicalchemical",
+    "physicalchemical_columns" = "sharkdata_physicalchemical_columns",
+    "phytoplankton" = "sharkdata_phytoplankton",
+    "picoplankton" = "sharkdata_picoplankton",
+    "planktonbarcoding" = "sharkdata_planktonbarcoding",
+    "primaryproduction" = "sharkdata_primaryproduction",
+    "ringedseal" = "sharkdata_ringedseal",
+    "sealpathology" = "sharkdata_sealpathology",
+    "sedimentation" = "sharkdata_sedimentation",
+    "zoobenthos" = "sharkdata_zoobenthos",
+    "zooplankton" = "sharkdata_zooplankton",
+    "sum_year_param" = "report_sum_year_param",
+    "sum_year_param_taxon" = "report_sum_year_param_taxon",
+    "sampling_per_station" = "report_sampling_per_station",
+    "obs_taxon" = "report_obs_taxon",
+    "stations" = "report_stations",
+    "taxon" = "report_taxon"
+  )
+
+  # Automatically translate short names
+  if (tableView %in% names(table_aliases)) {
+    tableView <- table_aliases[[tableView]]
+  }
+
+  # Validate tableView
   if (!grepl("^(sharkweb_|sharkdata_|report_)", tableView)) {
     stop(
       "Invalid 'tableView' value: ", tableView,
-      ". It must start with one of the following prefixes: 'sharkweb_', 'sharkdata_', or 'report_'.\n",
-      "See ?get_shark_data for a list of valid 'tableView' options."
+      ". It must be one of the following (case-insensitive): ",
+      paste(sort(unique(names(table_aliases))), collapse = ", "), ".\n",
+      "Or use the full SHARK API name (e.g., 'sharkdata_phytoplankton')."
     )
   }
 
