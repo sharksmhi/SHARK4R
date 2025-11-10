@@ -240,7 +240,7 @@ test_that("chlorophyll data are retrieved for all years", {
   skip_on_cran()
 
   shark_data <- get_shark_data(
-    tableView = "sharkdata_chlorophyll",
+    tableView = "chlorophyll",
     dataTypes = "Chlorophyll",
     fromYear = NULL,
     toYear = NULL,
