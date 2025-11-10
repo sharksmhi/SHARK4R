@@ -124,6 +124,7 @@ reference:
 - subtitle: MISC
   contents:
   - clean_shark4r_cache
+  - convert_ddmm_to_dd
   - find_required_fields
   - get_delivery_template
   - load_shark4r_stats

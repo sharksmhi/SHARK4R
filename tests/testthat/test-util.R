@@ -216,3 +216,31 @@ test_that("load_shark4r_fields() prints messages when verbose = TRUE", {
   expect_message(load_shark4r_fields(verbose = TRUE),
                  "Downloading SHARK4R field definitions from GitHub")
 })
+
+test_that("convert_ddmm_to_dd handles basic DDMM inputs", {
+  expect_equal(convert_ddmm_to_dd(c(5733, 6045)), c(57 + 33/60, 60 + 45/60))
+})
+
+test_that("convert_ddmm_to_dd handles inputs with fractional minutes", {
+  expect_equal(convert_ddmm_to_dd(c("573345", "604523")),
+               c(57 + 33.45/60, 60 + 45.23/60))
+})
+
+test_that("convert_ddmm_to_dd handles inputs with non-numeric characters", {
+  expect_equal(convert_ddmm_to_dd(c("57°33'", "60°45'23\"")),
+               c(57 + 33/60, 60 + 45.23/60))
+})
+
+test_that("convert_ddmm_to_dd returns NA for too short input", {
+  expect_true(is.na(convert_ddmm_to_dd(c("123"))))
+})
+
+test_that("convert_ddmm_to_dd returns a numeric vector without names", {
+  res <- convert_ddmm_to_dd(c(5733, 6045))
+  expect_true(is.numeric(res))
+  expect_null(names(res))
+})
+
+test_that("convert_ddmm_to_dd handles NA input", {
+  expect_equal(convert_ddmm_to_dd(c(NA, 5733)), c(NA, 57 + 33/60))
+})

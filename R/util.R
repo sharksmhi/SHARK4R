@@ -321,6 +321,57 @@ load_shark4r_fields <- function(verbose = TRUE) {
   })
 }
 
+#' Convert coordinates from DDMM format to decimal degrees
+#'
+#' This function converts geographic coordinates provided in the DDMM
+#' format (degrees and minutes) to decimal degrees. It can handle:
+#' - DDMM (e.g., 5733 to 57°33' to 57.55°)
+#' - DDMMss or DDMMss… (extra digits after minutes are interpreted
+#'   as fractional minutes, e.g., 573345 to 57°33.45' to 57.5575°)
+#'
+#' Non-numeric characters are removed before conversion. Coordinates
+#' shorter than 4 digits are returned as `NA`.
+#'
+#' @param coord A numeric or character vector of coordinates in DDMM format.
+#'
+#' @return A numeric vector of decimal degrees corresponding to the input coordinates.
+#'   Names from the input vector are removed.
+#'
+#' @examples
+#' # Basic DDMM input
+#' convert_ddmm_to_dd(c(5733, 6045))
+#' # Input with fractional minutes
+#' convert_ddmm_to_dd(c("573345", "604523"))
+#' # Input with non-numeric characters
+#' convert_ddmm_to_dd(c("57°33'", "60°45'23\""))
+#'
+#' @export
+convert_ddmm_to_dd <- function(coord) {
+  coord <- as.character(coord)
+  coord <- gsub("[^0-9]", "", coord)  # Remove non-numeric characters
+
+  # Handle too short input
+  coord[nchar(coord) < 4] <- NA
+
+  decimal_degrees <- sapply(coord, function(c) {
+    if (is.na(c)) return(NA_real_)
+
+    len <- nchar(c)
+    deg <- as.numeric(substr(c, 1, 2))
+    min <- as.numeric(substr(c, 3, 4))
+
+    # Extra digits beyond DDMM -> fractional minutes
+    if (len > 4) {
+      min_decimals <- as.numeric(substr(c, 5, len))
+      min <- min + min_decimals / (10^(len - 4))
+    }
+
+    return(deg + min / 60)
+  })
+
+  return(unname(decimal_degrees))  # remove the names
+}
+
 ## Helpers
 
 missing_fields <- function(data, fields) {

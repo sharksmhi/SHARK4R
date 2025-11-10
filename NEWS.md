@@ -15,6 +15,7 @@
 * Add new function `load_shark4r_fields()` to download and load fields definitions from a GitHub repository
 * Add new function `get_worms_classification()` to retrieve higher taxonomic information from WoRMS records
 * Add new function `get_worms_taxonomy_tree()` to retrieve and constructs a hierarchical taxonomy tree from WoRMS records
+* Add new function `convert_ddmm_to_dd()` to convert coordinates from DDMM format to decimal degrees
 
 ## Enhancements
 * Re-export functions from the `iRfcb` package: `which_basin()` and `positions_are_near_land()`
