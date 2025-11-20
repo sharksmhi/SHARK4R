@@ -213,6 +213,10 @@ test_that("functions stops if input key is missing or wrong", {
   expect_error(update_dyntaxa_taxonomy(1234, subscription_key = NULL), "No Dyntaxa subscription key provided")
   expect_error(construct_dyntaxa_table(1234, subscription_key = NULL), "No Dyntaxa subscription key provided")
   expect_error(get_dyntaxa_dwca(subscription_key = NULL), "No Dyntaxa subscription key provided")
+})
+
+test_that("get_dyntaxa_dwca stops if file_to_read is wrong", {
+  skip_on_cran()
 
   expect_error(get_dyntaxa_dwca(subscription_key = dyntaxa_key,
                                 file_to_read = "non-existing-file"), "Invalid file_to_read")

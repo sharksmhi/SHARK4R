@@ -4,11 +4,13 @@
 \alias{get_shark_options}
 \title{Retrieve available search options from SHARK}
 \usage{
-get_shark_options(prod = TRUE, unparsed = FALSE)
+get_shark_options(prod = TRUE, utv = FALSE, unparsed = FALSE)
 }
 \arguments{
-\item{prod}{Logical. If \code{TRUE}, queries the production (PROD) server. If \code{FALSE}, queries the SMHI internal test (TEST) server.
-Defaults to \code{TRUE}.}
+\item{prod}{Logical value that selects the production server when \code{TRUE}
+and the test server when \code{FALSE}, unless \code{utv} is \code{TRUE}.}
+
+\item{utv}{Logical value that selects the UTV server when \code{TRUE}.}
 
 \item{unparsed}{Logical. If \code{TRUE}, returns the complete JSON response as a nested list without parsing.
 Defaults to \code{FALSE}.}

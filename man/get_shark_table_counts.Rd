@@ -30,7 +30,8 @@ get_shark_table_counts(
   typOmraden = c(),
   helcomOspar = c(),
   seaAreas = c(),
-  prod = TRUE
+  prod = TRUE,
+  utv = FALSE
 )
 }
 \arguments{
@@ -113,7 +114,9 @@ Default is \code{"sharkweb_overview"}.}
 
 \item{seaAreas}{Character vector. Optional. Sea area codes for filtering by specific sea areas.}
 
-\item{prod}{Logical. Query against PROD or TEST (SMHI internal) server. Default is \code{TRUE} (PROD).}
+\item{prod}{Logical. Select production server when \code{TRUE} (default). Ignored if \code{utv} is \code{TRUE}.}
+
+\item{utv}{Logical. Select UTV server when \code{TRUE}.}
 }
 \value{
 An integer representing the total number of rows in the requested SHARK table

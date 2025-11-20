@@ -40,6 +40,7 @@ get_shark_data(
   hideEmptyColumns = FALSE,
   row_limit = 10^7,
   prod = TRUE,
+  utv = FALSE,
   verbose = TRUE
 )
 }
@@ -180,7 +181,10 @@ If set to \code{NULL} (default), the function will use the latest available year
 If the requested data exceeds this limit, the function automatically downloads the data in yearly chunks
 (ignored when \code{tableView = "report_*"}). The default value is 10 million rows.}
 
-\item{prod}{Logical. Whether to query the PROD (production) server or the SMHI internal TEST (testing) server. Default is TRUE (PROD).}
+\item{prod}{Logical, whether to download from the production
+(\code{TRUE}, default) or test (\code{FALSE}) SHARK server. Ignored if \code{utv} is \code{TRUE}.}
+
+\item{utv}{Logical. Select UTV server when \code{TRUE}.}
 
 \item{verbose}{Logical. Whether to display progress information. Default is TRUE.}
 }

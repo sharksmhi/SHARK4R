@@ -12,6 +12,7 @@ test_that("parse_scientific_names works", {
 test_that("match_algaebase_taxa works", {
   skip_if_offline()
   skip_if_resource_unavailable("https://algaebase.org/")
+  skip_on_cran()
 
   species_parsed <- parse_scientific_names(test_species)
 

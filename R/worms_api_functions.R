@@ -1336,7 +1336,7 @@ get_worms_taxonomy_tree <- function(aphia_ids,
 #'     \item{aphia_id}{The AphiaID of the taxon (matches input).}
 #'     \item{scientific_name}{The last scientific name in the hierarchy for
 #'       this AphiaID.}
-#'     \item{<taxonomic ranks>}{Columns for each rank present in the WoRMS
+#'     \item{taxonomic ranks}{Columns for each rank present in the WoRMS
 #'       hierarchy (e.g., Kingdom, Phylum, Class, Order, Family, Genus,
 #'       Species). Missing ranks are NA.}
 #'     \item{worms_hierarchy}{A concatenated string of all ranks for this
