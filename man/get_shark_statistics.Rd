@@ -12,6 +12,8 @@ get_shark_statistics(
   min_obs = 3,
   max_non_numeric_frac = 0.05,
   cache_result = FALSE,
+  prod = TRUE,
+  utv = FALSE,
   verbose = TRUE
 )
 }
@@ -37,6 +39,11 @@ for a parameter to be kept (default: 0.05).}
 
 \item{cache_result}{Logical, whether to save the result in a persistent cache
 (\code{statistics.rds}) for use by other functions. Default is \code{FALSE}.}
+
+\item{prod}{Logical, whether to download from the production
+(\code{TRUE}, default) or test (\code{FALSE}) SHARK server. Ignored if \code{utv} is \code{TRUE}.}
+
+\item{utv}{Logical. Select UTV server when \code{TRUE}.}
 
 \item{verbose}{Logical, whether to show download progress messages. Default is \code{TRUE}.}
 }

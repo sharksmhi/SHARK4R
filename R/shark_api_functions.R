@@ -3,8 +3,9 @@
 #' The `get_shark_options()` function retrieves available search options from the SHARK database.
 #' It sends a GET request to the SHARK API and returns the results as a structured named list.
 #'
-#' @param prod Logical. If `TRUE`, queries the production (PROD) server. If `FALSE`, queries the SMHI internal test (TEST) server.
-#'   Defaults to `TRUE`.
+#' @param prod Logical value that selects the production server when `TRUE`
+#'   and the test server when `FALSE`, unless `utv` is `TRUE`.
+#' @param utv Logical value that selects the UTV server when `TRUE`.
 #' @param unparsed Logical. If `TRUE`, returns the complete JSON response as a nested list without parsing.
 #'   Defaults to `FALSE`.
 #'
@@ -33,9 +34,11 @@
 #' }
 #'
 #' @export
-get_shark_options <- function(prod = TRUE, unparsed = FALSE) {
+get_shark_options <- function(prod = TRUE, utv = FALSE, unparsed = FALSE) {
 
-  if (prod) {
+  if (utv) {
+    url <- "https://shark-utv.smhi.se/api/options"
+  } else if (prod) {
     url <- "https://shark.smhi.se/api/options"
   } else {
     url <- "https://shark-tst.smhi.se/api/options"
@@ -143,7 +146,8 @@ get_shark_options <- function(prod = TRUE, unparsed = FALSE) {
 #' @param typOmraden Character vector. Optional. Type areas to filter data by specific areas.
 #' @param helcomOspar Character vector. Optional. HELCOM or OSPAR areas for regional filtering.
 #' @param seaAreas Character vector. Optional. Sea area codes for filtering by specific sea areas.
-#' @param prod Logical. Query against PROD or TEST (SMHI internal) server. Default is `TRUE` (PROD).
+#' @param prod Logical. Select production server when `TRUE` (default). Ignored if `utv` is `TRUE`.
+#' @param utv Logical. Select UTV server when `TRUE`.
 #'
 #' @seealso \url{https://shark.smhi.se} for SHARK database.
 #' @seealso \code{\link{get_shark_options}} to see filter options
@@ -169,10 +173,17 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
                                    redListedCategory = c(), taxonName = c(), stationName = c(),
                                    vattenDistrikt = c(), seaBasins = c(), counties = c(),
                                    municipalities = c(), waterCategories = c(), typOmraden = c(),
-                                   helcomOspar = c(), seaAreas = c(), prod = TRUE) {
+                                   helcomOspar = c(), seaAreas = c(), prod = TRUE, utv = FALSE) {
 
-  # Define the URL
-  url <- if (prod) "https://shark.smhi.se/api/sample/count" else "https://shark-tst.smhi.se/api/sample/count"
+  # Select environment
+  if (utv) {
+    url <- "https://shark-utv.smhi.se/api/sample/count"
+  } else if (prod) {
+    url <- "https://shark.smhi.se/api/sample/count"
+  } else {
+    url <- "https://shark-tst.smhi.se/api/sample/count"
+  }
+
   url_short <- gsub("api/sample/count", "", url)
 
   # Check if the URL is reachable
@@ -342,7 +353,9 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @param row_limit Numeric. Specifies the maximum number of rows that can be retrieved in a single request.
 #'   If the requested data exceeds this limit, the function automatically downloads the data in yearly chunks
 #'   (ignored when `tableView = "report_*"`). The default value is 10 million rows.
-#' @param prod Logical. Whether to query the PROD (production) server or the SMHI internal TEST (testing) server. Default is TRUE (PROD).
+#' @param prod Logical, whether to download from the production
+#'   (`TRUE`, default) or test (`FALSE`) SHARK server. Ignored if `utv` is `TRUE`.
+#' @param utv Logical. Select UTV server when `TRUE`.
 #' @param verbose Logical. Whether to display progress information. Default is TRUE.
 #'
 #' @return
@@ -386,7 +399,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
                            redListedCategory = c(), taxonName = c(), stationName = c(), vattenDistrikt = c(),
                            seaBasins = c(), counties = c(), municipalities = c(), waterCategories = c(),
                            typOmraden = c(), helcomOspar = c(), seaAreas = c(), hideEmptyColumns = FALSE,
-                           row_limit = 10^7, prod = TRUE, verbose = TRUE) {
+                           row_limit = 10^7, prod = TRUE, utv = FALSE, verbose = TRUE) {
 
   # Set up file path to .txt file
   if (save_data && is.null(file_path)) {
@@ -445,8 +458,15 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     )
   }
 
-  # Define the URL
-  url <- if (prod) "https://shark.smhi.se/api/sample/download" else "https://shark-tst.smhi.se/api/sample/download"
+  # Select environment
+  if (utv) {
+    url <- "https://shark-utv.smhi.se/api/sample/download"
+  } else if (prod) {
+    url <- "https://shark.smhi.se/api/sample/download"
+  } else {
+    url <- "https://shark-tst.smhi.se/api/sample/download"
+  }
+
   url_short <- gsub("api/sample/download", "", url)
 
   # Check if the URL is reachable
@@ -767,7 +787,8 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 #'   extracted contents) should be stored. Defaults to `""`. If
 #'   `NULL` or `""`, the current working directory is used.
 #' @param prod Logical, whether to download from the production
-#'   (`TRUE`, default) or test (`FALSE`) SHARK server.
+#'   (`TRUE`, default) or test (`FALSE`) SHARK server. Ignored if `utv` is `TRUE`.
+#' @param utv Logical. Select UTV server when `TRUE`.
 #' @param unzip_file Logical, whether to extract downloaded zip
 #'   archives (`TRUE`) or only save them (`FALSE`, default).
 #' @param return_df Logical, whether to return a combined data frame
@@ -810,6 +831,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 get_shark_datasets <- function(dataset_name,
                                save_dir = "",
                                prod = TRUE,
+                               utv = FALSE,
                                unzip_file = FALSE,
                                return_df = FALSE,
                                verbose = TRUE) {
@@ -828,7 +850,10 @@ get_shark_datasets <- function(dataset_name,
     stop("No datasets found matching: ", paste(dataset_name, collapse = ", "))
   }
 
-  base_url <- if (prod) {
+  # Select base URL depending on environment
+  base_url <- if (utv) {
+    "https://shark-utv.smhi.se/api/dataset/download/"
+  } else if (prod) {
     "https://shark.smhi.se/api/dataset/download/"
   } else {
     "https://shark-tst.smhi.se/api/dataset/download/"
@@ -936,6 +961,9 @@ get_shark_datasets <- function(dataset_name,
 #'   for a parameter to be kept (default: 0.05).
 #' @param cache_result Logical, whether to save the result in a persistent cache
 #'   (`statistics.rds`) for use by other functions. Default is `FALSE`.
+#' @param prod Logical, whether to download from the production
+#'   (`TRUE`, default) or test (`FALSE`) SHARK server. Ignored if `utv` is `TRUE`.
+#' @param utv Logical. Select UTV server when `TRUE`.
 #' @param verbose Logical, whether to show download progress messages. Default is `TRUE`.
 #'
 #' @return A tibble with one row per parameter (and optionally per group) and the following columns:
@@ -972,7 +1000,7 @@ get_shark_datasets <- function(dataset_name,
 #' }
 get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL, group_col = NULL,
                                  min_obs = 3, max_non_numeric_frac = 0.05, cache_result = FALSE,
-                                 verbose = TRUE) {
+                                 prod = TRUE, utv = FALSE, verbose = TRUE) {
 
   # Set default years
   current_year <- as.integer(format(Sys.Date(), "%Y"))
@@ -992,6 +1020,8 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
   data <- get_shark_data(dataTypes = datatype,
                          fromYear = fromYear,
                          toYear = toYear,
+                         prod = prod,
+                         utv = utv,
                          verbose = verbose)
 
   if (nrow(data) == 0) {
