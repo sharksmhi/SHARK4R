@@ -4,11 +4,11 @@
 \name{SHARK4R-package}
 \alias{SHARK4R}
 \alias{SHARK4R-package}
-\title{SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases}
+\title{SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Provides functions to retrieve, process, analyze, and quality-control marine physical, chemical, and biological data. The main focus is on Swedish monitoring data available through the SHARK database \url{https://shark.smhi.se/}, with additional API support for 'Nordic Microalgae' \url{https://nordicmicroalgae.org/}, 'Dyntaxa' \url{https://artfakta.se/}, World Register of Marine Species ('WoRMS') \url{https://www.marinespecies.org}, 'AlgaeBase' \url{https://www.algaebase.org}, OBIS 'xylookup' web service \url{https://iobis.github.io/xylookup/} and Intergovernmental Oceanographic Commission (IOC) - UNESCO databases on harmful algae \url{https://www.marinespecies.org/hab/} and toxins \url{https://toxins.hais.ioc-unesco.org/}.
+Provides functions to retrieve, process, analyze, and quality-control marine physical, chemical, and biological data. The main focus is on Swedish monitoring data available through the 'SHARK' database \url{https://shark.smhi.se/}, with additional API support for 'Nordic Microalgae' \url{https://nordicmicroalgae.org/}, 'Dyntaxa' \url{https://artfakta.se/}, World Register of Marine Species ('WoRMS') \url{https://www.marinespecies.org}, 'AlgaeBase' \url{https://www.algaebase.org}, OBIS 'xylookup' web service \url{https://iobis.github.io/xylookup/} and Intergovernmental Oceanographic Commission (IOC) - UNESCO databases on harmful algae \url{https://www.marinespecies.org/hab/} and toxins \url{https://toxins.hais.ioc-unesco.org/}.
 }
 \seealso{
 Useful links:
