@@ -40,7 +40,7 @@ This function downloads the EG-Phyto (previously PEG) biovolume zip archive from
 You can also specify which file in the archive to read.
 }
 \examples{
-\dontrun{
+\donttest{
   # Read the first Excel file from the PEG zip
   peg_list <- get_peg_list()
 

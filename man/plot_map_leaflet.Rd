@@ -30,7 +30,7 @@ for station, longitude, and latitude, supporting both standard and
 delivery-style datasets.
 }
 \examples{
-\dontrun{
+\donttest{
 df <- data.frame(
   station_name = c("Station A", "Station B"),
   sample_longitude_dd = c(10.0, 10.5),

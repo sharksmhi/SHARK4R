@@ -21,7 +21,7 @@ This function retrieves all taxonomic information for algae taxa from the Nordic
 It fetches details including scientific names, authorities, ranks, and image URLs (in different sizes: large, medium, original, and small).
 }
 \examples{
-\dontrun{
+\donttest{
   # Retrieve and display taxa data
   taxa_data <- get_nua_taxa(unparsed = FALSE)
   head(taxa_data)

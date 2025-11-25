@@ -46,7 +46,7 @@ If a request fails, it retries up to \code{max_retries} times, pausing for \code
 If all attempts fail, the function stops and throws an error.
 }
 \examples{
-\dontrun{
+\donttest{
 # Retrieve WoRMS records for the taxonomic names "Amphidinium" and "Karenia"
 records <- get_worms_records_name(c("Amphidinium", "Karenia"),
                                   max_retries = 3, sleep_time = 5, marine_only = TRUE)

@@ -66,7 +66,7 @@ The downloaded data can include various fields, which are controlled by the inpu
 If a field is not required, set the corresponding parameter to \code{FALSE} to exclude it from the output.
 }
 \examples{
-\dontrun{
+\donttest{
 # Download the default HABs taxonomic list
 habs_taxlist_df <- get_hab_list()
 head(habs_taxlist_df)

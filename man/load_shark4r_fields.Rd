@@ -39,14 +39,15 @@ If sourcing fails (e.g., due to a network issue or repository changes), the func
 an error with a descriptive message.
 }
 \examples{
-\dontrun{
+\donttest{
 # Load SHARK4R field definitions from GitHub
 fields <- load_shark4r_fields()
 
 # Access required or recommended fields
 fields$required_fields
 fields$recommended_fields
-
+}
+\dontrun{
 # Use the loaded definitions in check_fields()
 check_fields(my_data, field_definitions = fields)
 }

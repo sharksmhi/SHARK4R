@@ -19,9 +19,11 @@
 #' It does not return a value.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Launch the SHARK4R Bio-QC Tool
-#' run_qc_app()
+#' if(interactive()){
+#'   run_qc_app()
+#' }
 #' }
 #'
 #' @export

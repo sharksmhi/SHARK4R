@@ -55,6 +55,7 @@
 #' If `report = FALSE`, returns the subset of input rows that failed any check.
 #'
 #' @examples
+#' \donttest{
 #' # Example dataset with one depth column
 #' example_data <- data.frame(
 #'   sample_latitude_dd = c(59.3, 58.1, 57.5),
@@ -63,9 +64,7 @@
 #' )
 #'
 #' # Validate depths using OBIS XY lookup (bathymetry = NULL)
-#' \dontrun{
 #' check_depth(example_data, depth_cols = "sample_depth_m")
-#' }
 #'
 #' # Example dataset with min/max depth columns
 #' example_data2 <- data.frame(
@@ -75,12 +74,9 @@
 #'   sample_max_depth_m = c(3, 20)
 #' )
 #'
-#' \dontrun{
 #' check_depth(example_data2, depth_cols = c("sample_min_depth_m", "sample_max_depth_m"))
-#' }
 #'
 #' # Return only failing rows
-#' \dontrun{
 #' check_depth(example_data, depth_cols = "sample_depth_m", report = FALSE)
 #' }
 #'

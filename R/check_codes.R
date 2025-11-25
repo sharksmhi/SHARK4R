@@ -22,7 +22,7 @@
 #' @seealso [clean_shark4r_cache()] to manually clear cached files.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   # Read the first sheet, skipping the first row
 #'   codes <- get_shark_codes()
 #'

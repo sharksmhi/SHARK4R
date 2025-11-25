@@ -62,7 +62,7 @@ Optionally, a leaflet map can be plotted. Points on land are displayed as red ma
 while points in water are green. If \code{only_bad = TRUE}, only the red points (on land) are plotted.
 }
 \examples{
-\dontrun{
+\donttest{
 # Example data frame with coordinates
 example_data <- data.frame(
   sample_latitude_dd = c(59.3, 58.1, 57.5),

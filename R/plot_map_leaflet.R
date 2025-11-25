@@ -18,7 +18,7 @@
 #'   in R Markdown or Shiny applications.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' df <- data.frame(
 #'   station_name = c("Station A", "Station B"),
 #'   sample_longitude_dd = c(10.0, 10.5),

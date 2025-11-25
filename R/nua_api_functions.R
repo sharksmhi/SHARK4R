@@ -12,7 +12,7 @@
 #'   \item{rank}{The taxonomic rank of the taxon.}
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   # Retrieve and display taxa data
 #'   taxa_data <- get_nua_taxa(unparsed = FALSE)
 #'   head(taxa_data)
@@ -105,7 +105,7 @@ get_nua_taxa <- function(unparsed = FALSE) {
 #' @seealso \url{https://nordicmicroalgae.org/api/} for Nordic Microalgae API documentation.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   # Retrieve external links for a vector of slugs
 #'   external_links <- get_nua_external_links(slug = c("chaetoceros-debilis", "alexandrium-tamarense"))
 #'   head(external_links)
@@ -205,7 +205,7 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
 #' @seealso \url{https://nordicmicroalgae.org/api/} for Nordic Microalgae API documentation.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   # Retrieve external links for a vector of slugs
 #'   harmfulness <- get_nua_harmfulness(slug = c("dinophysis-acuta",
 #'                                               "alexandrium-ostenfeldii"))
@@ -294,7 +294,7 @@ get_nua_harmfulness <- function(slug, verbose = TRUE) {
 #' @seealso \url{https://nordicmicroalgae.org/api/} for Nordic Microalgae API documentation.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Retrieve media information
 #' media_info <- get_nua_media_links(unparsed = FALSE)
 #'

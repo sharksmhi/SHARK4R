@@ -71,7 +71,7 @@ check_nominal_station <- function(data, verbose = TRUE) {
 #'   Otherwise, returns \code{NULL}.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' df <- data.frame(
 #'   sample_date = rep(seq.Date(Sys.Date(), by = "day", length.out = 3), each = 2),
 #'   station_name = rep(c("ST1", "ST2"), 3),
@@ -240,7 +240,6 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #' }
 #'
 #' @examples
-#' \dontrun{
 #' df <- data.frame(
 #'   station_name = c("ANHOLT E", "BY5 BORNHOLMSDJ", "NEW STATION"),
 #'   sample_longitude_dd = c(12.1, 15.97, 17.5),
@@ -248,7 +247,6 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #' )
 #' check_station_distance(df, plot_leaflet = FALSE, try_synonyms = TRUE)
 #' check_station_distance(df, plot_leaflet = TRUE, only_bad = TRUE)
-#' }
 #'
 #' @export
 check_station_distance <- function(data, station_file = NULL,

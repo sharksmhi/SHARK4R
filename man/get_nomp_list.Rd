@@ -43,7 +43,7 @@ biovolume zip archive from SMHI (using \code{cache_nomp_zip()}), unzips it, and 
 Excel file by default. You can also specify which file in the archive to read.
 }
 \examples{
-\dontrun{
+\donttest{
   # Get the latest available list
   nomp_list <- get_nomp_list()
 

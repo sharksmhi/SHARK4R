@@ -29,7 +29,7 @@ This function sends a GET request to the \verb{/api/options} endpoint of the SHA
 to retrieve available search filters and options that can be used in SHARK data queries.
 }
 \examples{
-\dontrun{
+\donttest{
   # Retrieve available search options (simplified)
   shark_options <- get_shark_options()
   names(shark_options)

@@ -32,7 +32,7 @@
 #' - The function has been modified from the `obistools` package (Provoost and Bosch, 2024).
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Example data frame
 #' data <- data.frame(sample_longitude_dd = c(10.983229, 18.265451),
 #'                    sample_latitude_dd = c(58.121034, 58.331616))

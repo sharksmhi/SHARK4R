@@ -212,11 +212,11 @@ retrieval can be time-consuming and memory-intensive. Consider filtering
 by year, data type, or region for improved performance.
 }
 \examples{
-\dontrun{
+\donttest{
   # Retrieve chlorophyll data from 2019 to 2020 for April to June
   shark_data <- get_shark_data(fromYear = 2019, toYear = 2020,
                                months = c(4, 5, 6), dataTypes = c("Chlorophyll"))
-  View(shark_data)
+  print(shark_data)
 }
 
 }

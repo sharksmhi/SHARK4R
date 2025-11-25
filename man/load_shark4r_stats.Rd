@@ -29,7 +29,7 @@ If the download fails (e.g., due to a network issue or invalid filename), the fu
 throws an error with a descriptive message.
 }
 \examples{
-\dontrun{
+\donttest{
 # Load the default SHARK4R statistics file
 stats <- load_shark4r_stats()
 

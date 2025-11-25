@@ -37,7 +37,7 @@ the specified \code{max_retries}, with a pause of \code{sleep_time} seconds betw
 stops with an error message.
 }
 \examples{
-\dontrun{
+\donttest{
 # Example usage with a vector of Aphia IDs
 aphia_ids <- c(12345, 67890, 112233)
 worms_records <- get_worms_records(aphia_ids)

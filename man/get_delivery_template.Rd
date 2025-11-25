@@ -62,7 +62,7 @@ Downloads and reads the SHARK Excel delivery template for a given datatype.
 The template contains the column definitions and headers used for submission.
 }
 \examples{
-\dontrun{
+\donttest{
 # Bacterioplankton abundance
 abun <- get_delivery_template("Bacterioplankton", bacterioplankton_subtype = "abundance")
 

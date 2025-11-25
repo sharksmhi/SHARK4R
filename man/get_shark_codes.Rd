@@ -39,7 +39,7 @@ and reads it into R. The file is stored in a persistent cache directory
 so it does not need to be downloaded again in subsequent sessions.
 }
 \examples{
-\dontrun{
+\donttest{
   # Read the first sheet, skipping the first row
   codes <- get_shark_codes()
 

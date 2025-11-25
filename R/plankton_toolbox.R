@@ -74,7 +74,7 @@ read_ptbx <- function(file_path, sheet = c("sample_data.txt", "sample_info.txt",
 #' @seealso [clean_shark4r_cache()] to manually clear cached files.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   # Get the latest available list
 #'   nomp_list <- get_nomp_list()
 #'
@@ -154,7 +154,7 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
 #' @seealso [clean_shark4r_cache()] to manually clear cached files.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   # Read the first Excel file from the PEG zip
 #'   peg_list <- get_peg_list()
 #'

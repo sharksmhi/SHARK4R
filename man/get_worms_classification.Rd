@@ -55,7 +55,7 @@ The function performs the following steps:
 }
 }
 \examples{
-\dontrun{
+\donttest{
 # Single AphiaID
 get_worms_classification(109604)
 

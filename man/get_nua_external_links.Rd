@@ -32,7 +32,7 @@ The slugs (taxon identifiers) used in this function can be retrieved using the \
 which returns a data frame with a column for taxon slugs, along with other relevant metadata for each taxon.
 }
 \examples{
-\dontrun{
+\donttest{
   # Retrieve external links for a vector of slugs
   external_links <- get_nua_external_links(slug = c("chaetoceros-debilis", "alexandrium-tamarense"))
   head(external_links)

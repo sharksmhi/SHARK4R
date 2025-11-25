@@ -24,7 +24,7 @@ This function collects WoRMS (World Register of Marine Species) taxonomy informa
 The data is organized into a full taxonomic table that can be joined with data downloaded from \href{https://shark.smhi.se/}{SHARK}.
 }
 \examples{
-\dontrun{
+\donttest{
 # Update WoRMS taxonomy for a set of Aphia IDs
 updated_taxonomy <- update_worms_taxonomy(c(149619, 149122, 11))
 print(updated_taxonomy)

@@ -39,7 +39,7 @@
 #'   from the header row.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Bacterioplankton abundance
 #' abun <- get_delivery_template("Bacterioplankton", bacterioplankton_subtype = "abundance")
 #'
@@ -224,7 +224,7 @@ get_delivery_template <- function(datatype,
 #' @return A character vector of column names that are required in the template.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Only single "*" required columns
 #' find_required_fields("Bacterioplankton")
 #'

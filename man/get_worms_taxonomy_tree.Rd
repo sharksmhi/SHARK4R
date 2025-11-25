@@ -82,7 +82,7 @@ The function performs the following steps:
 }
 }
 \examples{
-\dontrun{
+\donttest{
 # Retrieve hierarchy for a single AphiaID
 get_worms_taxonomy_tree(aphia_ids = 109604)
 

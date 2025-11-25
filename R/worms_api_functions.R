@@ -20,7 +20,7 @@
 #' @keywords internal
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Update WoRMS taxonomy for a set of Aphia IDs
 #' updated_taxonomy <- update_worms_taxonomy(c(149619, 149122, 11))
 #' print(updated_taxonomy)
@@ -70,7 +70,7 @@ update_worms_taxonomy <- function(aphia_id, aphiaid=deprecated()) {
 #' }
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' add_worms_taxonomy(c(1080, 109604))
 #'
 #' add_worms_taxonomy(
@@ -200,7 +200,7 @@ add_worms_taxonomy <- function(aphia_ids,
 #' stops with an error message.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Example usage with a vector of Aphia IDs
 #' aphia_ids <- c(12345, 67890, 112233)
 #' worms_records <- get_worms_records(aphia_ids)
@@ -331,7 +331,7 @@ get_worms_records <- function(aphia_ids, max_retries = 3, sleep_time = 10, verbo
 #' removing trailing periods, collapsing extra spaces and by trimming whitespace.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Retrieve WoRMS records iteratively for two taxonomic names
 #' records <- match_worms_taxa(c("Amphidinium", "Karenia"),
 #'                             max_retries = 3, sleep_time = 5, marine_only = TRUE)
@@ -624,7 +624,7 @@ match_worms_taxa <- function(taxa_names,
 #' If all attempts fail, the function stops and throws an error.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Retrieve WoRMS records for the taxonomic names "Amphidinium" and "Karenia"
 #' records <- get_worms_records_name(c("Amphidinium", "Karenia"),
 #'                                   max_retries = 3, sleep_time = 5, marine_only = TRUE)
@@ -692,7 +692,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #'   `Cryptophytes` in the `custom_groups` list.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Assign plankton groups to a list of species
 #' result <- assign_phytoplankton_group(
 #'   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
@@ -934,10 +934,12 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
 #' - [`obistools` R package](https://iobis.github.io/obistools/)
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' names <- c("Aurelia aurita", "Mnemiopsis leidyi", "Unknown species")
 #' # Interactive mode (default)
-#' match_worms_taxa_interactive(names)
+#' if(interactive()){
+#'   match_worms_taxa_interactive(names)
+#' }
 #'
 #' # Non-interactive mode
 #' match_worms_taxa_interactive(names, ask = FALSE)
@@ -1115,7 +1117,7 @@ match_wormstaxa <- function(names, ask = TRUE) {
 #' }
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Retrieve hierarchy for a single AphiaID
 #' get_worms_taxonomy_tree(aphia_ids = 109604)
 #'
@@ -1356,7 +1358,7 @@ get_worms_taxonomy_tree <- function(aphia_ids,
 #' }
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Single AphiaID
 #' get_worms_classification(109604)
 #'

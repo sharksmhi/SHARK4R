@@ -57,7 +57,7 @@ removing trailing periods, collapsing extra spaces and by trimming whitespace.
 }
 }
 \examples{
-\dontrun{
+\donttest{
 # Retrieve WoRMS records iteratively for two taxonomic names
 records <- match_worms_taxa(c("Amphidinium", "Karenia"),
                             max_retries = 3, sleep_time = 5, marine_only = TRUE)

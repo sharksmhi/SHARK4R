@@ -56,7 +56,7 @@ For more information, see:
 https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data
 }
 \examples{
-\dontrun{
+\donttest{
 # Only single "*" required columns
 find_required_fields("Bacterioplankton")
 

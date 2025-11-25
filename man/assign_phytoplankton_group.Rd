@@ -73,7 +73,7 @@ and a specific group \code{Teleaulax} (name-based), it will be assigned to \code
 \code{Cryptophytes} in the \code{custom_groups} list.
 }
 \examples{
-\dontrun{
+\donttest{
 # Assign plankton groups to a list of species
 result <- assign_phytoplankton_group(
   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),

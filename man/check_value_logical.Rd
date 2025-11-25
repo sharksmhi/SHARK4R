@@ -21,19 +21,19 @@ entry errors such as inequality symbols (\code{<}, \code{>}) or unintended text 
 in an interactive \code{DT::datatable} for easy inspection.
 }
 \examples{
-\dontrun{
 # Example dataset with mixed valid and invalid values
 df <- data.frame(
   station_name = c("A", "B", "C", "D", "E"),
   value = c("3.4", "<0.2", "TRUE", "NA", "5e-3")
 )
 
+\donttest{
 # Check for invalid (non-numeric / non-logical) entries
 check_value_logical(df)
+}
 
 # Example with all valid numeric and logical values
 df_valid <- data.frame(value = c(1.2, 0, TRUE, FALSE, 3.5))
 check_value_logical(df_valid)
-}
 
 }

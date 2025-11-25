@@ -24,7 +24,7 @@ This function retrieves media information from the Nordic Microalgae API and ext
 and URLs for different renditions (large, original, small, medium) for each media item.
 }
 \examples{
-\dontrun{
+\donttest{
 # Retrieve media information
 media_info <- get_nua_media_links(unparsed = FALSE)
 

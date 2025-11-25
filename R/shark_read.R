@@ -195,7 +195,7 @@ read_shark <- function(filename,
   }
 
   if (value_numeric && "value" %in% names(i)) {
-    i <- i %>% dplyr::mutate(dplyr::across("value", as.numeric))
+    i <- i %>% dplyr::mutate(suppressWarnings(dplyr::across("value", as.numeric)))
   }
 
   if (nrow(i) > 0) {

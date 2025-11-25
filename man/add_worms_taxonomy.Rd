@@ -44,7 +44,7 @@ with their complete hierarchical taxonomy from the World Register of Marine Spec
 Missing AphiaIDs can be resolved from scientific names automatically.
 }
 \examples{
-\dontrun{
+\donttest{
 add_worms_taxonomy(c(1080, 109604))
 
 add_worms_taxonomy(

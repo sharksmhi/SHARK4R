@@ -12,20 +12,20 @@
 #'         if all values are correctly formatted as numeric or logical.
 #'
 #' @examples
-#' \dontrun{
 #' # Example dataset with mixed valid and invalid values
 #' df <- data.frame(
 #'   station_name = c("A", "B", "C", "D", "E"),
 #'   value = c("3.4", "<0.2", "TRUE", "NA", "5e-3")
 #' )
 #'
+#' \donttest{
 #' # Check for invalid (non-numeric / non-logical) entries
 #' check_value_logical(df)
+#' }
 #'
 #' # Example with all valid numeric and logical values
 #' df_valid <- data.frame(value = c(1.2, 0, TRUE, FALSE, 3.5))
 #' check_value_logical(df_valid)
-#' }
 #'
 #' @export
 check_value_logical <- function(data) {
@@ -74,7 +74,6 @@ check_value_logical <- function(data) {
 #'         if no zero values are found.
 #'
 #' @examples
-#' \dontrun{
 #' # Example dataset
 #' df <- data.frame(
 #'   station_name = c("A", "B", "C", "D"),
@@ -82,12 +81,8 @@ check_value_logical <- function(data) {
 #'   value = c(3.2, 0, 1.5, 0)
 #' )
 #'
-#' # Check for zero values (returns an interactive datatable)
-#' check_zero_value(df)
-#'
 #' # Return a plain data.frame of zero-value records
 #' check_zero_value(df, return_df = TRUE)
-#' }
 #'
 #' @export
 check_zero_value <- function(data, return_df = FALSE) {
@@ -142,7 +137,6 @@ check_zero_value <- function(data, return_df = FALSE) {
 #'         and return_logical = FALSE).
 #'
 #' @examples
-#' \dontrun{
 #' # Example data
 #' df <- data.frame(
 #'   station_name = c("A", "B", "C"),
@@ -150,18 +144,11 @@ check_zero_value <- function(data, return_df = FALSE) {
 #'   sample_latitude_dd = c(56.3, 58.1, 0)
 #' )
 #'
-#' # Check for zero longitudes (default)
-#' check_zero_positions(df)
-#'
-#' # Check for zero latitudes
-#' check_zero_positions(df, coord = "latitude")
-#'
 #' # Check for zeroes in both coordinates and return as data.frame
 #' check_zero_positions(df, coord = "both", return_df = TRUE)
 #'
 #' # Return a logical vector instead of a table
 #' check_zero_positions(df, coord = "both", return_logical = TRUE)
-#' }
 #'
 #' @export
 check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, return_logical = FALSE,
@@ -248,7 +235,7 @@ check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, r
 #'   value = c(5, -2, 10, 0)
 #' )
 #'
-#' \dontrun{
+#' \donttest{
 #' # 1. Check that Biomass is never negative (returns DT datatable by default)
 #' check_logical_parameter(df, "Biomass", function(x) x < 0)
 #' }

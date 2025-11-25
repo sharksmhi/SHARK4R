@@ -201,7 +201,7 @@ check_datatype <- function(data, level = "error") {
 #' check_fields(df_phyto, "Phytoplankton", level = "warning")
 #'
 #' # Example 2: Load latest definitions from GitHub and use them
-#' \dontrun{
+#' \donttest{
 #' defs <- load_shark4r_fields()
 #' check_fields(df_phyto, "Phytoplankton", field_definitions = defs)
 #' }

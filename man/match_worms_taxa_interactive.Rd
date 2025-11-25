@@ -32,10 +32,12 @@ and ambiguous names will be returned as \code{NA}.
 The function has been modified from the \code{obistools} package (Provoost and Bosch, 2024).
 }
 \examples{
-\dontrun{
+\donttest{
 names <- c("Aurelia aurita", "Mnemiopsis leidyi", "Unknown species")
 # Interactive mode (default)
-match_worms_taxa_interactive(names)
+if(interactive()){
+  match_worms_taxa_interactive(names)
+}
 
 # Non-interactive mode
 match_worms_taxa_interactive(names, ask = FALSE)

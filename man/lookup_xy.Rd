@@ -53,7 +53,7 @@ is equivalent to 0 m, while \code{FALSE} disables area retrieval.
 }
 }
 \examples{
-\dontrun{
+\donttest{
 # Example data frame
 data <- data.frame(sample_longitude_dd = c(10.983229, 18.265451),
                    sample_latitude_dd = c(58.121034, 58.331616))

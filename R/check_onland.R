@@ -36,7 +36,7 @@
 #'   unless `only_bad = TRUE`, in which case only red points are plotted.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Example data frame with coordinates
 #' example_data <- data.frame(
 #'   sample_latitude_dd = c(59.3, 58.1, 57.5),
