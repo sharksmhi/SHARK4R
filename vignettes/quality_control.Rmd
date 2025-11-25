@@ -238,7 +238,7 @@ For a more user-friendly interface, use the Shiny QC app:
 run_qc_app()
 
 # Alternative, download support files and knit documents locally
-check_setup()
+check_setup(path = tempdir()) # using a temp folder in this example
 ```
 
 The app provides point-and-click access to the same QC checks described above.

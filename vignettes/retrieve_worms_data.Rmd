@@ -50,7 +50,7 @@ Phytoplankton data, including scientific names and AphiaIDs, are downloaded from
 shark_data <- get_shark_data(fromYear = 2015, 
                              toYear = 2015,
                              months = 4, 
-                             dataTypes = c("Phytoplankton"),
+                             dataTypes = "Phytoplankton",
                              verbose = FALSE)
 ```
 
