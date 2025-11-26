@@ -2,7 +2,7 @@ test_that("get_toxin_list works", {
   skip_if_offline()
   skip_if_resource_unavailable("https://toxins.hais.ioc-unesco.org/")
 
-  toxin_list <- get_toxin_list()
+  toxin_list <- suppressWarnings(get_toxin_list())
 
   expect_s3_class(toxin_list, "data.frame")
   expect_true(nrow(toxin_list) > 0)

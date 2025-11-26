@@ -45,6 +45,8 @@ and manages cases involving varieties, subspecies, or invalid species names. Spe
 # Example with a vector of scientific names
 scientific_names <- c("Skeletonema marinoi", "Cf. Azadinium perforatum", "Gymnodinium sp.",
                       "Melosira varians", "Aulacoseira islandica var. subarctica")
+
+# Parse names
 result <- parse_scientific_names(scientific_names)
 
 # Check the resulting data frame

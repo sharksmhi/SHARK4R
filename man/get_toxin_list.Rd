@@ -16,7 +16,7 @@ If \code{return_count = TRUE}, the function returns a numeric value representing
 This function collects data from the \href{https://toxins.hais.ioc-unesco.org/api/toxins/}{IOC-UNESCO Toxins Database} and returns information about toxins.
 }
 \examples{
-\dontrun{
+\donttest{
 # Retrieve the full list of toxins
 toxin_list <- get_toxin_list()
 

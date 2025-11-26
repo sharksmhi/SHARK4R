@@ -73,6 +73,7 @@ head(habs_taxlist_df)
 
 # Include only specific fields in the output
 habs_taxlist_df <- get_hab_list(aphia_id = TRUE, scientific_name = TRUE, authority = FALSE)
+head(habs_taxlist_df)
 }
 }
 \seealso{

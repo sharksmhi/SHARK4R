@@ -9,7 +9,7 @@
 #' @seealso \url{https://toxins.hais.ioc-unesco.org/api/toxins/} for IOC-UNESCO Toxins Database.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Retrieve the full list of toxins
 #' toxin_list <- get_toxin_list()
 #'
@@ -20,27 +20,41 @@
 #' @export
 get_toxin_list <- function(return_count = FALSE) {
 
-  # URL to submit the download form for HABs
   url_toxins <- "https://toxins.hais.ioc-unesco.org/api/toxins/"
 
-  # Download the file directly into memory
-  response <- GET(url_toxins)
+  temp_file <- tempfile(fileext = ".json")
 
-  # Check if the file was successfully downloaded
-  if (response$status_code == 200) {
+  res <- tryCatch(
+    GET(url_toxins, write_disk(temp_file, overwrite = TRUE), timeout(300)),
+    error = function(e) e
+  )
 
-    # Read the raw content as text
-    content_raw <- content(response, as = "text", encoding = "UTF-8")
-    content_text <- fromJSON(content_raw)
+  if (inherits(res, "error")) {
+    warning(
+      "Partial response detected during download. Returning only complete toxin records. ",
+      "Error: ", conditionMessage(res)
+    )
+  }
 
-    # Return the result
-    if (return_count) {
-      return(content_text$count)
-    } else {
-      return(content_text$toxins)
-    }
+  txt <- readLines(temp_file, warn = FALSE)
+  json_raw <- paste(txt, collapse = "")
+
+  # Try direct parse to data frame
+  parsed <- try(fromJSON(json_raw, simplifyDataFrame = TRUE), silent = TRUE)
+
+  if (!inherits(parsed, "try-error")) {
+    if (return_count) return(nrow(parsed$toxins))
+    else return(parsed$toxins)
+  }
+
+  # Fallback: repair partial JSON
+  repaired <- repair_toxins_json(json_raw)
+  parsed_recovered <- fromJSON(repaired, simplifyDataFrame = TRUE)
+
+  if (return_count) {
+    return(nrow(parsed_recovered$toxins))
   } else {
-    stop("Failed to download the IPHAB Toxins list. Status code:", response$status_code)
+    return(parsed_recovered$toxins)
   }
 }
 #' Download the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae
@@ -75,13 +89,14 @@ get_toxin_list <- function(return_count = FALSE) {
 #' @seealso \url{https://www.marinespecies.org/hab/} for IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Download the default HABs taxonomic list
 #' habs_taxlist_df <- get_hab_list()
 #' head(habs_taxlist_df)
 #'
 #' # Include only specific fields in the output
 #' habs_taxlist_df <- get_hab_list(aphia_id = TRUE, scientific_name = TRUE, authority = FALSE)
+#' head(habs_taxlist_df)
 #' }
 get_hab_list <- function(aphia_id = TRUE, scientific_name = TRUE, authority = TRUE, fossil = TRUE,
                          rank_name = TRUE, status_name = TRUE, qualitystatus_name = TRUE,
@@ -147,4 +162,41 @@ get_hab_list <- function(aphia_id = TRUE, scientific_name = TRUE, authority = TR
   } else {
     stop("Failed to download the HABs list. Status code:", response$status_code)
   }
+}
+
+# Helpers
+extract_complete_toxins <- function(json_raw) {
+  start <- regexpr('"toxins"\\s*:\\s*\\[', json_raw)
+  if (start < 0) return(character())
+
+  pos <- start + attr(start, "match.length")
+  chars <- strsplit(substr(json_raw, pos, nchar(json_raw)), "")[[1]]
+
+  out <- character()
+  buffer <- ""
+  depth <- 0
+  in_object <- FALSE
+
+  for (ch in chars) {
+    buffer <- paste0(buffer, ch)
+    if (ch == "{") { depth <- depth + 1; in_object <- TRUE }
+    else if (ch == "}") { depth <- depth - 1 }
+
+    if (in_object && depth == 0) {
+      obj <- gsub(",$", "", buffer)
+      obj <- trimws(obj)
+      obj <- sub('^,', '', obj)
+      obj <- sub(',$', '', obj)
+      if (nchar(obj) > 2) out <- c(out, obj)
+      buffer <- ""
+      in_object <- FALSE
+    }
+  }
+  out
+}
+
+repair_toxins_json <- function(json_raw) {
+  objs <- extract_complete_toxins(json_raw)
+  if (!length(objs)) return('{"toxins": []}')
+  paste0('{"toxins": [', paste(objs, collapse = ","), "]}")
 }
