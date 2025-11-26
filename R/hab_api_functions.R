@@ -1,12 +1,12 @@
 #' Retrieve marine biotoxin data from IOC-UNESCO Toxins Database
 #'
-#' This function collects data from the [IOC-UNESCO Toxins Database](https://toxins.hais.ioc-unesco.org/api/toxins/) and returns information about toxins.
+#' This function collects data from the [IOC-UNESCO Toxins Database](https://toxins.hais.ioc-unesco.org/) and returns information about toxins.
 #'
 #' @param return_count Logical. If `TRUE`, the function returns the count of toxins available in the database. If `FALSE` (default), it returns detailed toxin data.
 #'
 #' @return If `return_count = TRUE`, the function returns a numeric value representing the number of toxins in the database. Otherwise, it returns a list of toxins with detailed information.
 #'
-#' @seealso \url{https://toxins.hais.ioc-unesco.org/api/toxins/} for IOC-UNESCO Toxins Database.
+#' @seealso \url{https://toxins.hais.ioc-unesco.org/} for IOC-UNESCO Toxins Database.
 #'
 #' @examples
 #' \donttest{

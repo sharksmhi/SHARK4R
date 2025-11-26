@@ -13,7 +13,7 @@ get_toxin_list(return_count = FALSE)
 If \code{return_count = TRUE}, the function returns a numeric value representing the number of toxins in the database. Otherwise, it returns a list of toxins with detailed information.
 }
 \description{
-This function collects data from the \href{https://toxins.hais.ioc-unesco.org/api/toxins/}{IOC-UNESCO Toxins Database} and returns information about toxins.
+This function collects data from the \href{https://toxins.hais.ioc-unesco.org/}{IOC-UNESCO Toxins Database} and returns information about toxins.
 }
 \examples{
 \donttest{
@@ -26,5 +26,5 @@ toxin_count <- get_toxin_list(return_count = TRUE)
 
 }
 \seealso{
-\url{https://toxins.hais.ioc-unesco.org/api/toxins/} for IOC-UNESCO Toxins Database.
+\url{https://toxins.hais.ioc-unesco.org/} for IOC-UNESCO Toxins Database.
 }
