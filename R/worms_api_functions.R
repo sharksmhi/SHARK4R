@@ -341,7 +341,6 @@ get_worms_records <- function(aphia_ids, max_retries = 3, sleep_time = 10, verbo
 #'                                  bulk = TRUE, marine_only = TRUE)
 #' }
 #'
-#' @seealso [match_worms_taxa_interactive()] to match taxa names interactively.
 #' @seealso \url{https://marinespecies.org/} for WoRMS website.
 #' @seealso \url{https://CRAN.R-project.org/package=worrms}
 #'
@@ -904,144 +903,11 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
   return(final_output)
 }
 
-#' Interactive taxon matching using WoRMS
-#'
-#' This function matches a vector of scientific names against the [World Register of Marine Species (WoRMS)](https://marinespecies.org/)
-#' taxon database. It allows the user to interactively resolve cases where multiple matches are found.
-#'
-#' @param names Character vector of scientific names to match.
-#' @param ask Logical; if `TRUE` (default), the user is prompted to resolve multiple matches interactively.
-#'
-#' @return A `data.frame` with the following columns:
-#' \describe{
-#'   \item{scientificName}{The matched scientific name from WoRMS.}
-#'   \item{scientificNameID}{The unique WoRMS identifier (LSID) for the matched name.}
-#'   \item{match_type}{Type of match returned by WoRMS (e.g., exact, fuzzy).}
-#'   \item{acceptedNameUsageID}{WoRMS AphiaID of the currently accepted taxon name.}
-#' }
-#'
-#' @details
-#' The function queries WoRMS in batches to improve efficiency. For names that return multiple matches, the user
-#' can inspect the matches and select the correct one. If `ask = FALSE`, the function will not prompt the user,
-#' and ambiguous names will be returned as `NA`.
-#'
-#' The function has been modified from the `obistools` package (Provoost and Bosch, 2024).
-#'
-#' @seealso
-#' - [WoRMS website](https://marinespecies.org/)
-#' - [worrms R package on CRAN](https://CRAN.R-project.org/package=worrms)
-#' - [match_worms_taxa()] to match taxa names non-interactively.
-#' - [`obistools` R package](https://iobis.github.io/obistools/)
-#'
-#' @examples
-#' \donttest{
-#' names <- c("Aurelia aurita", "Mnemiopsis leidyi", "Unknown species")
-#' # Interactive mode (default)
-#' if(interactive()){
-#'   match_worms_taxa_interactive(names)
-#' }
-#'
-#' # Non-interactive mode
-#' match_worms_taxa_interactive(names, ask = FALSE)
-#' }
-#'
-#'
-#' @references Provoost P, Bosch S (2024). obistools: Tools for data enhancement and quality control. Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, <https://iobis.github.io/obistools/>.
-#' @export
-match_worms_taxa_interactive <- function(names, ask = TRUE) {
-
-  f <- as.factor(names)
-  indices <- as.numeric(f)
-  unames <- levels(f)
-
-  pages <- split(unames, as.integer((seq_along(unames) - 1) / 50))
-  paged_worms_taxamatch_call <- function(page) { cache_call(page, expression(worrms::wm_records_taxamatch(page, marine_only = FALSE)))}
-  matches <- unlist(lapply(pages, paged_worms_taxamatch_call), recursive = FALSE)
-
-  results <- data.frame(scientificName = character(), scientificNameID = character(), match_type = character(), acceptedNameUsageID = character(), stringsAsFactors = FALSE)
-
-  # count no matches and multiple matches
-
-  no <- NULL
-  multiple <- NULL
-  for (i in 1:length(matches)) {
-    if (is.data.frame(matches[[i]])) {
-      if (nrow(matches[[i]]) > 1) {
-        multiple <- c(multiple, unames[i])
-      }
-    } else {
-      no <- c(no, unames[i])
-    }
-  }
-
-  message(sprintf("%s names, %s without matches, %s with multiple matches", length(unames), length(no), length(multiple)))
-
-  # ask user to resolve names, skip, or print names with multiple matches
-
-  if (ask) {
-    proceed <- NA
-    while (is.na(proceed)) {
-      r <- readline(prompt = "Proceed to resolve names (y/n/info)? ")
-      if (r == "y") {
-        proceed <- TRUE
-      } else if (r == "n") {
-        proceed <- TRUE
-        ask <- FALSE
-      } else if (substr(r, 1, 1) == "i") {
-        print(multiple)
-      }
-    }
-  }
-
-  # populate data frame
-
-  for (i in seq_along(matches)) {
-
-    row <- list(scientificName = NA, scientificNameID = NA, match_type = NA, acceptedNameUsageID = NA)
-
-    match <- matches[[i]]
-    if (is.data.frame(match) & nrow(match) > 0) {
-
-      if (nrow(match) == 1) {
-
-        # single match
-
-        row$scientificName = match$scientificname
-        row$scientificNameID = match$lsid
-        row$match_type = match$match_type
-        row$acceptedNameUsageID = as.character(match$valid_AphiaID)
-
-      } else if (ask) {
-
-        # multiple matches
-
-        print(match %>% select(AphiaID, scientificname, authority, status, match_type))
-        message(unames[i])
-        n <- readline(prompt = "Multiple matches, pick a number or leave empty to skip: ")
-        s <- as.integer(n)
-        if (!is.na(n) & n > 0 & n <= nrow(match)) {
-          row$scientificName = match$scientificname[s]
-          row$scientificNameID = match$lsid[s]
-          row$match_type = match$match_type[s]
-          row$acceptedNameUsageID = as.character(match$valid_AphiaID[s])
-        }
-
-      }
-
-    }
-
-    results <- bind_rows(results, row)
-
-  }
-
-  return(results[indices,])
-}
-
 #' Taxon matching using WoRMS (http://www.marinespecies.org/)
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #'
-#' This function has been deprecated. Users are encouraged to use \code{\link{match_worms_taxa_interactive}} instead.
+#' This function has been deprecated. Users are encouraged to use \code{\link{match_worms_taxa}} instead.
 #'
 #' matches latin name in data with WoRMS taxon list
 #' @param names Vector of scientific names.
@@ -1051,9 +917,9 @@ match_worms_taxa_interactive <- function(names, ask = TRUE) {
 #' @keywords internal
 #' @export
 match_wormstaxa <- function(names, ask = TRUE) {
-  lifecycle::deprecate_warn("1.0.0", "match_wormstaxa()", "match_worms_taxa_interactive()")
+  lifecycle::deprecate_warn("1.0.0", "match_wormstaxa()", "match_worms_taxa()")
 
-  match_worms_taxa_interactive(names = names, ask = ask)
+  match_worms_taxa(taxa_names = names, best_match_only = ask)
 }
 
 #' Retrieve hierarchical taxonomy data from WoRMS

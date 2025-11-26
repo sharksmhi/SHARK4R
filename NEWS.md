@@ -47,7 +47,7 @@
 * Deprecated function: `match_taxon_name()` is now replaced by `match_dyntaxa_taxa()`
 * Deprecated function: `get_worms_records_name()` is now replaced by `match_worms_taxa()`
 * Deprecated function: `nominal_station()` is now replaced by `check_nominal_station()`
-* Deprecated function: `match_wormstaxa()` is now replaced by `match_worms_taxa_interactive()`
+* Deprecated function: `match_wormstaxa()` is now replaced by `match_worms_taxa()`
 * Deprecated argument: `apikey` replaced by `subscription_key` in `get_algaebase_genus()`, `get_algaebase_species()` and `match_algaebase()`
 * Deprecated argument: `aphia_id` replaced by `aphia_ids` in `get_worms_records()` and `add_worms_taxonomy()`
 * Deprecated argument: `scientific_name` replaced by `scientific_names` in `add_worms_taxonomy()` and `parse_scientific_names()`

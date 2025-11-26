@@ -4,7 +4,6 @@ The following functions (including helpers) in this package are adapted from the
 
 - lookup_xy()
 - check_onland()
-- match_worms_taxa_interactive()
 - check_depth()
 
 Provoost P, Bosch S (2024). obistools: Tools for data enhancement and quality control.

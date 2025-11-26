@@ -62,7 +62,6 @@ reference:
   - get_worms_records
   - get_worms_taxonomy_tree
   - match_worms_taxa
-  - match_worms_taxa_interactive
 
 - subtitle: AlgaeBase
   desc: These functions are used to retrieve data from the AlgaeBase API

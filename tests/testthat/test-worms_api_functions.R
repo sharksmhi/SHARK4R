@@ -158,11 +158,6 @@ test_that("assign_phytoplankton_group works with custom groups", {
   expect_true(all(c("scientific_name", "plankton_group") %in% names(phytoplankton_custom_group)))
 })
 
-test_that("match_worms_taxa_interactive works as expected", {
-  results <- match_worms_taxa_interactive(test_names, ask = FALSE)
-  expect_true(nrow(results) == length(test_names))
-})
-
 test_that("deprecated match_worms_taxa_interactive works as expected", {
   lifecycle::expect_deprecated(match_wormstaxa(test_names, ask = FALSE))
 })
