@@ -38,7 +38,7 @@ Only used when \code{bulk = TRUE}. WoRMS API may reject very large requests, so 
 \item{verbose}{Logical indicating whether to print progress messages. Default is TRUE.}
 }
 \value{
-A data frame containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
+A \code{tibble} containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
 Repeated taxa in the input are preserved in the output.
 }
 \description{
@@ -60,11 +60,17 @@ removing trailing periods, collapsing extra spaces and by trimming whitespace.
 \donttest{
 # Retrieve WoRMS records iteratively for two taxonomic names
 records <- match_worms_taxa(c("Amphidinium", "Karenia"),
-                            max_retries = 3, sleep_time = 5, marine_only = TRUE)
+                            max_retries = 3,
+                            sleep_time = 5,
+                            marine_only = TRUE,
+                            verbose = FALSE)
+print(records)
 
 # Retrieve WoRMS records in bulk mode (faster for many names)
 records_bulk <- match_worms_taxa(c("Amphidinium", "Karenia", "Navicula"),
-                                 bulk = TRUE, marine_only = TRUE)
+                                 bulk = TRUE,
+                                 marine_only = TRUE,
+                                 verbose = FALSE)
 }
 
 }

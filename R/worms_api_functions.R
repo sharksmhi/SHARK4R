@@ -13,7 +13,7 @@
 #'     `r lifecycle::badge("deprecated")`
 #'     Use \code{aphia_id} instead.
 #'
-#' @return A data frame containing updated WoRMS taxonomy information.
+#' @return A `tibble` containing updated WoRMS taxonomy information.
 #'
 #' @export
 #'
@@ -61,7 +61,7 @@ update_worms_taxonomy <- function(aphia_id, aphiaid=deprecated()) {
 #'     `r lifecycle::badge("deprecated")`
 #'     Use \code{scientific_names} instead.
 #'
-#' @return A tibble with taxonomy columns added, including:
+#' @return A `tibble` with taxonomy columns added, including:
 #' \itemize{
 #'   \item `aphia_id`, `scientific_name`
 #'   \item `worms_kingdom`, `worms_phylum`, `worms_class`, `worms_order`,
@@ -71,11 +71,14 @@ update_worms_taxonomy <- function(aphia_id, aphiaid=deprecated()) {
 #'
 #' @examples
 #' \donttest{
-#' add_worms_taxonomy(c(1080, 109604))
+#' # Using AphiaID only
+#' add_worms_taxonomy(c(1080, 109604), verbose = FALSE)
 #'
+#' # Using a combination of AphiaID and scientific name
 #' add_worms_taxonomy(
 #'   aphia_ids = c(NA, 109604),
-#'   scientific_names = c("Calanus finmarchicus", "Oithona similis")
+#'   scientific_names = c("Calanus finmarchicus", "Oithona similis"),
+#'   verbose = FALSE
 #' )
 #' }
 #'
@@ -114,7 +117,7 @@ add_worms_taxonomy <- function(aphia_ids,
 
   # --- Resolve missing AphiaIDs from scientific names ---
   if (!is.null(scientific_names)) {
-    aphia_id_df <- data.frame(aphia_ids, scientific_names, stringsAsFactors = FALSE)
+    aphia_id_df <- tibble(aphia_ids, scientific_names, stringsAsFactors = FALSE)
     to_match <- scientific_names[is.na(aphia_ids)]
 
     if (length(to_match) > 0) {
@@ -193,7 +196,7 @@ add_worms_taxonomy <- function(aphia_ids,
 #'     `r lifecycle::badge("deprecated")`
 #'     Use \code{aphia_ids} instead.
 #'
-#' @return A data frame containing the retrieved WoRMS records for the provided Aphia IDs. Each row corresponds to one Aphia ID.
+#' @return A `tibble` containing the retrieved WoRMS records for the provided Aphia IDs. Each row corresponds to one Aphia ID.
 #'
 #' @details The function attempts to fetch records for each Aphia ID in the provided vector. If a retrieval fails, it retries up to
 #' the specified `max_retries`, with a pause of `sleep_time` seconds between attempts. If all retries fail for an Aphia ID, the function
@@ -203,7 +206,9 @@ add_worms_taxonomy <- function(aphia_ids,
 #' \donttest{
 #' # Example usage with a vector of Aphia IDs
 #' aphia_ids <- c(12345, 67890, 112233)
-#' worms_records <- get_worms_records(aphia_ids)
+#' worms_records <- get_worms_records(aphia_ids, verbose = FALSE)
+#'
+#' print(worms_records)
 #' }
 #'
 #' @seealso \url{https://marinespecies.org/} for WoRMS website.
@@ -257,7 +262,7 @@ get_worms_records <- function(aphia_ids, max_retries = 3, sleep_time = 10, verbo
           if (grepl("204", error_message)) {
             no_content_messages <<- c(no_content_messages,
                                       paste0("No WoRMS content for AphiaID '", id, "'"))
-            worms_record <<- data.frame(
+            worms_record <<- tibble(
               AphiaID = id,
               status = "no content",
               stringsAsFactors = FALSE
@@ -278,7 +283,7 @@ get_worms_records <- function(aphia_ids, max_retries = 3, sleep_time = 10, verbo
 
       # If still NULL after retries, insert a placeholder record
       if (is.null(worms_record)) {
-        worms_record <- data.frame(
+        worms_record <- tibble(
           AphiaID = id,
           status = "Failed",
           stringsAsFactors = FALSE
@@ -319,7 +324,7 @@ get_worms_records <- function(aphia_ids, max_retries = 3, sleep_time = 10, verbo
 #'   Only used when `bulk = TRUE`. WoRMS API may reject very large requests, so chunking prevents overload.
 #' @param verbose Logical indicating whether to print progress messages. Default is TRUE.
 #'
-#' @return A data frame containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
+#' @return A `tibble` containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
 #'   Repeated taxa in the input are preserved in the output.
 #'
 #' @details
@@ -334,11 +339,17 @@ get_worms_records <- function(aphia_ids, max_retries = 3, sleep_time = 10, verbo
 #' \donttest{
 #' # Retrieve WoRMS records iteratively for two taxonomic names
 #' records <- match_worms_taxa(c("Amphidinium", "Karenia"),
-#'                             max_retries = 3, sleep_time = 5, marine_only = TRUE)
+#'                             max_retries = 3,
+#'                             sleep_time = 5,
+#'                             marine_only = TRUE,
+#'                             verbose = FALSE)
+#' print(records)
 #'
 #' # Retrieve WoRMS records in bulk mode (faster for many names)
 #' records_bulk <- match_worms_taxa(c("Amphidinium", "Karenia", "Navicula"),
-#'                                  bulk = TRUE, marine_only = TRUE)
+#'                                  bulk = TRUE,
+#'                                  marine_only = TRUE,
+#'                                  verbose = FALSE)
 #' }
 #'
 #' @seealso \url{https://marinespecies.org/} for WoRMS website.
@@ -356,7 +367,7 @@ match_worms_taxa <- function(taxa_names,
                              verbose = TRUE) {
   # Helper to rbind data.frames with different columns (like dplyr::bind_rows)
   rbind_fill <- function(dfs) {
-    if (length(dfs) == 0) return(data.frame())
+    if (length(dfs) == 0) return(tibble())
     # keep only non-null dfs
     dfs <- dfs[!vapply(dfs, is.null, logical(1))]
     all_names <- unique(unlist(lapply(dfs, names)))
@@ -373,7 +384,7 @@ match_worms_taxa <- function(taxa_names,
   # Build mapping table
   # ---------------------------
   unique_taxa <- unique(taxa_names)
-  name_map <- data.frame(
+  name_map <- tibble(
     taxa_names = unique_taxa,
     cleaned = vapply(unique_taxa, clean_taxon, character(1)),
     stringsAsFactors = FALSE,
@@ -397,7 +408,7 @@ match_worms_taxa <- function(taxa_names,
     empties <- unique(name_map$cleaned[name_map$cleaned == "_empty_"])
     # create a single row for the _empty_ placeholder with status invalid
     worms_unique_list <- c(worms_unique_list, list(
-      data.frame(
+      tibble(
         name = empties,
         status = "no content",
         AphiaID = NA,
@@ -415,9 +426,9 @@ match_worms_taxa <- function(taxa_names,
     attempt <- 1
     while (attempt <= attempt_max) {
       res <- tryCatch({
-        df <- data.frame(name = q,
-                         worrms::wm_records_name(q, fuzzy = fuzzy, marine_only = marine_only),
-                         stringsAsFactors = FALSE)
+        df <- tibble(name = q,
+                     worrms::wm_records_name(q, fuzzy = fuzzy, marine_only = marine_only),
+                     stringsAsFactors = FALSE)
         if (best_match_only && nrow(df) > 1) df <- df[1, , drop = FALSE]
         return(df)
       }, error = function(err) {
@@ -425,12 +436,12 @@ match_worms_taxa <- function(taxa_names,
         # if 204 or "no content" treat as no content
         if (grepl("204", msg) || grepl("No content", msg, ignore.case = TRUE)) {
           no_content_messages <<- c(no_content_messages, paste0("No WoRMS content for '", q, "'"))
-          return(data.frame(name = q,
-                            status = "no content",
-                            AphiaID = NA,
-                            rank = NA,
-                            scientificname = NA,
-                            stringsAsFactors = FALSE))
+          return(tibble(name = q,
+                        status = "no content",
+                        AphiaID = NA,
+                        rank = NA,
+                        scientificname = NA,
+                        stringsAsFactors = FALSE))
         }
         if (attempt == attempt_max) {
           stop("Error retrieving WoRMS record for '", q, "' after ", attempt_max, " attempts: ", msg)
@@ -445,7 +456,7 @@ match_worms_taxa <- function(taxa_names,
       attempt <- attempt + 1
     }
     # fallback
-    data.frame(name = q, status = "no content", stringsAsFactors = FALSE)
+    tibble(name = q, status = "no content", stringsAsFactors = FALSE)
   }
 
   # ---------------------------
@@ -476,12 +487,12 @@ match_worms_taxa <- function(taxa_names,
           per_name <- lapply(seq_along(chunk), function(i) {
             rec <- raw_records[[i]]
             if (is.null(rec) || length(rec) == 0) {
-              data.frame(name = chunk[i],
-                         status = "no content",
-                         AphiaID = NA,
-                         rank = NA,
-                         scientificname = NA,
-                         stringsAsFactors = FALSE)
+              tibble(name = chunk[i],
+                     status = "no content",
+                     AphiaID = NA,
+                     rank = NA,
+                     scientificname = NA,
+                     stringsAsFactors = FALSE)
             } else {
               if (is.data.frame(rec)) {
                 if (best_match_only && nrow(rec) > 1) rec <- rec[1, , drop = FALSE]
@@ -490,7 +501,7 @@ match_worms_taxa <- function(taxa_names,
                 rec2 <- rec2[c("name", setdiff(names(rec2), "name"))]
                 rec2
               } else {
-                data.frame(name = chunk[i], rec, stringsAsFactors = FALSE)
+                tibble(name = chunk[i], rec, stringsAsFactors = FALSE)
               }
             }
           })
@@ -505,12 +516,12 @@ match_worms_taxa <- function(taxa_names,
           if (grepl("204", msg) || grepl("No content", msg, ignore.case = TRUE)) {
             no_content_messages <<- c(no_content_messages, sprintf("No WoRMS content in chunk %d.", chunk_idx))
             fallback <- lapply(chunk, function(nm) {
-              data.frame(name = nm,
-                         status = "no content",
-                         AphiaID = NA,
-                         rank = NA,
-                         scientificname = NA,
-                         stringsAsFactors = FALSE)
+              tibble(name = nm,
+                     status = "no content",
+                     AphiaID = NA,
+                     rank = NA,
+                     scientificname = NA,
+                     stringsAsFactors = FALSE)
             })
             worms_unique_list <<- c(worms_unique_list, fallback)
             success <<- TRUE
@@ -571,7 +582,7 @@ match_worms_taxa <- function(taxa_names,
 
     if (nrow(rows) == 0) {
       # create a consistent "no result" row
-      data.frame(
+      tibble(
         name = cleaned_x,
         status = "no content",
         AphiaID = NA,
@@ -615,7 +626,7 @@ match_worms_taxa <- function(taxa_names,
 #' @param marine_only A logical value indicating whether to restrict the results to marine taxa only. Default is `FALSE`.
 #' @param verbose A logical indicating whether to print progress messages. Default is TRUE.
 #'
-#' @return A data frame containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
+#' @return A `tibble` containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
 #'
 #' @details
 #' The function attempts to retrieve records for the input taxonomic names using the `wm_records_names` function from the WoRMS API.
@@ -672,7 +683,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #'   This allows users to extend the default classifications (e.g., Cyanobacteria, Diatoms, Dinoflagellates) with their own groups.
 #' @param verbose A logical value indicating whether to print progress messages. Default is TRUE.
 #'
-#' @return A data frame with two columns: `scientific_name` and `plankton_group`, where the plankton group is assigned based on taxonomic classification.
+#' @return A `tibble` with two columns: `scientific_name` and `plankton_group`, where the plankton group is assigned based on taxonomic classification.
 #'
 #' @details The `aphia_ids` parameter is not necessary but, if provided, will improve the certainty of the
 #'   matching process. If `aphia_ids` are available, they will be used directly to retrieve more accurate
@@ -695,7 +706,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #' # Assign plankton groups to a list of species
 #' result <- assign_phytoplankton_group(
 #'   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
-#'   aphia_ids = c(840626, 149013, 160566, NA))
+#'   aphia_ids = c(840626, 149013, 160566, NA), verbose = FALSE)
 #'
 #' print(result)
 #'
@@ -710,7 +721,7 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #'   scientific_names = c("Teleaulax amphioxeia", "Mesodinium rubrum", "Dinophysis acuta"),
 #'   aphia_ids = c(106306, 232069, 109604),
 #'   custom_groups = custom_groups,         # Adding custom groups
-#'   verbose = TRUE
+#'   verbose = FALSE
 #' )
 #'
 #' print(result_custom)
@@ -733,9 +744,9 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
 
   # Create a data frame to store input data
   if (is.null(aphia_ids)) {
-    input_data <- data.frame(aphia_id = NA, scientific_name = scientific_names)
+    input_data <- tibble(aphia_id = NA, scientific_name = scientific_names)
   } else {
-    input_data <- data.frame(aphia_id = aphia_ids, scientific_name = scientific_names)
+    input_data <- tibble(aphia_id = aphia_ids, scientific_name = scientific_names)
   }
 
   # Remove duplicates
@@ -757,11 +768,11 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
       mutate(class = as.character(ifelse(status == "no content", NA, class)),
              phylum = as.character(ifelse(status == "no content", NA, phylum)))
   } else {
-    aphia_records <- data.frame(AphiaID = NA_integer_,
-                                status = NA_character_,
-                                class = NA_character_,
-                                phylum = NA_character_,
-                                stringsAsFactors = FALSE)
+    aphia_records <- tibble(AphiaID = NA_integer_,
+                            status = NA_character_,
+                            class = NA_character_,
+                            phylum = NA_character_,
+                            stringsAsFactors = FALSE)
   }
 
   # List IDs without content
@@ -788,11 +799,11 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
       mutate(class = as.character(ifelse(status == "no content", NA, class)),
              phylum = as.character(ifelse(status == "no content", NA, phylum)))
   } else {
-    missing_aphia_records <- data.frame(name = NA_character_,
-                                        AphiaID = NA_integer_,
-                                        class = NA_character_,
-                                        phylum = NA_character_,
-                                        stringsAsFactors = FALSE)
+    missing_aphia_records <- tibble(name = NA_character_,
+                                    AphiaID = NA_integer_,
+                                    class = NA_character_,
+                                    phylum = NA_character_,
+                                    stringsAsFactors = FALSE)
   }
 
   # Merge records into input data
@@ -809,7 +820,7 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
   if (match_first_word & nrow(unresolved_data) > 0) {
     first_words <- sub(" .*", "", unresolved_data$scientific_name)
     if (verbose) cat("Retrieving", length(first_words), "WoRMS records from the first word in 'scientific_names'.\n")
-    first_word_records <- data.frame(
+    first_word_records <- tibble(
       scientific_name = unresolved_data$scientific_name,
       match_worms_taxa(first_words,
                        marine_only = marine_only,
@@ -831,13 +842,13 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
 
   if (nrow(deleted_records) > 0) {
     if (verbose) cat("Retrieving", nrow(deleted_records), "valid 'aphia_id' records from deleted entries.\n")
-    valid_deleted_records <- data.frame(
+    valid_deleted_records <- tibble(
       aphia_id = deleted_records$valid_AphiaID,
       scientific_name = deleted_records$scientific_name,
       get_worms_records(deleted_records$valid_AphiaID, verbose = verbose)
     )
   } else {
-    valid_deleted_records <- data.frame()
+    valid_deleted_records <- tibble()
   }
 
   combined_data <- combined_data %>%
@@ -947,7 +958,7 @@ match_wormstaxa <- function(names, ask = TRUE) {
 #' @param verbose Logical (default TRUE). If TRUE, prints progress messages
 #'   and progress bars during data retrieval.
 #'
-#' @return A `data.frame` containing detailed WoRMS records for all requested
+#' @return A `tibble` containing detailed WoRMS records for all requested
 #'   AphiaIDs, including optional descendants and synonyms. Typical columns
 #'   include:
 #'   \describe{
@@ -985,18 +996,20 @@ match_wormstaxa <- function(names, ask = TRUE) {
 #' @examples
 #' \donttest{
 #' # Retrieve hierarchy for a single AphiaID
-#' get_worms_taxonomy_tree(aphia_ids = 109604)
+#' get_worms_taxonomy_tree(aphia_ids = 109604, verbose = FALSE)
 #'
 #' # Retrieve hierarchy including species-level descendants
 #' get_worms_taxonomy_tree(
 #'   aphia_ids = c(109604, 376667),
-#'   add_descendants = TRUE
+#'   add_descendants = TRUE,
+#'   verbose = FALSE
 #' )
 #'
 #' # Retrieve hierarchy including hierarchy column
 #' get_worms_taxonomy_tree(
 #'   aphia_ids = c(109604, 376667),
-#'   add_hierarchy = TRUE
+#'   add_hierarchy = TRUE,
+#'   verbose = FALSE
 #' )
 #' }
 #'
@@ -1038,14 +1051,14 @@ get_worms_taxonomy_tree <- function(aphia_ids,
       hierarchy <- worrms::wm_classification(id)
 
       if (is.null(hierarchy) || nrow(hierarchy) == 0) {
-        hierarchy <- data.frame(AphiaID = id, parentNameUsageID = NA)
+        hierarchy <- tibble(AphiaID = id, parentNameUsageID = NA)
       } else {
         hierarchy$parentNameUsageID <- c(NA, utils::head(hierarchy$AphiaID, -1))
       }
 
       hierarchy
     }, error = function(e) {
-      data.frame(AphiaID = id, parentNameUsageID = NA)
+      tibble(AphiaID = id, parentNameUsageID = NA)
     })
   }
 
@@ -1077,7 +1090,7 @@ get_worms_taxonomy_tree <- function(aphia_ids,
         pb2 <- utils::txtProgressBar(min = 0, max = length(unique_genera), style = 3)
       }
 
-      children_list <- data.frame()
+      children_list <- tibble()
 
       for (i in seq_along(unique_genera)) {
         genus_id <- unique_genera[i]
@@ -1113,7 +1126,7 @@ get_worms_taxonomy_tree <- function(aphia_ids,
       pb3 <- utils::txtProgressBar(min = 0, max = length(aphia_ids_to_use), style = 3)
     }
 
-    synonyms <- data.frame()
+    synonyms <- tibble()
 
     for (i in seq_along(aphia_ids_to_use)) {
       id <- aphia_ids_to_use[i]
@@ -1198,7 +1211,7 @@ get_worms_taxonomy_tree <- function(aphia_ids,
 #' @param verbose Logical (default TRUE). If TRUE, prints progress messages
 #'   and a progress bar during data retrieval.
 #'
-#' @return A `data.frame` where each row corresponds to an input AphiaID. Typical
+#' @return A `tibble` where each row corresponds to an input AphiaID. Typical
 #'   columns include:
 #'   \describe{
 #'     \item{aphia_id}{The AphiaID of the taxon (matches input).}
@@ -1226,13 +1239,15 @@ get_worms_taxonomy_tree <- function(aphia_ids,
 #' @examples
 #' \donttest{
 #' # Single AphiaID
-#' get_worms_classification(109604)
+#' get_worms_classification(109604, verbose = FALSE)
 #'
 #' # Multiple AphiaIDs
-#' get_worms_classification(c(109604, 376667))
+#' get_worms_classification(c(109604, 376667), verbose = FALSE)
 #'
 #' # Hierarchy with ranks in the string
-#' get_worms_classification(c(109604, 376667), add_rank_to_hierarchy = TRUE)
+#' get_worms_classification(c(109604, 376667),
+#'                          add_rank_to_hierarchy = TRUE,
+#'                          verbose = FALSE)
 #' }
 #'
 #' @seealso \code{\link[worrms]{wm_classification}}, \url{https://marinespecies.org/}
@@ -1265,7 +1280,7 @@ get_worms_classification <- function(aphia_ids,
       hierarchy <- worrms::wm_classification(id)
 
       if (is.null(hierarchy) || nrow(hierarchy) == 0) {
-        data.frame(aphia_id = id)
+        tibble(aphia_id = id)
       } else {
         hierarchy %>%
           dplyr::select(-AphiaID) %>%
@@ -1298,7 +1313,7 @@ get_worms_classification <- function(aphia_ids,
 
     }, error = function(e) {
       if (verbose) message("Failed to retrieve classification for AphiaID ", id, ": ", e$message)
-      data.frame(aphia_id = id)
+      tibble(aphia_id = id)
     })
   }
 

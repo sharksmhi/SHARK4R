@@ -12,7 +12,7 @@ get_nua_harmfulness(slug, verbose = TRUE)
 \item{verbose}{A logical flag indicating whether to display a progress bar. Default is \code{TRUE}.}
 }
 \value{
-A data frame containing the following columns:
+A \code{tibble} containing the following columns:
 \item{slug}{The slug (identifier) of the taxon.}
 \item{provider}{The provider of the external link.}
 \item{label}{The label of the external link.}
@@ -33,7 +33,8 @@ which returns a data frame with a column for taxon slugs, along with other relev
 \donttest{
   # Retrieve external links for a vector of slugs
   harmfulness <- get_nua_harmfulness(slug = c("dinophysis-acuta",
-                                              "alexandrium-ostenfeldii"))
+                                              "alexandrium-ostenfeldii"),
+                                     verbose = FALSE)
   print(harmfulness)
 }
 }

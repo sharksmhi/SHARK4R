@@ -67,19 +67,22 @@ names against all available SHARK datasets.
 \examples{
 \donttest{
 # Get a specific dataset
-get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF")
+get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF", verbose = FALSE)
 
 # Get all Zooplankton datasets from 2022 and unzip them
 get_shark_datasets(
   dataset_name = "Zooplankton_2022",
-  unzip_file = TRUE
+  unzip_file = TRUE,
+  verbose = FALSE
 )
 
 # Get all Chlorophyll datasets and return as a combined data frame
 combined_df <- get_shark_datasets(
   dataset_name = "Chlorophyll",
-  return_df = TRUE
+  return_df = TRUE,
+  verbose = FALSE
 )
+head(combined_df)
 }
 
 }

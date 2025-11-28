@@ -42,12 +42,10 @@ so it does not need to be downloaded again in subsequent sessions.
 \donttest{
   # Read the first sheet, skipping the first row
   codes <- get_shark_codes()
-
-  # Read second sheet without skipping rows
-  codes2 <- get_shark_codes(sheet = 2, skip = 0)
+  head(codes)
 
   # Force re-download of the Excel file
-  codes3 <- get_shark_codes(force = TRUE)
+  codes <- get_shark_codes(force = TRUE)
 }
 }
 \seealso{

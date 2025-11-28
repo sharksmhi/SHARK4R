@@ -25,7 +25,7 @@ get_worms_records(
 Use \code{aphia_ids} instead.}
 }
 \value{
-A data frame containing the retrieved WoRMS records for the provided Aphia IDs. Each row corresponds to one Aphia ID.
+A \code{tibble} containing the retrieved WoRMS records for the provided Aphia IDs. Each row corresponds to one Aphia ID.
 }
 \description{
 This function retrieves records from the WoRMS (World Register of Marine Species) database using the \code{worrms} R package for a given list of Aphia IDs.
@@ -40,7 +40,9 @@ stops with an error message.
 \donttest{
 # Example usage with a vector of Aphia IDs
 aphia_ids <- c(12345, 67890, 112233)
-worms_records <- get_worms_records(aphia_ids)
+worms_records <- get_worms_records(aphia_ids, verbose = FALSE)
+
+print(worms_records)
 }
 
 }

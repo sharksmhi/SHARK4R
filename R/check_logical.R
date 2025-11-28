@@ -7,8 +7,10 @@
 #' in an interactive `DT::datatable` for easy inspection.
 #'
 #' @param data A data frame. Must contain a column named `value`.
+#' @param return_df Logical. If TRUE, return a plain data.frame of problematic rows
+#'        instead of a DT datatable. Default = FALSE.
 #'
-#' @return A `DT::datatable` listing unique invalid entries, or `NULL` (invisibly)
+#' @return A `DT::datatable` or data frame listing unique invalid entries, or `NULL` (invisibly)
 #'         if all values are correctly formatted as numeric or logical.
 #'
 #' @examples
@@ -18,17 +20,15 @@
 #'   value = c("3.4", "<0.2", "TRUE", "NA", "5e-3")
 #' )
 #'
-#' \donttest{
 #' # Check for invalid (non-numeric / non-logical) entries
-#' check_value_logical(df)
-#' }
+#' check_value_logical(df, return_df = TRUE)
 #'
 #' # Example with all valid numeric and logical values
 #' df_valid <- data.frame(value = c(1.2, 0, TRUE, FALSE, 3.5))
 #' check_value_logical(df_valid)
 #'
 #' @export
-check_value_logical <- function(data) {
+check_value_logical <- function(data, return_df = FALSE) {
   if (!"value" %in% names(data)) {
     stop("data must contain a 'value' column")
   }
@@ -51,7 +51,11 @@ check_value_logical <- function(data) {
     message("Common problems are e.g. '<', '>' signs, text labels, or malformed numbers.")
     matches <- unique(vals_chr[non_valid_idx])
     matches_df <- data.frame(value = matches, stringsAsFactors = FALSE)
-    return(DT::datatable(matches_df, style = "bootstrap"))
+    if (return_df) {
+      return(matches_df)
+    } else {
+      return(DT::datatable(matches_df, style = "bootstrap"))
+    }
   } else {
     message("All values are correctly formatted as numeric or logical.")
     invisible(NULL)
@@ -235,10 +239,8 @@ check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, r
 #'   value = c(5, -2, 10, 0)
 #' )
 #'
-#' \donttest{
-#' # 1. Check that Biomass is never negative (returns DT datatable by default)
-#' check_logical_parameter(df, "Biomass", function(x) x < 0)
-#' }
+#' # 1. Check that Biomass is never negative
+#' check_logical_parameter(df, "Biomass", function(x) x < 0,  return_df = TRUE)
 #'
 #' # 2. Same check, but return problematic rows as a data frame
 #' check_logical_parameter(df, "Biomass", function(x) x < 0, return_df = TRUE)
@@ -247,7 +249,8 @@ check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, r
 #' check_logical_parameter(df, "Biomass", function(x) x < 0, return_logical = TRUE)
 #'
 #' # 4. Check that Abundance is not zero (no problems found -> returns NULL)
-#' check_logical_parameter(df, "Abundance", function(x) x == 0)
+#' abundance_check <- check_logical_parameter(df, "Abundance", function(x) x == 0)
+#' print(abundance_check)
 #'
 check_logical_parameter <- function(data, param_name, condition,
                                     return_df = FALSE, return_logical = FALSE) {
@@ -643,7 +646,8 @@ check_zoobenthos_wetweight_logical <- function(data, return_df = FALSE, return_l
 #' check_parameter_rules(df, return_df = TRUE)
 #'
 #' # Return logical vectors for each parameter
-#' check_parameter_rules(df, return_logical = TRUE)
+#' rule_check <- check_parameter_rules(df, return_logical = TRUE)
+#' print(rule_check)
 #'
 #' @export
 check_parameter_rules <- function(

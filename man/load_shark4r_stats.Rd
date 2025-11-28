@@ -31,10 +31,12 @@ throws an error with a descriptive message.
 \examples{
 \donttest{
 # Load the default SHARK4R statistics file
-stats <- load_shark4r_stats()
+stats <- load_shark4r_stats(verbose = FALSE)
+print(stats)
 
 # Load a specific file
-thresholds <- load_shark4r_stats("scientific_name.rds")
+thresholds <- load_shark4r_stats("scientific_name.rds", verbose = FALSE)
+print(thresholds)
 }
 
 }

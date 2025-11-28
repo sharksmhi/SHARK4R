@@ -52,7 +52,10 @@ If \code{NODC_CONFIG} is set and the folder exists, the function will use
 bundled \code{station.zip} included in the \code{SHARK4R} package.
 }
 \examples{
+# Example stations
 stations <- c("ANHOLT E", "BY5 BORNHOLMSDJ", "STX999")
-match_station(stations, try_synonyms = TRUE)
+
+# Check if stations names are in stations.txt (including synonyms)
+match_station(stations, try_synonyms = TRUE, verbose = FALSE)
 
 }

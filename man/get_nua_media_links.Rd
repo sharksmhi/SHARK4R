@@ -10,7 +10,7 @@ get_nua_media_links(unparsed = FALSE)
 \item{unparsed}{Logical. If \code{TRUE}, complete API response is returned as an unparsed list. Default is \code{FALSE}.}
 }
 \value{
-When unparsed = \code{FALSE}: a data frame with the following columns:
+When unparsed = \code{FALSE}: a \code{tibble} with the following columns:
 \itemize{
 \item \code{slug}: The slug of the related taxon.
 \item \code{l_url}: The URL for the "large" rendition.

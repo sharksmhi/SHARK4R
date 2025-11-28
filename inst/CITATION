@@ -1,6 +1,6 @@
 bibentry(
   bibtype = "Manual",
-  title = "SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases",
+  title = "SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases",
   author = c(
     person(given = "Markus",
            family = "Lindh",
@@ -13,5 +13,5 @@ bibentry(
   year = "2025",
   note = "R package version 1.0.0",
   url = "https://CRAN.R-project.org/package=SHARK4R",
-  textVersion = paste("Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases. R package version 1.0.0. https://CRAN.R-project.org/package=SHARK4R")
+  textVersion = paste("Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases. R package version 1.0.0. https://CRAN.R-project.org/package=SHARK4R")
 )

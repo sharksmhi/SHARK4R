@@ -159,10 +159,19 @@ check_setup <- function(path, run_app = FALSE, force = FALSE, verbose = TRUE) {
 #' Translate SHARK4R datatype names
 #'
 #' Converts user-facing datatype names (e.g., "Grey seal") to internal SHARK4R names
-#' (e.g., "GreySeal") based on `SHARK4R:::.type_lookup`.
+#' (e.g., "GreySeal") based on `SHARK4R:::.type_lookup`. See available user-facing
+#' datatypes in `get_shark_options()$dataTypes`.
 #'
 #' @param x Character vector of datatype names to translate
 #' @return Character vector of translated datatype names
+#'
+#' @examples
+#' # Example strings
+#' datatypes <- c("Grey seal", "Primary production", "Physical and Chemical")
+#'
+#' # Basic translation
+#' translate_shark_datatype(datatypes)
+#'
 #' @export
 translate_shark_datatype <- function(x) {
   if (is.null(x)) return(NULL)
@@ -209,10 +218,12 @@ translate_shark_datatype <- function(x) {
 #' @examples
 #' \donttest{
 #' # Load the default SHARK4R statistics file
-#' stats <- load_shark4r_stats()
+#' stats <- load_shark4r_stats(verbose = FALSE)
+#' print(stats)
 #'
 #' # Load a specific file
-#' thresholds <- load_shark4r_stats("scientific_name.rds")
+#' thresholds <- load_shark4r_stats("scientific_name.rds", verbose = FALSE)
+#' print(thresholds)
 #' }
 #'
 #' @export
@@ -281,11 +292,11 @@ load_shark4r_stats <- function(file_name = "sea_basin.rds",
 #' @examples
 #' \donttest{
 #' # Load SHARK4R field definitions from GitHub
-#' fields <- load_shark4r_fields()
+#' fields <- load_shark4r_fields(verbose = FALSE)
 #'
-#' # Access required or recommended fields
-#' fields$required_fields
-#' fields$recommended_fields
+#' # Access required or recommended fields for the first entry
+#' fields[[1]]$required
+#' fields[[1]]$recommended
 #' }
 #' \dontrun{
 #' # Use the loaded definitions in check_fields()

@@ -109,11 +109,15 @@ df_phyto <- data.frame(
   scientific_name = "Skeletonema marinoi",
   value = 123
 )
+
+# Check fields
 check_fields(df_phyto, "Phytoplankton", level = "warning")
 
-# Example 2: Load latest definitions from GitHub and use them
 \donttest{
-defs <- load_shark4r_fields()
+# Example 2: Load latest definitions from GitHub and use them
+defs <- load_shark4r_fields(verbose = FALSE)
+
+# Check fields using loaded field definitions
 check_fields(df_phyto, "Phytoplankton", field_definitions = defs)
 }
 
@@ -125,7 +129,10 @@ defs <- list(
   )
 )
 
+# Example data
 df_ok <- data.frame(id = 1, value = "x", comment = "ok")
+
+# Check fields using custom field definitions
 check_fields(df_ok, "ExampleType", level = "warning", field_definitions = defs)
 
 }

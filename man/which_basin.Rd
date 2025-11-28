@@ -42,7 +42,7 @@ points_in_the_baltic <- which_basin(latitudes, longitudes)
 print(points_in_the_baltic)
 
 # Plot the points and the basins
-which_basin(latitudes, longitudes, plot = TRUE)
+map <- which_basin(latitudes, longitudes, plot = TRUE)
 
 }
 \seealso{

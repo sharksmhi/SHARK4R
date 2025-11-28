@@ -13,7 +13,7 @@ update_worms_taxonomy(aphia_id, aphiaid = deprecated())
 Use \code{aphia_id} instead.}
 }
 \value{
-A data frame containing updated WoRMS taxonomy information.
+A \code{tibble} containing updated WoRMS taxonomy information.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}

@@ -40,7 +40,7 @@ to each taxon name in the \code{hierarchy} column. Only used if \code{add_hierar
 and progress bars during data retrieval.}
 }
 \value{
-A \code{data.frame} containing detailed WoRMS records for all requested
+A \code{tibble} containing detailed WoRMS records for all requested
 AphiaIDs, including optional descendants and synonyms. Typical columns
 include:
 \describe{
@@ -84,18 +84,20 @@ The function performs the following steps:
 \examples{
 \donttest{
 # Retrieve hierarchy for a single AphiaID
-get_worms_taxonomy_tree(aphia_ids = 109604)
+get_worms_taxonomy_tree(aphia_ids = 109604, verbose = FALSE)
 
 # Retrieve hierarchy including species-level descendants
 get_worms_taxonomy_tree(
   aphia_ids = c(109604, 376667),
-  add_descendants = TRUE
+  add_descendants = TRUE,
+  verbose = FALSE
 )
 
 # Retrieve hierarchy including hierarchy column
 get_worms_taxonomy_tree(
   aphia_ids = c(109604, 376667),
-  add_hierarchy = TRUE
+  add_hierarchy = TRUE,
+  verbose = FALSE
 )
 }
 

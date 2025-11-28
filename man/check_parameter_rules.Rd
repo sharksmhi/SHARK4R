@@ -71,6 +71,7 @@ check_parameter_rules(df)
 check_parameter_rules(df, return_df = TRUE)
 
 # Return logical vectors for each parameter
-check_parameter_rules(df, return_logical = TRUE)
+rule_check <- check_parameter_rules(df, return_logical = TRUE)
+print(rule_check)
 
 }

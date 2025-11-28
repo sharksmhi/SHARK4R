@@ -45,7 +45,7 @@ This allows users to extend the default classifications (e.g., Cyanobacteria, Di
 \item{verbose}{A logical value indicating whether to print progress messages. Default is TRUE.}
 }
 \value{
-A data frame with two columns: \code{scientific_name} and \code{plankton_group}, where the plankton group is assigned based on taxonomic classification.
+A \code{tibble} with two columns: \code{scientific_name} and \code{plankton_group}, where the plankton group is assigned based on taxonomic classification.
 }
 \description{
 This function assigns default phytoplankton groups (Diatoms, Dinoflagellates, Cyanobacteria, or Other)
@@ -77,7 +77,7 @@ and a specific group \code{Teleaulax} (name-based), it will be assigned to \code
 # Assign plankton groups to a list of species
 result <- assign_phytoplankton_group(
   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
-  aphia_ids = c(840626, 149013, 160566, NA))
+  aphia_ids = c(840626, 149013, 160566, NA), verbose = FALSE)
 
 print(result)
 
@@ -92,7 +92,7 @@ result_custom <- assign_phytoplankton_group(
   scientific_names = c("Teleaulax amphioxeia", "Mesodinium rubrum", "Dinophysis acuta"),
   aphia_ids = c(106306, 232069, 109604),
   custom_groups = custom_groups,         # Adding custom groups
-  verbose = TRUE
+  verbose = FALSE
 )
 
 print(result_custom)

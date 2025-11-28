@@ -39,14 +39,12 @@
 #'
 #' # Retrieve shore distances and environmental grids for a dataset
 #' xy_data <- lookup_xy(data, shoredistance = TRUE, grids = TRUE, areas = FALSE)
+#' print(xy_data)
 #'
 #' # Retrieve area data within a 500-meter radius
 #' xy_areas <- lookup_xy(data, shoredistance = FALSE, grids = FALSE, areas = 500)
-#'
-#' # Get results as a list instead of a data frame
-#' xy_list <- lookup_xy(data, shoredistance = TRUE, grids = TRUE, areas = FALSE, as_data_frame = FALSE)
+#' print(xy_areas)
 #' }
-#'
 #'
 #' @references Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, <https://iobis.github.io/obistools/>.
 #'

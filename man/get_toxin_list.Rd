@@ -10,7 +10,7 @@ get_toxin_list(return_count = FALSE)
 \item{return_count}{Logical. If \code{TRUE}, the function returns the count of toxins available in the database. If \code{FALSE} (default), it returns detailed toxin data.}
 }
 \value{
-If \code{return_count = TRUE}, the function returns a numeric value representing the number of toxins in the database. Otherwise, it returns a list of toxins with detailed information.
+If \code{return_count = TRUE}, the function returns a numeric value representing the number of toxins in the database. Otherwise, it returns a \code{tibble} of toxins with detailed information.
 }
 \description{
 This function collects data from the \href{https://toxins.hais.ioc-unesco.org/}{IOC-UNESCO Toxins Database} and returns information about toxins.
@@ -19,9 +19,11 @@ This function collects data from the \href{https://toxins.hais.ioc-unesco.org/}{
 \donttest{
 # Retrieve the full list of toxins
 toxin_list <- get_toxin_list()
+head(toxin_list)
 
 # Retrieve only the count of toxins
 toxin_count <- get_toxin_list(return_count = TRUE)
+print(toxin_count)
 }
 
 }

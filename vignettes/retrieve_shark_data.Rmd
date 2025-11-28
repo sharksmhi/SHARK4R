@@ -16,12 +16,9 @@ SHARK is the Swedish Ocean Archive's platform for data downloads. It stores biol
 
 #### Installation
 
-You can install the latest version of the package from GitHub using the `remotes` package:
+You can install the latest version of `SHARK4R` from CRAN using:
 ```{r, eval=FALSE}
-# install.packages("remotes")
-remotes::install_github("sharksmhi/SHARK4R",
-                        ref = remotes::github_release(),
-                        dependencies = TRUE)
+install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R` library:
@@ -44,7 +41,7 @@ Data can be retrieved with the same filtering options available in [SHARK](https
 shark_data <- get_shark_data(fromYear = 2019, 
                              toYear = 2020,
                              months = c(4, 5, 6), 
-                             dataTypes = c("Chlorophyll"),
+                             dataTypes = "Chlorophyll",
                              verbose = FALSE)
 
 # Print data

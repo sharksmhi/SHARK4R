@@ -79,13 +79,14 @@ For example, if called in 2025 it will use data from 2020–2024.
 \examples{
 \donttest{
 # Uses previous 5 years automatically, Chlorophyll data only
-res <- get_shark_statistics(datatype = "Chlorophyll")
+res <- get_shark_statistics(datatype = "Chlorophyll", verbose = FALSE)
 print(res)
 
 # Group by station name and save result in persistent cache
 res_station <- get_shark_statistics(datatype = "Chlorophyll",
                                     group_col = "station_name",
-                                    cache_result = TRUE)
+                                    cache_result = TRUE,
+                                    verbose = FALSE)
 print(res_station)
 }
 }

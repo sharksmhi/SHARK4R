@@ -130,8 +130,11 @@ nominal_station <- function(data) {
 #'   }
 #'
 #' @examples
+#' # Example stations
 #' stations <- c("ANHOLT E", "BY5 BORNHOLMSDJ", "STX999")
-#' match_station(stations, try_synonyms = TRUE)
+#'
+#' # Check if stations names are in stations.txt (including synonyms)
+#' match_station(stations, try_synonyms = TRUE, verbose = FALSE)
 #'
 #' @export
 match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbose = TRUE) {
@@ -240,13 +243,21 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #' }
 #'
 #' @examples
+#' # Example data
 #' df <- data.frame(
 #'   station_name = c("ANHOLT E", "BY5 BORNHOLMSDJ", "NEW STATION"),
 #'   sample_longitude_dd = c(12.1, 15.97, 17.5),
 #'   sample_latitude_dd  = c(56.7, 55.25, 58.7)
 #' )
-#' check_station_distance(df, plot_leaflet = FALSE, try_synonyms = TRUE)
-#' check_station_distance(df, plot_leaflet = TRUE, only_bad = TRUE)
+#'
+#' # Check station distance
+#' check_station_distance(df, try_synonyms = TRUE, verbose = FALSE)
+#'
+#' # Plot bad points in leaflet map
+#' map <- check_station_distance(df,
+#'                               plot_leaflet = TRUE,
+#'                               only_bad = TRUE,
+#'                               verbose = FALSE)
 #'
 #' @export
 check_station_distance <- function(data, station_file = NULL,

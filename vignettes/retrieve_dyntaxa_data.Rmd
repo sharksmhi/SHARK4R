@@ -16,12 +16,9 @@ Dyntaxa is a taxonomic database of Swedish organisms hosted at [SLU Artdatabanke
   
 ### Installation
 
-You can install the latest version of the package from GitHub using the `remotes` package:
+You can install the latest version of `SHARK4R` from CRAN using:
 ```{r, eval=FALSE}
-# install.packages("remotes")
-remotes::install_github("sharksmhi/SHARK4R", 
-                        ref = remotes::github_release(), 
-                        dependencies = TRUE)
+install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R` and `dplyr` libraries:

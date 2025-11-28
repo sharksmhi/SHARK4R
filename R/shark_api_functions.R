@@ -386,7 +386,8 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' \donttest{
 #'   # Retrieve chlorophyll data from 2019 to 2020 for April to June
 #'   shark_data <- get_shark_data(fromYear = 2019, toYear = 2020,
-#'                                months = c(4, 5, 6), dataTypes = c("Chlorophyll"))
+#'                                months = c(4, 5, 6), dataTypes = "Chlorophyll",
+#'                                verbose = FALSE)
 #'   print(shark_data)
 #' }
 #'
@@ -822,19 +823,22 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 #' @examples
 #' \donttest{
 #' # Get a specific dataset
-#' get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF")
+#' get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF", verbose = FALSE)
 #'
 #' # Get all Zooplankton datasets from 2022 and unzip them
 #' get_shark_datasets(
 #'   dataset_name = "Zooplankton_2022",
-#'   unzip_file = TRUE
+#'   unzip_file = TRUE,
+#'   verbose = FALSE
 #' )
 #'
 #' # Get all Chlorophyll datasets and return as a combined data frame
 #' combined_df <- get_shark_datasets(
 #'   dataset_name = "Chlorophyll",
-#'   return_df = TRUE
+#'   return_df = TRUE,
+#'   verbose = FALSE
 #' )
+#' head(combined_df)
 #' }
 #'
 #' @export
@@ -1003,13 +1007,14 @@ get_shark_datasets <- function(dataset_name,
 #' @examples
 #' \donttest{
 #' # Uses previous 5 years automatically, Chlorophyll data only
-#' res <- get_shark_statistics(datatype = "Chlorophyll")
+#' res <- get_shark_statistics(datatype = "Chlorophyll", verbose = FALSE)
 #' print(res)
 #'
 #' # Group by station name and save result in persistent cache
 #' res_station <- get_shark_statistics(datatype = "Chlorophyll",
 #'                                     group_col = "station_name",
-#'                                     cache_result = TRUE)
+#'                                     cache_result = TRUE,
+#'                                     verbose = FALSE)
 #' print(res_station)
 #' }
 get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL, group_col = NULL,

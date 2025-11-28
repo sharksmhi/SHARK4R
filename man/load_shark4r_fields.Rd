@@ -41,11 +41,11 @@ an error with a descriptive message.
 \examples{
 \donttest{
 # Load SHARK4R field definitions from GitHub
-fields <- load_shark4r_fields()
+fields <- load_shark4r_fields(verbose = FALSE)
 
-# Access required or recommended fields
-fields$required_fields
-fields$recommended_fields
+# Access required or recommended fields for the first entry
+fields[[1]]$required
+fields[[1]]$recommended
 }
 \dontrun{
 # Use the loaded definitions in check_fields()

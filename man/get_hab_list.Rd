@@ -54,7 +54,7 @@ get_hab_list(
 \item{accepted_taxon}{Logical. Include information about the accepted taxon (e.g., scientific name and authority). Defaults to \code{TRUE}.}
 }
 \value{
-A dataframe containing the HABs taxonomic list, with columns based on the selected parameters.
+A \code{tibble} containing the HABs taxonomic list, with columns based on the selected parameters.
 }
 \description{
 This function retrieves the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae from the World Register of Marine Species (WoRMS).

@@ -41,10 +41,14 @@
 #' @examples
 #' \donttest{
 #' # Bacterioplankton abundance
-#' abun <- get_delivery_template("Bacterioplankton", bacterioplankton_subtype = "abundance")
+#' abun <- get_delivery_template("Bacterioplankton",
+#'                               bacterioplankton_subtype = "abundance")
+#'
+#' print(abun)
 #'
 #' # Bacterioplankton production
-#' prod <- get_delivery_template("Bacterioplankton", bacterioplankton_subtype = "production")
+#' prod <- get_delivery_template("Bacterioplankton",
+#'                               bacterioplankton_subtype = "production")
 #'
 #' # Phytoplankton template
 #' phyto <- get_delivery_template("Phytoplankton")
@@ -54,6 +58,8 @@
 #'                                                   sheet = 3,
 #'                                                   header_row = 4,
 #'                                                   skip = 3)
+#'
+#' print(phyto_column_explanation)
 #' }
 #'
 #' @export

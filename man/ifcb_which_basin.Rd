@@ -45,7 +45,7 @@ points_in_the_baltic <- ifcb_which_basin(latitudes, longitudes)
 print(points_in_the_baltic)
 
 # Plot the points and the basins
-ifcb_which_basin(latitudes, longitudes, plot = TRUE)
+map <- ifcb_which_basin(latitudes, longitudes, plot = TRUE)
 }
 
 }

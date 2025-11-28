@@ -5,7 +5,7 @@
 #'
 #' @param unparsed Logical. If `TRUE`, complete API response is returned as an unparsed list. Default is `FALSE`.
 #'
-#' @return When unparsed = `FALSE`: a data frame containing the following columns:
+#' @return When unparsed = `FALSE`: a `tibble` containing the following columns:
 #'   \item{slug}{A unique identifier for the taxon.}
 #'   \item{scientific_name}{The scientific name of the taxon.}
 #'   \item{authority}{The authority associated with the scientific name.}
@@ -51,7 +51,7 @@ get_nua_taxa <- function(unparsed = FALSE) {
 
     # Extract required fields with NULL handling
     extract_taxa_info <- function(taxa) {
-      taxa_info <- data.frame(
+      taxa_info <- tibble(
         scientific_name = ifelse(!is.null(taxa$scientific_name), taxa$scientific_name, NA),
         authority = ifelse(!is.null(taxa$authority), taxa$authority, NA),
         rank = ifelse(!is.null(taxa$rank), taxa$rank, NA),
@@ -68,9 +68,9 @@ get_nua_taxa <- function(unparsed = FALSE) {
       if (length(x) > 0) {
         extract_taxa_info(x)
       } else {
-        data.frame(slug = NA, scientific_name = NA, authority = NA, rank = NA,
-                   image_l_url = NA, image_m_url = NA, image_o_url = NA, image_s_url = NA,
-                   stringsAsFactors = FALSE)
+        tibble(slug = NA, scientific_name = NA, authority = NA, rank = NA,
+               image_l_url = NA, image_m_url = NA, image_o_url = NA, image_s_url = NA,
+               stringsAsFactors = FALSE)
       }
     }))
 
@@ -93,7 +93,7 @@ get_nua_taxa <- function(unparsed = FALSE) {
 #' @param verbose A logical flag indicating whether to display a progress bar. Default is `TRUE`.
 #' @param unparsed Logical. If `TRUE`, the API response with all facts is returned as an unparsed list. Default is `FALSE`.
 #'
-#' @return When unparsed = `FALSE`: a data frame containing the following columns:
+#' @return When unparsed = `FALSE`: a `tibble` containing the following columns:
 #'   \item{slug}{The slug (identifier) of the taxon.}
 #'   \item{provider}{The provider of the external link.}
 #'   \item{label}{The label of the external link.}
@@ -107,7 +107,8 @@ get_nua_taxa <- function(unparsed = FALSE) {
 #' @examples
 #' \donttest{
 #'   # Retrieve external links for a vector of slugs
-#'   external_links <- get_nua_external_links(slug = c("chaetoceros-debilis", "alexandrium-tamarense"))
+#'   external_links <- get_nua_external_links(slug = c("chaetoceros-debilis", "alexandrium-tamarense"),
+#'                                            verbose = FALSE)
 #'   head(external_links)
 #' }
 #' @export
@@ -129,7 +130,7 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
   if (unparsed) {
     nua_facts <- list()
   } else {
-    nua_facts <- data.frame()
+    nua_facts <- tibble()
   }
 
   for (i in seq_along(slug)) {
@@ -157,7 +158,7 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
           provider <- fact$provider
           attributes <- fact$attributes
           do.call(rbind, lapply(attributes, function(attr) {
-            data.frame(
+            tibble(
               slug = slug[i],
               provider = provider,
               label = attr$label,
@@ -193,7 +194,7 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
 #' @param slug A vector of taxon slugs (identifiers) for which to retrieve external links.
 #' @param verbose A logical flag indicating whether to display a progress bar. Default is `TRUE`.
 #'
-#' @return A data frame containing the following columns:
+#' @return A `tibble` containing the following columns:
 #'   \item{slug}{The slug (identifier) of the taxon.}
 #'   \item{provider}{The provider of the external link.}
 #'   \item{label}{The label of the external link.}
@@ -208,7 +209,8 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
 #' \donttest{
 #'   # Retrieve external links for a vector of slugs
 #'   harmfulness <- get_nua_harmfulness(slug = c("dinophysis-acuta",
-#'                                               "alexandrium-ostenfeldii"))
+#'                                               "alexandrium-ostenfeldii"),
+#'                                      verbose = FALSE)
 #'   print(harmfulness)
 #' }
 #' @export
@@ -227,7 +229,7 @@ get_nua_harmfulness <- function(slug, verbose = TRUE) {
   if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(slug), style = 3)}
 
   # Initialize an empty data frame to store results
-  nua_facts <- data.frame()
+  nua_facts <- tibble()
 
   for (i in seq_along(slug)) {
     url <- paste0(base_url, slug[i])
@@ -250,7 +252,7 @@ get_nua_harmfulness <- function(slug, verbose = TRUE) {
         provider <- fact$provider
         attributes <- fact$attributes
         do.call(rbind, lapply(attributes, function(attr) {
-          data.frame(
+          tibble(
             slug = slug[i],
             provider = provider,
             label = attr$label,
@@ -281,7 +283,7 @@ get_nua_harmfulness <- function(slug, verbose = TRUE) {
 #'
 #' @param unparsed Logical. If `TRUE`, complete API response is returned as an unparsed list. Default is `FALSE`.
 #'
-#' @return When unparsed = `FALSE`: a data frame with the following columns:
+#' @return When unparsed = `FALSE`: a `tibble` with the following columns:
 #'   \itemize{
 #'     \item \code{slug}: The slug of the related taxon.
 #'     \item \code{l_url}: The URL for the "large" rendition.
@@ -357,7 +359,7 @@ get_nua_media_links <- function(unparsed = FALSE) {
         )
 
         # Combine into a data frame
-        data.frame(
+        tibble(
           slug = related_slug,
           image_l_url = urls$l,
           image_o_url = urls$o,
@@ -373,7 +375,7 @@ get_nua_media_links <- function(unparsed = FALSE) {
       }))
     }
 
-    # Use the function on your data
+    # Extract data
     nua_media_info <- extract_media_info(nua_media)
 
     return(nua_media_info)

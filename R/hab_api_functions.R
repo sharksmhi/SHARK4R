@@ -4,7 +4,7 @@
 #'
 #' @param return_count Logical. If `TRUE`, the function returns the count of toxins available in the database. If `FALSE` (default), it returns detailed toxin data.
 #'
-#' @return If `return_count = TRUE`, the function returns a numeric value representing the number of toxins in the database. Otherwise, it returns a list of toxins with detailed information.
+#' @return If `return_count = TRUE`, the function returns a numeric value representing the number of toxins in the database. Otherwise, it returns a `tibble` of toxins with detailed information.
 #'
 #' @seealso \url{https://toxins.hais.ioc-unesco.org/} for IOC-UNESCO Toxins Database.
 #'
@@ -12,9 +12,11 @@
 #' \donttest{
 #' # Retrieve the full list of toxins
 #' toxin_list <- get_toxin_list()
+#' head(toxin_list)
 #'
 #' # Retrieve only the count of toxins
 #' toxin_count <- get_toxin_list(return_count = TRUE)
+#' print(toxin_count)
 #' }
 #'
 #' @export
@@ -44,7 +46,7 @@ get_toxin_list <- function(return_count = FALSE) {
 
   if (!inherits(parsed, "try-error")) {
     if (return_count) return(nrow(parsed$toxins))
-    else return(parsed$toxins)
+    else return(as_tibble(parsed$toxins))
   }
 
   # Fallback: repair partial JSON
@@ -54,7 +56,7 @@ get_toxin_list <- function(return_count = FALSE) {
   if (return_count) {
     return(nrow(parsed_recovered$toxins))
   } else {
-    return(parsed_recovered$toxins)
+    return(as_tibble(parsed_recovered$toxins))
   }
 }
 #' Download the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae
@@ -78,7 +80,7 @@ get_toxin_list <- function(return_count = FALSE) {
 #' @param environment Logical. Include environmental data (e.g., marine, brackish, freshwater, terrestrial). Defaults to `TRUE`.
 #' @param accepted_taxon Logical. Include information about the accepted taxon (e.g., scientific name and authority). Defaults to `TRUE`.
 #'
-#' @return A dataframe containing the HABs taxonomic list, with columns based on the selected parameters.
+#' @return A `tibble` containing the HABs taxonomic list, with columns based on the selected parameters.
 #' @export
 #'
 #' @details
