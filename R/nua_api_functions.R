@@ -56,8 +56,7 @@ get_nua_taxa <- function(unparsed = FALSE) {
         authority = ifelse(!is.null(taxa$authority), taxa$authority, NA),
         rank = ifelse(!is.null(taxa$rank), taxa$rank, NA),
         slug = ifelse(!is.null(taxa$slug), taxa$slug, NA),
-        nua_url = paste0("https://nordicmicroalgae.org/taxon/", ifelse(!is.null(taxa$slug), taxa$slug, NA)),
-        stringsAsFactors = FALSE
+        nua_url = paste0("https://nordicmicroalgae.org/taxon/", ifelse(!is.null(taxa$slug), taxa$slug, NA))
       )
 
       return(taxa_info)
@@ -69,8 +68,7 @@ get_nua_taxa <- function(unparsed = FALSE) {
         extract_taxa_info(x)
       } else {
         tibble(slug = NA, scientific_name = NA, authority = NA, rank = NA,
-               image_l_url = NA, image_m_url = NA, image_o_url = NA, image_s_url = NA,
-               stringsAsFactors = FALSE)
+               image_l_url = NA, image_m_url = NA, image_o_url = NA, image_s_url = NA)
       }
     }))
 
@@ -164,8 +162,7 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
               label = attr$label,
               external_id = attr$external_id,
               external_url = attr$external_url,
-              collection = fact$collection,
-              stringsAsFactors = FALSE
+              collection = fact$collection
             )
           }))
         }))
@@ -258,8 +255,7 @@ get_nua_harmfulness <- function(slug, verbose = TRUE) {
             label = attr$label,
             external_id = attr$external_id,
             external_url = attr$external_url,
-            collection = fact$collection,
-            stringsAsFactors = FALSE
+            collection = fact$collection
           )
         }))
       }))
@@ -369,8 +365,7 @@ get_nua_media_links <- function(unparsed = FALSE) {
           photographer_artist = photographer_artist,
           copyright_holder = copyright_holder,
           license = license,
-          galleries = paste(galleries, collapse = ", "),
-          stringsAsFactors = FALSE
+          galleries = paste(galleries, collapse = ", ")
         )
       }))
     }

@@ -123,7 +123,7 @@ An integer representing the total number of rows in the requested SHARK table
 after applying the specified filters.
 }
 \description{
-The \code{get_shark_table_counts} function retrieves the number of records (row counts)
+The \code{get_shark_table_counts()} function retrieves the number of records (row counts)
 from various SHARK data tables based on specified filters such as year, months,
 data type, stations, and taxa. To view available filter options, see
 \code{\link{get_shark_options}}.

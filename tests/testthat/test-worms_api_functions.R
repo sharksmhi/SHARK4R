@@ -238,5 +238,4 @@ test_that("Function handles invalid AphiaIDs without crashing", {
   result <- get_worms_taxonomy_tree(999999999, verbose = FALSE)  # very unlikely AphiaID
   expect_s3_class(result, "data.frame")
   expect_true(nrow(result) > 0)
-  expect_true(all(is.na(result$parentNameUsageID) | !is.na(result$parentNameUsageID)))
 })

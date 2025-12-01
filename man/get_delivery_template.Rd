@@ -54,7 +54,7 @@ Default is 4.}
 this number of days are deleted automatically. Default is 1.}
 }
 \value{
-A data frame containing the delivery template. Column names are set
+A \code{tibble} containing the delivery template. Column names are set
 from the header row.
 }
 \description{

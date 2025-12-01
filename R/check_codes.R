@@ -16,7 +16,7 @@
 #'   this number of days will be automatically deleted. Defaults to 30. Set to `NULL`
 #'   to disable automatic cleanup.
 #'
-#' @return A tibble containing the contents of the requested sheet.
+#' @return A `tibble` containing the contents of the requested sheet.
 #' @export
 #'
 #' @seealso [clean_shark4r_cache()] to manually clear cached files.
@@ -56,7 +56,7 @@ get_shark_codes <- function(url = "https://smhi.se/oceanografi/oce_info_data/sha
 #' official SHARK codelist provided by SMHI. If a cell contains multiple codes
 #' separated by commas, each code is checked individually. The function downloads
 #' and caches the codelist if necessary, compares the reported values against
-#' the valid codes, and returns a tibble showing which codes matched.
+#' the valid codes, and returns a `tibble` showing which codes matched.
 #' Informative messages are printed if unmatched codes are found.
 #'
 #' @param data A tibble (or data.frame) containing the codes to check.
@@ -77,7 +77,7 @@ get_shark_codes <- function(url = "https://smhi.se/oceanografi/oce_info_data/sha
 #' @seealso [get_shark_codes()] to get the current code list.
 #' @seealso [clean_shark4r_cache()] to manually clear cached files.
 #'
-#' @return A tibble with unique reported codes (after splitting comma-separated
+#' @return A `tibble` with unique reported codes (after splitting comma-separated
 #'   entries) and a logical column `match_type` indicating if they exist in the
 #'   SHARK codelist.
 #' @export

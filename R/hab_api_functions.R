@@ -153,9 +153,9 @@ get_hab_list <- function(aphia_id = TRUE, scientific_name = TRUE, authority = TR
     # Load the data into a dataframe using read.delim on the text
     habs_taxlist_df <- read_delim(
       file = content_text,
-      delim = "\t",             # Tab-delimited format
-      col_types = cols(),  # Read all columns as character by default
-      na = c("", "NA"),          # Handle missing values
+      delim = "\t",
+      col_types = cols(),
+      na = c("", "NA"),
       progress = FALSE
     )
 

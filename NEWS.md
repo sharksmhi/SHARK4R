@@ -30,6 +30,7 @@
 * Added `plot_leaflet` argument to functions `check_station_distance()` and `check_onland()`
 * Added `utv` argument to functions `get_shark_options()`, `get_shark_data()`, `get_shark_datasets()` and `get_shark_table_counts()`.
 * Added `add_rank_to_hierarchy` argument to the `add_worms_taxonomy()` function
+* Added `lon` and `lat` arguments to the `lookup_xy()` function for more flexible lookup options
 * `match_worms_taxa()` now handles bulk API requests using the `bulk` argument
 * Add SHARK4R Bio-QC Tool Shiny App to bundle, with improved performance (initialized by `run_qc_app()`)
 

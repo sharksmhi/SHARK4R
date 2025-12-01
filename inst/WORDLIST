@@ -41,8 +41,10 @@ HAB
 HABs
 HELCOM
 Harbour
+HavsARKivs
 Hydrological
 IOC
+IODE
 IPHAB
 Kattegat
 Kolumner
@@ -61,7 +63,6 @@ Phyto
 Phytoplankton
 Picoplankton
 PlanktonBarcoding
-Provoost
 README
 SDATE
 SLU
@@ -70,6 +71,7 @@ SMHI's
 SWEREF
 Skagerrak
 Stationsregistret
+Svenskt
 UTV
 WoRMS
 XY
@@ -120,6 +122,7 @@ oceanografi
 phycological
 phytoplankton
 pre
+programme
 pseudotaxon
 readxl
 rubrum
@@ -136,7 +139,6 @@ sv
 th
 tibble
 unparsed
-worrms
 www
 xls
 xlsx

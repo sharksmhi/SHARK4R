@@ -189,18 +189,18 @@ If the requested data exceeds this limit, the function automatically downloads t
 \item{verbose}{Logical. Whether to display progress information. Default is TRUE.}
 }
 \value{
-A \code{data.frame} (tibble) containing the retrieved SHARK data, parsed from
+A \code{tibble} containing the retrieved SHARK data, parsed from
 the API's delimited text response. Column types are inferred automatically.
 }
 \description{
 The \code{get_shark_data()} function retrieves tabular data from the SHARK database hosted by SMHI. The function sends a POST request
 to the SHARK API with customizable filters, including year, month, taxon name, water category, and more, and returns the
-retrieved data as a structured \code{data.frame}. To view available filter options, see \code{\link{get_shark_options}}.
+retrieved data as a structured \code{tibble}. To view available filter options, see \code{\link{get_shark_options}}.
 }
 \details{
 This function sends a POST request to the SHARK API with the specified filters.
 The API returns a delimited text file (e.g., tab- or semicolon-separated), which is
-downloaded and read into R as a \code{data.frame}. If the \code{row_limit} parameter is exceeded,
+downloaded and read into R as a \code{tibble}. If the \code{row_limit} parameter is exceeded,
 the data is retrieved in yearly chunks and combined into a single table. Adjusting the
 \code{row_limit} parameter may be necessary when retrieving large datasets or detailed reports.
 Note that making very large requests (e.g., retrieving the entire SHARK database)

@@ -18,7 +18,6 @@ Defaults to \code{FALSE}.}
 \value{
 A named \code{list} of available search options from the SHARK API.
 If \code{unparsed = TRUE}, returns the raw JSON structure as a list.
-If \code{unparsed = FALSE}, returns a simplified list of character or numeric vectors.
 }
 \description{
 The \code{get_shark_options()} function retrieves available search options from the SHARK database.

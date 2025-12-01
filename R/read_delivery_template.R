@@ -35,7 +35,7 @@
 #' @param clean_cache_days Numeric; if not `NULL`, cached template files older than
 #'   this number of days are deleted automatically. Default is 1.
 #'
-#' @return A data frame containing the delivery template. Column names are set
+#' @return A `tibble` containing the delivery template. Column names are set
 #'   from the header row.
 #'
 #' @examples

@@ -31,7 +31,7 @@ this number of days will be automatically deleted. Defaults to 30. Set to \code{
 to disable automatic cleanup.}
 }
 \value{
-A tibble containing the contents of the requested sheet.
+A \code{tibble} containing the contents of the requested sheet.
 }
 \description{
 This function downloads the SHARK codes Excel file from SMHI (if not already cached)

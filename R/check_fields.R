@@ -37,7 +37,6 @@ check_datatype <- function(data, level = "error") {
   recommended <- c("monitoring_station_type_code", "monitoring_purpose_code", "monitoring_program_code", "reporting_institute_name_en", "analytical_laboratory_name_en")
 
   # find missing required fields
-
   fields <- missing_fields(data, required)
   if (length(fields) > 0) {
     errors <- bind_rows(errors, tibble(
@@ -51,7 +50,6 @@ check_datatype <- function(data, level = "error") {
   }
 
   # find empty values for required fields
-
   for (field in required) {
     if (field %in% names(data)) {
       rows <- missing_values(data[[field]])
@@ -67,11 +65,9 @@ check_datatype <- function(data, level = "error") {
   }
 
   # recommended fields
-
   if (level == "warning") {
 
     # find missing recommended fields
-
     fields <- missing_fields(data, recommended)
     if (length(fields) > 0) {
       errors <- bind_rows(errors, tibble(
@@ -85,7 +81,6 @@ check_datatype <- function(data, level = "error") {
     }
 
     # find empty values for recommended fields
-
     for (field in recommended) {
       if (field %in% names(data)) {
         rows <- missing_values(data[[field]])

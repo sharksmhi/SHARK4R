@@ -1,49 +1,48 @@
-#' Lookup spatial data for a set of points
+#' Lookup spatial information for geographic points
 #'
-#' Retrieves spatial information (e.g., distance to shore, environmental grids, and area data)
-#' for a set of geographic coordinates. The function handles invalid or duplicate coordinates
-#' automatically and supports returning results as either a data frame or a list.
+#' Retrieves shore distance, environmental grids, and area values for given coordinates.
+#' Coordinates may be supplied either through a data frame or as separate numeric vectors.
 #'
-#' @param data A data frame containing geographic coordinates. The required columns are
-#'   \code{sample_longitude_dd} and \code{sample_latitude_dd}. These must be numeric and
-#'   within valid ranges (-180 to 180 for longitude, -90 to 90 for latitude).
-#' @param shoredistance Logical; if \code{TRUE} (default), the distance to the nearest shore is returned.
-#' @param grids Logical; if \code{TRUE} (default), environmental grid values (e.g., temperature, bathymetry)
-#'   are returned.
-#' @param areas Logical or numeric; if \code{TRUE}, area values are returned for points at a 0 m radius.
-#'   If a positive integer is provided, all areas within that radius (in meters) are returned. Default is \code{FALSE}.
-#' @param as_data_frame Logical; if \code{TRUE} (default), results are returned as a data frame with one row per input coordinate.
-#'   If \code{FALSE}, results are returned as a list.
+#' @param data Optional data frame containing coordinate columns. The expected names are
+#' \code{sample_longitude_dd} and \code{sample_latitude_dd}. These must be numeric and fall
+#' within valid geographic ranges.
+#' @param lon Optional numeric vector of longitudes. Must be supplied together with \code{lat}
+#' when used. Ignored when a data frame is provided unless both \code{lon} and \code{lat} are set.
+#' @param lat Optional numeric vector of latitudes. Must be supplied together with \code{lon}
+#' when used.
+#' @param shoredistance Logical; if \code{TRUE}, distance to the nearest shore is included.
+#' @param grids Logical; if \code{TRUE}, environmental grid values are included.
+#' @param areas Logical or numeric. When logical, \code{TRUE} requests area values at zero radius,
+#' and \code{FALSE} disables area retrieval. A positive integer specifies the search radius
+#' in meters for area values.
+#' @param as_data_frame Logical; if \code{TRUE}, the result is returned as a data frame.
+#' When \code{FALSE}, the result is returned as a list.
 #'
-#' @return Either a data frame or a list with the requested spatial data:
-#' \itemize{
-#'   \item For data frame output, each row corresponds to the input coordinates. Columns include \code{shoredistance},
-#'     environmental grids, and \code{areas} (if requested). Invalid coordinates are filled with \code{NA}.
-#'   \item For list output, each element corresponds to one input coordinate. Invalid coordinates are \code{NULL}.
-#' }
+#' @return A data frame or list, depending on \code{as_data_frame}. Invalid coordinates produce
+#' \code{NA} entries (data frame) or \code{NULL} elements (list). Duplicate input coordinates
+#' return repeated results.
 #'
 #' @details
-#' - The function first cleans the coordinates, removing invalid or missing values
-#'   and identifying unique points to avoid redundant lookups.
-#' - Coordinates are queried in chunks of 25,000 to avoid overloading the OBIS web service.
-#' - When \code{areas} is a positive integer, all area values within that radius are returned. A value of \code{TRUE}
-#'   is equivalent to 0 m, while \code{FALSE} disables area retrieval.
-#' - Results are mapped back to the original input order, and duplicates in the input are correctly handled.
+#' - When both vector inputs and a data frame are provided, the vector inputs take precedence.
+#' - Coordinates are validated and cleaned before lookup, and only unique values are queried.
+#' - Queries are processed in batches to avoid overloading the remote service.
+#' - Area retrieval accepts either a logical flag or a radius. A radius of zero corresponds to
+#' requesting a single area value.
+#' - Final results are reordered to match the original input positions.
 #' - The function has been modified from the `obistools` package (Provoost and Bosch, 2024).
 #'
 #' @examples
 #' \donttest{
-#' # Example data frame
-#' data <- data.frame(sample_longitude_dd = c(10.983229, 18.265451),
-#'                    sample_latitude_dd = c(58.121034, 58.331616))
+#' # Using a data frame
+#' df <- data.frame(sample_longitude_dd = c(10.9, 18.3),
+#'                  sample_latitude_dd = c(58.1, 58.3))
+#' lookup_xy(df)
 #'
-#' # Retrieve shore distances and environmental grids for a dataset
-#' xy_data <- lookup_xy(data, shoredistance = TRUE, grids = TRUE, areas = FALSE)
-#' print(xy_data)
+#' # Area search within a radius
+#' lookup_xy(df, areas = 500)
 #'
-#' # Retrieve area data within a 500-meter radius
-#' xy_areas <- lookup_xy(data, shoredistance = FALSE, grids = FALSE, areas = 500)
-#' print(xy_areas)
+#' # Using separate coordinate vectors
+#' lookup_xy(lon = c(10.9, 18.3), lat = c(58.1, 58.3))
 #' }
 #'
 #' @references Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, <https://iobis.github.io/obistools/>.
@@ -52,7 +51,29 @@
 #' \code{\link{check_onland}}, \code{\link{check_depth}}, \url{https://iobis.github.io/xylookup/} – OBIS xylookup web service
 #'
 #' @export
-lookup_xy <- function(data, shoredistance=TRUE, grids=TRUE, areas=FALSE, as_data_frame=TRUE) {
+lookup_xy <- function(data = NULL, lon = NULL, lat = NULL,
+                      shoredistance=TRUE, grids=TRUE,  areas=FALSE,  as_data_frame=TRUE) {
+
+  # Handle vector input
+  if (!is.null(lon) || !is.null(lat)) {
+    if (is.null(lon) || is.null(lat)) {
+      stop("Both lon and lat must be provided")
+    }
+    if (!is.null(data)) {
+      warning("Data frame ignored because lon and lat were supplied")
+    }
+    data <- data.frame(
+      sample_longitude_dd = lon,
+      sample_latitude_dd = lat,
+      stringsAsFactors = FALSE
+    )
+  }
+
+  # Require that 'data' exists at this point
+  if (is.null(data)) {
+    stop("Provide either a data frame or lon and lat vectors")
+  }
+
   xy <- get_xy_clean_duplicates(data)
   if(NROW(xy$uniquesp) == 0) {
     output <- data.frame(row.names=seq_len(NROW(data)))

@@ -11,7 +11,6 @@
 #'
 #' @return A named `list` of available search options from the SHARK API.
 #'   If `unparsed = TRUE`, returns the raw JSON structure as a list.
-#'   If `unparsed = FALSE`, returns a simplified list of character or numeric vectors.
 #'
 #' @details
 #' This function sends a GET request to the `/api/options` endpoint of the SHARK API
@@ -87,7 +86,7 @@ get_shark_options <- function(prod = TRUE, utv = FALSE, unparsed = FALSE) {
 }
 #' Retrieve SHARK data table row counts
 #'
-#' The `get_shark_table_counts` function retrieves the number of records (row counts)
+#' The `get_shark_table_counts()` function retrieves the number of records (row counts)
 #' from various SHARK data tables based on specified filters such as year, months,
 #' data type, stations, and taxa. To view available filter options, see
 #' \code{\link{get_shark_options}}.
@@ -249,7 +248,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #'
 #' The `get_shark_data()` function retrieves tabular data from the SHARK database hosted by SMHI. The function sends a POST request
 #' to the SHARK API with customizable filters, including year, month, taxon name, water category, and more, and returns the
-#' retrieved data as a structured `data.frame`. To view available filter options, see \code{\link{get_shark_options}}.
+#' retrieved data as a structured `tibble`. To view available filter options, see \code{\link{get_shark_options}}.
 #'
 #' @param tableView Character. Specifies the columns of the table to retrieve. Options include:
 #'   \itemize{
@@ -359,13 +358,13 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @param verbose Logical. Whether to display progress information. Default is TRUE.
 #'
 #' @return
-#' A `data.frame` (tibble) containing the retrieved SHARK data, parsed from
+#' A `tibble` containing the retrieved SHARK data, parsed from
 #' the API's delimited text response. Column types are inferred automatically.
 #'
 #' @details
 #' This function sends a POST request to the SHARK API with the specified filters.
 #' The API returns a delimited text file (e.g., tab- or semicolon-separated), which is
-#' downloaded and read into R as a `data.frame`. If the `row_limit` parameter is exceeded,
+#' downloaded and read into R as a `tibble`. If the `row_limit` parameter is exceeded,
 #' the data is retrieved in yearly chunks and combined into a single table. Adjusting the
 #' `row_limit` parameter may be necessary when retrieving large datasets or detailed reports.
 #' Note that making very large requests (e.g., retrieving the entire SHARK database)

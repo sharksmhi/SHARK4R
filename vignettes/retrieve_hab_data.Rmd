@@ -10,7 +10,7 @@ vignette: >
 
 ## IOC-UNESCO Databases
 
-The Intergovernmental Oceanographic Commission of UNESCO (IOC) is the United Nations body dedicated to supporting global ocean science, services, and governance. The [IOC-UNESCO Taxonomic Reference List of Harmful Microalgae](https://www.marinespecies.org/hab/) focuses on species known to produce toxins or exhibit toxic effects, along with a few species suspected of toxin production. All toxic species in the list are verified with [WoRMS](https://www.marinespecies.org) to ensure accurate taxonomy.
+The Intergovernmental Oceanographic Commission (IOC) of UNESCO is the United Nations body dedicated to supporting global ocean science, services, and governance. The [IOC-UNESCO Taxonomic Reference List of Harmful Microalgae](https://www.marinespecies.org/hab/) focuses on species known to produce toxins or exhibit toxic effects, along with a few species suspected of toxin production. All toxic species in the list are verified with [WoRMS](https://www.marinespecies.org) to ensure accurate taxonomy.
 
 The [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/) complements this list by providing detailed reference information about toxins, some of which are associated with harmful algal events.
 

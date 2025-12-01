@@ -57,15 +57,23 @@ The function performs the following steps:
 \examples{
 \donttest{
 # Single AphiaID
-get_worms_classification(109604, verbose = FALSE)
+single_taxa <- get_worms_classification(109604, verbose = FALSE)
+print(single_taxa)
 
 # Multiple AphiaIDs
-get_worms_classification(c(109604, 376667), verbose = FALSE)
+multiple_taxa <- get_worms_classification(c(109604, 376667), verbose = FALSE)
+print(multiple_taxa)
 
 # Hierarchy with ranks in the string
-get_worms_classification(c(109604, 376667),
-                         add_rank_to_hierarchy = TRUE,
-                         verbose = FALSE)
+with_rank <- get_worms_classification(c(109604, 376667),
+                                      add_rank_to_hierarchy = TRUE,
+                                      verbose = FALSE)
+
+# Print hierarchy columns with ranks
+print(with_rank$worms_hierarchy[1])
+
+# Compare with result when add_rank_to_hierarchy = FALSE
+print(multiple_taxa$worms_hierarchy[1])
 }
 
 }

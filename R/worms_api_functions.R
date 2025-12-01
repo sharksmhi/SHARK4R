@@ -117,7 +117,7 @@ add_worms_taxonomy <- function(aphia_ids,
 
   # --- Resolve missing AphiaIDs from scientific names ---
   if (!is.null(scientific_names)) {
-    aphia_id_df <- tibble(aphia_ids, scientific_names, stringsAsFactors = FALSE)
+    aphia_id_df <- data.frame(aphia_ids, scientific_names, stringsAsFactors = FALSE)
     to_match <- scientific_names[is.na(aphia_ids)]
 
     if (length(to_match) > 0) {
@@ -264,8 +264,7 @@ get_worms_records <- function(aphia_ids, max_retries = 3, sleep_time = 10, verbo
                                       paste0("No WoRMS content for AphiaID '", id, "'"))
             worms_record <<- tibble(
               AphiaID = id,
-              status = "no content",
-              stringsAsFactors = FALSE
+              status = "no content"
             )
             success <<- TRUE
           } else if (attempt == max_retries) {
@@ -285,8 +284,7 @@ get_worms_records <- function(aphia_ids, max_retries = 3, sleep_time = 10, verbo
       if (is.null(worms_record)) {
         worms_record <- tibble(
           AphiaID = id,
-          status = "Failed",
-          stringsAsFactors = FALSE
+          status = "Failed"
         )
       }
 
@@ -384,7 +382,7 @@ match_worms_taxa <- function(taxa_names,
   # Build mapping table
   # ---------------------------
   unique_taxa <- unique(taxa_names)
-  name_map <- tibble(
+  name_map <- data.frame(
     taxa_names = unique_taxa,
     cleaned = vapply(unique_taxa, clean_taxon, character(1)),
     stringsAsFactors = FALSE,
@@ -411,10 +409,9 @@ match_worms_taxa <- function(taxa_names,
       tibble(
         name = empties,
         status = "no content",
-        AphiaID = NA,
-        rank = NA,
-        scientificname = NA,
-        stringsAsFactors = FALSE
+        AphiaID = NA_integer_,
+        rank = NA_character_,
+        scientificname = NA_character_
       )
     ))
   }
@@ -427,8 +424,7 @@ match_worms_taxa <- function(taxa_names,
     while (attempt <= attempt_max) {
       res <- tryCatch({
         df <- tibble(name = q,
-                     worrms::wm_records_name(q, fuzzy = fuzzy, marine_only = marine_only),
-                     stringsAsFactors = FALSE)
+                     worrms::wm_records_name(q, fuzzy = fuzzy, marine_only = marine_only))
         if (best_match_only && nrow(df) > 1) df <- df[1, , drop = FALSE]
         return(df)
       }, error = function(err) {
@@ -438,10 +434,9 @@ match_worms_taxa <- function(taxa_names,
           no_content_messages <<- c(no_content_messages, paste0("No WoRMS content for '", q, "'"))
           return(tibble(name = q,
                         status = "no content",
-                        AphiaID = NA,
-                        rank = NA,
-                        scientificname = NA,
-                        stringsAsFactors = FALSE))
+                        AphiaID = NA_integer_,
+                        rank = NA_character_,
+                        scientificname = NA_character_))
         }
         if (attempt == attempt_max) {
           stop("Error retrieving WoRMS record for '", q, "' after ", attempt_max, " attempts: ", msg)
@@ -456,7 +451,7 @@ match_worms_taxa <- function(taxa_names,
       attempt <- attempt + 1
     }
     # fallback
-    tibble(name = q, status = "no content", stringsAsFactors = FALSE)
+    tibble(name = q, status = "no content")
   }
 
   # ---------------------------
@@ -489,10 +484,9 @@ match_worms_taxa <- function(taxa_names,
             if (is.null(rec) || length(rec) == 0) {
               tibble(name = chunk[i],
                      status = "no content",
-                     AphiaID = NA,
-                     rank = NA,
-                     scientificname = NA,
-                     stringsAsFactors = FALSE)
+                     AphiaID = NA_integer_,
+                     rank = NA_character_,
+                     scientificname = NA_character_)
             } else {
               if (is.data.frame(rec)) {
                 if (best_match_only && nrow(rec) > 1) rec <- rec[1, , drop = FALSE]
@@ -501,7 +495,7 @@ match_worms_taxa <- function(taxa_names,
                 rec2 <- rec2[c("name", setdiff(names(rec2), "name"))]
                 rec2
               } else {
-                tibble(name = chunk[i], rec, stringsAsFactors = FALSE)
+                tibble(name = chunk[i], rec)
               }
             }
           })
@@ -518,10 +512,9 @@ match_worms_taxa <- function(taxa_names,
             fallback <- lapply(chunk, function(nm) {
               tibble(name = nm,
                      status = "no content",
-                     AphiaID = NA,
-                     rank = NA,
-                     scientificname = NA,
-                     stringsAsFactors = FALSE)
+                     AphiaID = NA_integer_,
+                     rank = NA_character_,
+                     scientificname = NA_character_)
             })
             worms_unique_list <<- c(worms_unique_list, fallback)
             success <<- TRUE
@@ -585,10 +578,9 @@ match_worms_taxa <- function(taxa_names,
       tibble(
         name = cleaned_x,
         status = "no content",
-        AphiaID = NA,
-        rank = NA,
-        scientificname = NA,
-        stringsAsFactors = FALSE
+        AphiaID = NA_integer_,
+        rank = NA_character_,
+        scientificname = NA_character_
       )
     } else {
       # If the API returned multiple possible rows for the cleaned name,
@@ -744,7 +736,7 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
 
   # Create a data frame to store input data
   if (is.null(aphia_ids)) {
-    input_data <- tibble(aphia_id = NA, scientific_name = scientific_names)
+    input_data <- tibble(aphia_id = NA_integer_, scientific_name = scientific_names)
   } else {
     input_data <- tibble(aphia_id = aphia_ids, scientific_name = scientific_names)
   }
@@ -771,8 +763,7 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
     aphia_records <- tibble(AphiaID = NA_integer_,
                             status = NA_character_,
                             class = NA_character_,
-                            phylum = NA_character_,
-                            stringsAsFactors = FALSE)
+                            phylum = NA_character_)
   }
 
   # List IDs without content
@@ -802,8 +793,7 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
     missing_aphia_records <- tibble(name = NA_character_,
                                     AphiaID = NA_integer_,
                                     class = NA_character_,
-                                    phylum = NA_character_,
-                                    stringsAsFactors = FALSE)
+                                    phylum = NA_character_)
   }
 
   # Merge records into input data
@@ -842,13 +832,13 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
 
   if (nrow(deleted_records) > 0) {
     if (verbose) cat("Retrieving", nrow(deleted_records), "valid 'aphia_id' records from deleted entries.\n")
-    valid_deleted_records <- tibble(
+    valid_deleted_records <- data.frame(
       aphia_id = deleted_records$valid_AphiaID,
       scientific_name = deleted_records$scientific_name,
       get_worms_records(deleted_records$valid_AphiaID, verbose = verbose)
     )
   } else {
-    valid_deleted_records <- tibble()
+    valid_deleted_records <- data.frame()
   }
 
   combined_data <- combined_data %>%
@@ -1239,15 +1229,23 @@ get_worms_taxonomy_tree <- function(aphia_ids,
 #' @examples
 #' \donttest{
 #' # Single AphiaID
-#' get_worms_classification(109604, verbose = FALSE)
+#' single_taxa <- get_worms_classification(109604, verbose = FALSE)
+#' print(single_taxa)
 #'
 #' # Multiple AphiaIDs
-#' get_worms_classification(c(109604, 376667), verbose = FALSE)
+#' multiple_taxa <- get_worms_classification(c(109604, 376667), verbose = FALSE)
+#' print(multiple_taxa)
 #'
 #' # Hierarchy with ranks in the string
-#' get_worms_classification(c(109604, 376667),
-#'                          add_rank_to_hierarchy = TRUE,
-#'                          verbose = FALSE)
+#' with_rank <- get_worms_classification(c(109604, 376667),
+#'                                       add_rank_to_hierarchy = TRUE,
+#'                                       verbose = FALSE)
+#'
+#' # Print hierarchy columns with ranks
+#' print(with_rank$worms_hierarchy[1])
+#'
+#' # Compare with result when add_rank_to_hierarchy = FALSE
+#' print(multiple_taxa$worms_hierarchy[1])
 #' }
 #'
 #' @seealso \code{\link[worrms]{wm_classification}}, \url{https://marinespecies.org/}
