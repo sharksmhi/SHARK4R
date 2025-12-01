@@ -10,7 +10,7 @@ vignette: >
 
 ## SHARK
 
-SHARK is the Swedish Ocean Archive's (Svenskt HavsARKivs) platform for data downloads. It stores biological, physical, and chemical marine environmental monitoring data. On behalf of the Swedish Agency for Marine and Water Management, SMHI serves as the national data host for oceanography and marine biology. SMHI is also recognized by UNESCO as a National Oceanographic Data Center (NODC) within the Oceanographic Data and Information (IODE) programme. The data can be accessed via a [web interface](https://shark.smhi.se/) or directly through the [API](https://shark.smhi.se/api/docs/), as demonstrated in this tutorial using `SHARK4R`.
+SHARK is the Swedish Ocean Archive's (Svenskt HavsARKivs) platform for data downloads. It stores biological, physical, and chemical marine environmental monitoring data. On behalf of the Swedish Agency for Marine and Water Management, SMHI serves as the national data host for oceanography and marine biology. SMHI is also recognized by UNESCO as a National Oceanographic Data Center (NODC) within the Oceanographic Data and Information (IODE) programme. The data can be accessed via a [web interface](https://shark.smhi.se/en/) or directly through the [API](https://shark.smhi.se/api/docs/), as demonstrated in this tutorial using `SHARK4R`.
 
 ## Getting Started
 
@@ -34,7 +34,7 @@ suppressPackageStartupMessages({
 
 ## Retrieve Data Table
 
-Data can be retrieved with the same filtering options available in [SHARK](https://shark.smhi.se/). To see the available filtering options, please refer to `get_shark_options()` and the information below.
+Data can be retrieved with the same filtering options available in [SHARK](https://shark.smhi.se/en/). To see the available filtering options, please refer to `get_shark_options()` and the information below.
 
 ```{r}
 # Retrieve chlorophyll data for April to June from 2019 to 2020

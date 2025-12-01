@@ -883,7 +883,7 @@ fill_na_below_first_non_na <- function(x) {
 #'
 #' This function updates Dyntaxa taxonomy records based on a list of Dyntaxa taxon IDs.
 #' It collects parent IDs from SLU Artdatabanken API (Dyntaxa), retrieves full taxonomy records, and organizes
-#' the data into a full taxonomic table that can be joined with data downloaded from [SHARK](https://shark.smhi.se/)
+#' the data into a full taxonomic table that can be joined with data downloaded from [SHARK](https://shark.smhi.se/en/)
 #'
 #' @details
 #' A valid Dyntaxa API subscription key is required.

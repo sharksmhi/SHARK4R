@@ -44,5 +44,5 @@ to retrieve available search filters and options that can be used in SHARK data 
 \seealso{
 \code{\link[=get_shark_data]{get_shark_data()}} for retrieving actual data from the SHARK API.
 
-\url{https://shark.smhi.se} for the SHARK database portal.
+\url{https://shark.smhi.se/en} for the SHARK database portal.
 }

@@ -87,7 +87,7 @@ head(combined_df)
 
 }
 \seealso{
-\url{https://shark.smhi.se} for SHARK database.
+\url{https://shark.smhi.se/en} for SHARK database.
 
 \code{\link[=get_shark_options]{get_shark_options()}} for listing available datasets.
 

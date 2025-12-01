@@ -223,7 +223,7 @@ by year, data type, or region for improved performance.
 }
 \seealso{
 \itemize{
-\item \url{https://shark.smhi.se} – SHARK database portal
+\item \url{https://shark.smhi.se/en} – SHARK database portal
 \item \code{\link[=get_shark_options]{get_shark_options()}} – Retrieve available filters
 \item \code{\link[=get_shark_table_counts]{get_shark_table_counts()}} – Check table row counts before download
 \item \code{\link[=get_shark_datasets]{get_shark_datasets()}} – To download datasets as zip-archives

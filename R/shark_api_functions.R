@@ -17,7 +17,7 @@
 #' to retrieve available search filters and options that can be used in SHARK data queries.
 #'
 #' @seealso [get_shark_data()] for retrieving actual data from the SHARK API.
-#' @seealso \url{https://shark.smhi.se} for the SHARK database portal.
+#' @seealso \url{https://shark.smhi.se/en} for the SHARK database portal.
 #'
 #' @examples
 #' \donttest{
@@ -148,7 +148,7 @@ get_shark_options <- function(prod = TRUE, utv = FALSE, unparsed = FALSE) {
 #' @param prod Logical. Select production server when `TRUE` (default). Ignored if `utv` is `TRUE`.
 #' @param utv Logical. Select UTV server when `TRUE`.
 #'
-#' @seealso \url{https://shark.smhi.se} for SHARK database.
+#' @seealso \url{https://shark.smhi.se/en} for SHARK database.
 #' @seealso \code{\link{get_shark_options}} to see filter options
 #' @seealso \code{\link{get_shark_data}} to download SHARK data
 #'
@@ -376,7 +376,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' by year, data type, or region for improved performance.
 #'
 #' @seealso
-#' * \url{https://shark.smhi.se} – SHARK database portal
+#' * \url{https://shark.smhi.se/en} – SHARK database portal
 #' * [get_shark_options()] – Retrieve available filters
 #' * [get_shark_table_counts()] – Check table row counts before download
 #' * [get_shark_datasets()] – To download datasets as zip-archives
@@ -815,7 +815,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 #'   If `return_df = TRUE`, a single combined data frame with all
 #'   dataset contents, including a `source` column indicating the dataset.
 #'
-#' @seealso \url{https://shark.smhi.se} for SHARK database.
+#' @seealso \url{https://shark.smhi.se/en} for SHARK database.
 #' @seealso [get_shark_options()] for listing available datasets.
 #' @seealso [get_shark_data()] for downloading tabular data.
 #'
