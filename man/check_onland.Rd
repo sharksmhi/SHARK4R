@@ -16,7 +16,8 @@ check_onland(
 }
 \arguments{
 \item{data}{A data frame containing at least \code{sample_longitude_dd} and \code{sample_latitude_dd}.
-These columns must be numeric and within valid ranges (-180 to 180 for longitude, -90 to 90 for latitude).}
+Both columns must be numeric, within valid ranges (longitude: -180 to 180, latitude: -90 to 90),
+and use WGS84 coordinates (EPSG:4326).}
 
 \item{land}{Optional \code{sf} object containing land polygons. Used only in offline mode.}
 
@@ -26,7 +27,7 @@ If \code{FALSE} (default), returns a subset of \code{data} containing only recor
 \item{buffer}{Numeric; distance in meters inland for which points are still considered valid.
 Only used in online mode. Default is 0.}
 
-\item{offline}{Logical; if \code{TRUE}, the function uses the local cached shoreline. If \code{FALSE} (default),
+\item{offline}{Logical; if \code{TRUE}, the function uses the local cached shoreline (if available). If \code{FALSE} (default),
 the OBIS web service is queried.}
 
 \item{plot_leaflet}{Logical; if \code{TRUE}, returns a leaflet map showing points colored by
@@ -49,14 +50,18 @@ unless \code{only_bad = TRUE}, in which case only red points are plotted.
 }
 \description{
 Identifies records whose coordinates fall on land, optionally applying a buffer to allow
-points near the coast. The function supports both offline and online modes:
+points near the coast.
 }
 \details{
+The function supports both offline and online modes:
 \itemize{
 \item \strong{Offline mode (\code{offline = TRUE})}: uses a local simplified shoreline from a cached
 geopackage (\code{land.gpkg}). If the file does not exist, it is downloaded automatically and cached across R sessions.
 \item \strong{Online mode (\code{offline = FALSE})}: uses the OBIS web service to determine distance to the shore.
 }
+
+The function assumes all coordinates are in WGS84 (EPSG:4326). Supplying coordinates
+in a different CRS will result in incorrect intersection tests.
 
 Optionally, a leaflet map can be plotted. Points on land are displayed as red markers,
 while points in water are green. If \code{only_bad = TRUE}, only the red points (on land) are plotted.
