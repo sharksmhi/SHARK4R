@@ -33,9 +33,9 @@
 #' \enumerate{
 #'   \item **Missing depth column** → warning
 #'   \item **Empty depth column** (all values missing) → warning
-#'   \item **Non-numeric depth values** → error
-#'   \item **Depth exceeds bathymetry + margin** (`depthmargin`) → error
-#'   \item **Negative depth at offshore locations** (beyond `shoremargin`) → error
+#'   \item **Non-numeric depth values** → warning
+#'   \item **Depth exceeds bathymetry + margin** (`depthmargin`) → warning
+#'   \item **Negative depth at offshore locations** (beyond `shoremargin`) → warning
 #'   \item **Minimum depth greater than maximum depth** (if two columns supplied) → error
 #'   \item **Longitude/latitude outside raster bounds** → warning
 #'   \item **Missing bathymetry value** at coordinate → warning
@@ -225,7 +225,7 @@ check_depth_column <- function(result, data, column, lookupvalues, depthmargin, 
   }
 
   raw_vals <- data[[column]]
-  depths   <- as.numeric(as.character(raw_vals))
+  depths   <- suppressWarnings(as.numeric(as.character(raw_vals)))
 
   # empty column
   if (all(is.na(raw_vals) | raw_vals == "")) {

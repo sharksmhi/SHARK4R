@@ -68,9 +68,9 @@ The following checks are performed:
 \enumerate{
 \item \strong{Missing depth column} → warning
 \item \strong{Empty depth column} (all values missing) → warning
-\item \strong{Non-numeric depth values} → error
-\item \strong{Depth exceeds bathymetry + margin} (\code{depthmargin}) → error
-\item \strong{Negative depth at offshore locations} (beyond \code{shoremargin}) → error
+\item \strong{Non-numeric depth values} → warning
+\item \strong{Depth exceeds bathymetry + margin} (\code{depthmargin}) → warning
+\item \strong{Negative depth at offshore locations} (beyond \code{shoremargin}) → warning
 \item \strong{Minimum depth greater than maximum depth} (if two columns supplied) → error
 \item \strong{Longitude/latitude outside raster bounds} → warning
 \item \strong{Missing bathymetry value} at coordinate → warning

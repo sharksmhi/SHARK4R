@@ -2,8 +2,11 @@
 #'
 #' This function attempts to determine whether stations in a dataset are reported
 #' using nominal positions (i.e., generic or repeated coordinates across events),
-#' rather than actual measured coordinates. It compares the number of unique
-#' sampling dates with the number of unique station coordinates.
+#' rather than actual measured coordinates.
+#'
+#' @details
+#' The function compares the number of unique sampling dates with the number of
+#' unique station coordinates.
 #'
 #' If the number of unique sampling dates is larger than the number of unique
 #' station coordinates, the function suspects nominal station positions and
@@ -95,7 +98,8 @@ nominal_station <- function(data) {
 #' (\code{"station.txt"}), which is synced with "Stationsregistret":
 #' <https://stationsregister.miljodatasamverkan.se/>.
 #'
-#' This is useful for validating station names and identifying any unmatched
+#' @details
+#' This function is useful for validating station names and identifying any unmatched
 #' or misspelled entries.
 #'
 #' If \code{try_synonyms = TRUE}, unmatched station names are also compared
@@ -185,6 +189,7 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #' pre-defined distance limits. This helps ensure that station assignments
 #' are spatially consistent.
 #'
+#' @details
 #' Optionally, a leaflet map of stations can be plotted. SMHI stations that
 #' match the reported data are shown as blue circles, with their allowed
 #' radius visualized and displayed in the popup (e.g., "ST1 (Radius: 1000 m)").

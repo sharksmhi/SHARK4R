@@ -1,7 +1,7 @@
 Package: SHARK4R
 Title: Accessing and Validating Marine Environmental Data from 'SHARK' and
     Related Databases
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person("Markus", "Lindh", role = "aut",
            comment = c("Swedish Meteorological and Hydrological Institute", ORCID = "0000-0002-7120-4145")),

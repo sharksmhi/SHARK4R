@@ -32,7 +32,7 @@ Matches reported station names in your dataset against a curated station list
 \url{https://stationsregister.miljodatasamverkan.se/}.
 }
 \details{
-This is useful for validating station names and identifying any unmatched
+This function is useful for validating station names and identifying any unmatched
 or misspelled entries.
 
 If \code{try_synonyms = TRUE}, unmatched station names are also compared

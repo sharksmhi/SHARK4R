@@ -79,7 +79,7 @@ Multiple names can be matched with the `match_algaebase_taxa()` function. The sc
 shark_data <- get_shark_data(fromYear = 2015, 
                              toYear = 2015,
                              months = 4, 
-                             dataTypes = c("Phytoplankton"),
+                             dataTypes = "Phytoplankton",
                              verbose = FALSE)
 
 # Randomly select 10 rows from the shark_data dataframe

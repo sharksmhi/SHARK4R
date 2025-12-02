@@ -1,3 +1,15 @@
+# SHARK4R 1.0.1
+
+## Bug fixes and CRAN compliance
+
+* Corrected formatting of package and software names throughout the package.
+* Fixed broken URL in `README.md`.
+* Improved examples to run reliably and quickly.
+* Ensured functions and examples no longer write to the user's home directory.
+* Added `lon` and `lat` arguments to the `lookup_xy()` function for more flexible lookup options.
+* Minor documentation improvements throughout the package.
+* `get_toxin_list()` now handles partial JSON responses.
+
 # SHARK4R 1.0.0
 
 ## New features
@@ -30,7 +42,6 @@
 * Added `plot_leaflet` argument to functions `check_station_distance()` and `check_onland()`
 * Added `utv` argument to functions `get_shark_options()`, `get_shark_data()`, `get_shark_datasets()` and `get_shark_table_counts()`.
 * Added `add_rank_to_hierarchy` argument to the `add_worms_taxonomy()` function
-* Added `lon` and `lat` arguments to the `lookup_xy()` function for more flexible lookup options
 * `match_worms_taxa()` now handles bulk API requests using the `bulk` argument
 * Add SHARK4R Bio-QC Tool Shiny App to bundle, with improved performance (initialized by `run_qc_app()`)
 

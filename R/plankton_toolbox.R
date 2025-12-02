@@ -52,7 +52,7 @@ read_ptbx <- function(file_path, sheet = c("sample_data.txt", "sample_info.txt",
 #' Get the latest NOMP biovolume Excel list
 #'
 #' This function downloads the latest available Nordic Marine Phytoplankton Group (NOMP)
-#' biovolume zip archive from SMHI (using `cache_nomp_zip()`), unzips it, and reads the first
+#' biovolume zip archive from SMHI, unzips it, and reads the first
 #' Excel file by default. You can also specify which file in the archive to read.
 #'
 #' @param year Numeric year to download. Default is current year; if not available,

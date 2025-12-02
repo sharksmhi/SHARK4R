@@ -54,7 +54,7 @@ shark_data <- get_shark_data(tableView = "sharkdata_phytoplankton",
                              fromYear = 2015, 
                              toYear = 2015,
                              months = 7,
-                             dataTypes = c("Phytoplankton"),
+                             dataTypes = "Phytoplankton",
                              verbose = FALSE)
 
 # Print data
