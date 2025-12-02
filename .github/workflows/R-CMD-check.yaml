@@ -52,6 +52,11 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - name: Install spatial system libs on macOS
+        if: runner.os == 'macOS'
+        run: |
+          brew install proj gdal
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true

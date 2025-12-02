@@ -84,7 +84,8 @@ check_onland <- function(data, land = NULL, report = FALSE, buffer = 0, offline 
   }
 
   if (offline) {
-    data_vect <- data %>% terra::vect(geom = c("sample_longitude_dd", "sample_latitude_dd"), crs = "EPSG:4326")
+    data_vect <- data %>% terra::vect(geom = c("sample_longitude_dd", "sample_latitude_dd"))
+    terra::crs(data_vect) <- "EPSG:4326"
     i <- which(colSums(terra::relate(land, data_vect, "intersects")) > 0)
   } else {
     shoredistances <- lookup_xy(data, shoredistance = TRUE, grids = FALSE, areas = FALSE, as_data_frame = TRUE)
