@@ -39,7 +39,7 @@ a specified number of days.
 The cache is automatically cleared after 24h.
 }
 \examples{
-\dontrun{
+\donttest{
   # Remove files older than 60 days and clear session cache
   clean_shark4r_cache(days = 60)
 }

@@ -40,12 +40,10 @@ This function downloads the EG-Phyto (previously PEG) biovolume zip archive from
 You can also specify which file in the archive to read.
 }
 \examples{
-\dontrun{
+\donttest{
   # Read the first Excel file from the PEG zip
   peg_list <- get_peg_list()
-
-  # Read the latest list and clean old cache files older than 60 days
-  peg_list2 <- get_peg_list(clean_cache_days = 60)
+  head(peg_list)
 }
 }
 \seealso{

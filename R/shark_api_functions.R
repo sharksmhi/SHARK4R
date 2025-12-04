@@ -11,17 +11,16 @@
 #'
 #' @return A named `list` of available search options from the SHARK API.
 #'   If `unparsed = TRUE`, returns the raw JSON structure as a list.
-#'   If `unparsed = FALSE`, returns a simplified list of character or numeric vectors.
 #'
 #' @details
 #' This function sends a GET request to the `/api/options` endpoint of the SHARK API
 #' to retrieve available search filters and options that can be used in SHARK data queries.
 #'
 #' @seealso [get_shark_data()] for retrieving actual data from the SHARK API.
-#' @seealso \url{https://shark.smhi.se} for the SHARK database portal.
+#' @seealso \url{https://shark.smhi.se/en} for the SHARK database portal.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   # Retrieve available search options (simplified)
 #'   shark_options <- get_shark_options()
 #'   names(shark_options)
@@ -87,7 +86,7 @@ get_shark_options <- function(prod = TRUE, utv = FALSE, unparsed = FALSE) {
 }
 #' Retrieve SHARK data table row counts
 #'
-#' The `get_shark_table_counts` function retrieves the number of records (row counts)
+#' The `get_shark_table_counts()` function retrieves the number of records (row counts)
 #' from various SHARK data tables based on specified filters such as year, months,
 #' data type, stations, and taxa. To view available filter options, see
 #' \code{\link{get_shark_options}}.
@@ -149,7 +148,7 @@ get_shark_options <- function(prod = TRUE, utv = FALSE, unparsed = FALSE) {
 #' @param prod Logical. Select production server when `TRUE` (default). Ignored if `utv` is `TRUE`.
 #' @param utv Logical. Select UTV server when `TRUE`.
 #'
-#' @seealso \url{https://shark.smhi.se} for SHARK database.
+#' @seealso \url{https://shark.smhi.se/en} for SHARK database.
 #' @seealso \code{\link{get_shark_options}} to see filter options
 #' @seealso \code{\link{get_shark_data}} to download SHARK data
 #'
@@ -157,7 +156,7 @@ get_shark_options <- function(prod = TRUE, utv = FALSE, unparsed = FALSE) {
 #'   after applying the specified filters.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   # Retrieve chlorophyll data for April to June from 2019 to 2020
 #'   shark_data_counts <- get_shark_table_counts(fromYear = 2019, toYear = 2020,
 #'                                               months = c(4, 5, 6), dataTypes = c("Chlorophyll"))
@@ -249,7 +248,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #'
 #' The `get_shark_data()` function retrieves tabular data from the SHARK database hosted by SMHI. The function sends a POST request
 #' to the SHARK API with customizable filters, including year, month, taxon name, water category, and more, and returns the
-#' retrieved data as a structured `data.frame`. To view available filter options, see \code{\link{get_shark_options}}.
+#' retrieved data as a structured `tibble`. To view available filter options, see \code{\link{get_shark_options}}.
 #'
 #' @param tableView Character. Specifies the columns of the table to retrieve. Options include:
 #'   \itemize{
@@ -359,13 +358,13 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @param verbose Logical. Whether to display progress information. Default is TRUE.
 #'
 #' @return
-#' A `data.frame` (tibble) containing the retrieved SHARK data, parsed from
+#' A `tibble` containing the retrieved SHARK data, parsed from
 #' the API's delimited text response. Column types are inferred automatically.
 #'
 #' @details
 #' This function sends a POST request to the SHARK API with the specified filters.
 #' The API returns a delimited text file (e.g., tab- or semicolon-separated), which is
-#' downloaded and read into R as a `data.frame`. If the `row_limit` parameter is exceeded,
+#' downloaded and read into R as a `tibble`. If the `row_limit` parameter is exceeded,
 #' the data is retrieved in yearly chunks and combined into a single table. Adjusting the
 #' `row_limit` parameter may be necessary when retrieving large datasets or detailed reports.
 #' Note that making very large requests (e.g., retrieving the entire SHARK database)
@@ -377,17 +376,18 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' by year, data type, or region for improved performance.
 #'
 #' @seealso
-#' * \url{https://shark.smhi.se} – SHARK database portal
+#' * \url{https://shark.smhi.se/en} – SHARK database portal
 #' * [get_shark_options()] – Retrieve available filters
 #' * [get_shark_table_counts()] – Check table row counts before download
 #' * [get_shark_datasets()] – To download datasets as zip-archives
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   # Retrieve chlorophyll data from 2019 to 2020 for April to June
 #'   shark_data <- get_shark_data(fromYear = 2019, toYear = 2020,
-#'                                months = c(4, 5, 6), dataTypes = c("Chlorophyll"))
-#'   View(shark_data)
+#'                                months = c(4, 5, 6), dataTypes = "Chlorophyll",
+#'                                verbose = FALSE)
+#'   print(shark_data)
 #' }
 #'
 #' @export
@@ -677,6 +677,11 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     combined_data <- type_convert(combined_data, col_types = cols())
 
     if (save_data) {
+      dir_name <- dirname(file_path)
+      if (!dir.exists(dir_name)) {
+        dir.create(dir_name, recursive = TRUE, showWarnings = FALSE)
+      }
+
       utils::write.table(combined_data, file = file_path, sep = sep_char, row.names = FALSE, col.names = TRUE,
                          quote = FALSE, fileEncoding = content_encoding)
     }
@@ -784,8 +789,8 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 #'   `"SHARK_Phytoplankton_2023_SMHI_BVVF"` for a specific dataset,
 #'   or `"SHARK_Phytoplankton"` for all Phytoplankton datasets).
 #' @param save_dir Directory where zip files (and optionally their
-#'   extracted contents) should be stored. Defaults to `""`. If
-#'   `NULL` or `""`, the current working directory is used.
+#'   extracted contents) should be stored. Defaults to `NULL`. If
+#'   `NULL` or `""`, a temporary directory is used.
 #' @param prod Logical, whether to download from the production
 #'   (`TRUE`, default) or test (`FALSE`) SHARK server. Ignored if `utv` is `TRUE`.
 #' @param utv Logical. Select UTV server when `TRUE`.
@@ -794,6 +799,12 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 #' @param return_df Logical, whether to return a combined data frame
 #'   with the contents of all downloaded datasets (`TRUE`) instead
 #'   of a list of file paths (`FALSE`, default).
+#' @param encoding Character. File encoding of `shark_data.txt`. Options: `"cp1252"`, `"utf_8"`, `"utf_16"`, `"latin_1"`.
+#'   Default is `"latin_1"`. If `guess_encoding = TRUE`, detected encoding overrides this value.
+#'   Ignored if `return_df` is `FALSE`.
+#' @param guess_encoding Logical. If `TRUE` (default), automatically detect file encoding.
+#'   If `FALSE`, the function uses only the user-specified encoding.
+#'   Ignored if `return_df` is `FALSE`.
 #' @param verbose Logical, whether to show download and extraction
 #'   progress messages. Default is `TRUE`.
 #'
@@ -804,36 +815,40 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 #'   If `return_df = TRUE`, a single combined data frame with all
 #'   dataset contents, including a `source` column indicating the dataset.
 #'
-#' @seealso \url{https://shark.smhi.se} for SHARK database.
+#' @seealso \url{https://shark.smhi.se/en} for SHARK database.
 #' @seealso [get_shark_options()] for listing available datasets.
 #' @seealso [get_shark_data()] for downloading tabular data.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Get a specific dataset
-#' get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF")
+#' get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF", verbose = FALSE)
 #'
 #' # Get all Zooplankton datasets from 2022 and unzip them
 #' get_shark_datasets(
-#'   dataset_name = c("Zooplankton_2022"),
-#'   save_dir = "data",
-#'   unzip_file = TRUE
+#'   dataset_name = "Zooplankton_2022",
+#'   unzip_file = TRUE,
+#'   verbose = FALSE
 #' )
 #'
-#' # Get all Phytoplankton datasets and return as a combined data frame
+#' # Get all Chlorophyll datasets and return as a combined data frame
 #' combined_df <- get_shark_datasets(
-#'   dataset_name = "Phytoplankton_2023",
-#'   return_df = TRUE
+#'   dataset_name = "Chlorophyll",
+#'   return_df = TRUE,
+#'   verbose = FALSE
 #' )
+#' head(combined_df)
 #' }
 #'
 #' @export
 get_shark_datasets <- function(dataset_name,
-                               save_dir = "",
+                               save_dir = NULL,
                                prod = TRUE,
                                utv = FALSE,
                                unzip_file = FALSE,
                                return_df = FALSE,
+                               encoding = "latin_1",
+                               guess_encoding = TRUE,
                                verbose = TRUE) {
 
   if (missing(dataset_name) || length(dataset_name) == 0) {
@@ -847,7 +862,8 @@ get_shark_datasets <- function(dataset_name,
   })))
 
   if (length(matched_datasets) == 0) {
-    stop("No datasets found matching: ", paste(dataset_name, collapse = ", "))
+    warning("No datasets found matching: ", paste(dataset_name, collapse = ", "))
+    return(NULL)
   }
 
   # Select base URL depending on environment
@@ -868,7 +884,7 @@ get_shark_datasets <- function(dataset_name,
   }
 
   if (is.null(save_dir) || identical(save_dir, "") || nchar(save_dir) == 0) {
-    save_dir <- getwd()
+    save_dir <- tempdir()
   }
   save_dir <- normalizePath(path.expand(save_dir), winslash = "/", mustWork = FALSE)
   if (!dir.exists(save_dir)) dir.create(save_dir, recursive = TRUE, showWarnings = FALSE)
@@ -920,7 +936,7 @@ get_shark_datasets <- function(dataset_name,
       data_files <- file.path(gsub(".zip", "", zip_files), "shark_data.txt")
 
       # temp_dirs <- results
-      dfs <- map(data_files, ~ read_shark(.x, encoding = "latin_1"))
+      dfs <- map(data_files, ~ read_shark(.x, encoding = encoding, guess_encoding = guess_encoding))
     }
 
     # Make everything character first
@@ -988,15 +1004,17 @@ get_shark_datasets <- function(dataset_name,
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#'   # Uses previous 5 years automatically
-#'   res <- get_shark_statistics()
+#' \donttest{
+#' # Uses previous 5 years automatically, Chlorophyll data only
+#' res <- get_shark_statistics(datatype = "Chlorophyll", verbose = FALSE)
+#' print(res)
 #'
-#'   # Explicitly set years and datatype
-#'   res <- get_shark_statistics(2018, 2022, datatype = "Chlorophyll")
-#'
-#'   # Group by station name and save result in persistent cache
-#'   res <- get_shark_statistics(group_col = "station_name", cache_result = TRUE)
+#' # Group by station name and save result in persistent cache
+#' res_station <- get_shark_statistics(datatype = "Chlorophyll",
+#'                                     group_col = "station_name",
+#'                                     cache_result = TRUE,
+#'                                     verbose = FALSE)
+#' print(res_station)
 #' }
 get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL, group_col = NULL,
                                  min_obs = 3, max_non_numeric_frac = 0.05, cache_result = FALSE,

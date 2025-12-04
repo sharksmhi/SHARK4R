@@ -13,7 +13,7 @@ update_worms_taxonomy(aphia_id, aphiaid = deprecated())
 Use \code{aphia_id} instead.}
 }
 \value{
-A data frame containing updated WoRMS taxonomy information.
+A \code{tibble} containing updated WoRMS taxonomy information.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
@@ -21,10 +21,10 @@ A data frame containing updated WoRMS taxonomy information.
 This function was deprecated and replaced by a function with more accurate name. Use \code{\link[=add_worms_taxonomy]{add_worms_taxonomy()}} instead.
 
 This function collects WoRMS (World Register of Marine Species) taxonomy information for a given set of Aphia IDs.
-The data is organized into a full taxonomic table that can be joined with data downloaded from \href{https://shark.smhi.se/}{SHARK}.
+The data is organized into a full taxonomic table that can be joined with data downloaded from \href{https://shark.smhi.se/en/}{SHARK}.
 }
 \examples{
-\dontrun{
+\donttest{
 # Update WoRMS taxonomy for a set of Aphia IDs
 updated_taxonomy <- update_worms_taxonomy(c(149619, 149122, 11))
 print(updated_taxonomy)

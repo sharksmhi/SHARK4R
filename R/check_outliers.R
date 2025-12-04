@@ -71,7 +71,8 @@
 #'   parameter = "Param1",
 #'   datatype = "TypeA",
 #'   threshold_col = "extreme_upper",
-#'   thresholds = example_thresholds
+#'   thresholds = example_thresholds,
+#'   return_df = TRUE
 #' )
 #'
 #' # Check for values above "mild_upper"
@@ -80,7 +81,8 @@
 #'   parameter = "Param1",
 #'   datatype = "TypeA",
 #'   threshold_col = "mild_upper",
-#'   thresholds = example_thresholds
+#'   thresholds = example_thresholds,
+#'   return_df = TRUE
 #' )
 #'
 #' @export

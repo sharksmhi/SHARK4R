@@ -26,13 +26,9 @@ This workflow ensures SHARK data are consistent, valid, and ready for analysis. 
 
 ## Installation
 
-Install the latest version of SHARK4R from GitHub:
-
+You can install the latest version of `SHARK4R` from CRAN using:
 ```{r, eval=FALSE}
-# install.packages("remotes")
-remotes::install_github("sharksmhi/SHARK4R",
-                        ref = remotes::github_release(),
-                        dependencies = TRUE)
+install.packages("SHARK4R")
 ```
 
 Load the package along with `dplyr`:
@@ -238,7 +234,7 @@ For a more user-friendly interface, use the Shiny QC app:
 run_qc_app()
 
 # Alternative, download support files and knit documents locally
-check_setup()
+check_setup(path = tempdir()) # using a temp folder in this example
 ```
 
 The app provides point-and-click access to the same QC checks described above.

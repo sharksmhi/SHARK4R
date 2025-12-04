@@ -27,9 +27,11 @@ the function instead raises an error and lists the missing packages so they
 can be installed manually.
 }
 \examples{
-\dontrun{
+\donttest{
 # Launch the SHARK4R Bio-QC Tool
-run_qc_app()
+if(interactive()){
+  run_qc_app()
+}
 }
 
 }

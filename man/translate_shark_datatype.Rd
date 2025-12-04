@@ -14,5 +14,14 @@ Character vector of translated datatype names
 }
 \description{
 Converts user-facing datatype names (e.g., "Grey seal") to internal SHARK4R names
-(e.g., "GreySeal") based on \code{SHARK4R:::.type_lookup}.
+(e.g., "GreySeal") based on \code{SHARK4R:::.type_lookup}. See available user-facing
+datatypes in \code{get_shark_options()$dataTypes}.
+}
+\examples{
+# Example strings
+datatypes <- c("Grey seal", "Primary production", "Physical and Chemical")
+
+# Basic translation
+translate_shark_datatype(datatypes)
+
 }

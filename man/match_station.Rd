@@ -32,7 +32,7 @@ Matches reported station names in your dataset against a curated station list
 \url{https://stationsregister.miljodatasamverkan.se/}.
 }
 \details{
-This is useful for validating station names and identifying any unmatched
+This function is useful for validating station names and identifying any unmatched
 or misspelled entries.
 
 If \code{try_synonyms = TRUE}, unmatched station names are also compared
@@ -52,7 +52,10 @@ If \code{NODC_CONFIG} is set and the folder exists, the function will use
 bundled \code{station.zip} included in the \code{SHARK4R} package.
 }
 \examples{
+# Example stations
 stations <- c("ANHOLT E", "BY5 BORNHOLMSDJ", "STX999")
-match_station(stations, try_synonyms = TRUE)
+
+# Check if stations names are in stations.txt (including synonyms)
+match_station(stations, try_synonyms = TRUE, verbose = FALSE)
 
 }

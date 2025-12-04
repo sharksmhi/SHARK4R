@@ -25,7 +25,7 @@
 #'   and whether the in-memory session cache was cleared.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   # Remove files older than 60 days and clear session cache
 #'   clean_shark4r_cache(days = 60)
 #' }
@@ -79,14 +79,12 @@ clean_shark4r_cache <- function(days = 1,
 #' These folders contain Shiny applications and R Markdown documents used for
 #' quality control (QC) of SHARK data.
 #'
-#' By default, the folders are downloaded into the current working directory.
-#' If the folders already exist, the download will be skipped unless
+#' If the `path` folders already exist, the download will be skipped unless
 #' \code{force = TRUE} is specified. Optionally, the function can launch the
 #' QC Shiny app directly after setup.
 #'
-#' @param path Character string specifying the target directory where the
-#'   \code{products} folder should be stored.
-#'   Defaults to the current working directory (\code{"."}).
+#' @param path Character string giving the directory where the products folder
+#'   should be created. Must be provided by the user.
 #' @param run_app Logical, if \code{TRUE} runs the QC Shiny app located in the
 #'   \code{products} folder after setup. Default is \code{FALSE}.
 #' @param force Logical, if \code{TRUE} forces a re-download and overwrites
@@ -97,22 +95,21 @@ clean_shark4r_cache <- function(days = 1,
 #' @return An (invisible) list with the path to the local \code{products} folder:
 #'
 #' @examples
-#' \dontrun{
-#' # Download support files into current working directory
-#' check_setup()
-#'
-#' # Download into a specific folder in current working directory
-#' check_setup(path = "shark_qc")
+#' \donttest{
+#' # Download support files into a temporary directory
+#' check_setup(path = tempdir())
 #'
 #' # Force re-download if already present
-#' check_setup(force = TRUE)
+#' check_setup(path = tempdir(), force = TRUE)
 #'
 #' # Download and run the QC Shiny app
-#' check_setup(run_app = TRUE)
+#' if(interactive()){
+#'  check_setup(path = tempdir(), run_app = TRUE)
+#' }
 #' }
 #'
 #' @export
-check_setup <- function(path = ".", run_app = FALSE, force = FALSE, verbose = TRUE) {
+check_setup <- function(path, run_app = FALSE, force = FALSE, verbose = TRUE) {
   # Target folders
   products_dir <- file.path(path, "products")
 
@@ -162,10 +159,19 @@ check_setup <- function(path = ".", run_app = FALSE, force = FALSE, verbose = TR
 #' Translate SHARK4R datatype names
 #'
 #' Converts user-facing datatype names (e.g., "Grey seal") to internal SHARK4R names
-#' (e.g., "GreySeal") based on `SHARK4R:::.type_lookup`.
+#' (e.g., "GreySeal") based on `SHARK4R:::.type_lookup`. See available user-facing
+#' datatypes in `get_shark_options()$dataTypes`.
 #'
 #' @param x Character vector of datatype names to translate
 #' @return Character vector of translated datatype names
+#'
+#' @examples
+#' # Example strings
+#' datatypes <- c("Grey seal", "Primary production", "Physical and Chemical")
+#'
+#' # Basic translation
+#' translate_shark_datatype(datatypes)
+#'
 #' @export
 translate_shark_datatype <- function(x) {
   if (is.null(x)) return(NULL)
@@ -210,12 +216,14 @@ translate_shark_datatype <- function(x) {
 #' \code{\link{scatterplot}} for generating interactive plots with threshold values.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Load the default SHARK4R statistics file
-#' stats <- load_shark4r_stats()
+#' stats <- load_shark4r_stats(verbose = FALSE)
+#' print(stats)
 #'
 #' # Load a specific file
-#' thresholds <- load_shark4r_stats("scientific_name.rds")
+#' thresholds <- load_shark4r_stats("scientific_name.rds", verbose = FALSE)
+#' print(thresholds)
 #' }
 #'
 #' @export
@@ -282,14 +290,15 @@ load_shark4r_stats <- function(file_name = "sea_basin.rds",
 #' \code{\link{load_shark4r_stats}} for loading precomputed SHARK4R statistics,
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Load SHARK4R field definitions from GitHub
-#' fields <- load_shark4r_fields()
+#' fields <- load_shark4r_fields(verbose = FALSE)
 #'
-#' # Access required or recommended fields
-#' fields$required_fields
-#' fields$recommended_fields
-#'
+#' # Access required or recommended fields for the first entry
+#' fields[[1]]$required
+#' fields[[1]]$recommended
+#' }
+#' \dontrun{
 #' # Use the loaded definitions in check_fields()
 #' check_fields(my_data, field_definitions = fields)
 #' }

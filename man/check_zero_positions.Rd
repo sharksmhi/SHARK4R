@@ -37,7 +37,6 @@ table, a filtered data frame, or a logical vector highlighting problematic rows.
 It is useful as a data quality control step before spatial analyses or database imports.
 }
 \examples{
-\dontrun{
 # Example data
 df <- data.frame(
   station_name = c("A", "B", "C"),
@@ -45,17 +44,10 @@ df <- data.frame(
   sample_latitude_dd = c(56.3, 58.1, 0)
 )
 
-# Check for zero longitudes (default)
-check_zero_positions(df)
-
-# Check for zero latitudes
-check_zero_positions(df, coord = "latitude")
-
 # Check for zeroes in both coordinates and return as data.frame
 check_zero_positions(df, coord = "both", return_df = TRUE)
 
 # Return a logical vector instead of a table
 check_zero_positions(df, coord = "both", return_logical = TRUE)
-}
 
 }

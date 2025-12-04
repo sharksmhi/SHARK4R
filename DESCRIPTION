@@ -1,7 +1,7 @@
 Package: SHARK4R
-Title: Accessing and Validating Marine Environmental Data from SHARK and
+Title: Accessing and Validating Marine Environmental Data from 'SHARK' and
     Related Databases
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person("Markus", "Lindh", role = "aut",
            comment = c("Swedish Meteorological and Hydrological Institute", ORCID = "0000-0002-7120-4145")),
@@ -17,13 +17,13 @@ Authors@R: c(
   )
 Description: Provides functions to retrieve, process, analyze, and
     quality-control marine physical, chemical, and biological data. The
-    main focus is on Swedish monitoring data available through the SHARK
-    database <https://shark.smhi.se/>, with additional API support for Nordic
-    Microalgae <https://nordicmicroalgae.org/>, Dyntaxa
-    <https://artfakta.se/>, WoRMS <https://www.marinespecies.org>,
-    AlgaeBase <https://www.algaebase.org>, OBIS xylookup web service 
-    <https://iobis.github.io/xylookup/> and IOC-UNESCO databases on
-    harmful algae and toxins <https://www.marinespecies.org/hab/> and 
+    main focus is on Swedish monitoring data available through the 'SHARK'
+    database <https://shark.smhi.se/en/>, with additional API support for 'Nordic
+    Microalgae' <https://nordicmicroalgae.org/>, 'Dyntaxa'
+    <https://artfakta.se/>, World Register of Marine Species ('WoRMS') <https://www.marinespecies.org>,
+    'AlgaeBase' <https://www.algaebase.org>, OBIS 'xylookup' web service 
+    <https://iobis.github.io/xylookup/> and Intergovernmental Oceanographic Commission (IOC) - 
+    UNESCO databases on harmful algae  <https://www.marinespecies.org/hab/> and toxins
     <https://toxins.hais.ioc-unesco.org/>.
 License: MIT + file LICENSE
 URL: https://sharksmhi.github.io/SHARK4R/,

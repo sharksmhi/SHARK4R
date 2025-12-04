@@ -35,7 +35,7 @@ by a new download. Defaults to 30. Set to \code{NULL} to disable automatic clean
 \item{verbose}{Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.}
 }
 \value{
-A tibble with unique reported codes (after splitting comma-separated
+A \code{tibble} with unique reported codes (after splitting comma-separated
 entries) and a logical column \code{match_type} indicating if they exist in the
 SHARK codelist.
 }
@@ -45,7 +45,7 @@ dataset (e.g., project codes, ship codes, etc.) are present in the
 official SHARK codelist provided by SMHI. If a cell contains multiple codes
 separated by commas, each code is checked individually. The function downloads
 and caches the codelist if necessary, compares the reported values against
-the valid codes, and returns a tibble showing which codes matched.
+the valid codes, and returns a \code{tibble} showing which codes matched.
 Informative messages are printed if unmatched codes are found.
 }
 \seealso{

@@ -133,6 +133,9 @@ shinyServer(function(input, output, session) {
       ) %>%
         select(where(~ any(!is.na(.))))
 
+      # Convert types
+      df <- suppressWarnings(type.convert(df))
+
       dataset(df)
 
       dataset_path(file_path)
@@ -789,7 +792,10 @@ shinyServer(function(input, output, session) {
 
       nid <- showNotification("Matching taxa against WoRMS API...", duration = NULL)
 
-      worms_res <- match_worms_taxa(unique(shark_data()$scientific_name), marine_only = FALSE,
+      # Find unique names and remove NA
+      scientific_names <- unique(shark_data()$scientific_name)[!is.na(unique(shark_data()$scientific_name))]
+
+      worms_res <- match_worms_taxa(scientific_names, marine_only = FALSE,
                                     bulk = TRUE, verbose = FALSE) %>%
         distinct() %>%
         arrange(scientificname) %>%

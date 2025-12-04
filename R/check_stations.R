@@ -2,8 +2,11 @@
 #'
 #' This function attempts to determine whether stations in a dataset are reported
 #' using nominal positions (i.e., generic or repeated coordinates across events),
-#' rather than actual measured coordinates. It compares the number of unique
-#' sampling dates with the number of unique station coordinates.
+#' rather than actual measured coordinates.
+#'
+#' @details
+#' The function compares the number of unique sampling dates with the number of
+#' unique station coordinates.
 #'
 #' If the number of unique sampling dates is larger than the number of unique
 #' station coordinates, the function suspects nominal station positions and
@@ -71,7 +74,7 @@ check_nominal_station <- function(data, verbose = TRUE) {
 #'   Otherwise, returns \code{NULL}.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' df <- data.frame(
 #'   sample_date = rep(seq.Date(Sys.Date(), by = "day", length.out = 3), each = 2),
 #'   station_name = rep(c("ST1", "ST2"), 3),
@@ -95,7 +98,8 @@ nominal_station <- function(data) {
 #' (\code{"station.txt"}), which is synced with "Stationsregistret":
 #' <https://stationsregister.miljodatasamverkan.se/>.
 #'
-#' This is useful for validating station names and identifying any unmatched
+#' @details
+#' This function is useful for validating station names and identifying any unmatched
 #' or misspelled entries.
 #'
 #' If \code{try_synonyms = TRUE}, unmatched station names are also compared
@@ -130,8 +134,11 @@ nominal_station <- function(data) {
 #'   }
 #'
 #' @examples
+#' # Example stations
 #' stations <- c("ANHOLT E", "BY5 BORNHOLMSDJ", "STX999")
-#' match_station(stations, try_synonyms = TRUE)
+#'
+#' # Check if stations names are in stations.txt (including synonyms)
+#' match_station(stations, try_synonyms = TRUE, verbose = FALSE)
 #'
 #' @export
 match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbose = TRUE) {
@@ -182,6 +189,7 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #' pre-defined distance limits. This helps ensure that station assignments
 #' are spatially consistent.
 #'
+#' @details
 #' Optionally, a leaflet map of stations can be plotted. SMHI stations that
 #' match the reported data are shown as blue circles, with their allowed
 #' radius visualized and displayed in the popup (e.g., "ST1 (Radius: 1000 m)").
@@ -240,15 +248,21 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #' }
 #'
 #' @examples
-#' \dontrun{
+#' # Example data
 #' df <- data.frame(
 #'   station_name = c("ANHOLT E", "BY5 BORNHOLMSDJ", "NEW STATION"),
 #'   sample_longitude_dd = c(12.1, 15.97, 17.5),
 #'   sample_latitude_dd  = c(56.7, 55.25, 58.7)
 #' )
-#' check_station_distance(df, plot_leaflet = FALSE, try_synonyms = TRUE)
-#' check_station_distance(df, plot_leaflet = TRUE, only_bad = TRUE)
-#' }
+#'
+#' # Check station distance
+#' check_station_distance(df, try_synonyms = TRUE, verbose = FALSE)
+#'
+#' # Plot bad points in leaflet map
+#' map <- check_station_distance(df,
+#'                               plot_leaflet = TRUE,
+#'                               only_bad = TRUE,
+#'                               verbose = FALSE)
 #'
 #' @export
 check_station_distance <- function(data, station_file = NULL,

@@ -10,7 +10,7 @@ get_nua_taxa(unparsed = FALSE)
 \item{unparsed}{Logical. If \code{TRUE}, complete API response is returned as an unparsed list. Default is \code{FALSE}.}
 }
 \value{
-When unparsed = \code{FALSE}: a data frame containing the following columns:
+When unparsed = \code{FALSE}: a \code{tibble} containing the following columns:
 \item{slug}{A unique identifier for the taxon.}
 \item{scientific_name}{The scientific name of the taxon.}
 \item{authority}{The authority associated with the scientific name.}
@@ -21,7 +21,7 @@ This function retrieves all taxonomic information for algae taxa from the Nordic
 It fetches details including scientific names, authorities, ranks, and image URLs (in different sizes: large, medium, original, and small).
 }
 \examples{
-\dontrun{
+\donttest{
   # Retrieve and display taxa data
   taxa_data <- get_nua_taxa(unparsed = FALSE)
   head(taxa_data)

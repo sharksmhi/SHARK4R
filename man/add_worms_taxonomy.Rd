@@ -30,7 +30,7 @@ Use \code{aphia_ids} instead.}
 Use \code{scientific_names} instead.}
 }
 \value{
-A tibble with taxonomy columns added, including:
+A \code{tibble} with taxonomy columns added, including:
 \itemize{
 \item \code{aphia_id}, \code{scientific_name}
 \item \code{worms_kingdom}, \code{worms_phylum}, \code{worms_class}, \code{worms_order},
@@ -44,12 +44,15 @@ with their complete hierarchical taxonomy from the World Register of Marine Spec
 Missing AphiaIDs can be resolved from scientific names automatically.
 }
 \examples{
-\dontrun{
-add_worms_taxonomy(c(1080, 109604))
+\donttest{
+# Using AphiaID only
+add_worms_taxonomy(c(1080, 109604), verbose = FALSE)
 
+# Using a combination of AphiaID and scientific name
 add_worms_taxonomy(
   aphia_ids = c(NA, 109604),
-  scientific_names = c("Calanus finmarchicus", "Oithona similis")
+  scientific_names = c("Calanus finmarchicus", "Oithona similis"),
+  verbose = FALSE
 )
 }
 

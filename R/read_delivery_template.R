@@ -35,16 +35,20 @@
 #' @param clean_cache_days Numeric; if not `NULL`, cached template files older than
 #'   this number of days are deleted automatically. Default is 1.
 #'
-#' @return A data frame containing the delivery template. Column names are set
+#' @return A `tibble` containing the delivery template. Column names are set
 #'   from the header row.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Bacterioplankton abundance
-#' abun <- get_delivery_template("Bacterioplankton", bacterioplankton_subtype = "abundance")
+#' abun <- get_delivery_template("Bacterioplankton",
+#'                               bacterioplankton_subtype = "abundance")
+#'
+#' print(abun)
 #'
 #' # Bacterioplankton production
-#' prod <- get_delivery_template("Bacterioplankton", bacterioplankton_subtype = "production")
+#' prod <- get_delivery_template("Bacterioplankton",
+#'                               bacterioplankton_subtype = "production")
 #'
 #' # Phytoplankton template
 #' phyto <- get_delivery_template("Phytoplankton")
@@ -54,6 +58,8 @@
 #'                                                   sheet = 3,
 #'                                                   header_row = 4,
 #'                                                   skip = 3)
+#'
+#' print(phyto_column_explanation)
 #' }
 #'
 #' @export
@@ -224,7 +230,7 @@ get_delivery_template <- function(datatype,
 #' @return A character vector of column names that are required in the template.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Only single "*" required columns
 #' find_required_fields("Bacterioplankton")
 #'

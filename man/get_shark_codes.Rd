@@ -31,7 +31,7 @@ this number of days will be automatically deleted. Defaults to 30. Set to \code{
 to disable automatic cleanup.}
 }
 \value{
-A tibble containing the contents of the requested sheet.
+A \code{tibble} containing the contents of the requested sheet.
 }
 \description{
 This function downloads the SHARK codes Excel file from SMHI (if not already cached)
@@ -39,15 +39,13 @@ and reads it into R. The file is stored in a persistent cache directory
 so it does not need to be downloaded again in subsequent sessions.
 }
 \examples{
-\dontrun{
+\donttest{
   # Read the first sheet, skipping the first row
   codes <- get_shark_codes()
-
-  # Read second sheet without skipping rows
-  codes2 <- get_shark_codes(sheet = 2, skip = 0)
+  head(codes)
 
   # Force re-download of the Excel file
-  codes3 <- get_shark_codes(force = TRUE)
+  codes <- get_shark_codes(force = TRUE)
 }
 }
 \seealso{

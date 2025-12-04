@@ -18,21 +18,25 @@
 #'   in R Markdown or Shiny applications.
 #'
 #' @examples
-#' \dontrun{
+#' # Example data
 #' df <- data.frame(
 #'   station_name = c("Station A", "Station B"),
 #'   sample_longitude_dd = c(10.0, 10.5),
 #'   sample_latitude_dd = c(59.0, 59.5)
 #' )
-#' plot_map_leaflet(df)
 #'
+#' # Plot points on map
+#' map <- plot_map_leaflet(df)
+#'
+#' # Example data in SHARK delivery format
 #' df_deliv <- data.frame(
 #'   STATN = c("Station A", "Station B"),
 #'   LONGI = c(10.0, 10.5),
 #'   LATIT = c(59.0, 59.5)
 #' )
-#' plot_map_leaflet(df_deliv)
-#' }
+#'
+#' # Plot points on map
+#' map_deliv <- plot_map_leaflet(df_deliv)
 #'
 #' @export
 plot_map_leaflet <- function(data, provider = "CartoDB.Positron") {

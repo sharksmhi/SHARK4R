@@ -24,7 +24,7 @@ to each taxon name in the \code{worms_hierarchy} column. Only applies if
 and a progress bar during data retrieval.}
 }
 \value{
-A \code{data.frame} where each row corresponds to an input AphiaID. Typical
+A \code{tibble} where each row corresponds to an input AphiaID. Typical
 columns include:
 \describe{
 \item{aphia_id}{The AphiaID of the taxon (matches input).}
@@ -55,15 +55,25 @@ The function performs the following steps:
 }
 }
 \examples{
-\dontrun{
+\donttest{
 # Single AphiaID
-get_worms_classification(109604)
+single_taxa <- get_worms_classification(109604, verbose = FALSE)
+print(single_taxa)
 
 # Multiple AphiaIDs
-get_worms_classification(c(109604, 376667))
+multiple_taxa <- get_worms_classification(c(109604, 376667), verbose = FALSE)
+print(multiple_taxa)
 
 # Hierarchy with ranks in the string
-get_worms_classification(c(109604, 376667), add_rank_to_hierarchy = TRUE)
+with_rank <- get_worms_classification(c(109604, 376667),
+                                      add_rank_to_hierarchy = TRUE,
+                                      verbose = FALSE)
+
+# Print hierarchy columns with ranks
+print(with_rank$worms_hierarchy[1])
+
+# Compare with result when add_rank_to_hierarchy = FALSE
+print(multiple_taxa$worms_hierarchy[1])
 }
 
 }

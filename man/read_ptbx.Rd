@@ -18,7 +18,7 @@ read_ptbx(
 Default is "sample_data.txt".}
 }
 \value{
-A data frame containing the contents of the selected sheet.
+A \code{tibble} containing the contents of the selected sheet.
 }
 \description{
 This function reads a sample file exported as an Excel (.xlsx) file from Plankton Toolbox

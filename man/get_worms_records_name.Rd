@@ -30,7 +30,7 @@ get_worms_records_name(
 \item{verbose}{A logical indicating whether to print progress messages. Default is TRUE.}
 }
 \value{
-A data frame containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
+A \code{tibble} containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
@@ -46,7 +46,7 @@ If a request fails, it retries up to \code{max_retries} times, pausing for \code
 If all attempts fail, the function stops and throws an error.
 }
 \examples{
-\dontrun{
+\donttest{
 # Retrieve WoRMS records for the taxonomic names "Amphidinium" and "Karenia"
 records <- get_worms_records_name(c("Amphidinium", "Karenia"),
                                   max_retries = 3, sleep_time = 5, marine_only = TRUE)
