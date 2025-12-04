@@ -72,7 +72,7 @@ bundled `station.zip` included in the `SHARK4R` package.
 ``` r
 stations <- c("ANHOLT E", "BY5 BORNHOLMSDJ", "STX999")
 match_station(stations, try_synonyms = TRUE)
-#> Using station.txt from SHARK4R bundle: /tmp/Rtmp8R7im8/station.txt
+#> Using station.txt from SHARK4R bundle: /tmp/Rtmpwi1Ibe/station.txt
 #> WARNING: Unmatched stations found, check synonyms
 #>   reported_station_name match_type
 #> 1              ANHOLT E       TRUE
