@@ -69,7 +69,7 @@ records_bulk <- match_worms_taxa(c("Amphidinium", "Karenia", "Navicula"),
 
 }
 \seealso{
-\code{\link[=match_worms_taxa_interactive]{match_worms_taxa_interactive()}} to match taxa names interactively.
+\code{\link[=match_worms_taxa]{match_worms_taxa()}} to match taxa names interactively.
 
 \url{https://marinespecies.org/} for WoRMS website.
 

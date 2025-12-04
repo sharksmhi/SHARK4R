@@ -341,7 +341,7 @@ get_worms_records <- function(aphia_ids, max_retries = 3, sleep_time = 10, verbo
 #'                                  bulk = TRUE, marine_only = TRUE)
 #' }
 #'
-#' @seealso [match_worms_taxa_interactive()] to match taxa names interactively.
+#' @seealso [match_worms_taxa()] to match taxa names interactively.
 #' @seealso \url{https://marinespecies.org/} for WoRMS website.
 #' @seealso \url{https://CRAN.R-project.org/package=worrms}
 #'
