@@ -3,7 +3,6 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml)
 [![CRAN status](https://www.r-pkg.org/badges/version/SHARK4R)](https://CRAN.R-project.org/package=SHARK4R)
-[![CRAN checks](https://badges.cranchecks.info/worst/SHARK4R.svg)](https://cran.r-project.org/web/checks/check_results_SHARK4R.html)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![codecov](https://codecov.io/gh/sharksmhi/SHARK4R/graph/badge.svg?token=187ZJ0O9R8)](https://app.codecov.io/gh/sharksmhi/SHARK4R)
 <!-- badges: end -->
@@ -23,12 +22,15 @@ have been adapted for compatibility with the SHARK format.
 
 ## Installation
 
-You can install the latest version of `SHARK4R` from CRAN using:
+Installing `SHARK4R` requires the `remotes` package. Install the latest version of `SHARK4R` from GitHub:
 ```r
-install.packages("SHARK4R")
+# install.packages("remotes")
+remotes::install_github("sharksmhi/SHARK4R", 
+                        ref = remotes::github_release(),
+                        dependencies = TRUE)
 ```
 
-Or install the development version (requiring the `remotes` package):
+Or install the development version:
 ```r
 # install.packages("remotes")
 remotes::install_github("sharksmhi/SHARK4R", 
