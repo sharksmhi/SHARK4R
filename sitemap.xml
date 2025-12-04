@@ -108,6 +108,7 @@
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/check_zooplankton_wetweight_volume.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/clean_shark4r_cache.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/construct_dyntaxa_table.html</loc></url>
+<url><loc>https://sharksmhi.github.io/SHARK4R/reference/convert_ddmm_to_dd.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/defunct.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/find_required_fields.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_algaebase_genus.html</loc></url>
@@ -130,14 +131,17 @@
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_shark_statistics.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_shark_table_counts.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_toxin_list.html</loc></url>
+<url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_worms_classification.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_worms_records.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_worms_records_name.html</loc></url>
+<url><loc>https://sharksmhi.github.io/SHARK4R/reference/get_worms_taxonomy_tree.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/ifcb_is_near_land.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/ifcb_which_basin.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/index.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/is_in_dyntaxa.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/load_shark4r_fields.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/load_shark4r_stats.html</loc></url>
+<url><loc>https://sharksmhi.github.io/SHARK4R/reference/load_station_bundle.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/lookup_xy.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/match_algaebase.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/match_algaebase_genus.html</loc></url>
@@ -148,7 +152,6 @@
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/match_station.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/match_taxon_name.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/match_worms_taxa.html</loc></url>
-<url><loc>https://sharksmhi.github.io/SHARK4R/reference/match_worms_taxa_interactive.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/match_wormstaxa.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/nominal_station.html</loc></url>
 <url><loc>https://sharksmhi.github.io/SHARK4R/reference/parse_scientific_names.html</loc></url>

@@ -11,7 +11,7 @@ the most recent results, and including higher taxonomy details."><meta property=
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,12 +88,14 @@ the most recent results, and including higher taxonomy details.</p>
 <dd><p>A character string containing the API key for accessing the AlgaeBase API. By default, the key
 is read from the environment variable <code>ALGAEBASE_KEY</code>.</p>
 <p>You can provide the key in three ways:</p><ul><li><p><strong>Directly as a parameter</strong>:
-<code>match_algaebase_species("Skeletonema", "marinoi", subscription_key = "your_key_here")</code></p></li>
+<code>match_algaebase_species("Skeletonema", "marinoi", subscription_key = "your_key_here")</code>.</p></li>
 <li><p><strong>Temporarily for the session</strong>:
-<code>Sys.setenv(ALGAEBASE_KEY = "your_key_here")</code></p></li>
+<code>Sys.setenv(ALGAEBASE_KEY = "your_key_here")</code>.
+After this, you do not need to pass <code>subscription_key</code> to the function.</p></li>
 <li><p><strong>Permanently across sessions</strong> by adding it to your <code>~/.Renviron</code> file.
 Use <code>usethis::edit_r_environ()</code> to open the file, then add:
-<code>ALGAEBASE_KEY=your_key_here</code></p></li>
+<code>ALGAEBASE_KEY=your_key_here</code>.
+After this, you do not need to pass <code>subscription_key</code> to the function.</p></li>
 </ul></dd>
 
 
@@ -162,7 +164,7 @@ and formats the output for easy use. It can merge higher taxonomy data if reques
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,64 +48,91 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="shark4r-development-version">SHARK4R (development version)<a class="anchor" aria-label="anchor" href="#shark4r-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.0.0" id="shark4r-100">SHARK4R 1.0.0<a class="anchor" aria-label="anchor" href="#shark4r-100"></a></h2>
 <div class="section level3">
-<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li>Add new functions: <code><a href="../reference/get_delivery_template.html">get_delivery_template()</a></code> and <code><a href="../reference/find_required_fields.html">find_required_fields()</a></code> to get SHARK delivery templates and required fields from the web.</li>
-<li>Add new function <code><a href="../reference/get_shark_datasets.html">get_shark_datasets()</a></code> to retrieve available SHARK datasets from API.</li>
-<li>Add new function <code><a href="../reference/get_nomp_list.html">get_nomp_list()</a></code> to download and read the latest NOMP biovolume Excel lists.</li>
-<li>Add new function <code><a href="../reference/get_peg_list.html">get_peg_list()</a></code> to download and read the PEG biovolume Excel list.</li>
-<li>Add new function <code><a href="../reference/read_ptbx.html">read_ptbx()</a></code> to read Plankton Toolbox files.</li>
-<li>Add new function <code><a href="../reference/get_shark_codes.html">get_shark_codes()</a></code> to download and read the current SHARK code lists.</li>
-<li>Add new function <code><a href="../reference/clean_shark4r_cache.html">clean_shark4r_cache()</a></code> to clear cached files.</li>
-<li>Add new function <code><a href="../reference/check_setup.html">check_setup()</a></code> and <code><a href="../reference/run_qc_app.html">run_qc_app()</a></code> to download and run SHARK QC scripts and Shiny App.</li>
-<li>Add new function <code><a href="../reference/get_shark_statistics.html">get_shark_statistics()</a></code> to download SHARK data and extract summary statistics for numeric parameters.</li>
-<li>Add new function <code><a href="../reference/translate_shark_datatype.html">translate_shark_datatype()</a></code> to translate user-facing datatype names to internal SHARK4R names.</li>
-<li>Add new function <code><a href="../reference/load_shark4r_stats.html">load_shark4r_stats()</a></code> to download and load precomputed SHARK4R statistical datasets (e.g., threshold or summary statistics) from a GitHub repository.</li>
-<li>Add new function <code><a href="../reference/load_shark4r_fields.html">load_shark4r_fields()</a></code> to download and load fields definitions from a GitHub repository.</li>
+<h3 id="new-features-1-0-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-0-0"></a></h3>
+<ul><li>Add new functions: <code><a href="../reference/get_delivery_template.html">get_delivery_template()</a></code> and <code><a href="../reference/find_required_fields.html">find_required_fields()</a></code> to get SHARK delivery templates and required fields from the web</li>
+<li>Add new function <code><a href="../reference/get_shark_datasets.html">get_shark_datasets()</a></code> to retrieve available SHARK datasets from API</li>
+<li>Add new function <code><a href="../reference/get_nomp_list.html">get_nomp_list()</a></code> to download and read the latest NOMP biovolume Excel lists</li>
+<li>Add new function <code><a href="../reference/get_peg_list.html">get_peg_list()</a></code> to download and read the PEG biovolume Excel list</li>
+<li>Add new function <code><a href="../reference/read_ptbx.html">read_ptbx()</a></code> to read Plankton Toolbox files</li>
+<li>Add new function <code><a href="../reference/get_shark_codes.html">get_shark_codes()</a></code> to download and read the current SHARK code lists</li>
+<li>Add new function <code><a href="../reference/clean_shark4r_cache.html">clean_shark4r_cache()</a></code> to clear cached files</li>
+<li>Add new function <code><a href="../reference/check_setup.html">check_setup()</a></code> and <code><a href="../reference/run_qc_app.html">run_qc_app()</a></code> to download and run SHARK QC scripts and Shiny App</li>
+<li>Add new function <code><a href="../reference/get_shark_statistics.html">get_shark_statistics()</a></code> to download SHARK data and extract summary statistics for numeric parameters</li>
+<li>Add new function <code><a href="../reference/translate_shark_datatype.html">translate_shark_datatype()</a></code> to translate user-facing datatype names to internal SHARK4R names</li>
+<li>Add new function <code><a href="../reference/load_shark4r_stats.html">load_shark4r_stats()</a></code> to download and load precomputed SHARK4R statistical datasets (e.g., threshold or summary statistics) from a GitHub repository</li>
+<li>Add new function <code><a href="../reference/load_shark4r_fields.html">load_shark4r_fields()</a></code> to download and load fields definitions from a GitHub repository</li>
+<li>Add new function <code><a href="../reference/get_worms_classification.html">get_worms_classification()</a></code> to retrieve higher taxonomic information from WoRMS records</li>
+<li>Add new function <code><a href="../reference/get_worms_taxonomy_tree.html">get_worms_taxonomy_tree()</a></code> to retrieve and constructs a hierarchical taxonomy tree from WoRMS records</li>
+<li>Add new function <code><a href="../reference/convert_ddmm_to_dd.html">convert_ddmm_to_dd()</a></code> to convert coordinates from DDMM format to decimal degrees</li>
 </ul></div>
 <div class="section level3">
-<h3 id="enhancements-development-version">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-development-version"></a></h3>
-<ul><li>Re-export functions from the <code>iRfcb</code> package: <code><a href="../reference/which_basin.html">which_basin()</a></code> and <code><a href="../reference/positions_are_near_land.html">positions_are_near_land()</a></code>.</li>
-<li>Cache downloaded DwCA files in <code><a href="../reference/get_dyntaxa_dwca.html">get_dyntaxa_dwca()</a></code>, <code><a href="../reference/get_shark_codes.html">get_shark_codes()</a></code>, <code><a href="../reference/get_nomp_list.html">get_nomp_list()</a></code> and <code><a href="../reference/get_peg_list.html">get_peg_list()</a></code> to avoid repeated downloads.</li>
-<li>Add unit tests for the majority of the package functions.</li>
-<li>Update and correct <code><a href="../reference/check_depth.html">check_depth()</a></code>.</li>
-<li>Fix bugs in check_* functions.</li>
-<li>Fix various documentation issues.</li>
-<li>Updated several OBIS-dependent functions using <code><a href="../reference/lookup_xy.html">lookup_xy()</a></code>.</li>
-<li>Updated <code><a href="../reference/scatterplot.html">scatterplot()</a></code> function to allow plotting of multiple parameters.</li>
-<li>Added <code>plot_leaflet</code> argument to functions <code><a href="../reference/check_station_distance.html">check_station_distance()</a></code> and <code><a href="../reference/check_onland.html">check_onland()</a></code>.</li>
+<h3 id="enhancements-1-0-0">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-1-0-0"></a></h3>
+<ul><li>Re-export functions from the <code>iRfcb</code> package: <code><a href="../reference/which_basin.html">which_basin()</a></code> and <code><a href="../reference/positions_are_near_land.html">positions_are_near_land()</a></code>
+</li>
+<li>Cache downloaded DwCA files in <code><a href="../reference/get_dyntaxa_dwca.html">get_dyntaxa_dwca()</a></code>, <code><a href="../reference/get_shark_codes.html">get_shark_codes()</a></code>, <code><a href="../reference/get_nomp_list.html">get_nomp_list()</a></code> and <code><a href="../reference/get_peg_list.html">get_peg_list()</a></code> to avoid repeated downloads</li>
+<li>Add unit tests for the majority of the package functions</li>
+<li>Update and correct <code><a href="../reference/check_depth.html">check_depth()</a></code>
+</li>
+<li>Fix bugs in check_* functions</li>
+<li>Fix various documentation issues</li>
+<li>Updated several OBIS-dependent functions using <code><a href="../reference/lookup_xy.html">lookup_xy()</a></code>
+</li>
+<li>Updated <code><a href="../reference/scatterplot.html">scatterplot()</a></code> function to allow plotting of multiple parameters</li>
+<li>Updated <code><a href="../reference/match_worms_taxa.html">match_worms_taxa()</a></code> function to clean taxon names from problematic special characters before being passed to API call</li>
+<li>Added <code>plot_leaflet</code> argument to functions <code><a href="../reference/check_station_distance.html">check_station_distance()</a></code> and <code><a href="../reference/check_onland.html">check_onland()</a></code>
+</li>
+<li>Added <code>utv</code> argument to functions <code><a href="../reference/get_shark_options.html">get_shark_options()</a></code>, <code><a href="../reference/get_shark_data.html">get_shark_data()</a></code>, <code><a href="../reference/get_shark_datasets.html">get_shark_datasets()</a></code> and <code><a href="../reference/get_shark_table_counts.html">get_shark_table_counts()</a></code>.</li>
+<li>Added <code>add_rank_to_hierarchy</code> argument to the <code><a href="../reference/add_worms_taxonomy.html">add_worms_taxonomy()</a></code> function</li>
 <li>
-<code><a href="../reference/match_worms_taxa.html">match_worms_taxa()</a></code> now handles bulk API requests using the <code>bulk</code> argument.</li>
-<li>Add SHARK4R Bio-QC Tool Shiny App to bundle, with improved performance (initialized by <code><a href="../reference/run_qc_app.html">run_qc_app()</a></code>).</li>
+<code><a href="../reference/match_worms_taxa.html">match_worms_taxa()</a></code> now handles bulk API requests using the <code>bulk</code> argument</li>
+<li>Add SHARK4R Bio-QC Tool Shiny App to bundle, with improved performance (initialized by <code><a href="../reference/run_qc_app.html">run_qc_app()</a></code>)</li>
 </ul></div>
 <div class="section level3">
-<h3 id="deprecated-development-version">Deprecated<a class="anchor" aria-label="anchor" href="#deprecated-development-version"></a></h3>
+<h3 id="deprecated-1-0-0">Deprecated<a class="anchor" aria-label="anchor" href="#deprecated-1-0-0"></a></h3>
 <ul><li>Deprecated functions: <code><a href="../reference/ifcb_is_near_land.html">ifcb_is_near_land()</a></code> and <code><a href="../reference/ifcb_which_basin.html">ifcb_which_basin()</a></code> (replaced by re-exported functions with improved cache behavior)</li>
-<li>Deprecated functions: <code><a href="../reference/get_algaebase_species.html">get_algaebase_species()</a></code>, <code><a href="../reference/get_algaebase_genus.html">get_algaebase_genus()</a></code> and <code><a href="../reference/match_algaebase.html">match_algaebase()</a></code> are now replaced by <code><a href="../reference/match_algaebase_species.html">match_algaebase_species()</a></code>, <code><a href="../reference/match_algaebase_genus.html">match_algaebase_genus()</a></code> and <code><a href="../reference/match_algaebase_taxa.html">match_algaebase_taxa()</a></code>.</li>
-<li>Deprecated functions: Parameter and datatype-specific <code>check_*_*_logical()</code> functions replaced by general functions <code>check_parameter_rules</code> and <code><a href="../reference/check_logical_parameter.html">check_logical_parameter()</a></code> function.</li>
-<li>Deprecated functions: Datatype-specific field check functions <code>check_*()</code> and <code>check_*_deliv()</code> replaced by a general <code><a href="../reference/check_fields.html">check_fields()</a></code> function.</li>
-<li>Deprecated functions: Parameter and datatype-specific <code>check_*_*()</code> functions to check for outliers replaced by a general <code><a href="../reference/check_outliers.html">check_outliers()</a></code> function.</li>
-<li>Deprecated functions: <code><a href="../reference/shark_read_deliv.html">shark_read_deliv()</a></code> and <code><a href="../reference/shark_read_deliv_xls.html">shark_read_deliv_xls()</a></code> are now replaced by <code><a href="../reference/read_shark_deliv.html">read_shark_deliv()</a></code>.</li>
-<li>Deprecated functions: <code><a href="../reference/shark_read.html">shark_read()</a></code> and <code><a href="../reference/shark_read_zip.html">shark_read_zip()</a></code> are now replaced by <code><a href="../reference/read_shark.html">read_shark()</a></code>.</li>
-<li>Deprecated function: <code><a href="../reference/match_dyntaxa.html">match_dyntaxa()</a></code> is now replaced by <code><a href="../reference/is_in_dyntaxa.html">is_in_dyntaxa()</a></code>.</li>
-<li>Deprecated function: <code><a href="../reference/plot_map_leaflet_deliv.html">plot_map_leaflet_deliv()</a></code> is now replaced by <code><a href="../reference/plot_map_leaflet.html">plot_map_leaflet()</a></code>.</li>
-<li>Deprecated function: <code><a href="../reference/check_code_proj.html">check_code_proj()</a></code> is now replaced by <code><a href="../reference/check_codes.html">check_codes()</a></code>.</li>
-<li>Deprecated function: <code><a href="../reference/match_taxon_name.html">match_taxon_name()</a></code> is now replaced by <code><a href="../reference/match_dyntaxa_taxa.html">match_dyntaxa_taxa()</a></code>.</li>
-<li>Deprecated function: <code><a href="../reference/get_worms_records_name.html">get_worms_records_name()</a></code> is now replaced by <code><a href="../reference/match_worms_taxa.html">match_worms_taxa()</a></code>.</li>
-<li>Deprecated function: <code><a href="../reference/nominal_station.html">nominal_station()</a></code> is now replaced by <code><a href="../reference/check_nominal_station.html">check_nominal_station()</a></code>.</li>
-<li>Deprecated function: <code><a href="../reference/match_wormstaxa.html">match_wormstaxa()</a></code> is now replaced by <code><a href="../reference/match_worms_taxa_interactive.html">match_worms_taxa_interactive()</a></code>.</li>
+<li>Deprecated functions: <code><a href="../reference/get_algaebase_species.html">get_algaebase_species()</a></code>, <code><a href="../reference/get_algaebase_genus.html">get_algaebase_genus()</a></code> and <code><a href="../reference/match_algaebase.html">match_algaebase()</a></code> are now replaced by <code><a href="../reference/match_algaebase_species.html">match_algaebase_species()</a></code>, <code><a href="../reference/match_algaebase_genus.html">match_algaebase_genus()</a></code> and <code><a href="../reference/match_algaebase_taxa.html">match_algaebase_taxa()</a></code>
+</li>
+<li>Deprecated functions: Parameter and datatype-specific <code>check_*_*_logical()</code> functions replaced by general functions <code>check_parameter_rules</code> and <code><a href="../reference/check_logical_parameter.html">check_logical_parameter()</a></code> function</li>
+<li>Deprecated functions: Datatype-specific field check functions <code>check_*()</code> and <code>check_*_deliv()</code> replaced by a general <code><a href="../reference/check_fields.html">check_fields()</a></code> function</li>
+<li>Deprecated functions: Parameter and datatype-specific <code>check_*_*()</code> functions to check for outliers replaced by a general <code><a href="../reference/check_outliers.html">check_outliers()</a></code> function</li>
+<li>Deprecated functions: <code><a href="../reference/shark_read_deliv.html">shark_read_deliv()</a></code> and <code><a href="../reference/shark_read_deliv_xls.html">shark_read_deliv_xls()</a></code> are now replaced by <code><a href="../reference/read_shark_deliv.html">read_shark_deliv()</a></code>
+</li>
+<li>Deprecated functions: <code><a href="../reference/shark_read.html">shark_read()</a></code> and <code><a href="../reference/shark_read_zip.html">shark_read_zip()</a></code> are now replaced by <code><a href="../reference/read_shark.html">read_shark()</a></code>
+</li>
+<li>Deprecated function: <code><a href="../reference/match_dyntaxa.html">match_dyntaxa()</a></code> is now replaced by <code><a href="../reference/is_in_dyntaxa.html">is_in_dyntaxa()</a></code>
+</li>
+<li>Deprecated function: <code><a href="../reference/plot_map_leaflet_deliv.html">plot_map_leaflet_deliv()</a></code> is now replaced by <code><a href="../reference/plot_map_leaflet.html">plot_map_leaflet()</a></code>
+</li>
+<li>Deprecated function: <code><a href="../reference/check_code_proj.html">check_code_proj()</a></code> is now replaced by <code><a href="../reference/check_codes.html">check_codes()</a></code>
+</li>
+<li>Deprecated function: <code><a href="../reference/match_taxon_name.html">match_taxon_name()</a></code> is now replaced by <code><a href="../reference/match_dyntaxa_taxa.html">match_dyntaxa_taxa()</a></code>
+</li>
+<li>Deprecated function: <code><a href="../reference/get_worms_records_name.html">get_worms_records_name()</a></code> is now replaced by <code><a href="../reference/match_worms_taxa.html">match_worms_taxa()</a></code>
+</li>
+<li>Deprecated function: <code><a href="../reference/nominal_station.html">nominal_station()</a></code> is now replaced by <code><a href="../reference/check_nominal_station.html">check_nominal_station()</a></code>
+</li>
+<li>Deprecated function: <code><a href="../reference/match_wormstaxa.html">match_wormstaxa()</a></code> is now replaced by <code><a href="../reference/match_worms_taxa.html">match_worms_taxa()</a></code>
+</li>
 <li>Deprecated argument: <code>apikey</code> replaced by <code>subscription_key</code> in <code><a href="../reference/get_algaebase_genus.html">get_algaebase_genus()</a></code>, <code><a href="../reference/get_algaebase_species.html">get_algaebase_species()</a></code> and <code><a href="../reference/match_algaebase.html">match_algaebase()</a></code>
+</li>
+<li>Deprecated argument: <code>aphia_id</code> replaced by <code>aphia_ids</code> in <code><a href="../reference/get_worms_records.html">get_worms_records()</a></code> and <code><a href="../reference/add_worms_taxonomy.html">add_worms_taxonomy()</a></code>
+</li>
+<li>Deprecated argument: <code>scientific_name</code> replaced by <code>scientific_names</code> in <code><a href="../reference/add_worms_taxonomy.html">add_worms_taxonomy()</a></code> and <code><a href="../reference/parse_scientific_names.html">parse_scientific_names()</a></code>
+</li>
+<li>Deprecated argument: <code>genus</code> replaced by <code>genera</code> in <code><a href="../reference/match_algaebase_taxa.html">match_algaebase_taxa()</a></code>
 </li>
 </ul></div>
 <div class="section level3">
-<h3 id="defunct--removed-development-version">Defunct / Removed<a class="anchor" aria-label="anchor" href="#defunct--removed-development-version"></a></h3>
-<ul><li>Defunct function <code>get_shark_table()</code>.</li>
+<h3 id="defunct--removed-1-0-0">Defunct / Removed<a class="anchor" aria-label="anchor" href="#defunct--removed-1-0-0"></a></h3>
+<ul><li>Defunct function <code>get_shark_table()</code>
+</li>
 </ul></div>
 <div class="section level3">
-<h3 id="documentation-development-version">Documentation<a class="anchor" aria-label="anchor" href="#documentation-development-version"></a></h3>
-<ul><li>Add <code>NEWS.md</code> file.</li>
-<li>Add spell check.</li>
+<h3 id="documentation-1-0-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-0-0"></a></h3>
+<ul><li>Add <code>NEWS.md</code> file</li>
+<li>Add spell check</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -172,7 +199,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

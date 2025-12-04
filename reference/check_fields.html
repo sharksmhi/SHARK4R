@@ -13,7 +13,7 @@ also checks for recommended fields and empty values within them.'><meta property
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,7 +110,7 @@ should contain two character vectors: <code>required</code> and <code>recommende
 Defaults to the package's built-in <code>SHARK4R:::.field_definitions</code>.
 Alternatively, the latest definitions can be loaded directly from the
 official SHARK4R GitHub repository using
-<code><a href="load_shark4r_fields.html">load_shark4r_fields</a>()</code>.</p></dd>
+<code><a href="load_shark4r_fields.html">load_shark4r_fields()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -149,7 +149,7 @@ To use the most up-to-date field definitions, you can load them directly from th
 </ol><p><strong>Delivery-format (all-caps) data:</strong>
 If the column names in <code>data</code> are all uppercase (e.g. SDATE), <code>check_fields()</code> assumes
 the dataset follows the official SHARK delivery template. In this case:</p><ul><li><p>Required fields are determined from the delivery template using
-<code><a href="get_delivery_template.html">get_delivery_template</a>()</code> and <code><a href="find_required_fields.html">find_required_fields</a>()</code>.</p></li>
+<code><a href="get_delivery_template.html">get_delivery_template()</a></code> and <code><a href="find_required_fields.html">find_required_fields()</a></code>.</p></li>
 <li><p>Recommended fields are ignored because the delivery templates do not define them.</p></li>
 <li><p>The function validates that all required columns exist and contain non-empty values.</p></li>
 </ul><p>This ensures that both internal <code>SHARK4R</code> datasets (with camelCase or snake_case columns)
@@ -222,7 +222,7 @@ columns to include.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

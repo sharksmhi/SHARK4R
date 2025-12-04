@@ -11,7 +11,7 @@ and manages cases involving varieties, subspecies, or invalid species names. Spe
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,11 +61,12 @@ and manages cases involving varieties, subspecies, or invalid species names. Spe
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">parse_scientific_names</span><span class="op">(</span></span>
-<span>  <span class="va">scientific_name</span>,</span>
+<span>  <span class="va">scientific_names</span>,</span>
 <span>  remove_undesired_descriptors <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  remove_subspecies <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  remove_invalid_species <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span></span>
+<span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span>,</span>
+<span>  scientific_name <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -73,7 +74,7 @@ and manages cases involving varieties, subspecies, or invalid species names. Spe
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-scientific-name">scientific_name<a class="anchor" aria-label="anchor" href="#arg-scientific-name"></a></dt>
+<dl><dt id="arg-scientific-names">scientific_names<a class="anchor" aria-label="anchor" href="#arg-scientific-names"></a></dt>
 <dd><p>A character vector containing scientific names, which may include binomials, additional descriptors, or varieties.</p></dd>
 
 
@@ -91,6 +92,11 @@ and manages cases involving varieties, subspecies, or invalid species names. Spe
 
 <dt id="arg-encoding">encoding<a class="anchor" aria-label="anchor" href="#arg-encoding"></a></dt>
 <dd><p>A string specifying the encoding to be used for the input names (e.g., 'UTF-8'). Default is 'UTF-8'.</p></dd>
+
+
+<dt id="arg-scientific-name">scientific_name<a class="anchor" aria-label="anchor" href="#arg-scientific-name"></a></dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a>
+Use <code>scientific_names</code> instead.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -132,7 +138,7 @@ are excluded from this column.</p></li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

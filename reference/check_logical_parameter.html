@@ -3,7 +3,7 @@
 by applying a user-defined condition to values for a given parameter.
 It is intended to replace the old family of check_*_*_logical() functions."><meta property="og:description" content="This function checks for logical rule violations in benthos/epibenthos data
 by applying a user-defined condition to values for a given parameter.
-It is intended to replace the old family of check_*_*_logical() functions."><meta property="og:image" content="https://sharksmhi.github.io/SHARK4R/logo.png"><!-- dependencies from examples --><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet"><script src="libs/datatables-binding-0.34.0/datatables.js"></script><link href="libs/dt-core-bootstrap-1.13.6/css/dataTables.bootstrap.min.css" rel="stylesheet"><link href="libs/dt-core-bootstrap-1.13.6/css/dataTables.bootstrap.extra.css" rel="stylesheet"><script src="libs/dt-core-bootstrap-1.13.6/js/jquery.dataTables.min.js"></script><script src="libs/dt-core-bootstrap-1.13.6/js/dataTables.bootstrap.min.js"></script><link href="libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet"><script src="libs/crosstalk-1.2.2/js/crosstalk.min.js"></script></head><body>
+It is intended to replace the old family of check_*_*_logical() functions."><meta property="og:image" content="https://sharksmhi.github.io/SHARK4R/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -11,7 +11,7 @@ It is intended to replace the old family of check_*_*_logical() functions."><met
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,10 +111,11 @@ Overrides return_df.</p></dd>
 <span class="r-in"><span>  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="op">-</span><span class="fl">2</span>, <span class="fl">10</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># 1. Check that Biomass is never negative (returns DT datatable by default)</span></span></span>
 <span class="r-in"><span><span class="fu">check_logical_parameter</span><span class="op">(</span><span class="va">df</span>, <span class="st">"Biomass"</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">0</span><span class="op">)</span></span></span>
-<div id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:700px;height:432.632880098888px;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"style":"bootstrap","filter":"none","vertical":false,"data":[["1"],["A2"],["2023-05-02"],[102],["Biomass"],[-2]],"container":"<table class=\"table table-striped table-hover row-border order-column display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>station_name<\/th>\n      <th>sample_date<\/th>\n      <th>sample_id<\/th>\n      <th>parameter<\/th>\n      <th>value<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[3,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"station_name","targets":1},{"name":"sample_date","targets":2},{"name":"sample_id","targets":3},{"name":"parameter","targets":4},{"name":"value","targets":5}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># 2. Same check, but return problematic rows as a data frame</span></span></span>
 <span class="r-in"><span><span class="fu">check_logical_parameter</span><span class="op">(</span><span class="va">df</span>, <span class="st">"Biomass"</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">0</span>, return_df <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
@@ -140,7 +141,7 @@ Overrides return_df.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

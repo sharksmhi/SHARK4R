@@ -11,7 +11,7 @@ all names at once using a bulk API call or iterate over names individually."><me
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,6 +68,7 @@ all names at once using a bulk API call or iterate over names individually.</p>
 <span>  sleep_time <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  marine_only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  bulk <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  chunk_size <span class="op">=</span> <span class="fl">500</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -105,6 +106,11 @@ all names at once using a bulk API call or iterate over names individually.</p>
 <dd><p>Logical indicating whether to perform a bulk API call for all unique names at once. Default is FALSE.</p></dd>
 
 
+<dt id="arg-chunk-size">chunk_size<a class="anchor" aria-label="anchor" href="#arg-chunk-size"></a></dt>
+<dd><p>Integer specifying the maximum number of taxa per bulk API request. Default is 500.
+Only used when <code>bulk = TRUE</code>. WoRMS API may reject very large requests, so chunking prevents overload.</p></dd>
+
+
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Logical indicating whether to print progress messages. Default is TRUE.</p></dd>
 
@@ -121,10 +127,12 @@ Repeated taxa in the input are preserved in the output.</p>
 <li><p>If <code>bulk = FALSE</code>, the function iterates over names individually, optionally using fuzzy matching.</p></li>
 <li><p>The function retries failed requests up to <code>max_retries</code> times, pausing for <code>sleep_time</code> seconds between attempts.</p></li>
 <li><p>Names for which no records are found will have <code>status = "no content"</code> and <code>AphiaID = NA</code>.</p></li>
+<li><p>Names are cleaned before being passed to the API call by converting them to UTF-8, replacing problematic symbols with spaces,
+removing trailing periods, collapsing extra spaces and by trimming whitespace.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="match_worms_taxa_interactive.html">match_worms_taxa_interactive()</a></code> to match taxa names interactively.</p>
+    <div class="dont-index"><p><code>match_worms_taxa()</code> to match taxa names interactively.</p>
 <p><a href="https://marinespecies.org/" class="external-link">https://marinespecies.org/</a> for WoRMS website.</p>
 <p><a href="https://CRAN.R-project.org/package=worrms" class="external-link">https://CRAN.R-project.org/package=worrms</a></p></div>
     </div>
@@ -152,7 +160,7 @@ Repeated taxa in the input are preserved in the output.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

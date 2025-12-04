@@ -1,0 +1,263 @@
+# Changelog
+
+## SHARK4R 1.0.0
+
+### New features
+
+- Add new functions:
+  [`get_delivery_template()`](https://sharksmhi.github.io/SHARK4R/reference/get_delivery_template.md)
+  and
+  [`find_required_fields()`](https://sharksmhi.github.io/SHARK4R/reference/find_required_fields.md)
+  to get SHARK delivery templates and required fields from the web
+- Add new function
+  [`get_shark_datasets()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_datasets.md)
+  to retrieve available SHARK datasets from API
+- Add new function
+  [`get_nomp_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_nomp_list.md)
+  to download and read the latest NOMP biovolume Excel lists
+- Add new function
+  [`get_peg_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_peg_list.md)
+  to download and read the PEG biovolume Excel list
+- Add new function
+  [`read_ptbx()`](https://sharksmhi.github.io/SHARK4R/reference/read_ptbx.md)
+  to read Plankton Toolbox files
+- Add new function
+  [`get_shark_codes()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_codes.md)
+  to download and read the current SHARK code lists
+- Add new function
+  [`clean_shark4r_cache()`](https://sharksmhi.github.io/SHARK4R/reference/clean_shark4r_cache.md)
+  to clear cached files
+- Add new function
+  [`check_setup()`](https://sharksmhi.github.io/SHARK4R/reference/check_setup.md)
+  and
+  [`run_qc_app()`](https://sharksmhi.github.io/SHARK4R/reference/run_qc_app.md)
+  to download and run SHARK QC scripts and Shiny App
+- Add new function
+  [`get_shark_statistics()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_statistics.md)
+  to download SHARK data and extract summary statistics for numeric
+  parameters
+- Add new function
+  [`translate_shark_datatype()`](https://sharksmhi.github.io/SHARK4R/reference/translate_shark_datatype.md)
+  to translate user-facing datatype names to internal SHARK4R names
+- Add new function
+  [`load_shark4r_stats()`](https://sharksmhi.github.io/SHARK4R/reference/load_shark4r_stats.md)
+  to download and load precomputed SHARK4R statistical datasets (e.g.,
+  threshold or summary statistics) from a GitHub repository
+- Add new function
+  [`load_shark4r_fields()`](https://sharksmhi.github.io/SHARK4R/reference/load_shark4r_fields.md)
+  to download and load fields definitions from a GitHub repository
+- Add new function
+  [`get_worms_classification()`](https://sharksmhi.github.io/SHARK4R/reference/get_worms_classification.md)
+  to retrieve higher taxonomic information from WoRMS records
+- Add new function
+  [`get_worms_taxonomy_tree()`](https://sharksmhi.github.io/SHARK4R/reference/get_worms_taxonomy_tree.md)
+  to retrieve and constructs a hierarchical taxonomy tree from WoRMS
+  records
+- Add new function
+  [`convert_ddmm_to_dd()`](https://sharksmhi.github.io/SHARK4R/reference/convert_ddmm_to_dd.md)
+  to convert coordinates from DDMM format to decimal degrees
+
+### Enhancements
+
+- Re-export functions from the `iRfcb` package:
+  [`which_basin()`](https://sharksmhi.github.io/SHARK4R/reference/which_basin.md)
+  and
+  [`positions_are_near_land()`](https://sharksmhi.github.io/SHARK4R/reference/positions_are_near_land.md)
+- Cache downloaded DwCA files in
+  [`get_dyntaxa_dwca()`](https://sharksmhi.github.io/SHARK4R/reference/get_dyntaxa_dwca.md),
+  [`get_shark_codes()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_codes.md),
+  [`get_nomp_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_nomp_list.md)
+  and
+  [`get_peg_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_peg_list.md)
+  to avoid repeated downloads
+- Add unit tests for the majority of the package functions
+- Update and correct
+  [`check_depth()`](https://sharksmhi.github.io/SHARK4R/reference/check_depth.md)
+- Fix bugs in check\_\* functions
+- Fix various documentation issues
+- Updated several OBIS-dependent functions using
+  [`lookup_xy()`](https://sharksmhi.github.io/SHARK4R/reference/lookup_xy.md)
+- Updated
+  [`scatterplot()`](https://sharksmhi.github.io/SHARK4R/reference/scatterplot.md)
+  function to allow plotting of multiple parameters
+- Updated
+  [`match_worms_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_worms_taxa.md)
+  function to clean taxon names from problematic special characters
+  before being passed to API call
+- Added `plot_leaflet` argument to functions
+  [`check_station_distance()`](https://sharksmhi.github.io/SHARK4R/reference/check_station_distance.md)
+  and
+  [`check_onland()`](https://sharksmhi.github.io/SHARK4R/reference/check_onland.md)
+- Added `utv` argument to functions
+  [`get_shark_options()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_options.md),
+  [`get_shark_data()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_data.md),
+  [`get_shark_datasets()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_datasets.md)
+  and
+  [`get_shark_table_counts()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_table_counts.md).
+- Added `add_rank_to_hierarchy` argument to the
+  [`add_worms_taxonomy()`](https://sharksmhi.github.io/SHARK4R/reference/add_worms_taxonomy.md)
+  function
+- [`match_worms_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_worms_taxa.md)
+  now handles bulk API requests using the `bulk` argument
+- Add SHARK4R Bio-QC Tool Shiny App to bundle, with improved performance
+  (initialized by
+  [`run_qc_app()`](https://sharksmhi.github.io/SHARK4R/reference/run_qc_app.md))
+
+### Deprecated
+
+- Deprecated functions:
+  [`ifcb_is_near_land()`](https://sharksmhi.github.io/SHARK4R/reference/ifcb_is_near_land.md)
+  and
+  [`ifcb_which_basin()`](https://sharksmhi.github.io/SHARK4R/reference/ifcb_which_basin.md)
+  (replaced by re-exported functions with improved cache behavior)
+- Deprecated functions:
+  [`get_algaebase_species()`](https://sharksmhi.github.io/SHARK4R/reference/get_algaebase_species.md),
+  [`get_algaebase_genus()`](https://sharksmhi.github.io/SHARK4R/reference/get_algaebase_genus.md)
+  and
+  [`match_algaebase()`](https://sharksmhi.github.io/SHARK4R/reference/match_algaebase.md)
+  are now replaced by
+  [`match_algaebase_species()`](https://sharksmhi.github.io/SHARK4R/reference/match_algaebase_species.md),
+  [`match_algaebase_genus()`](https://sharksmhi.github.io/SHARK4R/reference/match_algaebase_genus.md)
+  and
+  [`match_algaebase_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_algaebase_taxa.md)
+- Deprecated functions: Parameter and datatype-specific
+  `check_*_*_logical()` functions replaced by general functions
+  `check_parameter_rules` and
+  [`check_logical_parameter()`](https://sharksmhi.github.io/SHARK4R/reference/check_logical_parameter.md)
+  function
+- Deprecated functions: Datatype-specific field check functions
+  `check_*()` and `check_*_deliv()` replaced by a general
+  [`check_fields()`](https://sharksmhi.github.io/SHARK4R/reference/check_fields.md)
+  function
+- Deprecated functions: Parameter and datatype-specific `check_*_*()`
+  functions to check for outliers replaced by a general
+  [`check_outliers()`](https://sharksmhi.github.io/SHARK4R/reference/check_outliers.md)
+  function
+- Deprecated functions:
+  [`shark_read_deliv()`](https://sharksmhi.github.io/SHARK4R/reference/shark_read_deliv.md)
+  and
+  [`shark_read_deliv_xls()`](https://sharksmhi.github.io/SHARK4R/reference/shark_read_deliv_xls.md)
+  are now replaced by
+  [`read_shark_deliv()`](https://sharksmhi.github.io/SHARK4R/reference/read_shark_deliv.md)
+- Deprecated functions:
+  [`shark_read()`](https://sharksmhi.github.io/SHARK4R/reference/shark_read.md)
+  and
+  [`shark_read_zip()`](https://sharksmhi.github.io/SHARK4R/reference/shark_read_zip.md)
+  are now replaced by
+  [`read_shark()`](https://sharksmhi.github.io/SHARK4R/reference/read_shark.md)
+- Deprecated function:
+  [`match_dyntaxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_dyntaxa.md)
+  is now replaced by
+  [`is_in_dyntaxa()`](https://sharksmhi.github.io/SHARK4R/reference/is_in_dyntaxa.md)
+- Deprecated function:
+  [`plot_map_leaflet_deliv()`](https://sharksmhi.github.io/SHARK4R/reference/plot_map_leaflet_deliv.md)
+  is now replaced by
+  [`plot_map_leaflet()`](https://sharksmhi.github.io/SHARK4R/reference/plot_map_leaflet.md)
+- Deprecated function:
+  [`check_code_proj()`](https://sharksmhi.github.io/SHARK4R/reference/check_code_proj.md)
+  is now replaced by
+  [`check_codes()`](https://sharksmhi.github.io/SHARK4R/reference/check_codes.md)
+- Deprecated function:
+  [`match_taxon_name()`](https://sharksmhi.github.io/SHARK4R/reference/match_taxon_name.md)
+  is now replaced by
+  [`match_dyntaxa_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_dyntaxa_taxa.md)
+- Deprecated function:
+  [`get_worms_records_name()`](https://sharksmhi.github.io/SHARK4R/reference/get_worms_records_name.md)
+  is now replaced by
+  [`match_worms_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_worms_taxa.md)
+- Deprecated function:
+  [`nominal_station()`](https://sharksmhi.github.io/SHARK4R/reference/nominal_station.md)
+  is now replaced by
+  [`check_nominal_station()`](https://sharksmhi.github.io/SHARK4R/reference/check_nominal_station.md)
+- Deprecated function:
+  [`match_wormstaxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_wormstaxa.md)
+  is now replaced by
+  [`match_worms_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_worms_taxa.md)
+- Deprecated argument: `apikey` replaced by `subscription_key` in
+  [`get_algaebase_genus()`](https://sharksmhi.github.io/SHARK4R/reference/get_algaebase_genus.md),
+  [`get_algaebase_species()`](https://sharksmhi.github.io/SHARK4R/reference/get_algaebase_species.md)
+  and
+  [`match_algaebase()`](https://sharksmhi.github.io/SHARK4R/reference/match_algaebase.md)
+- Deprecated argument: `aphia_id` replaced by `aphia_ids` in
+  [`get_worms_records()`](https://sharksmhi.github.io/SHARK4R/reference/get_worms_records.md)
+  and
+  [`add_worms_taxonomy()`](https://sharksmhi.github.io/SHARK4R/reference/add_worms_taxonomy.md)
+- Deprecated argument: `scientific_name` replaced by `scientific_names`
+  in
+  [`add_worms_taxonomy()`](https://sharksmhi.github.io/SHARK4R/reference/add_worms_taxonomy.md)
+  and
+  [`parse_scientific_names()`](https://sharksmhi.github.io/SHARK4R/reference/parse_scientific_names.md)
+- Deprecated argument: `genus` replaced by `genera` in
+  [`match_algaebase_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_algaebase_taxa.md)
+
+### Defunct / Removed
+
+- Defunct function `get_shark_table()`
+
+### Documentation
+
+- Add `NEWS.md` file
+- Add spell check
+
+## SHARK4R 0.1.7
+
+- Add option to specify `row_limits` in
+  [`get_shark_data()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_data.md)
+  to retrieve data in yearly chunks
+- Add functions to call APIs to retrieve IOC HAB and IOC IPHAB Toxin
+  lists:
+  [`get_hab_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_hab_list.md)
+  and
+  [`get_toxin_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_toxin_list.md)
+
+## SHARK4R 0.1.6
+
+Patch release
+
+- Fix issue [\#16](https://github.com/sharksmhi/SHARK4R/issues/16)
+- Add unparsed output option for `get_shark_option()`
+
+## SHARK4R 0.1.5
+
+Patch release
+
+- Fix issues with
+  [`construct_dyntaxa_table()`](https://sharksmhi.github.io/SHARK4R/reference/construct_dyntaxa_table.md)
+- Fix parsing issue in
+  [`get_shark_data()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_data.md)
+- Add more custom groups to `assign_plankton_group()`
+- Add more flexibility to
+  [`get_shark_data()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_data.md)
+  parameters, e.g. boundary and year ranges
+
+## SHARK4R 0.1.4
+
+- Add algaebase API functions
+- Defunct sharkdata functions
+- Fix parsing issue in shark_data when data are reported as “-”, which
+  is now a NA pattern
+- Cleanup of large files
+- UTF-8 encoding
+
+## SHARK4R 0.1.3
+
+- Minor bug-fixes and updated documentation
+
+## SHARK4R 0.1.2
+
+- Patch release
+
+## SHARK4R 0.1.1
+
+- Fix download of large datasets
+- Add more WoRMS functionality, including plankton group assignment
+
+## SHARK4R 0.1.0
+
+- Add SHARK API functionality
+- Improve Dyntaxa API functionality
+- Fix documentation issues
+
+## SHARK4R 0.0.1
+
+- Initial development version.

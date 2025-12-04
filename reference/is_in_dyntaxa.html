@@ -11,7 +11,7 @@ with taxon names, taxon IDs, and match status."><meta property="og:image" conten
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,12 +81,14 @@ with taxon names, taxon IDs, and match status.</p>
 <dd><p>A Dyntaxa API subscription key. By default, the key
 is read from the environment variable <code>DYNTAXA_KEY</code>.</p>
 <p>You can provide the key in three ways:</p><ul><li><p><strong>Directly as a parameter</strong>:
-<code>is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")</code></p></li>
+<code>is_in_dyntaxa("Skeletonema marinoi", subscription_key = "your_key_here")</code>.</p></li>
 <li><p><strong>Temporarily for the session</strong>:
-<code>Sys.setenv(DYNTAXA_KEY = "your_key_here")</code></p></li>
+<code>Sys.setenv(DYNTAXA_KEY = "your_key_here")</code>.
+After this, you do not need to pass <code>subscription_key</code> to the function.</p></li>
 <li><p><strong>Permanently across sessions</strong> by adding it to your <code>~/.Renviron</code> file.
 Use <code>usethis::edit_r_environ()</code> to open the file, then add:
-<code>DYNTAXA_KEY=your_key_here</code></p></li>
+<code>DYNTAXA_KEY=your_key_here</code>.
+After this, you do not need to pass <code>subscription_key</code> to the function.</p></li>
 </ul></dd>
 
 
@@ -95,7 +97,7 @@ Use <code>usethis::edit_r_environ()</code> to open the file, then add:
 
 
 <dt id="arg-return-df">return_df<a class="anchor" aria-label="anchor" href="#arg-return-df"></a></dt>
-<dd><p>Logical; if TRUE, returns a data frame with columns <code>taxon_names</code>,
+<dd><p>Logical; if TRUE, returns a data frame with columns <code>taxon_name</code>,
 <code>taxon_id</code>, and <code>match</code>. Default is FALSE (returns a logical vector).</p></dd>
 
 
@@ -107,7 +109,7 @@ Use <code>usethis::edit_r_environ()</code> to open the file, then add:
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>If <code>return_df = FALSE</code> (default), a logical vector indicating whether each input
 name was found in Dyntaxa. Returned invisibly if <code>verbose = TRUE</code>.
-If <code>return_df = TRUE</code>, a data frame with columns:</p><ul><li><p><code>taxon_names</code>: original input names</p></li>
+If <code>return_df = TRUE</code>, a data frame with columns:</p><ul><li><p><code>taxon_name</code>: original input names</p></li>
 <li><p><code>taxon_id</code>: corresponding Dyntaxa taxon IDs (NA if not found)</p></li>
 <li><p><code>match</code>: logical indicating presence in Dyntaxa</p></li>
 </ul></div>
@@ -146,7 +148,7 @@ You can request a free key for the "Taxonomy" service from the ArtDatabanken API
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

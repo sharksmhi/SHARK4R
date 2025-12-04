@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,14 +51,12 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
       <h3 id="shark">SHARK<a class="anchor" aria-label="anchor" href="#shark"></a></h3>
       <div class="section-desc"><p>These functions are used to retrieve and read data from SHARK</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -68,56 +66,62 @@
           <code><a href="get_shark_options.html">get_shark_options()</a></code>
 
         </dt>
-        <dd>Retrieve available search options from SHARK API</dd>
-      </dl><dl><dt>
+        <dd>Retrieve available search options from SHARK</dd>
+
+        <dt>
 
           <code><a href="get_shark_codes.html">get_shark_codes()</a></code>
 
         </dt>
         <dd>Get SHARK codelist from SMHI</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_shark_data.html">get_shark_data()</a></code>
 
         </dt>
-        <dd>Retrieve data from the SHARK API</dd>
-      </dl><dl><dt>
+        <dd>Retrieve tabular data from SHARK</dd>
+
+        <dt>
 
           <code><a href="get_shark_datasets.html">get_shark_datasets()</a></code>
 
         </dt>
         <dd>Download SHARK dataset zip archives</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_shark_statistics.html">get_shark_statistics()</a></code>
 
         </dt>
         <dd>Summarize numeric SHARK parameters with ranges and outlier thresholds</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_shark_table_counts.html">get_shark_table_counts()</a></code>
 
         </dt>
         <dd>Retrieve SHARK data table row counts</dd>
-      </dl><dl><dt>
 
-          <code><a href="read_shark_deliv.html">read_shark_deliv()</a></code>
-
-        </dt>
-        <dd>Read SHARK Excel delivery files (.xls or .xlsx)</dd>
-      </dl><dl><dt>
+        <dt>
 
           <code><a href="read_shark.html">read_shark()</a></code>
 
         </dt>
         <dd>Read SHARK export files (tab- or semicolon-delimited, plain text or zipped)</dd>
+
+        <dt>
+
+          <code><a href="read_shark_deliv.html">read_shark_deliv()</a></code>
+
+        </dt>
+        <dd>Read SHARK Excel delivery files (.xls or .xlsx)</dd>
       </dl></div><div class="section level2">
 
       <h3 id="dyntaxa">Dyntaxa<a class="anchor" aria-label="anchor" href="#dyntaxa"></a></h3>
       <div class="section-desc"><p>These functions are used to retrieve data from the Dyntaxa API</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -127,50 +131,55 @@
           <code><a href="construct_dyntaxa_table.html">construct_dyntaxa_table()</a></code>
 
         </dt>
-        <dd>Construct Dyntaxa taxonomy table from API</dd>
-      </dl><dl><dt>
+        <dd>Construct a hierarchical taxonomy table from Dyntaxa</dd>
+
+        <dt>
 
           <code><a href="get_dyntaxa_dwca.html">get_dyntaxa_dwca()</a></code>
 
         </dt>
         <dd>Download and read Darwin Core Archive files from Dyntaxa</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_dyntaxa_parent_ids.html">get_dyntaxa_parent_ids()</a></code>
 
         </dt>
-        <dd>Get parent taxon IDs for specified taxon IDs from SLU Artdatabanken API (Dyntaxa)</dd>
-      </dl><dl><dt>
+        <dd>Get parent taxon IDs for specified taxon IDs from Dyntaxa</dd>
+
+        <dt>
 
           <code><a href="get_dyntaxa_records.html">get_dyntaxa_records()</a></code>
 
         </dt>
-        <dd>Get taxonomic information from SLU Artdatabanken API for specified taxon IDs</dd>
-      </dl><dl><dt>
+        <dd>Get taxonomic information from Dyntaxa for specified taxon IDs</dd>
+
+        <dt>
 
           <code><a href="is_in_dyntaxa.html">is_in_dyntaxa()</a></code>
 
         </dt>
         <dd>Check if taxon names exist in Dyntaxa</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="match_dyntaxa_taxa.html">match_dyntaxa_taxa()</a></code>
 
         </dt>
-        <dd>Match Dyntaxa taxon names via API</dd>
-      </dl><dl><dt>
+        <dd>Match Dyntaxa taxon names</dd>
+
+        <dt>
 
           <code><a href="update_dyntaxa_taxonomy.html">update_dyntaxa_taxonomy()</a></code>
 
         </dt>
-        <dd>Update taxonomy from SHARK via SLU Artdatabanken API (Dyntaxa)</dd>
+        <dd>Update SHARK taxonomy records using Dyntaxa</dd>
       </dl></div><div class="section level2">
 
       <h3 id="worms">WoRMS<a class="anchor" aria-label="anchor" href="#worms"></a></h3>
       <div class="section-desc"><p>These functions are used to retrieve data from the WoRMS API</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -180,38 +189,48 @@
           <code><a href="add_worms_taxonomy.html">add_worms_taxonomy()</a></code>
 
         </dt>
-        <dd>Retrieve and organize WoRMS taxonomy for SHARK Aphia IDs</dd>
-      </dl><dl><dt>
+        <dd>Add WoRMS taxonomy hierarchy to AphiaIDs or scientific names</dd>
+
+        <dt>
 
           <code><a href="assign_phytoplankton_group.html">assign_phytoplankton_group()</a></code>
 
         </dt>
         <dd>Assign phytoplankton group to scientific names</dd>
-      </dl><dl><dt>
+
+        <dt>
+
+          <code><a href="get_worms_classification.html">get_worms_classification()</a></code>
+
+        </dt>
+        <dd>Retrieve hierarchical classification from WoRMS</dd>
+
+        <dt>
 
           <code><a href="get_worms_records.html">get_worms_records()</a></code>
 
         </dt>
         <dd>Retrieve WoRMS records</dd>
-      </dl><dl><dt>
+
+        <dt>
+
+          <code><a href="get_worms_taxonomy_tree.html">get_worms_taxonomy_tree()</a></code>
+
+        </dt>
+        <dd>Retrieve hierarchical taxonomy data from WoRMS</dd>
+
+        <dt>
 
           <code><a href="match_worms_taxa.html">match_worms_taxa()</a></code>
 
         </dt>
         <dd>Retrieve WoRMS records by taxonomic names with retry logic</dd>
-      </dl><dl><dt>
-
-          <code><a href="match_worms_taxa_interactive.html">match_worms_taxa_interactive()</a></code>
-
-        </dt>
-        <dd>Interactive taxon matching using WoRMS</dd>
       </dl></div><div class="section level2">
 
       <h3 id="algaebase">AlgaeBase<a class="anchor" aria-label="anchor" href="#algaebase"></a></h3>
       <div class="section-desc"><p>These functions are used to retrieve data from the AlgaeBase API</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -222,19 +241,22 @@
 
         </dt>
         <dd>Search AlgaeBase for information about a genus of algae</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="match_algaebase_species.html">match_algaebase_species()</a></code>
 
         </dt>
         <dd>Search AlgaeBase for information about a species of algae</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="match_algaebase_taxa.html">match_algaebase_taxa()</a></code>
 
         </dt>
         <dd>Search AlgaeBase for taxonomic information</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="parse_scientific_names.html">parse_scientific_names()</a></code>
 
@@ -245,8 +267,7 @@
       <h3 id="ioc-unesco-hab">IOC-UNESCO HAB<a class="anchor" aria-label="anchor" href="#ioc-unesco-hab"></a></h3>
       <div class="section-desc"><p>These functions are used to retrieve data from the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae and the IOC-UNESCO Toxins database.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -257,7 +278,8 @@
 
         </dt>
         <dd>Download the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_toxin_list.html">get_toxin_list()</a></code>
 
@@ -268,8 +290,7 @@
       <h3 id="nordic-microalgae">Nordic Microalgae<a class="anchor" aria-label="anchor" href="#nordic-microalgae"></a></h3>
       <div class="section-desc"><p>These functions are used to retrieve data from the Nordic Microalgae API</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -280,19 +301,22 @@
 
         </dt>
         <dd>Retrieve external links or facts for taxa from Nordic Microalgae</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_nua_harmfulness.html">get_nua_harmfulness()</a></code>
 
         </dt>
         <dd>Retrieve harmfulness for taxa from Nordic Microalgae</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_nua_media_links.html">get_nua_media_links()</a></code>
 
         </dt>
         <dd>Retrieve and extract media URLs from Nordic Microalgae</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_nua_taxa.html">get_nua_taxa()</a></code>
 
@@ -301,10 +325,9 @@
       </dl></div><div class="section level2">
 
       <h3 id="plankton-toolbox">Plankton Toolbox<a class="anchor" aria-label="anchor" href="#plankton-toolbox"></a></h3>
-      <div class="section-desc"><p>These functions are used to read data exported from Plankton Toolbox</p></div>
+      <div class="section-desc"><p>These functions are used to read data related to Plankton Toolbox</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -315,13 +338,15 @@
 
         </dt>
         <dd>Get the latest NOMP biovolume Excel list</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_peg_list.html">get_peg_list()</a></code>
 
         </dt>
-        <dd>Get PEG biovolume Excel list</dd>
-      </dl><dl><dt>
+        <dd>Get the latest EG-Phyto/PEG biovolume Excel list</dd>
+
+        <dt>
 
           <code><a href="read_ptbx.html">read_ptbx()</a></code>
 
@@ -332,14 +357,12 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
       <h3 id="geographical-data-checks">Geographical Data Checks<a class="anchor" aria-label="anchor" href="#geographical-data-checks"></a></h3>
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -350,49 +373,57 @@
 
         </dt>
         <dd>Check if stations are reported as nominal positions</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_onland.html">check_onland()</a></code>
 
         </dt>
         <dd>Check whether points are located on land</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_station_distance.html">check_station_distance()</a></code>
 
         </dt>
         <dd>Check station distances against SMHI station list</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zero_positions.html">check_zero_positions()</a></code>
 
         </dt>
-        <dd>Check logical assumptions of data for station positions</dd>
-      </dl><dl><dt>
+        <dd>Identify samples with zero-valued station coordinates</dd>
+
+        <dt>
 
           <code><a href="lookup_xy.html">lookup_xy()</a></code>
 
         </dt>
         <dd>Lookup spatial data for a set of points</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="match_station.html">match_station()</a></code>
 
         </dt>
         <dd>Match station names against SMHI station list</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="plot_map_leaflet.html">plot_map_leaflet()</a></code>
 
         </dt>
         <dd>Create an interactive Leaflet map of sampling stations</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="positions_are_near_land.html">positions_are_near_land()</a></code>
 
         </dt>
         <dd>Determine if positions are near land</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="which_basin.html">which_basin()</a></code>
 
@@ -403,8 +434,7 @@
       <h3 id="shark-data-checks">SHARK Data Checks<a class="anchor" aria-label="anchor" href="#shark-data-checks"></a></h3>
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -415,61 +445,71 @@
 
         </dt>
         <dd>Check matches of reported codes in SMHI's SHARK codelist</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_datatype.html">check_datatype()</a></code>
 
         </dt>
         <dd>Validate SHARK system fields in a data frame</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_depth.html">check_depth()</a></code>
 
         </dt>
         <dd>Validate depth values against bathymetry and logical constraints</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_fields.html">check_fields()</a></code>
 
         </dt>
         <dd>Validate SHARK data fields for a given datatype</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_logical_parameter.html">check_logical_parameter()</a></code>
 
         </dt>
         <dd>General checker for parameter-specific logical rules</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_outliers.html">check_outliers()</a></code>
 
         </dt>
         <dd>General outlier check function for SHARK data</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_parameter_rules.html">check_parameter_rules()</a></code>
 
         </dt>
         <dd>Check parameter values against logical rules</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_setup.html">check_setup()</a></code>
 
         </dt>
         <dd>Download and set up SHARK4R support files</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_value_logical.html">check_value_logical()</a></code>
 
         </dt>
-        <dd>Check logical assumptions of data for specific variables and parameters</dd>
-      </dl><dl><dt>
+        <dd>Identify non-numeric or non-logical values in measurement data</dd>
+
+        <dt>
 
           <code><a href="check_zero_value.html">check_zero_value()</a></code>
 
         </dt>
-        <dd>Check logical assumptions of data for specific variables and parameters</dd>
-      </dl><dl><dt>
+        <dd>Identify records with zero-valued measurement data</dd>
+
+        <dt>
 
           <code><a href="run_qc_app.html">run_qc_app()</a></code>
 
@@ -480,8 +520,7 @@
       <h3 id="misc">MISC<a class="anchor" aria-label="anchor" href="#misc"></a></h3>
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -492,37 +531,50 @@
 
         </dt>
         <dd>Clean SHARK4R cache by file age and session</dd>
-      </dl><dl><dt>
+
+        <dt>
+
+          <code><a href="convert_ddmm_to_dd.html">convert_ddmm_to_dd()</a></code>
+
+        </dt>
+        <dd>Convert coordinates from DDMM format to decimal degrees</dd>
+
+        <dt>
 
           <code><a href="find_required_fields.html">find_required_fields()</a></code>
 
         </dt>
         <dd>Find required fields in a SHARK delivery template</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_delivery_template.html">get_delivery_template()</a></code>
 
         </dt>
         <dd>Get a delivery template for a SHARK datatype</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="load_shark4r_stats.html">load_shark4r_stats()</a></code>
 
         </dt>
         <dd>Load SHARK4R statistics from GitHub</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="load_shark4r_fields.html">load_shark4r_fields()</a></code>
 
         </dt>
         <dd>Load SHARK4R fields from GitHub</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="scatterplot.html">scatterplot()</a></code>
 
         </dt>
         <dd>Scatterplot with optional horizontal threshold lines</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="translate_shark_datatype.html">translate_shark_datatype()</a></code>
 
@@ -533,8 +585,7 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -545,547 +596,638 @@
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_Chlorophyll.html">check_Chlorophyll()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_Epibenthos.html">check_Epibenthos()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_EpibenthosDropvideo.html">check_EpibenthosDropvideo()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_GreySeal.html">check_GreySeal()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_HarbourPorpoise.html">check_HarbourPorpoise()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_HarbourSeal.html">check_HarbourSeal()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_PhysicalChemical.html">check_PhysicalChemical()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_Phytoplankton.html">check_Phytoplankton()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_Picoplankton.html">check_Picoplankton()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_PrimaryProduction.html">check_PrimaryProduction()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_RingedSeal.html">check_RingedSeal()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_SealPathology.html">check_SealPathology()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_Sedimentation.html">check_Sedimentation()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_Zoobenthos.html">check_Zoobenthos()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_Zooplankton.html">check_Zooplankton()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_bacterial_carbon.html">check_bacterial_carbon()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_bacterial_concentration.html">check_bacterial_concentration()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_bacterial_production.html">check_bacterial_production()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_chlorophyll_conc.html">check_chlorophyll_conc()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_code_proj.html">check_code_proj()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check matches of reported codes in SMHI's SHARK codelist</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_Bacterioplankton.html">check_deliv_Bacterioplankton()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_Chlorophyll.html">check_deliv_Chlorophyll()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_Epibenthos.html">check_deliv_Epibenthos()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_EpibenthosDropvideo.html">check_deliv_EpibenthosDropvideo()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_GreySeal.html">check_deliv_GreySeal()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_HarbourPorpoise.html">check_deliv_HarbourPorpoise()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_HarbourSeal.html">check_deliv_HarbourSeal()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_PhysicalChemical.html">check_deliv_PhysicalChemical()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_Phytoplankton.html">check_deliv_Phytoplankton()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_Picoplankton.html">check_deliv_Picoplankton()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_PrimaryProduction.html">check_deliv_PrimaryProduction()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_RingedSeal.html">check_deliv_RingedSeal()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_SealPathology.html">check_deliv_SealPathology()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_Sedimentation.html">check_deliv_Sedimentation()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_Zoobenthos.html">check_deliv_Zoobenthos()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_deliv_Zooplankton.html">check_deliv_Zooplankton()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if the required and recommended datatype-specific SHARK system fields are present</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_epibenthos_abundclass_logical.html">check_epibenthos_abundclass_logical()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if Abundance class exceeds 10</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_epibenthos_counted.html">check_epibenthos_counted()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_epibenthos_cover_logical.html">check_epibenthos_cover_logical()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if Epibenthos cover exceeds 100%</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_epibenthos_coverclass_logical.html">check_epibenthos_coverclass_logical()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if Epibenthos cover class exceeds 10</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_epibenthos_coverpercent_logical.html">check_epibenthos_coverpercent_logical()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if Epibenthos cover (%) exceeds 100%</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_epibenthos_dryweight.html">check_epibenthos_dryweight()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_epibenthos_sedimentdepos_logical.html">check_epibenthos_sedimentdepos_logical()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if Sediment deposition cover (%) exceeds 100%</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_epibenthos_specdistr_maxdepth.html">check_epibenthos_specdistr_maxdepth()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_epibenthos_specdistr_mindepth.html">check_epibenthos_specdistr_mindepth()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_epibenthos_totcover_logical.html">check_epibenthos_totcover_logical()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if Epibenthos total cover exceeds 100%</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_greyseal_counted.html">check_greyseal_counted()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_harbourseal_counted.html">check_harbourseal_counted()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_harbporp_positivemin.html">check_harbporp_positivemin()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_phytoplankton_abund.html">check_phytoplankton_abund()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_phytoplankton_biovol.html">check_phytoplankton_biovol()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_phytoplankton_carbon.html">check_phytoplankton_carbon()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_phytoplankton_counted.html">check_phytoplankton_counted()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_picoplankton_abundance.html">check_picoplankton_abundance()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_picoplankton_biovol.html">check_picoplankton_biovol()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_picoplankton_carbon.html">check_picoplankton_carbon()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_picoplankton_counted.html">check_picoplankton_counted()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_primaryproduction_carbonprod.html">check_primaryproduction_carbonprod()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_primaryproduction_carbonprod_hour.html">check_primaryproduction_carbonprod_hour()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_primaryproduction_carbonprodlight.html">check_primaryproduction_carbonprodlight()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_ringedseal_calccounted.html">check_ringedseal_calccounted()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zoobenthos_BQIm.html">check_zoobenthos_BQIm()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zoobenthos_BQIm_logical.html">check_zoobenthos_BQIm_logical()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check logical relationship between Abundance and BQIm</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zoobenthos_abund.html">check_zoobenthos_abund()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zoobenthos_counted.html">check_zoobenthos_counted()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zoobenthos_wetweight.html">check_zoobenthos_wetweight()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zoobenthos_wetweight_logical.html">check_zoobenthos_wetweight_logical()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if wet weight measurements are zero</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zooplankton_abund.html">check_zooplankton_abund()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zooplankton_carbon.html">check_zooplankton_carbon()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zooplankton_counted.html">check_zooplankton_counted()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zooplankton_length_mean.html">check_zooplankton_length_mean()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zooplankton_length_median.html">check_zooplankton_length_median()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zooplankton_wetweight.html">check_zooplankton_wetweight()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zooplankton_wetweight_area.html">check_zooplankton_wetweight_area()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="check_zooplankton_wetweight_volume.html">check_zooplankton_wetweight_volume()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Uses data from national marine monitoring for the last 5 years to identify outliers</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_algaebase_genus.html">get_algaebase_genus()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Search AlgaeBase for information about a genus of algae</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_algaebase_species.html">get_algaebase_species()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Search AlgaeBase for information about a species of algae</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_worms_records_name.html">get_worms_records_name()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Retrieve WoRMS records by taxonomic names with retry logic</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="ifcb_is_near_land.html">ifcb_is_near_land()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Determine if positions are near land</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="ifcb_which_basin.html">ifcb_which_basin()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Determine if points are in a specified sea basin</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="match_algaebase.html">match_algaebase()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Search AlgaeBase for taxonomic information</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="match_dyntaxa.html">match_dyntaxa()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Taxon matching using Dyntaxa (https://www.dyntaxa.se/)</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="match_taxon_name.html">match_taxon_name()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
-        <dd>Match Dyntaxa taxon names via API</dd>
-      </dl><dl><dt>
+        <dd>Match Dyntaxa taxon names</dd>
+
+        <dt>
 
           <code><a href="match_wormstaxa.html">match_wormstaxa()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Taxon matching using WoRMS (http://www.marinespecies.org/)</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="nominal_station.html">nominal_station()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Check if stations are reported as nominal positions</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="plot_map_leaflet_deliv.html">plot_map_leaflet_deliv()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Create a Leaflet map.</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="shark_read.html">shark_read()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Read tab delimited files downloaded from SHARK</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="shark_read_deliv.html">shark_read_deliv()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Read .xlsx files delivered to SHARK</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="shark_read_deliv_xls.html">shark_read_deliv_xls()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Read .xls files delivered to SHARK</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="shark_read_zip.html">shark_read_zip()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Read zip archive and unzip tab delimited files downloaded from SHARK</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="update_worms_taxonomy.html">update_worms_taxonomy()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
@@ -1101,7 +1243,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

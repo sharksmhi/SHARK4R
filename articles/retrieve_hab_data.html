@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -134,7 +134,7 @@ information from the results.</p>
 <span></span>
 <span><span class="co"># Print result as tibble</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">hab_list</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 704 × 29</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 706 × 29</span></span></span>
 <span><span class="co">##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹</span></span>
 <span><span class="co">##      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 1<span style="text-decoration: underline;">653</span>558 Aerosakkonemataceae Struneck…          1<span style="text-decoration: underline;">653</span>558 Aerosakkonemataceae   </span></span>
@@ -147,7 +147,7 @@ information from the results.</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">231</span>872 Alexandrium anders… Balech, …           <span style="text-decoration: underline;">246</span>835 Alexandrium andersonii</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">246</span>835 Alexandrium anders… Balech, …           <span style="text-decoration: underline;">246</span>835 Alexandrium andersonii</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">233</span>452 Alexandrium angust… F.J.R.Ta…           <span style="text-decoration: underline;">109</span>711 Alexandrium minutum   </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 694 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 696 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ abbreviated name: ¹​ScientificName_accepted</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 24 more variables: Authority_accepted &lt;chr&gt;, Fossil &lt;dbl&gt;, Kingdom &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   Phylum &lt;chr&gt;, Class &lt;chr&gt;, Order &lt;chr&gt;, Family &lt;chr&gt;, taxonRank &lt;chr&gt;,</span></span></span>
@@ -166,20 +166,20 @@ database</a> using the <code><a href="../reference/get_toxin_list.html">get_toxi
 <span></span>
 <span><span class="co"># Print result as tibble</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">toxin_list</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 462 × 55</span></span></span>
-<span><span class="co">##       id toxin_group recommended_name synonyms  recommended_acronym acronyms </span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   546 Prymnesin   Prymnesin-B2     <span style="color: #949494;">&lt;NULL&gt;</span>    PRYM-B2             <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   545 Prymnesin   Prymnesin-B1     <span style="color: #949494;">&lt;NULL&gt;</span>    PRYM-B1             <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   544 Prymnesin   Prymnesin-2      <span style="color: #949494;">&lt;NULL&gt;</span>    PRYM-2              <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   543 Prymnesin   Prymnesin-1      <span style="color: #949494;">&lt;chr [1]&gt;</span> PRYM-1              <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   542 None        trial            <span style="color: #949494;">&lt;NULL&gt;</span>    <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   541 Azaspiracid azaspiracid-27   <span style="color: #949494;">&lt;NULL&gt;</span>    AZA27               <span style="color: #949494;">&lt;NULL&gt;</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   540 Azaspiracid azaspiracid-26   <span style="color: #949494;">&lt;NULL&gt;</span>    AZA26               <span style="color: #949494;">&lt;NULL&gt;</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   539 Azaspiracid azaspiracid-23   <span style="color: #949494;">&lt;NULL&gt;</span>    AZA23               <span style="color: #949494;">&lt;NULL&gt;</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   538 Azaspiracid azaspiracid-21   <span style="color: #949494;">&lt;NULL&gt;</span>    AZA21               <span style="color: #949494;">&lt;NULL&gt;</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>   537 Azaspiracid azaspriracid-19  <span style="color: #949494;">&lt;NULL&gt;</span>    AZA19               <span style="color: #949494;">&lt;NULL&gt;</span>   </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 452 more rows</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 521 × 55</span></span></span>
+<span><span class="co">##       id toxin_group recommended_name      synonyms recommended_acronym acronyms</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   606 Anatoxin    10-OH-homoanatoxin-a  <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   605 Anatoxin    10-OH-anatoxin-a      <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   604 Anatoxin    10-OH-H2-homoanatoxi… <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   603 Anatoxin    10-OH-H2-anatoxin-a   <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   602 Anatoxin    CH3SH-anatoxin-a      <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   601 Anatoxin    CH3O-homoanatoxin-a   <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   600 Anatoxin    CH3O-anatoxin-a       <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   599 Anatoxin    3-OH-homoanatoxin-a   <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   598 Anatoxin    3-OH-anatoxin-a       <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>   597 Anatoxin    carboxyhomoanatoxin-a <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 511 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 49 more variables: cas_number &lt;chr&gt;, alternative_cas_numbers &lt;list&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   formula &lt;chr&gt;, exact_mono_isotopic_mass &lt;dbl&gt;, molfile &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   alternative_molfiles &lt;lgl&gt;, smiles &lt;chr&gt;, alternative_smiles &lt;list&gt;,</span></span></span>
@@ -195,8 +195,8 @@ database</a> using the <code><a href="../reference/get_toxin_list.html">get_toxi
 <span><span class="co">## </span></span>
 <span><span class="co">##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and</span></span>
 <span><span class="co">##   Validating Marine Environmental Data from SHARK and Related</span></span>
-<span><span class="co">##   Databases. R package version 0.1.7.9000.</span></span>
-<span><span class="co">##   https://doi.org/10.5281/zenodo.14169399</span></span>
+<span><span class="co">##   Databases. R package version 1.0.0.</span></span>
+<span><span class="co">##   https://CRAN.R-project.org/package=SHARK4R</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
 <span><span class="co">## </span></span>
@@ -204,8 +204,8 @@ database</a> using the <code><a href="../reference/get_toxin_list.html">get_toxi
 <span><span class="co">##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson},</span></span>
 <span><span class="co">##     year = {2025},</span></span>
-<span><span class="co">##     note = {R package version 0.1.7.9000},</span></span>
-<span><span class="co">##     url = {https://doi.org/10.5281/zenodo.14169399},</span></span>
+<span><span class="co">##     note = {R package version 1.0.0},</span></span>
+<span><span class="co">##     url = {https://CRAN.R-project.org/package=SHARK4R},</span></span>
 <span><span class="co">##   }</span></span></code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -219,7 +219,7 @@ database</a> using the <code><a href="../reference/get_toxin_list.html">get_toxi
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

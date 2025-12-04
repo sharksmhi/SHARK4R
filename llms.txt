@@ -1,0 +1,552 @@
+# SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases
+
+## Overview
+
+This R package is equipped with a client application designed for
+integration with API functions. It facilitates access to various
+databases, including [SHARK](https://shark.smhi.se/), [SLU Artdatabanken
+(Dyntaxa)](https://artfakta.se/),
+[WoRMS](https://www.marinespecies.org/rest/),
+[AlgaeBase](https://www.algaebase.org/), [IOC-UNESCO Taxonomic Reference
+List of Harmful Micro Algae](https://www.marinespecies.org/hab/),
+[IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/), [OBIS
+xylookup web service](https://iobis.github.io/xylookup/) and [Nordic
+Microalgae](https://nordicmicroalgae.org/). The package serves a dual
+purpose, supporting both data analysis and automatic quality control of
+physical, chemical, and marine biological data. Several quality control
+components, originally developed by Provoost and Bosch (2018), have been
+adapted for compatibility with the SHARK format.
+
+## Installation
+
+Installing `SHARK4R` requires the `remotes` package. Install the latest
+version of `SHARK4R` from GitHub:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("sharksmhi/SHARK4R", 
+                        ref = remotes::github_release(),
+                        dependencies = TRUE)
+```
+
+Or install the development version:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("sharksmhi/SHARK4R", 
+                        dependencies = TRUE)
+```
+
+## Documentation and Tutorials
+
+### Website
+
+For detailed information, please visit the project’s
+[webpage](https://sharksmhi.github.io/SHARK4R/).
+
+### Tutorials
+
+Explore the features and capabilities of `SHARK4R` through these
+tutorials:
+
+- [Retrieve Data From
+  SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html)
+- [Retrieve Data From
+  Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_dyntaxa_data.html)
+- [Retrieve Data From
+  WoRMS](https://sharksmhi.github.io/SHARK4R/articles/retrieve_worms_data.html)
+- [Retrieve Data From
+  AlgaeBase](https://sharksmhi.github.io/SHARK4R/articles/retrieve_algaebase_data.html)
+- [Retrieve Data From IOC HAB and Toxin
+  databases](https://sharksmhi.github.io/SHARK4R/articles/retrieve_hab_data.html)
+- [Retrieve Data From Nordic
+  Microalgae](https://sharksmhi.github.io/SHARK4R/articles/retrieve_nordic_microalgae_data.html)
+- [Quality Control of SHARK
+  Data](https://sharksmhi.github.io/SHARK4R/articles/quality_control.html)
+
+### Reference
+
+For a detailed overview of all available `SHARK4R` functions, please
+visit the reference section:
+
+- [Function
+  Reference](https://sharksmhi.github.io/SHARK4R/reference/index.html)
+
+## Repository
+
+For more details and the latest updates, visit the [GitHub
+repository](https://github.com/sharksmhi/SHARK4R/).
+
+## License
+
+This package is licensed under the MIT License.
+
+## References
+
+Provoost P, Bosch S (2024). `obistools`: Tools for data enhancement and
+quality control. Ocean Biodiversity Information System.
+Intergovernmental Oceanographic Commission of UNESCO. R package version
+0.1.0, <https://iobis.github.io/obistools/>.
+
+# Package index
+
+## Retrieve Data
+
+### SHARK
+
+These functions are used to retrieve and read data from SHARK
+
+- [`get_shark_options()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_options.md)
+  : Retrieve available search options from SHARK
+- [`get_shark_codes()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_codes.md)
+  : Get SHARK codelist from SMHI
+- [`get_shark_data()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_data.md)
+  : Retrieve tabular data from SHARK
+- [`get_shark_datasets()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_datasets.md)
+  : Download SHARK dataset zip archives
+- [`get_shark_statistics()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_statistics.md)
+  : Summarize numeric SHARK parameters with ranges and outlier
+  thresholds
+- [`get_shark_table_counts()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_table_counts.md)
+  : Retrieve SHARK data table row counts
+- [`read_shark()`](https://sharksmhi.github.io/SHARK4R/reference/read_shark.md)
+  : Read SHARK export files (tab- or semicolon-delimited, plain text or
+  zipped)
+- [`read_shark_deliv()`](https://sharksmhi.github.io/SHARK4R/reference/read_shark_deliv.md)
+  : Read SHARK Excel delivery files (.xls or .xlsx)
+
+### Dyntaxa
+
+These functions are used to retrieve data from the Dyntaxa API
+
+- [`construct_dyntaxa_table()`](https://sharksmhi.github.io/SHARK4R/reference/construct_dyntaxa_table.md)
+  : Construct a hierarchical taxonomy table from Dyntaxa
+- [`get_dyntaxa_dwca()`](https://sharksmhi.github.io/SHARK4R/reference/get_dyntaxa_dwca.md)
+  : Download and read Darwin Core Archive files from Dyntaxa
+- [`get_dyntaxa_parent_ids()`](https://sharksmhi.github.io/SHARK4R/reference/get_dyntaxa_parent_ids.md)
+  : Get parent taxon IDs for specified taxon IDs from Dyntaxa
+- [`get_dyntaxa_records()`](https://sharksmhi.github.io/SHARK4R/reference/get_dyntaxa_records.md)
+  : Get taxonomic information from Dyntaxa for specified taxon IDs
+- [`is_in_dyntaxa()`](https://sharksmhi.github.io/SHARK4R/reference/is_in_dyntaxa.md)
+  : Check if taxon names exist in Dyntaxa
+- [`match_dyntaxa_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_dyntaxa_taxa.md)
+  : Match Dyntaxa taxon names
+- [`update_dyntaxa_taxonomy()`](https://sharksmhi.github.io/SHARK4R/reference/update_dyntaxa_taxonomy.md)
+  : Update SHARK taxonomy records using Dyntaxa
+
+### WoRMS
+
+These functions are used to retrieve data from the WoRMS API
+
+- [`add_worms_taxonomy()`](https://sharksmhi.github.io/SHARK4R/reference/add_worms_taxonomy.md)
+  : Add WoRMS taxonomy hierarchy to AphiaIDs or scientific names
+- [`assign_phytoplankton_group()`](https://sharksmhi.github.io/SHARK4R/reference/assign_phytoplankton_group.md)
+  : Assign phytoplankton group to scientific names
+- [`get_worms_classification()`](https://sharksmhi.github.io/SHARK4R/reference/get_worms_classification.md)
+  : Retrieve hierarchical classification from WoRMS
+- [`get_worms_records()`](https://sharksmhi.github.io/SHARK4R/reference/get_worms_records.md)
+  : Retrieve WoRMS records
+- [`get_worms_taxonomy_tree()`](https://sharksmhi.github.io/SHARK4R/reference/get_worms_taxonomy_tree.md)
+  : Retrieve hierarchical taxonomy data from WoRMS
+- [`match_worms_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_worms_taxa.md)
+  : Retrieve WoRMS records by taxonomic names with retry logic
+
+### AlgaeBase
+
+These functions are used to retrieve data from the AlgaeBase API
+
+- [`match_algaebase_genus()`](https://sharksmhi.github.io/SHARK4R/reference/match_algaebase_genus.md)
+  : Search AlgaeBase for information about a genus of algae
+- [`match_algaebase_species()`](https://sharksmhi.github.io/SHARK4R/reference/match_algaebase_species.md)
+  : Search AlgaeBase for information about a species of algae
+- [`match_algaebase_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_algaebase_taxa.md)
+  : Search AlgaeBase for taxonomic information
+- [`parse_scientific_names()`](https://sharksmhi.github.io/SHARK4R/reference/parse_scientific_names.md)
+  : Parse scientific names into genus and species components.
+
+### IOC-UNESCO HAB
+
+These functions are used to retrieve data from the IOC-UNESCO Taxonomic
+Reference List of Harmful Micro Algae and the IOC-UNESCO Toxins
+database.
+
+- [`get_hab_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_hab_list.md)
+  : Download the IOC-UNESCO Taxonomic Reference List of Harmful Micro
+  Algae
+- [`get_toxin_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_toxin_list.md)
+  : Retrieve marine biotoxin data from IOC-UNESCO Toxins Database
+
+### Nordic Microalgae
+
+These functions are used to retrieve data from the Nordic Microalgae API
+
+- [`get_nua_external_links()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_external_links.md)
+  : Retrieve external links or facts for taxa from Nordic Microalgae
+- [`get_nua_harmfulness()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_harmfulness.md)
+  : Retrieve harmfulness for taxa from Nordic Microalgae
+- [`get_nua_media_links()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_media_links.md)
+  : Retrieve and extract media URLs from Nordic Microalgae
+- [`get_nua_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_taxa.md)
+  : Retrieve taxa information from Nordic Microalgae
+
+### Plankton Toolbox
+
+These functions are used to read data related to Plankton Toolbox
+
+- [`get_nomp_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_nomp_list.md)
+  : Get the latest NOMP biovolume Excel list
+- [`get_peg_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_peg_list.md)
+  : Get the latest EG-Phyto/PEG biovolume Excel list
+- [`read_ptbx()`](https://sharksmhi.github.io/SHARK4R/reference/read_ptbx.md)
+  : Read a Plankton Toolbox export file
+
+## Quality Control
+
+### Geographical Data Checks
+
+- [`check_nominal_station()`](https://sharksmhi.github.io/SHARK4R/reference/check_nominal_station.md)
+  : Check if stations are reported as nominal positions
+- [`check_onland()`](https://sharksmhi.github.io/SHARK4R/reference/check_onland.md)
+  : Check whether points are located on land
+- [`check_station_distance()`](https://sharksmhi.github.io/SHARK4R/reference/check_station_distance.md)
+  : Check station distances against SMHI station list
+- [`check_zero_positions()`](https://sharksmhi.github.io/SHARK4R/reference/check_zero_positions.md)
+  : Identify samples with zero-valued station coordinates
+- [`lookup_xy()`](https://sharksmhi.github.io/SHARK4R/reference/lookup_xy.md)
+  : Lookup spatial data for a set of points
+- [`match_station()`](https://sharksmhi.github.io/SHARK4R/reference/match_station.md)
+  : Match station names against SMHI station list
+- [`plot_map_leaflet()`](https://sharksmhi.github.io/SHARK4R/reference/plot_map_leaflet.md)
+  : Create an interactive Leaflet map of sampling stations
+- [`positions_are_near_land()`](https://sharksmhi.github.io/SHARK4R/reference/positions_are_near_land.md)
+  : Determine if positions are near land
+- [`which_basin()`](https://sharksmhi.github.io/SHARK4R/reference/which_basin.md)
+  : Determine if points are in a specified sea basin
+
+### SHARK Data Checks
+
+- [`check_codes()`](https://sharksmhi.github.io/SHARK4R/reference/check_codes.md)
+  : Check matches of reported codes in SMHI's SHARK codelist
+- [`check_datatype()`](https://sharksmhi.github.io/SHARK4R/reference/check_datatype.md)
+  : Validate SHARK system fields in a data frame
+- [`check_depth()`](https://sharksmhi.github.io/SHARK4R/reference/check_depth.md)
+  : Validate depth values against bathymetry and logical constraints
+- [`check_fields()`](https://sharksmhi.github.io/SHARK4R/reference/check_fields.md)
+  : Validate SHARK data fields for a given datatype
+- [`check_logical_parameter()`](https://sharksmhi.github.io/SHARK4R/reference/check_logical_parameter.md)
+  : General checker for parameter-specific logical rules
+- [`check_outliers()`](https://sharksmhi.github.io/SHARK4R/reference/check_outliers.md)
+  : General outlier check function for SHARK data
+- [`check_parameter_rules()`](https://sharksmhi.github.io/SHARK4R/reference/check_parameter_rules.md)
+  : Check parameter values against logical rules
+- [`check_setup()`](https://sharksmhi.github.io/SHARK4R/reference/check_setup.md)
+  : Download and set up SHARK4R support files
+- [`check_value_logical()`](https://sharksmhi.github.io/SHARK4R/reference/check_value_logical.md)
+  : Identify non-numeric or non-logical values in measurement data
+- [`check_zero_value()`](https://sharksmhi.github.io/SHARK4R/reference/check_zero_value.md)
+  : Identify records with zero-valued measurement data
+- [`run_qc_app()`](https://sharksmhi.github.io/SHARK4R/reference/run_qc_app.md)
+  : Launch the SHARK4R Bio-QC Tool
+
+### MISC
+
+- [`clean_shark4r_cache()`](https://sharksmhi.github.io/SHARK4R/reference/clean_shark4r_cache.md)
+  : Clean SHARK4R cache by file age and session
+- [`convert_ddmm_to_dd()`](https://sharksmhi.github.io/SHARK4R/reference/convert_ddmm_to_dd.md)
+  : Convert coordinates from DDMM format to decimal degrees
+- [`find_required_fields()`](https://sharksmhi.github.io/SHARK4R/reference/find_required_fields.md)
+  : Find required fields in a SHARK delivery template
+- [`get_delivery_template()`](https://sharksmhi.github.io/SHARK4R/reference/get_delivery_template.md)
+  : Get a delivery template for a SHARK datatype
+- [`load_shark4r_stats()`](https://sharksmhi.github.io/SHARK4R/reference/load_shark4r_stats.md)
+  : Load SHARK4R statistics from GitHub
+- [`load_shark4r_fields()`](https://sharksmhi.github.io/SHARK4R/reference/load_shark4r_fields.md)
+  : Load SHARK4R fields from GitHub
+- [`scatterplot()`](https://sharksmhi.github.io/SHARK4R/reference/scatterplot.md)
+  : Scatterplot with optional horizontal threshold lines
+- [`translate_shark_datatype()`](https://sharksmhi.github.io/SHARK4R/reference/translate_shark_datatype.md)
+  : Translate SHARK4R datatype names
+
+## Deprecated functions
+
+- [`check_Bacterioplankton()`](https://sharksmhi.github.io/SHARK4R/reference/check_Bacterioplankton.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_Chlorophyll()`](https://sharksmhi.github.io/SHARK4R/reference/check_Chlorophyll.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_Epibenthos()`](https://sharksmhi.github.io/SHARK4R/reference/check_Epibenthos.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_EpibenthosDropvideo()`](https://sharksmhi.github.io/SHARK4R/reference/check_EpibenthosDropvideo.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_GreySeal()`](https://sharksmhi.github.io/SHARK4R/reference/check_GreySeal.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_HarbourPorpoise()`](https://sharksmhi.github.io/SHARK4R/reference/check_HarbourPorpoise.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_HarbourSeal()`](https://sharksmhi.github.io/SHARK4R/reference/check_HarbourSeal.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_PhysicalChemical()`](https://sharksmhi.github.io/SHARK4R/reference/check_PhysicalChemical.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_Phytoplankton()`](https://sharksmhi.github.io/SHARK4R/reference/check_Phytoplankton.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_Picoplankton()`](https://sharksmhi.github.io/SHARK4R/reference/check_Picoplankton.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_PrimaryProduction()`](https://sharksmhi.github.io/SHARK4R/reference/check_PrimaryProduction.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_RingedSeal()`](https://sharksmhi.github.io/SHARK4R/reference/check_RingedSeal.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_SealPathology()`](https://sharksmhi.github.io/SHARK4R/reference/check_SealPathology.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_Sedimentation()`](https://sharksmhi.github.io/SHARK4R/reference/check_Sedimentation.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_Zoobenthos()`](https://sharksmhi.github.io/SHARK4R/reference/check_Zoobenthos.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_Zooplankton()`](https://sharksmhi.github.io/SHARK4R/reference/check_Zooplankton.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_bacterial_carbon()`](https://sharksmhi.github.io/SHARK4R/reference/check_bacterial_carbon.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_bacterial_concentration()`](https://sharksmhi.github.io/SHARK4R/reference/check_bacterial_concentration.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_bacterial_production()`](https://sharksmhi.github.io/SHARK4R/reference/check_bacterial_production.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_chlorophyll_conc()`](https://sharksmhi.github.io/SHARK4R/reference/check_chlorophyll_conc.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_code_proj()`](https://sharksmhi.github.io/SHARK4R/reference/check_code_proj.md)
+  **\[deprecated\]** : Check matches of reported codes in SMHI's SHARK
+  codelist
+- [`check_deliv_Bacterioplankton()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_Bacterioplankton.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_Chlorophyll()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_Chlorophyll.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_Epibenthos()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_Epibenthos.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_EpibenthosDropvideo()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_EpibenthosDropvideo.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_GreySeal()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_GreySeal.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_HarbourPorpoise()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_HarbourPorpoise.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_HarbourSeal()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_HarbourSeal.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_PhysicalChemical()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_PhysicalChemical.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_Phytoplankton()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_Phytoplankton.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_Picoplankton()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_Picoplankton.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_PrimaryProduction()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_PrimaryProduction.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_RingedSeal()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_RingedSeal.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_SealPathology()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_SealPathology.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_Sedimentation()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_Sedimentation.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_Zoobenthos()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_Zoobenthos.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_deliv_Zooplankton()`](https://sharksmhi.github.io/SHARK4R/reference/check_deliv_Zooplankton.md)
+  **\[deprecated\]** : Check if the required and recommended
+  datatype-specific SHARK system fields are present
+- [`check_epibenthos_abundclass_logical()`](https://sharksmhi.github.io/SHARK4R/reference/check_epibenthos_abundclass_logical.md)
+  **\[deprecated\]** : Check if Abundance class exceeds 10
+- [`check_epibenthos_counted()`](https://sharksmhi.github.io/SHARK4R/reference/check_epibenthos_counted.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_epibenthos_cover_logical()`](https://sharksmhi.github.io/SHARK4R/reference/check_epibenthos_cover_logical.md)
+  **\[deprecated\]** : Check if Epibenthos cover exceeds 100%
+- [`check_epibenthos_coverclass_logical()`](https://sharksmhi.github.io/SHARK4R/reference/check_epibenthos_coverclass_logical.md)
+  **\[deprecated\]** : Check if Epibenthos cover class exceeds 10
+- [`check_epibenthos_coverpercent_logical()`](https://sharksmhi.github.io/SHARK4R/reference/check_epibenthos_coverpercent_logical.md)
+  **\[deprecated\]** : Check if Epibenthos cover (%) exceeds 100%
+- [`check_epibenthos_dryweight()`](https://sharksmhi.github.io/SHARK4R/reference/check_epibenthos_dryweight.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_epibenthos_sedimentdepos_logical()`](https://sharksmhi.github.io/SHARK4R/reference/check_epibenthos_sedimentdepos_logical.md)
+  **\[deprecated\]** : Check if Sediment deposition cover (%) exceeds
+  100%
+- [`check_epibenthos_specdistr_maxdepth()`](https://sharksmhi.github.io/SHARK4R/reference/check_epibenthos_specdistr_maxdepth.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_epibenthos_specdistr_mindepth()`](https://sharksmhi.github.io/SHARK4R/reference/check_epibenthos_specdistr_mindepth.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_epibenthos_totcover_logical()`](https://sharksmhi.github.io/SHARK4R/reference/check_epibenthos_totcover_logical.md)
+  **\[deprecated\]** : Check if Epibenthos total cover exceeds 100%
+- [`check_greyseal_counted()`](https://sharksmhi.github.io/SHARK4R/reference/check_greyseal_counted.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_harbourseal_counted()`](https://sharksmhi.github.io/SHARK4R/reference/check_harbourseal_counted.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_harbporp_positivemin()`](https://sharksmhi.github.io/SHARK4R/reference/check_harbporp_positivemin.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_phytoplankton_abund()`](https://sharksmhi.github.io/SHARK4R/reference/check_phytoplankton_abund.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_phytoplankton_biovol()`](https://sharksmhi.github.io/SHARK4R/reference/check_phytoplankton_biovol.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_phytoplankton_carbon()`](https://sharksmhi.github.io/SHARK4R/reference/check_phytoplankton_carbon.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_phytoplankton_counted()`](https://sharksmhi.github.io/SHARK4R/reference/check_phytoplankton_counted.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_picoplankton_abundance()`](https://sharksmhi.github.io/SHARK4R/reference/check_picoplankton_abundance.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_picoplankton_biovol()`](https://sharksmhi.github.io/SHARK4R/reference/check_picoplankton_biovol.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_picoplankton_carbon()`](https://sharksmhi.github.io/SHARK4R/reference/check_picoplankton_carbon.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_picoplankton_counted()`](https://sharksmhi.github.io/SHARK4R/reference/check_picoplankton_counted.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_primaryproduction_carbonprod()`](https://sharksmhi.github.io/SHARK4R/reference/check_primaryproduction_carbonprod.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_primaryproduction_carbonprod_hour()`](https://sharksmhi.github.io/SHARK4R/reference/check_primaryproduction_carbonprod_hour.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_primaryproduction_carbonprodlight()`](https://sharksmhi.github.io/SHARK4R/reference/check_primaryproduction_carbonprodlight.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_ringedseal_calccounted()`](https://sharksmhi.github.io/SHARK4R/reference/check_ringedseal_calccounted.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_zoobenthos_BQIm()`](https://sharksmhi.github.io/SHARK4R/reference/check_zoobenthos_BQIm.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_zoobenthos_BQIm_logical()`](https://sharksmhi.github.io/SHARK4R/reference/check_zoobenthos_BQIm_logical.md)
+  **\[deprecated\]** : Check logical relationship between Abundance and
+  BQIm
+- [`check_zoobenthos_abund()`](https://sharksmhi.github.io/SHARK4R/reference/check_zoobenthos_abund.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_zoobenthos_counted()`](https://sharksmhi.github.io/SHARK4R/reference/check_zoobenthos_counted.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_zoobenthos_wetweight()`](https://sharksmhi.github.io/SHARK4R/reference/check_zoobenthos_wetweight.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_zoobenthos_wetweight_logical()`](https://sharksmhi.github.io/SHARK4R/reference/check_zoobenthos_wetweight_logical.md)
+  **\[deprecated\]** : Check if wet weight measurements are zero
+- [`check_zooplankton_abund()`](https://sharksmhi.github.io/SHARK4R/reference/check_zooplankton_abund.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_zooplankton_carbon()`](https://sharksmhi.github.io/SHARK4R/reference/check_zooplankton_carbon.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_zooplankton_counted()`](https://sharksmhi.github.io/SHARK4R/reference/check_zooplankton_counted.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_zooplankton_length_mean()`](https://sharksmhi.github.io/SHARK4R/reference/check_zooplankton_length_mean.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_zooplankton_length_median()`](https://sharksmhi.github.io/SHARK4R/reference/check_zooplankton_length_median.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_zooplankton_wetweight()`](https://sharksmhi.github.io/SHARK4R/reference/check_zooplankton_wetweight.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_zooplankton_wetweight_area()`](https://sharksmhi.github.io/SHARK4R/reference/check_zooplankton_wetweight_area.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`check_zooplankton_wetweight_volume()`](https://sharksmhi.github.io/SHARK4R/reference/check_zooplankton_wetweight_volume.md)
+  **\[deprecated\]** : Uses data from national marine monitoring for the
+  last 5 years to identify outliers
+- [`get_algaebase_genus()`](https://sharksmhi.github.io/SHARK4R/reference/get_algaebase_genus.md)
+  **\[deprecated\]** : Search AlgaeBase for information about a genus of
+  algae
+- [`get_algaebase_species()`](https://sharksmhi.github.io/SHARK4R/reference/get_algaebase_species.md)
+  **\[deprecated\]** : Search AlgaeBase for information about a species
+  of algae
+- [`get_worms_records_name()`](https://sharksmhi.github.io/SHARK4R/reference/get_worms_records_name.md)
+  **\[deprecated\]** : Retrieve WoRMS records by taxonomic names with
+  retry logic
+- [`ifcb_is_near_land()`](https://sharksmhi.github.io/SHARK4R/reference/ifcb_is_near_land.md)
+  **\[deprecated\]** : Determine if positions are near land
+- [`ifcb_which_basin()`](https://sharksmhi.github.io/SHARK4R/reference/ifcb_which_basin.md)
+  **\[deprecated\]** : Determine if points are in a specified sea basin
+- [`match_algaebase()`](https://sharksmhi.github.io/SHARK4R/reference/match_algaebase.md)
+  **\[deprecated\]** : Search AlgaeBase for taxonomic information
+- [`match_dyntaxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_dyntaxa.md)
+  **\[deprecated\]** : Taxon matching using Dyntaxa
+  (https://www.dyntaxa.se/)
+- [`match_taxon_name()`](https://sharksmhi.github.io/SHARK4R/reference/match_taxon_name.md)
+  **\[deprecated\]** : Match Dyntaxa taxon names
+- [`match_wormstaxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_wormstaxa.md)
+  **\[deprecated\]** : Taxon matching using WoRMS
+  (http://www.marinespecies.org/)
+- [`nominal_station()`](https://sharksmhi.github.io/SHARK4R/reference/nominal_station.md)
+  **\[deprecated\]** : Check if stations are reported as nominal
+  positions
+- [`plot_map_leaflet_deliv()`](https://sharksmhi.github.io/SHARK4R/reference/plot_map_leaflet_deliv.md)
+  **\[deprecated\]** : Create a Leaflet map.
+- [`shark_read()`](https://sharksmhi.github.io/SHARK4R/reference/shark_read.md)
+  **\[deprecated\]** : Read tab delimited files downloaded from SHARK
+- [`shark_read_deliv()`](https://sharksmhi.github.io/SHARK4R/reference/shark_read_deliv.md)
+  **\[deprecated\]** : Read .xlsx files delivered to SHARK
+- [`shark_read_deliv_xls()`](https://sharksmhi.github.io/SHARK4R/reference/shark_read_deliv_xls.md)
+  **\[deprecated\]** : Read .xls files delivered to SHARK
+- [`shark_read_zip()`](https://sharksmhi.github.io/SHARK4R/reference/shark_read_zip.md)
+  **\[deprecated\]** : Read zip archive and unzip tab delimited files
+  downloaded from SHARK
+- [`update_worms_taxonomy()`](https://sharksmhi.github.io/SHARK4R/reference/update_worms_taxonomy.md)
+  **\[deprecated\]** : Retrieve and organize WoRMS taxonomy for SHARK
+  Aphia IDs
+
+# Articles
+
+### All vignettes
+
+- [Quality Control of SHARK
+  Data](https://sharksmhi.github.io/SHARK4R/articles/quality_control.md):
+- [Retrieve Taxonomic Data From
+  AlgaeBase](https://sharksmhi.github.io/SHARK4R/articles/retrieve_algaebase_data.md):
+- [Retrieve Taxonomic Data From
+  Dyntaxa](https://sharksmhi.github.io/SHARK4R/articles/retrieve_dyntaxa_data.md):
+- [Retrieve HAB Data From IOC-UNESCO
+  Databases](https://sharksmhi.github.io/SHARK4R/articles/retrieve_hab_data.md):
+- [Retrieve Data From Nordic
+  Microalgae](https://sharksmhi.github.io/SHARK4R/articles/retrieve_nordic_microalgae_data.md):
+- [Retrieve Data From
+  SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.md):
+- [Retrieve Taxonomic Data From
+  WoRMS](https://sharksmhi.github.io/SHARK4R/articles/retrieve_worms_data.md):

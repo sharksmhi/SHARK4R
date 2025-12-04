@@ -1,0 +1,429 @@
+# Quality Control of SHARK Data
+
+## Overview
+
+The SHARK4R package provides a set of functions to perform quality
+control (QC) on SHARK data. These functions help identify missing or
+invalid values, spatial errors, and statistical outliers and are mainly
+intended for internal data validation. The tutorial covers:
+
+- **Field validation** (required and datatype-specific fields)  
+- **Code validation** (project and platform codes)  
+- **Geospatial checks** (points on land, basins, proximity to shore)  
+- **Depth checks** (missing, negative, or implausible values)  
+- **Outlier detection** (parameter-specific thresholds)  
+- **Logical Parameter Checks** (parameter-specific rules)  
+- **Interactive QC** with a Shiny app
+
+This workflow ensures SHARK data are consistent, valid, and ready for
+analysis. Several quality control components, originally developed by
+Provoost and Bosch (2018), have been adapted for compatibility with the
+SHARK format.
+
+------------------------------------------------------------------------
+
+## Installation
+
+Install the latest version of SHARK4R from GitHub:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("sharksmhi/SHARK4R",
+                        ref = remotes::github_release(),
+                        dependencies = TRUE)
+```
+
+Load the package along with `dplyr`:
+
+``` r
+library(SHARK4R)
+library(dplyr)
+```
+
+------------------------------------------------------------------------
+
+## Retrieve SHARK Data
+
+You can fetch SHARK data using the same filtering options as the SHARK
+web interface. Explore available options with:
+
+``` r
+shark_options <- get_shark_options()
+```
+
+Filter datasets containing “Chlorophyll”:
+
+``` r
+# Filter names using grepl
+chlorophyll_datasets <- shark_options$datasets[grepl("Chlorophyll", 
+                                                     shark_options$datasets)]
+
+# Select the first dataset for demonstration
+selected_dataset <- chlorophyll_datasets[1]
+
+# Print the name of the selected dataset
+print(selected_dataset)
+```
+
+    ## [1] "SHARK_Chlorophyll_1985_1989_SMHI_version_2023-04-27.zip"
+
+Download the selected dataset as a data frame:
+
+``` r
+chlorophyll_data <- get_shark_datasets(selected_dataset,
+                                       save_dir = tempdir(),
+                                       return_df = TRUE,
+                                       verbose = FALSE)
+
+tibble(chlorophyll_data)
+```
+
+    ## # A tibble: 80 × 73
+    ##    source delivery_datatype check_status_sv data_checked_by_sv visit_year
+    ##     <dbl> <chr>             <chr>           <chr>                   <dbl>
+    ##  1      1 Chlorophyll       Klar            Leverantör               1989
+    ##  2      1 Chlorophyll       Klar            Leverantör               1989
+    ##  3      1 Chlorophyll       Klar            Leverantör               1985
+    ##  4      1 Chlorophyll       Klar            Leverantör               1989
+    ##  5      1 Chlorophyll       Klar            Leverantör               1989
+    ##  6      1 Chlorophyll       Klar            Leverantör               1989
+    ##  7      1 Chlorophyll       Klar            Leverantör               1989
+    ##  8      1 Chlorophyll       Klar            Leverantör               1989
+    ##  9      1 Chlorophyll       Klar            Leverantör               1989
+    ## 10      1 Chlorophyll       Klar            Leverantör               1989
+    ## # ℹ 70 more rows
+    ## # ℹ 68 more variables: visit_month <dbl>, station_name <chr>,
+    ## #   reported_station_name <chr>, sample_location_id <dbl>, station_id <dbl>,
+    ## #   sample_project_name_en <chr>, sample_orderer_name_en <chr>,
+    ## #   platform_code <chr>, visit_id <dbl>, expedition_id <lgl>,
+    ## #   shark_sample_id_md5 <chr>, sample_date <date>, sample_time <time>,
+    ## #   sample_enddate <lgl>, sample_endtime <lgl>, sample_latitude_dm <chr>, …
+
+SHARK data can be downloaded and saved locally using the `save_dir`
+argument, then imported into R using the function
+[`read_shark()`](https://sharksmhi.github.io/SHARK4R/reference/read_shark.md)
+for both ZIP archives or text files.
+
+------------------------------------------------------------------------
+
+## Step 1: Check Required Fields
+
+Validate mandatory fields:
+
+- **Global fields**:
+  [`check_datatype()`](https://sharksmhi.github.io/SHARK4R/reference/check_datatype.md)  
+- **Datatype-specific fields**:
+  [`check_fields()`](https://sharksmhi.github.io/SHARK4R/reference/check_fields.md)
+  with optional `field_definitions`
+
+``` r
+check_fields(data = chlorophyll_data, datatype = "Chlorophyll")
+```
+
+    ## # A tibble: 1,195 × 4
+    ##    level field                           row message                            
+    ##    <chr> <chr>                         <int> <chr>                              
+    ##  1 error sample_project_name_sv           NA Required field sample_project_name…
+    ##  2 error sample_orderer_name_sv           NA Required field sample_orderer_name…
+    ##  3 error sampling_laboratory_name_sv      NA Required field sampling_laboratory…
+    ##  4 error analytical_laboratory_name_sv    NA Required field analytical_laborato…
+    ##  5 error reporting_institute_name_sv      NA Required field reporting_institute…
+    ##  6 error sample_enddate                    1 Empty value for required field sam…
+    ##  7 error sample_enddate                    2 Empty value for required field sam…
+    ##  8 error sample_enddate                    3 Empty value for required field sam…
+    ##  9 error sample_enddate                    4 Empty value for required field sam…
+    ## 10 error sample_enddate                    5 Empty value for required field sam…
+    ## # ℹ 1,185 more rows
+
+------------------------------------------------------------------------
+
+## Step 2: Validate Project and Platform Codes
+
+Ensure metadata codes follow SHARK conventions:
+
+``` r
+# Validate project codes
+check_codes(chlorophyll_data)
+```
+
+    ## All PROJ codes found
+
+    ## # A tibble: 1 × 2
+    ##   reported_code              match_type
+    ##   <chr>                      <lgl>     
+    ## 1 National marine monitoring TRUE
+
+``` r
+# Validate ship/platform codes
+check_codes(data = chlorophyll_data, 
+            field = "platform_code", 
+            code_type = "SHIPC", 
+            match_column = "Code")
+```
+
+    ## All SHIPC codes found
+
+    ## # A tibble: 2 × 2
+    ##   reported_code match_type
+    ##   <chr>         <lgl>     
+    ## 1 77AR          TRUE      
+    ## 2 77SN          TRUE
+
+------------------------------------------------------------------------
+
+## Step 3: Geospatial Checks
+
+### Visualize Data Points
+
+``` r
+plot_map_leaflet(chlorophyll_data)
+```
+
+### Identify Points on Land
+
+``` r
+n_rows_on_land <- check_onland(chlorophyll_data)
+nrow(n_rows_on_land)
+```
+
+    ## [1] 0
+
+Optional geospatial QC functions:
+
+- [`positions_are_near_land()`](https://sharksmhi.github.io/SHARK4R/reference/positions_are_near_land.md)  
+- [`which_basin()`](https://sharksmhi.github.io/SHARK4R/reference/which_basin.md)
+  from the [iRfcb package](https://CRAN.R-project.org/package=iRfcb)
+
+------------------------------------------------------------------------
+
+## Step 4: Depth Checks
+
+Verify plausibility and consistency of depth values:
+
+``` r
+check_depth(data = chlorophyll_data) # default columns: min/max depth
+```
+
+    ## # A tibble: 2 × 4
+    ##   level     row field              message                                      
+    ##   <chr>   <int> <chr>              <chr>                                        
+    ## 1 warning    17 sample_max_depth_m Depth value (20) is greater than the value f…
+    ## 2 warning    80 sample_max_depth_m Depth value (20) is greater than the value f…
+
+``` r
+check_depth(data = chlorophyll_data, "water_depth_m")
+```
+
+    ## # A tibble: 57 × 4
+    ##    level     row field         message                                          
+    ##    <chr>   <int> <chr>         <chr>                                            
+    ##  1 warning     2 water_depth_m Depth value (78) is greater than the value found…
+    ##  2 warning     3 water_depth_m Depth value (78) is greater than the value found…
+    ##  3 warning     4 water_depth_m Depth value (637) is greater than the value foun…
+    ##  4 warning     6 water_depth_m Depth value (86) is greater than the value found…
+    ##  5 warning     8 water_depth_m Depth value (25) is greater than the value found…
+    ##  6 warning     9 water_depth_m Depth value (41) is greater than the value found…
+    ##  7 warning    10 water_depth_m Depth value (90) is greater than the value found…
+    ##  8 warning    11 water_depth_m Depth value (74) is greater than the value found…
+    ##  9 warning    13 water_depth_m Depth value (465) is greater than the value foun…
+    ## 10 warning    14 water_depth_m Depth value (465) is greater than the value foun…
+    ## # ℹ 47 more rows
+
+Checks performed:
+
+- Missing depth column or empty values (warnings)  
+- Non-numeric or negative values (errors)  
+- Depth exceeding bathymetry or minimum \> maximum (errors)
+
+------------------------------------------------------------------------
+
+## Step 5: Outlier Detection
+
+Retrieve reference statistics for your datatype:
+
+``` r
+shark_statistics <- get_shark_statistics(datatype = "Chlorophyll",
+                                         fromYear = 2020,
+                                         toYear = 2024,
+                                         verbose = FALSE)
+
+tibble(shark_statistics)
+```
+
+    ## # A tibble: 1 × 24
+    ##   parameter  datatype fromYear toYear     n   min    Q1 median    Q3   max   P01
+    ##   <chr>      <chr>       <dbl>  <dbl> <int> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl>
+    ## 1 Chlorophy… Chlorop…     2020   2024  1374  0.19  1.39    2.2   3.3  22.2 0.307
+    ## # ℹ 13 more variables: P05 <dbl>, P95 <dbl>, P99 <dbl>, IQR <dbl>, mean <dbl>,
+    ## #   sd <dbl>, var <dbl>, cv <dbl>, mad <dbl>, mild_lower <dbl>,
+    ## #   mild_upper <dbl>, extreme_lower <dbl>, extreme_upper <dbl>
+
+Detect extreme values using thresholds (e.g., 99th percentile):
+
+``` r
+check_outliers(data = chlorophyll_data,
+               parameter = "Chlorophyll-a",
+               datatype = "Chlorophyll",
+               threshold_col = "P99",
+               thresholds = shark_statistics)
+```
+
+    ## Chlorophyll-a is within the P99 range.
+
+Visualize anomalies:
+
+``` r
+# Scatterplot with horizontal line at 99th percentile
+scatterplot(chlorophyll_data,
+            hline = shark_statistics$P99)
+```
+
+------------------------------------------------------------------------
+
+## Step 6: Logical Parameter Checks
+
+Use
+[`check_parameter_rules()`](https://sharksmhi.github.io/SHARK4R/reference/check_parameter_rules.md)
+to flag measurements that violate parameter-specific or row-wise logical
+rules.
+
+``` r
+check_parameter_rules(data = chlorophyll_data)
+```
+
+    ## No parameters from the logical rules are present in the dataset. Available parameters are: Total cover of all species, Cover, Cover class, Sediment deposition cover, Abundance class, Wet weight
+
+- `return_df = TRUE` gives a data frame of violations.
+- `return_logical = TRUE` gives logical vectors for each parameter.
+- Only parameters present in the dataset are checked; available
+  parameters are listed if none match.
+- You can define custom rules by providing your own `param_conditions`
+  or `rowwise_conditions` lists.
+
+------------------------------------------------------------------------
+
+## Step 7: Station Matching
+
+Verify station names against the official SHARK registry:
+
+``` r
+station_match <- match_station(chlorophyll_data$station_name)
+```
+
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpCZHOxU/station.txt
+
+    ## All stations found
+
+``` r
+head(station_match)
+```
+
+    ##   reported_station_name match_type
+    ## 1            425 GNIBEN       TRUE
+    ## 2                FLADEN       TRUE
+    ## 3                FLADEN       TRUE
+    ## 4                    M6       TRUE
+    ## 5              ANHOLT E       TRUE
+    ## 6              W SKAGEN       TRUE
+
+To plot stations and their distances from the station register in an
+interactive map:
+
+``` r
+check_station_distance(data = chlorophyll_data,
+                       plot_leaflet = TRUE)
+```
+
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpCZHOxU/station.txt
+
+    ## WARNING: Some stations are outside the allowed distance limit
+
+    ## # A tibble: 3 × 3
+    ##   station_name distance_m OUT_OF_BOUNDS_RADIUS
+    ##   <chr>             <dbl>                <dbl>
+    ## 1 LÄSÖ RÄNNA       10360.                 1200
+    ## 2 OH7               2233.                 1200
+    ## 3 HS2               2233.                 1200
+
+To check if stations are nominal (comparing unique coordinates per
+station):
+
+``` r
+check_nominal_station(data = chlorophyll_data)
+```
+
+    ## Positions are not suspected to be nominal
+
+------------------------------------------------------------------------
+
+## Interactive QC with Shiny
+
+For a more user-friendly interface, use the Shiny QC app:
+
+``` r
+# Run the app
+run_qc_app()
+
+# Alternative, download support files and knit documents locally
+check_setup()
+```
+
+The app provides point-and-click access to the same QC checks described
+above.
+
+------------------------------------------------------------------------
+
+## Recommended Workflow Summary
+
+1.  **Check Required Fields**
+    ([`check_datatype()`](https://sharksmhi.github.io/SHARK4R/reference/check_datatype.md),
+    [`check_fields()`](https://sharksmhi.github.io/SHARK4R/reference/check_fields.md))  
+2.  **Validate Codes**
+    ([`check_codes()`](https://sharksmhi.github.io/SHARK4R/reference/check_codes.md))  
+3.  **Geospatial Checks**
+    ([`plot_map_leaflet()`](https://sharksmhi.github.io/SHARK4R/reference/plot_map_leaflet.md),
+    [`check_onland()`](https://sharksmhi.github.io/SHARK4R/reference/check_onland.md),
+    optional
+    [`positions_are_near_land()`](https://sharksmhi.github.io/SHARK4R/reference/positions_are_near_land.md),
+    [`which_basin()`](https://sharksmhi.github.io/SHARK4R/reference/which_basin.md))  
+4.  **Depth Checks**
+    ([`check_depth()`](https://sharksmhi.github.io/SHARK4R/reference/check_depth.md))  
+5.  **Outlier Detection**
+    ([`check_outliers()`](https://sharksmhi.github.io/SHARK4R/reference/check_outliers.md),
+    [`scatterplot()`](https://sharksmhi.github.io/SHARK4R/reference/scatterplot.md))  
+6.  **Logical Parameter Checks**
+    ([`check_parameter_rules()`](https://sharksmhi.github.io/SHARK4R/reference/check_parameter_rules.md))  
+7.  **Station Matching**
+    ([`match_station()`](https://sharksmhi.github.io/SHARK4R/reference/match_station.md))  
+8.  **Final Review & Visualization** (interactive maps and scatterplots)
+
+Following this order ensures comprehensive QC and prepares your SHARK
+data for analysis.
+
+------------------------------------------------------------------------
+
+## Citation
+
+    ## To cite package 'SHARK4R' in publications use:
+    ## 
+    ##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and
+    ##   Validating Marine Environmental Data from SHARK and Related
+    ##   Databases. R package version 1.0.0.
+    ##   https://CRAN.R-project.org/package=SHARK4R
+    ## 
+    ## A BibTeX entry for LaTeX users is
+    ## 
+    ##   @Manual{,
+    ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},
+    ##     author = {Markus Lindh and Anders Torstensson},
+    ##     year = {2025},
+    ##     note = {R package version 1.0.0},
+    ##     url = {https://CRAN.R-project.org/package=SHARK4R},
+    ##   }
+
+## References
+
+- Provoost P, Bosch S (2024). `obistools`: Tools for data enhancement
+  and quality control. Ocean Biodiversity Information System.
+  Intergovernmental Oceanographic Commission of UNESCO. R package
+  version 0.1.0, <https://iobis.github.io/obistools/>.

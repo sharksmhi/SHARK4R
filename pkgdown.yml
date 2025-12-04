@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   quality_control: quality_control.html
@@ -9,7 +9,7 @@ articles:
   retrieve_nordic_microalgae_data: retrieve_nordic_microalgae_data.html
   retrieve_shark_data: retrieve_shark_data.html
   retrieve_worms_data: retrieve_worms_data.html
-last_built: 2025-10-15T07:06Z
+last_built: 2025-12-04T13:50Z
 urls:
   reference: https://sharksmhi.github.io/SHARK4R/reference
   article: https://sharksmhi.github.io/SHARK4R/articles
