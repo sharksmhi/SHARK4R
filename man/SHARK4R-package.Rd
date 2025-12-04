@@ -29,6 +29,8 @@ Authors:
 
 Other contributors:
 \itemize{
+  \item Mikael Hedblom (\href{https://orcid.org/0009-0007-5124-9956}{ORCID}) (Swedish Meteorological and Hydrological Institute) [contributor]
+  \item Bengt Karlson (\href{https://orcid.org/0000-0002-7524-3504}{ORCID}) (Swedish Meteorological and Hydrological Institute) [contributor]
   \item SHARK \email{shark@smhi.se} [copyright holder]
   \item SBDI (Swedish Research Council, 2019-00242) [funder]
 }

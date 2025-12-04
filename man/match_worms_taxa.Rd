@@ -12,6 +12,7 @@ match_worms_taxa(
   sleep_time = 10,
   marine_only = TRUE,
   bulk = FALSE,
+  chunk_size = 500,
   verbose = TRUE
 )
 }
@@ -31,6 +32,9 @@ match_worms_taxa(
 
 \item{bulk}{Logical indicating whether to perform a bulk API call for all unique names at once. Default is FALSE.}
 
+\item{chunk_size}{Integer specifying the maximum number of taxa per bulk API request. Default is 500.
+Only used when \code{bulk = TRUE}. WoRMS API may reject very large requests, so chunking prevents overload.}
+
 \item{verbose}{Logical indicating whether to print progress messages. Default is TRUE.}
 }
 \value{
@@ -48,6 +52,8 @@ all names at once using a bulk API call or iterate over names individually.
 \item If \code{bulk = FALSE}, the function iterates over names individually, optionally using fuzzy matching.
 \item The function retries failed requests up to \code{max_retries} times, pausing for \code{sleep_time} seconds between attempts.
 \item Names for which no records are found will have \code{status = "no content"} and \code{AphiaID = NA}.
+\item Names are cleaned before being passed to the API call by converting them to UTF-8, replacing problematic symbols with spaces,
+removing trailing periods, collapsing extra spaces and by trimming whitespace.
 }
 }
 \examples{
@@ -63,7 +69,7 @@ records_bulk <- match_worms_taxa(c("Amphidinium", "Karenia", "Navicula"),
 
 }
 \seealso{
-\code{\link[=match_worms_taxa_interactive]{match_worms_taxa_interactive()}} to match taxa names interactively.
+\code{\link[=match_worms_taxa]{match_worms_taxa()}} to match taxa names interactively.
 
 \url{https://marinespecies.org/} for WoRMS website.
 

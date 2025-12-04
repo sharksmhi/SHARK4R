@@ -170,9 +170,10 @@ test_that("get_shark_statistics throws warning if no data are returned", {
   skip_if_resource_unavailable(shark_url)
   skip_on_cran()
 
-  res <- expect_warning(get_shark_statistics(datatype = "no datatype",
+  res <- expect_warning(expect_warning(get_shark_statistics(datatype = "no datatype",
                                              verbose = TRUE),
-                        "No data retrieved from SHARK for the specified years and datatype")
+                        "No data retrieved from SHARK for the specified years and datatype"),
+                        "The following 'dataTypes' do not currently exist in the SHARK database:")
 })
 
 test_that("get_shark_statistics returns results grouped by station", {
@@ -239,7 +240,7 @@ test_that("chlorophyll data are retrieved for all years", {
   skip_on_cran()
 
   shark_data <- get_shark_data(
-    tableView = "sharkdata_chlorophyll",
+    tableView = "chlorophyll",
     dataTypes = "Chlorophyll",
     fromYear = NULL,
     toYear = NULL,

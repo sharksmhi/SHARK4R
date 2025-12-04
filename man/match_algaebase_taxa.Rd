@@ -5,7 +5,7 @@
 \title{Search AlgaeBase for taxonomic information}
 \usage{
 match_algaebase_taxa(
-  genus,
+  genera,
   species,
   subscription_key = Sys.getenv("ALGAEBASE_KEY"),
   genus_only = FALSE,
@@ -15,26 +15,28 @@ match_algaebase_taxa(
   sleep_time = 1,
   newest_only = TRUE,
   verbose = TRUE,
-  apikey = deprecated()
+  apikey = deprecated(),
+  genus = deprecated()
 )
 }
 \arguments{
-\item{genus}{A character vector of genus names.}
+\item{genera}{A character vector of genus names.}
 
-\item{species}{A character vector of species names corresponding to the \code{genus} vector. Must be the same length as \code{genus}.}
+\item{species}{A character vector of species names corresponding to the \code{genera} vector. Must be the same length as \code{genera}.}
 
 \item{subscription_key}{A character string containing the API key for accessing the AlgaeBase API. By default, the key
 is read from the environment variable \code{ALGAEBASE_KEY}.
-
 You can provide the key in three ways:
 \itemize{
 \item \strong{Directly as a parameter}:
 \code{match_algaebase_taxa("Skeletonema", "marinoi", subscription_key = "your_key_here")}
 \item \strong{Temporarily for the session}:
-\code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+\code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}.
+After this, you do not need to pass \code{subscription_key} to the function.
 \item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
 Use \code{usethis::edit_r_environ()} to open the file, then add:
-\code{ALGAEBASE_KEY=your_key_here}
+\code{ALGAEBASE_KEY=your_key_here}.
+After this, you do not need to pass \code{subscription_key} to the function.
 }}
 
 \item{genus_only}{Logical. If \code{TRUE}, searches are based solely on the genus name, ignoring species. Defaults to \code{FALSE}.}
@@ -53,6 +55,9 @@ Use \code{usethis::edit_r_environ()} to open the file, then add:
 
 \item{apikey}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 Use \code{subscription_key} instead.}
+
+\item{genus}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Use \code{genera} instead.}
 }
 \value{
 A data frame containing taxonomic information for each input genus–species combination.
@@ -93,7 +98,7 @@ genus_vec <- c("Thalassiosira", "Skeletonema", "Tripos")
 species_vec <- c("pseudonana", "costatum", "furca")
 
 algaebase_results <- match_algaebase_taxa(
-  genus = genus_vec,
+  genera = genus_vec,
   species = species_vec,
   subscription_key = "your_api_key",
   exact_matches_only = TRUE,
@@ -105,5 +110,5 @@ head(algaebase_results)
 \seealso{
 \url{https://www.algaebase.org/} for AlgaeBase website.
 
-\code{\link{parse_scientific_names}}
+\code{\link{parse_scientific_names}} for parsing taxonomic names before passing them to the function.
 }

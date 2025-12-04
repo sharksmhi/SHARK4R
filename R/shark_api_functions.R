@@ -1,34 +1,44 @@
-#' Retrieve available search options from SHARK API
+#' Retrieve available search options from SHARK
 #'
-#' The `get_shark_options` function retrieves available search options from the SHARK database.
-#' It sends a GET request to the SHARK API and returns the results as a structured `data.frame`.
+#' The `get_shark_options()` function retrieves available search options from the SHARK database.
+#' It sends a GET request to the SHARK API and returns the results as a structured named list.
 #'
-#' @param prod Logical. Query against PROD or TEST (SMHI internal) server. Default is TRUE (PROD).
-#' @param unparsed Logical. If `TRUE`, returns the complete JSON output as list. Defaults to `FALSE`.
+#' @param prod Logical value that selects the production server when `TRUE`
+#'   and the test server when `FALSE`, unless `utv` is `TRUE`.
+#' @param utv Logical value that selects the UTV server when `TRUE`.
+#' @param unparsed Logical. If `TRUE`, returns the complete JSON response as a nested list without parsing.
+#'   Defaults to `FALSE`.
 #'
-#' @return A named `list` containing the available search options from the SHARK API.
+#' @return A named `list` of available search options from the SHARK API.
+#'   If `unparsed = TRUE`, returns the raw JSON structure as a list.
+#'   If `unparsed = FALSE`, returns a simplified list of character or numeric vectors.
 #'
-#' @details This function sends a GET request to the SHARK API options endpoint to retrieve available search filters and options
-#' for querying the database.
+#' @details
+#' This function sends a GET request to the `/api/options` endpoint of the SHARK API
+#' to retrieve available search filters and options that can be used in SHARK data queries.
 #'
-#' @seealso \url{https://shark.smhi.se} for SHARK database.
-#' @seealso \code{\link{get_shark_data}}
+#' @seealso [get_shark_data()] for retrieving actual data from the SHARK API.
+#' @seealso \url{https://shark.smhi.se} for the SHARK database portal.
 #'
 #' @examples
 #' \dontrun{
-#'   # Retrieve available search options
+#'   # Retrieve available search options (simplified)
 #'   shark_options <- get_shark_options()
-#'   View(shark_options)
+#'   names(shark_options)
+#'
+#'   # Retrieve full unparsed JSON response
+#'   raw_options <- get_shark_options(unparsed = TRUE)
 #'
 #'   # View available datatypes
-#'   dataTypes <- shark_options$dataTypes
-#'   print(dataTypes)
+#'   print(shark_options$dataTypes)
 #' }
 #'
 #' @export
-get_shark_options <- function(prod = TRUE, unparsed = FALSE) {
+get_shark_options <- function(prod = TRUE, utv = FALSE, unparsed = FALSE) {
 
-  if (prod) {
+  if (utv) {
+    url <- "https://shark-utv.smhi.se/api/options"
+  } else if (prod) {
     url <- "https://shark.smhi.se/api/options"
   } else {
     url <- "https://shark-tst.smhi.se/api/options"
@@ -136,10 +146,12 @@ get_shark_options <- function(prod = TRUE, unparsed = FALSE) {
 #' @param typOmraden Character vector. Optional. Type areas to filter data by specific areas.
 #' @param helcomOspar Character vector. Optional. HELCOM or OSPAR areas for regional filtering.
 #' @param seaAreas Character vector. Optional. Sea area codes for filtering by specific sea areas.
-#' @param prod Logical. Query against PROD or TEST (SMHI internal) server. Default is `TRUE` (PROD).
+#' @param prod Logical. Select production server when `TRUE` (default). Ignored if `utv` is `TRUE`.
+#' @param utv Logical. Select UTV server when `TRUE`.
 #'
 #' @seealso \url{https://shark.smhi.se} for SHARK database.
-#' @seealso \code{\link{get_shark_options}}
+#' @seealso \code{\link{get_shark_options}} to see filter options
+#' @seealso \code{\link{get_shark_data}} to download SHARK data
 #'
 #' @return An integer representing the total number of rows in the requested SHARK table
 #'   after applying the specified filters.
@@ -161,10 +173,17 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
                                    redListedCategory = c(), taxonName = c(), stationName = c(),
                                    vattenDistrikt = c(), seaBasins = c(), counties = c(),
                                    municipalities = c(), waterCategories = c(), typOmraden = c(),
-                                   helcomOspar = c(), seaAreas = c(), prod = TRUE) {
+                                   helcomOspar = c(), seaAreas = c(), prod = TRUE, utv = FALSE) {
 
-  # Define the URL
-  url <- if (prod) "https://shark.smhi.se/api/sample/count" else "https://shark-tst.smhi.se/api/sample/count"
+  # Select environment
+  if (utv) {
+    url <- "https://shark-utv.smhi.se/api/sample/count"
+  } else if (prod) {
+    url <- "https://shark.smhi.se/api/sample/count"
+  } else {
+    url <- "https://shark-tst.smhi.se/api/sample/count"
+  }
+
   url_short <- gsub("api/sample/count", "", url)
 
   # Check if the URL is reachable
@@ -226,9 +245,9 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
     stop("Failed to retrieve data: ", status_code(response))
   }
 }
-#' Retrieve data from the SHARK API
+#' Retrieve tabular data from SHARK
 #'
-#' The `get_shark_data` function retrieves tabular data from the SHARK database hosted by SMHI. The function sends a POST request
+#' The `get_shark_data()` function retrieves tabular data from the SHARK database hosted by SMHI. The function sends a POST request
 #' to the SHARK API with customizable filters, including year, month, taxon name, water category, and more, and returns the
 #' retrieved data as a structured `data.frame`. To view available filter options, see \code{\link{get_shark_options}}.
 #'
@@ -241,7 +260,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #'     \item `"sharkdata_epibenthos"`: Epibenthos table
 #'     \item `"sharkdata_greyseal"`: Greyseal table
 #'     \item `"sharkdata_harbourporpoise"`: Harbour porpoise table
-#'     \item `"sharkdata_harbourseal`: Harbour seal table
+#'     \item `"sharkdata_harbourseal"`: Harbour seal table
 #'     \item `"sharkdata_jellyfish"`: Jellyfish table
 #'     \item `"sharkdata_physicalchemical"`: Physical chemical table
 #'     \item `"sharkdata_physicalchemical_columns"`: Physical chemical table: column view
@@ -269,8 +288,9 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #'     \item `"short"`: Shortened version.
 #'     \item `"internal_key"`: Internal key (default).
 #'   }
-#' @param save_data Logical. If TRUE, the data will be saved to a specified file (see `file_path`).
-#'   If FALSE, a temporary file will be created instead. The temporary file will be automatically deleted after it is loaded into memory.
+#' @param save_data Logical. If `TRUE`, the downloaded data is written to `file_path` on disk.
+#'   If `FALSE` (default), data is temporarily written to a file and then read into memory as
+#'   a `data.frame`, after which the temporary file is deleted.
 #' @param file_path Character. The file path where the data should be saved. Required if `save_data` is TRUE. Ignored if `save_data` is FALSE.
 #' @param delimiters Character. Specifies the delimiter used to separate values in the file, if `save_data` is TRUE.
 #'   Options are `"point-tab"` (tab-separated) or `"point-semi"` (semicolon-separated).
@@ -330,20 +350,37 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @param helcomOspar Character vector. HELCOM or OSPAR areas for regional filtering.
 #' @param seaAreas Character vector. Sea area codes to filter by specific sea areas.
 #' @param hideEmptyColumns Logical. Whether to hide empty columns. Default is FALSE.
-#' @param row_limit Numeric. Specifies the maximum number of rows that can be retrieved in a single request. If the requested data exceeds this limit, the function automatically downloads the data in yearly chunks. The default value is 10 million rows.
-#' @param prod Logical. Whether to query the PROD (production) server or the SMHI internal TEST (testing) server. Default is TRUE (PROD).
+#' @param row_limit Numeric. Specifies the maximum number of rows that can be retrieved in a single request.
+#'   If the requested data exceeds this limit, the function automatically downloads the data in yearly chunks
+#'   (ignored when `tableView = "report_*"`). The default value is 10 million rows.
+#' @param prod Logical, whether to download from the production
+#'   (`TRUE`, default) or test (`FALSE`) SHARK server. Ignored if `utv` is `TRUE`.
+#' @param utv Logical. Select UTV server when `TRUE`.
 #' @param verbose Logical. Whether to display progress information. Default is TRUE.
 #'
-#' @return A `data.frame` containing the retrieved SHARK data, with column names based on the API's response.
+#' @return
+#' A `data.frame` (tibble) containing the retrieved SHARK data, parsed from
+#' the API's delimited text response. Column types are inferred automatically.
 #'
-#' @details This function sends a POST request to the SHARK API with the specified filters. The response is parsed as JSON
-#'   and then converted into a `data.frame`. The function handles the dynamic construction of the query body to filter
-#'   the data based on the provided parameters. If the `row_limit` parameter is reached, the data retrieval process is
-#'   split into manageable chunks to avoid overwhelming the API or running into memory issues. Please note that making very
-#'   large requests, such as retrieving the entire database, can be extremely memory-intensive.
+#' @details
+#' This function sends a POST request to the SHARK API with the specified filters.
+#' The API returns a delimited text file (e.g., tab- or semicolon-separated), which is
+#' downloaded and read into R as a `data.frame`. If the `row_limit` parameter is exceeded,
+#' the data is retrieved in yearly chunks and combined into a single table. Adjusting the
+#' `row_limit` parameter may be necessary when retrieving large datasets or detailed reports.
+#' Note that making very large requests (e.g., retrieving the entire SHARK database)
+#' can be extremely time- and memory-intensive.
 #'
-#' @seealso \url{https://shark.smhi.se} for SHARK database.
-#' @seealso \code{\link{get_shark_options}} \code{\link{get_shark_table_counts}}
+#' @note
+#' For large queries spanning multiple years or including several data types,
+#' retrieval can be time-consuming and memory-intensive. Consider filtering
+#' by year, data type, or region for improved performance.
+#'
+#' @seealso
+#' * \url{https://shark.smhi.se} – SHARK database portal
+#' * [get_shark_options()] – Retrieve available filters
+#' * [get_shark_table_counts()] – Check table row counts before download
+#' * [get_shark_datasets()] – To download datasets as zip-archives
 #'
 #' @examples
 #' \dontrun{
@@ -362,7 +399,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
                            redListedCategory = c(), taxonName = c(), stationName = c(), vattenDistrikt = c(),
                            seaBasins = c(), counties = c(), municipalities = c(), waterCategories = c(),
                            typOmraden = c(), helcomOspar = c(), seaAreas = c(), hideEmptyColumns = FALSE,
-                           row_limit = 10^7, prod = TRUE, verbose = TRUE) {
+                           row_limit = 10^7, prod = TRUE, utv = FALSE, verbose = TRUE) {
 
   # Set up file path to .txt file
   if (save_data && is.null(file_path)) {
@@ -373,8 +410,63 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     stop("To save the data, set 'save_data' to TRUE and specify a valid 'file_path': ", file_path)
   }
 
-  # Define the URL
-  url <- if (prod) "https://shark.smhi.se/api/sample/download" else "https://shark-tst.smhi.se/api/sample/download"
+  # Normalize user input (case-insensitive)
+  tableView <- tolower(trimws(tableView))
+
+  # Define short aliases → full table names
+  table_aliases <- c(
+    "overview" = "sharkweb_overview",
+    "all" = "sharkweb_all",
+    "bacterioplankton" = "sharkdata_bacterioplankton",
+    "chlorophyll" = "sharkdata_chlorophyll",
+    "epibenthos" = "sharkdata_epibenthos",
+    "greyseal" = "sharkdata_greyseal",
+    "harbourporpoise" = "sharkdata_harbourporpoise",
+    "harbourseal" = "sharkdata_harbourseal",
+    "jellyfish" = "sharkdata_jellyfish",
+    "physicalchemical" = "sharkdata_physicalchemical",
+    "physicalchemical_columns" = "sharkdata_physicalchemical_columns",
+    "phytoplankton" = "sharkdata_phytoplankton",
+    "picoplankton" = "sharkdata_picoplankton",
+    "planktonbarcoding" = "sharkdata_planktonbarcoding",
+    "primaryproduction" = "sharkdata_primaryproduction",
+    "ringedseal" = "sharkdata_ringedseal",
+    "sealpathology" = "sharkdata_sealpathology",
+    "sedimentation" = "sharkdata_sedimentation",
+    "zoobenthos" = "sharkdata_zoobenthos",
+    "zooplankton" = "sharkdata_zooplankton",
+    "sum_year_param" = "report_sum_year_param",
+    "sum_year_param_taxon" = "report_sum_year_param_taxon",
+    "sampling_per_station" = "report_sampling_per_station",
+    "obs_taxon" = "report_obs_taxon",
+    "stations" = "report_stations",
+    "taxon" = "report_taxon"
+  )
+
+  # Automatically translate short names
+  if (tableView %in% names(table_aliases)) {
+    tableView <- table_aliases[[tableView]]
+  }
+
+  # Validate tableView
+  if (!grepl("^(sharkweb_|sharkdata_|report_)", tableView)) {
+    stop(
+      "Invalid 'tableView' value: ", tableView,
+      ". It must be one of the following (case-insensitive): ",
+      paste(sort(unique(names(table_aliases))), collapse = ", "), ".\n",
+      "Or use the full SHARK API name (e.g., 'sharkdata_phytoplankton')."
+    )
+  }
+
+  # Select environment
+  if (utv) {
+    url <- "https://shark-utv.smhi.se/api/sample/download"
+  } else if (prod) {
+    url <- "https://shark.smhi.se/api/sample/download"
+  } else {
+    url <- "https://shark-tst.smhi.se/api/sample/download"
+  }
+
   url_short <- gsub("api/sample/download", "", url)
 
   # Check if the URL is reachable
@@ -425,6 +517,20 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     dataTypes <- unlist(options$dataTypes)
   }
 
+  # Check if requested dataTypes exist in options$dataTypes
+  available_dataTypes <- unlist(options$dataTypes)
+  missing_dataTypes <- setdiff(dataTypes, available_dataTypes)
+
+  if (length(missing_dataTypes) > 0) {
+    warning(
+      "The following 'dataTypes' do not currently exist in the SHARK database: ",
+      paste(missing_dataTypes, collapse = ", "), ".\n",
+      "Valid 'dataTypes' (with available data) are: ",
+      paste(available_dataTypes, collapse = ", "), ".\n",
+      "See ?get_shark_options for more details."
+    )
+  }
+
   # Check if either 'fromYear' or 'toYear' is NULL
   if (is.null(fromYear) | is.null(toYear)) {
 
@@ -467,7 +573,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
                                   typOmraden = c(), helcomOspar = helcomOspar, seaAreas = seaAreas, prod = prod)
 
   # Download data in chunks or everything at once
-  if (count > row_limit) {
+  if (count > row_limit && !grepl("report_", tableView)) {
 
     # Print message
     if (verbose) {
@@ -681,7 +787,8 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 #'   extracted contents) should be stored. Defaults to `""`. If
 #'   `NULL` or `""`, the current working directory is used.
 #' @param prod Logical, whether to download from the production
-#'   (`TRUE`, default) or test (`FALSE`) SHARK server.
+#'   (`TRUE`, default) or test (`FALSE`) SHARK server. Ignored if `utv` is `TRUE`.
+#' @param utv Logical. Select UTV server when `TRUE`.
 #' @param unzip_file Logical, whether to extract downloaded zip
 #'   archives (`TRUE`) or only save them (`FALSE`, default).
 #' @param return_df Logical, whether to return a combined data frame
@@ -699,7 +806,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 #'
 #' @seealso \url{https://shark.smhi.se} for SHARK database.
 #' @seealso [get_shark_options()] for listing available datasets.
-#' @seealso [get_shark_data()] for listing available datasets.
+#' @seealso [get_shark_data()] for downloading tabular data.
 #'
 #' @examples
 #' \dontrun{
@@ -724,6 +831,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 get_shark_datasets <- function(dataset_name,
                                save_dir = "",
                                prod = TRUE,
+                               utv = FALSE,
                                unzip_file = FALSE,
                                return_df = FALSE,
                                verbose = TRUE) {
@@ -742,7 +850,10 @@ get_shark_datasets <- function(dataset_name,
     stop("No datasets found matching: ", paste(dataset_name, collapse = ", "))
   }
 
-  base_url <- if (prod) {
+  # Select base URL depending on environment
+  base_url <- if (utv) {
+    "https://shark-utv.smhi.se/api/dataset/download/"
+  } else if (prod) {
     "https://shark.smhi.se/api/dataset/download/"
   } else {
     "https://shark-tst.smhi.se/api/dataset/download/"
@@ -850,6 +961,9 @@ get_shark_datasets <- function(dataset_name,
 #'   for a parameter to be kept (default: 0.05).
 #' @param cache_result Logical, whether to save the result in a persistent cache
 #'   (`statistics.rds`) for use by other functions. Default is `FALSE`.
+#' @param prod Logical, whether to download from the production
+#'   (`TRUE`, default) or test (`FALSE`) SHARK server. Ignored if `utv` is `TRUE`.
+#' @param utv Logical. Select UTV server when `TRUE`.
 #' @param verbose Logical, whether to show download progress messages. Default is `TRUE`.
 #'
 #' @return A tibble with one row per parameter (and optionally per group) and the following columns:
@@ -883,13 +997,10 @@ get_shark_datasets <- function(dataset_name,
 #'
 #'   # Group by station name and save result in persistent cache
 #'   res <- get_shark_statistics(group_col = "station_name", cache_result = TRUE)
-#'
-#'   # Print result
-#'   print(res)
 #' }
 get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL, group_col = NULL,
                                  min_obs = 3, max_non_numeric_frac = 0.05, cache_result = FALSE,
-                                 verbose = TRUE) {
+                                 prod = TRUE, utv = FALSE, verbose = TRUE) {
 
   # Set default years
   current_year <- as.integer(format(Sys.Date(), "%Y"))
@@ -909,6 +1020,8 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
   data <- get_shark_data(dataTypes = datatype,
                          fromYear = fromYear,
                          toYear = toYear,
+                         prod = prod,
+                         utv = utv,
                          verbose = verbose)
 
   if (nrow(data) == 0) {

@@ -130,7 +130,7 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
   readxl::read_excel(file_to_read, sheet = sheet, guess_max = 10000, progress = FALSE)
 }
 
-#' Get PEG biovolume Excel list
+#' Get the latest EG-Phyto/PEG biovolume Excel list
 #'
 #' This function downloads the EG-Phyto (previously PEG) biovolume zip archive from ICES (using
 #' `cache_peg_zip()`), unzips it, and reads the first Excel file by default.

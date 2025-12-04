@@ -2,7 +2,7 @@
 % Please edit documentation in R/shark_api_functions.R
 \name{get_shark_data}
 \alias{get_shark_data}
-\title{Retrieve data from the SHARK API}
+\title{Retrieve tabular data from SHARK}
 \usage{
 get_shark_data(
   tableView = "sharkweb_overview",
@@ -40,6 +40,7 @@ get_shark_data(
   hideEmptyColumns = FALSE,
   row_limit = 10^7,
   prod = TRUE,
+  utv = FALSE,
   verbose = TRUE
 )
 }
@@ -53,7 +54,7 @@ get_shark_data(
 \item \code{"sharkdata_epibenthos"}: Epibenthos table
 \item \code{"sharkdata_greyseal"}: Greyseal table
 \item \code{"sharkdata_harbourporpoise"}: Harbour porpoise table
-\item \verb{"sharkdata_harbourseal}: Harbour seal table
+\item \code{"sharkdata_harbourseal"}: Harbour seal table
 \item \code{"sharkdata_jellyfish"}: Jellyfish table
 \item \code{"sharkdata_physicalchemical"}: Physical chemical table
 \item \code{"sharkdata_physicalchemical_columns"}: Physical chemical table: column view
@@ -83,8 +84,9 @@ Default is \code{"sharkweb_overview"}.}
 \item \code{"internal_key"}: Internal key (default).
 }}
 
-\item{save_data}{Logical. If TRUE, the data will be saved to a specified file (see \code{file_path}).
-If FALSE, a temporary file will be created instead. The temporary file will be automatically deleted after it is loaded into memory.}
+\item{save_data}{Logical. If \code{TRUE}, the downloaded data is written to \code{file_path} on disk.
+If \code{FALSE} (default), data is temporarily written to a file and then read into memory as
+a \code{data.frame}, after which the temporary file is deleted.}
 
 \item{file_path}{Character. The file path where the data should be saved. Required if \code{save_data} is TRUE. Ignored if \code{save_data} is FALSE.}
 
@@ -175,26 +177,39 @@ If set to \code{NULL} (default), the function will use the latest available year
 
 \item{hideEmptyColumns}{Logical. Whether to hide empty columns. Default is FALSE.}
 
-\item{row_limit}{Numeric. Specifies the maximum number of rows that can be retrieved in a single request. If the requested data exceeds this limit, the function automatically downloads the data in yearly chunks. The default value is 10 million rows.}
+\item{row_limit}{Numeric. Specifies the maximum number of rows that can be retrieved in a single request.
+If the requested data exceeds this limit, the function automatically downloads the data in yearly chunks
+(ignored when \code{tableView = "report_*"}). The default value is 10 million rows.}
 
-\item{prod}{Logical. Whether to query the PROD (production) server or the SMHI internal TEST (testing) server. Default is TRUE (PROD).}
+\item{prod}{Logical, whether to download from the production
+(\code{TRUE}, default) or test (\code{FALSE}) SHARK server. Ignored if \code{utv} is \code{TRUE}.}
+
+\item{utv}{Logical. Select UTV server when \code{TRUE}.}
 
 \item{verbose}{Logical. Whether to display progress information. Default is TRUE.}
 }
 \value{
-A \code{data.frame} containing the retrieved SHARK data, with column names based on the API's response.
+A \code{data.frame} (tibble) containing the retrieved SHARK data, parsed from
+the API's delimited text response. Column types are inferred automatically.
 }
 \description{
-The \code{get_shark_data} function retrieves tabular data from the SHARK database hosted by SMHI. The function sends a POST request
+The \code{get_shark_data()} function retrieves tabular data from the SHARK database hosted by SMHI. The function sends a POST request
 to the SHARK API with customizable filters, including year, month, taxon name, water category, and more, and returns the
 retrieved data as a structured \code{data.frame}. To view available filter options, see \code{\link{get_shark_options}}.
 }
 \details{
-This function sends a POST request to the SHARK API with the specified filters. The response is parsed as JSON
-and then converted into a \code{data.frame}. The function handles the dynamic construction of the query body to filter
-the data based on the provided parameters. If the \code{row_limit} parameter is reached, the data retrieval process is
-split into manageable chunks to avoid overwhelming the API or running into memory issues. Please note that making very
-large requests, such as retrieving the entire database, can be extremely memory-intensive.
+This function sends a POST request to the SHARK API with the specified filters.
+The API returns a delimited text file (e.g., tab- or semicolon-separated), which is
+downloaded and read into R as a \code{data.frame}. If the \code{row_limit} parameter is exceeded,
+the data is retrieved in yearly chunks and combined into a single table. Adjusting the
+\code{row_limit} parameter may be necessary when retrieving large datasets or detailed reports.
+Note that making very large requests (e.g., retrieving the entire SHARK database)
+can be extremely time- and memory-intensive.
+}
+\note{
+For large queries spanning multiple years or including several data types,
+retrieval can be time-consuming and memory-intensive. Consider filtering
+by year, data type, or region for improved performance.
 }
 \examples{
 \dontrun{
@@ -206,7 +221,10 @@ large requests, such as retrieving the entire database, can be extremely memory-
 
 }
 \seealso{
-\url{https://shark.smhi.se} for SHARK database.
-
-\code{\link{get_shark_options}} \code{\link{get_shark_table_counts}}
+\itemize{
+\item \url{https://shark.smhi.se} – SHARK database portal
+\item \code{\link[=get_shark_options]{get_shark_options()}} – Retrieve available filters
+\item \code{\link[=get_shark_table_counts]{get_shark_table_counts()}} – Check table row counts before download
+\item \code{\link[=get_shark_datasets]{get_shark_datasets()}} – To download datasets as zip-archives
+}
 }

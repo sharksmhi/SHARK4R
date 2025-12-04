@@ -5,7 +5,7 @@
 #' that conflict with bathymetry and shoreline information. It can also
 #' validate depths against bathymetry data retrieved from a [terra::SpatRaster]
 #' object or, if `bathymetry = NULL`, via the `lookup_xy()` function, which calls
-#' the OBIS XY lookup API to obtain bathymetry and shore distance.
+#' the OBIS XY lookup API to obtain bathymetry (using EMODnet Bathymetry) and shore distance.
 #'
 #' @param data A data frame containing sample metadata, including longitude,
 #'   latitude, and one or two depth columns.

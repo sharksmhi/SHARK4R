@@ -74,5 +74,5 @@ xy_list <- lookup_xy(data, shoredistance = TRUE, grids = TRUE, areas = FALSE, as
 Provoost P, Bosch S (2024). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, \url{https://iobis.github.io/obistools/}.
 }
 \seealso{
-\code{\link{check_onland}}, \code{\link{check_depth}}
+\code{\link{check_onland}}, \code{\link{check_depth}}, \url{https://iobis.github.io/xylookup/} – OBIS xylookup web service
 }

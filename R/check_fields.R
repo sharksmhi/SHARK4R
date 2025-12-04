@@ -303,7 +303,7 @@ check_fields <- function(data, datatype, level = "error", stars = 1,
 #' @export
 #' @keywords internal
 check_Bacterioplankton <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_Bacterioplankton()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_Bacterioplankton()", "check_fields()")
   errors <- check_fields(data, "Bacterioplankton", level = level)
 
   if (nrow(errors) == 0) {
@@ -327,7 +327,7 @@ check_Bacterioplankton <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_Chlorophyll <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_Chlorophyll()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_Chlorophyll()", "check_fields()")
   errors <- check_fields(data, "Chlorophyll", level = level)
   if (nrow(errors) == 0) {
     message("All required fields present")
@@ -350,7 +350,7 @@ check_Chlorophyll <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_Epibenthos <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_Epibenthos()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_Epibenthos()", "check_fields()")
   errors <- check_fields(data, "Epibenthos", level = level)
 
   if (nrow(errors) == 0) {
@@ -373,7 +373,7 @@ check_Epibenthos <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_EpibenthosDropvideo <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_EpibenthosDropvideo()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_EpibenthosDropvideo()", "check_fields()")
   errors <- check_fields(data, "EpibenthosDropvideo", level = level)
 
   if (nrow(errors) == 0) {
@@ -396,7 +396,7 @@ check_EpibenthosDropvideo <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_GreySeal <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_GreySeal()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_GreySeal()", "check_fields()")
   errors <- check_fields(data, "GreySeal", level = level)
 
   if (nrow(errors) == 0) {
@@ -419,7 +419,7 @@ check_GreySeal <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_HarbourPorpoise <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_HarbourPorpoise()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_HarbourPorpoise()", "check_fields()")
   errors <- check_fields(data, "HarbourPorpoise", level = level)
 
   if (nrow(errors) == 0) {
@@ -442,7 +442,7 @@ check_HarbourPorpoise <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_HarbourSeal <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_HarbourSeal()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_HarbourSeal()", "check_fields()")
   errors <- check_fields(data, "HarbourSeal", level = level)
 
   if (nrow(errors) == 0) {
@@ -465,7 +465,7 @@ check_HarbourSeal <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_PhysicalChemical <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_PhysicalChemical()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_PhysicalChemical()", "check_fields()")
   errors <- check_fields(data, "PhysicalChemical", level = level)
 
   if (nrow(errors) == 0) {
@@ -488,7 +488,7 @@ check_PhysicalChemical <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_Phytoplankton <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_Phytoplankton()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_Phytoplankton()", "check_fields()")
   errors <- check_fields(data, "Phytoplankton", level = level)
 
   if (nrow(errors) == 0) {
@@ -511,7 +511,7 @@ check_Phytoplankton <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_Picoplankton <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_Picoplankton()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_Picoplankton()", "check_fields()")
   errors <- check_fields(data, "Picoplankton", level = level)
 
   if (nrow(errors) == 0) {
@@ -534,7 +534,7 @@ check_Picoplankton <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_PrimaryProduction <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_PrimaryProduction()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_PrimaryProduction()", "check_fields()")
   errors <- check_fields(data, "PrimaryProduction", level = level)
 
   if (nrow(errors) == 0) {
@@ -557,7 +557,7 @@ check_PrimaryProduction <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_RingedSeal <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_RingedSeal()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_RingedSeal()", "check_fields()")
   errors <- check_fields(data, "RingedSeal", level = level)
 
   if (nrow(errors) == 0) {
@@ -580,7 +580,7 @@ check_RingedSeal <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_SealPathology <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_SealPathology()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_SealPathology()", "check_fields()")
   errors <- check_fields(data, "SealPathology", level = level)
 
   if (nrow(errors) == 0) {
@@ -603,7 +603,7 @@ check_SealPathology <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_Sedimentation <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_Sedimentation()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_Sedimentation()", "check_fields()")
   errors <- check_fields(data, "Sedimentation", level = level)
 
   if (nrow(errors) == 0) {
@@ -626,7 +626,7 @@ check_Sedimentation <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_Zoobenthos <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_Zoobenthos()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_Zoobenthos()", "check_fields()")
   errors <- check_fields(data, "Zoobenthos", level = level)
 
   if (nrow(errors) == 0) {
@@ -649,7 +649,7 @@ check_Zoobenthos <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_Zooplankton <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_Zooplankton()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_Zooplankton()", "check_fields()")
   errors <- check_fields(data, "Zooplankton", level = level)
 
   if (nrow(errors) == 0) {
@@ -673,7 +673,7 @@ check_Zooplankton <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_Bacterioplankton <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_Bacterioplankton()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_Bacterioplankton()", "check_fields()")
   errors <- check_fields(data, "deliv_Bacterioplankton", level = level)
 
   if (nrow(errors) == 0) {
@@ -697,7 +697,7 @@ check_deliv_Bacterioplankton <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_Chlorophyll <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_Chlorophyll()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_Chlorophyll()", "check_fields()")
   errors <- check_fields(data, "deliv_Chlorophyll", level = level)
 
   if (nrow(errors) == 0) {
@@ -721,7 +721,7 @@ check_deliv_Chlorophyll <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_Epibenthos <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_Epibenthos()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_Epibenthos()", "check_fields()")
   errors <- check_fields(data, "deliv_Epibenthos", level = level)
 
   if (nrow(errors) == 0) {
@@ -744,7 +744,7 @@ check_deliv_Epibenthos <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_EpibenthosDropvideo <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_EpibenthosDropvideo()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_EpibenthosDropvideo()", "check_fields()")
   errors <- check_fields(data, "deliv_EpibenthosDropvideo", level = level)
 
   if (nrow(errors) == 0) {
@@ -767,7 +767,7 @@ check_deliv_EpibenthosDropvideo <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_GreySeal <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_GreySeal()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_GreySeal()", "check_fields()")
   errors <- check_fields(data, "deliv_GreySeal", level = level)
 
   if (nrow(errors) == 0) {
@@ -790,7 +790,7 @@ check_deliv_GreySeal <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_HarbourPorpoise <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_HarbourPorpoise()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_HarbourPorpoise()", "check_fields()")
   errors <- check_fields(data, "deliv_HarbourPorpoise", level = level)
 
   if (nrow(errors) == 0) {
@@ -813,7 +813,7 @@ check_deliv_HarbourPorpoise <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_HarbourSeal <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_HarbourSeal()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_HarbourSeal()", "check_fields()")
   errors <- check_fields(data, "deliv_HarbourSeal", level = level)
 
   if (nrow(errors) == 0) {
@@ -836,7 +836,7 @@ check_deliv_HarbourSeal <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_PhysicalChemical <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_PhysicalChemical()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_PhysicalChemical()", "check_fields()")
   errors <- check_fields(data, "deliv_PhysicalChemical", level = level)
 
   if (nrow(errors) == 0) {
@@ -859,7 +859,7 @@ check_deliv_PhysicalChemical <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_Phytoplankton <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_Phytoplankton()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_Phytoplankton()", "check_fields()")
   errors <- check_fields(data, "deliv_Phytoplankton", level = level)
 
   if (nrow(errors) == 0) {
@@ -882,7 +882,7 @@ check_deliv_Phytoplankton <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_Picoplankton <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_Picoplankton()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_Picoplankton()", "check_fields()")
   errors <- check_fields(data, "deliv_Picoplankton", level = level)
 
   if (nrow(errors) == 0) {
@@ -905,7 +905,7 @@ check_deliv_Picoplankton <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_PrimaryProduction <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_PrimaryProduction()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_PrimaryProduction()", "check_fields()")
   errors <- check_fields(data, "deliv_PrimaryProduction", level = level)
 
   if (nrow(errors) == 0) {
@@ -928,7 +928,7 @@ check_deliv_PrimaryProduction <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_RingedSeal <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_RingedSeal()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_RingedSeal()", "check_fields()")
   errors <- check_fields(data, "deliv_RingedSeal", level = level)
 
   if (nrow(errors) == 0) {
@@ -951,7 +951,7 @@ check_deliv_RingedSeal <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_SealPathology <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_SealPathology()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_SealPathology()", "check_fields()")
   errors <- check_fields(data, "deliv_SealPathology", level = level)
 
   if (nrow(errors) == 0) {
@@ -974,7 +974,7 @@ check_deliv_SealPathology <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_Sedimentation <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_Sedimentation()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_Sedimentation()", "check_fields()")
   errors <- check_fields(data, "deliv_Sedimentation", level = level)
 
   if (nrow(errors) == 0) {
@@ -997,7 +997,7 @@ check_deliv_Sedimentation <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_Zoobenthos <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_Zoobenthos()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_Zoobenthos()", "check_fields()")
   errors <- check_fields(data, "deliv_Zoobenthos", level = level)
 
   if (nrow(errors) == 0) {
@@ -1020,7 +1020,7 @@ check_deliv_Zoobenthos <- function(data, level = "error") {
 #' @export
 #' @keywords internal
 check_deliv_Zooplankton <- function(data, level = "error") {
-  lifecycle::deprecate_warn("0.1.7.9000", "check_deliv_Zooplankton()", "check_fields()")
+  lifecycle::deprecate_warn("1.0.0", "check_deliv_Zooplankton()", "check_fields()")
   errors <- check_fields(data, "deliv_Zooplankton", level = level)
 
   if (nrow(errors) == 0) {

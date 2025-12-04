@@ -4,16 +4,25 @@
 \alias{get_worms_records}
 \title{Retrieve WoRMS records}
 \usage{
-get_worms_records(aphia_id, max_retries = 3, sleep_time = 10, verbose = TRUE)
+get_worms_records(
+  aphia_ids,
+  max_retries = 3,
+  sleep_time = 10,
+  verbose = TRUE,
+  aphia_id = deprecated()
+)
 }
 \arguments{
-\item{aphia_id}{A vector of Aphia IDs for which records should be retrieved.}
+\item{aphia_ids}{A vector of Aphia IDs for which records should be retrieved.}
 
 \item{max_retries}{An integer specifying the maximum number of retry attempts for each Aphia ID in case of failure. Default is 3.}
 
 \item{sleep_time}{A numeric value specifying the time (in seconds) to wait between retry attempts. Default is 10 seconds.}
 
 \item{verbose}{A logical indicating whether to print progress messages. Default is TRUE.}
+
+\item{aphia_id}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Use \code{aphia_ids} instead.}
 }
 \value{
 A data frame containing the retrieved WoRMS records for the provided Aphia IDs. Each row corresponds to one Aphia ID.

@@ -202,9 +202,13 @@ safe_datatable(check_codes(shark_data, field = params$field, code_type = params$
 
 ## Match taxa
 
-Uses `is_in_dyntaxa()` to find and match taxa names provided in the data against the Dyntaxa database. In addition to the Dyntaxa match it is recommended to run the `match_worms_taxa_interactive()` function to match against the WoRMS database.
+Uses `is_in_dyntaxa()` to find and match taxa names provided in the data against the Dyntaxa database. In addition to the Dyntaxa match it is recommended to run the `match_worms_taxa()` function to match against the WoRMS database.
 
 ```{r matchtaxa, echo=FALSE}
+worms_match <- match_worms_taxa(shark_data$scientific_name, 
+                                marine_only = FALSE,
+                                verbose = FALSE)
+
 if ("scientific_name" %in% colnames(shark_data)) {
   tagList(
     tags$h4("Matched taxa (Dyntaxa)"),
@@ -212,7 +216,11 @@ if ("scientific_name" %in% colnames(shark_data)) {
                                  use_dwca = TRUE,
                                  return_df = TRUE)),
     tags$h4("Matched taxa (WoRMS)"),
-    safe_datatable(match_worms_taxa_interactive(shark_data$scientific_name, ask = FALSE))
+    safe_datatable(select(worms_match, 
+                          scientificname, 
+                          lsid, 
+                          match_type, 
+                          valid_AphiaID))
   )
 }
 ```

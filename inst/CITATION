@@ -11,7 +11,7 @@ bibentry(
            comment = c(affiliation = "Swedish Meteorological and Hydrological Institute",
                        ORCID = "0000-0002-8283-656X"))),
   year = "2025",
-  note = "R package version 0.1.7.9000",
-  url = "https://doi.org/10.5281/zenodo.14169399",
-  textVersion = paste("Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases. R package version 0.1.7.9000. https://doi.org/10.5281/zenodo.14169399")
+  note = "R package version 1.0.0",
+  url = "https://CRAN.R-project.org/package=SHARK4R",
+  textVersion = paste("Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases. R package version 1.0.0. https://CRAN.R-project.org/package=SHARK4R")
 )

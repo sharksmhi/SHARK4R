@@ -7,12 +7,14 @@
 scatterplot(
   data,
   x = c("station_name", "sample_date"),
+  parameter = NULL,
   hline = NULL,
   hline_group_col = NULL,
   hline_value_col = NULL,
   hline_style = list(linetype = "dashed", size = 0.8),
+  max_hlines = 5,
   interactive = TRUE,
-  max_hlines = 5
+  verbose = TRUE
 )
 }
 \arguments{
@@ -20,6 +22,9 @@ scatterplot(
 \code{"station_name"}, \code{"sample_date"}, \code{"value"}, \code{"parameter"}, \code{"unit"}.}
 
 \item{x}{Character. The column to use for the x-axis. Either \code{"station_name"} or \code{"sample_date"}.}
+
+\item{parameter}{Optional character. If provided, only data for this parameter will be plotted.
+If \code{NULL}, the function will plot the first parameter found in the dataset.}
 
 \item{hline}{Numeric or data.frame. Horizontal line(s) to add. If numeric, a single line
 is drawn at that y-value. If a data.frame, must contain \code{hline_group_col} and \code{hline_value_col} columns.}
@@ -30,9 +35,11 @@ is drawn at that y-value. If a data.frame, must contain \code{hline_group_col} a
 
 \item{hline_style}{List. Appearance settings for horizontal lines. Should contain \code{linetype} and \code{size}.}
 
+\item{max_hlines}{Integer. Maximum number of horizontal line groups to display per parameter when \code{hline} is a data.frame.}
+
 \item{interactive}{Logical. If TRUE, returns an interactive \code{plotly} plot; if FALSE, returns a static \code{ggplot2} plot.}
 
-\item{max_hlines}{Integer. Maximum number of horizontal line groups to display per parameter when \code{hline} is a data.frame.}
+\item{verbose}{Logical. If TRUE, messages will be displayed during execution. Defaults to TRUE.}
 }
 \value{
 A \code{ggplot} object (if \code{interactive = FALSE}) or a \code{plotly} object (if \code{interactive = TRUE}).
@@ -55,12 +62,14 @@ by a grouping column and adding horizontal threshold lines. Supports both static
 scatterplot(
   data = my_data,
   x = "station_name",
+  parameter = "Chlorophyll-a",
   hline = c(10, 20)
 )
 
 scatterplot(
   data = my_data,
   x = "sample_date",
+  parameter = "Bacterial abundance",
   hline = thresholds_df,
   hline_group_col = "location_sea_basin",
   hline_value_col = "P99"

@@ -4,9 +4,6 @@
 #' quality control (QC) on SHARK data. The application provides a graphical
 #' interface for exploring and validating data before or after submission to SHARK.
 #'
-#' @param additional_packages Character vector of additional package names
-#'   required by the app. These will be checked alongside the core dependencies.
-#'   Defaults to `NULL`.
 #' @param interactive Logical value whether the session is interactive or not.
 #'
 #' @details
@@ -17,9 +14,6 @@
 #' the function instead raises an error and lists the missing packages so they
 #' can be installed manually.
 #'
-#' Users can supply additional package names via `additional_packages` to ensure
-#' that optional features of the app also work.
-#'
 #' @return
 #' This function is called for its side effect of launching a Shiny application.
 #' It does not return a value.
@@ -28,23 +22,20 @@
 #' \dontrun{
 #' # Launch the SHARK4R Bio-QC Tool
 #' run_qc_app()
-#'
-#' # Launch with additional package checks
-#' run_qc_app(additional_packages = c("plotly", "DT"))
 #' }
 #'
 #' @export
-run_qc_app <- function(additional_packages = NULL, interactive = TRUE) {
+run_qc_app <- function(interactive = TRUE) {
   appDir <- system.file("shiny", "shark-qc", package = "SHARK4R")
   if (appDir == "") {
     stop("Could not find shark-qc directory. Try re-installing `SHARK4R`.", call. = FALSE)
   }
 
   # Core required packages
-  needed_pkgs <- c("shiny", "shinythemes", "htmltools", "rmarkdown", "skimr", "DT", "leaflet", "dplyr", "plotly")
-
-  # Include user-specified packages
-  needed_pkgs <- unique(c(needed_pkgs, additional_packages))
+  needed_pkgs <- c(
+    "shiny", "shinythemes", "htmltools", "rmarkdown",
+    "skimr", "DT", "leaflet", "dplyr", "plotly"
+  )
 
   # Check for missing packages
   missing <- needed_pkgs[!vapply(needed_pkgs, requireNamespace, logical(1), quietly = TRUE)]
@@ -66,7 +57,7 @@ run_qc_app <- function(additional_packages = NULL, interactive = TRUE) {
     }
   }
 
-  if (interactive) {
+  if (interactive() && interactive) {
     shiny::runApp(appDir, display.mode = "normal", launch.browser = TRUE)
   }
 }

@@ -78,6 +78,6 @@ plot_map_leaflet <- function(data, provider = "CartoDB.Positron") {
 #' @keywords internal
 #' @export
 plot_map_leaflet_deliv <- function(data, provider = "Esri.OceanBasemap") {
-  lifecycle::deprecate_warn("0.1.7.9000", "plot_map_leaflet_deliv()", "plot_map_leaflet()")
+  lifecycle::deprecate_warn("1.0.0", "plot_map_leaflet_deliv()", "plot_map_leaflet()")
   plot_map_leaflet(data = data, provider = provider)
 }

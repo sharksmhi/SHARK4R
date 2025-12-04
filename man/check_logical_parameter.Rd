@@ -43,8 +43,10 @@ df <- dplyr::tibble(
   value = c(5, -2, 10, 0)
 )
 
+\dontrun{
 # 1. Check that Biomass is never negative (returns DT datatable by default)
 check_logical_parameter(df, "Biomass", function(x) x < 0)
+}
 
 # 2. Same check, but return problematic rows as a data frame
 check_logical_parameter(df, "Biomass", function(x) x < 0, return_df = TRUE)

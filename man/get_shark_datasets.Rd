@@ -8,6 +8,7 @@ get_shark_datasets(
   dataset_name,
   save_dir = "",
   prod = TRUE,
+  utv = FALSE,
   unzip_file = FALSE,
   return_df = FALSE,
   verbose = TRUE
@@ -25,7 +26,9 @@ extracted contents) should be stored. Defaults to \code{""}. If
 \code{NULL} or \code{""}, the current working directory is used.}
 
 \item{prod}{Logical, whether to download from the production
-(\code{TRUE}, default) or test (\code{FALSE}) SHARK server.}
+(\code{TRUE}, default) or test (\code{FALSE}) SHARK server. Ignored if \code{utv} is \code{TRUE}.}
+
+\item{utv}{Logical. Select UTV server when \code{TRUE}.}
 
 \item{unzip_file}{Logical, whether to extract downloaded zip
 archives (\code{TRUE}) or only save them (\code{FALSE}, default).}
@@ -76,5 +79,5 @@ combined_df <- get_shark_datasets(
 
 \code{\link[=get_shark_options]{get_shark_options()}} for listing available datasets.
 
-\code{\link[=get_shark_data]{get_shark_data()}} for listing available datasets.
+\code{\link[=get_shark_data]{get_shark_data()}} for downloading tabular data.
 }

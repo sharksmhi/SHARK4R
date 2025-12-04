@@ -42,7 +42,7 @@
 #' @export
 ifcb_which_basin <- function(latitudes, longitudes, plot = FALSE, shape_file = NULL) {
 
-  lifecycle::deprecate_warn("0.1.7.9000", "ifcb_which_basin()", "which_basin()")
+  lifecycle::deprecate_warn("1.0.0", "ifcb_which_basin()", "which_basin()")
 
   which_basin(latitudes = latitudes,
               longitudes = longitudes,

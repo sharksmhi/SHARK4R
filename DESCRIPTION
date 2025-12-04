@@ -1,12 +1,16 @@
 Package: SHARK4R
 Title: Accessing and Validating Marine Environmental Data from SHARK and
     Related Databases
-Version: 0.1.7.9000
+Version: 1.0.0
 Authors@R: c(
     person("Markus", "Lindh", role = "aut",
            comment = c("Swedish Meteorological and Hydrological Institute", ORCID = "0000-0002-7120-4145")),
     person("Anders", "Torstensson", email = "anders.torstensson@smhi.se", role = c("aut", "cre"),
            comment = c("Swedish Meteorological and Hydrological Institute", ORCID = "0000-0002-8283-656X")),
+    person("Mikael", "Hedblom", role = "ctb",
+           comment = c("Swedish Meteorological and Hydrological Institute", ORCID = "0009-0007-5124-9956")),
+    person("Bengt", "Karlson", role = "ctb",
+           comment = c("Swedish Meteorological and Hydrological Institute", ORCID = "0000-0002-7524-3504")),
     person("SHARK", email = "shark@smhi.se", role = "cph"),
     person("SBDI", role = "fnd",
            comment = "Swedish Research Council, 2019-00242")
@@ -26,7 +30,7 @@ URL: https://sharksmhi.github.io/SHARK4R/,
     https://github.com/sharksmhi/SHARK4R
 BugReports: https://github.com/sharksmhi/SHARK4R/issues
 Depends:
-    R (>= 4.0.3)
+    R (>= 4.1.0)
 Imports:
     dplyr,
     DT,
@@ -38,6 +42,7 @@ Imports:
     purrr,
     readr,
     readxl,
+    rlang,
     sf,
     sp,
     stringi,

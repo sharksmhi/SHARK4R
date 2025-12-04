@@ -2,42 +2,55 @@
 % Please edit documentation in R/worms_api_functions.R
 \name{add_worms_taxonomy}
 \alias{add_worms_taxonomy}
-\title{Retrieve and organize WoRMS taxonomy for SHARK Aphia IDs}
+\title{Add WoRMS taxonomy hierarchy to AphiaIDs or scientific names}
 \usage{
-add_worms_taxonomy(aphia_id, scientific_name = NULL, verbose = TRUE)
+add_worms_taxonomy(
+  aphia_ids,
+  scientific_names = NULL,
+  add_rank_to_hierarchy = FALSE,
+  verbose = TRUE,
+  aphia_id = deprecated(),
+  scientific_name = deprecated()
+)
 }
 \arguments{
-\item{aphia_id}{A numeric vector containing Aphia IDs for which WoRMS taxonomy needs to be updated.}
+\item{aphia_ids}{Numeric vector of AphiaIDs.}
 
-\item{scientific_name}{A character vector of scientific names. If provided, Aphia IDs will be retrieved from the scientific names. The length of \code{scientific_name} must match the length of \code{aphia_id}. Defaults to \code{NULL}, in which case the function will only add taxonomy to the provided Aphia IDs.}
+\item{scientific_names}{Optional character vector of scientific names (same length as \code{aphia_id}).}
 
-\item{verbose}{A logical indicating whether to print progress messages. Default is TRUE.}
+\item{add_rank_to_hierarchy}{Logical (default FALSE). If TRUE, includes rank labels in
+the concatenated hierarchy string.}
+
+\item{verbose}{Logical (default TRUE). If TRUE, prints progress updates.}
+
+\item{aphia_id}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Use \code{aphia_ids} instead.}
+
+\item{scientific_name}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+Use \code{scientific_names} instead.}
 }
 \value{
-A data frame containing current WoRMS taxonomy information.
+A tibble with taxonomy columns added, including:
+\itemize{
+\item \code{aphia_id}, \code{scientific_name}
+\item \code{worms_kingdom}, \code{worms_phylum}, \code{worms_class}, \code{worms_order},
+\code{worms_family}, \code{worms_genus}, \code{worms_species}
+\item \code{worms_scientific_name}, \code{worms_hierarchy}
+}
 }
 \description{
-This function collects WoRMS (World Register of Marine Species) taxonomy information for a given set of Aphia IDs.
-The data is organized into a full taxonomic table that can be joined with data downloaded from \href{https://shark.smhi.se/}{SHARK}.
+This function enhances a dataset of AphiaIDs (and optionally scientific names)
+with their complete hierarchical taxonomy from the World Register of Marine Species (WoRMS).
+Missing AphiaIDs can be resolved from scientific names automatically.
 }
 \examples{
 \dontrun{
-# Update WoRMS taxonomy for a set of Aphia IDs
-updated_taxonomy <- add_worms_taxonomy(c(149619, 149122, 11))
-print(updated_taxonomy)
+add_worms_taxonomy(c(1080, 109604))
 
-# Update WoRMS with an unknown Aphia ID and scientific names
-with_names <- add_worms_taxonomy(c(149619, 149122, 11, NA),
-                                 c("Cerataulina pelagica",
-                                   "Chaetoceros didymus",
-                                   "Ciliophora",
-                                   "Dinophysis"))
-print(with_names)
+add_worms_taxonomy(
+  aphia_ids = c(NA, 109604),
+  scientific_names = c("Calanus finmarchicus", "Oithona similis")
+)
 }
 
-}
-\seealso{
-\url{https://marinespecies.org/} for WoRMS website.
-
-\code{\link{get_shark_data}}, \code{\link{update_dyntaxa_taxonomy}}, \url{https://www.marinespecies.org/rest/}, \url{https://CRAN.R-project.org/package=worrms}
 }

@@ -23,12 +23,14 @@ is read from the environment variable \code{ALGAEBASE_KEY}.
 You can provide the key in three ways:
 \itemize{
 \item \strong{Directly as a parameter}:
-\code{match_algaebase_genus("Skeletonema", subscription_key = "your_key_here")}
+\code{match_algaebase_genus("Skeletonema", subscription_key = "your_key_here")}.
 \item \strong{Temporarily for the session}:
-\code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}
+\code{Sys.setenv(ALGAEBASE_KEY = "your_key_here")}.
+After this, you do not need to pass \code{subscription_key} to the function.
 \item \strong{Permanently across sessions} by adding it to your \code{~/.Renviron} file.
 Use \code{usethis::edit_r_environ()} to open the file, then add:
-\code{ALGAEBASE_KEY=your_key_here}
+\code{ALGAEBASE_KEY=your_key_here}.
+After this, you do not need to pass \code{subscription_key} to the function.
 }}
 
 \item{higher}{A boolean flag indicating whether to include higher taxonomy in the output (default is TRUE).}

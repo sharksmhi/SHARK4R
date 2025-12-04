@@ -61,7 +61,7 @@ potential problems such as missing values, non-numeric entries, or values
 that conflict with bathymetry and shoreline information. It can also
 validate depths against bathymetry data retrieved from a \link[terra:SpatRaster-class]{terra::SpatRaster}
 object or, if \code{bathymetry = NULL}, via the \code{lookup_xy()} function, which calls
-the OBIS XY lookup API to obtain bathymetry and shore distance.
+the OBIS XY lookup API to obtain bathymetry (using EMODnet Bathymetry) and shore distance.
 }
 \details{
 The following checks are performed:

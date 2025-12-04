@@ -39,8 +39,8 @@ reference:
   - get_shark_datasets
   - get_shark_statistics
   - get_shark_table_counts
-  - read_shark_deliv
   - read_shark
+  - read_shark_deliv
 
 - subtitle: Dyntaxa
   desc: These functions are used to retrieve data from the Dyntaxa API
@@ -58,9 +58,10 @@ reference:
   contents:
   - add_worms_taxonomy
   - assign_phytoplankton_group
+  - get_worms_classification
   - get_worms_records
+  - get_worms_taxonomy_tree
   - match_worms_taxa
-  - match_worms_taxa_interactive
 
 - subtitle: AlgaeBase
   desc: These functions are used to retrieve data from the AlgaeBase API
@@ -85,7 +86,7 @@ reference:
   - get_nua_taxa
 
 - subtitle: Plankton Toolbox
-  desc: These functions are used to read data exported from Plankton Toolbox
+  desc: These functions are used to read data related to Plankton Toolbox
   contents:
   - get_nomp_list
   - get_peg_list
@@ -122,6 +123,7 @@ reference:
 - subtitle: MISC
   contents:
   - clean_shark4r_cache
+  - convert_ddmm_to_dd
   - find_required_fields
   - get_delivery_template
   - load_shark4r_stats

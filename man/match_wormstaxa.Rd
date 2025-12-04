@@ -17,11 +17,11 @@ Data frame with scientific name, scientific name ID and match type.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-This function has been deprecated. Users are encouraged to use \code{\link{match_worms_taxa_interactive}} instead.
+This function has been deprecated. Users are encouraged to use \code{\link{match_worms_taxa}} instead.
 
 matches latin name in data with WoRMS taxon list
 }
 \references{
-Provoost P, Bosch S (2025). “obistools: Tools for data enhancement and quality control” Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, \url{https://iobis.github.io/obistools/}.
+Provoost P, Bosch S (2025). obistools: Tools for data enhancement and quality control. Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, \url{https://iobis.github.io/obistools/}.
 }
 \keyword{internal}

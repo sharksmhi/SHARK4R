@@ -71,6 +71,7 @@ check_nominal_station <- function(data, verbose = TRUE) {
 #'   Otherwise, returns \code{NULL}.
 #'
 #' @examples
+#' \dontrun{
 #' df <- data.frame(
 #'   sample_date = rep(seq.Date(Sys.Date(), by = "day", length.out = 3), each = 2),
 #'   station_name = rep(c("ST1", "ST2"), 3),
@@ -78,11 +79,12 @@ check_nominal_station <- function(data, verbose = TRUE) {
 #'   sample_latitude_dd = rep(c(58.5, 58.6), 3)
 #' )
 #' nominal_station(df)
+#' }
 #'
 #' @keywords internal
 #' @export
 nominal_station <- function(data) {
-  lifecycle::deprecate_warn("0.1.7.9000", "nominal_station()", "check_nominal_station()")
+  lifecycle::deprecate_warn("1.0.0", "nominal_station()", "check_nominal_station()")
 
   check_nominal_station(data)
 }
@@ -128,47 +130,14 @@ nominal_station <- function(data) {
 #'   }
 #'
 #' @examples
-#' \dontrun{
 #' stations <- c("ANHOLT E", "BY5 BORNHOLMSDJ", "STX999")
 #' match_station(stations, try_synonyms = TRUE)
-#' }
 #'
 #' @export
 match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbose = TRUE) {
 
-  # ---- Determine station file ----
-  if (is.null(station_file)) {
-    env_path <- Sys.getenv("NODC_CONFIG", unset = NA)
-    if (!is.na(env_path) && dir.exists(env_path)) {
-      files <- list.files(file.path(env_path),
-                          pattern = "^station\\.txt$", recursive = TRUE, full.names = TRUE)
-      if (length(files) > 0) {
-        station_file <- files[1]
-        if(verbose) message("Using station.txt from NODC_CONFIG: ", station_file)
-      }
-    }
-    if (is.null(station_file)) {
-      zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
-      tmp_dir <- tempdir()
-      utils::unzip(zip_path, exdir = tmp_dir)
-      files <- list.files(tmp_dir, pattern = "^station\\.txt$", recursive = TRUE, full.names = TRUE)
-      if (length(files) > 0) {
-        station_file <- files[1]
-        if(verbose) message("Using station.txt from SHARK4R bundle: ", files[1])
-      }
-    }
-  }
-
-  # ---- Read station database ----
-  station_db <- readr::read_delim(
-    station_file,
-    delim = "\t",
-    guess_max = 2000,
-    col_names = TRUE,
-    locale = readr::locale(encoding = "latin1"),
-    col_types = readr::cols(),
-    progress = FALSE
-  )
+  # Load station database via helper
+  station_db <- load_station_bundle(station_file = station_file, verbose = verbose)
 
   # ---- Match unique names first ----
   unique_names <- unique(names)
@@ -271,6 +240,7 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #' }
 #'
 #' @examples
+#' \dontrun{
 #' df <- data.frame(
 #'   station_name = c("ANHOLT E", "BY5 BORNHOLMSDJ", "NEW STATION"),
 #'   sample_longitude_dd = c(12.1, 15.97, 17.5),
@@ -278,6 +248,7 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #' )
 #' check_station_distance(df, plot_leaflet = FALSE, try_synonyms = TRUE)
 #' check_station_distance(df, plot_leaflet = TRUE, only_bad = TRUE)
+#' }
 #'
 #' @export
 check_station_distance <- function(data, station_file = NULL,
@@ -294,39 +265,8 @@ check_station_distance <- function(data, station_file = NULL,
          paste(missing_data_cols, collapse = ", "))
   }
 
-  # ---- Determine station file ----
-  if (is.null(station_file)) {
-    env_path <- Sys.getenv("NODC_CONFIG", unset = NA)
-    if (!is.na(env_path) && dir.exists(env_path)) {
-      files <- list.files(file.path(env_path),
-                          pattern = "^station\\.txt$", recursive = TRUE, full.names = TRUE)
-      if (length(files) > 0) {
-        station_file <- files[1]
-        if(verbose) message("Using station.txt from NODC_CONFIG: ", station_file)
-      }
-    }
-    if (is.null(station_file)) {
-      zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
-      tmp_dir <- tempdir()
-      utils::unzip(zip_path, exdir = tmp_dir)
-      files <- list.files(tmp_dir, pattern = "^station\\.txt$", recursive = TRUE, full.names = TRUE)
-      if (length(files) > 0) {
-        station_file <- files[1]
-        if(verbose) message("Using station.txt from SHARK4R bundle: ", files[1])
-      }
-    }
-  }
-
-  # ---- Read station database ----
-  station_db <- readr::read_delim(
-    station_file,
-    delim = "\t",
-    guess_max = 2000,
-    col_names = TRUE,
-    locale = readr::locale(encoding = "latin1"),
-    col_types = readr::cols(),
-    progress = FALSE
-  )
+  # ---- Load station database (replaces duplicated logic) ----
+  station_db <- load_station_bundle(station_file = station_file, verbose = verbose)
 
   required_db_cols <- c("STATION_NAME",
                         "LATITUDE_WGS84_SWEREF99_DD",
@@ -500,4 +440,54 @@ check_station_distance <- function(data, station_file = NULL,
                          sample_latitude_dd,
                          distance_m,
                          within_limit))
+}
+
+#' Load station database (station.txt) from path, NODC_CONFIG, or package bundle
+#'
+#' @param station_file Optional path to a station.txt file.
+#' @param verbose Logical; if TRUE, prints messaging about which source is used.
+#'
+#' @return A data frame containing the station database.
+#' @keywords internal
+load_station_bundle <- function(station_file = NULL, verbose = TRUE) {
+
+  # ---- Determine station file path ----
+  if (is.null(station_file)) {
+    env_path <- Sys.getenv("NODC_CONFIG", unset = NA)
+    if (!is.na(env_path) && dir.exists(env_path)) {
+      files <- list.files(file.path(env_path),
+                          pattern = "^station\\.txt$", recursive = TRUE, full.names = TRUE)
+      if (length(files) > 0) {
+        station_file <- files[1]
+        if (verbose) message("Using station.txt from NODC_CONFIG: ", station_file)
+      }
+    }
+    if (is.null(station_file)) {
+      zip_path <- system.file("extdata", "station.zip", package = "SHARK4R")
+      tmp_dir <- tempdir()
+      utils::unzip(zip_path, exdir = tmp_dir)
+      files <- list.files(tmp_dir, pattern = "^station\\.txt$", recursive = TRUE, full.names = TRUE)
+      if (length(files) > 0) {
+        station_file <- files[1]
+        if (verbose) message("Using station.txt from SHARK4R bundle: ", station_file)
+      }
+    }
+  }
+
+  if (is.null(station_file)) {
+    stop("No station.txt file found via station_file, NODC_CONFIG, or package bundle.")
+  }
+
+  # ---- Read station database ----
+  station_db <- readr::read_delim(
+    station_file,
+    delim = "\t",
+    guess_max = 2000,
+    col_names = TRUE,
+    locale = readr::locale(encoding = "latin1"),
+    col_types = readr::cols(),
+    progress = FALSE
+  )
+
+  return(station_db)
 }

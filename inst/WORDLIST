@@ -8,6 +8,7 @@ Artdatabanken
 BQIm
 Bacillariophyceae
 Bacterioplankton
+Bathymetry
 Biovolume
 CMD
 Centre
@@ -17,6 +18,8 @@ Coscinodiscophyceae
 Cryptophytes
 Cyanobacteria
 Cyanophyceae
+DDMM
+DDMMss
 DT
 Diatomophyceae
 Dinoflagellates
@@ -27,6 +30,7 @@ DwCA
 Dyntaxa
 EEA
 EG
+EMODnet
 EPSG
 Epibenthos
 FishBase
@@ -66,6 +70,7 @@ SMHI's
 SWEREF
 Skagerrak
 Stationsregistret
+UTV
 WoRMS
 XY
 YYYY

@@ -61,7 +61,7 @@ ifcb_is_near_land <- function(latitudes,
                               remove_small_islands = TRUE,
                               small_island_threshold = 2000000) {
 
-  lifecycle::deprecate_warn("0.1.7.9000", "ifcb_is_near_land()", "positions_are_near_land()")
+  lifecycle::deprecate_warn("1.0.0", "ifcb_is_near_land()", "positions_are_near_land()")
 
   positions_are_near_land(latitudes = latitudes,
                           longitudes = longitudes,
