@@ -17,7 +17,7 @@ including [SHARK](https://shark.smhi.se/en/), [SLU Artdatabanken (Dyntaxa)](http
 [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/), [OBIS xylookup web service](https://iobis.github.io/xylookup/) 
 and [Nordic Microalgae](https://nordicmicroalgae.org/). The package serves a dual purpose, 
 supporting both data analysis and automatic quality control of physical, chemical, and marine biological data. 
-Several quality control components, originally developed by Provoost and Bosch (2018), 
+Several quality control components, originally developed by Provoost and Bosch (2024), 
 have been adapted for compatibility with the SHARK format.
 
 ## Installation
