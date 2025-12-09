@@ -40,7 +40,7 @@ A data frame representing the updated Dyntaxa taxonomy table.
 \description{
 This function updates Dyntaxa taxonomy records based on a list of Dyntaxa taxon IDs.
 It collects parent IDs from SLU Artdatabanken API (Dyntaxa), retrieves full taxonomy records, and organizes
-the data into a full taxonomic table that can be joined with data downloaded from \href{https://shark.smhi.se/}{SHARK}
+the data into a full taxonomic table that can be joined with data downloaded from \href{https://shark.smhi.se/en/}{SHARK}
 }
 \details{
 A valid Dyntaxa API subscription key is required.

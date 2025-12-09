@@ -9,7 +9,7 @@
 #'   "sample_data.txt", "Sample summary", "sample_info.txt", "counting_method.txt", or "README".
 #'   Default is "sample_data.txt".
 #'
-#' @return A data frame containing the contents of the selected sheet.
+#' @return A `tibble` containing the contents of the selected sheet.
 #'
 #' @seealso \url{https://nordicmicroalgae.org/plankton-toolbox/} for downloading Plankton Toolbox.
 #' @seealso \url{https://github.com/planktontoolbox/plankton-toolbox/} for Plankton Toolbox source code.
@@ -52,7 +52,7 @@ read_ptbx <- function(file_path, sheet = c("sample_data.txt", "sample_info.txt",
 #' Get the latest NOMP biovolume Excel list
 #'
 #' This function downloads the latest available Nordic Marine Phytoplankton Group (NOMP)
-#' biovolume zip archive from SMHI (using `cache_nomp_zip()`), unzips it, and reads the first
+#' biovolume zip archive from SMHI, unzips it, and reads the first
 #' Excel file by default. You can also specify which file in the archive to read.
 #'
 #' @param year Numeric year to download. Default is current year; if not available,
@@ -74,12 +74,14 @@ read_ptbx <- function(file_path, sheet = c("sample_data.txt", "sample_info.txt",
 #' @seealso [clean_shark4r_cache()] to manually clear cached files.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   # Get the latest available list
 #'   nomp_list <- get_nomp_list()
+#'   head(nomp_list)
 #'
 #'   # Get the 2023 list and clean old cache files older than 60 days
 #'   nomp_list_2023 <- get_nomp_list(2023, clean_cache_days = 60)
+#'   head(nomp_list_2023)
 #' }
 get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
                           file = NULL,
@@ -154,12 +156,10 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
 #' @seealso [clean_shark4r_cache()] to manually clear cached files.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'   # Read the first Excel file from the PEG zip
 #'   peg_list <- get_peg_list()
-#'
-#'   # Read the latest list and clean old cache files older than 60 days
-#'   peg_list2 <- get_peg_list(clean_cache_days = 60)
+#'   head(peg_list)
 #' }
 get_peg_list <- function(file = NULL,
                          sheet = NULL,

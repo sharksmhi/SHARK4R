@@ -961,6 +961,8 @@ extract_algaebase_field <- function(query_result, field_name) {
 #' # Example with a vector of scientific names
 #' scientific_names <- c("Skeletonema marinoi", "Cf. Azadinium perforatum", "Gymnodinium sp.",
 #'                       "Melosira varians", "Aulacoseira islandica var. subarctica")
+#'
+#' # Parse names
 #' result <- parse_scientific_names(scientific_names)
 #'
 #' # Check the resulting data frame

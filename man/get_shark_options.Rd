@@ -18,7 +18,6 @@ Defaults to \code{FALSE}.}
 \value{
 A named \code{list} of available search options from the SHARK API.
 If \code{unparsed = TRUE}, returns the raw JSON structure as a list.
-If \code{unparsed = FALSE}, returns a simplified list of character or numeric vectors.
 }
 \description{
 The \code{get_shark_options()} function retrieves available search options from the SHARK database.
@@ -29,7 +28,7 @@ This function sends a GET request to the \verb{/api/options} endpoint of the SHA
 to retrieve available search filters and options that can be used in SHARK data queries.
 }
 \examples{
-\dontrun{
+\donttest{
   # Retrieve available search options (simplified)
   shark_options <- get_shark_options()
   names(shark_options)
@@ -45,5 +44,5 @@ to retrieve available search filters and options that can be used in SHARK data 
 \seealso{
 \code{\link[=get_shark_data]{get_shark_data()}} for retrieving actual data from the SHARK API.
 
-\url{https://shark.smhi.se} for the SHARK database portal.
+\url{https://shark.smhi.se/en} for the SHARK database portal.
 }

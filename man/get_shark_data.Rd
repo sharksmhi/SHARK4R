@@ -189,18 +189,18 @@ If the requested data exceeds this limit, the function automatically downloads t
 \item{verbose}{Logical. Whether to display progress information. Default is TRUE.}
 }
 \value{
-A \code{data.frame} (tibble) containing the retrieved SHARK data, parsed from
+A \code{tibble} containing the retrieved SHARK data, parsed from
 the API's delimited text response. Column types are inferred automatically.
 }
 \description{
 The \code{get_shark_data()} function retrieves tabular data from the SHARK database hosted by SMHI. The function sends a POST request
 to the SHARK API with customizable filters, including year, month, taxon name, water category, and more, and returns the
-retrieved data as a structured \code{data.frame}. To view available filter options, see \code{\link{get_shark_options}}.
+retrieved data as a structured \code{tibble}. To view available filter options, see \code{\link{get_shark_options}}.
 }
 \details{
 This function sends a POST request to the SHARK API with the specified filters.
 The API returns a delimited text file (e.g., tab- or semicolon-separated), which is
-downloaded and read into R as a \code{data.frame}. If the \code{row_limit} parameter is exceeded,
+downloaded and read into R as a \code{tibble}. If the \code{row_limit} parameter is exceeded,
 the data is retrieved in yearly chunks and combined into a single table. Adjusting the
 \code{row_limit} parameter may be necessary when retrieving large datasets or detailed reports.
 Note that making very large requests (e.g., retrieving the entire SHARK database)
@@ -212,17 +212,18 @@ retrieval can be time-consuming and memory-intensive. Consider filtering
 by year, data type, or region for improved performance.
 }
 \examples{
-\dontrun{
+\donttest{
   # Retrieve chlorophyll data from 2019 to 2020 for April to June
   shark_data <- get_shark_data(fromYear = 2019, toYear = 2020,
-                               months = c(4, 5, 6), dataTypes = c("Chlorophyll"))
-  View(shark_data)
+                               months = c(4, 5, 6), dataTypes = "Chlorophyll",
+                               verbose = FALSE)
+  print(shark_data)
 }
 
 }
 \seealso{
 \itemize{
-\item \url{https://shark.smhi.se} – SHARK database portal
+\item \url{https://shark.smhi.se/en} – SHARK database portal
 \item \code{\link[=get_shark_options]{get_shark_options()}} – Retrieve available filters
 \item \code{\link[=get_shark_table_counts]{get_shark_table_counts()}} – Check table row counts before download
 \item \code{\link[=get_shark_datasets]{get_shark_datasets()}} – To download datasets as zip-archives

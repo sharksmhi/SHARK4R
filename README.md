@@ -1,4 +1,4 @@
-# SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases <a href="https://sharksmhi.github.io/SHARK4R/"><img src="man/figures/logo.png" align="right" height="139" alt="SHARK4R website" /></a>
+# SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases <a href="https://sharksmhi.github.io/SHARK4R/"><img src="man/figures/logo.png" align="right" height="139" alt="SHARK4R website" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml)
@@ -11,7 +11,7 @@
 
 This R package is equipped with a client application designed for integration 
 with API functions. It facilitates access to various databases, 
-including [SHARK](https://shark.smhi.se/), [SLU Artdatabanken (Dyntaxa)](https://artfakta.se/), 
+including [SHARK](https://shark.smhi.se/en/), [SLU Artdatabanken (Dyntaxa)](https://artfakta.se/), 
 [WoRMS](https://www.marinespecies.org/rest/), [AlgaeBase](https://www.algaebase.org/), 
 [IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae](https://www.marinespecies.org/hab/), 
 [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/), [OBIS xylookup web service](https://iobis.github.io/xylookup/) 
@@ -22,15 +22,12 @@ have been adapted for compatibility with the SHARK format.
 
 ## Installation
 
-Installing `SHARK4R` requires the `remotes` package. Install the latest version of `SHARK4R` from GitHub:
+You can install the latest version of `SHARK4R` from CRAN using:
 ```r
-# install.packages("remotes")
-remotes::install_github("sharksmhi/SHARK4R", 
-                        ref = remotes::github_release(),
-                        dependencies = TRUE)
+install.packages("SHARK4R")
 ```
 
-Or install the development version:
+Or install the development version (requiring the `remotes` package):
 ```r
 # install.packages("remotes")
 remotes::install_github("sharksmhi/SHARK4R", 

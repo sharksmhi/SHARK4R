@@ -54,7 +54,7 @@ get_hab_list(
 \item{accepted_taxon}{Logical. Include information about the accepted taxon (e.g., scientific name and authority). Defaults to \code{TRUE}.}
 }
 \value{
-A dataframe containing the HABs taxonomic list, with columns based on the selected parameters.
+A \code{tibble} containing the HABs taxonomic list, with columns based on the selected parameters.
 }
 \description{
 This function retrieves the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae from the World Register of Marine Species (WoRMS).
@@ -66,13 +66,14 @@ The downloaded data can include various fields, which are controlled by the inpu
 If a field is not required, set the corresponding parameter to \code{FALSE} to exclude it from the output.
 }
 \examples{
-\dontrun{
+\donttest{
 # Download the default HABs taxonomic list
 habs_taxlist_df <- get_hab_list()
 head(habs_taxlist_df)
 
 # Include only specific fields in the output
 habs_taxlist_df <- get_hab_list(aphia_id = TRUE, scientific_name = TRUE, authority = FALSE)
+head(habs_taxlist_df)
 }
 }
 \seealso{

@@ -108,3 +108,16 @@ test_that("lookup_xy only areas works", {
   expect_true(!("shoredistance" %in% names(result)))
   expect_true(!("sstemperature" %in% names(result)))
 })
+
+test_that("lookup_xy works with lon/lat vectors (data frame output)", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable("https://api.obis.org/")
+
+  lon <- c(1, 2, 3)
+  lat <- c(51, 52, 53)
+
+  results <- lookup_xy(lon = lon, lat = lat, as_data_frame = TRUE, areas = 100)
+  expect_equal(nrow(results), 3)
+  expect_true(all(c("shoredistance", "bathymetry") %in% colnames(results)))
+})

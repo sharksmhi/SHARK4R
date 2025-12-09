@@ -4,13 +4,16 @@
 \alias{check_value_logical}
 \title{Identify non-numeric or non-logical values in measurement data}
 \usage{
-check_value_logical(data)
+check_value_logical(data, return_df = FALSE)
 }
 \arguments{
 \item{data}{A data frame. Must contain a column named \code{value}.}
+
+\item{return_df}{Logical. If TRUE, return a plain data.frame of problematic rows
+instead of a DT datatable. Default = FALSE.}
 }
 \value{
-A \code{DT::datatable} listing unique invalid entries, or \code{NULL} (invisibly)
+A \code{DT::datatable} or data frame listing unique invalid entries, or \code{NULL} (invisibly)
 if all values are correctly formatted as numeric or logical.
 }
 \description{
@@ -21,7 +24,6 @@ entry errors such as inequality symbols (\code{<}, \code{>}) or unintended text 
 in an interactive \code{DT::datatable} for easy inspection.
 }
 \examples{
-\dontrun{
 # Example dataset with mixed valid and invalid values
 df <- data.frame(
   station_name = c("A", "B", "C", "D", "E"),
@@ -29,11 +31,10 @@ df <- data.frame(
 )
 
 # Check for invalid (non-numeric / non-logical) entries
-check_value_logical(df)
+check_value_logical(df, return_df = TRUE)
 
 # Example with all valid numeric and logical values
 df_valid <- data.frame(value = c(1.2, 0, TRUE, FALSE, 3.5))
 check_value_logical(df_valid)
-}
 
 }

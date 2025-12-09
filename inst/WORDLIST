@@ -11,7 +11,7 @@ Bacterioplankton
 Bathymetry
 Biovolume
 CMD
-Centre
+Centre's
 Cfr
 Ciliates
 Coscinodiscophyceae
@@ -41,8 +41,10 @@ HAB
 HABs
 HELCOM
 Harbour
+HavsARKivs
 Hydrological
 IOC
+IODE
 IPHAB
 Kattegat
 Kolumner
@@ -70,6 +72,7 @@ SMHI's
 SWEREF
 Skagerrak
 Stationsregistret
+Svenskt
 UTV
 WoRMS
 XY
@@ -120,6 +123,7 @@ oceanografi
 phycological
 phytoplankton
 pre
+programme
 pseudotaxon
 readxl
 rubrum
@@ -136,7 +140,6 @@ sv
 th
 tibble
 unparsed
-worrms
 www
 xls
 xlsx

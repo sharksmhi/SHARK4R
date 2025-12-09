@@ -24,7 +24,6 @@ the affected rows. This function is useful for quality control and validation
 prior to data aggregation, reporting, or database submission.
 }
 \examples{
-\dontrun{
 # Example dataset
 df <- data.frame(
   station_name = c("A", "B", "C", "D"),
@@ -32,11 +31,7 @@ df <- data.frame(
   value = c(3.2, 0, 1.5, 0)
 )
 
-# Check for zero values (returns an interactive datatable)
-check_zero_value(df)
-
 # Return a plain data.frame of zero-value records
 check_zero_value(df, return_df = TRUE)
-}
 
 }

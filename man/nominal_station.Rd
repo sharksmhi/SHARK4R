@@ -31,7 +31,7 @@ station coordinates, the function suspects nominal station positions and
 issues a warning.
 }
 \examples{
-\dontrun{
+\donttest{
 df <- data.frame(
   sample_date = rep(seq.Date(Sys.Date(), by = "day", length.out = 3), each = 2),
   station_name = rep(c("ST1", "ST2"), 3),

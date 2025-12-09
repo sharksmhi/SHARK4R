@@ -14,7 +14,7 @@ get_nua_external_links(slug, verbose = TRUE, unparsed = FALSE)
 \item{unparsed}{Logical. If \code{TRUE}, the API response with all facts is returned as an unparsed list. Default is \code{FALSE}.}
 }
 \value{
-When unparsed = \code{FALSE}: a data frame containing the following columns:
+When unparsed = \code{FALSE}: a \code{tibble} containing the following columns:
 \item{slug}{The slug (identifier) of the taxon.}
 \item{provider}{The provider of the external link.}
 \item{label}{The label of the external link.}
@@ -32,9 +32,10 @@ The slugs (taxon identifiers) used in this function can be retrieved using the \
 which returns a data frame with a column for taxon slugs, along with other relevant metadata for each taxon.
 }
 \examples{
-\dontrun{
+\donttest{
   # Retrieve external links for a vector of slugs
-  external_links <- get_nua_external_links(slug = c("chaetoceros-debilis", "alexandrium-tamarense"))
+  external_links <- get_nua_external_links(slug = c("chaetoceros-debilis", "alexandrium-tamarense"),
+                                           verbose = FALSE)
   head(external_links)
 }
 }

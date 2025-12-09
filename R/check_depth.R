@@ -33,9 +33,9 @@
 #' \enumerate{
 #'   \item **Missing depth column** → warning
 #'   \item **Empty depth column** (all values missing) → warning
-#'   \item **Non-numeric depth values** → error
-#'   \item **Depth exceeds bathymetry + margin** (`depthmargin`) → error
-#'   \item **Negative depth at offshore locations** (beyond `shoremargin`) → error
+#'   \item **Non-numeric depth values** → warning
+#'   \item **Depth exceeds bathymetry + margin** (`depthmargin`) → warning
+#'   \item **Negative depth at offshore locations** (beyond `shoremargin`) → warning
 #'   \item **Minimum depth greater than maximum depth** (if two columns supplied) → error
 #'   \item **Longitude/latitude outside raster bounds** → warning
 #'   \item **Missing bathymetry value** at coordinate → warning
@@ -55,6 +55,7 @@
 #' If `report = FALSE`, returns the subset of input rows that failed any check.
 #'
 #' @examples
+#' \donttest{
 #' # Example dataset with one depth column
 #' example_data <- data.frame(
 #'   sample_latitude_dd = c(59.3, 58.1, 57.5),
@@ -63,9 +64,7 @@
 #' )
 #'
 #' # Validate depths using OBIS XY lookup (bathymetry = NULL)
-#' \dontrun{
 #' check_depth(example_data, depth_cols = "sample_depth_m")
-#' }
 #'
 #' # Example dataset with min/max depth columns
 #' example_data2 <- data.frame(
@@ -75,12 +74,9 @@
 #'   sample_max_depth_m = c(3, 20)
 #' )
 #'
-#' \dontrun{
 #' check_depth(example_data2, depth_cols = c("sample_min_depth_m", "sample_max_depth_m"))
-#' }
 #'
 #' # Return only failing rows
-#' \dontrun{
 #' check_depth(example_data, depth_cols = "sample_depth_m", report = FALSE)
 #' }
 #'
@@ -229,7 +225,7 @@ check_depth_column <- function(result, data, column, lookupvalues, depthmargin, 
   }
 
   raw_vals <- data[[column]]
-  depths   <- as.numeric(as.character(raw_vals))
+  depths   <- suppressWarnings(as.numeric(as.character(raw_vals)))
 
   # empty column
   if (all(is.na(raw_vals) | raw_vals == "")) {

@@ -39,16 +39,18 @@ A tibble with the contents of the requested Excel file.
 }
 \description{
 This function downloads the latest available Nordic Marine Phytoplankton Group (NOMP)
-biovolume zip archive from SMHI (using \code{cache_nomp_zip()}), unzips it, and reads the first
+biovolume zip archive from SMHI, unzips it, and reads the first
 Excel file by default. You can also specify which file in the archive to read.
 }
 \examples{
-\dontrun{
+\donttest{
   # Get the latest available list
   nomp_list <- get_nomp_list()
+  head(nomp_list)
 
   # Get the 2023 list and clean old cache files older than 60 days
   nomp_list_2023 <- get_nomp_list(2023, clean_cache_days = 60)
+  head(nomp_list_2023)
 }
 }
 \seealso{

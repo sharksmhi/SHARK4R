@@ -77,14 +77,16 @@ By default, the function uses the \emph{previous five complete years}.
 For example, if called in 2025 it will use data from 2020–2024.
 }
 \examples{
-\dontrun{
-  # Uses previous 5 years automatically
-  res <- get_shark_statistics()
+\donttest{
+# Uses previous 5 years automatically, Chlorophyll data only
+res <- get_shark_statistics(datatype = "Chlorophyll", verbose = FALSE)
+print(res)
 
-  # Explicitly set years and datatype
-  res <- get_shark_statistics(2018, 2022, datatype = "Chlorophyll")
-
-  # Group by station name and save result in persistent cache
-  res <- get_shark_statistics(group_col = "station_name", cache_result = TRUE)
+# Group by station name and save result in persistent cache
+res_station <- get_shark_statistics(datatype = "Chlorophyll",
+                                    group_col = "station_name",
+                                    cache_result = TRUE,
+                                    verbose = FALSE)
+print(res_station)
 }
 }

@@ -6,11 +6,13 @@
 \usage{
 get_shark_datasets(
   dataset_name,
-  save_dir = "",
+  save_dir = NULL,
   prod = TRUE,
   utv = FALSE,
   unzip_file = FALSE,
   return_df = FALSE,
+  encoding = "latin_1",
+  guess_encoding = TRUE,
   verbose = TRUE
 )
 }
@@ -22,8 +24,8 @@ available SHARK dataset identifiers (e.g.,
 or \code{"SHARK_Phytoplankton"} for all Phytoplankton datasets).}
 
 \item{save_dir}{Directory where zip files (and optionally their
-extracted contents) should be stored. Defaults to \code{""}. If
-\code{NULL} or \code{""}, the current working directory is used.}
+extracted contents) should be stored. Defaults to \code{NULL}. If
+\code{NULL} or \code{""}, a temporary directory is used.}
 
 \item{prod}{Logical, whether to download from the production
 (\code{TRUE}, default) or test (\code{FALSE}) SHARK server. Ignored if \code{utv} is \code{TRUE}.}
@@ -36,6 +38,14 @@ archives (\code{TRUE}) or only save them (\code{FALSE}, default).}
 \item{return_df}{Logical, whether to return a combined data frame
 with the contents of all downloaded datasets (\code{TRUE}) instead
 of a list of file paths (\code{FALSE}, default).}
+
+\item{encoding}{Character. File encoding of \code{shark_data.txt}. Options: \code{"cp1252"}, \code{"utf_8"}, \code{"utf_16"}, \code{"latin_1"}.
+Default is \code{"latin_1"}. If \code{guess_encoding = TRUE}, detected encoding overrides this value.
+Ignored if \code{return_df} is \code{FALSE}.}
+
+\item{guess_encoding}{Logical. If \code{TRUE} (default), automatically detect file encoding.
+If \code{FALSE}, the function uses only the user-specified encoding.
+Ignored if \code{return_df} is \code{FALSE}.}
 
 \item{verbose}{Logical, whether to show download and extraction
 progress messages. Default is \code{TRUE}.}
@@ -55,27 +65,29 @@ optionally unzips them. The function matches provided dataset
 names against all available SHARK datasets.
 }
 \examples{
-\dontrun{
+\donttest{
 # Get a specific dataset
-get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF")
+get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF", verbose = FALSE)
 
 # Get all Zooplankton datasets from 2022 and unzip them
 get_shark_datasets(
-  dataset_name = c("Zooplankton_2022"),
-  save_dir = "data",
-  unzip_file = TRUE
+  dataset_name = "Zooplankton_2022",
+  unzip_file = TRUE,
+  verbose = FALSE
 )
 
-# Get all Phytoplankton datasets and return as a combined data frame
+# Get all Chlorophyll datasets and return as a combined data frame
 combined_df <- get_shark_datasets(
-  dataset_name = "Phytoplankton_2023",
-  return_df = TRUE
+  dataset_name = "Chlorophyll",
+  return_df = TRUE,
+  verbose = FALSE
 )
+head(combined_df)
 }
 
 }
 \seealso{
-\url{https://shark.smhi.se} for SHARK database.
+\url{https://shark.smhi.se/en} for SHARK database.
 
 \code{\link[=get_shark_options]{get_shark_options()}} for listing available datasets.
 

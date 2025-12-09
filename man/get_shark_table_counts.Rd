@@ -123,13 +123,13 @@ An integer representing the total number of rows in the requested SHARK table
 after applying the specified filters.
 }
 \description{
-The \code{get_shark_table_counts} function retrieves the number of records (row counts)
+The \code{get_shark_table_counts()} function retrieves the number of records (row counts)
 from various SHARK data tables based on specified filters such as year, months,
 data type, stations, and taxa. To view available filter options, see
 \code{\link{get_shark_options}}.
 }
 \examples{
-\dontrun{
+\donttest{
   # Retrieve chlorophyll data for April to June from 2019 to 2020
   shark_data_counts <- get_shark_table_counts(fromYear = 2019, toYear = 2020,
                                               months = c(4, 5, 6), dataTypes = c("Chlorophyll"))
@@ -138,7 +138,7 @@ data type, stations, and taxa. To view available filter options, see
 
 }
 \seealso{
-\url{https://shark.smhi.se} for SHARK database.
+\url{https://shark.smhi.se/en} for SHARK database.
 
 \code{\link{get_shark_options}} to see filter options
 
