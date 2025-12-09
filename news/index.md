@@ -1,5 +1,7 @@
 # Changelog
 
+## SHARK4R (development version)
+
 ## SHARK4R 1.0.1
 
 ### Bug fixes and CRAN compliance
