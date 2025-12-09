@@ -1,7 +1,7 @@
 # Skip test if a remote resource is not responding
-skip_if_resource_unavailable <- function(url, msg = NULL, allow_status = 0:399) {
+skip_if_resource_unavailable <- function(url, msg = NULL, allow_status = 0:399, timeout = 5) {
   ok <- tryCatch({
-    resp <- httr::GET(url, httr::timeout(5), httr::config(nobody = TRUE))
+    resp <- httr::GET(url, httr::timeout(timeout), httr::config(nobody = TRUE))
     httr::status_code(resp) %in% allow_status
   }, error = function(e) FALSE)
 
