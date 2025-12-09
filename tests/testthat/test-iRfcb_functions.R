@@ -25,7 +25,8 @@ test_that("positions_are_near_land works correctly with eea vectors", {
   skip_on_cran()
   skip_if_offline()
   skip_if_not_installed("iRfcb")
-  skip_if_resource_unavailable("https://www.eea.europa.eu/data-and-maps/")
+  skip_if_resource_unavailable("https://www.eea.europa.eu/data-and-maps/data/eea-coastline-for-analysis-2/gis-data/eea-coastline-polygon/download/",
+                               timeout = 30)
 
   # Define test latitudes and longitudes
   latitudes <- c(62.500353, 58.964498, 57.638725, 56.575338, NA, 60.0)
