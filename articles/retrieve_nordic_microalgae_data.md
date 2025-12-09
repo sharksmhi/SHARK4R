@@ -20,14 +20,10 @@ demonstrating how to extract data using the SHARK4R package.
 
 #### Installation
 
-You can install the latest version of the package from GitHub using the
-`remotes` package:
+You can install the latest version of `SHARK4R` from CRAN using:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("sharksmhi/SHARK4R",
-                        ref = remotes::github_release(),
-                        dependencies = TRUE)
+install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R` and `dplyr` libraries:
@@ -216,7 +212,7 @@ nomp_list <- get_nomp_list()
 
     ## File for year 2025 not available. Trying previous year...
 
-    ## File for year 2024 downloaded and cached.
+    ## File for year 2024 found in cache.
 
 ``` r
 # Print list
@@ -256,16 +252,16 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
     ## To cite package 'SHARK4R' in publications use:
     ## 
     ##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and
-    ##   Validating Marine Environmental Data from SHARK and Related
-    ##   Databases. R package version 1.0.0.
+    ##   Validating Marine Environmental Data from 'SHARK' and Related
+    ##   Databases. R package version 1.0.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
     ##   @Manual{,
-    ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},
+    ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2025},
-    ##     note = {R package version 1.0.0},
+    ##     note = {R package version 1.0.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }

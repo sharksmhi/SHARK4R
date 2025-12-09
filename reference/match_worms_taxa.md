@@ -72,9 +72,9 @@ match_worms_taxa(
 
 ## Value
 
-A data frame containing the retrieved WoRMS records. Each row
-corresponds to a record for a taxonomic name. Repeated taxa in the input
-are preserved in the output.
+A `tibble` containing the retrieved WoRMS records. Each row corresponds
+to a record for a taxonomic name. Repeated taxa in the input are
+preserved in the output.
 
 ## Details
 
@@ -96,8 +96,6 @@ are preserved in the output.
 
 ## See also
 
-`match_worms_taxa()` to match taxa names interactively.
-
 <https://marinespecies.org/> for WoRMS website.
 
 <https://CRAN.R-project.org/package=worrms>
@@ -105,13 +103,30 @@ are preserved in the output.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Retrieve WoRMS records iteratively for two taxonomic names
 records <- match_worms_taxa(c("Amphidinium", "Karenia"),
-                            max_retries = 3, sleep_time = 5, marine_only = TRUE)
+                            max_retries = 3,
+                            sleep_time = 5,
+                            marine_only = TRUE,
+                            verbose = FALSE)
+print(records)
+#> # A tibble: 2 × 29
+#>   name  AphiaID url   scientificname authority status unacceptreason taxonRankID
+#>   <chr>   <int> <chr> <chr>          <chr>     <chr>  <chr>                <int>
+#> 1 Amph…  109473 http… Amphidinium    Claperèd… accep… NA                     180
+#> 2 Kare…  231788 http… Karenia        G.Hansen… accep… NA                     180
+#> # ℹ 21 more variables: rank <chr>, valid_AphiaID <int>, valid_name <chr>,
+#> #   valid_authority <chr>, parentNameUsageID <int>, originalNameUsageID <int>,
+#> #   kingdom <chr>, phylum <chr>, class <chr>, order <chr>, family <chr>,
+#> #   genus <chr>, citation <chr>, lsid <chr>, isMarine <int>, isBrackish <int>,
+#> #   isFreshwater <int>, isTerrestrial <int>, isExtinct <lgl>, match_type <chr>,
+#> #   modified <chr>
 
 # Retrieve WoRMS records in bulk mode (faster for many names)
 records_bulk <- match_worms_taxa(c("Amphidinium", "Karenia", "Navicula"),
-                                 bulk = TRUE, marine_only = TRUE)
-} # }
+                                 bulk = TRUE,
+                                 marine_only = TRUE,
+                                 verbose = FALSE)
+# }
 ```

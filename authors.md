@@ -25,16 +25,16 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/inst/CITATION)
+[`inst/CITATION`](https://github.com/sharksmhi/SHARK4R/blob/master/inst/CITATION)
 
 Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and Validating
-Marine Environmental Data from SHARK and Related Databases. R package
-version 1.0.0. https://CRAN.R-project.org/package=SHARK4R
+Marine Environmental Data from 'SHARK' and Related Databases. R package
+version 1.0.1. https://CRAN.R-project.org/package=SHARK4R
 
     @Manual{,
-      title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},
+      title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
       author = {Markus Lindh and Anders Torstensson},
       year = {2025},
-      note = {R package version 1.0.0},
+      note = {R package version 1.0.1},
       url = {https://CRAN.R-project.org/package=SHARK4R},
     }

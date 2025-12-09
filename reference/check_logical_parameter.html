@@ -11,7 +11,7 @@ It is intended to replace the old family of check_*_*_logical() functions."><met
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,7 @@ It is intended to replace the old family of check_*_*_logical() functions."><met
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>General checker for parameter-specific logical rules</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/check_logical.R" class="external-link"><code>R/check_logical.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/check_logical.R" class="external-link"><code>R/check_logical.R</code></a></small>
       <div class="d-none name"><code>check_logical_parameter.Rd</code></div>
     </div>
 
@@ -111,10 +111,12 @@ Overrides return_df.</p></dd>
 <span class="r-in"><span>  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="op">-</span><span class="fl">2</span>, <span class="fl">10</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># 1. Check that Biomass is never negative (returns DT datatable by default)</span></span></span>
-<span class="r-in"><span><span class="fu">check_logical_parameter</span><span class="op">(</span><span class="va">df</span>, <span class="st">"Biomass"</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">0</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># 1. Check that Biomass is never negative</span></span></span>
+<span class="r-in"><span><span class="fu">check_logical_parameter</span><span class="op">(</span><span class="va">df</span>, <span class="st">"Biomass"</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">0</span>,  return_df <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   station_name sample_date sample_id parameter value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> A2           2023-05-02        102 Biomass      -<span style="color: #BB0000;">2</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># 2. Same check, but return problematic rows as a data frame</span></span></span>
 <span class="r-in"><span><span class="fu">check_logical_parameter</span><span class="op">(</span><span class="va">df</span>, <span class="st">"Biomass"</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span> <span class="op">&lt;</span> <span class="fl">0</span>, return_df <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -128,7 +130,9 @@ Overrides return_df.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE FALSE FALSE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># 4. Check that Abundance is not zero (no problems found -&gt; returns NULL)</span></span></span>
-<span class="r-in"><span><span class="fu">check_logical_parameter</span><span class="op">(</span><span class="va">df</span>, <span class="st">"Abundance"</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">abundance_check</span> <span class="op">&lt;-</span> <span class="fu">check_logical_parameter</span><span class="op">(</span><span class="va">df</span>, <span class="st">"Abundance"</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">abundance_check</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -1,11 +1,11 @@
-# SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases
+# SHARK4R: Accessing and Validating Marine Environmental Data from ‘SHARK’ and Related Databases
 
 ## Overview
 
 This R package is equipped with a client application designed for
 integration with API functions. It facilitates access to various
-databases, including [SHARK](https://shark.smhi.se/), [SLU Artdatabanken
-(Dyntaxa)](https://artfakta.se/),
+databases, including [SHARK](https://shark.smhi.se/en/), [SLU
+Artdatabanken (Dyntaxa)](https://artfakta.se/),
 [WoRMS](https://www.marinespecies.org/rest/),
 [AlgaeBase](https://www.algaebase.org/), [IOC-UNESCO Taxonomic Reference
 List of Harmful Micro Algae](https://www.marinespecies.org/hab/),
@@ -19,17 +19,13 @@ adapted for compatibility with the SHARK format.
 
 ## Installation
 
-Installing `SHARK4R` requires the `remotes` package. Install the latest
-version of `SHARK4R` from GitHub:
+You can install the latest version of `SHARK4R` from CRAN using:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("sharksmhi/SHARK4R", 
-                        ref = remotes::github_release(),
-                        dependencies = TRUE)
+install.packages("SHARK4R")
 ```
 
-Or install the development version:
+Or install the development version (requiring the `remotes` package):
 
 ``` r
 # install.packages("remotes")

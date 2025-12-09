@@ -138,20 +138,27 @@ check_outliers(
   parameter = "Param1",
   datatype = "TypeA",
   threshold_col = "extreme_upper",
-  thresholds = example_thresholds
+  thresholds = example_thresholds,
+  return_df = TRUE
 )
 #> WARNING: Param1 ( TypeA ) exceeds extreme_upper in dataset
+#> # A tibble: 1 × 7
+#>   delivery_datatype station_name sample_date sample_id parameter value threshold
+#>   <chr>             <chr>        <date>          <int> <chr>     <dbl>     <dbl>
+#> 1 TypeA             S2           2025-01-02          2 Param1       12        10
 
-{"x":{"filter":"none","vertical":false,"data":[["1"],["TypeA"],["S2"],["2025-01-02"],[2],["Param1"],[12],[10]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>delivery_datatype<\/th>\n      <th>station_name<\/th>\n      <th>sample_date<\/th>\n      <th>sample_id<\/th>\n      <th>parameter<\/th>\n      <th>value<\/th>\n      <th>threshold<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[4,6,7]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"delivery_datatype","targets":1},{"name":"station_name","targets":2},{"name":"sample_date","targets":3},{"name":"sample_id","targets":4},{"name":"parameter","targets":5},{"name":"value","targets":6},{"name":"threshold","targets":7}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}
 # Check for values above "mild_upper"
 check_outliers(
   data = example_data,
   parameter = "Param1",
   datatype = "TypeA",
   threshold_col = "mild_upper",
-  thresholds = example_thresholds
+  thresholds = example_thresholds,
+  return_df = TRUE
 )
 #> WARNING: Param1 ( TypeA ) exceeds mild_upper in dataset
-
-{"x":{"filter":"none","vertical":false,"data":[["1"],["TypeA"],["S2"],["2025-01-02"],[2],["Param1"],[12],[8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>delivery_datatype<\/th>\n      <th>station_name<\/th>\n      <th>sample_date<\/th>\n      <th>sample_id<\/th>\n      <th>parameter<\/th>\n      <th>value<\/th>\n      <th>threshold<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[4,6,7]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"delivery_datatype","targets":1},{"name":"station_name","targets":2},{"name":"sample_date","targets":3},{"name":"sample_id","targets":4},{"name":"parameter","targets":5},{"name":"value","targets":6},{"name":"threshold","targets":7}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}
+#> # A tibble: 1 × 7
+#>   delivery_datatype station_name sample_date sample_id parameter value threshold
+#>   <chr>             <chr>        <date>          <int> <chr>     <dbl>     <dbl>
+#> 1 TypeA             S2           2025-01-02          2 Param1       12         8
 ```

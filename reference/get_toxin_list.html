@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,12 +44,12 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve marine biotoxin data from IOC-UNESCO Toxins Database</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/hab_api_functions.R" class="external-link"><code>R/hab_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/hab_api_functions.R" class="external-link"><code>R/hab_api_functions.R</code></a></small>
       <div class="d-none name"><code>get_toxin_list.Rd</code></div>
     </div>
 
     <div class="ref-description section level2">
-    <p>This function collects data from the <a href="https://toxins.hais.ioc-unesco.org/api/toxins/" class="external-link">IOC-UNESCO Toxins Database</a> and returns information about toxins.</p>
+    <p>This function collects data from the <a href="https://toxins.hais.ioc-unesco.org/" class="external-link">IOC-UNESCO Toxins Database</a> and returns information about toxins.</p>
     </div>
 
     <div class="section level2">
@@ -67,22 +67,41 @@
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>If <code>return_count = TRUE</code>, the function returns a numeric value representing the number of toxins in the database. Otherwise, it returns a list of toxins with detailed information.</p>
+    <p>If <code>return_count = TRUE</code>, the function returns a numeric value representing the number of toxins in the database. Otherwise, it returns a <code>tibble</code> of toxins with detailed information.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><a href="https://toxins.hais.ioc-unesco.org/api/toxins/" class="external-link">https://toxins.hais.ioc-unesco.org/api/toxins/</a> for IOC-UNESCO Toxins Database.</p></div>
+    <div class="dont-index"><p><a href="https://toxins.hais.ioc-unesco.org/" class="external-link">https://toxins.hais.ioc-unesco.org/</a> for IOC-UNESCO Toxins Database.</p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Retrieve the full list of toxins</span></span></span>
 <span class="r-in"><span><span class="va">toxin_list</span> <span class="op">&lt;-</span> <span class="fu">get_toxin_list</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">toxin_list</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 55</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      id toxin_group recommended_name       synonyms recommended_acronym acronyms</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   606 Anatoxin    10-OH-homoanatoxin-a   <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   605 Anatoxin    10-OH-anatoxin-a       <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>   604 Anatoxin    10-OH-H2-homoanatoxin… <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>   603 Anatoxin    10-OH-H2-anatoxin-a    <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>   602 Anatoxin    CH3SH-anatoxin-a       <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>   601 Anatoxin    CH3O-homoanatoxin-a    <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 49 more variables: cas_number &lt;chr&gt;, alternative_cas_numbers &lt;list&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   formula &lt;chr&gt;, exact_mono_isotopic_mass &lt;dbl&gt;, molfile &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   alternative_molfiles &lt;lgl&gt;, smiles &lt;chr&gt;, alternative_smiles &lt;list&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   inchi_key &lt;chr&gt;, alternative_inchi_keys &lt;list&gt;, inchi &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   alternative_inchies &lt;lgl&gt;, spectra_available &lt;lgl&gt;, certified &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   non_certified_reference_material &lt;lgl&gt;, chemical_analysis_research &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   chemical_analysis_standardized &lt;lgl&gt;, chemical_analysis_validated &lt;lgl&gt;, …</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Retrieve only the count of toxins</span></span></span>
 <span class="r-in"><span><span class="va">toxin_count</span> <span class="op">&lt;-</span> <span class="fu">get_toxin_list</span><span class="op">(</span>return_count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">toxin_count</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 521</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -11,7 +11,7 @@ multiple deprecated check_*_logical() functions with a general, flexible impleme
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,7 @@ multiple deprecated check_*_logical() functions with a general, flexible impleme
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Check parameter values against logical rules</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/check_logical.R" class="external-link"><code>R/check_logical.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/check_logical.R" class="external-link"><code>R/check_logical.R</code></a></small>
       <div class="d-none name"><code>check_parameter_rules.Rd</code></div>
     </div>
 
@@ -154,7 +154,14 @@ indicating whether values are within expected ranges or which rows violate rules
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Parameter BQIm, row-wise logical check failed</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Return logical vectors for each parameter</span></span></span>
-<span class="r-in"><span><span class="fu">check_parameter_rules</span><span class="op">(</span><span class="va">df</span>, return_logical <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">rule_check</span> <span class="op">&lt;-</span> <span class="fu">check_parameter_rules</span><span class="op">(</span><span class="va">df</span>, return_logical <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">rule_check</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $`Wet weight`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE FALSE FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $BQIm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE FALSE  TRUE  TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -11,7 +11,7 @@ all names at once using a bulk API call or iterate over names individually."><me
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,7 @@ all names at once using a bulk API call or iterate over names individually."><me
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve WoRMS records by taxonomic names with retry logic</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/worms_api_functions.R" class="external-link"><code>R/worms_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/worms_api_functions.R" class="external-link"><code>R/worms_api_functions.R</code></a></small>
       <div class="d-none name"><code>match_worms_taxa.Rd</code></div>
     </div>
 
@@ -117,7 +117,7 @@ Only used when <code>bulk = TRUE</code>. WoRMS API may reject very large request
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
+    <p>A <code>tibble</code> containing the retrieved WoRMS records. Each row corresponds to a record for a taxonomic name.
 Repeated taxa in the input are preserved in the output.</p>
     </div>
     <div class="section level2">
@@ -132,22 +132,38 @@ removing trailing periods, collapsing extra spaces and by trimming whitespace.</
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code>match_worms_taxa()</code> to match taxa names interactively.</p>
-<p><a href="https://marinespecies.org/" class="external-link">https://marinespecies.org/</a> for WoRMS website.</p>
+    <div class="dont-index"><p><a href="https://marinespecies.org/" class="external-link">https://marinespecies.org/</a> for WoRMS website.</p>
 <p><a href="https://CRAN.R-project.org/package=worrms" class="external-link">https://CRAN.R-project.org/package=worrms</a></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Retrieve WoRMS records iteratively for two taxonomic names</span></span></span>
 <span class="r-in"><span><span class="va">records</span> <span class="op">&lt;-</span> <span class="fu">match_worms_taxa</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Amphidinium"</span>, <span class="st">"Karenia"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                            max_retries <span class="op">=</span> <span class="fl">3</span>, sleep_time <span class="op">=</span> <span class="fl">5</span>, marine_only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                            max_retries <span class="op">=</span> <span class="fl">3</span>,</span></span>
+<span class="r-in"><span>                            sleep_time <span class="op">=</span> <span class="fl">5</span>,</span></span>
+<span class="r-in"><span>                            marine_only <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">records</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 29</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   name  AphiaID url   scientificname authority status unacceptreason taxonRankID</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Amph…  <span style="text-decoration: underline;">109</span>473 http… Amphidinium    Claperèd… accep… <span style="color: #BB0000;">NA</span>                     180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Kare…  <span style="text-decoration: underline;">231</span>788 http… Karenia        G.Hansen… accep… <span style="color: #BB0000;">NA</span>                     180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 21 more variables: rank &lt;chr&gt;, valid_AphiaID &lt;int&gt;, valid_name &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   valid_authority &lt;chr&gt;, parentNameUsageID &lt;int&gt;, originalNameUsageID &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   genus &lt;chr&gt;, citation &lt;chr&gt;, lsid &lt;chr&gt;, isMarine &lt;int&gt;, isBrackish &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   isFreshwater &lt;int&gt;, isTerrestrial &lt;int&gt;, isExtinct &lt;lgl&gt;, match_type &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   modified &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Retrieve WoRMS records in bulk mode (faster for many names)</span></span></span>
 <span class="r-in"><span><span class="va">records_bulk</span> <span class="op">&lt;-</span> <span class="fu">match_worms_taxa</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Amphidinium"</span>, <span class="st">"Karenia"</span>, <span class="st">"Navicula"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                                 bulk <span class="op">=</span> <span class="cn">TRUE</span>, marine_only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span>                                 bulk <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                                 marine_only <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                                 verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

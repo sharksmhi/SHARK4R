@@ -9,7 +9,7 @@ The data is returned as a dataframe, with options to customize the fields includ
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@ The data is returned as a dataframe, with options to customize the fields includ
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Download the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/hab_api_functions.R" class="external-link"><code>R/hab_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/hab_api_functions.R" class="external-link"><code>R/hab_api_functions.R</code></a></small>
       <div class="d-none name"><code>get_hab_list.Rd</code></div>
     </div>
 
@@ -142,7 +142,7 @@ The data is returned as a dataframe, with options to customize the fields includ
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A dataframe containing the HABs taxonomic list, with columns based on the selected parameters.</p>
+    <p>A <code>tibble</code> containing the HABs taxonomic list, with columns based on the selected parameters.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -157,14 +157,46 @@ If a field is not required, set the corresponding parameter to <code>FALSE</code
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Download the default HABs taxonomic list</span></span></span>
 <span class="r-in"><span><span class="va">habs_taxlist_df</span> <span class="op">&lt;-</span> <span class="fu">get_hab_list</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">habs_taxlist_df</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 29</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   AphiaID ScientificName       Authority AphiaID_accepted ScientificName_accep…¹</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 1<span style="text-decoration: underline;">653</span>558 Aerosakkonemataceae  Struneck…          1<span style="text-decoration: underline;">653</span>558 Aerosakkonemataceae   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">836</span>651 Aetokthonos          S.B.Wild…           <span style="text-decoration: underline;">836</span>651 Aetokthonos           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">841</span>664 Aetokthonos hydrill… S.B.Wild…           <span style="text-decoration: underline;">841</span>664 Aetokthonos hydrillic…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">231</span>787 Akashiwo             G.Hansen…           <span style="text-decoration: underline;">231</span>787 Akashiwo              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">232</span>546 Akashiwo sanguinea   (K.Hiras…           <span style="text-decoration: underline;">232</span>546 Akashiwo sanguinea    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">109</span>470 Alexandrium          Halim, 1…           <span style="text-decoration: underline;">109</span>470 Alexandrium           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ abbreviated name: ¹​ScientificName_accepted</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 24 more variables: Authority_accepted &lt;chr&gt;, Fossil &lt;dbl&gt;, Kingdom &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Phylum &lt;chr&gt;, Class &lt;chr&gt;, Order &lt;chr&gt;, Family &lt;chr&gt;, taxonRank &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Genus &lt;chr&gt;, Subgenus &lt;lgl&gt;, Species &lt;chr&gt;, Subspecies &lt;lgl&gt;, Marine &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Brackish &lt;dbl&gt;, Fresh &lt;dbl&gt;, Terrestrial &lt;dbl&gt;, taxonomicStatus &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Qualitystatus &lt;chr&gt;, Unacceptreason &lt;chr&gt;, DateLastModified &lt;date&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   LSID &lt;chr&gt;, `Parent AphiaID` &lt;dbl&gt;, Storedpath &lt;chr&gt;, Citation &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Include only specific fields in the output</span></span></span>
 <span class="r-in"><span><span class="va">habs_taxlist_df</span> <span class="op">&lt;-</span> <span class="fu">get_hab_list</span><span class="op">(</span>aphia_id <span class="op">=</span> <span class="cn">TRUE</span>, scientific_name <span class="op">=</span> <span class="cn">TRUE</span>, authority <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">habs_taxlist_df</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 28</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   AphiaID ScientificName           AphiaID_accepted ScientificName_accepted </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 1<span style="text-decoration: underline;">653</span>558 Aerosakkonemataceae               1<span style="text-decoration: underline;">653</span>558 Aerosakkonemataceae     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">836</span>651 Aetokthonos                        <span style="text-decoration: underline;">836</span>651 Aetokthonos             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">841</span>664 Aetokthonos hydrillicola           <span style="text-decoration: underline;">841</span>664 Aetokthonos hydrillicola</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">231</span>787 Akashiwo                           <span style="text-decoration: underline;">231</span>787 Akashiwo                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">232</span>546 Akashiwo sanguinea                 <span style="text-decoration: underline;">232</span>546 Akashiwo sanguinea      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">109</span>470 Alexandrium                        <span style="text-decoration: underline;">109</span>470 Alexandrium             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 24 more variables: Authority_accepted &lt;chr&gt;, Fossil &lt;dbl&gt;, Kingdom &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Phylum &lt;chr&gt;, Class &lt;chr&gt;, Order &lt;chr&gt;, Family &lt;chr&gt;, taxonRank &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Genus &lt;chr&gt;, Subgenus &lt;lgl&gt;, Species &lt;chr&gt;, Subspecies &lt;lgl&gt;, Marine &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Brackish &lt;dbl&gt;, Fresh &lt;dbl&gt;, Terrestrial &lt;dbl&gt;, taxonomicStatus &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Qualitystatus &lt;chr&gt;, Unacceptreason &lt;chr&gt;, DateLastModified &lt;date&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   LSID &lt;chr&gt;, `Parent AphiaID` &lt;dbl&gt;, Storedpath &lt;chr&gt;, Citation &lt;chr&gt;</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

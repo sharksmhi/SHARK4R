@@ -2,13 +2,14 @@
 
 ## SHARK
 
-SHARK is the Swedish Ocean Archive’s platform for data downloads. It
-stores biological, physical, and chemical marine environmental
-monitoring data. On behalf of the Swedish Agency for Marine and Water
-Management, SMHI serves as the national data host for oceanography and
-marine biology and is designated by UNESCO as a National Oceanographic
-Data Center (NODC). The data can be accessed via a [web
-interface](https://shark.smhi.se/) or through the
+SHARK is the Swedish Ocean Archive’s (Svenskt HavsARKivs) platform for
+data downloads. It stores biological, physical, and chemical marine
+environmental monitoring data. On behalf of the Swedish Agency for
+Marine and Water Management, SMHI serves as the national data host for
+oceanography and marine biology. SMHI is also recognized by UNESCO as a
+National Oceanographic Data Center (NODC) within the Oceanographic Data
+and Information (IODE) programme. The data can be accessed via a [web
+interface](https://shark.smhi.se/en/) or directly through the
 [API](https://shark.smhi.se/api/docs/), as demonstrated in this tutorial
 using `SHARK4R`.
 
@@ -16,14 +17,10 @@ using `SHARK4R`.
 
 #### Installation
 
-You can install the latest version of the package from GitHub using the
-`remotes` package:
+You can install the latest version of `SHARK4R` from CRAN using:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("sharksmhi/SHARK4R",
-                        ref = remotes::github_release(),
-                        dependencies = TRUE)
+install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R` library:
@@ -35,8 +32,8 @@ library(SHARK4R)
 ## Retrieve Data Table
 
 Data can be retrieved with the same filtering options available in
-[SHARK](https://shark.smhi.se/). To see the available filtering options,
-please refer to
+[SHARK](https://shark.smhi.se/en/). To see the available filtering
+options, please refer to
 [`get_shark_options()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_options.md)
 and the information below.
 
@@ -45,7 +42,7 @@ and the information below.
 shark_data <- get_shark_data(fromYear = 2019, 
                              toYear = 2020,
                              months = c(4, 5, 6), 
-                             dataTypes = c("Chlorophyll"),
+                             dataTypes = "Chlorophyll",
                              verbose = FALSE)
 
 # Print data
@@ -151,10 +148,10 @@ print(shark_data_zip)
 ```
 
     ## $`SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip`
-    ## [1] "/tmp/RtmpwD1sLG/SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip"
+    ## [1] "/tmp/RtmpzkJc7Y/SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip"
     ## 
     ## $`SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip`
-    ## [1] "/tmp/RtmpwD1sLG/SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip"
+    ## [1] "/tmp/RtmpzkJc7Y/SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip"
 
 Please note that `SHARK4R` also includes useful functions for reading
 local SHARK data files, such as
@@ -169,16 +166,16 @@ and
     ## To cite package 'SHARK4R' in publications use:
     ## 
     ##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and
-    ##   Validating Marine Environmental Data from SHARK and Related
-    ##   Databases. R package version 1.0.0.
+    ##   Validating Marine Environmental Data from 'SHARK' and Related
+    ##   Databases. R package version 1.0.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
     ##   @Manual{,
-    ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},
+    ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2025},
-    ##     note = {R package version 1.0.0},
+    ##     note = {R package version 1.0.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }

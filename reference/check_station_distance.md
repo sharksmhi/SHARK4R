@@ -120,13 +120,27 @@ bundled `station.zip` included in the `SHARK4R` package.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# Example data
 df <- data.frame(
   station_name = c("ANHOLT E", "BY5 BORNHOLMSDJ", "NEW STATION"),
   sample_longitude_dd = c(12.1, 15.97, 17.5),
   sample_latitude_dd  = c(56.7, 55.25, 58.7)
 )
-check_station_distance(df, plot_leaflet = FALSE, try_synonyms = TRUE)
-check_station_distance(df, plot_leaflet = TRUE, only_bad = TRUE)
-} # }
+
+# Check station distance
+check_station_distance(df, try_synonyms = TRUE, verbose = FALSE)
+#>      station_name sample_longitude_dd sample_latitude_dd distance_m
+#> 1        ANHOLT E               12.10              56.70  3551.0004
+#> 2 BY5 BORNHOLMSDJ               15.97              55.25   898.1066
+#> 3     NEW STATION               17.50              58.70         NA
+#>   within_limit
+#> 1        FALSE
+#> 2         TRUE
+#> 3           NA
+
+# Plot bad points in leaflet map
+map <- check_station_distance(df,
+                              plot_leaflet = TRUE,
+                              only_bad = TRUE,
+                              verbose = FALSE)
 ```

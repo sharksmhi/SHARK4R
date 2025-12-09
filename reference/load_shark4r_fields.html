@@ -11,7 +11,7 @@ SHARK4R-statistics GitHub repository."><meta property="og:image" content="https:
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,7 @@ SHARK4R-statistics GitHub repository."><meta property="og:image" content="https:
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Load SHARK4R fields from GitHub</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/util.R" class="external-link"><code>R/util.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/util.R" class="external-link"><code>R/util.R</code></a></small>
       <div class="d-none name"><code>load_shark4r_fields.Rd</code></div>
     </div>
 
@@ -101,14 +101,30 @@ an error with a descriptive message.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Load SHARK4R field definitions from GitHub</span></span></span>
-<span class="r-in"><span><span class="va">fields</span> <span class="op">&lt;-</span> <span class="fu">load_shark4r_fields</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fields</span> <span class="op">&lt;-</span> <span class="fu">load_shark4r_fields</span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Access required or recommended fields</span></span></span>
-<span class="r-in"><span><span class="va">fields</span><span class="op">$</span><span class="va">required_fields</span></span></span>
-<span class="r-in"><span><span class="va">fields</span><span class="op">$</span><span class="va">recommended_fields</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Access required or recommended fields for the first entry</span></span></span>
+<span class="r-in"><span><span class="va">fields</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">required</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "visit_year"                         "station_name"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "sample_project_name_sv"             "sample_orderer_name_sv"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "platform_code"                      "sample_date"                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "sample_time"                        "sample_latitude_dd"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "sample_longitude_dd"                "positioning_system_code"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "water_depth_m"                      "sample_min_depth_m"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "sample_max_depth_m"                 "sampling_laboratory_name_sv"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "sampling_laboratory_accreditated"   "sampler_type_code"                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "sampled_volume_l"                   "scientific_name"                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "value"                              "quality_flag"                      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "analysis_method_code"               "method_reference_code"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23] "analytical_laboratory_name_sv"      "analytical_laboratory_accreditated"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25] "analysed_volume_cm3"                "preservation_method_code"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27] "counted_portions"                   "reporting_institute_name_sv"       </span>
+<span class="r-in"><span><span class="va">fields</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">recommended</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "monitoring_program_code"</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># Use the loaded definitions in check_fields()</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="check_fields.html">check_fields</a></span><span class="op">(</span><span class="va">my_data</span>, field_definitions <span class="op">=</span> <span class="va">fields</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>

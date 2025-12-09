@@ -1,14 +1,16 @@
-# SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases
+# SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases
 
 Provides functions to retrieve, process, analyze, and quality-control
 marine physical, chemical, and biological data. The main focus is on
-Swedish monitoring data available through the SHARK database
-<https://shark.smhi.se/>, with additional API support for Nordic
-Microalgae <https://nordicmicroalgae.org/>, Dyntaxa
-<https://artfakta.se/>, WoRMS <https://www.marinespecies.org>, AlgaeBase
-<https://www.algaebase.org>, OBIS xylookup web service
-<https://iobis.github.io/xylookup/> and IOC-UNESCO databases on harmful
-algae and toxins <https://www.marinespecies.org/hab/> and
+Swedish monitoring data available through the 'SHARK' database
+<https://shark.smhi.se/en/>, with additional API support for 'Nordic
+Microalgae' <https://nordicmicroalgae.org/>, 'Dyntaxa'
+<https://artfakta.se/>, World Register of Marine Species ('WoRMS')
+<https://www.marinespecies.org>, 'AlgaeBase'
+<https://www.algaebase.org>, OBIS 'xylookup' web service
+<https://iobis.github.io/xylookup/> and Intergovernmental Oceanographic
+Commission (IOC) - UNESCO databases on harmful algae
+<https://www.marinespecies.org/hab/> and toxins
 <https://toxins.hais.ioc-unesco.org/>.
 
 ## See also

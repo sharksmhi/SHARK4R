@@ -88,18 +88,35 @@ get_delivery_template(
 
 ## Value
 
-A data frame containing the delivery template. Column names are set from
+A `tibble` containing the delivery template. Column names are set from
 the header row.
 
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Bacterioplankton abundance
-abun <- get_delivery_template("Bacterioplankton", bacterioplankton_subtype = "abundance")
+abun <- get_delivery_template("Bacterioplankton",
+                              bacterioplankton_subtype = "abundance")
+
+print(abun)
+#> # A tibble: 3 × 57
+#>   `Tabellhuvud:`   MYEAR  STATN STATION_ID SITE_ID PROJ  ORDERER SHIPC CRUISE_NO
+#>   <chr>            <chr>  <chr> <chr>      <chr>   <chr> <chr>   <chr> <chr>    
+#> 1 * = Obligatorisk *      *     NA         NA      *     *       *     NA       
+#> 2 Förklaring:      År (Y… Stat… Övervakni… Provpl… Proj… Bestäl… Prov… Expediti…
+#> 3 Tabellhuvud:     MYEAR  STATN STATION_ID SITE_ID PROJ  ORDERER SHIPC CRUISE_NO
+#> # ℹ 48 more variables: SERNO <chr>, SDATE <chr>, LATIT <chr>, LONGI <chr>,
+#> #   POSYS <chr>, WADEP <chr>, MSTAT <chr>, PURPM <chr>, MPROG <chr>,
+#> #   COMNT_VISIT <chr>, WINDIR <chr>, WINSP <chr>, AIRTEMP <chr>, AIRPRES <chr>,
+#> #   WEATH <chr>, CLOUD <chr>, WAVES <chr>, ICEOB <chr>, SECCHI <chr>,
+#> #   Q_SECCHI <chr>, STIME <chr>, SMPDEP <chr>, SLABO <chr>, ACKR_SMP <chr>,
+#> #   SMTYP <chr>, SMVOL <chr>, SMPNO <chr>, COMNT_SAMP <chr>, SPVOL <chr>,
+#> #   COEFF <chr>, SUBNO <chr>, METFP <chr>, BCTCNT <chr>, BCTABU <chr>, …
 
 # Bacterioplankton production
-prod <- get_delivery_template("Bacterioplankton", bacterioplankton_subtype = "production")
+prod <- get_delivery_template("Bacterioplankton",
+                              bacterioplankton_subtype = "production")
 
 # Phytoplankton template
 phyto <- get_delivery_template("Phytoplankton")
@@ -109,5 +126,22 @@ phyto_column_explanation <- get_delivery_template("Phytoplankton",
                                                   sheet = 3,
                                                   header_row = 4,
                                                   skip = 3)
-} # }
+
+print(phyto_column_explanation)
+#> # A tibble: 68 × 6
+#>    ...1  ...2  `Förklaring/ Svenskt namn`  `Fältnamn/ Kort-namn` Enhet 
+#>    <chr> <lgl> <chr>                       <chr>                 <chr> 
+#>  1 NA    NA    Förklaring/ Svenskt namn    Fältnamn/ Kort-namn   Enhet 
+#>  2 *     NA    År (YYYY)                   MYEAR                 YYYY  
+#>  3 NA    NA    NA                          NA                    NA    
+#>  4 *     NA    Stationsnamn (text)         STATN                 text  
+#>  5 NA    NA    ÖvervakningsstationsID      STATION_ID            nnnnnn
+#>  6 NA    NA    ProvplatsID                 SITE_ID               nnnnnn
+#>  7 *     NA    Projekt (kod)               PROJ                  kod   
+#>  8 *     NA    Beställare (kod)            ORDERER               kod   
+#>  9 *     NA    Provtagningsplattform (kod) SHIPC                 kod   
+#> 10 NA    NA    Expeditionsnummer (text)    CRUISE_NO             text  
+#> # ℹ 58 more rows
+#> # ℹ 1 more variable: `Kommentar/ Beskrivning` <chr>
+# }
 ```

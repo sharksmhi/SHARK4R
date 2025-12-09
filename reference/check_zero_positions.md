@@ -55,7 +55,6 @@ found and return_logical = FALSE).
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 # Example data
 df <- data.frame(
   station_name = c("A", "B", "C"),
@@ -63,16 +62,14 @@ df <- data.frame(
   sample_latitude_dd = c(56.3, 58.1, 0)
 )
 
-# Check for zero longitudes (default)
-check_zero_positions(df)
-
-# Check for zero latitudes
-check_zero_positions(df, coord = "latitude")
-
 # Check for zeroes in both coordinates and return as data.frame
 check_zero_positions(df, coord = "both", return_df = TRUE)
+#> ERROR: Positions contain zeroes (0). Please check station coordinates with zero values!
+#>   station_name sample_longitude_dd sample_latitude_dd
+#> 1            B                 0.0               58.1
+#> 2            C                18.7                0.0
 
 # Return a logical vector instead of a table
 check_zero_positions(df, coord = "both", return_logical = TRUE)
-} # }
+#> [1] FALSE  TRUE  TRUE
 ```

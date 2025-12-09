@@ -149,14 +149,41 @@ example, if called in 2025 it will use data from 2020–2024.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-  # Uses previous 5 years automatically
-  res <- get_shark_statistics()
+# \donttest{
+# Uses previous 5 years automatically, Chlorophyll data only
+res <- get_shark_statistics(datatype = "Chlorophyll", verbose = FALSE)
+print(res)
+#> # A tibble: 1 × 24
+#>   parameter  datatype fromYear toYear     n   min    Q1 median    Q3   max   P01
+#>   <chr>      <chr>       <dbl>  <dbl> <int> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl>
+#> 1 Chlorophy… Chlorop…     2020   2024  1374  0.19  1.39    2.2   3.3  22.2 0.307
+#> # ℹ 13 more variables: P05 <dbl>, P95 <dbl>, P99 <dbl>, IQR <dbl>, mean <dbl>,
+#> #   sd <dbl>, var <dbl>, cv <dbl>, mad <dbl>, mild_lower <dbl>,
+#> #   mild_upper <dbl>, extreme_lower <dbl>, extreme_upper <dbl>
 
-  # Explicitly set years and datatype
-  res <- get_shark_statistics(2018, 2022, datatype = "Chlorophyll")
-
-  # Group by station name and save result in persistent cache
-  res <- get_shark_statistics(group_col = "station_name", cache_result = TRUE)
-} # }
+# Group by station name and save result in persistent cache
+res_station <- get_shark_statistics(datatype = "Chlorophyll",
+                                    group_col = "station_name",
+                                    cache_result = TRUE,
+                                    verbose = FALSE)
+print(res_station)
+#> # A tibble: 78 × 25
+#>    parameter     datatype  station_name fromYear toYear   min    Q1 median    Q3
+#>    <chr>         <chr>     <chr>           <dbl>  <dbl> <dbl> <dbl>  <dbl> <dbl>
+#>  1 Chlorophyll-a Chloroph… A 01B            2020   2023  1.85 2.21    2.98  3.96
+#>  2 Chlorophyll-a Chloroph… ANHOLT E         2020   2022  0.5  0.9     1.2   1.7 
+#>  3 Chlorophyll-a Chloroph… B7               2020   2023  0.37 0.985   2.12  3.52
+#>  4 Chlorophyll-a Chloroph… BCS III-10       2020   2022  0.2  1.12    2.1   3.05
+#>  5 Chlorophyll-a Chloroph… BERGÖFJÄRDE…     2021   2022  1.1  1.32    1.6   1.8 
+#>  6 Chlorophyll-a Chloroph… BODÖFJÄRDEN…     2021   2022  1.1  1.4     1.85  2.22
+#>  7 Chlorophyll-a Chloroph… BURSFJÄRDEN…     2021   2022  2.6  2.8     3     3.2 
+#>  8 Chlorophyll-a Chloroph… BY10             2020   2022  1    1.5     2.4   5.1 
+#>  9 Chlorophyll-a Chloroph… BY15 GOTLAN…     2020   2022  0.4  1.52    2.5   3.08
+#> 10 Chlorophyll-a Chloroph… BY2 ARKONA       2020   2022  0.6  1.5     2     2.55
+#> # ℹ 68 more rows
+#> # ℹ 16 more variables: max <dbl>, P01 <dbl>, P05 <dbl>, P95 <dbl>, P99 <dbl>,
+#> #   IQR <dbl>, mean <dbl>, sd <dbl>, var <dbl>, cv <dbl>, mad <dbl>,
+#> #   mild_lower <dbl>, mild_upper <dbl>, extreme_lower <dbl>,
+#> #   extreme_upper <dbl>, n <int>
+# }
 ```

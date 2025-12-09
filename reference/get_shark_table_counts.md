@@ -1,6 +1,6 @@
 # Retrieve SHARK data table row counts
 
-The `get_shark_table_counts` function retrieves the number of records
+The `get_shark_table_counts()` function retrieves the number of records
 (row counts) from various SHARK data tables based on specified filters
 such as year, months, data type, stations, and taxa. To view available
 filter options, see
@@ -233,7 +233,7 @@ table after applying the specified filters.
 
 ## See also
 
-<https://shark.smhi.se> for SHARK database.
+<https://shark.smhi.se/en> for SHARK database.
 
 [`get_shark_options`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_options.md)
 to see filter options
@@ -244,10 +244,11 @@ to download SHARK data
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
   # Retrieve chlorophyll data for April to June from 2019 to 2020
   shark_data_counts <- get_shark_table_counts(fromYear = 2019, toYear = 2020,
                                               months = c(4, 5, 6), dataTypes = c("Chlorophyll"))
   print(shark_data_counts)
-} # }
+#> [1] 179
+# }
 ```

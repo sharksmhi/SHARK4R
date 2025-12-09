@@ -9,7 +9,7 @@ threshold. Thresholds are provided in a dataframe (default .threshold_values),
 which should contain columns for parameter, datatype, and at least one numeric
 threshold column (e.g., extreme_upper). Only rows in data matching both the
 parameter and delivery_datatype (datatype) are considered. Optionally, data
-can be grouped by a custom column (e.g., location_sea_basin) when thresholds vary by group."><meta property="og:image" content="https://sharksmhi.github.io/SHARK4R/logo.png"><!-- dependencies from examples --><script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet"><script src="libs/datatables-binding-0.34.0/datatables.js"></script><link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet"><link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet"><script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet"><script src="libs/crosstalk-1.2.2/js/crosstalk.min.js"></script></head><body>
+can be grouped by a custom column (e.g., location_sea_basin) when thresholds vary by group."><meta property="og:image" content="https://sharksmhi.github.io/SHARK4R/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -17,7 +17,7 @@ can be grouped by a custom column (e.g., location_sea_basin) when thresholds var
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@ can be grouped by a custom column (e.g., location_sea_basin) when thresholds var
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>General outlier check function for SHARK data</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/check_outliers.R" class="external-link"><code>R/check_outliers.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/check_outliers.R" class="external-link"><code>R/check_outliers.R</code></a></small>
       <div class="d-none name"><code>check_outliers.Rd</code></div>
     </div>
 
@@ -184,22 +184,30 @@ are within the threshold range (if <code>verbose = TRUE</code>) and returns <cod
 <span class="r-in"><span>  parameter <span class="op">=</span> <span class="st">"Param1"</span>,</span></span>
 <span class="r-in"><span>  datatype <span class="op">=</span> <span class="st">"TypeA"</span>,</span></span>
 <span class="r-in"><span>  threshold_col <span class="op">=</span> <span class="st">"extreme_upper"</span>,</span></span>
-<span class="r-in"><span>  thresholds <span class="op">=</span> <span class="va">example_thresholds</span></span></span>
+<span class="r-in"><span>  thresholds <span class="op">=</span> <span class="va">example_thresholds</span>,</span></span>
+<span class="r-in"><span>  return_df <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> WARNING: Param1 ( TypeA ) exceeds extreme_upper in dataset</span>
-<div id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:700px;height:432.632880098888px;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"filter":"none","vertical":false,"data":[["1"],["TypeA"],["S2"],["2025-01-02"],[2],["Param1"],[12],[10]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>delivery_datatype<\/th>\n      <th>station_name<\/th>\n      <th>sample_date<\/th>\n      <th>sample_id<\/th>\n      <th>parameter<\/th>\n      <th>value<\/th>\n      <th>threshold<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[4,6,7]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"delivery_datatype","targets":1},{"name":"station_name","targets":2},{"name":"sample_date","targets":3},{"name":"sample_id","targets":4},{"name":"parameter","targets":5},{"name":"value","targets":6},{"name":"threshold","targets":7}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><span class="r-in"><span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   delivery_datatype station_name sample_date sample_id parameter value threshold</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> TypeA             S2           2025-01-02          2 Param1       12        10</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Check for values above "mild_upper"</span></span></span>
 <span class="r-in"><span><span class="fu">check_outliers</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">example_data</span>,</span></span>
 <span class="r-in"><span>  parameter <span class="op">=</span> <span class="st">"Param1"</span>,</span></span>
 <span class="r-in"><span>  datatype <span class="op">=</span> <span class="st">"TypeA"</span>,</span></span>
 <span class="r-in"><span>  threshold_col <span class="op">=</span> <span class="st">"mild_upper"</span>,</span></span>
-<span class="r-in"><span>  thresholds <span class="op">=</span> <span class="va">example_thresholds</span></span></span>
+<span class="r-in"><span>  thresholds <span class="op">=</span> <span class="va">example_thresholds</span>,</span></span>
+<span class="r-in"><span>  return_df <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> WARNING: Param1 ( TypeA ) exceeds mild_upper in dataset</span>
-<div id="htmlwidget-e5c8c404fe174e4c81bd" style="width:700px;height:432.632880098888px;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"filter":"none","vertical":false,"data":[["1"],["TypeA"],["S2"],["2025-01-02"],[2],["Param1"],[12],[8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>delivery_datatype<\/th>\n      <th>station_name<\/th>\n      <th>sample_date<\/th>\n      <th>sample_id<\/th>\n      <th>parameter<\/th>\n      <th>value<\/th>\n      <th>threshold<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[4,6,7]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"delivery_datatype","targets":1},{"name":"station_name","targets":2},{"name":"sample_date","targets":3},{"name":"sample_id","targets":4},{"name":"parameter","targets":5},{"name":"value","targets":6},{"name":"threshold","targets":7}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><span class="r-in"><span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   delivery_datatype station_name sample_date sample_id parameter value threshold</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> TypeA             S2           2025-01-02          2 Param1       12         8</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -34,8 +34,10 @@ missing packages so they can be installed manually.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Launch the SHARK4R Bio-QC Tool
-run_qc_app()
-} # }
+if(interactive()){
+  run_qc_app()
+}
+# }
 ```

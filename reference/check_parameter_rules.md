@@ -114,5 +114,12 @@ check_parameter_rules(df, return_df = TRUE)
 #> Parameter BQIm, row-wise logical check failed
 
 # Return logical vectors for each parameter
-check_parameter_rules(df, return_logical = TRUE)
+rule_check <- check_parameter_rules(df, return_logical = TRUE)
+print(rule_check)
+#> $`Wet weight`
+#> [1]  TRUE FALSE FALSE FALSE
+#> 
+#> $BQIm
+#> [1] FALSE FALSE  TRUE  TRUE
+#> 
 ```

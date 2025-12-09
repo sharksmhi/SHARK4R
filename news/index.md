@@ -1,5 +1,22 @@
 # Changelog
 
+## SHARK4R 1.0.1
+
+### Bug fixes and CRAN compliance
+
+- Corrected formatting of package and software names throughout the
+  package.
+- Fixed broken URL in `README.md`.
+- Improved examples to run reliably and quickly.
+- Ensured functions and examples no longer write to the user’s home
+  directory.
+- Added `lon` and `lat` arguments to the
+  [`lookup_xy()`](https://sharksmhi.github.io/SHARK4R/reference/lookup_xy.md)
+  function for more flexible lookup options.
+- Minor documentation improvements throughout the package.
+- [`get_toxin_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_toxin_list.md)
+  now handles partial JSON responses.
+
 ## SHARK4R 1.0.0
 
 ### New features

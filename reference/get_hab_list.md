@@ -97,8 +97,8 @@ get_hab_list(
 
 ## Value
 
-A dataframe containing the HABs taxonomic list, with columns based on
-the selected parameters.
+A `tibble` containing the HABs taxonomic list, with columns based on the
+selected parameters.
 
 ## Details
 
@@ -116,12 +116,44 @@ List of Harmful Micro Algae
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Download the default HABs taxonomic list
 habs_taxlist_df <- get_hab_list()
 head(habs_taxlist_df)
+#> # A tibble: 6 × 29
+#>   AphiaID ScientificName       Authority AphiaID_accepted ScientificName_accep…¹
+#>     <dbl> <chr>                <chr>                <dbl> <chr>                 
+#> 1 1653558 Aerosakkonemataceae  Struneck…          1653558 Aerosakkonemataceae   
+#> 2  836651 Aetokthonos          S.B.Wild…           836651 Aetokthonos           
+#> 3  841664 Aetokthonos hydrill… S.B.Wild…           841664 Aetokthonos hydrillic…
+#> 4  231787 Akashiwo             G.Hansen…           231787 Akashiwo              
+#> 5  232546 Akashiwo sanguinea   (K.Hiras…           232546 Akashiwo sanguinea    
+#> 6  109470 Alexandrium          Halim, 1…           109470 Alexandrium           
+#> # ℹ abbreviated name: ¹​ScientificName_accepted
+#> # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
+#> #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
+#> #   Genus <chr>, Subgenus <lgl>, Species <chr>, Subspecies <lgl>, Marine <dbl>,
+#> #   Brackish <dbl>, Fresh <dbl>, Terrestrial <dbl>, taxonomicStatus <chr>,
+#> #   Qualitystatus <chr>, Unacceptreason <chr>, DateLastModified <date>,
+#> #   LSID <chr>, `Parent AphiaID` <dbl>, Storedpath <chr>, Citation <chr>
 
 # Include only specific fields in the output
 habs_taxlist_df <- get_hab_list(aphia_id = TRUE, scientific_name = TRUE, authority = FALSE)
-} # }
+head(habs_taxlist_df)
+#> # A tibble: 6 × 28
+#>   AphiaID ScientificName           AphiaID_accepted ScientificName_accepted 
+#>     <dbl> <chr>                               <dbl> <chr>                   
+#> 1 1653558 Aerosakkonemataceae               1653558 Aerosakkonemataceae     
+#> 2  836651 Aetokthonos                        836651 Aetokthonos             
+#> 3  841664 Aetokthonos hydrillicola           841664 Aetokthonos hydrillicola
+#> 4  231787 Akashiwo                           231787 Akashiwo                
+#> 5  232546 Akashiwo sanguinea                 232546 Akashiwo sanguinea      
+#> 6  109470 Alexandrium                        109470 Alexandrium             
+#> # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
+#> #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
+#> #   Genus <chr>, Subgenus <lgl>, Species <chr>, Subspecies <lgl>, Marine <dbl>,
+#> #   Brackish <dbl>, Fresh <dbl>, Terrestrial <dbl>, taxonomicStatus <chr>,
+#> #   Qualitystatus <chr>, Unacceptreason <chr>, DateLastModified <date>,
+#> #   LSID <chr>, `Parent AphiaID` <dbl>, Storedpath <chr>, Citation <chr>
+# }
 ```

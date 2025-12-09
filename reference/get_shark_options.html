@@ -9,7 +9,7 @@ It sends a GET request to the SHARK API and returns the results as a structured 
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@ It sends a GET request to the SHARK API and returns the results as a structured 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve available search options from SHARK</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/shark_api_functions.R" class="external-link"><code>R/shark_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/shark_api_functions.R" class="external-link"><code>R/shark_api_functions.R</code></a></small>
       <div class="d-none name"><code>get_shark_options.Rd</code></div>
     </div>
 
@@ -81,8 +81,7 @@ Defaults to <code>FALSE</code>.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A named <code>list</code> of available search options from the SHARK API.
-If <code>unparsed = TRUE</code>, returns the raw JSON structure as a list.
-If <code>unparsed = FALSE</code>, returns a simplified list of character or numeric vectors.</p>
+If <code>unparsed = TRUE</code>, returns the raw JSON structure as a list.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -92,22 +91,37 @@ to retrieve available search filters and options that can be used in SHARK data 
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="get_shark_data.html">get_shark_data()</a></code> for retrieving actual data from the SHARK API.</p>
-<p><a href="https://shark.smhi.se" class="external-link">https://shark.smhi.se</a> for the SHARK database portal.</p></div>
+<p><a href="https://shark.smhi.se/en" class="external-link">https://shark.smhi.se/en</a> for the SHARK database portal.</p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span>  <span class="co"># Retrieve available search options (simplified)</span></span></span>
 <span class="r-in"><span>  <span class="va">shark_options</span> <span class="op">&lt;-</span> <span class="fu">get_shark_options</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">shark_options</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "datasets"              "dataTypes"             "parameters"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "minYear"               "maxYear"               "months"               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "checkStatuses"         "qualityFlags"          "deliverers"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "orderers"              "projects"              "redListedCategories"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "taxa"                  "stations"              "seaAreas"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "vattenDistrikt"        "typOmraden"            "seaBasins"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "counties"              "municipalities"        "waterCategories"      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22] "helcomOspar"           "parametersForDatatype" "headerlangers"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25] "minYearPerDatatype"   </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># Retrieve full unparsed JSON response</span></span></span>
 <span class="r-in"><span>  <span class="va">raw_options</span> <span class="op">&lt;-</span> <span class="fu">get_shark_options</span><span class="op">(</span>unparsed <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># View available datatypes</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">shark_options</span><span class="op">$</span><span class="va">dataTypes</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "Bacterioplankton"      "Chlorophyll"           "Epibenthos"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "Grey seal"             "Harbour Porpoise"      "Harbour seal"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "Physical and Chemical" "Phytoplankton"         "Picoplankton"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "Plankton Barcoding"    "Plankton Imaging"      "Primary production"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "Profile"               "Ringed seal"           "Seal pathology"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "Sedimentation"         "Zoobenthos"            "Zooplankton"          </span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

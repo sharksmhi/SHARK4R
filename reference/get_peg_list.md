@@ -64,11 +64,26 @@ to manually clear cached files.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
   # Read the first Excel file from the PEG zip
   peg_list <- get_peg_list()
-
-  # Read the latest list and clean old cache files older than 60 days
-  peg_list2 <- get_peg_list(clean_cache_days = 60)
-} # }
+#> Reading PEG biovolume Excel file for year: 2025
+  head(peg_list)
+#> # A tibble: 6 × 36
+#>   Division     Class Order Genus Species SFLAG STAGE Author AphiaID AphiaID_link
+#>   <chr>        <chr> <chr> <chr> <chr>   <chr> <chr> <chr>    <dbl> <chr>       
+#> 1 CYANOBACTER… Cyan… CHRO… Apha… Aphano… NA    NA    West …  146563 http://www.…
+#> 2 CYANOBACTER… Cyan… CHRO… Apha… Aphano… NA    NA    West …  146563 http://www.…
+#> 3 CYANOBACTER… Cyan… CHRO… Apha… Aphano… NA    NA    West …  146563 http://www.…
+#> 4 CYANOBACTER… Cyan… CHRO… Apha… Aphano… NA    NA    West …  146563 http://www.…
+#> 5 CYANOBACTER… Cyan… CHRO… Apha… Aphano… NA    NA    West …  146563 http://www.…
+#> 6 CYANOBACTER… Cyan… CHRO… Apha… Aphano… NA    NA    West …  146563 http://www.…
+#> # ℹ 26 more variables: Trophy <chr>, Geometric_shape <chr>, FORMULA <chr>,
+#> #   SizeClassNo <dbl>, Nonvalid_SIZCL <lgl>, Not_accepted_name <lgl>,
+#> #   Unit <chr>, SizeRange <chr>, `Length(l1)µm` <dbl>, `Length(l2)µm` <dbl>,
+#> #   `Width(w)µm` <dbl>, `Height(h)µm` <dbl>, `Diameter(d1)µm` <dbl>,
+#> #   `Diameter(d2)µm` <dbl>, `No_of_cells/counting_unit` <dbl>,
+#> #   `Calculated_volume_µm3 (with formula) - NOT IMPORTED, NOT handled by ICES` <dbl>,
+#> #   `Calculated_volume_µm3/counting_unit` <dbl>, Comment <chr>, …
+# }
 ```

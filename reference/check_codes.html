@@ -19,7 +19,7 @@ Informative messages are printed if unmatched codes are found."><meta property="
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,7 @@ Informative messages are printed if unmatched codes are found."><meta property="
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Check matches of reported codes in SMHI's SHARK codelist</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/check_codes.R" class="external-link"><code>R/check_codes.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/check_codes.R" class="external-link"><code>R/check_codes.R</code></a></small>
       <div class="d-none name"><code>check_codes.Rd</code></div>
     </div>
 
@@ -66,7 +66,7 @@ dataset (e.g., project codes, ship codes, etc.) are present in the
 official SHARK codelist provided by SMHI. If a cell contains multiple codes
 separated by commas, each code is checked individually. The function downloads
 and caches the codelist if necessary, compares the reported values against
-the valid codes, and returns a tibble showing which codes matched.
+the valid codes, and returns a <code>tibble</code> showing which codes matched.
 Informative messages are printed if unmatched codes are found.</p>
     </div>
 
@@ -120,7 +120,7 @@ by a new download. Defaults to 30. Set to <code>NULL</code> to disable automatic
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A tibble with unique reported codes (after splitting comma-separated
+    <p>A <code>tibble</code> with unique reported codes (after splitting comma-separated
 entries) and a logical column <code>match_type</code> indicating if they exist in the
 SHARK codelist.</p>
     </div>

@@ -11,7 +11,7 @@ Missing AphiaIDs can be resolved from scientific names automatically."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,7 @@ Missing AphiaIDs can be resolved from scientific names automatically."><meta pro
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Add WoRMS taxonomy hierarchy to AphiaIDs or scientific names</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/worms_api_functions.R" class="external-link"><code>R/worms_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/worms_api_functions.R" class="external-link"><code>R/worms_api_functions.R</code></a></small>
       <div class="d-none name"><code>add_worms_taxonomy.Rd</code></div>
     </div>
 
@@ -103,7 +103,7 @@ Use <code>scientific_names</code> instead.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A tibble with taxonomy columns added, including:</p><ul><li><p><code>aphia_id</code>, <code>scientific_name</code></p></li>
+    <p>A <code>tibble</code> with taxonomy columns added, including:</p><ul><li><p><code>aphia_id</code>, <code>scientific_name</code></p></li>
 <li><p><code>worms_kingdom</code>, <code>worms_phylum</code>, <code>worms_class</code>, <code>worms_order</code>,
 <code>worms_family</code>, <code>worms_genus</code>, <code>worms_species</code></p></li>
 <li><p><code>worms_scientific_name</code>, <code>worms_hierarchy</code></p></li>
@@ -111,14 +111,31 @@ Use <code>scientific_names</code> instead.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="fu">add_worms_taxonomy</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1080</span>, <span class="fl">109604</span><span class="op">)</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Using AphiaID only</span></span></span>
+<span class="r-in"><span><span class="fu">add_worms_taxonomy</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1080</span>, <span class="fl">109604</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   aphia_id worms_scientific_name worms_kingdom worms_phylum worms_class</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     <span style="text-decoration: underline;">1</span>080 Copepoda              Animalia      Arthropoda   Copepoda   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   <span style="text-decoration: underline;">109</span>604 Dinophysis acuta      Chromista     Myzozoa      Dinophyceae</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 more variables: worms_order &lt;chr&gt;, worms_family &lt;chr&gt;, worms_genus &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   worms_species &lt;chr&gt;, worms_hierarchy &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Using a combination of AphiaID and scientific name</span></span></span>
 <span class="r-in"><span><span class="fu">add_worms_taxonomy</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  aphia_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">109604</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  scientific_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Calanus finmarchicus"</span>, <span class="st">"Oithona similis"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  scientific_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Calanus finmarchicus"</span>, <span class="st">"Oithona similis"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 11</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   aphia_id scientific_name      worms_scientific_name worms_kingdom worms_phylum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   <span style="text-decoration: underline;">104</span>464 Calanus finmarchicus Calanus finmarchicus  Animalia      Arthropoda  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   <span style="text-decoration: underline;">109</span>604 Oithona similis      Dinophysis acuta      Chromista     Myzozoa     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: worms_class &lt;chr&gt;, worms_order &lt;chr&gt;, worms_family &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   worms_genus &lt;chr&gt;, worms_species &lt;chr&gt;, worms_hierarchy &lt;chr&gt;</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

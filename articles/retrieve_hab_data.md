@@ -2,7 +2,7 @@
 
 ## IOC-UNESCO Databases
 
-The Intergovernmental Oceanographic Commission of UNESCO (IOC) is the
+The Intergovernmental Oceanographic Commission (IOC) of UNESCO is the
 United Nations body dedicated to supporting global ocean science,
 services, and governance. The [IOC-UNESCO Taxonomic Reference List of
 Harmful Microalgae](https://www.marinespecies.org/hab/) focuses on
@@ -22,14 +22,10 @@ demonstrated in this tutorial using `SHARK4R`.
 
 #### Installation
 
-You can install the latest version of the package from GitHub using the
-`remotes` package:
+You can install the latest version of `SHARK4R` from CRAN using:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("sharksmhi/SHARK4R",
-                        ref = remotes::github_release(),
-                        dependencies = TRUE)
+install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R` and `dplyr` libraries:
@@ -120,16 +116,16 @@ tibble(toxin_list)
     ## To cite package 'SHARK4R' in publications use:
     ## 
     ##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and
-    ##   Validating Marine Environmental Data from SHARK and Related
-    ##   Databases. R package version 1.0.0.
+    ##   Validating Marine Environmental Data from 'SHARK' and Related
+    ##   Databases. R package version 1.0.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
     ##   @Manual{,
-    ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},
+    ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2025},
-    ##     note = {R package version 1.0.0},
+    ##     note = {R package version 1.0.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }

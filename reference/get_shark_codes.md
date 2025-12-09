@@ -48,7 +48,7 @@ get_shark_codes(
 
 ## Value
 
-A tibble containing the contents of the requested sheet.
+A `tibble` containing the contents of the requested sheet.
 
 ## See also
 
@@ -58,14 +58,23 @@ to manually clear cached files.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
   # Read the first sheet, skipping the first row
   codes <- get_shark_codes()
-
-  # Read second sheet without skipping rows
-  codes2 <- get_shark_codes(sheet = 2, skip = 0)
+  head(codes)
+#> # A tibble: 6 × 6
+#>   Data_field Code  Beskrivning/Svensk ö…¹ Description/English …² Note  Reference
+#>   <chr>      <chr> <chr>                  <chr>                  <chr> <chr>    
+#> 1 CLMET      F     Flowmeter reading      Flowmeter reading      NA    NA       
+#> 2 CLMET      H     Haul length            Haul length            NA    NA       
+#> 3 CLOUD      0     Inga moln              No clouds              NA    NA       
+#> 4 CLOUD      1     1/8 eller mindre, men… 1/8 or less, but not … NA    NA       
+#> 5 CLOUD      2     2/8                    2/8                    NA    NA       
+#> 6 CLOUD      3     3/8                    3/8                    NA    NA       
+#> # ℹ abbreviated names: ¹​`Beskrivning/Svensk översättning`,
+#> #   ²​`Description/English translate`
 
   # Force re-download of the Excel file
-  codes3 <- get_shark_codes(force = TRUE)
-} # }
+  codes <- get_shark_codes(force = TRUE)
+# }
 ```

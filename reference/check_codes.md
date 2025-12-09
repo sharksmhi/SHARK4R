@@ -5,7 +5,7 @@ a dataset (e.g., project codes, ship codes, etc.) are present in the
 official SHARK codelist provided by SMHI. If a cell contains multiple
 codes separated by commas, each code is checked individually. The
 function downloads and caches the codelist if necessary, compares the
-reported values against the valid codes, and returns a tibble showing
+reported values against the valid codes, and returns a `tibble` showing
 which codes matched. Informative messages are printed if unmatched codes
 are found.
 
@@ -59,7 +59,7 @@ check_codes(
 
 ## Value
 
-A tibble with unique reported codes (after splitting comma-separated
+A `tibble` with unique reported codes (after splitting comma-separated
 entries) and a logical column `match_type` indicating if they exist in
 the SHARK codelist.
 

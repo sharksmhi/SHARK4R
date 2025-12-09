@@ -62,8 +62,8 @@ get_worms_records_name(
 
 ## Value
 
-A data frame containing the retrieved WoRMS records. Each row
-corresponds to a record for a taxonomic name.
+A `tibble` containing the retrieved WoRMS records. Each row corresponds
+to a record for a taxonomic name.
 
 ## Details
 
@@ -82,9 +82,12 @@ throws an error.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Retrieve WoRMS records for the taxonomic names "Amphidinium" and "Karenia"
 records <- get_worms_records_name(c("Amphidinium", "Karenia"),
                                   max_retries = 3, sleep_time = 5, marine_only = TRUE)
-} # }
+#> Warning: `get_worms_records_name()` was deprecated in SHARK4R 1.0.0.
+#> ℹ Please use `match_worms_taxa()` instead.
+#>   |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |======================================================================| 100%
+# }
 ```

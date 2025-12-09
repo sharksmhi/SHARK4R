@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve Taxonomic Data From Dyntaxa</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/vignettes/retrieve_dyntaxa_data.Rmd" class="external-link"><code>vignettes/retrieve_dyntaxa_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/vignettes/retrieve_dyntaxa_data.Rmd" class="external-link"><code>vignettes/retrieve_dyntaxa_data.Rmd</code></a></small>
       <div class="d-none name"><code>retrieve_dyntaxa_data.Rmd</code></div>
     </div>
 
@@ -93,8 +93,8 @@ and commonly used synonymous or misapplied names. Dyntaxa is
 continuously updated with new species for Sweden, new Swedish names,
 synonymous scientific names, and new data on relationships. The data in
 Dyntaxa serves as the foundation and framework for taxonomic information
-in <a href="https://shark.smhi.se/" class="external-link">SHARK</a>. It can be accessed via a
-<a href="https://artfakta.se/" class="external-link">web interface</a> or through the <a href="https://api-portal.artdatabanken.se/" class="external-link">API</a>, as demonstrated in
+in <a href="https://shark.smhi.se/en/" class="external-link">SHARK</a>. It can be accessed via
+a <a href="https://artfakta.se/" class="external-link">web interface</a> or through the <a href="https://api-portal.artdatabanken.se/" class="external-link">API</a>, as demonstrated in
 this tutorial using <code>SHARK4R</code>. Please note that the authors
 of <code>SHARK4R</code> are not affiliated with Dyntaxa.</p>
 </div>
@@ -104,13 +104,10 @@ of <code>SHARK4R</code> are not affiliated with Dyntaxa.</p>
 <div class="section level3">
 <h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h3>
-<p>You can install the latest version of the package from GitHub using
-the <code>remotes</code> package:</p>
+<p>You can install the latest version of <code>SHARK4R</code> from CRAN
+using:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"sharksmhi/SHARK4R"</span>, </span>
-<span>                        ref <span class="op">=</span> <span class="fu">remotes</span><span class="fu">::</span><span class="fu">github_release</span><span class="op">(</span><span class="op">)</span>, </span>
-<span>                        dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"SHARK4R"</span><span class="op">)</span></span></code></pre></div>
 <p>Load the <code>SHARK4R</code> and <code>dplyr</code> libraries:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sharksmhi.github.io/SHARK4R/">SHARK4R</a></span><span class="op">)</span></span>
@@ -120,8 +117,8 @@ the <code>remotes</code> package:</p>
 <h3 id="retrieve-taxonomy-table-from-shark">Retrieve Taxonomy Table from SHARK<a class="anchor" aria-label="anchor" href="#retrieve-taxonomy-table-from-shark"></a>
 </h3>
 <p>Taxon and data tables can be retrieved with the same filtering
-options available in <a href="https://shark.smhi.se/" class="external-link">SHARK</a>. To see
-the available filtering options, please refer to
+options available in <a href="https://shark.smhi.se/en/" class="external-link">SHARK</a>. To
+see the available filtering options, please refer to
 <code><a href="../reference/get_shark_options.html">get_shark_options()</a></code> and the <a href="https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html">Retrieve
 Data From SHARK</a> tutorial.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -155,7 +152,7 @@ Data From SHARK</a> tutorial.</p>
 <span>                             fromYear <span class="op">=</span> <span class="fl">2015</span>, </span>
 <span>                             toYear <span class="op">=</span> <span class="fl">2015</span>,</span>
 <span>                             months <span class="op">=</span> <span class="fl">7</span>,</span>
-<span>                             dataTypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Phytoplankton"</span><span class="op">)</span>,</span>
+<span>                             dataTypes <span class="op">=</span> <span class="st">"Phytoplankton"</span>,</span>
 <span>                             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print data</span></span>
@@ -186,7 +183,7 @@ Data From SHARK</a> tutorial.</p>
 </h3>
 <p>Dyntaxa requires a subscription key to access its API. To obtain your
 own key, sign up for the taxonomy product at the <a href="https://api-portal.artdatabanken.se/" class="external-link">SLU Swedish Species
-Information Centre´s Developer Portal</a>. In the example below, the key
+Information Centre’s Developer Portal</a>. In the example below, the key
 is retrieved from an environment variable.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve the API key</span></span>
@@ -249,7 +246,7 @@ Tutorial</a>.</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Chrysotila carterae          <span style="text-decoration: underline;">236</span>939 Chrysotila carterae     (Braa… Chrysotil…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Bacillaria paxillifera       <span style="text-decoration: underline;">237</span>763 Bacillaria paxillifera  (O.F.… Bacillari…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Protoperidinium conicoides   <span style="text-decoration: underline;">238</span>248 Protoperidinium conico… (Paul… Protoperi…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Scrippsiella                1<span style="text-decoration: underline;">010</span>578 Scrippsiella            Balech Scrippsie…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Scrippsiella                1<span style="text-decoration: underline;">010</span>578 Scrippsiella            Balec… Scrippsie…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Binuclearia lauterbornii     <span style="text-decoration: underline;">238</span>927 Binuclearia lauterborn… (Schm… Binuclear…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Dictyochales                3<span style="text-decoration: underline;">000</span>573 Dictyochales            Haeck… Dictyocha…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Diatoma vulgaris             <span style="text-decoration: underline;">238</span>027 Diatoma vulgaris        Bory   Diatoma v…</span></span>
@@ -276,16 +273,16 @@ Tutorial</a>.</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10 × 24</span></span></span>
 <span><span class="co">##    taxonId parentId secondaryParents sortOrder isMicrospecies externalComment   </span></span>
 <span><span class="co">##      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">236</span>939  6<span style="text-decoration: underline;">018</span>284 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">68</span>859 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">237</span>763  1<span style="text-decoration: underline;">010</span>465 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">71</span>344 FALSE          <span style="color: #949494;">"</span>Illustration (LM…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">238</span>027  1<span style="text-decoration: underline;">010</span>523 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">73</span>251 FALSE          <span style="color: #949494;">"</span>Illustration (LM…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">238</span>248  1<span style="text-decoration: underline;">010</span>596 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>782 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">238</span>927  1<span style="text-decoration: underline;">016</span>130 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">113</span>506 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">257</span>418  6<span style="text-decoration: underline;">001</span>140 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">112</span>641 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">263</span>645  1<span style="text-decoration: underline;">016</span>291 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">67</span>559 FALSE          <span style="color: #949494;">"</span>2005. Published …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 1<span style="text-decoration: underline;">010</span>578  6<span style="text-decoration: underline;">332</span>738 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>904 FALSE          <span style="color: #949494;">"</span>Scrippsiella han…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 1<span style="text-decoration: underline;">010</span>594  2<span style="text-decoration: underline;">003</span>235 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>766 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> 3<span style="text-decoration: underline;">000</span>573  4<span style="text-decoration: underline;">000</span>161 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">71</span>104 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">236</span>939  6<span style="text-decoration: underline;">018</span>284 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">68</span>862 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">237</span>763  1<span style="text-decoration: underline;">010</span>465 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">71</span>347 FALSE          <span style="color: #949494;">"</span>Illustration (LM…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">238</span>027  1<span style="text-decoration: underline;">010</span>523 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">73</span>254 FALSE          <span style="color: #949494;">"</span>Illustration (LM…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">238</span>248  1<span style="text-decoration: underline;">010</span>596 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>785 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">238</span>927  1<span style="text-decoration: underline;">016</span>130 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">113</span>510 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">257</span>418  6<span style="text-decoration: underline;">001</span>140 <span style="color: #949494;">&lt;list [0]&gt;</span>          <span style="text-decoration: underline;">112</span>645 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">263</span>645  1<span style="text-decoration: underline;">016</span>291 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">67</span>562 FALSE          <span style="color: #949494;">"</span>2005. Published …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 1<span style="text-decoration: underline;">010</span>578  6<span style="text-decoration: underline;">332</span>738 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>907 FALSE          <span style="color: #949494;">"</span>Scrippsiella han…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 1<span style="text-decoration: underline;">010</span>594  2<span style="text-decoration: underline;">003</span>235 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">69</span>769 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> 3<span style="text-decoration: underline;">000</span>573  4<span style="text-decoration: underline;">000</span>161 <span style="color: #949494;">&lt;list [0]&gt;</span>           <span style="text-decoration: underline;">71</span>107 FALSE           <span style="color: #BB0000;">NA</span>               </span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 18 more variables: redlistCategory &lt;lgl&gt;, excludeFromReportingSystem &lt;lgl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   nrOfChilds &lt;int&gt;, names &lt;list&gt;, typedRelations.parentRelations &lt;list&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   typedRelations.childRelations &lt;list&gt;, status.id &lt;int&gt;, status.value &lt;chr&gt;,</span></span></span>
@@ -374,16 +371,16 @@ argument.</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 296 × 16</span></span></span>
 <span><span class="co">##    taxonId        acceptedNameUsageID parentNameUsageID scientificName taxonRank</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Chrysotila ca… species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Scrippsiella   genus    </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 2</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Pseudopediast… species  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Scrippsiella   genus    </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Dictyochales   order    </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Oblea          genus    </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Protoperidini… species  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Binuclearia l… species  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Bacillaria pa… species  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Cuspidothrix … species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Cuspidothrix … species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Bacillaria pa… species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Dictyochales   order    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Binuclearia l… species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Oblea          genus    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Chrysotila ca… species  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Protoperidini… species  </span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 286 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 11 more variables: scientificNameAuthorship &lt;chr&gt;, taxonomicStatus &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   nomenclaturalStatus &lt;chr&gt;, taxonRemarks &lt;chr&gt;, kingdom &lt;chr&gt;, phylum &lt;chr&gt;,</span></span></span>
@@ -396,17 +393,17 @@ argument.</p>
 <pre><code><span><span class="co">## To cite package 'SHARK4R' in publications use:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and</span></span>
-<span><span class="co">##   Validating Marine Environmental Data from SHARK and Related</span></span>
-<span><span class="co">##   Databases. R package version 1.0.0.</span></span>
+<span><span class="co">##   Validating Marine Environmental Data from 'SHARK' and Related</span></span>
+<span><span class="co">##   Databases. R package version 1.0.1.</span></span>
 <span><span class="co">##   https://CRAN.R-project.org/package=SHARK4R</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##   @Manual{,</span></span>
-<span><span class="co">##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},</span></span>
+<span><span class="co">##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson},</span></span>
 <span><span class="co">##     year = {2025},</span></span>
-<span><span class="co">##     note = {R package version 1.0.0},</span></span>
+<span><span class="co">##     note = {R package version 1.0.1},</span></span>
 <span><span class="co">##     url = {https://CRAN.R-project.org/package=SHARK4R},</span></span>
 <span><span class="co">##   }</span></span></code></pre>
 </div>

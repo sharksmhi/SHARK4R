@@ -123,7 +123,7 @@ These functions are used to read data related to Plankton Toolbox
 - [`check_zero_positions()`](https://sharksmhi.github.io/SHARK4R/reference/check_zero_positions.md)
   : Identify samples with zero-valued station coordinates
 - [`lookup_xy()`](https://sharksmhi.github.io/SHARK4R/reference/lookup_xy.md)
-  : Lookup spatial data for a set of points
+  : Lookup spatial information for geographic points
 - [`match_station()`](https://sharksmhi.github.io/SHARK4R/reference/match_station.md)
   : Match station names against SMHI station list
 - [`plot_map_leaflet()`](https://sharksmhi.github.io/SHARK4R/reference/plot_map_leaflet.md)

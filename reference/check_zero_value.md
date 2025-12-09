@@ -33,7 +33,6 @@ A DT datatable or a data.frame of zero-value records, or `NULL`
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 # Example dataset
 df <- data.frame(
   station_name = c("A", "B", "C", "D"),
@@ -41,10 +40,10 @@ df <- data.frame(
   value = c(3.2, 0, 1.5, 0)
 )
 
-# Check for zero values (returns an interactive datatable)
-check_zero_value(df)
-
 # Return a plain data.frame of zero-value records
 check_zero_value(df, return_df = TRUE)
-} # }
+#> ERROR: Value contain zeroes (0). Please check zero values!
+#>   station_name sample_date value
+#> 1            B  2023-06-02     0
+#> 2            D  2023-06-04     0
 ```

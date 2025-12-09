@@ -31,7 +31,7 @@ get_nua_external_links(slug, verbose = TRUE, unparsed = FALSE)
 
 ## Value
 
-When unparsed = `FALSE`: a data frame containing the following columns:
+When unparsed = `FALSE`: a `tibble` containing the following columns:
 
 - slug:
 
@@ -75,9 +75,19 @@ documentation.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
   # Retrieve external links for a vector of slugs
-  external_links <- get_nua_external_links(slug = c("chaetoceros-debilis", "alexandrium-tamarense"))
+  external_links <- get_nua_external_links(slug = c("chaetoceros-debilis", "alexandrium-tamarense"),
+                                           verbose = FALSE)
   head(external_links)
-} # }
+#> # A tibble: 6 × 6
+#>   slug                provider  label        external_id external_url collection
+#>   <chr>               <chr>     <chr>        <chr>       <chr>        <chr>     
+#> 1 chaetoceros-debilis AlgaeBase AlgaeBase    37416       https://www… External …
+#> 2 chaetoceros-debilis Dyntaxa   Dyntaxa      237319      https://art… External …
+#> 3 chaetoceros-debilis GBIF      GBIF         4275396     https://www… External …
+#> 4 chaetoceros-debilis ITIS      ITIS         2790        http://www.… External …
+#> 5 chaetoceros-debilis WoRMS     WoRMS        149219      https://www… External …
+#> 6 chaetoceros-debilis PR2       PR2: Chaeto… Chaetocero… https://app… External …
+# }
 ```

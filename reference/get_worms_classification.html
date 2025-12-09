@@ -11,7 +11,7 @@ Optionally, a hierarchy string column can be added that concatenates ranks."><me
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,7 @@ Optionally, a hierarchy string column can be added that concatenates ranks."><me
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve hierarchical classification from WoRMS</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/worms_api_functions.R" class="external-link"><code>R/worms_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/worms_api_functions.R" class="external-link"><code>R/worms_api_functions.R</code></a></small>
       <div class="d-none name"><code>get_worms_classification.Rd</code></div>
     </div>
 
@@ -91,7 +91,7 @@ and a progress bar during data retrieval.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>data.frame</code> where each row corresponds to an input AphiaID. Typical
+    <p>A <code>tibble</code> where each row corresponds to an input AphiaID. Typical
 columns include:</p><dl><dt>aphia_id</dt>
 <dd><p>The AphiaID of the taxon (matches input).</p></dd>
 
@@ -127,16 +127,43 @@ hierarchy data. Format depends on <code>add_rank_to_hierarchy</code>.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Single AphiaID</span></span></span>
-<span class="r-in"><span><span class="fu">get_worms_classification</span><span class="op">(</span><span class="fl">109604</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">single_taxa</span> <span class="op">&lt;-</span> <span class="fu">get_worms_classification</span><span class="op">(</span><span class="fl">109604</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">single_taxa</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 15</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   aphia_id scientific_name  parent_name Kingdom   Subkingdom Infrakingdom Phylum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   <span style="text-decoration: underline;">109</span>604 Dinophysis acuta Dinophysis  Chromista Harosa     Alveolata    Myzoz…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 8 more variables: Subphylum &lt;chr&gt;, Infraphylum &lt;chr&gt;, Class &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Order &lt;chr&gt;, Family &lt;chr&gt;, Genus &lt;chr&gt;, Species &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   worms_hierarchy &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Multiple AphiaIDs</span></span></span>
-<span class="r-in"><span><span class="fu">get_worms_classification</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">109604</span>, <span class="fl">376667</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">multiple_taxa</span> <span class="op">&lt;-</span> <span class="fu">get_worms_classification</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">109604</span>, <span class="fl">376667</span><span class="op">)</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">multiple_taxa</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 17</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   aphia_id scientific_name    parent_name Kingdom Subkingdom Infrakingdom Phylum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   <span style="text-decoration: underline;">109</span>604 Dinophysis acuta   Dinophysis  Chromi… Harosa     Alveolata    Myzoz…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   <span style="text-decoration: underline;">376</span>667 Skeletonema marin… Skeletonema Chromi… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>           Heter…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 10 more variables: Subphylum &lt;chr&gt;, Infraphylum &lt;chr&gt;, Class &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Order &lt;chr&gt;, Family &lt;chr&gt;, Genus &lt;chr&gt;, Species &lt;chr&gt;, Subclass &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Superorder &lt;chr&gt;, worms_hierarchy &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Hierarchy with ranks in the string</span></span></span>
-<span class="r-in"><span><span class="fu">get_worms_classification</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">109604</span>, <span class="fl">376667</span><span class="op">)</span>, add_rank_to_hierarchy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="va">with_rank</span> <span class="op">&lt;-</span> <span class="fu">get_worms_classification</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">109604</span>, <span class="fl">376667</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                      add_rank_to_hierarchy <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                                      verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Print hierarchy columns with ranks</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">with_rank</span><span class="op">$</span><span class="va">worms_hierarchy</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "[Kingdom] Chromista - [Subkingdom] Harosa - [Infrakingdom] Alveolata - [Phylum] Myzozoa - [Subphylum] Dinozoa - [Infraphylum] Dinoflagellata - [Class] Dinophyceae - [Order] Dinophysales - [Family] Dinophysaceae - [Genus] Dinophysis - [Species] Dinophysis acuta"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Compare with result when add_rank_to_hierarchy = FALSE</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">multiple_taxa</span><span class="op">$</span><span class="va">worms_hierarchy</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Chromista - Harosa - Alveolata - Myzozoa - Dinozoa - Dinoflagellata - Dinophyceae - Dinophysales - Dinophysaceae - Dinophysis - Dinophysis acuta"</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

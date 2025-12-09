@@ -19,7 +19,7 @@ get_nua_media_links(unparsed = FALSE)
 
 ## Value
 
-When unparsed = `FALSE`: a data frame with the following columns:
+When unparsed = `FALSE`: a `tibble` with the following columns:
 
 - `slug`: The slug of the related taxon.
 
@@ -41,11 +41,22 @@ documentation.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Retrieve media information
 media_info <- get_nua_media_links(unparsed = FALSE)
 
 # Preview the extracted data
 head(media_info)
-} # }
+#> # A tibble: 6 × 10
+#>   slug               image_l_url image_o_url image_s_url image_m_url contributor
+#>   <chr>              <chr>       <chr>       <chr>       <chr>       <chr>      
+#> 1 lennoxia-faveolata https://no… https://no… https://no… https://no… Maria Karl…
+#> 2 NA                 https://no… https://no… https://no… https://no… Per Wilhel…
+#> 3 NA                 https://no… https://no… https://no… https://no… Per Wilhel…
+#> 4 NA                 https://no… https://no… https://no… https://no… Per Wilhel…
+#> 5 NA                 https://no… https://no… https://no… https://no… Per Wilhel…
+#> 6 NA                 https://no… https://no… https://no… https://no… Per Wilhel…
+#> # ℹ 4 more variables: photographer_artist <chr>, copyright_holder <chr>,
+#> #   license <chr>, galleries <chr>
+# }
 ```

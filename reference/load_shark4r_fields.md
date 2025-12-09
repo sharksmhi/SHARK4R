@@ -62,14 +62,30 @@ for loading precomputed SHARK4R statistics,
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Load SHARK4R field definitions from GitHub
-fields <- load_shark4r_fields()
+fields <- load_shark4r_fields(verbose = FALSE)
 
-# Access required or recommended fields
-fields$required_fields
-fields$recommended_fields
-
+# Access required or recommended fields for the first entry
+fields[[1]]$required
+#>  [1] "visit_year"                         "station_name"                      
+#>  [3] "sample_project_name_sv"             "sample_orderer_name_sv"            
+#>  [5] "platform_code"                      "sample_date"                       
+#>  [7] "sample_time"                        "sample_latitude_dd"                
+#>  [9] "sample_longitude_dd"                "positioning_system_code"           
+#> [11] "water_depth_m"                      "sample_min_depth_m"                
+#> [13] "sample_max_depth_m"                 "sampling_laboratory_name_sv"       
+#> [15] "sampling_laboratory_accreditated"   "sampler_type_code"                 
+#> [17] "sampled_volume_l"                   "scientific_name"                   
+#> [19] "value"                              "quality_flag"                      
+#> [21] "analysis_method_code"               "method_reference_code"             
+#> [23] "analytical_laboratory_name_sv"      "analytical_laboratory_accreditated"
+#> [25] "analysed_volume_cm3"                "preservation_method_code"          
+#> [27] "counted_portions"                   "reporting_institute_name_sv"       
+fields[[1]]$recommended
+#> [1] "monitoring_program_code"
+# }
+if (FALSE) { # \dontrun{
 # Use the loaded definitions in check_fields()
 check_fields(my_data, field_definitions = fields)
 } # }

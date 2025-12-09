@@ -13,7 +13,7 @@ The default shapefile includes the Baltic Sea, Kattegat, and Skagerrak basins an
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@ The default shapefile includes the Baltic Sea, Kattegat, and Skagerrak basins an
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Determine if points are in a specified sea basin</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/ifcb_which_basin.R" class="external-link"><code>R/ifcb_which_basin.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/ifcb_which_basin.R" class="external-link"><code>R/ifcb_which_basin.R</code></a></small>
       <div class="d-none name"><code>ifcb_which_basin.Rd</code></div>
     </div>
 
@@ -94,30 +94,29 @@ Defaults to the Baltic Sea, Kattegat, and Skagerrak basins included in the <code
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function reads a pre-packaged shapefile of the Baltic Sea, Kattegat, and Skagerrak basins from the <code>SHARK4R</code> package by default, or a user-supplied
-shapefile if provided. The shapefiles originate from SHARK (https://shark.smhi.se/). It sets the CRS, transforms the CRS to WGS84 (EPSG:4326) if necessary, and checks if the given points
+shapefile if provided. The shapefiles originate from SHARK (https://shark.smhi.se/en/). It sets the CRS, transforms the CRS to WGS84 (EPSG:4326) if necessary, and checks if the given points
 fall within the specified sea basin. Optionally, it plots the points and the sea basin polygons together.</p>
 <p>This function is re-exported from the <code>iRfcb</code> package available at <a href="https://github.com/EuropeanIFCBGroup/iRfcb" class="external-link">https://github.com/EuropeanIFCBGroup/iRfcb</a></p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Define example latitude and longitude vectors</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Define example latitude and longitude vectors</span></span></span>
 <span class="r-in"><span><span class="va">latitudes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">55.337</span>, <span class="fl">54.729</span>, <span class="fl">56.311</span>, <span class="fl">57.975</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">longitudes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12.674</span>, <span class="fl">14.643</span>, <span class="fl">12.237</span>, <span class="fl">10.637</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Check in which Baltic sea basin the points are in</span></span></span>
-<span class="r-in"><span><span class="co"># points_in_the_baltic &lt;- ifcb_which_basin(latitudes, longitudes)</span></span></span>
-<span class="r-in"><span><span class="co"># -&gt;</span></span></span>
-<span class="r-in"><span><span class="va">points_in_the_baltic</span> <span class="op">&lt;-</span> <span class="fu"><a href="which_basin.html">which_basin</a></span><span class="op">(</span><span class="va">latitudes</span>, <span class="va">longitudes</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">points_in_the_baltic</span> <span class="op">&lt;-</span> <span class="fu">ifcb_which_basin</span><span class="op">(</span><span class="va">latitudes</span>, <span class="va">longitudes</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`ifcb_which_basin()` was deprecated in SHARK4R 1.0.0.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `which_basin()` instead.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">points_in_the_baltic</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "13 - Arkona Basin"   "12 - Bornholm Basin" "16 - Kattegat"      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] "17 - Skagerrak"     </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Plot the points and the basins</span></span></span>
-<span class="r-in"><span><span class="co"># ifcb_which_basin(latitudes, longitudes, plot = TRUE)</span></span></span>
-<span class="r-in"><span><span class="co"># -&gt;</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="which_basin.html">which_basin</a></span><span class="op">(</span><span class="va">latitudes</span>, <span class="va">longitudes</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="ifcb_which_basin-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="va">map</span> <span class="op">&lt;-</span> <span class="fu">ifcb_which_basin</span><span class="op">(</span><span class="va">latitudes</span>, <span class="va">longitudes</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

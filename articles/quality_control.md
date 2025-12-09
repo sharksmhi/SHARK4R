@@ -24,13 +24,10 @@ SHARK format.
 
 ## Installation
 
-Install the latest version of SHARK4R from GitHub:
+You can install the latest version of `SHARK4R` from CRAN using:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("sharksmhi/SHARK4R",
-                        ref = remotes::github_release(),
-                        dependencies = TRUE)
+install.packages("SHARK4R")
 ```
 
 Load the package along with `dplyr`:
@@ -310,7 +307,7 @@ Verify station names against the official SHARK registry:
 station_match <- match_station(chlorophyll_data$station_name)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmpT1n0I8/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpZmhdy1/station.txt
 
     ## All stations found
 
@@ -334,7 +331,7 @@ check_station_distance(data = chlorophyll_data,
                        plot_leaflet = TRUE)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmpT1n0I8/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpZmhdy1/station.txt
 
     ## WARNING: Some stations are outside the allowed distance limit
 
@@ -365,7 +362,7 @@ For a more user-friendly interface, use the Shiny QC app:
 run_qc_app()
 
 # Alternative, download support files and knit documents locally
-check_setup()
+check_setup(path = tempdir()) # using a temp folder in this example
 ```
 
 The app provides point-and-click access to the same QC checks described
@@ -407,17 +404,17 @@ data for analysis.
     ## To cite package 'SHARK4R' in publications use:
     ## 
     ##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and
-    ##   Validating Marine Environmental Data from SHARK and Related
-    ##   Databases. R package version 1.0.0.
+    ##   Validating Marine Environmental Data from 'SHARK' and Related
+    ##   Databases. R package version 1.0.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
     ##   @Manual{,
-    ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},
+    ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2025},
-    ##     note = {R package version 1.0.0},
+    ##     note = {R package version 1.0.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
 

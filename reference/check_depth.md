@@ -104,12 +104,12 @@ The following checks are performed:
 
 2.  **Empty depth column** (all values missing) → warning
 
-3.  **Non-numeric depth values** → error
+3.  **Non-numeric depth values** → warning
 
-4.  **Depth exceeds bathymetry + margin** (`depthmargin`) → error
+4.  **Depth exceeds bathymetry + margin** (`depthmargin`) → warning
 
 5.  **Negative depth at offshore locations** (beyond `shoremargin`) →
-    error
+    warning
 
 6.  **Minimum depth greater than maximum depth** (if two columns
     supplied) → error
@@ -136,6 +136,7 @@ Intergovernmental Oceanographic Commission of UNESCO. R package version
 ## Examples
 
 ``` r
+# \donttest{
 # Example dataset with one depth column
 example_data <- data.frame(
   sample_latitude_dd = c(59.3, 58.1, 57.5),
@@ -144,9 +145,11 @@ example_data <- data.frame(
 )
 
 # Validate depths using OBIS XY lookup (bathymetry = NULL)
-if (FALSE) { # \dontrun{
 check_depth(example_data, depth_cols = "sample_depth_m")
-} # }
+#> # A tibble: 1 × 4
+#>   level     row field          message                                          
+#>   <chr>   <int> <chr>          <chr>                                            
+#> 1 warning     1 sample_depth_m Depth value (10) is greater than the value found…
 
 # Example dataset with min/max depth columns
 example_data2 <- data.frame(
@@ -156,12 +159,19 @@ example_data2 <- data.frame(
   sample_max_depth_m = c(3, 20)
 )
 
-if (FALSE) { # \dontrun{
 check_depth(example_data2, depth_cols = c("sample_min_depth_m", "sample_max_depth_m"))
-} # }
+#> # A tibble: 3 × 4
+#>   level     row field                                 message                   
+#>   <chr>   <int> <chr>                                 <chr>                     
+#> 1 error       1 sample_min_depth_m,sample_max_depth_m Minimum depth [5] is grea…
+#> 2 warning     1 sample_min_depth_m                    Depth value (5) is greate…
+#> 3 warning     1 sample_max_depth_m                    Depth value (3) is greate…
 
 # Return only failing rows
-if (FALSE) { # \dontrun{
 check_depth(example_data, depth_cols = "sample_depth_m", report = FALSE)
-} # }
+#> # A tibble: 1 × 3
+#>   sample_latitude_dd sample_longitude_dd sample_depth_m
+#>                <dbl>               <dbl>          <dbl>
+#> 1               59.3                  18             10
+# }
 ```

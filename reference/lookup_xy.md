@@ -1,15 +1,16 @@
-# Lookup spatial data for a set of points
+# Lookup spatial information for geographic points
 
-Retrieves spatial information (e.g., distance to shore, environmental
-grids, and area data) for a set of geographic coordinates. The function
-handles invalid or duplicate coordinates automatically and supports
-returning results as either a data frame or a list.
+Retrieves shore distance, environmental grids, and area values for given
+coordinates. Coordinates may be supplied either through a data frame or
+as separate numeric vectors.
 
 ## Usage
 
 ``` r
 lookup_xy(
-  data,
+  data = NULL,
+  lon = NULL,
+  lat = NULL,
   shoredistance = TRUE,
   grids = TRUE,
   areas = FALSE,
@@ -21,58 +22,61 @@ lookup_xy(
 
 - data:
 
-  A data frame containing geographic coordinates. The required columns
+  Optional data frame containing coordinate columns. The expected names
   are `sample_longitude_dd` and `sample_latitude_dd`. These must be
-  numeric and within valid ranges (-180 to 180 for longitude, -90 to 90
-  for latitude).
+  numeric and fall within valid geographic ranges.
+
+- lon:
+
+  Optional numeric vector of longitudes. Must be supplied together with
+  `lat` when used. Ignored when a data frame is provided unless both
+  `lon` and `lat` are set.
+
+- lat:
+
+  Optional numeric vector of latitudes. Must be supplied together with
+  `lon` when used.
 
 - shoredistance:
 
-  Logical; if `TRUE` (default), the distance to the nearest shore is
-  returned.
+  Logical; if `TRUE`, distance to the nearest shore is included.
 
 - grids:
 
-  Logical; if `TRUE` (default), environmental grid values (e.g.,
-  temperature, bathymetry) are returned.
+  Logical; if `TRUE`, environmental grid values are included.
 
 - areas:
 
-  Logical or numeric; if `TRUE`, area values are returned for points at
-  a 0 m radius. If a positive integer is provided, all areas within that
-  radius (in meters) are returned. Default is `FALSE`.
+  Logical or numeric. When logical, `TRUE` requests area values at zero
+  radius, and `FALSE` disables area retrieval. A positive integer
+  specifies the search radius in meters for area values.
 
 - as_data_frame:
 
-  Logical; if `TRUE` (default), results are returned as a data frame
-  with one row per input coordinate. If `FALSE`, results are returned as
-  a list.
+  Logical; if `TRUE`, the result is returned as a data frame. When
+  `FALSE`, the result is returned as a list.
 
 ## Value
 
-Either a data frame or a list with the requested spatial data:
-
-- For data frame output, each row corresponds to the input coordinates.
-  Columns include `shoredistance`, environmental grids, and `areas` (if
-  requested). Invalid coordinates are filled with `NA`.
-
-- For list output, each element corresponds to one input coordinate.
-  Invalid coordinates are `NULL`.
+A data frame or list, depending on `as_data_frame`. Invalid coordinates
+produce `NA` entries (data frame) or `NULL` elements (list). Duplicate
+input coordinates return repeated results.
 
 ## Details
 
-- The function first cleans the coordinates, removing invalid or missing
-  values and identifying unique points to avoid redundant lookups.
+- When both vector inputs and a data frame are provided, the vector
+  inputs take precedence.
 
-- Coordinates are queried in chunks of 25,000 to avoid overloading the
-  OBIS web service.
+- Coordinates are validated and cleaned before lookup, and only unique
+  values are queried.
 
-- When `areas` is a positive integer, all area values within that radius
-  are returned. A value of `TRUE` is equivalent to 0 m, while `FALSE`
-  disables area retrieval.
+- Queries are processed in batches to avoid overloading the remote
+  service.
 
-- Results are mapped back to the original input order, and duplicates in
-  the input are correctly handled.
+- Area retrieval accepts either a logical flag or a radius. A radius of
+  zero corresponds to requesting a single area value.
+
+- Final results are reordered to match the original input positions.
 
 - The function has been modified from the `obistools` package (Provoost
   and Bosch, 2024).
@@ -93,19 +97,28 @@ Intergovernmental Oceanographic Commission of UNESCO. R package version
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# Example data frame
-data <- data.frame(sample_longitude_dd = c(10.983229, 18.265451),
-                   sample_latitude_dd = c(58.121034, 58.331616))
+# \donttest{
+# Using a data frame
+df <- data.frame(sample_longitude_dd = c(10.9, 18.3),
+                 sample_latitude_dd = c(58.1, 58.3))
+lookup_xy(df)
+#>   shoredistance sssalinity sstemperature bathymetry
+#> 1         25043    29.2312       10.3866      185.8
+#> 2         48074     6.4531        8.9640      132.8
 
-# Retrieve shore distances and environmental grids for a dataset
-xy_data <- lookup_xy(data, shoredistance = TRUE, grids = TRUE, areas = FALSE)
+# Area search within a radius
+lookup_xy(df, areas = 500)
+#>   shoredistance sssalinity sstemperature bathymetry
+#> 1         25043    29.2312       10.3866      185.8
+#> 2         48074     6.4531        8.9640      132.8
+#>                                        obis               lme               iho
+#> 1  233, 235, Sweden: all, Sweden: North Sea  40022, North Sea  32379, Skagerrak
+#> 2 233, 234, Sweden: all, Sweden: Baltic Sea 40023, Baltic Sea 32401, Baltic Sea
 
-# Retrieve area data within a 500-meter radius
-xy_areas <- lookup_xy(data, shoredistance = FALSE, grids = FALSE, areas = 500)
-
-# Get results as a list instead of a data frame
-xy_list <- lookup_xy(data, shoredistance = TRUE, grids = TRUE, areas = FALSE, as_data_frame = FALSE)
-} # }
-
+# Using separate coordinate vectors
+lookup_xy(lon = c(10.9, 18.3), lat = c(58.1, 58.3))
+#>   shoredistance sssalinity sstemperature bathymetry
+#> 1         25043    29.2312       10.3866      185.8
+#> 2         48074     6.4531        8.9640      132.8
+# }
 ```

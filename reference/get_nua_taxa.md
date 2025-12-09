@@ -20,7 +20,7 @@ get_nua_taxa(unparsed = FALSE)
 
 ## Value
 
-When unparsed = `FALSE`: a data frame containing the following columns:
+When unparsed = `FALSE`: a `tibble` containing the following columns:
 
 - slug:
 
@@ -48,9 +48,18 @@ documentation.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
   # Retrieve and display taxa data
   taxa_data <- get_nua_taxa(unparsed = FALSE)
   head(taxa_data)
-} # }
+#> # A tibble: 6 × 5
+#>   scientific_name          authority                    rank    slug     nua_url
+#>   <chr>                    <chr>                        <chr>   <chr>    <chr>  
+#> 1 Abollifer                Vørs, 1992                   Genus   abollif… https:…
+#> 2 Abollifer prolabens      Vørs, 1992                   Species abollif… https:…
+#> 3 Acanthoceras             Honigm., 1910                Genus   acantho… https:…
+#> 4 Acanthoceras zachariasii (Brun) Simonsen, 1979        Species acantho… https:…
+#> 5 Acanthocerataceae        Round, Crawford & Mann, 1990 Family  acantho… https:…
+#> 6 Acanthocorbis            S.Hara & E.Takahashi, 1984   Genus   acantho… https:…
+# }
 ```

@@ -150,6 +150,8 @@ df_phyto <- data.frame(
   scientific_name = "Skeletonema marinoi",
   value = 123
 )
+
+# Check fields
 check_fields(df_phyto, "Phytoplankton", level = "warning")
 #> # A tibble: 42 × 4
 #>    level field                  row   message                                   
@@ -166,11 +168,27 @@ check_fields(df_phyto, "Phytoplankton", level = "warning")
 #> 10 error sample_longitude_dd    NA    Required field sample_longitude_dd is mis…
 #> # ℹ 32 more rows
 
+# \donttest{
 # Example 2: Load latest definitions from GitHub and use them
-if (FALSE) { # \dontrun{
-defs <- load_shark4r_fields()
+defs <- load_shark4r_fields(verbose = FALSE)
+
+# Check fields using loaded field definitions
 check_fields(df_phyto, "Phytoplankton", field_definitions = defs)
-} # }
+#> # A tibble: 40 × 4
+#>    level field                  row   message                                   
+#>    <chr> <chr>                  <lgl> <chr>                                     
+#>  1 error visit_year             NA    Required field visit_year is missing      
+#>  2 error station_name           NA    Required field station_name is missing    
+#>  3 error reported_station_name  NA    Required field reported_station_name is m…
+#>  4 error sample_project_name_sv NA    Required field sample_project_name_sv is …
+#>  5 error sample_orderer_name_sv NA    Required field sample_orderer_name_sv is …
+#>  6 error platform_code          NA    Required field platform_code is missing   
+#>  7 error sample_date            NA    Required field sample_date is missing     
+#>  8 error sample_time            NA    Required field sample_time is missing     
+#>  9 error sample_latitude_dd     NA    Required field sample_latitude_dd is miss…
+#> 10 error sample_longitude_dd    NA    Required field sample_longitude_dd is mis…
+#> # ℹ 30 more rows
+# }
 
 # Example 3: Custom datatype with required + recommended fields
 defs <- list(
@@ -180,7 +198,10 @@ defs <- list(
   )
 )
 
+# Example data
 df_ok <- data.frame(id = 1, value = "x", comment = "ok")
+
+# Check fields using custom field definitions
 check_fields(df_ok, "ExampleType", level = "warning", field_definitions = defs)
 #> # A tibble: 0 × 0
 ```

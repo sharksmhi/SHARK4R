@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve Data From SHARK</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/vignettes/retrieve_shark_data.Rmd" class="external-link"><code>vignettes/retrieve_shark_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/vignettes/retrieve_shark_data.Rmd" class="external-link"><code>vignettes/retrieve_shark_data.Rmd</code></a></small>
       <div class="d-none name"><code>retrieve_shark_data.Rmd</code></div>
     </div>
 
@@ -86,13 +86,15 @@
 <div class="section level2">
 <h2 id="shark">SHARK<a class="anchor" aria-label="anchor" href="#shark"></a>
 </h2>
-<p>SHARK is the Swedish Ocean Archive’s platform for data downloads. It
-stores biological, physical, and chemical marine environmental
-monitoring data. On behalf of the Swedish Agency for Marine and Water
-Management, SMHI serves as the national data host for oceanography and
-marine biology and is designated by UNESCO as a National Oceanographic
-Data Center (NODC). The data can be accessed via a <a href="https://shark.smhi.se/" class="external-link">web interface</a> or through the <a href="https://shark.smhi.se/api/docs/" class="external-link">API</a>, as demonstrated in this
-tutorial using <code>SHARK4R</code>.</p>
+<p>SHARK is the Swedish Ocean Archive’s (Svenskt HavsARKivs) platform
+for data downloads. It stores biological, physical, and chemical marine
+environmental monitoring data. On behalf of the Swedish Agency for
+Marine and Water Management, SMHI serves as the national data host for
+oceanography and marine biology. SMHI is also recognized by UNESCO as a
+National Oceanographic Data Center (NODC) within the Oceanographic Data
+and Information (IODE) programme. The data can be accessed via a <a href="https://shark.smhi.se/en/" class="external-link">web interface</a> or directly through
+the <a href="https://shark.smhi.se/api/docs/" class="external-link">API</a>, as demonstrated
+in this tutorial using <code>SHARK4R</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="getting-started">Getting Started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
@@ -100,13 +102,10 @@ tutorial using <code>SHARK4R</code>.</p>
 <div class="section level4">
 <h4 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h4>
-<p>You can install the latest version of the package from GitHub using
-the <code>remotes</code> package:</p>
+<p>You can install the latest version of <code>SHARK4R</code> from CRAN
+using:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"sharksmhi/SHARK4R"</span>,</span>
-<span>                        ref <span class="op">=</span> <span class="fu">remotes</span><span class="fu">::</span><span class="fu">github_release</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>                        dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"SHARK4R"</span><span class="op">)</span></span></code></pre></div>
 <p>Load the <code>SHARK4R</code> library:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sharksmhi.github.io/SHARK4R/">SHARK4R</a></span><span class="op">)</span></span></code></pre></div>
@@ -115,15 +114,15 @@ the <code>remotes</code> package:</p>
 <div class="section level2">
 <h2 id="retrieve-data-table">Retrieve Data Table<a class="anchor" aria-label="anchor" href="#retrieve-data-table"></a>
 </h2>
-<p>Data can be retrieved with the same filtering options available in <a href="https://shark.smhi.se/" class="external-link">SHARK</a>. To see the available filtering
-options, please refer to <code><a href="../reference/get_shark_options.html">get_shark_options()</a></code> and the
-information below.</p>
+<p>Data can be retrieved with the same filtering options available in <a href="https://shark.smhi.se/en/" class="external-link">SHARK</a>. To see the available
+filtering options, please refer to <code><a href="../reference/get_shark_options.html">get_shark_options()</a></code> and
+the information below.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve chlorophyll data for April to June from 2019 to 2020</span></span>
 <span><span class="va">shark_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_shark_data.html">get_shark_data</a></span><span class="op">(</span>fromYear <span class="op">=</span> <span class="fl">2019</span>, </span>
 <span>                             toYear <span class="op">=</span> <span class="fl">2020</span>,</span>
 <span>                             months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span>, </span>
-<span>                             dataTypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Chlorophyll"</span><span class="op">)</span>,</span>
+<span>                             dataTypes <span class="op">=</span> <span class="st">"Chlorophyll"</span>,</span>
 <span>                             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print data</span></span>
@@ -213,10 +212,10 @@ you can pass their names (or partial names) to the
 <span><span class="co"># Print the paths to the downloaded files</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">shark_data_zip</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## $`SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip`</span></span>
-<span><span class="co">## [1] "/tmp/RtmpwD1sLG/SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip"</span></span>
+<span><span class="co">## [1] "/tmp/RtmpzkJc7Y/SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip`</span></span>
-<span><span class="co">## [1] "/tmp/RtmpwD1sLG/SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip"</span></span></code></pre>
+<span><span class="co">## [1] "/tmp/RtmpzkJc7Y/SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip"</span></span></code></pre>
 <p>Please note that <code>SHARK4R</code> also includes useful functions
 for reading local SHARK data files, such as <code><a href="../reference/read_shark.html">read_shark()</a></code>
 and <code><a href="../reference/read_shark_deliv.html">read_shark_deliv()</a></code>.</p>
@@ -228,17 +227,17 @@ and <code><a href="../reference/read_shark_deliv.html">read_shark_deliv()</a></c
 <pre><code><span><span class="co">## To cite package 'SHARK4R' in publications use:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and</span></span>
-<span><span class="co">##   Validating Marine Environmental Data from SHARK and Related</span></span>
-<span><span class="co">##   Databases. R package version 1.0.0.</span></span>
+<span><span class="co">##   Validating Marine Environmental Data from 'SHARK' and Related</span></span>
+<span><span class="co">##   Databases. R package version 1.0.1.</span></span>
 <span><span class="co">##   https://CRAN.R-project.org/package=SHARK4R</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##   @Manual{,</span></span>
-<span><span class="co">##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},</span></span>
+<span><span class="co">##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson},</span></span>
 <span><span class="co">##     year = {2025},</span></span>
-<span><span class="co">##     note = {R package version 1.0.0},</span></span>
+<span><span class="co">##     note = {R package version 1.0.1},</span></span>
 <span><span class="co">##     url = {https://CRAN.R-project.org/package=SHARK4R},</span></span>
 <span><span class="co">##   }</span></span></code></pre>
 </div>

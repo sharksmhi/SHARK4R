@@ -28,7 +28,7 @@ read_ptbx(
 
 ## Value
 
-A data frame containing the contents of the selected sheet.
+A `tibble` containing the contents of the selected sheet.
 
 ## See also
 

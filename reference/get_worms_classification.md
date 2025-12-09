@@ -37,7 +37,7 @@ get_worms_classification(
 
 ## Value
 
-A `data.frame` where each row corresponds to an input AphiaID. Typical
+A `tibble` where each row corresponds to an input AphiaID. Typical
 columns include:
 
 - aphia_id:
@@ -82,14 +82,41 @@ The function performs the following steps:
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Single AphiaID
-get_worms_classification(109604)
+single_taxa <- get_worms_classification(109604, verbose = FALSE)
+print(single_taxa)
+#> # A tibble: 1 × 15
+#>   aphia_id scientific_name  parent_name Kingdom   Subkingdom Infrakingdom Phylum
+#>      <dbl> <chr>            <chr>       <chr>     <chr>      <chr>        <chr> 
+#> 1   109604 Dinophysis acuta Dinophysis  Chromista Harosa     Alveolata    Myzoz…
+#> # ℹ 8 more variables: Subphylum <chr>, Infraphylum <chr>, Class <chr>,
+#> #   Order <chr>, Family <chr>, Genus <chr>, Species <chr>,
+#> #   worms_hierarchy <chr>
 
 # Multiple AphiaIDs
-get_worms_classification(c(109604, 376667))
+multiple_taxa <- get_worms_classification(c(109604, 376667), verbose = FALSE)
+print(multiple_taxa)
+#> # A tibble: 2 × 17
+#>   aphia_id scientific_name    parent_name Kingdom Subkingdom Infrakingdom Phylum
+#>      <dbl> <chr>              <chr>       <chr>   <chr>      <chr>        <chr> 
+#> 1   109604 Dinophysis acuta   Dinophysis  Chromi… Harosa     Alveolata    Myzoz…
+#> 2   376667 Skeletonema marin… Skeletonema Chromi… NA         NA           Heter…
+#> # ℹ 10 more variables: Subphylum <chr>, Infraphylum <chr>, Class <chr>,
+#> #   Order <chr>, Family <chr>, Genus <chr>, Species <chr>, Subclass <chr>,
+#> #   Superorder <chr>, worms_hierarchy <chr>
 
 # Hierarchy with ranks in the string
-get_worms_classification(c(109604, 376667), add_rank_to_hierarchy = TRUE)
-} # }
+with_rank <- get_worms_classification(c(109604, 376667),
+                                      add_rank_to_hierarchy = TRUE,
+                                      verbose = FALSE)
+
+# Print hierarchy columns with ranks
+print(with_rank$worms_hierarchy[1])
+#> [1] "[Kingdom] Chromista - [Subkingdom] Harosa - [Infrakingdom] Alveolata - [Phylum] Myzozoa - [Subphylum] Dinozoa - [Infraphylum] Dinoflagellata - [Class] Dinophyceae - [Order] Dinophysales - [Family] Dinophysaceae - [Genus] Dinophysis - [Species] Dinophysis acuta"
+
+# Compare with result when add_rank_to_hierarchy = FALSE
+print(multiple_taxa$worms_hierarchy[1])
+#> [1] "Chromista - Harosa - Alveolata - Myzozoa - Dinozoa - Dinoflagellata - Dinophyceae - Dinophysales - Dinophysaceae - Dinophysis - Dinophysis acuta"
+# }
 ```

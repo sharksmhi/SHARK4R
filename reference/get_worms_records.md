@@ -44,8 +44,8 @@ get_worms_records(
 
 ## Value
 
-A data frame containing the retrieved WoRMS records for the provided
-Aphia IDs. Each row corresponds to one Aphia ID.
+A `tibble` containing the retrieved WoRMS records for the provided Aphia
+IDs. Each row corresponds to one Aphia ID.
 
 ## Details
 
@@ -64,9 +64,23 @@ message.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Example usage with a vector of Aphia IDs
 aphia_ids <- c(12345, 67890, 112233)
-worms_records <- get_worms_records(aphia_ids)
-} # }
+worms_records <- get_worms_records(aphia_ids, verbose = FALSE)
+
+print(worms_records)
+#> # A tibble: 3 × 28
+#>   AphiaID status url   scientificname authority unacceptreason taxonRankID rank 
+#>     <dbl> <chr>  <chr> <chr>          <chr>     <lgl>                <int> <chr>
+#> 1   12345 no co… NA    NA             NA        NA                      NA NA   
+#> 2   67890 no co… NA    NA             NA        NA                      NA NA   
+#> 3  112233 accep… http… Nonionella     Cushman,… NA                     180 Genus
+#> # ℹ 20 more variables: valid_AphiaID <int>, valid_name <chr>,
+#> #   valid_authority <chr>, parentNameUsageID <int>, originalNameUsageID <int>,
+#> #   kingdom <chr>, phylum <chr>, class <chr>, order <chr>, family <chr>,
+#> #   genus <chr>, citation <chr>, lsid <chr>, isMarine <int>, isBrackish <lgl>,
+#> #   isFreshwater <int>, isTerrestrial <int>, isExtinct <int>, match_type <chr>,
+#> #   modified <chr>
+# }
 ```

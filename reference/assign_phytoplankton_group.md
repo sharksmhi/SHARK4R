@@ -98,7 +98,7 @@ assign_phytoplankton_group(
 
 ## Value
 
-A data frame with two columns: `scientific_name` and `plankton_group`,
+A `tibble` with two columns: `scientific_name` and `plankton_group`,
 where the plankton group is assigned based on taxonomic classification.
 
 ## Details
@@ -134,13 +134,20 @@ listed after `Cryptophytes` in the `custom_groups` list.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Assign plankton groups to a list of species
 result <- assign_phytoplankton_group(
   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
-  aphia_ids = c(840626, 149013, 160566, NA))
+  aphia_ids = c(840626, 149013, 160566, NA), verbose = FALSE)
 
 print(result)
+#> # A tibble: 4 × 2
+#>   scientific_name     plankton_group 
+#>   <chr>               <chr>          
+#> 1 Tripos fusus        Dinoflagellates
+#> 2 Diatoma             Diatoms        
+#> 3 Nodularia spumigena Cyanobacteria  
+#> 4 Octactis speculum   Other          
 
 # Assign plankton groups using additional custom grouping
 custom_groups <- list(
@@ -153,9 +160,15 @@ result_custom <- assign_phytoplankton_group(
   scientific_names = c("Teleaulax amphioxeia", "Mesodinium rubrum", "Dinophysis acuta"),
   aphia_ids = c(106306, 232069, 109604),
   custom_groups = custom_groups,         # Adding custom groups
-  verbose = TRUE
+  verbose = FALSE
 )
 
 print(result_custom)
-} # }
+#> # A tibble: 3 × 2
+#>   scientific_name      plankton_group 
+#>   <chr>                <chr>          
+#> 1 Teleaulax amphioxeia Cryptophytes   
+#> 2 Mesodinium rubrum    Ciliates       
+#> 3 Dinophysis acuta     Dinoflagellates
+# }
 ```

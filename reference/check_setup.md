@@ -8,16 +8,15 @@ control (QC) of SHARK data.
 ## Usage
 
 ``` r
-check_setup(path = ".", run_app = FALSE, force = FALSE, verbose = TRUE)
+check_setup(path, run_app = FALSE, force = FALSE, verbose = TRUE)
 ```
 
 ## Arguments
 
 - path:
 
-  Character string specifying the target directory where the `products`
-  folder should be stored. Defaults to the current working directory
-  (`"."`).
+  Character string giving the directory where the products folder should
+  be created. Must be provided by the user.
 
 - run_app:
 
@@ -39,25 +38,27 @@ An (invisible) list with the path to the local `products` folder:
 
 ## Details
 
-By default, the folders are downloaded into the current working
-directory. If the folders already exist, the download will be skipped
-unless `force = TRUE` is specified. Optionally, the function can launch
-the QC Shiny app directly after setup.
+If the `path` folders already exist, the download will be skipped unless
+`force = TRUE` is specified. Optionally, the function can launch the QC
+Shiny app directly after setup.
 
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# Download support files into current working directory
-check_setup()
-
-# Download into a specific folder in current working directory
-check_setup(path = "shark_qc")
+# \donttest{
+# Download support files into a temporary directory
+check_setup(path = tempdir())
+#> Downloading setup files for SHARK4R...
+#> Setup complete. Files are available in /tmp/RtmppNboyt
 
 # Force re-download if already present
-check_setup(force = TRUE)
+check_setup(path = tempdir(), force = TRUE)
+#> Downloading setup files for SHARK4R...
+#> Setup complete. Files are available in /tmp/RtmppNboyt
 
 # Download and run the QC Shiny app
-check_setup(run_app = TRUE)
-} # }
+if(interactive()){
+ check_setup(path = tempdir(), run_app = TRUE)
+}
+# }
 ```

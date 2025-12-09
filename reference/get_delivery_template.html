@@ -9,7 +9,7 @@ The template contains the column definitions and headers used for submission."><
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@ The template contains the column definitions and headers used for submission."><
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get a delivery template for a SHARK datatype</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/read_delivery_template.R" class="external-link"><code>R/read_delivery_template.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/read_delivery_template.R" class="external-link"><code>R/read_delivery_template.R</code></a></small>
       <div class="d-none name"><code>get_delivery_template.Rd</code></div>
     </div>
 
@@ -124,18 +124,35 @@ this number of days are deleted automatically. Default is 1.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame containing the delivery template. Column names are set
+    <p>A <code>tibble</code> containing the delivery template. Column names are set
 from the header row.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Bacterioplankton abundance</span></span></span>
-<span class="r-in"><span><span class="va">abun</span> <span class="op">&lt;-</span> <span class="fu">get_delivery_template</span><span class="op">(</span><span class="st">"Bacterioplankton"</span>, bacterioplankton_subtype <span class="op">=</span> <span class="st">"abundance"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">abun</span> <span class="op">&lt;-</span> <span class="fu">get_delivery_template</span><span class="op">(</span><span class="st">"Bacterioplankton"</span>,</span></span>
+<span class="r-in"><span>                              bacterioplankton_subtype <span class="op">=</span> <span class="st">"abundance"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">abun</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 57</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `Tabellhuvud:`   MYEAR  STATN STATION_ID SITE_ID PROJ  ORDERER SHIPC CRUISE_NO</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> * = Obligatorisk *      *     <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>      *     *       *     <span style="color: #BB0000;">NA</span>       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Förklaring:      År (Y… Stat… Övervakni… Provpl… Proj… Bestäl… Prov… Expediti…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Tabellhuvud:     MYEAR  STATN STATION_ID SITE_ID PROJ  ORDERER SHIPC CRUISE_NO</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 48 more variables: SERNO &lt;chr&gt;, SDATE &lt;chr&gt;, LATIT &lt;chr&gt;, LONGI &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   POSYS &lt;chr&gt;, WADEP &lt;chr&gt;, MSTAT &lt;chr&gt;, PURPM &lt;chr&gt;, MPROG &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   COMNT_VISIT &lt;chr&gt;, WINDIR &lt;chr&gt;, WINSP &lt;chr&gt;, AIRTEMP &lt;chr&gt;, AIRPRES &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   WEATH &lt;chr&gt;, CLOUD &lt;chr&gt;, WAVES &lt;chr&gt;, ICEOB &lt;chr&gt;, SECCHI &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Q_SECCHI &lt;chr&gt;, STIME &lt;chr&gt;, SMPDEP &lt;chr&gt;, SLABO &lt;chr&gt;, ACKR_SMP &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SMTYP &lt;chr&gt;, SMVOL &lt;chr&gt;, SMPNO &lt;chr&gt;, COMNT_SAMP &lt;chr&gt;, SPVOL &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   COEFF &lt;chr&gt;, SUBNO &lt;chr&gt;, METFP &lt;chr&gt;, BCTCNT &lt;chr&gt;, BCTABU &lt;chr&gt;, …</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Bacterioplankton production</span></span></span>
-<span class="r-in"><span><span class="va">prod</span> <span class="op">&lt;-</span> <span class="fu">get_delivery_template</span><span class="op">(</span><span class="st">"Bacterioplankton"</span>, bacterioplankton_subtype <span class="op">=</span> <span class="st">"production"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">prod</span> <span class="op">&lt;-</span> <span class="fu">get_delivery_template</span><span class="op">(</span><span class="st">"Bacterioplankton"</span>,</span></span>
+<span class="r-in"><span>                              bacterioplankton_subtype <span class="op">=</span> <span class="st">"production"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Phytoplankton template</span></span></span>
 <span class="r-in"><span><span class="va">phyto</span> <span class="op">&lt;-</span> <span class="fu">get_delivery_template</span><span class="op">(</span><span class="st">"Phytoplankton"</span><span class="op">)</span></span></span>
@@ -145,7 +162,24 @@ from the header row.</p>
 <span class="r-in"><span>                                                  sheet <span class="op">=</span> <span class="fl">3</span>,</span></span>
 <span class="r-in"><span>                                                  header_row <span class="op">=</span> <span class="fl">4</span>,</span></span>
 <span class="r-in"><span>                                                  skip <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">phyto_column_explanation</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 68 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    ...1  ...2  `Förklaring/ Svenskt namn`  `Fältnamn/ Kort-namn` Enhet </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    Förklaring/ Svenskt namn    Fältnamn/ Kort-namn   Enhet </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> *     <span style="color: #BB0000;">NA</span>    År (YYYY)                   MYEAR                 YYYY  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>                          <span style="color: #BB0000;">NA</span>                    <span style="color: #BB0000;">NA</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> *     <span style="color: #BB0000;">NA</span>    Stationsnamn (text)         STATN                 text  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    ÖvervakningsstationsID      STATION_ID            nnnnnn</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    ProvplatsID                 SITE_ID               nnnnnn</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> *     <span style="color: #BB0000;">NA</span>    Projekt (kod)               PROJ                  kod   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> *     <span style="color: #BB0000;">NA</span>    Beställare (kod)            ORDERER               kod   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> *     <span style="color: #BB0000;">NA</span>    Provtagningsplattform (kod) SHIPC                 kod   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>    Expeditionsnummer (text)    CRUISE_NO             text  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 58 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: `Kommentar/ Beskrivning` &lt;chr&gt;</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

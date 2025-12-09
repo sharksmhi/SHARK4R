@@ -13,7 +13,7 @@ all retrieved taxa."><meta property="og:image" content="https://sharksmhi.github
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@ all retrieved taxa."><meta property="og:image" content="https://sharksmhi.github
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve hierarchical taxonomy data from WoRMS</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/worms_api_functions.R" class="external-link"><code>R/worms_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/worms_api_functions.R" class="external-link"><code>R/worms_api_functions.R</code></a></small>
       <div class="d-none name"><code>get_worms_taxonomy_tree.Rd</code></div>
     </div>
 
@@ -118,7 +118,7 @@ and progress bars during data retrieval.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>data.frame</code> containing detailed WoRMS records for all requested
+    <p>A <code>tibble</code> containing detailed WoRMS records for all requested
 AphiaIDs, including optional descendants and synonyms. Typical columns
 include:</p><dl><dt>AphiaID</dt>
 <dd><p>The AphiaID of the taxon.</p></dd>
@@ -178,22 +178,94 @@ and source information.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Retrieve hierarchy for a single AphiaID</span></span></span>
-<span class="r-in"><span><span class="fu">get_worms_taxonomy_tree</span><span class="op">(</span>aphia_ids <span class="op">=</span> <span class="fl">109604</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">get_worms_taxonomy_tree</span><span class="op">(</span>aphia_ids <span class="op">=</span> <span class="fl">109604</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 11 × 28</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    AphiaID url        scientificname authority status unacceptreason taxonRankID</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>       7 https://w… Chromista      <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">582</span>419 https://w… Harosa         <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">536</span>209 https://w… Alveolata      Cavalier… accep… <span style="color: #BB0000;">NA</span>                      25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">450</span>030 https://w… Myzozoa        Cavalier… accep… <span style="color: #BB0000;">NA</span>                      30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">562</span>620 https://w… Dinozoa        <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">146</span>203 https://w… Dinoflagellata <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      45</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>   <span style="text-decoration: underline;">19</span>542 https://w… Dinophyceae    Fritsch,… accep… <span style="color: #BB0000;">NA</span>                      60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 1<span style="text-decoration: underline;">732</span>560 https://w… Dinophysales   Kofoid, … accep… <span style="color: #BB0000;">NA</span>                     100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">231</span>772 https://w… Dinophysaceae  Bütschli… accep… <span style="color: #BB0000;">NA</span>                     140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">109</span>462 https://w… Dinophysis     Ehrenber… accep… <span style="color: #BB0000;">NA</span>                     180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>  <span style="text-decoration: underline;">109</span>604 https://w… Dinophysis ac… Ehrenber… accep… <span style="color: #BB0000;">NA</span>                     220</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 21 more variables: rank &lt;chr&gt;, valid_AphiaID &lt;int&gt;, valid_name &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   valid_authority &lt;chr&gt;, parentNameUsageID &lt;int&gt;, originalNameUsageID &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   genus &lt;chr&gt;, citation &lt;chr&gt;, lsid &lt;chr&gt;, isMarine &lt;int&gt;, isBrackish &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   isFreshwater &lt;int&gt;, isTerrestrial &lt;int&gt;, isExtinct &lt;lgl&gt;, match_type &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   modified &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Retrieve hierarchy including species-level descendants</span></span></span>
 <span class="r-in"><span><span class="fu">get_worms_taxonomy_tree</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  aphia_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">109604</span>, <span class="fl">376667</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  add_descendants <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  add_descendants <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 86 × 28</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    AphiaID url        scientificname authority status unacceptreason taxonRankID</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>       7 https://w… Chromista      <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">582</span>419 https://w… Harosa         <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">536</span>209 https://w… Alveolata      Cavalier… accep… <span style="color: #BB0000;">NA</span>                      25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">450</span>030 https://w… Myzozoa        Cavalier… accep… <span style="color: #BB0000;">NA</span>                      30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">562</span>620 https://w… Dinozoa        <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">146</span>203 https://w… Dinoflagellata <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      45</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>   <span style="text-decoration: underline;">19</span>542 https://w… Dinophyceae    Fritsch,… accep… <span style="color: #BB0000;">NA</span>                      60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 1<span style="text-decoration: underline;">732</span>560 https://w… Dinophysales   Kofoid, … accep… <span style="color: #BB0000;">NA</span>                     100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">231</span>772 https://w… Dinophysaceae  Bütschli… accep… <span style="color: #BB0000;">NA</span>                     140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">109</span>462 https://w… Dinophysis     Ehrenber… accep… <span style="color: #BB0000;">NA</span>                     180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 76 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 21 more variables: rank &lt;chr&gt;, valid_AphiaID &lt;int&gt;, valid_name &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   valid_authority &lt;chr&gt;, parentNameUsageID &lt;int&gt;, originalNameUsageID &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   genus &lt;chr&gt;, citation &lt;chr&gt;, lsid &lt;chr&gt;, isMarine &lt;int&gt;, isBrackish &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   isFreshwater &lt;int&gt;, isTerrestrial &lt;int&gt;, isExtinct &lt;int&gt;, match_type &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   modified &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Retrieve hierarchy including hierarchy column</span></span></span>
 <span class="r-in"><span><span class="fu">get_worms_taxonomy_tree</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  aphia_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">109604</span>, <span class="fl">376667</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  add_hierarchy <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  add_hierarchy <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 20 × 31</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    AphiaID url        scientificname authority status unacceptreason taxonRankID</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>       7 https://w… Chromista      <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">582</span>419 https://w… Harosa         <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">536</span>209 https://w… Alveolata      Cavalier… accep… <span style="color: #BB0000;">NA</span>                      25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">450</span>030 https://w… Myzozoa        Cavalier… accep… <span style="color: #BB0000;">NA</span>                      30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">562</span>620 https://w… Dinozoa        <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">146</span>203 https://w… Dinoflagellata <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      45</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>   <span style="text-decoration: underline;">19</span>542 https://w… Dinophyceae    Fritsch,… accep… <span style="color: #BB0000;">NA</span>                      60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 1<span style="text-decoration: underline;">732</span>560 https://w… Dinophysales   Kofoid, … accep… <span style="color: #BB0000;">NA</span>                     100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">231</span>772 https://w… Dinophysaceae  Bütschli… accep… <span style="color: #BB0000;">NA</span>                     140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">109</span>462 https://w… Dinophysis     Ehrenber… accep… <span style="color: #BB0000;">NA</span>                     180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>  <span style="text-decoration: underline;">109</span>604 https://w… Dinophysis ac… Ehrenber… accep… <span style="color: #BB0000;">NA</span>                     220</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span>  <span style="text-decoration: underline;">370</span>437 https://w… Heterokontoph… Moestrup… accep… <span style="color: #BB0000;">NA</span>                      30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span>  <span style="text-decoration: underline;">493</span>822 https://w… Bacillariophy… Medlin &amp;… accep… <span style="color: #BB0000;">NA</span>                      40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span>  <span style="text-decoration: underline;">148</span>899 https://w… Bacillariophy… Haeckel,… accep… <span style="color: #BB0000;">NA</span>                      60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span>  <span style="text-decoration: underline;">148</span>971 https://w… Coscinodiscop… Round &amp; … accep… <span style="color: #BB0000;">NA</span>                      70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span>  <span style="text-decoration: underline;">591</span>189 https://w… Thalassiosira… <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      90</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span>  <span style="text-decoration: underline;">148</span>903 https://w… Thalassiosira… Glezer &amp;… accep… <span style="color: #BB0000;">NA</span>                     100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span>  <span style="text-decoration: underline;">149</span>072 https://w… Skeletonemace… Lebour, … accep… <span style="color: #BB0000;">NA</span>                     140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span>  <span style="text-decoration: underline;">149</span>073 https://w… Skeletonema    R.K. Gre… accep… <span style="color: #BB0000;">NA</span>                     180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">20</span>  <span style="text-decoration: underline;">376</span>667 https://w… Skeletonema m… Sarno &amp; … unass… <span style="color: #BB0000;">NA</span>                     220</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 24 more variables: rank &lt;chr&gt;, valid_AphiaID &lt;int&gt;, valid_name &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   valid_authority &lt;chr&gt;, parentNameUsageID &lt;int&gt;, parentName &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   originalNameUsageID &lt;int&gt;, kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   order &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;, species &lt;chr&gt;, citation &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   lsid &lt;chr&gt;, isMarine &lt;int&gt;, isBrackish &lt;int&gt;, isFreshwater &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   isTerrestrial &lt;int&gt;, isExtinct &lt;int&gt;, match_type &lt;chr&gt;, modified &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   hierarchy &lt;chr&gt;</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

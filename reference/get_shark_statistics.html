@@ -9,7 +9,7 @@ and calculates descriptive statistics and Tukey outlier thresholds."><meta prope
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@ and calculates descriptive statistics and Tukey outlier thresholds."><meta prope
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Summarize numeric SHARK parameters with ranges and outlier thresholds</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/shark_api_functions.R" class="external-link"><code>R/shark_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/shark_api_functions.R" class="external-link"><code>R/shark_api_functions.R</code></a></small>
       <div class="d-none name"><code>get_shark_statistics.Rd</code></div>
     </div>
 
@@ -184,16 +184,43 @@ For example, if called in 2025 it will use data from 2020–2024.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span>  <span class="co"># Uses previous 5 years automatically</span></span></span>
-<span class="r-in"><span>  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">get_shark_statistics</span><span class="op">(</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Uses previous 5 years automatically, Chlorophyll data only</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">get_shark_statistics</span><span class="op">(</span>datatype <span class="op">=</span> <span class="st">"Chlorophyll"</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 24</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   parameter  datatype fromYear toYear     n   min    Q1 median    Q3   max   P01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Chlorophy… Chlorop…     <span style="text-decoration: underline;">2</span>020   <span style="text-decoration: underline;">2</span>024  <span style="text-decoration: underline;">1</span>374  0.19  1.39    2.2   3.3  22.2 0.307</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 13 more variables: P05 &lt;dbl&gt;, P95 &lt;dbl&gt;, P99 &lt;dbl&gt;, IQR &lt;dbl&gt;, mean &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   sd &lt;dbl&gt;, var &lt;dbl&gt;, cv &lt;dbl&gt;, mad &lt;dbl&gt;, mild_lower &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   mild_upper &lt;dbl&gt;, extreme_lower &lt;dbl&gt;, extreme_upper &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="co"># Explicitly set years and datatype</span></span></span>
-<span class="r-in"><span>  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">get_shark_statistics</span><span class="op">(</span><span class="fl">2018</span>, <span class="fl">2022</span>, datatype <span class="op">=</span> <span class="st">"Chlorophyll"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="co"># Group by station name and save result in persistent cache</span></span></span>
-<span class="r-in"><span>  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">get_shark_statistics</span><span class="op">(</span>group_col <span class="op">=</span> <span class="st">"station_name"</span>, cache_result <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># Group by station name and save result in persistent cache</span></span></span>
+<span class="r-in"><span><span class="va">res_station</span> <span class="op">&lt;-</span> <span class="fu">get_shark_statistics</span><span class="op">(</span>datatype <span class="op">=</span> <span class="st">"Chlorophyll"</span>,</span></span>
+<span class="r-in"><span>                                    group_col <span class="op">=</span> <span class="st">"station_name"</span>,</span></span>
+<span class="r-in"><span>                                    cache_result <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                                    verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">res_station</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 78 × 25</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    parameter     datatype  station_name fromYear toYear   min    Q1 median    Q3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Chlorophyll-a Chloroph… A 01B            <span style="text-decoration: underline;">2</span>020   <span style="text-decoration: underline;">2</span>023  1.85 2.21    2.98  3.96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Chlorophyll-a Chloroph… ANHOLT E         <span style="text-decoration: underline;">2</span>020   <span style="text-decoration: underline;">2</span>022  0.5  0.9     1.2   1.7 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Chlorophyll-a Chloroph… B7               <span style="text-decoration: underline;">2</span>020   <span style="text-decoration: underline;">2</span>023  0.37 0.985   2.12  3.52</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Chlorophyll-a Chloroph… BCS III-10       <span style="text-decoration: underline;">2</span>020   <span style="text-decoration: underline;">2</span>022  0.2  1.12    2.1   3.05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Chlorophyll-a Chloroph… BERGÖFJÄRDE…     <span style="text-decoration: underline;">2</span>021   <span style="text-decoration: underline;">2</span>022  1.1  1.32    1.6   1.8 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Chlorophyll-a Chloroph… BODÖFJÄRDEN…     <span style="text-decoration: underline;">2</span>021   <span style="text-decoration: underline;">2</span>022  1.1  1.4     1.85  2.22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Chlorophyll-a Chloroph… BURSFJÄRDEN…     <span style="text-decoration: underline;">2</span>021   <span style="text-decoration: underline;">2</span>022  2.6  2.8     3     3.2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Chlorophyll-a Chloroph… BY10             <span style="text-decoration: underline;">2</span>020   <span style="text-decoration: underline;">2</span>022  1    1.5     2.4   5.1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Chlorophyll-a Chloroph… BY15 GOTLAN…     <span style="text-decoration: underline;">2</span>020   <span style="text-decoration: underline;">2</span>022  0.4  1.52    2.5   3.08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Chlorophyll-a Chloroph… BY2 ARKONA       <span style="text-decoration: underline;">2</span>020   <span style="text-decoration: underline;">2</span>022  0.6  1.5     2     2.55</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 68 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 16 more variables: max &lt;dbl&gt;, P01 &lt;dbl&gt;, P05 &lt;dbl&gt;, P95 &lt;dbl&gt;, P99 &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   IQR &lt;dbl&gt;, mean &lt;dbl&gt;, sd &lt;dbl&gt;, var &lt;dbl&gt;, cv &lt;dbl&gt;, mad &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   mild_lower &lt;dbl&gt;, mild_upper &lt;dbl&gt;, extreme_lower &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   extreme_upper &lt;dbl&gt;, n &lt;int&gt;</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

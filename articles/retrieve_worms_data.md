@@ -16,14 +16,10 @@ affiliated with WoRMS.
 
 #### Installation
 
-You can install the latest version of the package from GitHub using the
-`remotes` package:
+You can install the latest version of `SHARK4R` from CRAN using:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("sharksmhi/SHARK4R",
-                        ref = remotes::github_release(),
-                        dependencies = TRUE)
+install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R`, `dplyr` and `ggplot2` libraries:
@@ -49,7 +45,7 @@ tutorial.
 shark_data <- get_shark_data(fromYear = 2015, 
                              toYear = 2015,
                              months = 4, 
-                             dataTypes = c("Phytoplankton"),
+                             dataTypes = "Phytoplankton",
                              verbose = FALSE)
 ```
 
@@ -349,16 +345,16 @@ ggplot(plankton_custom_group_sum,
     ## To cite package 'SHARK4R' in publications use:
     ## 
     ##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and
-    ##   Validating Marine Environmental Data from SHARK and Related
-    ##   Databases. R package version 1.0.0.
+    ##   Validating Marine Environmental Data from 'SHARK' and Related
+    ##   Databases. R package version 1.0.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
     ##   @Manual{,
-    ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from SHARK and Related Databases},
+    ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2025},
-    ##     note = {R package version 1.0.0},
+    ##     note = {R package version 1.0.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }

@@ -62,9 +62,8 @@ get_worms_taxonomy_tree(
 
 ## Value
 
-A `data.frame` containing detailed WoRMS records for all requested
-AphiaIDs, including optional descendants and synonyms. Typical columns
-include:
+A `tibble` containing detailed WoRMS records for all requested AphiaIDs,
+including optional descendants and synonyms. Typical columns include:
 
 - AphiaID:
 
@@ -143,20 +142,92 @@ The function performs the following steps:
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 # Retrieve hierarchy for a single AphiaID
-get_worms_taxonomy_tree(aphia_ids = 109604)
+get_worms_taxonomy_tree(aphia_ids = 109604, verbose = FALSE)
+#> # A tibble: 11 × 28
+#>    AphiaID url        scientificname authority status unacceptreason taxonRankID
+#>      <int> <chr>      <chr>          <chr>     <chr>  <lgl>                <int>
+#>  1       7 https://w… Chromista      NA        accep… NA                      10
+#>  2  582419 https://w… Harosa         NA        accep… NA                      20
+#>  3  536209 https://w… Alveolata      Cavalier… accep… NA                      25
+#>  4  450030 https://w… Myzozoa        Cavalier… accep… NA                      30
+#>  5  562620 https://w… Dinozoa        NA        accep… NA                      40
+#>  6  146203 https://w… Dinoflagellata NA        accep… NA                      45
+#>  7   19542 https://w… Dinophyceae    Fritsch,… accep… NA                      60
+#>  8 1732560 https://w… Dinophysales   Kofoid, … accep… NA                     100
+#>  9  231772 https://w… Dinophysaceae  Bütschli… accep… NA                     140
+#> 10  109462 https://w… Dinophysis     Ehrenber… accep… NA                     180
+#> 11  109604 https://w… Dinophysis ac… Ehrenber… accep… NA                     220
+#> # ℹ 21 more variables: rank <chr>, valid_AphiaID <int>, valid_name <chr>,
+#> #   valid_authority <chr>, parentNameUsageID <int>, originalNameUsageID <int>,
+#> #   kingdom <chr>, phylum <chr>, class <chr>, order <chr>, family <chr>,
+#> #   genus <chr>, citation <chr>, lsid <chr>, isMarine <int>, isBrackish <int>,
+#> #   isFreshwater <int>, isTerrestrial <int>, isExtinct <lgl>, match_type <chr>,
+#> #   modified <chr>
 
 # Retrieve hierarchy including species-level descendants
 get_worms_taxonomy_tree(
   aphia_ids = c(109604, 376667),
-  add_descendants = TRUE
+  add_descendants = TRUE,
+  verbose = FALSE
 )
+#> # A tibble: 86 × 28
+#>    AphiaID url        scientificname authority status unacceptreason taxonRankID
+#>      <int> <chr>      <chr>          <chr>     <chr>  <chr>                <int>
+#>  1       7 https://w… Chromista      NA        accep… NA                      10
+#>  2  582419 https://w… Harosa         NA        accep… NA                      20
+#>  3  536209 https://w… Alveolata      Cavalier… accep… NA                      25
+#>  4  450030 https://w… Myzozoa        Cavalier… accep… NA                      30
+#>  5  562620 https://w… Dinozoa        NA        accep… NA                      40
+#>  6  146203 https://w… Dinoflagellata NA        accep… NA                      45
+#>  7   19542 https://w… Dinophyceae    Fritsch,… accep… NA                      60
+#>  8 1732560 https://w… Dinophysales   Kofoid, … accep… NA                     100
+#>  9  231772 https://w… Dinophysaceae  Bütschli… accep… NA                     140
+#> 10  109462 https://w… Dinophysis     Ehrenber… accep… NA                     180
+#> # ℹ 76 more rows
+#> # ℹ 21 more variables: rank <chr>, valid_AphiaID <int>, valid_name <chr>,
+#> #   valid_authority <chr>, parentNameUsageID <int>, originalNameUsageID <int>,
+#> #   kingdom <chr>, phylum <chr>, class <chr>, order <chr>, family <chr>,
+#> #   genus <chr>, citation <chr>, lsid <chr>, isMarine <int>, isBrackish <int>,
+#> #   isFreshwater <int>, isTerrestrial <int>, isExtinct <int>, match_type <chr>,
+#> #   modified <chr>
 
 # Retrieve hierarchy including hierarchy column
 get_worms_taxonomy_tree(
   aphia_ids = c(109604, 376667),
-  add_hierarchy = TRUE
+  add_hierarchy = TRUE,
+  verbose = FALSE
 )
-} # }
+#> # A tibble: 20 × 31
+#>    AphiaID url        scientificname authority status unacceptreason taxonRankID
+#>      <int> <chr>      <chr>          <chr>     <chr>  <lgl>                <int>
+#>  1       7 https://w… Chromista      NA        accep… NA                      10
+#>  2  582419 https://w… Harosa         NA        accep… NA                      20
+#>  3  536209 https://w… Alveolata      Cavalier… accep… NA                      25
+#>  4  450030 https://w… Myzozoa        Cavalier… accep… NA                      30
+#>  5  562620 https://w… Dinozoa        NA        accep… NA                      40
+#>  6  146203 https://w… Dinoflagellata NA        accep… NA                      45
+#>  7   19542 https://w… Dinophyceae    Fritsch,… accep… NA                      60
+#>  8 1732560 https://w… Dinophysales   Kofoid, … accep… NA                     100
+#>  9  231772 https://w… Dinophysaceae  Bütschli… accep… NA                     140
+#> 10  109462 https://w… Dinophysis     Ehrenber… accep… NA                     180
+#> 11  109604 https://w… Dinophysis ac… Ehrenber… accep… NA                     220
+#> 12  370437 https://w… Heterokontoph… Moestrup… accep… NA                      30
+#> 13  493822 https://w… Bacillariophy… Medlin &… accep… NA                      40
+#> 14  148899 https://w… Bacillariophy… Haeckel,… accep… NA                      60
+#> 15  148971 https://w… Coscinodiscop… Round & … accep… NA                      70
+#> 16  591189 https://w… Thalassiosira… NA        accep… NA                      90
+#> 17  148903 https://w… Thalassiosira… Glezer &… accep… NA                     100
+#> 18  149072 https://w… Skeletonemace… Lebour, … accep… NA                     140
+#> 19  149073 https://w… Skeletonema    R.K. Gre… accep… NA                     180
+#> 20  376667 https://w… Skeletonema m… Sarno & … unass… NA                     220
+#> # ℹ 24 more variables: rank <chr>, valid_AphiaID <int>, valid_name <chr>,
+#> #   valid_authority <chr>, parentNameUsageID <int>, parentName <chr>,
+#> #   originalNameUsageID <int>, kingdom <chr>, phylum <chr>, class <chr>,
+#> #   order <chr>, family <chr>, genus <chr>, species <chr>, citation <chr>,
+#> #   lsid <chr>, isMarine <int>, isBrackish <int>, isFreshwater <int>,
+#> #   isTerrestrial <int>, isExtinct <int>, match_type <chr>, modified <chr>,
+#> #   hierarchy <chr>
+# }
 ```

@@ -4,7 +4,7 @@ The `get_shark_data()` function retrieves tabular data from the SHARK
 database hosted by SMHI. The function sends a POST request to the SHARK
 API with customizable filters, including year, month, taxon name, water
 category, and more, and returns the retrieved data as a structured
-`data.frame`. To view available filter options, see
+`tibble`. To view available filter options, see
 [`get_shark_options`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_options.md).
 
 ## Usage
@@ -335,21 +335,19 @@ get_shark_data(
 
 ## Value
 
-A `data.frame` (tibble) containing the retrieved SHARK data, parsed from
-the API's delimited text response. Column types are inferred
-automatically.
+A `tibble` containing the retrieved SHARK data, parsed from the API's
+delimited text response. Column types are inferred automatically.
 
 ## Details
 
 This function sends a POST request to the SHARK API with the specified
 filters. The API returns a delimited text file (e.g., tab- or
-semicolon-separated), which is downloaded and read into R as a
-`data.frame`. If the `row_limit` parameter is exceeded, the data is
-retrieved in yearly chunks and combined into a single table. Adjusting
-the `row_limit` parameter may be necessary when retrieving large
-datasets or detailed reports. Note that making very large requests
-(e.g., retrieving the entire SHARK database) can be extremely time- and
-memory-intensive.
+semicolon-separated), which is downloaded and read into R as a `tibble`.
+If the `row_limit` parameter is exceeded, the data is retrieved in
+yearly chunks and combined into a single table. Adjusting the
+`row_limit` parameter may be necessary when retrieving large datasets or
+detailed reports. Note that making very large requests (e.g., retrieving
+the entire SHARK database) can be extremely time- and memory-intensive.
 
 ## Note
 
@@ -359,7 +357,7 @@ filtering by year, data type, or region for improved performance.
 
 ## See also
 
-- <https://shark.smhi.se> – SHARK database portal
+- <https://shark.smhi.se/en> – SHARK database portal
 
 - [`get_shark_options()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_options.md)
   – Retrieve available filters
@@ -373,10 +371,31 @@ filtering by year, data type, or region for improved performance.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
   # Retrieve chlorophyll data from 2019 to 2020 for April to June
   shark_data <- get_shark_data(fromYear = 2019, toYear = 2020,
-                               months = c(4, 5, 6), dataTypes = c("Chlorophyll"))
-  View(shark_data)
-} # }
+                               months = c(4, 5, 6), dataTypes = "Chlorophyll",
+                               verbose = FALSE)
+  print(shark_data)
+#> # A tibble: 179 × 72
+#>    delivery_datatype check_status_sv data_checked_by_sv visit_year visit_month
+#>    <chr>             <chr>           <chr>                   <dbl>       <dbl>
+#>  1 Chlorophyll       Klar            Leverantör               2020           6
+#>  2 Chlorophyll       Klar            Leverantör               2020           6
+#>  3 Chlorophyll       Klar            Leverantör               2020           6
+#>  4 Chlorophyll       Klar            Leverantör               2020           6
+#>  5 Chlorophyll       Klar            Leverantör               2020           6
+#>  6 Chlorophyll       Klar            Leverantör               2020           6
+#>  7 Chlorophyll       Klar            Leverantör               2020           6
+#>  8 Chlorophyll       Klar            Leverantör               2020           6
+#>  9 Chlorophyll       Klar            Leverantör               2020           6
+#> 10 Chlorophyll       Klar            Leverantör               2020           6
+#> # ℹ 169 more rows
+#> # ℹ 67 more variables: station_name <chr>, reported_station_name <chr>,
+#> #   sample_location_id <dbl>, station_id <dbl>, sample_project_name_sv <lgl>,
+#> #   sample_orderer_name_sv <lgl>, visit_id <dbl>, visit_date <lgl>,
+#> #   shark_sample_id_md5 <chr>, sample_date <date>, sample_time <time>,
+#> #   sample_enddate <lgl>, sample_endtime <lgl>, sample_latitude_dm <chr>,
+#> #   sample_longitude_dm <chr>, sample_latitude_dd <dbl>, …
+# }
 ```

@@ -64,8 +64,9 @@ for functions that populate the cache.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
   # Remove files older than 60 days and clear session cache
   clean_shark4r_cache(days = 60)
-} # }
+#> No files older than 60 days to remove.
+# }
 ```

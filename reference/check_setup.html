@@ -13,7 +13,7 @@ quality control (QC) of SHARK data."><meta property="og:image" content="https://
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@ quality control (QC) of SHARK data."><meta property="og:image" content="https://
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Download and set up SHARK4R support files</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.0/R/util.R" class="external-link"><code>R/util.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/util.R" class="external-link"><code>R/util.R</code></a></small>
       <div class="d-none name"><code>check_setup.Rd</code></div>
     </div>
 
@@ -63,7 +63,7 @@ quality control (QC) of SHARK data.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_setup</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"."</span>, run_app <span class="op">=</span> <span class="cn">FALSE</span>, force <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_setup</span><span class="op">(</span><span class="va">path</span>, run_app <span class="op">=</span> <span class="cn">FALSE</span>, force <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -71,9 +71,8 @@ quality control (QC) of SHARK data.</p>
 
 
 <dl><dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
-<dd><p>Character string specifying the target directory where the
-<code>products</code> folder should be stored.
-Defaults to the current working directory (<code>"."</code>).</p></dd>
+<dd><p>Character string giving the directory where the products folder
+should be created. Must be provided by the user.</p></dd>
 
 
 <dt id="arg-run-app">run_app<a class="anchor" aria-label="anchor" href="#arg-run-app"></a></dt>
@@ -97,27 +96,29 @@ Default is <code>TRUE</code>.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>By default, the folders are downloaded into the current working directory.
-If the folders already exist, the download will be skipped unless
+    <p>If the <code>path</code> folders already exist, the download will be skipped unless
 <code>force = TRUE</code> is specified. Optionally, the function can launch the
 QC Shiny app directly after setup.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># Download support files into current working directory</span></span></span>
-<span class="r-in"><span><span class="fu">check_setup</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Download into a specific folder in current working directory</span></span></span>
-<span class="r-in"><span><span class="fu">check_setup</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"shark_qc"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Download support files into a temporary directory</span></span></span>
+<span class="r-in"><span><span class="fu">check_setup</span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Downloading setup files for SHARK4R...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Setup complete. Files are available in /tmp/RtmppNboyt</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Force re-download if already present</span></span></span>
-<span class="r-in"><span><span class="fu">check_setup</span><span class="op">(</span>force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">check_setup</span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Downloading setup files for SHARK4R...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Setup complete. Files are available in /tmp/RtmppNboyt</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Download and run the QC Shiny app</span></span></span>
-<span class="r-in"><span><span class="fu">check_setup</span><span class="op">(</span>run_app <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
+<span class="r-in"><span> <span class="fu">check_setup</span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, run_app <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -48,7 +48,7 @@ A data frame with two columns:
 
 ## Details
 
-This is useful for validating station names and identifying any
+This function is useful for validating station names and identifying any
 unmatched or misspelled entries.
 
 If `try_synonyms = TRUE`, unmatched station names are also compared
@@ -70,10 +70,11 @@ bundled `station.zip` included in the `SHARK4R` package.
 ## Examples
 
 ``` r
+# Example stations
 stations <- c("ANHOLT E", "BY5 BORNHOLMSDJ", "STX999")
-match_station(stations, try_synonyms = TRUE)
-#> Using station.txt from SHARK4R bundle: /tmp/Rtmpwi1Ibe/station.txt
-#> WARNING: Unmatched stations found, check synonyms
+
+# Check if stations names are in stations.txt (including synonyms)
+match_station(stations, try_synonyms = TRUE, verbose = FALSE)
 #>   reported_station_name match_type
 #> 1              ANHOLT E       TRUE
 #> 2       BY5 BORNHOLMSDJ       TRUE

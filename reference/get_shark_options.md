@@ -29,9 +29,7 @@ get_shark_options(prod = TRUE, utv = FALSE, unparsed = FALSE)
 ## Value
 
 A named `list` of available search options from the SHARK API. If
-`unparsed = TRUE`, returns the raw JSON structure as a list. If
-`unparsed = FALSE`, returns a simplified list of character or numeric
-vectors.
+`unparsed = TRUE`, returns the raw JSON structure as a list.
 
 ## Details
 
@@ -44,20 +42,35 @@ used in SHARK data queries.
 [`get_shark_data()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_data.md)
 for retrieving actual data from the SHARK API.
 
-<https://shark.smhi.se> for the SHARK database portal.
+<https://shark.smhi.se/en> for the SHARK database portal.
 
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
   # Retrieve available search options (simplified)
   shark_options <- get_shark_options()
   names(shark_options)
+#>  [1] "datasets"              "dataTypes"             "parameters"           
+#>  [4] "minYear"               "maxYear"               "months"               
+#>  [7] "checkStatuses"         "qualityFlags"          "deliverers"           
+#> [10] "orderers"              "projects"              "redListedCategories"  
+#> [13] "taxa"                  "stations"              "seaAreas"             
+#> [16] "vattenDistrikt"        "typOmraden"            "seaBasins"            
+#> [19] "counties"              "municipalities"        "waterCategories"      
+#> [22] "helcomOspar"           "parametersForDatatype" "headerlangers"        
+#> [25] "minYearPerDatatype"   
 
   # Retrieve full unparsed JSON response
   raw_options <- get_shark_options(unparsed = TRUE)
 
   # View available datatypes
   print(shark_options$dataTypes)
-} # }
+#>  [1] "Bacterioplankton"      "Chlorophyll"           "Epibenthos"           
+#>  [4] "Grey seal"             "Harbour Porpoise"      "Harbour seal"         
+#>  [7] "Physical and Chemical" "Phytoplankton"         "Picoplankton"         
+#> [10] "Plankton Barcoding"    "Plankton Imaging"      "Primary production"   
+#> [13] "Profile"               "Ringed seal"           "Seal pathology"       
+#> [16] "Sedimentation"         "Zoobenthos"            "Zooplankton"          
+# }
 ```
