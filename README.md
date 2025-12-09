@@ -3,6 +3,7 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sharksmhi/SHARK4R/actions/workflows/R-CMD-check.yaml)
 [![CRAN status](https://www.r-pkg.org/badges/version/SHARK4R)](https://CRAN.R-project.org/package=SHARK4R)
+[![CRAN checks](https://badges.cranchecks.info/worst/SHARK4R.svg)](https://cran.r-project.org/web/checks/check_results_SHARK4R.html)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![codecov](https://codecov.io/gh/sharksmhi/SHARK4R/graph/badge.svg?token=187ZJ0O9R8)](https://app.codecov.io/gh/sharksmhi/SHARK4R)
 <!-- badges: end -->
@@ -17,7 +18,7 @@ including [SHARK](https://shark.smhi.se/en/), [SLU Artdatabanken (Dyntaxa)](http
 [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/), [OBIS xylookup web service](https://iobis.github.io/xylookup/) 
 and [Nordic Microalgae](https://nordicmicroalgae.org/). The package serves a dual purpose, 
 supporting both data analysis and automatic quality control of physical, chemical, and marine biological data. 
-Several quality control components, originally developed by Provoost and Bosch (2018), 
+Several quality control components, originally developed by Provoost and Bosch (2024), 
 have been adapted for compatibility with the SHARK format.
 
 ## Installation

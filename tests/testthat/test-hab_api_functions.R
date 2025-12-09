@@ -55,3 +55,87 @@ test_that("get_hab_list works", {
 
   expect_true(all(expected_names %in% names(hab_list)))
 })
+
+test_that("extract_complete_toxins extracts full toxin objects", {
+  json <- paste0(
+    '{"toxins": [',
+    '{"id": 1, "name": "A"},',
+    '{"id": 2, "name": "B"}',
+    ']}'
+  )
+
+  objs <- extract_complete_toxins(json)
+
+  expect_type(objs, "character")
+  expect_length(objs, 2)
+  expect_true(all(grepl('"id":', objs)))
+  expect_true(any(grepl('"id": 1', objs)))
+  expect_true(any(grepl('"id": 2', objs)))
+})
+
+test_that("extract_complete_toxins ignores incomplete trailing objects", {
+  partial <- paste0(
+    '{"toxins": [',
+    '{"id": 1, "name": "A"},',
+    '{"id": 2, "name": "B"},',
+    '{"id": 3, "name": "C"'  # no closing brace
+  )
+
+  objs <- extract_complete_toxins(partial)
+
+  # Should recover 2 complete objects
+  expect_length(objs, 2)
+  expect_false(any(grepl('"id": 3', objs)))
+})
+
+test_that("extract_complete_toxins handles double commas and whitespace", {
+  json <- paste0(
+    '{"toxins": [',
+    '{"id": 1, "x": 10},,',
+    ' {"id": 2, "x": 20"}',
+    ']}'
+  )
+
+  objs <- extract_complete_toxins(json)
+
+  expect_length(objs, 2)
+  expect_true(any(grepl('"id": 1', objs)))
+  expect_true(any(grepl('"id": 2', objs)))
+})
+
+test_that("extract_complete_toxins returns empty vector when no array found", {
+  json <- '{"nothing_here": []}'
+
+  objs <- extract_complete_toxins(json)
+
+  expect_length(objs, 0)
+})
+
+test_that("repair_toxins_json wraps extracted objects in proper JSON", {
+  json <- paste0(
+    '{"toxins": [',
+    '{"id": 1}, {"id": 2}',
+    ']}'
+  )
+
+  repaired <- repair_toxins_json(json)
+  parsed <- jsonlite::fromJSON(repaired)
+
+  expect_s3_class(parsed$toxins, "data.frame")
+  expect_equal(nrow(parsed$toxins), 2)
+})
+
+test_that("repair_toxins_json drops incomplete objects", {
+  json <- paste0(
+    '{"toxins": [',
+    '{"id": 1},',
+    '{"id": 2},',
+    '{"id": 3'   # incomplete
+  )
+
+  repaired <- repair_toxins_json(json)
+  parsed <- jsonlite::fromJSON(repaired)
+
+  expect_equal(nrow(parsed$toxins), 2)
+  expect_false(any(parsed$toxins$id == 3))
+})
