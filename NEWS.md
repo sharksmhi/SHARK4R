@@ -1,5 +1,9 @@
 # SHARK4R (development version)
 
+## Bug fixes
+
+* `SHARK4R:::.type_lookup` now includes the missing datatype `Jellyfish` (#39)
+
 # SHARK4R 1.0.1
 
 ## Bug fixes and CRAN compliance
