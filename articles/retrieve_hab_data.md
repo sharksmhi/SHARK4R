@@ -47,31 +47,38 @@ results.
 ``` r
 # Retrieve complete HAB list
 hab_list <- get_hab_list()
+```
 
+    ## Warning: One or more parsing issues, call `problems()` on your data frame for details,
+    ## e.g.:
+    ##   dat <- vroom(...)
+    ##   problems(dat)
+
+``` r
 # Print result as tibble
 tibble(hab_list)
 ```
 
-    ## # A tibble: 695 × 29
-    ##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹
-    ##      <dbl> <chr>               <chr>                <dbl> <chr>                 
-    ##  1 1653558 Aerosakkonemataceae Struneck…          1653558 Aerosakkonemataceae   
-    ##  2  836651 Aetokthonos         S.B.Wild…           836651 Aetokthonos           
-    ##  3  841664 Aetokthonos hydril… S.B.Wild…           841664 Aetokthonos hydrillic…
-    ##  4  231787 Akashiwo            G.Hansen…           231787 Akashiwo              
-    ##  5  232546 Akashiwo sanguinea  (K.Hiras…           232546 Akashiwo sanguinea    
-    ##  6  109470 Alexandrium         Halim, 1…           109470 Alexandrium           
-    ##  7  109707 Alexandrium affine  (H.Inoue…           109707 Alexandrium affine    
-    ##  8  231872 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
-    ##  9  246835 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
-    ## 10  233452 Alexandrium angust… F.J.R.Ta…           109711 Alexandrium minutum   
-    ## # ℹ 685 more rows
-    ## # ℹ abbreviated name: ¹​ScientificName_accepted
-    ## # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
+    ## # A tibble: 708 × 28
+    ##    AphiaID ScientificName               AphiaID_accepted ScientificName_accepted
+    ##    <chr>   <chr>                        <chr>            <chr>                  
+    ##  1 1653558 Aerosakkonemataceae          1653558          Aerosakkonemataceae    
+    ##  2 836651  Aetokthonos                  836651           Aetokthonos            
+    ##  3 841664  Aetokthonos hydrillicola     841664           Aetokthonos hydrillico…
+    ##  4 231787  Akashiwo                     231787           Akashiwo               
+    ##  5 232546  Akashiwo sanguinea           232546           Akashiwo sanguinea     
+    ##  6 109470  Alexandrium                  109470           Alexandrium            
+    ##  7 109707  Alexandrium affine           109707           Alexandrium affine     
+    ##  8 231872  Alexandrium andersoni        246835           Alexandrium andersonii 
+    ##  9 246835  Alexandrium andersonii       246835           Alexandrium andersonii 
+    ## 10 233452  Alexandrium angustitabulatum 109711           Alexandrium minutum    
+    ## # ℹ 698 more rows
+    ## # ℹ 24 more variables: Authority_accepted <chr>, Fossil <chr>, Kingdom <chr>,
     ## #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
-    ## #   Genus <chr>, Subgenus <lgl>, Species <chr>, Subspecies <lgl>, Marine <dbl>,
+    ## #   Genus <chr>, Subgenus <chr>, Species <chr>, Subspecies <chr>, Marine <dbl>,
     ## #   Brackish <dbl>, Fresh <dbl>, Terrestrial <dbl>, taxonomicStatus <chr>,
-    ## #   Qualitystatus <chr>, Unacceptreason <chr>, DateLastModified <date>, …
+    ## #   Qualitystatus <chr>, Unacceptreason <chr>, DateLastModified <chr>,
+    ## #   LSID <chr>, `Parent AphiaID` <chr>, Storedpath <chr>, Citation <chr>
 
 ## Retrieve HAB Toxins From IOC Toxins Database
 
