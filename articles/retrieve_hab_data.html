@@ -127,41 +127,37 @@ through function parameters—for example, setting
 information from the results.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve complete HAB list</span></span>
-<span><span class="va">hab_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_hab_list.html">get_hab_list</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: One or more parsing issues, call `problems()` on your data frame for details,</span></span>
-<span><span class="co">## e.g.:</span></span>
-<span><span class="co">##   dat &lt;- vroom(...)</span></span>
-<span><span class="co">##   problems(dat)</span></span></code></pre>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Print result as tibble</span></span>
+<span><span class="va">hab_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_hab_list.html">get_hab_list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Print result as tibble</span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">hab_list</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 708 × 28</span></span></span>
-<span><span class="co">##    AphiaID ScientificName               AphiaID_accepted ScientificName_accepted</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 1653558 Aerosakkonemataceae          1653558          Aerosakkonemataceae    </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> 836651  Aetokthonos                  836651           Aetokthonos            </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> 841664  Aetokthonos hydrillicola     841664           Aetokthonos hydrillico…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> 231787  Akashiwo                     231787           Akashiwo               </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> 232546  Akashiwo sanguinea           232546           Akashiwo sanguinea     </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> 109470  Alexandrium                  109470           Alexandrium            </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> 109707  Alexandrium affine           109707           Alexandrium affine     </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> 231872  Alexandrium andersoni        246835           Alexandrium andersonii </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> 246835  Alexandrium andersonii       246835           Alexandrium andersonii </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> 233452  Alexandrium angustitabulatum 109711           Alexandrium minutum    </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 698 more rows</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 24 more variables: Authority_accepted &lt;chr&gt;, Fossil &lt;chr&gt;, Kingdom &lt;chr&gt;,</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 695 × 29</span></span></span>
+<span><span class="co">##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹</span></span>
+<span><span class="co">##      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 1<span style="text-decoration: underline;">653</span>558 Aerosakkonemataceae Struneck…          1<span style="text-decoration: underline;">653</span>558 Aerosakkonemataceae   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">836</span>651 Aetokthonos         S.B.Wild…           <span style="text-decoration: underline;">836</span>651 Aetokthonos           </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">841</span>664 Aetokthonos hydril… S.B.Wild…           <span style="text-decoration: underline;">841</span>664 Aetokthonos hydrillic…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">231</span>787 Akashiwo            G.Hansen…           <span style="text-decoration: underline;">231</span>787 Akashiwo              </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">232</span>546 Akashiwo sanguinea  (K.Hiras…           <span style="text-decoration: underline;">232</span>546 Akashiwo sanguinea    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">109</span>470 Alexandrium         Halim, 1…           <span style="text-decoration: underline;">109</span>470 Alexandrium           </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">109</span>707 Alexandrium affine  (H.Inoue…           <span style="text-decoration: underline;">109</span>707 Alexandrium affine    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">231</span>872 Alexandrium anders… Balech, …           <span style="text-decoration: underline;">246</span>835 Alexandrium andersonii</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">246</span>835 Alexandrium anders… Balech, …           <span style="text-decoration: underline;">246</span>835 Alexandrium andersonii</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">233</span>452 Alexandrium angust… F.J.R.Ta…           <span style="text-decoration: underline;">109</span>711 Alexandrium minutum   </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 685 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ abbreviated name: ¹​ScientificName_accepted</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 24 more variables: Authority_accepted &lt;chr&gt;, Fossil &lt;dbl&gt;, Kingdom &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   Phylum &lt;chr&gt;, Class &lt;chr&gt;, Order &lt;chr&gt;, Family &lt;chr&gt;, taxonRank &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Genus &lt;chr&gt;, Subgenus &lt;chr&gt;, Species &lt;chr&gt;, Subspecies &lt;chr&gt;, Marine &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Genus &lt;chr&gt;, Subgenus &lt;lgl&gt;, Species &lt;chr&gt;, Subspecies &lt;lgl&gt;, Marine &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   Brackish &lt;dbl&gt;, Fresh &lt;dbl&gt;, Terrestrial &lt;dbl&gt;, taxonomicStatus &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Qualitystatus &lt;chr&gt;, Unacceptreason &lt;chr&gt;, DateLastModified &lt;chr&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   LSID &lt;chr&gt;, `Parent AphiaID` &lt;chr&gt;, Storedpath &lt;chr&gt;, Citation &lt;chr&gt;</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;">#   Qualitystatus &lt;chr&gt;, Unacceptreason &lt;chr&gt;, DateLastModified &lt;date&gt;, …</span></span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="retrieve-hab-toxins-from-ioc-toxins-database">Retrieve HAB Toxins From IOC Toxins Database<a class="anchor" aria-label="anchor" href="#retrieve-hab-toxins-from-ioc-toxins-database"></a>
 </h2>
 <p>The complete Toxin list can be downloaded from the <a href="https://toxins.hais.ioc-unesco.org/" class="external-link">IOC-UNESCO Toxins
 database</a> using the <code><a href="../reference/get_toxin_list.html">get_toxin_list()</a></code> function.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve complete toxin list</span></span>
 <span><span class="va">toxin_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_toxin_list.html">get_toxin_list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>

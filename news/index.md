@@ -17,6 +17,8 @@
 
 ## SHARK4R 1.0.1
 
+CRAN release: 2025-12-09
+
 ### Bug fixes and CRAN compliance
 
 - Corrected formatting of package and software names throughout the
