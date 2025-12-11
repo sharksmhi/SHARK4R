@@ -26,10 +26,6 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
   clean_shark4r_cache(days = 1, verbose = FALSE)
 }
 
-is_check <- function() {
-  nzchar(Sys.getenv("_R_CHECK_PACKAGE_NAME_", ""))
-}
-
 .onUnload <- function(libpath) {
   if (is_check()) {
     try(clean_shark4r_cache(0, clear_perm_cache = TRUE, verbose = FALSE), silent = TRUE)

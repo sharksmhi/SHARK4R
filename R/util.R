@@ -663,3 +663,8 @@ clean_taxon <- function(x) {
   if (identical(out, "")) out <- "_empty_"
   out
 }
+
+is_check <- function() {
+  nzchar(Sys.getenv("_R_CHECK_PACKAGE_NAME_", ""))
+}
+
