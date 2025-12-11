@@ -102,7 +102,10 @@ positions_are_near_land <- function(latitudes,
 
     if (!file.exists(temp_zip)) {
       tryCatch({
+        old_timeout <- getOption("timeout")
+        options(timeout = max(180, old_timeout))
         utils::download.file(url, temp_zip, mode = "wb")
+        options(timeout = old_timeout)
       }, error = function(e) {
         stop("Could not download OBIS land data. Please manually download it from:\n",
              url, "\nThen provide the path to the `.gpkg` or `.shp` file using the `shape` argument. Or set `source = 'ne'` or `source = 'obis'` to use alternative vectors")

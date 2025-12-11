@@ -3,6 +3,9 @@
 ## Bug fixes
 
 * `SHARK4R:::.type_lookup` now includes the missing datatype `Jellyfish` (#39)
+* Enhanced documentation and example execution in vignettes - updated examples to run correctly and improved clarity in vignettes and help files
+* HTML widgets and interactive objects are now displayed only in pkgdown articles; they are suppressed in CRAN vignettes to reduce size and improve build safety
+* Added tests for helper functions – covering `extract_complete_toxins()` and `repair_toxins_json()`
 
 # SHARK4R 1.0.1
 
