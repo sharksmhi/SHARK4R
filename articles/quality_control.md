@@ -176,6 +176,8 @@ check_codes(data = chlorophyll_data,
 plot_map_leaflet(chlorophyll_data)
 ```
 
+    ## The interactive map is omitted here but appears in the online tutorial.
+
 ### Identify Points on Land
 
 ``` r
@@ -275,6 +277,8 @@ scatterplot(chlorophyll_data,
             hline = shark_statistics$P99)
 ```
 
+    ## The interactive plot is omitted here but appears in the online tutorial.
+
 ------------------------------------------------------------------------
 
 ## Step 6: Logical Parameter Checks
@@ -307,7 +311,7 @@ Verify station names against the official SHARK registry:
 station_match <- match_station(chlorophyll_data$station_name)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmppZpp8A/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpbTtgdD/station.txt
 
     ## All stations found
 
@@ -331,16 +335,7 @@ check_station_distance(data = chlorophyll_data,
                        plot_leaflet = TRUE)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmppZpp8A/station.txt
-
-    ## WARNING: Some stations are outside the allowed distance limit
-
-    ## # A tibble: 3 × 3
-    ##   station_name distance_m OUT_OF_BOUNDS_RADIUS
-    ##   <chr>             <dbl>                <dbl>
-    ## 1 LÄSÖ RÄNNA       10360.                 1200
-    ## 2 OH7               2233.                 1200
-    ## 3 HS2               2233.                 1200
+    ## The interactive map is omitted here but appears in the online tutorial.
 
 To check if stations are nominal (comparing unique coordinates per
 station):

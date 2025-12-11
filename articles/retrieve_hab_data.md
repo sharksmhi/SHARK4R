@@ -52,7 +52,7 @@ hab_list <- get_hab_list()
 tibble(hab_list)
 ```
 
-    ## # A tibble: 706 × 29
+    ## # A tibble: 695 × 29
     ##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹
     ##      <dbl> <chr>               <chr>                <dbl> <chr>                 
     ##  1 1653558 Aerosakkonemataceae Struneck…          1653558 Aerosakkonemataceae   
@@ -65,7 +65,7 @@ tibble(hab_list)
     ##  8  231872 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
     ##  9  246835 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
     ## 10  233452 Alexandrium angust… F.J.R.Ta…           109711 Alexandrium minutum   
-    ## # ℹ 696 more rows
+    ## # ℹ 685 more rows
     ## # ℹ abbreviated name: ¹​ScientificName_accepted
     ## # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
     ## #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
