@@ -22,6 +22,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       DYNTAXA_KEY: ${{ secrets.DYNTAXA_KEY }}
       ALGAEBASE_KEY: ${{ secrets.ALGAEBASE_KEY }}
+      NOT_CRAN: TRUE
     permissions:
       contents: write
     steps:
