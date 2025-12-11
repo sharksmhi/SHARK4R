@@ -118,8 +118,12 @@ check_codes(data = chlorophyll_data,
 
 ### Visualize Data Points
 
-```{r}
+```{r, eval=Sys.getenv("NOT_CRAN", unset = "FALSE") == "TRUE"}
 plot_map_leaflet(chlorophyll_data)
+```
+
+```{r, echo=FALSE, eval=!Sys.getenv("NOT_CRAN", unset = "FALSE") == "TRUE"}
+message("The interactive map is omitted here but appears in the online tutorial.")
 ```
 
 ### Identify Points on Land
@@ -178,10 +182,14 @@ check_outliers(data = chlorophyll_data,
 
 Visualize anomalies:
 
-```{r}
+```{r, eval=Sys.getenv("NOT_CRAN", unset = "FALSE") == "TRUE"}
 # Scatterplot with horizontal line at 99th percentile
 scatterplot(chlorophyll_data,
             hline = shark_statistics$P99)
+```
+
+```{r, echo=FALSE, eval=!Sys.getenv("NOT_CRAN", unset = "FALSE") == "TRUE"}
+message("The interactive plot is omitted here but appears in the online tutorial.")
 ```
 
 ---
@@ -212,9 +220,13 @@ head(station_match)
 
 To plot stations and their distances from the station register in an interactive map:
 
-```{r}
+```{r, eval=Sys.getenv("NOT_CRAN", unset = "FALSE") == "TRUE"}
 check_station_distance(data = chlorophyll_data,
                        plot_leaflet = TRUE)
+```
+
+```{r, echo=FALSE, eval=!Sys.getenv("NOT_CRAN", unset = "FALSE") == "TRUE"}
+message("The interactive map is omitted here but appears in the online tutorial.")
 ```
 
 To check if stations are nominal (comparing unique coordinates per station):
