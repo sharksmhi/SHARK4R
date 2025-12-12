@@ -125,3 +125,7 @@ Please note that `SHARK4R` also includes a useful function for reading exported 
 # Print citation
 citation("SHARK4R")
 ```
+
+```{r, echo=FALSE}
+clean_shark4r_cache(0, clear_perm_cache = TRUE, verbose = FALSE)
+```

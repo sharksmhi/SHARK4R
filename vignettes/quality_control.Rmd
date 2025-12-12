@@ -274,5 +274,9 @@ Following this order ensures comprehensive QC and prepares your SHARK data for a
 citation("SHARK4R")
 ```
 
+```{r, echo=FALSE}
+clean_shark4r_cache(0, clear_perm_cache = TRUE, verbose = FALSE)
+```
+
 ## References
 - Provoost P, Bosch S (2024). `obistools`: Tools for data enhancement and quality control. Ocean Biodiversity Information System. Intergovernmental Oceanographic Commission of UNESCO. R package version 0.1.0, <https://iobis.github.io/obistools/>.

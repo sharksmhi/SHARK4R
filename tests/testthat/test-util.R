@@ -244,3 +244,26 @@ test_that("convert_ddmm_to_dd returns a numeric vector without names", {
 test_that("convert_ddmm_to_dd handles NA input", {
   expect_equal(convert_ddmm_to_dd(c(NA, 5733)), c(NA, 57 + 33/60))
 })
+
+test_that("is_check returns TRUE only when _R_CHECK_PACKAGE_NAME_ is set", {
+  # Save old value
+  old <- Sys.getenv("_R_CHECK_PACKAGE_NAME_", unset = NA)
+
+  # Variable missing or empty
+  Sys.unsetenv("_R_CHECK_PACKAGE_NAME_")
+  expect_false(is_check())
+
+  Sys.setenv("_R_CHECK_PACKAGE_NAME_" = "")
+  expect_false(is_check())
+
+  # Variable set to non empty string
+  Sys.setenv("_R_CHECK_PACKAGE_NAME_" = "mypkg")
+  expect_true(is_check())
+
+  # Restore original environment
+  if (is.na(old)) {
+    Sys.unsetenv("_R_CHECK_PACKAGE_NAME_")
+  } else {
+    Sys.setenv("_R_CHECK_PACKAGE_NAME_" = old)
+  }
+})
