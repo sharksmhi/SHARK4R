@@ -346,7 +346,7 @@ ggplot(plankton_custom_group_sum,
     ## 
     ##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.0.1.
+    ##   Databases. R package version 1.0.2.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -355,6 +355,6 @@ ggplot(plankton_custom_group_sum,
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2025},
-    ##     note = {R package version 1.0.1},
+    ##     note = {R package version 1.0.2},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }

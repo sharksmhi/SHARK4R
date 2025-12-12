@@ -120,6 +120,7 @@ bundled `station.zip` included in the `SHARK4R` package.
 ## Examples
 
 ``` r
+# \donttest{
 # Example data
 df <- data.frame(
   station_name = c("ANHOLT E", "BY5 BORNHOLMSDJ", "NEW STATION"),
@@ -143,4 +144,5 @@ map <- check_station_distance(df,
                               plot_leaflet = TRUE,
                               only_bad = TRUE,
                               verbose = FALSE)
+# }
 ```

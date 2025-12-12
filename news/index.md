@@ -1,6 +1,8 @@
 # Changelog
 
-## SHARK4R (development version)
+## SHARK4R 1.0.2
+
+CRAN release: 2025-12-12
 
 ### Bug fixes
 
@@ -14,6 +16,7 @@
   improve build safety
 - Added tests for helper functions – covering
   `extract_complete_toxins()` and `repair_toxins_json()`
+- Cache is now cleared after R CMD check
 
 ## SHARK4R 1.0.1
 

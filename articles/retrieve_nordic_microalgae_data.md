@@ -212,7 +212,7 @@ nomp_list <- get_nomp_list()
 
     ## File for year 2025 not available. Trying previous year...
 
-    ## File for year 2024 found in cache.
+    ## File for year 2024 downloaded and cached.
 
 ``` r
 # Print list
@@ -253,7 +253,7 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
     ## 
     ##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.0.1.
+    ##   Databases. R package version 1.0.2.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -262,6 +262,6 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2025},
-    ##     note = {R package version 1.0.1},
+    ##     note = {R package version 1.0.2},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
