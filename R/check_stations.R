@@ -248,6 +248,7 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #' }
 #'
 #' @examples
+#' \donttest{
 #' # Example data
 #' df <- data.frame(
 #'   station_name = c("ANHOLT E", "BY5 BORNHOLMSDJ", "NEW STATION"),
@@ -263,6 +264,7 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #'                               plot_leaflet = TRUE,
 #'                               only_bad = TRUE,
 #'                               verbose = FALSE)
+#' }
 #'
 #' @export
 check_station_distance <- function(data, station_file = NULL,
