@@ -26,7 +26,7 @@ After this, you do not need to pass \code{subscription_key} to the function.
 }}
 }
 \value{
-A data frame containing taxonomic information for the specified taxon IDs.
+A \code{tibble} containing taxonomic information for the specified taxon IDs.
 Columns include \code{taxonId}, \code{names}, \code{category}, \code{rank}, \code{isRecommended}, and \code{parentTaxonId.}
 }
 \description{

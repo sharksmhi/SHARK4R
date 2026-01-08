@@ -10,7 +10,7 @@ vignette: >
 
 ## Nordic Microalgae
 
-[Nordic Microalgae](https://nordicmicroalgae.org/) is an online platform providing high-quality images, illustrations, and detailed information about aquatic microalgae and related organisms in the Nordic region, including phytoplankton, microzooplankton, and benthic microalgae. It features a comprehensive species checklist, up-to-date taxonomic data linked to WoRMS and AlgaeBase, and supplementary resources such as biovolume lists and occurrence maps. Established in 1996 and supported by long-term funding from the Swedish Research Council through the Swedish Biodiversity Data Infrastructure (SBDI).
+[Nordic Microalgae](https://nordicmicroalgae.org/) is an online platform providing high-quality images, illustrations, and detailed information about aquatic microalgae and related organisms in the Nordic region, including phytoplankton, microzooplankton, and benthic microalgae (Torstensson et al. 2024). It features a comprehensive species checklist, up-to-date taxonomic data linked to WoRMS and AlgaeBase, and supplementary resources such as biovolume lists and occurrence maps. Established in 1996 and supported by long-term funding from the Swedish Research Council through the Swedish Biodiversity Data Infrastructure (SBDI).
 
 All data on Nordic Microalgae is accessible through our [API](https://nordicmicroalgae.org/api/). Below are examples demonstrating how to extract data using the SHARK4R package.
 
@@ -24,16 +24,8 @@ install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R` and `dplyr` libraries:
-```{r, eval=FALSE}
+```{r}
 library(SHARK4R)
-library(dplyr)
-```
-
-```{r, include=FALSE}
-suppressPackageStartupMessages({
-  library(SHARK4R)
-  library(dplyr)
-})
 ```
 
 ## Retrieve Complete Nordic Microalgae Taxon Table
@@ -45,7 +37,7 @@ A complete Nordic Microalgae taxa list can be retrieved through the API.
 taxa <- get_nua_taxa(unparsed = FALSE)
 
 # Print data
-tibble(taxa)
+print(taxa)
 ```
 
 The full taxonomic information can be accessed as an unparsed list by enabling the `unparsed` parameter.
@@ -64,7 +56,7 @@ external_links <- get_nua_external_links(slugs,
                                          unparsed = FALSE)
 
 # Print list
-tibble(external_links)
+print(external_links)
 ```
 
 The full list of facts can be accessed as an unparsed list by setting the `unparsed` parameter to `TRUE`.
@@ -80,7 +72,7 @@ harmfulness <- get_nua_harmfulness(c("dinophysis-acuta",
                                    verbose = FALSE)
 
 # Print list
-tibble(harmfulness)
+print(harmfulness)
 ```
 
 ## Get Nordic Microalgae Media Links
@@ -92,7 +84,7 @@ Links to all images present on Nordic Microalgae can be retrieved through the AP
 media <- get_nua_media_links(unparsed = FALSE)
 
 # Print list
-tibble(media)
+print(media)
 ```
 
 Complete media information can be retrieved as an unparsed list by setting the `unparsed` parameter to `TRUE`.
@@ -106,13 +98,13 @@ To standardize phytoplankton monitoring efforts in the Baltic Sea, Skagerrak, an
 peg_list <- get_peg_list()
 
 # Print list
-tibble(peg_list)
+print(peg_list)
 
 # Get NOMP Biovolume list
 nomp_list <- get_nomp_list()
 
 # Print list
-tibble(nomp_list)
+print(nomp_list)
 ```
 
 Please note that `SHARK4R` also includes a useful function for reading exported [Plankton Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files: `read_ptbx()`.
@@ -129,3 +121,9 @@ citation("SHARK4R")
 ```{r, echo=FALSE}
 clean_shark4r_cache(0, clear_perm_cache = TRUE, verbose = FALSE)
 ```
+
+---
+
+## References
+
+- Torstensson, A., Loo, A., Sundqvist, L., Skjevik, A.-T., Karlberg, M., Johansen, M., Andreasson, A., and Karlson, B. (2024). Nordic Microalgae 2.0, Accessed at www.nordicmicroalgae.org on `r Sys.Date()`.

@@ -53,7 +53,7 @@ After this, you do not need to pass \code{subscription_key} to the function.
 \item{verbose}{Logical. Print progress bar. Default is TRUE.}
 }
 \value{
-A data frame containing the search pattern, taxon ID, and best match for each taxon name.
+A \code{tibble} containing the search pattern, taxon ID, and best match for each taxon name.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}

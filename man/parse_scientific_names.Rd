@@ -28,7 +28,7 @@ parse_scientific_names(
 Use \code{scientific_names} instead.}
 }
 \value{
-A data frame with two columns:
+A \code{tibble} with two columns:
 \itemize{
 \item \code{genus} — Genus names.
 \item \code{species} — Species names (empty if unavailable or invalid).
@@ -49,7 +49,7 @@ scientific_names <- c("Skeletonema marinoi", "Cf. Azadinium perforatum", "Gymnod
 # Parse names
 result <- parse_scientific_names(scientific_names)
 
-# Check the resulting data frame
+# Check the resulting data
 print(result)
 
 }

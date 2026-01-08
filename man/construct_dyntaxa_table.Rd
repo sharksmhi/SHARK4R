@@ -65,7 +65,7 @@ Use \code{add_synonyms} instead.}
 Use \code{taxon_ids} instead. \code{construct_dyntaxa_table} now handles taxon IDs.}
 }
 \value{
-A data frame representing the constructed taxonomy table.
+A \code{tibble} representing the constructed taxonomy table.
 }
 \description{
 This function constructs a taxonomy table based on Dyntaxa taxon IDs.

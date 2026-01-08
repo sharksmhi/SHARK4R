@@ -30,7 +30,7 @@
 #'       After this, you do not need to pass `subscription_key` to the function.
 #'   }
 #'
-#' @return A data frame containing taxonomic information for the specified taxon IDs.
+#' @return A `tibble` containing taxonomic information for the specified taxon IDs.
 #'   Columns include `taxonId`, `names`, `category`, `rank`, `isRecommended`, and `parentTaxonId.`
 #'
 #' @export
@@ -84,7 +84,7 @@ get_dyntaxa_records <- function(taxon_ids,
   if (status_code(response) == 200) {
     # Convert JSON content to a data frame
     df <- fromJSON(content(response, "text"), flatten = TRUE)
-    return(df)
+    return(tibble(df))
   } else {
     # If the request was not successful, return an error message
     return(paste("Error: ", status_code(response), " - ", content(response, "text")))
@@ -228,7 +228,7 @@ get_dyntaxa_parent_ids <- function(taxon_ids,
 #' @param main_children Logical. Default is TRUE.
 #' @param verbose Logical. Default is TRUE.
 #'
-#' @return A data frame containing children taxon information corresponding to the specified taxon IDs.
+#' @return A `tibble` containing children taxon information corresponding to the specified taxon IDs.
 #'
 #' @noRd
 #'
@@ -913,7 +913,7 @@ fill_na_below_first_non_na <- function(x) {
 #' @param add_missing_taxa Logical. If TRUE, the function will attempt to fetch missing taxa (i.e., taxon_ids not found in the initial Dyntaxa DwC-A query). Default is FALSE.
 #' @param verbose Logical. Print progress messages. Default is TRUE.
 #'
-#' @return A data frame representing the updated Dyntaxa taxonomy table.
+#' @return A `tibble` representing the updated Dyntaxa taxonomy table.
 #'
 #' @export
 #'
@@ -1007,7 +1007,7 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids,
 #' @param pageSize An integer specifying the page size for pagination. Defaults to 100.
 #' @param verbose Logical. Print progress bar. Default is TRUE.
 #'
-#' @return A data frame containing the search pattern, taxon ID, and best match for each taxon name.
+#' @return A `tibble` containing the search pattern, taxon ID, and best match for each taxon name.
 #'
 #' @export
 #'
@@ -1123,7 +1123,7 @@ match_dyntaxa_taxa <- function(taxon_names,
 
   result_df <- do.call(rbind, result_list) %>%
     distinct()
-  return(result_df)
+  return(tibble(result_df))
 }
 
 #' Match Dyntaxa taxon names
@@ -1169,7 +1169,7 @@ match_dyntaxa_taxa <- function(taxon_names,
 #' @param pageSize An integer specifying the page size for pagination. Defaults to 100.
 #' @param verbose Logical. Print progress bar. Default is TRUE.
 #'
-#' @return A data frame containing the search pattern, taxon ID, and best match for each taxon name.
+#' @return A `tibble` containing the search pattern, taxon ID, and best match for each taxon name.
 #'
 #' @keywords internal
 #' @export
@@ -1378,7 +1378,7 @@ get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
 #'     `r lifecycle::badge("deprecated")`
 #'     Use \code{taxon_ids} instead. `construct_dyntaxa_table` now handles taxon IDs.
 #'
-#' @return A data frame representing the constructed taxonomy table.
+#' @return A `tibble` representing the constructed taxonomy table.
 #'
 #' @export
 #'
@@ -1745,7 +1745,7 @@ get_hierarchy <- function(taxon_id, data) {
 #'   Must include the same columns as `data`. Defaults to `data` if not provided.
 #' @param verbose Logical. If TRUE, the function will print additional messages to provide feedback on its progress. Default is TRUE.
 #'
-#' @return A data frame with an additional `hierarchy` column. The `hierarchy` column contains
+#' @return A `tibble` with an additional `hierarchy` column. The `hierarchy` column contains
 #'   a string representing the lineage of parent `scientificName` values, separated by " > ".
 #'
 #' @examples

@@ -21,7 +21,7 @@
 #'   }
 #' @param genus_only Logical. If `TRUE`, searches are based solely on the genus name, ignoring species. Defaults to `FALSE`.
 #' @param higher Logical. If `TRUE`, includes higher taxonomy (e.g., kingdom, phylum) in the output. Defaults to `TRUE`.
-#' @param unparsed Logical. If `TRUE`, returns raw JSON output instead of an R data frame. Defaults to `FALSE`.
+#' @param unparsed Logical. If `TRUE`, returns raw JSON output instead of a `tibble`. Defaults to `FALSE`.
 #' @param exact_matches_only Logical. If `TRUE`, restricts results to exact matches. Defaults to `TRUE`.
 #' @param sleep_time Numeric. The delay (in seconds) between consecutive AlgaeBase API queries. Defaults to `1`. A delay is recommended to avoid overwhelming the API for large queries.
 #' @param newest_only A logical value indicating whether to return only the most recent entries (default is `TRUE`).
@@ -33,7 +33,7 @@
 #'     `r lifecycle::badge("deprecated")`
 #'     Use \code{genera} instead.
 #'
-#' @return A data frame containing taxonomic information for each input genus–species combination.
+#' @return A `tibble` containing taxonomic information for each input genus–species combination.
 #' The following columns may be included:
 #' \itemize{
 #'   \item \code{id} — AlgaeBase ID (if available).
@@ -116,11 +116,11 @@ match_algaebase_taxa <- function(genera, species, subscription_key = Sys.getenv(
   }
 
   # Create unique combinations of genera and species
-  input_data <- data.frame(genus = genera, species = species, stringsAsFactors = FALSE)
+  input_data <- tibble(genus = genera, species = species)
   unique_data <- unique(input_data)
 
   # Prepare output dataframe
-  algaebase_df <- data.frame()
+  algaebase_df <- tibble()
 
   # Helper function to generate an error row
   generate_error_row <- function(index, genus_only, genus, species, higher) {
@@ -130,7 +130,7 @@ match_algaebase_taxa <- function(genera, species, subscription_key = Sys.getenv(
       trimws(paste(genus[index], species[index]))
     }
 
-    err_df <- data.frame(
+    err_df <- tibble(
       id = NA, kingdom = NA, phylum = NA, class = NA, order = NA, family = NA,
       genus = NA, species = NA, infrasp = NA, taxonomic_status = NA, nomenclatural_status = NA,
       currently_accepted = NA, accepted_name = NA, genus_only = genus_only,
@@ -194,7 +194,8 @@ match_algaebase_taxa <- function(genera, species, subscription_key = Sys.getenv(
   input_data$species[input_data$species == ""] <- NA
 
   # Merge results back to the original input
-  final_results <- merge(input_data, algaebase_df, by = c("genus", "species"), all.x = TRUE)
+  final_results <- input_data %>%
+    left_join(algaebase_df, by = c("genus", "species"))
 
   # Remove potential duplicates
   final_results <- distinct(final_results)
@@ -231,7 +232,7 @@ match_algaebase_taxa <- function(genera, species, subscription_key = Sys.getenv(
 #'   }
 #' @param genus_only Logical. If `TRUE`, searches are based solely on the genus name, ignoring species. Defaults to `FALSE`.
 #' @param higher Logical. If `TRUE`, includes higher taxonomy (e.g., kingdom, phylum) in the output. Defaults to `TRUE`.
-#' @param unparsed Logical. If `TRUE`, returns raw JSON output instead of an R data frame. Defaults to `FALSE`.
+#' @param unparsed Logical. If `TRUE`, returns raw JSON output instead of a `tibble`. Defaults to `FALSE`.
 #' @param exact_matches_only Logical. If `TRUE`, restricts results to exact matches. Defaults to `TRUE`.
 #' @param sleep_time Numeric. The delay (in seconds) between consecutive AlgaeBase API queries. Defaults to `1`. A delay is recommended to avoid overwhelming the API for large queries.
 #' @param newest_only A logical value indicating whether to return only the most recent entries (default is `TRUE`).
@@ -240,7 +241,7 @@ match_algaebase_taxa <- function(genera, species, subscription_key = Sys.getenv(
 #'     `r lifecycle::badge("deprecated")`
 #'     Use \code{subscription_key} instead.
 #'
-#' @return A data frame containing taxonomic information for each input genus–species combination.
+#' @return A `tibble` containing taxonomic information for each input genus–species combination.
 #' The following columns may be included:
 #' \itemize{
 #'   \item \code{id} — AlgaeBase ID (if available).
@@ -338,7 +339,7 @@ match_algaebase <- function(genus, species, subscription_key = Sys.getenv("ALGAE
 #'     `r lifecycle::badge("deprecated")`
 #'     Use \code{subscription_key} instead.
 #'
-#' @return A data frame with details about the species, including:
+#' @return A `tibble` with details about the species, including:
 #' \itemize{
 #'   \item \code{taxonomic_status} — The current status of the taxon (e.g., accepted, synonym, unverified).
 #'   \item \code{taxon_rank} — The rank of the taxon (e.g., species, genus).
@@ -454,7 +455,7 @@ match_algaebase_species <- function(genus, species, subscription_key = Sys.geten
   }
 
   # Combine all results into a single data frame
-  results_output <- do.call(rbind, combined_results)
+  results_output <- bind_rows(combined_results)
 
   # Handle infraspecific names
   output_infraspname <- case_when(
@@ -490,7 +491,7 @@ match_algaebase_species <- function(genus, species, subscription_key = Sys.geten
   if (higher) {
     genus_taxonomy <- match_algaebase_genus(genus, subscription_key)
 
-    higher_taxonomy <- data.frame(
+    higher_taxonomy <- tibble(
       kingdom = genus_taxonomy$kingdom,
       phylum = genus_taxonomy$phylum,
       class = genus_taxonomy$class,
@@ -519,7 +520,7 @@ match_algaebase_species <- function(genus, species, subscription_key = Sys.geten
   accepted_name <- ifelse(currently_accepted == 1, input_name, accepted_name)
 
   # Create output data frame
-  output <- data.frame(
+  output <- tibble(
     id = extract_algaebase_field(results_output, "dwc:scientificNameID"),
     genus = extract_algaebase_field(results_output, "dwc:genus"),
     species = extract_algaebase_field(results_output, "dwc:specificEpithet"),
@@ -554,7 +555,7 @@ match_algaebase_species <- function(genus, species, subscription_key = Sys.geten
   # Remove potential duplicated rows
   output <- distinct(output)
 
-  return(output)
+  return(tibble(output))
 }
 #' Search AlgaeBase for information about a species of algae
 #'
@@ -592,7 +593,7 @@ match_algaebase_species <- function(genus, species, subscription_key = Sys.geten
 #'     `r lifecycle::badge("deprecated")`
 #'     Use \code{subscription_key} instead.
 #'
-#' @return A data frame with details about the species, including:
+#' @return A `tibble` with details about the species, including:
 #' \itemize{
 #'   \item \code{taxonomic_status} — The current status of the taxon (e.g., accepted, synonym, unverified).
 #'   \item \code{taxon_rank} — The rank of the taxon (e.g., species, genus).
@@ -671,7 +672,7 @@ get_algaebase_species <- function(genus, species, subscription_key = Sys.getenv(
 #' @details
 #' A valid API key is requested from the AlgaeBase team.
 #'
-#' @return A data frame with the following columns:
+#' @return A `tibble` with the following columns:
 #' \itemize{
 #'   \item \code{id} — AlgaeBase identifier.
 #'   \item \code{accepted_name} — Accepted scientific name (if different from the input).
@@ -768,7 +769,7 @@ match_algaebase_genus <- function(genus, subscription_key = Sys.getenv("ALGAEBAS
   }
 
   # Combine all results into a single data frame
-  combined_results <- do.call(rbind, combined_results)
+  combined_results <- bind_rows(combined_results)
 
   if (unparsed) return(combined_results)
 
@@ -782,7 +783,7 @@ match_algaebase_genus <- function(genus, subscription_key = Sys.getenv("ALGAEBAS
     colnames(higher_taxonomy) <- gsub("^dwc:", "", colnames(higher_taxonomy))
   }
 
-  output <- data.frame(
+  output <- tibble(
     id = combined_results$`dwc:scientificNameID`,
     genus = combined_results$`dwc:genus`,
     species = NA, infrasp = NA,
@@ -817,7 +818,7 @@ match_algaebase_genus <- function(genus, subscription_key = Sys.getenv("ALGAEBAS
   # Remove duplicates
   output <- distinct(output)
 
-  return(output)
+  return(tibble(output))
 }
 
 #' Search AlgaeBase for information about a genus of algae
@@ -857,7 +858,7 @@ match_algaebase_genus <- function(genus, subscription_key = Sys.getenv("ALGAEBAS
 #' @details
 #' A valid API key is requested from the AlgaeBase team.
 #'
-#' @return A data frame with the following columns:
+#' @return A `tibble` with the following columns:
 #' \itemize{
 #'   \item \code{id} — AlgaeBase identifier.
 #'   \item \code{accepted_name} — Accepted scientific name (if different from the input).
@@ -947,7 +948,7 @@ extract_algaebase_field <- function(query_result, field_name) {
 #'     `r lifecycle::badge("deprecated")`
 #'     Use \code{scientific_names} instead.
 #'
-#' @return A data frame with two columns:
+#' @return A `tibble` with two columns:
 #' \itemize{
 #'   \item \code{genus} — Genus names.
 #'   \item \code{species} — Species names (empty if unavailable or invalid).
@@ -965,7 +966,7 @@ extract_algaebase_field <- function(query_result, field_name) {
 #' # Parse names
 #' result <- parse_scientific_names(scientific_names)
 #'
-#' # Check the resulting data frame
+#' # Check the resulting data
 #' print(result)
 #'
 #' @export
@@ -1044,7 +1045,7 @@ parse_scientific_names <- function(scientific_names,
   species <- trimws(species, 'both')
 
   # Create the output dataframe
-  output_df <- data.frame(genus = genus, species = species, stringsAsFactors = FALSE)
+  output_df <- tibble(genus = genus, species = species)
 
   return(output_df)
 }

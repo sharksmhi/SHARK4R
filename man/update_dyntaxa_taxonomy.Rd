@@ -35,7 +35,7 @@ After this, you do not need to pass \code{subscription_key} to the function.
 \item{verbose}{Logical. Print progress messages. Default is TRUE.}
 }
 \value{
-A data frame representing the updated Dyntaxa taxonomy table.
+A \code{tibble} representing the updated Dyntaxa taxonomy table.
 }
 \description{
 This function updates Dyntaxa taxonomy records based on a list of Dyntaxa taxon IDs.

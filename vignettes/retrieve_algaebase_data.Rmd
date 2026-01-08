@@ -22,16 +22,8 @@ install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R` and `dplyr` libraries:
-```{r, eval=FALSE}
+```{r}
 library(SHARK4R)
-library(dplyr)
-```
-
-```{r, include=FALSE}
-suppressPackageStartupMessages({
-  library(SHARK4R)
-  library(dplyr)
-})
 ```
 
 ### AlgaeBase API Key
@@ -98,7 +90,7 @@ algaebase_match <- match_algaebase_taxa(genera = parsed_taxa$genus,
                                         verbose = FALSE)
 
 # Print the result
-tibble(algaebase_match)
+print(algaebase_match)
 ```
 
 ---

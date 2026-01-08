@@ -43,7 +43,7 @@ After this, you do not need to pass \code{subscription_key} to the function.
 
 \item{higher}{Logical. If \code{TRUE}, includes higher taxonomy (e.g., kingdom, phylum) in the output. Defaults to \code{TRUE}.}
 
-\item{unparsed}{Logical. If \code{TRUE}, returns raw JSON output instead of an R data frame. Defaults to \code{FALSE}.}
+\item{unparsed}{Logical. If \code{TRUE}, returns raw JSON output instead of a \code{tibble}. Defaults to \code{FALSE}.}
 
 \item{exact_matches_only}{Logical. If \code{TRUE}, restricts results to exact matches. Defaults to \code{TRUE}.}
 
@@ -60,7 +60,7 @@ Use \code{subscription_key} instead.}
 Use \code{genera} instead.}
 }
 \value{
-A data frame containing taxonomic information for each input genus–species combination.
+A \code{tibble} containing taxonomic information for each input genus–species combination.
 The following columns may be included:
 \itemize{
 \item \code{id} — AlgaeBase ID (if available).
