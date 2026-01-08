@@ -56,6 +56,30 @@ test_that("get_hab_list works", {
   expect_true(all(expected_names %in% names(hab_list)))
 })
 
+test_that("get_hab_list works with non-toxic taxa only", {
+  skip_if_offline()
+  skip_if_resource_unavailable("https://www.marinespecies.org/")
+
+  hab_list <- get_hab_list(harmful_non_toxic_only = TRUE,
+                           verbose = FALSE)
+
+  expect_s3_class(hab_list, "data.frame")
+  expect_true(nrow(hab_list) > 0)
+
+  expected_names <- c(
+    "AphiaID", "ScientificName", "Authority",
+    "AphiaID_accepted", "ScientificName_accepted", "Authority_accepted",
+    "Fossil", "Kingdom", "Phylum",
+    "Class", "Order", "Family",
+    "taxonRank", "Genus", "Marine",
+    "Brackish", "Fresh", "Terrestrial",
+    "taxonomicStatus", "Unacceptreason",
+    "DateLastModified", "LSID", "Parent AphiaID"
+  )
+
+  expect_true(all(expected_names %in% names(hab_list)))
+})
+
 test_that("extract_complete_toxins extracts full toxin objects", {
   json <- paste0(
     '{"toxins": [',

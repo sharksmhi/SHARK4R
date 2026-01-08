@@ -10,7 +10,7 @@ vignette: >
 
 ## IOC-UNESCO Databases
 
-The Intergovernmental Oceanographic Commission (IOC) of UNESCO is the United Nations body dedicated to supporting global ocean science, services, and governance. The [IOC-UNESCO Taxonomic Reference List of Harmful Microalgae](https://www.marinespecies.org/hab/) focuses on species known to produce toxins or exhibit toxic effects, along with a few species suspected of toxin production. All toxic species in the list are verified with [WoRMS](https://www.marinespecies.org) to ensure accurate taxonomy.
+The Intergovernmental Oceanographic Commission (IOC) of UNESCO is the United Nations body dedicated to supporting global ocean science, services, and governance. The [IOC-UNESCO Taxonomic Reference List of Harmful Microalgae](https://www.marinespecies.org/hab/) (Lundholm et al., 2009) focuses on species known to produce toxins or exhibit toxic effects, along with a few species suspected of toxin production. All toxic species in the list are verified with [WoRMS](https://www.marinespecies.org) to ensure accurate taxonomy.
 
 The [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/) complements this list by providing detailed reference information about toxins, some of which are associated with harmful algal events.
 
@@ -26,16 +26,8 @@ install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R` and `dplyr` libraries:
-```{r, eval=FALSE}
+```{r}
 library(SHARK4R)
-library(dplyr)
-```
-
-```{r, include=FALSE}
-suppressPackageStartupMessages({
-  library(SHARK4R)
-  library(dplyr)
-})
 ```
 
 ## Retrieve HAB List From IOC Taxonomic List
@@ -46,8 +38,19 @@ The complete HAB list, including scientific names and AphiaIDs, can be downloade
 # Retrieve complete HAB list
 hab_list <- get_hab_list()
 
-# Print result as tibble
-tibble(hab_list)
+# Print result
+print(hab_list)
+```
+
+A separate list of harmful non-toxic species is also available (Zingone & Escalera, 2025). This compilation focuses on taxa for which no toxin production is known, yet which have been linked to negative impacts on marine organisms, including mortality and ecosystem disturbance. The list is designed to be used alongside the IOC-UNESCO Taxonomic Reference List of Harmful Microalgae and is mutually exclusive with it. As a result, any species known to produce toxins is omitted, even when reported harmful effects are attributed to non-toxic processes such as oxygen depletion.
+
+```{r}
+# Retrieve complete Harmful non-toxic list
+hab_non_toxic_list <- get_hab_list(harmful_non_toxic_only = TRUE,
+                                   verbose = FALSE)
+
+# Print result
+print(hab_non_toxic_list)
 ```
 
 ## Retrieve HAB Toxins From IOC Toxins Database
@@ -58,8 +61,8 @@ The complete Toxin list can be downloaded from the [IOC-UNESCO Toxins database](
 # Retrieve complete toxin list
 toxin_list <- get_toxin_list()
 
-# Print result as tibble
-tibble(toxin_list)
+# Print result
+print(toxin_list)
 ```
 
 ---
@@ -74,3 +77,10 @@ citation("SHARK4R")
 ```{r, echo=FALSE}
 clean_shark4r_cache(0, clear_perm_cache = TRUE, verbose = FALSE)
 ```
+
+---
+
+## References
+
+- Lundholm, N.; Bernard, C.; Churro, C.; Escalera, L.; Hoppenrath, M.; Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful Microalgae. Accessed at https://www.marinespecies.org/hab on `r Sys.Date()`. [doi:10.14284/362](https://doi.org/10.14284/362)
+- Zingone A. and L. Escalera (2025) Non toxigenic animal-killing microalgal species. In: Lundholm, N.; Bernard, C.; Churro, C.; Escalera, L.; Hoppenrath, M.; Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful Microalgae. Accessed at https://www.marinespecies.org/hab on `r Sys.Date()`. [doi:10.14284/362](https://doi.org/10.14284/362)
