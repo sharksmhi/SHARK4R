@@ -1,3 +1,17 @@
+# SHARK4R (development version)
+
+## New features
+
+* Added a new `harmful_non_toxic_only` argument to `get_hab_list()` to download only non-toxigenic harmful microalgal species from the IOC-UNESCO HABs list
+* Added a new `species_only` argument to `get_hab_list()` to return only species-level records, which is now also the default option. This filter is ignored when `harmful_non_toxic_only = TRUE`
+* Added a new `verbose` argument to `positions_are_near_land()` and `get_hab_list(harmful_non_toxic_only = TRUE)` to enable printing of progress messages during data retrieval
+
+## Minor improvements and fixes
+
+* EEA coastline data are now obtained from EEA map services in `positions_are_near_land()`, replacing direct file server downloads that were unstable
+* All data frame outputs are now consistently returned as tibbles
+* Documentation updated with minor clarifications and corrections
+
 # SHARK4R 1.0.2
 
 ## Bug fixes
@@ -13,12 +27,12 @@
 ## Bug fixes and CRAN compliance
 
 * Corrected formatting of package and software names throughout the package.
-* Fixed broken URL in `README.md`.
-* Improved examples to run reliably and quickly.
-* Ensured functions and examples no longer write to the user's home directory.
-* Added `lon` and `lat` arguments to the `lookup_xy()` function for more flexible lookup options.
-* Minor documentation improvements throughout the package.
-* `get_toxin_list()` now handles partial JSON responses.
+* Fixed broken URL in `README.md`
+* Improved examples to run reliably and quickly
+* Ensured functions and examples no longer write to the user's home directory
+* Added `lon` and `lat` arguments to the `lookup_xy()` function for more flexible lookup options
+* Minor documentation improvements throughout the package
+* `get_toxin_list()` now handles partial JSON responses
 
 # SHARK4R 1.0.0
 
