@@ -156,7 +156,7 @@ print(res)
 #> # A tibble: 1 × 24
 #>   parameter  datatype fromYear toYear     n   min    Q1 median    Q3   max   P01
 #>   <chr>      <chr>       <dbl>  <dbl> <int> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl>
-#> 1 Chlorophy… Chlorop…     2020   2024  1374  0.19  1.39    2.2   3.3  22.2 0.307
+#> 1 Chlorophy… Chlorop…     2021   2024  1009  0.19   1.4    2.2  3.27  22.2  0.31
 #> # ℹ 13 more variables: P05 <dbl>, P95 <dbl>, P99 <dbl>, IQR <dbl>, mean <dbl>,
 #> #   sd <dbl>, var <dbl>, cv <dbl>, mad <dbl>, mild_lower <dbl>,
 #> #   mild_upper <dbl>, extreme_lower <dbl>, extreme_upper <dbl>
@@ -167,20 +167,20 @@ res_station <- get_shark_statistics(datatype = "Chlorophyll",
                                     cache_result = TRUE,
                                     verbose = FALSE)
 print(res_station)
-#> # A tibble: 78 × 25
+#> # A tibble: 77 × 25
 #>    parameter     datatype  station_name fromYear toYear   min    Q1 median    Q3
 #>    <chr>         <chr>     <chr>           <dbl>  <dbl> <dbl> <dbl>  <dbl> <dbl>
-#>  1 Chlorophyll-a Chloroph… A 01B            2020   2023  1.85 2.21    2.98  3.96
-#>  2 Chlorophyll-a Chloroph… ANHOLT E         2020   2022  0.5  0.9     1.2   1.7 
-#>  3 Chlorophyll-a Chloroph… B7               2020   2023  0.37 0.985   2.12  3.52
-#>  4 Chlorophyll-a Chloroph… BCS III-10       2020   2022  0.2  1.12    2.1   3.05
+#>  1 Chlorophyll-a Chloroph… A 01B            2021   2023  1.85 1.93    3.12  4.30
+#>  2 Chlorophyll-a Chloroph… ANHOLT E         2021   2022  0.5  0.8     1.1   1.65
+#>  3 Chlorophyll-a Chloroph… B7               2021   2023  0.37 0.888   2.04  3.68
+#>  4 Chlorophyll-a Chloroph… BCS III-10       2021   2022  0.4  1.35    2.1   2.5 
 #>  5 Chlorophyll-a Chloroph… BERGÖFJÄRDE…     2021   2022  1.1  1.32    1.6   1.8 
 #>  6 Chlorophyll-a Chloroph… BODÖFJÄRDEN…     2021   2022  1.1  1.4     1.85  2.22
 #>  7 Chlorophyll-a Chloroph… BURSFJÄRDEN…     2021   2022  2.6  2.8     3     3.2 
-#>  8 Chlorophyll-a Chloroph… BY10             2020   2022  1    1.5     2.4   5.1 
-#>  9 Chlorophyll-a Chloroph… BY15 GOTLAN…     2020   2022  0.4  1.52    2.5   3.08
-#> 10 Chlorophyll-a Chloroph… BY2 ARKONA       2020   2022  0.6  1.5     2     2.55
-#> # ℹ 68 more rows
+#>  8 Chlorophyll-a Chloroph… BY10             2021   2022  2.1  2.4     2.7   4.3 
+#>  9 Chlorophyll-a Chloroph… BY15 GOTLAN…     2021   2022  0.4  1.75    2.6   3.05
+#> 10 Chlorophyll-a Chloroph… BY2 ARKONA       2021   2022  0.6  0.9     1.65  2.35
+#> # ℹ 67 more rows
 #> # ℹ 16 more variables: max <dbl>, P01 <dbl>, P05 <dbl>, P95 <dbl>, P99 <dbl>,
 #> #   IQR <dbl>, mean <dbl>, sd <dbl>, var <dbl>, cv <dbl>, mad <dbl>,
 #> #   mild_lower <dbl>, mild_upper <dbl>, extreme_lower <dbl>,

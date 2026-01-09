@@ -111,7 +111,7 @@ construct_dyntaxa_table(
 
 ## Value
 
-A data frame representing the constructed taxonomy table.
+A `tibble` representing the constructed taxonomy table.
 
 ## Details
 

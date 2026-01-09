@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve Taxonomic Data From AlgaeBase</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.2/vignettes/retrieve_algaebase_data.Rmd" class="external-link"><code>vignettes/retrieve_algaebase_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/vignettes/retrieve_algaebase_data.Rmd" class="external-link"><code>vignettes/retrieve_algaebase_data.Rmd</code></a></small>
       <div class="d-none name"><code>retrieve_algaebase_data.Rmd</code></div>
     </div>
 
@@ -109,8 +109,7 @@ using:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"SHARK4R"</span><span class="op">)</span></span></code></pre></div>
 <p>Load the <code>SHARK4R</code> and <code>dplyr</code> libraries:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sharksmhi.github.io/SHARK4R/">SHARK4R</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://sharksmhi.github.io/SHARK4R/">SHARK4R</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="algaebase-api-key">AlgaeBase API Key<a class="anchor" aria-label="anchor" href="#algaebase-api-key"></a>
@@ -135,14 +134,14 @@ the <code><a href="../reference/match_algaebase_genus.html">match_algaebase_genu
 <span></span>
 <span><span class="co"># Print the result</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">genus_records</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##     kingdom         phylum       class         order         family    id</span></span>
-<span><span class="co">## 1 Chromista Dinoflagellata Dinophyceae Gymnodiniales Gymnodiniaceae 43632</span></span>
-<span><span class="co">##         genus species infrasp                 taxonomic_status</span></span>
-<span><span class="co">## 1 Gymnodinium      NA      NA currently accepted taxonomically</span></span>
-<span><span class="co">##   nomenclatural_status currently_accepted accepted_name genus_only  input_name</span></span>
-<span><span class="co">## 1                   NA                  1            NA          1 Gymnodinium</span></span>
-<span><span class="co">##   input_match taxon_rank   mod_date                 long_name authorship</span></span>
-<span><span class="co">## 1           1      genus 2024-06-13 Gymnodinium F.Stein, 1878    F.Stein</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2 × 20</span></span></span>
+<span><span class="co">##   kingdom phylum class order family    id genus species infrasp taxonomic_status</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> Chromi… Dinof… Dino… Gymn… Gymno… <span style="text-decoration: underline;">43</span>632 Gymn… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      currently accep…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> Chromi… Dinof… Dino… Gymn… Gymno… <span style="text-decoration: underline;">51</span>372 Para… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      currently accep…</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 10 more variables: nomenclatural_status &lt;lgl&gt;, currently_accepted &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   accepted_name &lt;lgl&gt;, genus_only &lt;dbl&gt;, input_name &lt;chr&gt;, input_match &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   taxon_rank &lt;chr&gt;, mod_date &lt;date&gt;, long_name &lt;chr&gt;, authorship &lt;chr&gt;</span></span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="match-species-name">Match Species Name<a class="anchor" aria-label="anchor" href="#match-species-name"></a>
@@ -157,14 +156,14 @@ the <code><a href="../reference/match_algaebase_species.html">match_algaebase_sp
 <span></span>
 <span><span class="co"># Print the result</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">species_records</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      id   accepted_name      input_name input_match currently_accepted</span></span>
-<span><span class="co">## 1 65254 Tripos muelleri Tripos muelleri           1                  1</span></span>
-<span><span class="co">##   genus_only   kingdom         phylum       class         order      family</span></span>
-<span><span class="co">## 1          0 Chromista Dinoflagellata Dinophyceae Gonyaulacales Ceratiaceae</span></span>
-<span><span class="co">##    genus  species infrasp            long_name                 taxonomic_status</span></span>
-<span><span class="co">## 1 Tripos muelleri      NA Tripos muelleri Bory currently accepted taxonomically</span></span>
-<span><span class="co">##   nomenclatural_status taxon_rank   mod_date authorship</span></span>
-<span><span class="co">## 1                 &lt;NA&gt;    species 2024-05-28       Bory</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 20</span></span></span>
+<span><span class="co">##      id accepted_name   input_name     input_match currently_accepted genus_only</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> <span style="text-decoration: underline;">65</span>254 Tripos muelleri Tripos muelle…           1                  1          0</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 14 more variables: kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   family &lt;chr&gt;, genus &lt;chr&gt;, species &lt;chr&gt;, infrasp &lt;lgl&gt;, long_name &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   taxonomic_status &lt;chr&gt;, nomenclatural_status &lt;chr&gt;, taxon_rank &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   mod_date &lt;date&gt;, authorship &lt;chr&gt;</span></span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="match-multiple-scientific-names">Match Multiple Scientific Names<a class="anchor" aria-label="anchor" href="#match-multiple-scientific-names"></a>
@@ -190,17 +189,19 @@ before being passed to the API, which can be achieved by the
 <span></span>
 <span><span class="co"># Print the parsed data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">parsed_taxa</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##              genus    species</span></span>
-<span><span class="co">## 1        Guinardia delicatula</span></span>
-<span><span class="co">## 2    Monoraphidium  contortum</span></span>
-<span><span class="co">## 3      Flagellates           </span></span>
-<span><span class="co">## 4    Thalassiosira    baltica</span></span>
-<span><span class="co">## 5           Amylax triacantha</span></span>
-<span><span class="co">## 6      Flagellates           </span></span>
-<span><span class="co">## 7      Karlodinium     micrum</span></span>
-<span><span class="co">## 8  Cryptomonadales           </span></span>
-<span><span class="co">## 9         Octactis   speculum</span></span>
-<span><span class="co">## 10      Mesodinium     rubrum</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10 × 2</span></span></span>
+<span><span class="co">##    genus           species     </span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Guinardia       <span style="color: #949494;">"</span>delicatula<span style="color: #949494;">"</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Monoraphidium   <span style="color: #949494;">"</span>contortum<span style="color: #949494;">"</span> </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Flagellates     <span style="color: #949494;">""</span>          </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Thalassiosira   <span style="color: #949494;">"</span>baltica<span style="color: #949494;">"</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Amylax          <span style="color: #949494;">"</span>triacantha<span style="color: #949494;">"</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Flagellates     <span style="color: #949494;">""</span>          </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Karlodinium     <span style="color: #949494;">"</span>micrum<span style="color: #949494;">"</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Cryptomonadales <span style="color: #949494;">""</span>          </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Octactis        <span style="color: #949494;">"</span>speculum<span style="color: #949494;">"</span>  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Mesodinium      <span style="color: #949494;">"</span>rubrum<span style="color: #949494;">"</span></span></span></code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Match the taxa with AlgaeBase</span></span>
 <span><span class="va">algaebase_match</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/match_algaebase_taxa.html">match_algaebase_taxa</a></span><span class="op">(</span>genera <span class="op">=</span> <span class="va">parsed_taxa</span><span class="op">$</span><span class="va">genus</span>,</span>
@@ -209,19 +210,19 @@ before being passed to the API, which can be achieved by the
 <span>                                        verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print the result</span></span>
-<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span><span class="va">algaebase_match</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">algaebase_match</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 9 × 20</span></span></span>
 <span><span class="co">##   genus   species     id accepted_name input_name input_match currently_accepted</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> Amylax  triaca…  <span style="text-decoration: underline;">52</span>120 Amylax triac… Amylax tr…           1                  1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> Crypto… <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>            <span style="color: #BB0000;">NA</span>                  <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> Guinar… delica…     <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>            <span style="color: #BB0000;">NA</span>                  <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> Monora… contor…  <span style="text-decoration: underline;">27</span>719 Monoraphidiu… Monoraphi…           1                  1</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">3</span> Flagel… <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>            <span style="color: #BB0000;">NA</span>                  <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> Guinar… delica…  <span style="text-decoration: underline;">43</span>911 Guinardia de… Guinardia…           1                  1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span> Karlod… micrum   <span style="text-decoration: underline;">44</span>335 Karlodinium … Karlodini…           1                  0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span> Mesodi… rubrum   <span style="text-decoration: underline;">56</span>539 Mesodinium r… Mesodiniu…           1                  1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">7</span> Monora… contor…  <span style="text-decoration: underline;">27</span>719 Monoraphidiu… Monoraphi…           1                  1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> Thalas… baltica  <span style="text-decoration: underline;">39</span>921 Thalassiosir… Thalassio…           1                  1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> Amylax  triaca…  <span style="text-decoration: underline;">52</span>120 Amylax triac… Amylax tr…           1                  1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> Karlod… micrum   <span style="text-decoration: underline;">44</span>335 Karlodinium … Karlodini…           1                  0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">7</span> Crypto… <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>            <span style="color: #BB0000;">NA</span>                  <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">8</span> Octact… specul… <span style="text-decoration: underline;">164</span>546 Octactis spe… Octactis …           1                  1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">9</span> Thalas… baltica  <span style="text-decoration: underline;">39</span>921 Thalassiosir… Thalassio…           1                  1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">9</span> Mesodi… rubrum   <span style="text-decoration: underline;">56</span>539 Mesodinium r… Mesodiniu…           1                  1</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 13 more variables: genus_only &lt;dbl&gt;, kingdom &lt;chr&gt;, phylum &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   class &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;, infrasp &lt;lgl&gt;, long_name &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   taxonomic_status &lt;chr&gt;, nomenclatural_status &lt;lgl&gt;, taxon_rank &lt;chr&gt;,</span></span></span>

@@ -40,9 +40,9 @@ get_dyntaxa_records(taxon_ids, subscription_key = Sys.getenv("DYNTAXA_KEY"))
 
 ## Value
 
-A data frame containing taxonomic information for the specified taxon
-IDs. Columns include `taxonId`, `names`, `category`, `rank`,
-`isRecommended`, and `parentTaxonId.`
+A `tibble` containing taxonomic information for the specified taxon IDs.
+Columns include `taxonId`, `names`, `category`, `rank`, `isRecommended`,
+and `parentTaxonId.`
 
 ## Details
 

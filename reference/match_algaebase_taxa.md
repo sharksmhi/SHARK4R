@@ -65,8 +65,8 @@ match_algaebase_taxa(
 
 - unparsed:
 
-  Logical. If `TRUE`, returns raw JSON output instead of an R data
-  frame. Defaults to `FALSE`.
+  Logical. If `TRUE`, returns raw JSON output instead of a `tibble`.
+  Defaults to `FALSE`.
 
 - exact_matches_only:
 
@@ -99,8 +99,8 @@ match_algaebase_taxa(
 
 ## Value
 
-A data frame containing taxonomic information for each input
-genus–species combination. The following columns may be included:
+A `tibble` containing taxonomic information for each input genus–species
+combination. The following columns may be included:
 
 - `id` — AlgaeBase ID (if available).
 

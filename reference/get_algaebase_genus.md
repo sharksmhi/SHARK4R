@@ -75,7 +75,7 @@ get_algaebase_genus(
 
 ## Value
 
-A data frame with the following columns:
+A `tibble` with the following columns:
 
 - `id` — AlgaeBase identifier.
 

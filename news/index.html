@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,9 +44,25 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.2/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="shark4r-development-version">SHARK4R (development version)<a class="anchor" aria-label="anchor" href="#shark4r-development-version"></a></h2>
+<div class="section level3">
+<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>Added a new <code>harmful_non_toxic_only</code> argument to <code><a href="../reference/get_hab_list.html">get_hab_list()</a></code> to download only non-toxigenic harmful microalgal species from the IOC-UNESCO HABs list</li>
+<li>Added a new <code>species_only</code> argument to <code><a href="../reference/get_hab_list.html">get_hab_list()</a></code> to return only species-level records, which is now also the default option. This filter is ignored when <code>harmful_non_toxic_only = TRUE</code>
+</li>
+<li>Added a new <code>verbose</code> argument to <code><a href="../reference/positions_are_near_land.html">positions_are_near_land()</a></code> and <code>get_hab_list(harmful_non_toxic_only = TRUE)</code> to enable printing of progress messages during data retrieval</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-improvements-and-fixes-development-version">Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-development-version"></a></h3>
+<ul><li>EEA coastline data are now obtained from EEA map services in <code><a href="../reference/positions_are_near_land.html">positions_are_near_land()</a></code>, replacing direct file server downloads that were unstable</li>
+<li>All data frame outputs are now consistently returned as tibbles</li>
+<li>Documentation updated with minor clarifications and corrections</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.2" id="shark4r-102">SHARK4R 1.0.2<a class="anchor" aria-label="anchor" href="#shark4r-102"></a></h2><p class="text-muted">CRAN release: 2025-12-12</p>
 <div class="section level3">
@@ -65,13 +81,14 @@
 <div class="section level3">
 <h3 id="bug-fixes-and-cran-compliance-1-0-1">Bug fixes and CRAN compliance<a class="anchor" aria-label="anchor" href="#bug-fixes-and-cran-compliance-1-0-1"></a></h3>
 <ul><li>Corrected formatting of package and software names throughout the package.</li>
-<li>Fixed broken URL in <code>README.md</code>.</li>
-<li>Improved examples to run reliably and quickly.</li>
-<li>Ensured functions and examples no longer write to the user’s home directory.</li>
-<li>Added <code>lon</code> and <code>lat</code> arguments to the <code><a href="../reference/lookup_xy.html">lookup_xy()</a></code> function for more flexible lookup options.</li>
-<li>Minor documentation improvements throughout the package.</li>
+<li>Fixed broken URL in <code>README.md</code>
+</li>
+<li>Improved examples to run reliably and quickly</li>
+<li>Ensured functions and examples no longer write to the user’s home directory</li>
+<li>Added <code>lon</code> and <code>lat</code> arguments to the <code><a href="../reference/lookup_xy.html">lookup_xy()</a></code> function for more flexible lookup options</li>
+<li>Minor documentation improvements throughout the package</li>
 <li>
-<code><a href="../reference/get_toxin_list.html">get_toxin_list()</a></code> now handles partial JSON responses.</li>
+<code><a href="../reference/get_toxin_list.html">get_toxin_list()</a></code> now handles partial JSON responses</li>
 </ul></div>
 </div>
     <div class="section level2">

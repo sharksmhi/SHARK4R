@@ -5,12 +5,13 @@
 [Nordic Microalgae](https://nordicmicroalgae.org/) is an online platform
 providing high-quality images, illustrations, and detailed information
 about aquatic microalgae and related organisms in the Nordic region,
-including phytoplankton, microzooplankton, and benthic microalgae. It
-features a comprehensive species checklist, up-to-date taxonomic data
-linked to WoRMS and AlgaeBase, and supplementary resources such as
-biovolume lists and occurrence maps. Established in 1996 and supported
-by long-term funding from the Swedish Research Council through the
-Swedish Biodiversity Data Infrastructure (SBDI).
+including phytoplankton, microzooplankton, and benthic microalgae
+(Torstensson et al. 2024). It features a comprehensive species
+checklist, up-to-date taxonomic data linked to WoRMS and AlgaeBase, and
+supplementary resources such as biovolume lists and occurrence maps.
+Established in 1996 and supported by long-term funding from the Swedish
+Research Council through the Swedish Biodiversity Data Infrastructure
+(SBDI).
 
 All data on Nordic Microalgae is accessible through our
 [API](https://nordicmicroalgae.org/api/). Below are examples
@@ -30,7 +31,6 @@ Load the `SHARK4R` and `dplyr` libraries:
 
 ``` r
 library(SHARK4R)
-library(dplyr)
 ```
 
 ## Retrieve Complete Nordic Microalgae Taxon Table
@@ -42,7 +42,7 @@ A complete Nordic Microalgae taxa list can be retrieved through the API.
 taxa <- get_nua_taxa(unparsed = FALSE)
 
 # Print data
-tibble(taxa)
+print(taxa)
 ```
 
     ## # A tibble: 6,860 × 5
@@ -79,7 +79,7 @@ external_links <- get_nua_external_links(slugs,
                                          unparsed = FALSE)
 
 # Print list
-tibble(external_links)
+print(external_links)
 ```
 
     ## # A tibble: 52 × 6
@@ -113,7 +113,7 @@ harmfulness <- get_nua_harmfulness(c("dinophysis-acuta",
                                    verbose = FALSE)
 
 # Print list
-tibble(harmfulness)
+print(harmfulness)
 ```
 
     ## # A tibble: 11 × 6
@@ -142,23 +142,23 @@ small (s), medium (m), and large (l).
 media <- get_nua_media_links(unparsed = FALSE)
 
 # Print list
-tibble(media)
+print(media)
 ```
 
-    ## # A tibble: 2,420 × 10
+    ## # A tibble: 2,421 × 10
     ##    slug              image_l_url image_o_url image_s_url image_m_url contributor
     ##    <chr>             <chr>       <chr>       <chr>       <chr>       <chr>      
-    ##  1 lennoxia-faveola… https://no… https://no… https://no… https://no… Maria Karl…
-    ##  2 NA                https://no… https://no… https://no… https://no… Per Wilhel…
+    ##  1 octactis-speculum https://no… https://no… https://no… https://no… SMHI       
+    ##  2 lennoxia-faveola… https://no… https://no… https://no… https://no… Maria Karl…
     ##  3 NA                https://no… https://no… https://no… https://no… Per Wilhel…
     ##  4 NA                https://no… https://no… https://no… https://no… Per Wilhel…
     ##  5 NA                https://no… https://no… https://no… https://no… Per Wilhel…
     ##  6 NA                https://no… https://no… https://no… https://no… Per Wilhel…
-    ##  7 pleurosigma       https://no… https://no… https://no… https://no… Maria Karl…
-    ##  8 NA                https://no… https://no… https://no… https://no… Per Wilhel…
+    ##  7 NA                https://no… https://no… https://no… https://no… Per Wilhel…
+    ##  8 pleurosigma       https://no… https://no… https://no… https://no… Maria Karl…
     ##  9 NA                https://no… https://no… https://no… https://no… Per Wilhel…
     ## 10 NA                https://no… https://no… https://no… https://no… Per Wilhel…
-    ## # ℹ 2,410 more rows
+    ## # ℹ 2,411 more rows
     ## # ℹ 4 more variables: photographer_artist <chr>, copyright_holder <chr>,
     ## #   license <chr>, galleries <chr>
 
@@ -181,7 +181,7 @@ peg_list <- get_peg_list()
 
 ``` r
 # Print list
-tibble(peg_list)
+print(peg_list)
 ```
 
     ## # A tibble: 3,527 × 36
@@ -210,13 +210,15 @@ tibble(peg_list)
 nomp_list <- get_nomp_list()
 ```
 
+    ## File for year 2026 not available. Trying previous year...
+
     ## File for year 2025 not available. Trying previous year...
 
     ## File for year 2024 downloaded and cached.
 
 ``` r
 # Print list
-tibble(nomp_list)
+print(nomp_list)
 ```
 
     ## # A tibble: 3,846 × 39
@@ -265,3 +267,11 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
     ##     note = {R package version 1.0.2},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
+
+------------------------------------------------------------------------
+
+## References
+
+- Torstensson, A., Loo, A., Sundqvist, L., Skjevik, A.-T., Karlberg, M.,
+  Johansen, M., Andreasson, A., and Karlson, B. (2024). Nordic
+  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-01-09.

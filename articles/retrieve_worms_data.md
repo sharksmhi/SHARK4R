@@ -74,8 +74,8 @@ worms_records <- match_worms_taxa(unique(taxa_names),
                                   marine_only = TRUE,
                                   verbose = FALSE)
 
-# Print result as tibble
-tibble(worms_records)
+# Print result
+print(worms_records)
 ```
 
     ## # A tibble: 4 × 29
@@ -111,8 +111,8 @@ aphia_ids <- aphia_ids[!is.na(aphia_ids)]
 worms_records <- get_worms_records(aphia_ids,
                                    verbose = FALSE)
 
-# Print result as tibble
-tibble(worms_records)
+# Print result
+print(worms_records)
 ```
 
     ## # A tibble: 10 × 28
@@ -149,8 +149,8 @@ function.
 worms_taxonomy <- add_worms_taxonomy(aphia_ids,
                                      verbose = FALSE)
 
-# Print result as tibble
-tibble(worms_taxonomy)
+# Print result
+print(worms_taxonomy)
 ```
 
     ## # A tibble: 10 × 10
@@ -170,7 +170,7 @@ tibble(worms_taxonomy)
     ## #   worms_species <chr>, worms_hierarchy <chr>
 
 ``` r
-# Enrich data with data from WoRMS
+# Enrich SHARK data with taxonomic data from WoRMS
 shark_data_with_worms <- shark_data %>%
   left_join(worms_taxonomy, by = "aphia_id")
 ```
@@ -193,8 +193,8 @@ worms_tree <- get_worms_taxonomy_tree(
   verbose = FALSE              # suppress progress messages
 )
 
-# Print as tibble for easier viewing
-tibble(worms_tree)
+# Print result
+print(worms_tree)
 ```
 
     ## # A tibble: 9 × 28
@@ -243,7 +243,7 @@ plankton_groups <- assign_phytoplankton_group(
   verbose = FALSE)
 
 # Print result
-tibble(distinct(plankton_groups))
+distinct(plankton_groups)
 ```
 
     ## # A tibble: 23 × 2

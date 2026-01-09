@@ -5,11 +5,11 @@
 The Intergovernmental Oceanographic Commission (IOC) of UNESCO is the
 United Nations body dedicated to supporting global ocean science,
 services, and governance. The [IOC-UNESCO Taxonomic Reference List of
-Harmful Microalgae](https://www.marinespecies.org/hab/) focuses on
-species known to produce toxins or exhibit toxic effects, along with a
-few species suspected of toxin production. All toxic species in the list
-are verified with [WoRMS](https://www.marinespecies.org) to ensure
-accurate taxonomy.
+Harmful Microalgae](https://www.marinespecies.org/hab/) (Lundholm et
+al., 2009) focuses on species known to produce toxins or exhibit toxic
+effects, along with a few species suspected of toxin production. All
+toxic species in the list are verified with
+[WoRMS](https://www.marinespecies.org) to ensure accurate taxonomy.
 
 The [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/)
 complements this list by providing detailed reference information about
@@ -32,7 +32,6 @@ Load the `SHARK4R` and `dplyr` libraries:
 
 ``` r
 library(SHARK4R)
-library(dplyr)
 ```
 
 ## Retrieve HAB List From IOC Taxonomic List
@@ -48,30 +47,70 @@ results.
 # Retrieve complete HAB list
 hab_list <- get_hab_list()
 
-# Print result as tibble
-tibble(hab_list)
+# Print result
+print(hab_list)
 ```
 
-    ## # A tibble: 695 × 29
+    ## # A tibble: 378 × 29
     ##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹
     ##      <dbl> <chr>               <chr>                <dbl> <chr>                 
-    ##  1 1653558 Aerosakkonemataceae Struneck…          1653558 Aerosakkonemataceae   
-    ##  2  836651 Aetokthonos         S.B.Wild…           836651 Aetokthonos           
-    ##  3  841664 Aetokthonos hydril… S.B.Wild…           841664 Aetokthonos hydrillic…
-    ##  4  231787 Akashiwo            G.Hansen…           231787 Akashiwo              
-    ##  5  232546 Akashiwo sanguinea  (K.Hiras…           232546 Akashiwo sanguinea    
-    ##  6  109470 Alexandrium         Halim, 1…           109470 Alexandrium           
-    ##  7  109707 Alexandrium affine  (H.Inoue…           109707 Alexandrium affine    
-    ##  8  231872 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
-    ##  9  246835 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
-    ## 10  233452 Alexandrium angust… F.J.R.Ta…           109711 Alexandrium minutum   
-    ## # ℹ 685 more rows
+    ##  1  841664 Aetokthonos hydril… S.B.Wild…           841664 Aetokthonos hydrillic…
+    ##  2  232546 Akashiwo sanguinea  (K.Hiras…           232546 Akashiwo sanguinea    
+    ##  3  109707 Alexandrium affine  (H.Inoue…           109707 Alexandrium affine    
+    ##  4  231872 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
+    ##  5  246835 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
+    ##  6  233452 Alexandrium angust… F.J.R.Ta…           109711 Alexandrium minutum   
+    ##  7  833063 Alexandrium austra… Sh.Murra…           833063 Alexandrium australie…
+    ##  8  231873 Alexandrium catene… (Whedon …           231873 Alexandrium catenella 
+    ##  9  233472 Alexandrium excava… (Braarud…           231873 Alexandrium catenella 
+    ## 10 1469211 Alexandrium fragae  S.Branco…          1469211 Alexandrium fragae    
+    ## # ℹ 368 more rows
     ## # ℹ abbreviated name: ¹​ScientificName_accepted
     ## # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
     ## #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
     ## #   Genus <chr>, Subgenus <lgl>, Species <chr>, Subspecies <lgl>, Marine <dbl>,
     ## #   Brackish <dbl>, Fresh <dbl>, Terrestrial <dbl>, taxonomicStatus <chr>,
     ## #   Qualitystatus <chr>, Unacceptreason <chr>, DateLastModified <date>, …
+
+A separate list of harmful non-toxic species is also available (Zingone
+& Escalera, 2025). This compilation focuses on taxa for which no toxin
+production is known, yet which have been linked to negative impacts on
+marine organisms, including mortality and ecosystem disturbance. The
+list is designed to be used alongside the IOC-UNESCO Taxonomic Reference
+List of Harmful Microalgae and is mutually exclusive with it. As a
+result, any species known to produce toxins is omitted, even when
+reported harmful effects are attributed to non-toxic processes such as
+oxygen depletion.
+
+``` r
+# Retrieve complete Harmful non-toxic list
+hab_non_toxic_list <- get_hab_list(harmful_non_toxic_only = TRUE,
+                                   verbose = FALSE)
+
+# Print result
+print(hab_non_toxic_list)
+```
+
+    ## # A tibble: 61 × 24
+    ##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹
+    ##      <int> <chr>               <chr>                <int> <chr>                 
+    ##  1  109708 Alexandrium balech… (Steidin…           109708 Alexandrium balechii  
+    ##  2  375699 Aureococcus anopha… Hargrave…           375699 Aureococcus anophagef…
+    ##  3  375701 Aureoumbra lagunen… D.A.Stoc…           375701 Aureoumbra lagunensis 
+    ##  4 1360848 Blixaea quinquecor… (T.H.Abé…          1360848 Blixaea quinquecornis 
+    ##  5  149619 Cerataulina pelagi… (Cleve) …           149619 Cerataulina pelagica  
+    ##  6  156607 Chaetoceros concav… Mangin, …           156607 Chaetoceros concavico…
+    ##  7  156611 Chaetoceros convol… Castraca…           156611 Chaetoceros convolutus
+    ##  8  465389 Chaetoceros crioph… Castraca…           465389 Chaetoceros criophilus
+    ##  9  149219 Chaetoceros debilis Cleve, 1…           149219 Chaetoceros debilis   
+    ## 10  839985 Chaetoceros gelidus Chamnans…           839985 Chaetoceros gelidus   
+    ## # ℹ 51 more rows
+    ## # ℹ abbreviated name: ¹​ScientificName_accepted
+    ## # ℹ 19 more variables: Authority_accepted <chr>, Fossil <int>, Kingdom <chr>,
+    ## #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
+    ## #   Genus <chr>, Marine <int>, Brackish <int>, Fresh <int>, Terrestrial <int>,
+    ## #   taxonomicStatus <chr>, Unacceptreason <chr>, DateLastModified <dttm>,
+    ## #   LSID <chr>, `Parent AphiaID` <int>, Citation <chr>
 
 ## Retrieve HAB Toxins From IOC Toxins Database
 
@@ -84,8 +123,8 @@ function.
 # Retrieve complete toxin list
 toxin_list <- get_toxin_list()
 
-# Print result as tibble
-tibble(toxin_list)
+# Print result
+print(toxin_list)
 ```
 
     ## # A tibble: 521 × 55
@@ -129,3 +168,21 @@ tibble(toxin_list)
     ##     note = {R package version 1.0.2},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
+
+------------------------------------------------------------------------
+
+## References
+
+- Lundholm, N.; Bernard, C.; Churro, C.; Escalera, L.; Hoppenrath, M.;
+  Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas,
+  R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO
+  Taxonomic Reference List of Harmful Microalgae. Accessed at
+  <https://www.marinespecies.org/hab> on 2026-01-09.
+  [doi:10.14284/362](https://doi.org/10.14284/362)
+- Zingone A. and L. Escalera (2025) Non toxigenic animal-killing
+  microalgal species. In: Lundholm, N.; Bernard, C.; Churro, C.;
+  Escalera, L.; Hoppenrath, M.; Iwataki, M.; Larsen, J.; Mertens, K.;
+  Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds)
+  (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful
+  Microalgae. Accessed at <https://www.marinespecies.org/hab> on
+  2026-01-09. [doi:10.14284/362](https://doi.org/10.14284/362)

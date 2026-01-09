@@ -11,7 +11,7 @@ if you want to actually call this function."><meta property="og:image" content="
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,7 @@ if you want to actually call this function."><meta property="og:image" content="
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Determine if positions are near land</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.2/R/iRfcb_functions.R" class="external-link"><code>R/iRfcb_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/iRfcb_functions.R" class="external-link"><code>R/iRfcb_functions.R</code></a></small>
       <div class="d-none name"><code>positions_are_near_land.Rd</code></div>
     </div>
 
@@ -69,7 +69,8 @@ if you want to actually call this function.</p>
 <span>  crs <span class="op">=</span> <span class="fl">4326</span>,</span>
 <span>  remove_small_islands <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  small_island_threshold <span class="op">=</span> <span class="fl">2e+06</span>,</span>
-<span>  plot <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -122,6 +123,10 @@ will be considered small and removed, if remove_small_islands is set to <code>TR
 <dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
 <dd><p>A boolean indicating whether to plot the points, land polygon and buffer. Default is <code>FALSE</code>.</p></dd>
 
+
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
+<dd><p>A logical indicating whether to print progress messages. Default is TRUE.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -154,6 +159,7 @@ when <code>source = "eea"</code>.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Call the function</span></span></span>
 <span class="r-in"><span><span class="va">near_land</span> <span class="op">&lt;-</span> <span class="fu">positions_are_near_land</span><span class="op">(</span><span class="va">latitudes</span>, <span class="va">longitudes</span>, distance <span class="op">=</span> <span class="fl">300</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Downloading OBIS coastline data...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Print the result</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">near_land</span><span class="op">)</span></span></span>

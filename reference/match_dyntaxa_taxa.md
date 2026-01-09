@@ -83,7 +83,7 @@ match_dyntaxa_taxa(
 
 ## Value
 
-A data frame containing the search pattern, taxon ID, and best match for
+A `tibble` containing the search pattern, taxon ID, and best match for
 each taxon name.
 
 ## Details

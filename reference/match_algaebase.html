@@ -13,7 +13,7 @@ It supports exact matching, genus-only searches, and retrieval of higher taxonom
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@ It supports exact matching, genus-only searches, and retrieval of higher taxonom
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Search AlgaeBase for taxonomic information</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.2/R/algaebase_api_functions.R" class="external-link"><code>R/algaebase_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/algaebase_api_functions.R" class="external-link"><code>R/algaebase_api_functions.R</code></a></small>
       <div class="d-none name"><code>match_algaebase.Rd</code></div>
     </div>
 
@@ -114,7 +114,7 @@ After this, you do not need to pass <code>subscription_key</code> to the functio
 
 
 <dt id="arg-unparsed">unparsed<a class="anchor" aria-label="anchor" href="#arg-unparsed"></a></dt>
-<dd><p>Logical. If <code>TRUE</code>, returns raw JSON output instead of an R data frame. Defaults to <code>FALSE</code>.</p></dd>
+<dd><p>Logical. If <code>TRUE</code>, returns raw JSON output instead of a <code>tibble</code>. Defaults to <code>FALSE</code>.</p></dd>
 
 
 <dt id="arg-exact-matches-only">exact_matches_only<a class="anchor" aria-label="anchor" href="#arg-exact-matches-only"></a></dt>
@@ -140,7 +140,7 @@ Use <code>subscription_key</code> instead.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame containing taxonomic information for each input genus–species combination.
+    <p>A <code>tibble</code> containing taxonomic information for each input genus–species combination.
 The following columns may be included:</p><ul><li><p><code>id</code> — AlgaeBase ID (if available).</p></li>
 <li><p><code>kingdom</code>, <code>phylum</code>, <code>class</code>, <code>order</code>, <code>family</code> — Higher taxonomy (returned if <code>higher = TRUE</code>).</p></li>
 <li><p><code>genus</code>, <code>species</code>, <code>infrasp</code> — Genus, species, and infraspecies names (if applicable).</p></li>

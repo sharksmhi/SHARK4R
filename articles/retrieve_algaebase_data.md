@@ -26,7 +26,6 @@ Load the `SHARK4R` and `dplyr` libraries:
 
 ``` r
 library(SHARK4R)
-library(dplyr)
 ```
 
 ### AlgaeBase API Key
@@ -56,14 +55,14 @@ genus_records <- match_algaebase_genus(genus = "Gymnodinium",
 print(genus_records)
 ```
 
-    ##     kingdom         phylum       class         order         family    id
-    ## 1 Chromista Dinoflagellata Dinophyceae Gymnodiniales Gymnodiniaceae 43632
-    ##         genus species infrasp                 taxonomic_status
-    ## 1 Gymnodinium      NA      NA currently accepted taxonomically
-    ##   nomenclatural_status currently_accepted accepted_name genus_only  input_name
-    ## 1                   NA                  1            NA          1 Gymnodinium
-    ##   input_match taxon_rank   mod_date                 long_name authorship
-    ## 1           1      genus 2024-06-13 Gymnodinium F.Stein, 1878    F.Stein
+    ## # A tibble: 2 × 20
+    ##   kingdom phylum class order family    id genus species infrasp taxonomic_status
+    ##   <chr>   <chr>  <chr> <chr> <chr>  <int> <chr> <lgl>   <lgl>   <chr>           
+    ## 1 Chromi… Dinof… Dino… Gymn… Gymno… 43632 Gymn… NA      NA      currently accep…
+    ## 2 Chromi… Dinof… Dino… Gymn… Gymno… 51372 Para… NA      NA      currently accep…
+    ## # ℹ 10 more variables: nomenclatural_status <lgl>, currently_accepted <dbl>,
+    ## #   accepted_name <lgl>, genus_only <dbl>, input_name <chr>, input_match <dbl>,
+    ## #   taxon_rank <chr>, mod_date <date>, long_name <chr>, authorship <chr>
 
 ## Match Species Name
 
@@ -82,14 +81,14 @@ species_records <- match_algaebase_species(genus = "Tripos",
 print(species_records)
 ```
 
-    ##      id   accepted_name      input_name input_match currently_accepted
-    ## 1 65254 Tripos muelleri Tripos muelleri           1                  1
-    ##   genus_only   kingdom         phylum       class         order      family
-    ## 1          0 Chromista Dinoflagellata Dinophyceae Gonyaulacales Ceratiaceae
-    ##    genus  species infrasp            long_name                 taxonomic_status
-    ## 1 Tripos muelleri      NA Tripos muelleri Bory currently accepted taxonomically
-    ##   nomenclatural_status taxon_rank   mod_date authorship
-    ## 1                 <NA>    species 2024-05-28       Bory
+    ## # A tibble: 1 × 20
+    ##      id accepted_name   input_name     input_match currently_accepted genus_only
+    ##   <int> <chr>           <chr>                <dbl>              <dbl>      <dbl>
+    ## 1 65254 Tripos muelleri Tripos muelle…           1                  1          0
+    ## # ℹ 14 more variables: kingdom <chr>, phylum <chr>, class <chr>, order <chr>,
+    ## #   family <chr>, genus <chr>, species <chr>, infrasp <lgl>, long_name <chr>,
+    ## #   taxonomic_status <chr>, nomenclatural_status <chr>, taxon_rank <chr>,
+    ## #   mod_date <date>, authorship <chr>
 
 ## Match Multiple Scientific Names
 
@@ -119,17 +118,19 @@ parsed_taxa <- parse_scientific_names(random_rows$scientific_name)
 print(parsed_taxa)
 ```
 
-    ##              genus    species
-    ## 1        Guinardia delicatula
-    ## 2    Monoraphidium  contortum
-    ## 3      Flagellates           
-    ## 4    Thalassiosira    baltica
-    ## 5           Amylax triacantha
-    ## 6      Flagellates           
-    ## 7      Karlodinium     micrum
-    ## 8  Cryptomonadales           
-    ## 9         Octactis   speculum
-    ## 10      Mesodinium     rubrum
+    ## # A tibble: 10 × 2
+    ##    genus           species     
+    ##    <chr>           <chr>       
+    ##  1 Guinardia       "delicatula"
+    ##  2 Monoraphidium   "contortum" 
+    ##  3 Flagellates     ""          
+    ##  4 Thalassiosira   "baltica"   
+    ##  5 Amylax          "triacantha"
+    ##  6 Flagellates     ""          
+    ##  7 Karlodinium     "micrum"    
+    ##  8 Cryptomonadales ""          
+    ##  9 Octactis        "speculum"  
+    ## 10 Mesodinium      "rubrum"
 
 ``` r
 # Match the taxa with AlgaeBase
@@ -139,21 +140,21 @@ algaebase_match <- match_algaebase_taxa(genera = parsed_taxa$genus,
                                         verbose = FALSE)
 
 # Print the result
-tibble(algaebase_match)
+print(algaebase_match)
 ```
 
     ## # A tibble: 9 × 20
     ##   genus   species     id accepted_name input_name input_match currently_accepted
     ##   <chr>   <chr>    <int> <chr>         <chr>            <dbl>              <dbl>
-    ## 1 Amylax  triaca…  52120 Amylax triac… Amylax tr…           1                  1
-    ## 2 Crypto… NA          NA NA            NA                  NA                 NA
+    ## 1 Guinar… delica…     NA NA            NA                  NA                 NA
+    ## 2 Monora… contor…  27719 Monoraphidiu… Monoraphi…           1                  1
     ## 3 Flagel… NA          NA NA            NA                  NA                 NA
-    ## 4 Guinar… delica…  43911 Guinardia de… Guinardia…           1                  1
-    ## 5 Karlod… micrum   44335 Karlodinium … Karlodini…           1                  0
-    ## 6 Mesodi… rubrum   56539 Mesodinium r… Mesodiniu…           1                  1
-    ## 7 Monora… contor…  27719 Monoraphidiu… Monoraphi…           1                  1
+    ## 4 Thalas… baltica  39921 Thalassiosir… Thalassio…           1                  1
+    ## 5 Amylax  triaca…  52120 Amylax triac… Amylax tr…           1                  1
+    ## 6 Karlod… micrum   44335 Karlodinium … Karlodini…           1                  0
+    ## 7 Crypto… NA          NA NA            NA                  NA                 NA
     ## 8 Octact… specul… 164546 Octactis spe… Octactis …           1                  1
-    ## 9 Thalas… baltica  39921 Thalassiosir… Thalassio…           1                  1
+    ## 9 Mesodi… rubrum   56539 Mesodinium r… Mesodiniu…           1                  1
     ## # ℹ 13 more variables: genus_only <dbl>, kingdom <chr>, phylum <chr>,
     ## #   class <chr>, order <chr>, family <chr>, infrasp <lgl>, long_name <chr>,
     ## #   taxonomic_status <chr>, nomenclatural_status <lgl>, taxon_rank <chr>,

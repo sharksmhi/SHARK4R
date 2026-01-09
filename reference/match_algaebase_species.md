@@ -76,7 +76,7 @@ match_algaebase_species(
 
 ## Value
 
-A data frame with details about the species, including:
+A `tibble` with details about the species, including:
 
 - `taxonomic_status` — The current status of the taxon (e.g., accepted,
   synonym, unverified).

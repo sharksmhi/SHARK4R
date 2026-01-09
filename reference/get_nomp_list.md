@@ -73,6 +73,7 @@ to manually clear cached files.
 # \donttest{
   # Get the latest available list
   nomp_list <- get_nomp_list()
+#> File for year 2026 not available. Trying previous year...
 #> File for year 2025 not available. Trying previous year...
 #> File for year 2024 downloaded and cached.
   head(nomp_list)

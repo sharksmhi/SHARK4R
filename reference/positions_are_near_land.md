@@ -17,7 +17,8 @@ positions_are_near_land(
   crs = 4326,
   remove_small_islands = TRUE,
   small_island_threshold = 2e+06,
-  plot = FALSE
+  plot = FALSE,
+  verbose = TRUE
 )
 ```
 
@@ -75,6 +76,11 @@ positions_are_near_land(
   A boolean indicating whether to plot the points, land polygon and
   buffer. Default is `FALSE`.
 
+- verbose:
+
+  A logical indicating whether to print progress messages. Default is
+  TRUE.
+
 ## Value
 
 If `plot = FALSE` (default), a logical vector is returned indicating
@@ -115,6 +121,7 @@ longitudes <- c(17.845993, 20.394418, 18.284523, 16.227174)
 
 # Call the function
 near_land <- positions_are_near_land(latitudes, longitudes, distance = 300, crs = 4326)
+#> Downloading OBIS coastline data...
 
 # Print the result
 print(near_land)

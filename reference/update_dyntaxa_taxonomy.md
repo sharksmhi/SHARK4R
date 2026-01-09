@@ -54,7 +54,7 @@ update_dyntaxa_taxonomy(
 
 ## Value
 
-A data frame representing the updated Dyntaxa taxonomy table.
+A `tibble` representing the updated Dyntaxa taxonomy table.
 
 ## Details
 

@@ -1,5 +1,30 @@
 # Changelog
 
+## SHARK4R (development version)
+
+### New features
+
+- Added a new `harmful_non_toxic_only` argument to
+  [`get_hab_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_hab_list.md)
+  to download only non-toxigenic harmful microalgal species from the
+  IOC-UNESCO HABs list
+- Added a new `species_only` argument to
+  [`get_hab_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_hab_list.md)
+  to return only species-level records, which is now also the default
+  option. This filter is ignored when `harmful_non_toxic_only = TRUE`
+- Added a new `verbose` argument to
+  [`positions_are_near_land()`](https://sharksmhi.github.io/SHARK4R/reference/positions_are_near_land.md)
+  and `get_hab_list(harmful_non_toxic_only = TRUE)` to enable printing
+  of progress messages during data retrieval
+
+### Minor improvements and fixes
+
+- EEA coastline data are now obtained from EEA map services in
+  [`positions_are_near_land()`](https://sharksmhi.github.io/SHARK4R/reference/positions_are_near_land.md),
+  replacing direct file server downloads that were unstable
+- All data frame outputs are now consistently returned as tibbles
+- Documentation updated with minor clarifications and corrections
+
 ## SHARK4R 1.0.2
 
 CRAN release: 2025-12-12
@@ -26,16 +51,16 @@ CRAN release: 2025-12-09
 
 - Corrected formatting of package and software names throughout the
   package.
-- Fixed broken URL in `README.md`.
-- Improved examples to run reliably and quickly.
+- Fixed broken URL in `README.md`
+- Improved examples to run reliably and quickly
 - Ensured functions and examples no longer write to the user’s home
-  directory.
+  directory
 - Added `lon` and `lat` arguments to the
   [`lookup_xy()`](https://sharksmhi.github.io/SHARK4R/reference/lookup_xy.md)
-  function for more flexible lookup options.
-- Minor documentation improvements throughout the package.
+  function for more flexible lookup options
+- Minor documentation improvements throughout the package
 - [`get_toxin_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_toxin_list.md)
-  now handles partial JSON responses.
+  now handles partial JSON responses
 
 ## SHARK4R 1.0.0
 

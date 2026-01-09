@@ -53,7 +53,7 @@ parse_scientific_names(
 
 ## Value
 
-A data frame with two columns:
+A `tibble` with two columns:
 
 - `genus` — Genus names.
 
@@ -75,12 +75,14 @@ scientific_names <- c("Skeletonema marinoi", "Cf. Azadinium perforatum", "Gymnod
 # Parse names
 result <- parse_scientific_names(scientific_names)
 
-# Check the resulting data frame
+# Check the resulting data
 print(result)
-#>         genus              species
-#> 1 Skeletonema              marinoi
-#> 2   Azadinium           perforatum
-#> 3 Gymnodinium                     
-#> 4    Melosira              varians
-#> 5 Aulacoseira islandica subarctica
+#> # A tibble: 5 × 2
+#>   genus       species               
+#>   <chr>       <chr>                 
+#> 1 Skeletonema "marinoi"             
+#> 2 Azadinium   "perforatum"          
+#> 3 Gymnodinium ""                    
+#> 4 Melosira    "varians"             
+#> 5 Aulacoseira "islandica subarctica"
 ```

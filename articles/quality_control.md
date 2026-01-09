@@ -34,7 +34,6 @@ Load the package along with `dplyr`:
 
 ``` r
 library(SHARK4R)
-library(dplyr)
 ```
 
 ------------------------------------------------------------------------
@@ -72,7 +71,7 @@ chlorophyll_data <- get_shark_datasets(selected_dataset,
                                        return_df = TRUE,
                                        verbose = FALSE)
 
-tibble(chlorophyll_data)
+print(chlorophyll_data)
 ```
 
     ## # A tibble: 80 × 73
@@ -244,7 +243,7 @@ shark_statistics <- get_shark_statistics(datatype = "Chlorophyll",
                                          toYear = 2024,
                                          verbose = FALSE)
 
-tibble(shark_statistics)
+print(shark_statistics)
 ```
 
     ## # A tibble: 1 × 24
@@ -307,7 +306,7 @@ Verify station names against the official SHARK registry:
 station_match <- match_station(chlorophyll_data$station_name)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmpldyEQg/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpSVHYOX/station.txt
 
     ## All stations found
 
@@ -331,7 +330,7 @@ check_station_distance(data = chlorophyll_data,
                        plot_leaflet = TRUE)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmpldyEQg/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpSVHYOX/station.txt
 
     ## WARNING: Some stations are outside the allowed distance limit
 
