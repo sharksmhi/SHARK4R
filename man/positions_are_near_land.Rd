@@ -13,7 +13,8 @@ positions_are_near_land(
   crs = 4326,
   remove_small_islands = TRUE,
   small_island_threshold = 2e+06,
-  plot = FALSE
+  plot = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -44,6 +45,8 @@ the coastline. Useful in archipelagos. Default is \code{TRUE}.}
 will be considered small and removed, if remove_small_islands is set to \code{TRUE}. Default is 2 square km.}
 
 \item{plot}{A boolean indicating whether to plot the points, land polygon and buffer. Default is \code{FALSE}.}
+
+\item{verbose}{A logical indicating whether to print progress messages. Default is TRUE.}
 }
 \value{
 If \code{plot = FALSE} (default), a logical vector is returned indicating whether each position

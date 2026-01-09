@@ -61,9 +61,13 @@ get_toxin_list <- function(return_count = FALSE) {
 }
 #' Download the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae
 #'
-#' This function retrieves the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae from the World Register of Marine Species (WoRMS).
+#' This function retrieves the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae (Lundholm et al. 2009) from the World Register of Marine Species (WoRMS).
 #' The data is returned as a dataframe, with options to customize the fields included in the download.
 #'
+#' @param species_only Logical. If `TRUE`, only species-level records are returned (i.e., rows where the `Species` column is not `NA`).
+#'   Note that this filter is only applied when `harmful_non_toxic_only = FALSE`; it is ignored when `harmful_non_toxic_only = TRUE`.
+#' @param harmful_non_toxic_only Logical. If `TRUE`, retrieves only non-toxigenic marine microalgal species flagged with harmful effects. Defaults to `FALSE`.
+#'   `r lifecycle::badge("experimental")`
 #' @param aphia_id Logical. Include the AphiaID field. Defaults to `TRUE`.
 #' @param scientific_name Logical. Include the scientific name field. Defaults to `TRUE`.
 #' @param authority Logical. Include the authority field. Defaults to `TRUE`.
@@ -79,6 +83,7 @@ get_toxin_list <- function(return_count = FALSE) {
 #' @param classification Logical. Include the full taxonomic classification (e.g., kingdom, phylum, class). Defaults to `TRUE`.
 #' @param environment Logical. Include environmental data (e.g., marine, brackish, freshwater, terrestrial). Defaults to `TRUE`.
 #' @param accepted_taxon Logical. Include information about the accepted taxon (e.g., scientific name and authority). Defaults to `TRUE`.
+#' @param verbose Logical. Whether to display progress information. Default is `TRUE```.
 #'
 #' @return A `tibble` containing the HABs taxonomic list, with columns based on the selected parameters.
 #' @export
@@ -90,21 +95,33 @@ get_toxin_list <- function(return_count = FALSE) {
 #'
 #' @seealso \url{https://www.marinespecies.org/hab/} for IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae
 #'
+#' @references Lundholm, N.; Bernard, C.; Churro, C.; Escalera, L.; Hoppenrath, M.; Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful Microalgae. https://www.marinespecies.org/hab. doi:10.14284/362
+#'
 #' @examples
 #' \donttest{
 #' # Download the default HABs taxonomic list
 #' habs_taxlist_df <- get_hab_list()
 #' head(habs_taxlist_df)
 #'
+#' # Include higer taxa records
+#' habs_taxlist_df <- get_hab_list(species_only = FALSE)
+#' head(habs_taxlist_df)
+#'
+#' # Retrieve only non-toxigenic harmful species (experimental stage)
+#' habs_taxlist_df <- get_hab_list(harmful_non_toxic_only = TRUE, verbose = FALSE)
+#' head(habs_taxlist_df)
+#'
 #' # Include only specific fields in the output
 #' habs_taxlist_df <- get_hab_list(aphia_id = TRUE, scientific_name = TRUE, authority = FALSE)
 #' head(habs_taxlist_df)
 #' }
-get_hab_list <- function(aphia_id = TRUE, scientific_name = TRUE, authority = TRUE, fossil = TRUE,
+get_hab_list <- function(species_only = TRUE,
+                         harmful_non_toxic_only = FALSE,
+                         aphia_id = TRUE, scientific_name = TRUE, authority = TRUE, fossil = TRUE,
                          rank_name = TRUE, status_name = TRUE, qualitystatus_name = TRUE,
                          modified = TRUE, lsid = TRUE, parent_id = TRUE, stored_path = TRUE,
                          citation = TRUE, classification = TRUE, environment = TRUE,
-                         accepted_taxon = TRUE) {
+                         accepted_taxon = TRUE, verbose = TRUE) {
 
   # Check if all parameters are FALSE
   params <- c(aphia_id, scientific_name, authority, fossil,
@@ -116,6 +133,9 @@ get_hab_list <- function(aphia_id = TRUE, scientific_name = TRUE, authority = TR
   if (!any(params)) {
     stop("At least one column must be selected (i.e., one parameter set to TRUE).")
   }
+
+  # Rate limit of 5 seconds between calls
+  rate_limit(5)
 
   # Convert TRUE/FALSE parameters to "1"/"0" for the request
   body <- list(
@@ -140,6 +160,10 @@ get_hab_list <- function(aphia_id = TRUE, scientific_name = TRUE, authority = TR
   # URL to submit the download form for HABs
   url_habs <- "https://www.marinespecies.org/hab/aphia.php?p=export&what=taxlist"
 
+  if (harmful_non_toxic_only) {
+    url_habs <- "https://www.marinespecies.org/aphia.php?p=taxlist&nType=Harmful+effect&nComp=contains&nName=Non-toxigenic+marine+microalgal+species&rSkips=0&adv=1"
+  }
+
   # Download the file directly into memory
   response <- POST(url_habs, body = body)
 
@@ -150,14 +174,121 @@ get_hab_list <- function(aphia_id = TRUE, scientific_name = TRUE, authority = TR
     content_raw <- content(response, as = "raw", encoding = "UTF-8")
     content_text <- rawToChar(content_raw)
 
-    # Load the data into a dataframe using read.delim on the text
-    habs_taxlist_df <- read_delim(
-      file = content_text,
-      delim = "\t",
-      col_types = cols(),
-      na = c("", "NA"),
-      progress = FALSE
-    )
+    if (harmful_non_toxic_only) {
+      # Extract all <li class="list-group-item"> blocks
+      li_pattern <- "<li class=\"list-group-item\">.*?</li>"
+      li_matches <- gregexpr(li_pattern, content_text, perl = TRUE)
+      li_blocks <- regmatches(content_text, li_matches)[[1]]
+
+      # Extract the first AphiaID from each <li>
+      id_pattern <- "aphia\\.php\\?p=taxdetails&id=(\\d+)"
+      aphia_ids <- sapply(li_blocks, function(block) {
+        matches <- regmatches(block, regexpr(id_pattern, block, perl = TRUE))
+        as.integer(sub("aphia\\.php\\?p=taxdetails&id=", "", matches))
+      })
+
+      aphia_ids <- unname(aphia_ids)
+
+      # Retrieve records for the Aphia IDs
+      records <- get_worms_records(aphia_ids, verbose = verbose)
+
+      # Mapping of arguments to columns
+      arg_to_col <- list(
+        aphia_id = "AphiaID",
+        scientific_name = "scientificname",
+        authority = "authority",
+        fossil = "isExtinct",
+        rank_name = "rank",
+        status_name = "status",
+        qualitystatus_name = "valid_name",
+        modified = "modified",
+        lsid = "lsid",
+        parent_id = "parentNameUsageID",
+        # stored_path = "url",
+        citation = "citation",
+        classification = c("kingdom","phylum","class","order","family","genus"),
+        environment = c("isMarine","isBrackish","isFreshwater","isTerrestrial"),
+        accepted_taxon = "valid_name"
+      )
+
+      # Get current argument values
+      arg_values <- mget(names(arg_to_col), envir = environment())
+
+      # Determine which columns to drop
+      cols_to_drop <- unlist(arg_to_col[!unlist(arg_values)])
+
+      # Keep only columns that actually exist in the dataframe
+      cols_to_drop <- cols_to_drop[cols_to_drop %in% names(records)]
+
+      # Drop columns
+      records_selected <- records[, !(names(records) %in% cols_to_drop)]
+
+      # Map column names with results when `harmful_non_toxic_only` == FALSE
+      col_mapping <- c(
+        AphiaID = "AphiaID",
+        scientificname = "ScientificName",
+        authority = "Authority",
+        valid_AphiaID = "AphiaID_accepted",
+        valid_name = "ScientificName_accepted",
+        status = "taxonomicStatus",
+        unacceptreason = "Unacceptreason",
+        rank = "taxonRank",
+        valid_authority = "Authority_accepted",
+        parentNameUsageID = "Parent AphiaID",
+        kingdom = "Kingdom",
+        phylum = "Phylum",
+        class = "Class",
+        order = "Order",
+        family = "Family",
+        genus = "Genus",
+        citation = "Citation",
+        lsid = "LSID",
+        isMarine = "Marine",
+        isBrackish = "Brackish",
+        isFreshwater = "Fresh",
+        isTerrestrial = "Terrestrial",
+        isExtinct = "Fossil",
+        modified = "DateLastModified"
+      )
+
+      # Keep only columns that actually exist in records_selected
+      col_mapping <- col_mapping[names(col_mapping) %in% names(records_selected)]
+
+      # Rename columns
+      names(records_selected)[match(names(col_mapping), names(records_selected))] <- col_mapping
+
+      # Drop unused columns
+      records_selected <- records_selected %>%
+        select(!any_of(c("url", "taxonRankID", "originalNameUsageID", "match_type")))
+
+      # Convert coltypes
+      records_selected <- type_convert(records_selected, col_types = cols())
+
+      # Extract column names from HAB list
+      col_names <- names(get_hab_list(harmful_non_toxic_only = FALSE))
+
+      # Keep only columns that exist in records_selected
+      existing_cols <- col_names[col_names %in% names(records_selected)]
+
+      # Reorder habs_taxlist_df safely
+      habs_taxlist_df <- records_selected[, existing_cols]
+
+    } else {
+      # Load the data into a dataframe using read.delim on the text
+      habs_taxlist_df <- read_delim(
+        file = content_text,
+        delim = "\t",
+        col_types = cols(),
+        na = c("", "NA"),
+        progress = FALSE
+      )
+
+      # Exclude higher taxonomy
+      if (species_only) {
+        habs_taxlist_df <- habs_taxlist_df %>%
+          filter(!is.na(Species))
+      }
+    }
 
     # Return the dataframe
     return(habs_taxlist_df)

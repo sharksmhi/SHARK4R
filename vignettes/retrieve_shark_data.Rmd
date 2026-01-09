@@ -22,14 +22,8 @@ install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R` library:
-```{r, eval=FALSE}
+```{r}
 library(SHARK4R)
-```
-
-```{r, include=FALSE}
-suppressPackageStartupMessages({
-  library(SHARK4R)
-})
 ```
 
 ## Retrieve Data Table

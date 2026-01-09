@@ -5,6 +5,8 @@
 \title{Download the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae}
 \usage{
 get_hab_list(
+  species_only = TRUE,
+  harmful_non_toxic_only = FALSE,
   aphia_id = TRUE,
   scientific_name = TRUE,
   authority = TRUE,
@@ -19,10 +21,17 @@ get_hab_list(
   citation = TRUE,
   classification = TRUE,
   environment = TRUE,
-  accepted_taxon = TRUE
+  accepted_taxon = TRUE,
+  verbose = TRUE
 )
 }
 \arguments{
+\item{species_only}{Logical. If \code{TRUE}, only species-level records are returned (i.e., rows where the \code{Species} column is not \code{NA}).
+Note that this filter is only applied when \code{harmful_non_toxic_only = FALSE}; it is ignored when \code{harmful_non_toxic_only = TRUE}.}
+
+\item{harmful_non_toxic_only}{Logical. If \code{TRUE}, retrieves only non-toxigenic marine microalgal species flagged with harmful effects. Defaults to \code{FALSE}.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}}
+
 \item{aphia_id}{Logical. Include the AphiaID field. Defaults to \code{TRUE}.}
 
 \item{scientific_name}{Logical. Include the scientific name field. Defaults to \code{TRUE}.}
@@ -52,12 +61,14 @@ get_hab_list(
 \item{environment}{Logical. Include environmental data (e.g., marine, brackish, freshwater, terrestrial). Defaults to \code{TRUE}.}
 
 \item{accepted_taxon}{Logical. Include information about the accepted taxon (e.g., scientific name and authority). Defaults to \code{TRUE}.}
+
+\item{verbose}{Logical. Whether to display progress information. Default is `TRUE```.}
 }
 \value{
 A \code{tibble} containing the HABs taxonomic list, with columns based on the selected parameters.
 }
 \description{
-This function retrieves the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae from the World Register of Marine Species (WoRMS).
+This function retrieves the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae (Lundholm et al. 2009) from the World Register of Marine Species (WoRMS).
 The data is returned as a dataframe, with options to customize the fields included in the download.
 }
 \details{
@@ -71,10 +82,21 @@ If a field is not required, set the corresponding parameter to \code{FALSE} to e
 habs_taxlist_df <- get_hab_list()
 head(habs_taxlist_df)
 
+# Include higer taxa records
+habs_taxlist_df <- get_hab_list(species_only = FALSE)
+head(habs_taxlist_df)
+
+# Retrieve only non-toxigenic harmful species (experimental stage)
+habs_taxlist_df <- get_hab_list(harmful_non_toxic_only = TRUE, verbose = FALSE)
+head(habs_taxlist_df)
+
 # Include only specific fields in the output
 habs_taxlist_df <- get_hab_list(aphia_id = TRUE, scientific_name = TRUE, authority = FALSE)
 head(habs_taxlist_df)
 }
+}
+\references{
+Lundholm, N.; Bernard, C.; Churro, C.; Escalera, L.; Hoppenrath, M.; Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful Microalgae. https://www.marinespecies.org/hab. doi:10.14284/362
 }
 \seealso{
 \url{https://www.marinespecies.org/hab/} for IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae

@@ -53,7 +53,7 @@ After this, you do not need to pass \code{subscription_key} to the function.
 \item{verbose}{Logical. Print progress bar. Default is TRUE.}
 }
 \value{
-A data frame containing the search pattern, taxon ID, and best match for each taxon name.
+A \code{tibble} containing the search pattern, taxon ID, and best match for each taxon name.
 }
 \description{
 This function matches a list of taxon names against the SLU Artdatabanken API (Dyntaxa) and retrieves the best matches along with their taxon IDs.

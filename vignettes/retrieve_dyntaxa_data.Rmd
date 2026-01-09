@@ -22,16 +22,8 @@ install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R` and `dplyr` libraries:
-```{r, include=FALSE}
-suppressPackageStartupMessages({
-  library(SHARK4R)
-  library(dplyr)
-})
-```
-
-```{r, eval=FALSE}
+```{r}
 library(SHARK4R)
-library(dplyr)
 ```
 
 ### Retrieve Taxonomy Table from SHARK
@@ -98,7 +90,7 @@ matches <- match_dyntaxa_taxa(taxon_names = taxon_names,
                               verbose = FALSE)
 
 # Print the result
-tibble(matches)
+print(matches)
 ```
 
 ## Retrieve Taxonomic information
@@ -117,7 +109,7 @@ dyntaxa_records <- get_dyntaxa_records(taxon_ids = dyntaxa_id,
                                        subscription_key = dyntaxa_key)
 
 # Print records
-tibble(dyntaxa_records)
+print(dyntaxa_records)
 ```
 
 ## Retrieve Parent IDs
@@ -151,8 +143,8 @@ taxonomy_table <- construct_dyntaxa_table(taxon_ids = dyntaxa_id,
                                           add_hierarchy = FALSE,
                                           verbose = FALSE)
 
-# Print the taxonomy table as a tibble
-tibble(taxonomy_table)
+# Print the taxonomy table
+print(taxonomy_table)
 ```
 
 ---

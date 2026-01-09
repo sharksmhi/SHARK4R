@@ -668,3 +668,19 @@ is_check <- function() {
   nzchar(Sys.getenv("_R_CHECK_PACKAGE_NAME_", ""))
 }
 
+.hab_state <- new.env(parent = emptyenv())
+.hab_state$last_call_time <- NULL
+
+rate_limit <- function(min_seconds = 5) {
+  now <- Sys.time()
+
+  if (!is.null(.hab_state$last_call_time)) {
+    elapsed <- as.numeric(difftime(now, .hab_state$last_call_time, units = "secs"))
+
+    if (elapsed < min_seconds) {
+      Sys.sleep(min_seconds - elapsed)
+    }
+  }
+
+  .hab_state$last_call_time <- Sys.time()
+}

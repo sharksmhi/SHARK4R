@@ -74,10 +74,20 @@ and a specific group \code{Teleaulax} (name-based), it will be assigned to \code
 }
 \examples{
 \donttest{
-# Assign plankton groups to a list of species
+# Assign plankton groups to a list of species names
 result <- assign_phytoplankton_group(
   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
-  aphia_ids = c(840626, 149013, 160566, NA), verbose = FALSE)
+  verbose = FALSE)
+
+print(result)
+
+# Improve classification by explicitly providing Aphia IDs for ambiguous taxa
+# Actinocyclus and Navicula are names shared by both diatoms and animals,
+# which can lead to incorrect group assignment without an Aphia ID
+result <- assign_phytoplankton_group(
+  scientific_names = c("Actinocyclus", "Navicula", "Nodularia spumigena", "Tripos fusus"),
+  aphia_ids = c(148944, 149142, NA, NA),
+  verbose = FALSE)
 
 print(result)
 

@@ -25,6 +25,7 @@
 #' @param small_island_threshold Area threshold in square meters below which islands
 #'   will be considered small and removed, if remove_small_islands is set to `TRUE`. Default is 2 square km.
 #' @param plot A boolean indicating whether to plot the points, land polygon and buffer. Default is `FALSE`.
+#' @param verbose A logical indicating whether to print progress messages. Default is TRUE.
 #'
 #' @return
 #' If `plot = FALSE` (default), a logical vector is returned indicating whether each position
@@ -65,9 +66,26 @@ positions_are_near_land <- function(latitudes,
                                     crs = 4326,
                                     remove_small_islands = TRUE,
                                     small_island_threshold = 2000000,
-                                    plot = FALSE) {
+                                    plot = FALSE,
+                                    verbose = TRUE) {
+
   if (!requireNamespace("iRfcb", quietly = TRUE)) {
     stop("The `iRfcb` package is required for `positions_are_near_land()`.")
+  }
+
+  allowed_sources <- c("obis", "ne", "eea")
+
+  if (!is.null(shape) && !missing(source)) {
+    # source is ignored when shape is provided, so no validation needed
+  } else if (!source %in% allowed_sources) {
+    stop(
+      sprintf(
+        "Invalid value for 'source': '%s'. Allowed values are %s.",
+        source,
+        paste(shQuote(allowed_sources), collapse = ", ")
+      ),
+      call. = FALSE
+    )
   }
 
   # Cache OBIS shapefile across sessions if source is "eea" and shape is NULL
@@ -77,7 +95,12 @@ positions_are_near_land <- function(latitudes,
     url <- "https://obis-resources.s3.amazonaws.com/land.gpkg"
     shape <- file.path(cache_dir, "land.gpkg")
 
+    if (!dir.exists(cache_dir)) {
+      dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
+    }
+
     if (!file.exists(shape)) {
+      if (verbose) cat("Downloading OBIS coastline data...\n")
       tryCatch({
         utils::download.file(url, shape, mode = "wb")
       }, error = function(e) {
@@ -91,29 +114,61 @@ positions_are_near_land <- function(latitudes,
   if (is.null(shape) && source == "eea") {
     cache_dir <- file.path(tools::R_user_dir("SHARK4R", which = "cache"), "perm")
 
-    url <- "https://www.eea.europa.eu/data-and-maps/data/eea-coastline-for-analysis-2/gis-data/eea-coastline-polygon/at_download/file"
+    shape <- file.path(cache_dir, "EEA_Coastline_2017.gpkg")
 
-    exdir <- file.path(tempdir(), paste0("positions_are_near_land", source))
-    if (!dir.exists(exdir)) {
-      dir.create(exdir, recursive = TRUE)
+    if (!file.exists(shape)) {
+      base <- "https://marine.discomap.eea.europa.eu/arcgis/rest/services/Marine/EEA_coastline_2017/MapServer/0"
+
+      # get object IDs
+      oid_url <- paste0(
+        base,
+        "/query?where=1=1&returnIdsOnly=true&f=json"
+      )
+
+      oids <- jsonlite::fromJSON(oid_url)$objectIds
+
+      chunk_size <- 1000
+      chunks <- split(oids, ceiling(seq_along(oids) / chunk_size))
+      n_chunks <- length(chunks)
+
+      # set up progress bar
+      if (verbose && n_chunks > 0) {
+        cat("Downloading EEA coastline data...\n")
+        pb <- utils::txtProgressBar(min = 0, max = n_chunks, style = 3)
+      }
+
+      coast_list <- vector("list", n_chunks)
+
+      for (i in seq_along(chunks)) {
+
+        if (verbose && n_chunks > 0) {
+          utils::setTxtProgressBar(pb, i)
+        }
+
+        query <- paste0(
+          base,
+          "/query?",
+          "objectIds=", paste(chunks[[i]], collapse = ","),
+          "&outFields=*",
+          "&f=geojson"
+        )
+
+        coast_list[[i]] <- st_read(query, quiet = TRUE)
+      }
+
+      # close progress bar
+      if (verbose && n_chunks > 0) {
+        close(pb)
+      }
+
+      coast <- do.call(rbind, coast_list)
+
+      if (!dir.exists(cache_dir)) {
+        dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
+      }
+
+      st_write(coast, shape, quiet = TRUE, append = FALSE)
     }
-
-    temp_zip <- file.path(exdir, "eea_coastline_polygon.zip")
-
-    if (!file.exists(temp_zip)) {
-      tryCatch({
-        old_timeout <- getOption("timeout")
-        options(timeout = max(180, old_timeout))
-        utils::download.file(url, temp_zip, mode = "wb")
-        options(timeout = old_timeout)
-      }, error = function(e) {
-        stop("Could not download OBIS land data. Please manually download it from:\n",
-             url, "\nThen provide the path to the `.gpkg` or `.shp` file using the `shape` argument. Or set `source = 'ne'` or `source = 'obis'` to use alternative vectors")
-      })
-    }
-
-    utils::unzip(temp_zip, exdir = cache_dir)
-    shape <- list.files(cache_dir, pattern = "\\.shp$", full.names = TRUE)[1]
   }
 
   iRfcb::ifcb_is_near_land(latitudes = latitudes,

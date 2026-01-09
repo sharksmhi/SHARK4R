@@ -136,3 +136,16 @@ test_that("deprecated function is still working", {
   # Check that the result is as expected
   expect_equal(result, expected_basins)
 })
+
+test_that("positions_are_near_land fails gracefully", {
+  skip_if_not_installed("iRfcb")
+
+  # Define test latitudes and longitudes
+  latitudes <- c(62.500353, 58.964498, 57.638725, 56.575338, NA, 60.0)
+  longitudes <- c(17.845993, 20.394418, 18.284523, 16.227174, 15.0, NA)
+
+  # Test with default parameters
+  expect_error(positions_are_near_land(latitudes, longitudes,
+                                       source = "invalid_source"),
+               "Invalid value for 'source'")
+})

@@ -45,7 +45,7 @@ After this, you do not need to pass \code{subscription_key} to the function.
 Use \code{subscription_key} instead.}
 }
 \value{
-A data frame with the following columns:
+A \code{tibble} with the following columns:
 \itemize{
 \item \code{id} — AlgaeBase identifier.
 \item \code{accepted_name} — Accepted scientific name (if different from the input).

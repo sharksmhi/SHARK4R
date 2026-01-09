@@ -48,7 +48,7 @@ After this, you do not need to pass \code{subscription_key} to the function.
 Use \code{subscription_key} instead.}
 }
 \value{
-A data frame with details about the species, including:
+A \code{tibble} with details about the species, including:
 \itemize{
 \item \code{taxonomic_status} — The current status of the taxon (e.g., accepted, synonym, unverified).
 \item \code{taxon_rank} — The rank of the taxon (e.g., species, genus).
