@@ -1,6 +1,8 @@
 # Changelog
 
-## SHARK4R (development version)
+## SHARK4R 1.0.3
+
+CRAN release: 2026-01-14
 
 ### New features
 

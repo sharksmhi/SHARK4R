@@ -51,7 +51,7 @@ hab_list <- get_hab_list()
 print(hab_list)
 ```
 
-    ## # A tibble: 378 × 29
+    ## # A tibble: 379 × 29
     ##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹
     ##      <dbl> <chr>               <chr>                <dbl> <chr>                 
     ##  1  841664 Aetokthonos hydril… S.B.Wild…           841664 Aetokthonos hydrillic…
@@ -64,7 +64,7 @@ print(hab_list)
     ##  8  231873 Alexandrium catene… (Whedon …           231873 Alexandrium catenella 
     ##  9  233472 Alexandrium excava… (Braarud…           231873 Alexandrium catenella 
     ## 10 1469211 Alexandrium fragae  S.Branco…          1469211 Alexandrium fragae    
-    ## # ℹ 368 more rows
+    ## # ℹ 369 more rows
     ## # ℹ abbreviated name: ¹​ScientificName_accepted
     ## # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
     ## #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
@@ -154,9 +154,9 @@ print(toxin_list)
 
     ## To cite package 'SHARK4R' in publications use:
     ## 
-    ##   Lindh, M. and Torstensson, A. (2025). SHARK4R: Accessing and
+    ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.0.2.
+    ##   Databases. R package version 1.0.3.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -164,8 +164,8 @@ print(toxin_list)
     ##   @Manual{,
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
-    ##     year = {2025},
-    ##     note = {R package version 1.0.2},
+    ##     year = {2026},
+    ##     note = {R package version 1.0.3},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
 
@@ -177,12 +177,12 @@ print(toxin_list)
   Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas,
   R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO
   Taxonomic Reference List of Harmful Microalgae. Accessed at
-  <https://www.marinespecies.org/hab> on 2026-01-09.
+  <https://www.marinespecies.org/hab/> on 2026-01-14.
   [doi:10.14284/362](https://doi.org/10.14284/362)
 - Zingone A. and L. Escalera (2025) Non toxigenic animal-killing
   microalgal species. In: Lundholm, N.; Bernard, C.; Churro, C.;
   Escalera, L.; Hoppenrath, M.; Iwataki, M.; Larsen, J.; Mertens, K.;
   Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds)
   (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful
-  Microalgae. Accessed at <https://www.marinespecies.org/hab> on
-  2026-01-09. [doi:10.14284/362](https://doi.org/10.14284/362)
+  Microalgae. Accessed at <https://www.marinespecies.org/hab/> on
+  2026-01-14. [doi:10.14284/362](https://doi.org/10.14284/362)
