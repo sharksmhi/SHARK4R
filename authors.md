@@ -25,7 +25,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/sharksmhi/SHARK4R/blob/master/inst/CITATION)
+[`inst/CITATION`](https://github.com/sharksmhi/SHARK4R/blob/v.1.0.3/inst/CITATION)
 
 Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and Validating
 Marine Environmental Data from 'SHARK' and Related Databases. R package

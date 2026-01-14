@@ -77,7 +77,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve HAB Data From IOC-UNESCO Databases</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/vignettes/retrieve_hab_data.Rmd" class="external-link"><code>vignettes/retrieve_hab_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.3/vignettes/retrieve_hab_data.Rmd" class="external-link"><code>vignettes/retrieve_hab_data.Rmd</code></a></small>
       <div class="d-none name"><code>retrieve_hab_data.Rmd</code></div>
     </div>
 
@@ -131,7 +131,7 @@ information from the results.</p>
 <span></span>
 <span><span class="co"># Print result</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">hab_list</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 379 × 29</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 378 × 29</span></span></span>
 <span><span class="co">##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹</span></span>
 <span><span class="co">##      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">841</span>664 Aetokthonos hydril… S.B.Wild…           <span style="text-decoration: underline;">841</span>664 Aetokthonos hydrillic…</span></span>
@@ -144,7 +144,7 @@ information from the results.</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">231</span>873 Alexandrium catene… (Whedon …           <span style="text-decoration: underline;">231</span>873 Alexandrium catenella </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">233</span>472 Alexandrium excava… (Braarud…           <span style="text-decoration: underline;">231</span>873 Alexandrium catenella </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> 1<span style="text-decoration: underline;">469</span>211 Alexandrium fragae  S.Branco…          1<span style="text-decoration: underline;">469</span>211 Alexandrium fragae    </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 369 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 368 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ abbreviated name: ¹​ScientificName_accepted</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 24 more variables: Authority_accepted &lt;chr&gt;, Fossil &lt;dbl&gt;, Kingdom &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   Phylum &lt;chr&gt;, Class &lt;chr&gt;, Order &lt;chr&gt;, Family &lt;chr&gt;, taxonRank &lt;chr&gt;,</span></span></span>
@@ -167,7 +167,7 @@ such as oxygen depletion.</p>
 <span></span>
 <span><span class="co"># Print result</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">hab_non_toxic_list</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 61 × 24</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 67 × 24</span></span></span>
 <span><span class="co">##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹</span></span>
 <span><span class="co">##      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">109</span>708 Alexandrium balech… (Steidin…           <span style="text-decoration: underline;">109</span>708 Alexandrium balechii  </span></span>
@@ -175,12 +175,12 @@ such as oxygen depletion.</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">375</span>701 Aureoumbra lagunen… D.A.Stoc…           <span style="text-decoration: underline;">375</span>701 Aureoumbra lagunensis </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 4</span> 1<span style="text-decoration: underline;">360</span>848 Blixaea quinquecor… (T.H.Abé…          1<span style="text-decoration: underline;">360</span>848 Blixaea quinquecornis </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">149</span>619 Cerataulina pelagi… (Cleve) …           <span style="text-decoration: underline;">149</span>619 Cerataulina pelagica  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">156</span>607 Chaetoceros concav… Mangin, …           <span style="text-decoration: underline;">156</span>607 Chaetoceros concavico…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">156</span>611 Chaetoceros convol… Castraca…           <span style="text-decoration: underline;">156</span>611 Chaetoceros convolutus</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">465</span>389 Chaetoceros crioph… Castraca…           <span style="text-decoration: underline;">465</span>389 Chaetoceros criophilus</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">149</span>219 Chaetoceros debilis Cleve, 1…           <span style="text-decoration: underline;">149</span>219 Chaetoceros debilis   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">839</span>985 Chaetoceros gelidus Chamnans…           <span style="text-decoration: underline;">839</span>985 Chaetoceros gelidus   </span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 51 more rows</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">163</span>013 Chaetoceros calcit… (Paulsen…           <span style="text-decoration: underline;">163</span>015 Chaetoceros simplex v…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">178</span>180 Chaetoceros coarct… Lauder, …           <span style="text-decoration: underline;">178</span>180 Chaetoceros coarctatus</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">156</span>607 Chaetoceros concav… Mangin, …           <span style="text-decoration: underline;">156</span>607 Chaetoceros concavico…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">156</span>611 Chaetoceros convol… Castraca…           <span style="text-decoration: underline;">156</span>611 Chaetoceros convolutus</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">465</span>389 Chaetoceros crioph… Castraca…           <span style="text-decoration: underline;">465</span>389 Chaetoceros criophilus</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 57 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ abbreviated name: ¹​ScientificName_accepted</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 19 more variables: Authority_accepted &lt;chr&gt;, Fossil &lt;int&gt;, Kingdom &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   Phylum &lt;chr&gt;, Class &lt;chr&gt;, Order &lt;chr&gt;, Family &lt;chr&gt;, taxonRank &lt;chr&gt;,</span></span></span>

@@ -51,7 +51,7 @@ hab_list <- get_hab_list()
 print(hab_list)
 ```
 
-    ## # A tibble: 379 × 29
+    ## # A tibble: 378 × 29
     ##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹
     ##      <dbl> <chr>               <chr>                <dbl> <chr>                 
     ##  1  841664 Aetokthonos hydril… S.B.Wild…           841664 Aetokthonos hydrillic…
@@ -64,7 +64,7 @@ print(hab_list)
     ##  8  231873 Alexandrium catene… (Whedon …           231873 Alexandrium catenella 
     ##  9  233472 Alexandrium excava… (Braarud…           231873 Alexandrium catenella 
     ## 10 1469211 Alexandrium fragae  S.Branco…          1469211 Alexandrium fragae    
-    ## # ℹ 369 more rows
+    ## # ℹ 368 more rows
     ## # ℹ abbreviated name: ¹​ScientificName_accepted
     ## # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
     ## #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
@@ -91,7 +91,7 @@ hab_non_toxic_list <- get_hab_list(harmful_non_toxic_only = TRUE,
 print(hab_non_toxic_list)
 ```
 
-    ## # A tibble: 61 × 24
+    ## # A tibble: 67 × 24
     ##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹
     ##      <int> <chr>               <chr>                <int> <chr>                 
     ##  1  109708 Alexandrium balech… (Steidin…           109708 Alexandrium balechii  
@@ -99,12 +99,12 @@ print(hab_non_toxic_list)
     ##  3  375701 Aureoumbra lagunen… D.A.Stoc…           375701 Aureoumbra lagunensis 
     ##  4 1360848 Blixaea quinquecor… (T.H.Abé…          1360848 Blixaea quinquecornis 
     ##  5  149619 Cerataulina pelagi… (Cleve) …           149619 Cerataulina pelagica  
-    ##  6  156607 Chaetoceros concav… Mangin, …           156607 Chaetoceros concavico…
-    ##  7  156611 Chaetoceros convol… Castraca…           156611 Chaetoceros convolutus
-    ##  8  465389 Chaetoceros crioph… Castraca…           465389 Chaetoceros criophilus
-    ##  9  149219 Chaetoceros debilis Cleve, 1…           149219 Chaetoceros debilis   
-    ## 10  839985 Chaetoceros gelidus Chamnans…           839985 Chaetoceros gelidus   
-    ## # ℹ 51 more rows
+    ##  6  163013 Chaetoceros calcit… (Paulsen…           163015 Chaetoceros simplex v…
+    ##  7  178180 Chaetoceros coarct… Lauder, …           178180 Chaetoceros coarctatus
+    ##  8  156607 Chaetoceros concav… Mangin, …           156607 Chaetoceros concavico…
+    ##  9  156611 Chaetoceros convol… Castraca…           156611 Chaetoceros convolutus
+    ## 10  465389 Chaetoceros crioph… Castraca…           465389 Chaetoceros criophilus
+    ## # ℹ 57 more rows
     ## # ℹ abbreviated name: ¹​ScientificName_accepted
     ## # ℹ 19 more variables: Authority_accepted <chr>, Fossil <int>, Kingdom <chr>,
     ## #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,

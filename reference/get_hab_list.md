@@ -197,7 +197,7 @@ head(habs_taxlist_df)
 #> 3  375701 Aureoumbra lagunens… D.A.Stoc…           375701 Aureoumbra lagunensis 
 #> 4 1360848 Blixaea quinquecorn… (T.H.Abé…          1360848 Blixaea quinquecornis 
 #> 5  149619 Cerataulina pelagica (Cleve) …           149619 Cerataulina pelagica  
-#> 6  156607 Chaetoceros concavi… Mangin, …           156607 Chaetoceros concavico…
+#> 6  163013 Chaetoceros calcitr… (Paulsen…           163015 Chaetoceros simplex v…
 #> # ℹ abbreviated name: ¹​ScientificName_accepted
 #> # ℹ 19 more variables: Authority_accepted <chr>, Fossil <int>, Kingdom <chr>,
 #> #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
