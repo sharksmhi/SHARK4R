@@ -96,7 +96,7 @@ head(habs_taxlist_df)
 }
 }
 \references{
-Lundholm, N.; Bernard, C.; Churro, C.; Escalera, L.; Hoppenrath, M.; Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful Microalgae. https://www.marinespecies.org/hab. doi:10.14284/362
+Lundholm, N.; Bernard, C.; Churro, C.; Escalera, L.; Hoppenrath, M.; Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful Microalgae. https://www.marinespecies.org/hab/. doi:10.14284/362
 }
 \seealso{
 \url{https://www.marinespecies.org/hab/} for IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae
