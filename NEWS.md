@@ -1,3 +1,9 @@
+# SHARK4R (development version)
+
+## Bug fixes and CRAN compliance
+
+* Package cache directory is now removed after R CMD check to avoid leaving files behind.
+
 # SHARK4R 1.0.3
 
 ## New features

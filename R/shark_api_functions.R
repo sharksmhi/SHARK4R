@@ -1132,7 +1132,7 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
 
   # Cache result if requested
   if (cache_result) {
-    cache_dir <- file.path(tools::R_user_dir("SHARK4R", "cache"), "perm")
+    cache_dir <- file.path(cache_dir(), "perm")
     if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
     saveRDS(result_tbl, file = file.path(cache_dir, "statistics.rds"))
     if (verbose) message("Cached SHARK statistics at: ", file.path(cache_dir, "statistics.rds"))

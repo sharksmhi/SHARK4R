@@ -1279,7 +1279,7 @@ get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
          paste(allowed_files, collapse = ", "))
   }
 
-  cache_dir <- tools::R_user_dir("SHARK4R", "cache")
+  cache_dir <- cache_dir()
   csv_path <- file.path(cache_dir, file_to_read)
 
   # Check cache

@@ -6,7 +6,7 @@
 \usage{
 clean_shark4r_cache(
   days = 1,
-  cache_dir = tools::R_user_dir("SHARK4R", "cache"),
+  cache_dir = NULL,
   clear_perm_cache = FALSE,
   search_pattern = NULL,
   verbose = TRUE
@@ -16,9 +16,9 @@ clean_shark4r_cache(
 \item{days}{Numeric; remove files older than this number of days. Default is 1.}
 
 \item{cache_dir}{Character; path to the cache directory to clean.
-Defaults to the SHARK4R cache directory in the user-specific R folder
-(via \code{tools::R_user_dir("SHARK4R", "cache")}). You can override this
-parameter for custom cache locations.}
+Defaults to the package cache directory in the user-specific R folder
+(via the internal \code{cache_dir()} helper). You can override this
+parameter to specify a custom cache location.}
 
 \item{clear_perm_cache}{Logical. If \code{TRUE}, filed that are cached across R sessions are cleared, i.e. geographical shape files.
 Defaults to \code{FALSE}.}
@@ -36,7 +36,9 @@ Deletes cached files in the SHARK4R cache directory that are older than
 a specified number of days.
 }
 \details{
-The cache is automatically cleared after 24h.
+The cache is automatically cleared for files older than 24 hours.
+Files in the \code{perm} subdirectory are not removed automatically and
+must be cleared explicitly using \code{clear_perm_cache = TRUE}.
 }
 \examples{
 \donttest{

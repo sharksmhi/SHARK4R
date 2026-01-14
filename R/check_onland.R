@@ -75,7 +75,7 @@ check_onland <- function(data, land = NULL, report = FALSE, buffer = 0, offline 
   if (buffer !=0 && offline) warning("The buffer parameter is not supported when offline = TRUE")
 
   if (offline && is.null(land)) {
-    cache_dir <- file.path(tools::R_user_dir("SHARK4R", which = "cache"), "perm")
+    cache_dir <- file.path(cache_dir(), "perm")
     landpath <- file.path(cache_dir, 'land.gpkg')
     if(!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
     if (!file.exists(landpath)) {

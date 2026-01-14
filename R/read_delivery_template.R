@@ -152,7 +152,7 @@ get_delivery_template <- function(datatype,
   file_url <- paste0(base_url, file_url)
 
   # Cache directory
-  cache_dir <- tools::R_user_dir("SHARK4R", "cache")
+  cache_dir <- cache_dir()
   if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
 
   # Cache file path

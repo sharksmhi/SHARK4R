@@ -5,16 +5,18 @@
 #'
 #' @param days Numeric; remove files older than this number of days. Default is 1.
 #' @param cache_dir Character; path to the cache directory to clean.
-#'   Defaults to the SHARK4R cache directory in the user-specific R folder
-#'   (via `tools::R_user_dir("SHARK4R", "cache")`). You can override this
-#'   parameter for custom cache locations.
+#'   Defaults to the package cache directory in the user-specific R folder
+#'   (via the internal `cache_dir()` helper). You can override this
+#'   parameter to specify a custom cache location.
 #' @param clear_perm_cache Logical. If `TRUE`, filed that are cached across R sessions are cleared, i.e. geographical shape files.
 #'        Defaults to `FALSE`.
 #' @param search_pattern Character; optional regex pattern to filter which files to consider for deletion.
 #' @param verbose Logical. If `TRUE`, displays messages of cache cleaning progress. Defaults to `TRUE`.
 #'
 #' @details
-#' The cache is automatically cleared after 24h.
+#' The cache is automatically cleared for files older than 24 hours.
+#' Files in the `perm` subdirectory are not removed automatically and
+#' must be cleared explicitly using `clear_perm_cache = TRUE`.
 #'
 #' @export
 #'
@@ -30,10 +32,13 @@
 #'   clean_shark4r_cache(days = 60)
 #' }
 clean_shark4r_cache <- function(days = 1,
-                                cache_dir = tools::R_user_dir("SHARK4R", "cache"),
+                                cache_dir = NULL,
                                 clear_perm_cache = FALSE,
                                 search_pattern = NULL,
                                 verbose = TRUE) {
+
+  # Use internal helper if cache_dir not provided
+  if (is.null(cache_dir)) cache_dir <- cache_dir()
 
   if (!dir.exists(cache_dir)) {
     if (verbose) message("No SHARK4R cache directory found.")
@@ -454,17 +459,18 @@ get_xy_clean_duplicates <- function(data, latcol = "sample_latitude_dd", loncol 
 }
 
 list_cache <- function(include_perm = FALSE) {
-  list.files(tools::R_user_dir("SHARK4R", which = "cache"), full.names = TRUE)
+  cache_dir <- cache_dir()
+  list.files(cache_dir, full.names = TRUE)
   if(include_perm) {
-    perm_dir <- file.path(tools::R_user_dir("SHARK4R", which = "cache"), "perm")
+    perm_dir <- file.path(cache_dir, "perm")
     if(dir.exists(perm_dir)) {
-      c(list.files(tools::R_user_dir("SHARK4R", which = "cache"), full.names = TRUE),
+      c(list.files(cache_dir, full.names = TRUE),
         list.files(perm_dir, full.names = TRUE))
     } else {
-      list.files(tools::R_user_dir("SHARK4R", which = "cache"), full.names = TRUE)
+      list.files(cache_dir, full.names = TRUE)
     }
   } else {
-    list.files(tools::R_user_dir("SHARK4R", which = "cache"), full.names = TRUE)
+    list.files(cache_dir, full.names = TRUE)
   }
 }
 
@@ -473,7 +479,7 @@ cache_call <- function(key, expr, env = NULL) {
   if(is.null(env)) {
     env = parent.frame()
   }
-  cache_dir <- tools::R_user_dir("SHARK4R", which = "cache")
+  cache_dir <- cache_dir()
 
   tmpfile <- tempfile()
   saveRDS(list(key = key, expr = expr), tmpfile)
@@ -519,7 +525,7 @@ service_call <- function(url, msg) {
 cache_excel_download <- function(url = "https://smhi.se/oceanografi/oce_info_data/shark_web/downloads/codelist_SMHI.xlsx",
                                  filename = basename(url),
                                  force = FALSE) {
-  cache_dir <- tools::R_user_dir("SHARK4R", which = "cache")
+  cache_dir <- cache_dir()
   if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
 
   destfile <- file.path(cache_dir, filename)
@@ -553,7 +559,7 @@ cache_nomp_zip <- function(base_url = "https://www.smhi.se/oceanografi/oce_info_
                            force = FALSE,
                            verbose = TRUE) {
 
-  cache_dir <- tools::R_user_dir("SHARK4R", which = "cache")
+  cache_dir <- cache_dir()
   if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
 
   current_year <- as.numeric(format(Sys.Date(), "%Y"))
@@ -599,7 +605,7 @@ cache_nomp_zip <- function(base_url = "https://www.smhi.se/oceanografi/oce_info_
 cache_peg_zip <- function(url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL.zip",
                           force = FALSE) {
 
-  cache_dir <- tools::R_user_dir("SHARK4R", which = "cache")
+  cache_dir <- cache_dir()
   if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
 
   filename <- basename(url)
@@ -666,6 +672,14 @@ clean_taxon <- function(x) {
 
 is_check <- function() {
   nzchar(Sys.getenv("_R_CHECK_PACKAGE_NAME_", ""))
+}
+
+cache_dir <- function() {
+  if (is_check()) {
+    file.path(tempdir(), "SHARK4R")
+  } else {
+    tools::R_user_dir("SHARK4R", "cache")
+  }
 }
 
 .hab_state <- new.env(parent = emptyenv())
