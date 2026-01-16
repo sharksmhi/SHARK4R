@@ -74,8 +74,7 @@ to manually clear cached files.
   # Get the latest available list
   nomp_list <- get_nomp_list()
 #> File for year 2026 not available. Trying previous year...
-#> File for year 2025 not available. Trying previous year...
-#> File for year 2024 downloaded and cached.
+#> File for year 2025 downloaded and cached.
   head(nomp_list)
 #> # A tibble: 6 × 39
 #>   List       `HELCOM area` `OSPAR area` Division Class Order Genus Species SFLAG

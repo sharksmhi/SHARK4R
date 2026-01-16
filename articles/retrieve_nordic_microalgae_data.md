@@ -212,16 +212,14 @@ nomp_list <- get_nomp_list()
 
     ## File for year 2026 not available. Trying previous year...
 
-    ## File for year 2025 not available. Trying previous year...
-
-    ## File for year 2024 downloaded and cached.
+    ## File for year 2025 downloaded and cached.
 
 ``` r
 # Print list
 print(nomp_list)
 ```
 
-    ## # A tibble: 3,846 × 39
+    ## # A tibble: 3,852 × 39
     ##    List      `HELCOM area` `OSPAR area` Division Class Order Genus Species SFLAG
     ##    <chr>     <chr>         <chr>        <chr>    <chr> <chr> <chr> <chr>   <chr>
     ##  1 PEG_BVOL… x             NA           CYANOBA… Cyan… CHRO… Apha… Aphano… NA   
@@ -234,7 +232,7 @@ print(nomp_list)
     ##  8 PEG_BVOL… x             NA           CYANOBA… Cyan… CHRO… Apha… Aphano… NA   
     ##  9 PEG_BVOL… x             NA           CYANOBA… Cyan… CHRO… Apha… Aphano… NA   
     ## 10 PEG_BVOL… x             NA           CYANOBA… Cyan… CHRO… Apha… Aphano… NA   
-    ## # ℹ 3,836 more rows
+    ## # ℹ 3,842 more rows
     ## # ℹ 30 more variables: STAGE <chr>, Author <chr>, AphiaID <dbl>,
     ## #   AphiaID_link <chr>, Trophy <chr>, Geometric_shape <chr>, FORMULA <chr>,
     ## #   SizeClassNo <dbl>, Nonvalid_SIZCL <lgl>, Not_accepted_name <chr>,
@@ -274,4 +272,4 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
 
 - Torstensson, A., Loo, A., Sundqvist, L., Skjevik, A.-T., Karlberg, M.,
   Johansen, M., Andreasson, A., and Karlson, B. (2024). Nordic
-  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-01-14.
+  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-01-16.
