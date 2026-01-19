@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve Data From Nordic Microalgae</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.0.3/vignettes/retrieve_nordic_microalgae_data.Rmd" class="external-link"><code>vignettes/retrieve_nordic_microalgae_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/vignettes/retrieve_nordic_microalgae_data.Rmd" class="external-link"><code>vignettes/retrieve_nordic_microalgae_data.Rmd</code></a></small>
       <div class="d-none name"><code>retrieve_nordic_microalgae_data.Rmd</code></div>
     </div>
 
@@ -125,7 +125,7 @@ API.</p>
 <span></span>
 <span><span class="co"># Print data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">taxa</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6,860 × 5</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6,867 × 5</span></span></span>
 <span><span class="co">##    scientific_name           authority                       rank  slug  nua_url</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Abollifer                 Vørs, 1992                      Genus abol… https:…</span></span>
@@ -138,7 +138,7 @@ API.</p>
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Acanthocorbis asymmetrica (Thomsen) Hara &amp; Takahashi, 19… Spec… acan… https:…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Acanthocorbis campanula   (Espeland) Thomsen, 1991        Spec… acan… https:…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span> Acanthocorbis haurakiana  Thomsen, 1991                   Spec… acan… https:…</span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 6,850 more rows</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #949494;"># ℹ 6,857 more rows</span></span></span></code></pre>
 <p>The full taxonomic information can be accessed as an unparsed list by
 enabling the <code>unparsed</code> parameter.</p>
 </div>
@@ -159,20 +159,20 @@ can be retrieved through the API.</p>
 <span></span>
 <span><span class="co"># Print list</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">external_links</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 52 × 6</span></span></span>
-<span><span class="co">##    slug                     provider  label  external_id external_url collection</span></span>
-<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> pterosperma-vanhoeffenii AlgaeBase Algae… 56416       https://www… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> pterosperma-vanhoeffenii Dyntaxa   Dynta… 238959      https://art… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> pterosperma-vanhoeffenii GBIF      GBIF   2688130     https://www… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> pterosperma-vanhoeffenii WoRMS     WoRMS  345881      https://www… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> rosenvingiellopsis       AlgaeBase Algae… 52010       https://www… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> rosenvingiellopsis       Dyntaxa   Dynta… 6046635     https://art… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> rosenvingiellopsis       ENA       ENA    1936980     https://www… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> rosenvingiellopsis       GBIF      GBIF   9916441     https://www… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> rosenvingiellopsis       NCBI      NCBI   1936980     https://www… External …</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> rosenvingiellopsis       WoRMS     WoRMS  1312598     https://www… External …</span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 42 more rows</span></span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 59 × 6</span></span></span>
+<span><span class="co">##    slug                  provider  label     external_id external_url collection</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> pterosperma-polygonum AlgaeBase AlgaeBase 56414       https://www… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> pterosperma-polygonum Dyntaxa   Dyntaxa   238955      https://art… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> pterosperma-polygonum GBIF      GBIF      2688134     https://www… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> pterosperma-polygonum ITIS      ITIS      9590        http://www.… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> pterosperma-polygonum WoRMS     WoRMS     341610      https://www… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> romeria-gracilis      AlgaeBase AlgaeBase 65685       https://www… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> romeria-gracilis      Dyntaxa   Dyntaxa   263585      https://art… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> romeria-gracilis      ENA       ENA       1744976     https://www… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> romeria-gracilis      GBIF      GBIF      7644679     https://www… External …</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> romeria-gracilis      NCBI      NCBI      1744976     https://www… External …</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 49 more rows</span></span></span></code></pre>
 <p>The full list of facts can be accessed as an unparsed list by setting
 the <code>unparsed</code> parameter to <code>TRUE</code>.</p>
 </div>
@@ -330,7 +330,7 @@ Toolbox</a> data files: <code><a href="../reference/read_ptbx.html">read_ptbx()<
 <ul>
 <li>Torstensson, A., Loo, A., Sundqvist, L., Skjevik, A.-T., Karlberg,
 M., Johansen, M., Andreasson, A., and Karlson, B. (2024). Nordic
-Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-01-16.</li>
+Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-01-19.</li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

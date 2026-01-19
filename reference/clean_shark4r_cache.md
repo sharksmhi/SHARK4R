@@ -8,7 +8,7 @@ a specified number of days.
 ``` r
 clean_shark4r_cache(
   days = 1,
-  cache_dir = tools::R_user_dir("SHARK4R", "cache"),
+  cache_dir = NULL,
   clear_perm_cache = FALSE,
   search_pattern = NULL,
   verbose = TRUE
@@ -24,9 +24,9 @@ clean_shark4r_cache(
 - cache_dir:
 
   Character; path to the cache directory to clean. Defaults to the
-  SHARK4R cache directory in the user-specific R folder (via
-  `tools::R_user_dir("SHARK4R", "cache")`). You can override this
-  parameter for custom cache locations.
+  package cache directory in the user-specific R folder (via the
+  internal `cache_dir()` helper). You can override this parameter to
+  specify a custom cache location.
 
 - clear_perm_cache:
 
@@ -50,7 +50,9 @@ whether the in-memory session cache was cleared.
 
 ## Details
 
-The cache is automatically cleared after 24h.
+The cache is automatically cleared for files older than 24 hours. Files
+in the `perm` subdirectory are not removed automatically and must be
+cleared explicitly using `clear_perm_cache = TRUE`.
 
 ## See also
 

@@ -306,7 +306,7 @@ Verify station names against the official SHARK registry:
 station_match <- match_station(chlorophyll_data$station_name)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmpCY6heO/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/Rtmpxf4FMd/station.txt
 
     ## All stations found
 
@@ -330,7 +330,7 @@ check_station_distance(data = chlorophyll_data,
                        plot_leaflet = TRUE)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmpCY6heO/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/Rtmpxf4FMd/station.txt
 
     ## WARNING: Some stations are outside the allowed distance limit
 
