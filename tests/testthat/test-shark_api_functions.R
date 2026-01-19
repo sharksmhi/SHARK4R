@@ -208,7 +208,7 @@ test_that("get_shark_statistics caches results correctly", {
   datatype <- "Chlorophyll"
 
   # Define cache path
-  cache_dir <- file.path(tools::R_user_dir("SHARK4R", "cache"), "perm")
+  cache_dir <- file.path(cache_dir(), "perm")
   cache_file <- file.path(cache_dir, "statistics.rds")
 
   # Ensure previous cache is removed

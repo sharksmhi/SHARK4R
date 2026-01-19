@@ -37,7 +37,7 @@ get_shark_codes <- function(url = "https://smhi.se/oceanografi/oce_info_data/sha
                             clean_cache_days = 30) {
   # Optional: remove old cached SHARK code files
   if (!is.null(clean_cache_days) && clean_cache_days > 0) {
-    cache_dir <- file.path(tools::R_user_dir("SHARK4R", "cache"), "perm")
+    cache_dir <- file.path(cache_dir(), "perm")
     if (dir.exists(cache_dir)) {
       shark_files <- list.files(cache_dir, pattern = "codelist_SMHI\\.xlsx$", full.names = TRUE)
       old_files <- shark_files[file.info(shark_files)$mtime < Sys.time() - clean_cache_days*24*60*60]

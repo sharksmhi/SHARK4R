@@ -90,7 +90,7 @@ positions_are_near_land <- function(latitudes,
 
   # Cache OBIS shapefile across sessions if source is "eea" and shape is NULL
   if (is.null(shape) && source == "obis") {
-    cache_dir <- file.path(tools::R_user_dir("SHARK4R", which = "cache"), "perm")
+    cache_dir <- file.path(cache_dir(), "perm")
 
     url <- "https://obis-resources.s3.amazonaws.com/land.gpkg"
     shape <- file.path(cache_dir, "land.gpkg")
@@ -112,7 +112,7 @@ positions_are_near_land <- function(latitudes,
 
   # Cache EEA shapefile across sessions if source is "eea" and shape is NULL
   if (is.null(shape) && source == "eea") {
-    cache_dir <- file.path(tools::R_user_dir("SHARK4R", which = "cache"), "perm")
+    cache_dir <- file.path(cache_dir(), "perm")
 
     shape <- file.path(cache_dir, "EEA_Coastline_2017.gpkg")
 

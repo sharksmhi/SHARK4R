@@ -27,8 +27,11 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
 }
 
 .onUnload <- function(libpath) {
-  if (is_check()) {
-    try(clean_shark4r_cache(0, clear_perm_cache = TRUE, verbose = FALSE), silent = TRUE)
+  if (!is_check()) {
+    try({
+      cache_dir <- cache_dir()
+      unlink(cache_dir, recursive = TRUE, force = TRUE)
+    }, silent = TRUE)
   }
 }
 

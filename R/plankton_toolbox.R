@@ -93,7 +93,7 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
 
   # Optional: remove old NOMP cache files
   if (!is.null(clean_cache_days) && clean_cache_days > 0) {
-    cache_dir <- tools::R_user_dir("SHARK4R", "cache")
+    cache_dir <- cache_dir()
     if (dir.exists(cache_dir)) {
       nomp_files <- list.files(cache_dir, pattern = "nomp_taxa_biovolumes_and_carbon_.*\\.zip$", full.names = TRUE)
       old_files <- nomp_files[file.info(nomp_files)$mtime < Sys.time() - clean_cache_days*24*60*60]
@@ -170,7 +170,7 @@ get_peg_list <- function(file = NULL,
 
   # Optional: remove old PEG cache files
   if (!is.null(clean_cache_days) && clean_cache_days > 0) {
-    cache_dir <- tools::R_user_dir("SHARK4R", "cache")
+    cache_dir <- cache_dir()
     if (dir.exists(cache_dir)) {
       peg_files <- list.files(cache_dir, pattern = "PEG_BVOL.*\\.zip$", full.names = TRUE)
       old_files <- peg_files[file.info(peg_files)$mtime < Sys.time() - clean_cache_days*24*60*60]
