@@ -100,7 +100,7 @@ match_algaebase_taxa <- function(genera, species, subscription_key = Sys.getenv(
   # Check for deprecated 'apikey' argument
   if (is_present(apikey)) {
     # Signal to the user that the `apikey` argument is deprecated
-    lifecycle::deprecate_warn("0.1.7.9000", "SHARK4R::match_algaebase_taxa(apikey = )",
+    lifecycle::deprecate_warn("1.0.0", "SHARK4R::match_algaebase_taxa(apikey = )",
                               "SHARK4R::match_algaebase_taxa(subscription_key = )")
 
     subscription_key <- apikey
@@ -294,7 +294,7 @@ match_algaebase <- function(genus, species, subscription_key = Sys.getenv("ALGAE
                             higher = TRUE, unparsed = FALSE, exact_matches_only = TRUE,
                             sleep_time = 1, newest_only = TRUE, verbose = TRUE, apikey = deprecated()) {
 
-  lifecycle::deprecate_warn("0.1.7.9000", "match_algaebase()", "match_algaebase_taxa()")
+  lifecycle::deprecate_warn("1.0.0", "match_algaebase()", "match_algaebase_taxa()")
 
   match_algaebase_taxa(genera = genus,
                        species = species,
@@ -377,7 +377,7 @@ match_algaebase_species <- function(genus, species, subscription_key = Sys.geten
   # Check for deprecated 'apikey' argument
   if (is_present(apikey)) {
     # Signal to the user that the `apikey` argument is deprecated
-    lifecycle::deprecate_warn("0.1.7.9000", "SHARK4R::match_algaebase_species(apikey = )",
+    lifecycle::deprecate_warn("1.0.0", "SHARK4R::match_algaebase_species(apikey = )",
                               "SHARK4R::match_algaebase_species(subscription_key = )")
 
     subscription_key <- apikey
@@ -629,7 +629,7 @@ get_algaebase_species <- function(genus, species, subscription_key = Sys.getenv(
                                   unparsed = FALSE, newest_only = TRUE, exact_matches_only = TRUE,
                                   apikey = deprecated()) {
 
-  lifecycle::deprecate_warn("0.1.7.9000", "get_algaebase_species()", "match_algaebase_species()")
+  lifecycle::deprecate_warn("1.0.0", "get_algaebase_species()", "match_algaebase_species()")
 
   match_algaebase_species(genus = genus,
                           species = species,
@@ -704,7 +704,7 @@ match_algaebase_genus <- function(genus, subscription_key = Sys.getenv("ALGAEBAS
   # Check for deprecated 'apikey' argument
   if (is_present(apikey)) {
     # Signal to the user that the `apikey` argument is deprecated
-    lifecycle::deprecate_warn("0.1.7.9000", "SHARK4R::match_algaebase_genus(apikey = )",
+    lifecycle::deprecate_warn("1.0.0", "SHARK4R::match_algaebase_genus(apikey = )",
                               "SHARK4R::match_algaebase_genus(subscription_key = )")
 
     subscription_key <- apikey
@@ -888,7 +888,7 @@ get_algaebase_genus <- function(genus, subscription_key = Sys.getenv("ALGAEBASE_
                                 newest_only = TRUE, exact_matches_only = TRUE,
                                 apikey = deprecated()) {
 
-  lifecycle::deprecate_warn("0.1.7.9000", "get_algaebase_genus()", "match_algaebase_genus()")
+  lifecycle::deprecate_warn("1.0.0", "get_algaebase_genus()", "match_algaebase_genus()")
 
   match_algaebase_genus(genus = genus,
                         subscription_key = subscription_key,
@@ -1101,7 +1101,7 @@ check_algaebase_api <- function(subscription_key = Sys.getenv("ALGAEBASE_KEY"), 
   # Check for deprecated 'apikey' argument
   if (is_present(apikey)) {
     # Signal to the user that the `apikey` argument is deprecated
-    lifecycle::deprecate_warn("0.1.7.9000", "SHARK4R::check_algaebase_api(apikey = )",
+    lifecycle::deprecate_warn("1.0.0", "SHARK4R::check_algaebase_api(apikey = )",
                               "SHARK4R::check_algaebase_api(subscription_key = )")
 
     subscription_key <- apikey
