@@ -177,7 +177,7 @@ print(matches)
     ##  3 Chrysotila carterae          236939 Chrysotila carterae     (Braa… Chrysotil…
     ##  4 Bacillaria paxillifera       237763 Bacillaria paxillifera  (O.F.… Bacillari…
     ##  5 Protoperidinium conicoides   238248 Protoperidinium conico… (Paul… Protoperi…
-    ##  6 Scrippsiella                1010578 Scrippsiella            Balec… Scrippsie…
+    ##  6 Scrippsiella                1010578 Scrippsiella            Balech Scrippsie…
     ##  7 Binuclearia lauterbornii     238927 Binuclearia lauterborn… (Schm… Binuclear…
     ##  8 Dictyochales                3000573 Dictyochales            Haeck… Dictyocha…
     ##  9 Diatoma vulgaris             238027 Diatoma vulgaris        Bory   Diatoma v…
@@ -207,16 +207,16 @@ print(dyntaxa_records)
     ## # A tibble: 10 × 24
     ##    taxonId parentId secondaryParents sortOrder isMicrospecies externalComment   
     ##      <int>    <int> <list>               <int> <lgl>          <chr>             
-    ##  1  236939  6018284 <list [0]>           68977 FALSE           NA               
-    ##  2  237763  1010465 <list [0]>           71465 FALSE          "Illustration (LM…
-    ##  3  238027  1010523 <list [0]>           73372 FALSE          "Illustration (LM…
-    ##  4  238248  1010596 <list [0]>           69900 FALSE           NA               
-    ##  5  238927  1016130 <list [0]>          113670 FALSE           NA               
-    ##  6  257418  6001140 <list [0]>          112805 FALSE           NA               
-    ##  7  263645  1016291 <list [0]>           67677 FALSE          "2005. Published …
-    ##  8 1010578  6332738 <list [0]>           70022 FALSE          "Scrippsiella han…
-    ##  9 1010594  2003235 <list [0]>           69884 FALSE           NA               
-    ## 10 3000573  4000161 <list [0]>           71225 FALSE           NA               
+    ##  1  236939  6018284 <list [0]>           68987 FALSE           NA               
+    ##  2  237763  1010465 <list [0]>           71475 FALSE          "Illustration (LM…
+    ##  3  238027  1010523 <list [0]>           73382 FALSE          "Illustration (LM…
+    ##  4  238248  1010596 <list [0]>           69910 FALSE           NA               
+    ##  5  238927  1016130 <list [0]>          113687 FALSE           NA               
+    ##  6  257418  6001140 <list [0]>          112822 FALSE           NA               
+    ##  7  263645  1016291 <list [0]>           67687 FALSE          "2005. Published …
+    ##  8 1010578  6332738 <list [0]>           70032 FALSE          "Scrippsiella han…
+    ##  9 1010594  2003235 <list [0]>           69894 FALSE           NA               
+    ## 10 3000573  4000161 <list [0]>           71235 FALSE           NA               
     ## # ℹ 18 more variables: redlistCategory <lgl>, excludeFromReportingSystem <lgl>,
     ## #   nrOfChilds <int>, names <list>, typedRelations.parentRelations <list>,
     ## #   typedRelations.childRelations <list>, status.id <int>, status.value <chr>,
@@ -311,15 +311,15 @@ print(taxonomy_table)
     ## # A tibble: 296 × 16
     ##    taxonId        acceptedNameUsageID parentNameUsageID scientificName taxonRank
     ##    <chr>          <chr>               <chr>             <chr>          <chr>    
-    ##  1 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Oblea          genus    
-    ##  2 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Protoperidini… species  
-    ##  3 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Dictyochales   order    
-    ##  4 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  
-    ##  5 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Scrippsiella   genus    
-    ##  6 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Cuspidothrix … species  
-    ##  7 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Chrysotila ca… species  
-    ##  8 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Pseudopediast… species  
-    ##  9 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Bacillaria pa… species  
+    ##  1 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Scrippsiella   genus    
+    ##  2 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Oblea          genus    
+    ##  3 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  
+    ##  4 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Pseudopediast… species  
+    ##  5 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Chrysotila ca… species  
+    ##  6 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Dictyochales   order    
+    ##  7 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Bacillaria pa… species  
+    ##  8 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Protoperidini… species  
+    ##  9 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Cuspidothrix … species  
     ## 10 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Binuclearia l… species  
     ## # ℹ 286 more rows
     ## # ℹ 11 more variables: scientificNameAuthorship <chr>, taxonomicStatus <chr>,

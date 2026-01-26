@@ -272,4 +272,4 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
 
 - Torstensson, A., Loo, A., Sundqvist, L., Skjevik, A.-T., Karlberg, M.,
   Johansen, M., Andreasson, A., and Karlson, B. (2024). Nordic
-  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-01-19.
+  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-01-26.
