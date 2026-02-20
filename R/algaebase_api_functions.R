@@ -496,8 +496,7 @@ match_algaebase_species <- function(genus, species, subscription_key = Sys.geten
       phylum = genus_taxonomy$phylum,
       class = genus_taxonomy$class,
       order = genus_taxonomy$order,
-      family = genus_taxonomy$family,
-      genus = genus_taxonomy$genus
+      family = genus_taxonomy$family
     )
   }
 
