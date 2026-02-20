@@ -54,7 +54,7 @@ clean_shark4r_cache <- function(days = 1,
     }
   }
 
-  if (search_pattern == "" || is.null(search_pattern)) {
+  if (is.null(search_pattern) || search_pattern == "") {
     # No filtering
   } else {
     files <- files[grepl(search_pattern, basename(files))]

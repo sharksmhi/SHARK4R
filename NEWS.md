@@ -8,7 +8,10 @@
 
 ## Bug fixes and CRAN compliance
 
-* Package cache directory is now removed after R CMD check to avoid leaving files behind.
+* All internal cache paths now use the `cache_dir()` helper, which redirects to `tempdir()` during R CMD check. Previously several functions called `tools::R_user_dir()` directly, which could create `~/.cache/R/SHARK4R` during CRAN checks.
+* Fixed evaluation order bug in `clean_shark4r_cache()` where `search_pattern = NULL` (the default) could cause an error.
+* Fixed deprecation warning version numbers in algaebase functions (now correctly reference `1.0.0`).
+* Fixed spelling of "Microalgae" and other minor typos in `get_hab_list()` documentation.
 
 # SHARK4R 1.0.3
 
