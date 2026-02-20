@@ -68,7 +68,7 @@ get_nua_taxa <- function(unparsed = FALSE) {
         extract_taxa_info(x)
       } else {
         tibble(slug = NA, scientific_name = NA, authority = NA, rank = NA,
-               image_l_url = NA, image_m_url = NA, image_o_url = NA, image_s_url = NA)
+               nua_url = NA)
       }
     }))
 

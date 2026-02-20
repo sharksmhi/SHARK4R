@@ -2,7 +2,7 @@
 % Please edit documentation in R/hab_api_functions.R
 \name{get_hab_list}
 \alias{get_hab_list}
-\title{Download the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae}
+\title{Download the IOC-UNESCO Taxonomic Reference List of Harmful Microalgae}
 \usage{
 get_hab_list(
   species_only = TRUE,
@@ -62,17 +62,17 @@ Note that this filter is only applied when \code{harmful_non_toxic_only = FALSE}
 
 \item{accepted_taxon}{Logical. Include information about the accepted taxon (e.g., scientific name and authority). Defaults to \code{TRUE}.}
 
-\item{verbose}{Logical. Whether to display progress information. Default is `TRUE```.}
+\item{verbose}{Logical. Whether to display progress information. Default is \code{TRUE}.}
 }
 \value{
 A \code{tibble} containing the HABs taxonomic list, with columns based on the selected parameters.
 }
 \description{
-This function retrieves the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae (Lundholm et al. 2009) from the World Register of Marine Species (WoRMS).
+This function retrieves the IOC-UNESCO Taxonomic Reference List of Harmful Microalgae (Lundholm et al. 2009) from the World Register of Marine Species (WoRMS).
 The data is returned as a dataframe, with options to customize the fields included in the download.
 }
 \details{
-This function submits a POST request to the WoRMS database to retrieve the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae.
+This function submits a POST request to the WoRMS database to retrieve the IOC-UNESCO Taxonomic Reference List of Harmful Microalgae.
 The downloaded data can include various fields, which are controlled by the input parameters.
 If a field is not required, set the corresponding parameter to \code{FALSE} to exclude it from the output.
 }
@@ -82,7 +82,7 @@ If a field is not required, set the corresponding parameter to \code{FALSE} to e
 habs_taxlist_df <- get_hab_list()
 head(habs_taxlist_df)
 
-# Include higer taxa records
+# Include higher taxa records
 habs_taxlist_df <- get_hab_list(species_only = FALSE)
 head(habs_taxlist_df)
 
@@ -99,5 +99,5 @@ head(habs_taxlist_df)
 Lundholm, N.; Bernard, C.; Churro, C.; Escalera, L.; Hoppenrath, M.; Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful Microalgae. https://www.marinespecies.org/hab/. doi:10.14284/362
 }
 \seealso{
-\url{https://www.marinespecies.org/hab/} for IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae
+\url{https://www.marinespecies.org/hab/} for IOC-UNESCO Taxonomic Reference List of Harmful Microalgae
 }

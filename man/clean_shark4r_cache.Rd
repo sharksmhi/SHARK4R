@@ -20,7 +20,7 @@ Defaults to the package cache directory in the user-specific R folder
 (via the internal \code{cache_dir()} helper). You can override this
 parameter to specify a custom cache location.}
 
-\item{clear_perm_cache}{Logical. If \code{TRUE}, filed that are cached across R sessions are cleared, i.e. geographical shape files.
+\item{clear_perm_cache}{Logical. If \code{TRUE}, files that are cached across R sessions are cleared, i.e. geographical shape files.
 Defaults to \code{FALSE}.}
 
 \item{search_pattern}{Character; optional regex pattern to filter which files to consider for deletion.}

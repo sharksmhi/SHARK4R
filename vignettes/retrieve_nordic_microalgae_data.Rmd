@@ -63,7 +63,7 @@ The full list of facts can be accessed as an unparsed list by setting the `unpar
 
 ## Get Nordic Microalgae Harmfulness Information
 
-Taxa listed in the [IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae](https://www.marinespecies.org/hab/) contain information about harmfulness. This information can be retrieved through the API.
+Taxa listed in the [IOC-UNESCO Taxonomic Reference List of Harmful Microalgae](https://www.marinespecies.org/hab/) contain information about harmfulness. This information can be retrieved through the API.
 
 ```{r}
 # Get external links

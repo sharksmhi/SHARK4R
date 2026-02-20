@@ -20,7 +20,7 @@ The SHARK4R package provides a set of functions to perform quality control (QC) 
 - **Logical Parameter Checks** (parameter-specific rules)  
 - **Interactive QC** with a Shiny app  
 
-This workflow ensures SHARK data are consistent, valid, and ready for analysis. Several quality control components, originally developed by Provoost and Bosch (2018), have been adapted for compatibility with the SHARK format.
+This workflow ensures SHARK data are consistent, valid, and ready for analysis. Several quality control components, originally developed by Provoost and Bosch (2024), have been adapted for compatibility with the SHARK format.
 
 ---
 

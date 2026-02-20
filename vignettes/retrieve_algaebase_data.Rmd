@@ -14,7 +14,7 @@ AlgaeBase is a comprehensive database containing information on a wide variety o
   
 ## Getting Started
   
-### Installation
+#### Installation
   
 You can install the latest version of `SHARK4R` from CRAN using:
 ```{r, eval=FALSE}

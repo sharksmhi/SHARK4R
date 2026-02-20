@@ -72,7 +72,7 @@ reference:
   - parse_scientific_names
 
 - subtitle: IOC-UNESCO HAB
-  desc: These functions are used to retrieve data from the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae and the IOC-UNESCO Toxins database.
+  desc: These functions are used to retrieve data from the IOC-UNESCO Taxonomic Reference List of Harmful Microalgae and the IOC-UNESCO Toxins database.
   contents:
   - get_hab_list
   - get_toxin_list

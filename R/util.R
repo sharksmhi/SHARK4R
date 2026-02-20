@@ -8,7 +8,7 @@
 #'   Defaults to the package cache directory in the user-specific R folder
 #'   (via the internal `cache_dir()` helper). You can override this
 #'   parameter to specify a custom cache location.
-#' @param clear_perm_cache Logical. If `TRUE`, filed that are cached across R sessions are cleared, i.e. geographical shape files.
+#' @param clear_perm_cache Logical. If `TRUE`, files that are cached across R sessions are cleared, i.e. geographical shape files.
 #'        Defaults to `FALSE`.
 #' @param search_pattern Character; optional regex pattern to filter which files to consider for deletion.
 #' @param verbose Logical. If `TRUE`, displays messages of cache cleaning progress. Defaults to `TRUE`.

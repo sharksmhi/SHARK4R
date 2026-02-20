@@ -59,9 +59,9 @@ get_toxin_list <- function(return_count = FALSE) {
     return(as_tibble(parsed_recovered$toxins))
   }
 }
-#' Download the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae
+#' Download the IOC-UNESCO Taxonomic Reference List of Harmful Microalgae
 #'
-#' This function retrieves the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae (Lundholm et al. 2009) from the World Register of Marine Species (WoRMS).
+#' This function retrieves the IOC-UNESCO Taxonomic Reference List of Harmful Microalgae (Lundholm et al. 2009) from the World Register of Marine Species (WoRMS).
 #' The data is returned as a dataframe, with options to customize the fields included in the download.
 #'
 #' @param species_only Logical. If `TRUE`, only species-level records are returned (i.e., rows where the `Species` column is not `NA`).
@@ -83,17 +83,17 @@ get_toxin_list <- function(return_count = FALSE) {
 #' @param classification Logical. Include the full taxonomic classification (e.g., kingdom, phylum, class). Defaults to `TRUE`.
 #' @param environment Logical. Include environmental data (e.g., marine, brackish, freshwater, terrestrial). Defaults to `TRUE`.
 #' @param accepted_taxon Logical. Include information about the accepted taxon (e.g., scientific name and authority). Defaults to `TRUE`.
-#' @param verbose Logical. Whether to display progress information. Default is `TRUE```.
+#' @param verbose Logical. Whether to display progress information. Default is `TRUE`.
 #'
 #' @return A `tibble` containing the HABs taxonomic list, with columns based on the selected parameters.
 #' @export
 #'
 #' @details
-#' This function submits a POST request to the WoRMS database to retrieve the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae.
+#' This function submits a POST request to the WoRMS database to retrieve the IOC-UNESCO Taxonomic Reference List of Harmful Microalgae.
 #' The downloaded data can include various fields, which are controlled by the input parameters.
 #' If a field is not required, set the corresponding parameter to `FALSE` to exclude it from the output.
 #'
-#' @seealso \url{https://www.marinespecies.org/hab/} for IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae
+#' @seealso \url{https://www.marinespecies.org/hab/} for IOC-UNESCO Taxonomic Reference List of Harmful Microalgae
 #'
 #' @references Lundholm, N.; Bernard, C.; Churro, C.; Escalera, L.; Hoppenrath, M.; Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful Microalgae. https://www.marinespecies.org/hab/. doi:10.14284/362
 #'
@@ -103,7 +103,7 @@ get_toxin_list <- function(return_count = FALSE) {
 #' habs_taxlist_df <- get_hab_list()
 #' head(habs_taxlist_df)
 #'
-#' # Include higer taxa records
+#' # Include higher taxa records
 #' habs_taxlist_df <- get_hab_list(species_only = FALSE)
 #' head(habs_taxlist_df)
 #'
