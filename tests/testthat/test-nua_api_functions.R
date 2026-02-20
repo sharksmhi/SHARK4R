@@ -44,3 +44,44 @@ test_that("nua images are retrieved", {
   expect_true(nrow(nua_images) > 0)
   expect_true(all(c("slug", "image_l_url", "image_o_url", "image_s_url", "image_m_url", "contributor", "photographer_artist", "copyright_holder", "license", "galleries") %in% names(nua_images)))
 })
+
+test_that("nua media metadata is retrieved", {
+  skip_if_offline()
+  skip_if_resource_unavailable(nua_url)
+
+  media_metadata <- get_nua_media_metadata()
+
+  expect_s3_class(media_metadata, "data.frame")
+  expect_true(nrow(media_metadata) > 0)
+  expect_true(all(c("slug", "taxon_slug", "scientific_name", "file", "type", "title",
+                     "license", "location", "contributor", "photographer_artist",
+                     "copyright_holder", "galleries", "geographic_area",
+                     "institute", "created_at", "updated_at") %in% names(media_metadata)))
+})
+
+test_that("nua image labeling links are retrieved", {
+  skip_if_offline()
+  skip_if_resource_unavailable(nua_url)
+
+  il_links <- get_nua_image_labeling_links()
+
+  expect_s3_class(il_links, "data.frame")
+  expect_true(nrow(il_links) > 0)
+  expect_true(all(c("slug", "image_l_url", "image_o_url", "image_s_url", "image_m_url",
+                     "contributor", "copyright_holder", "license",
+                     "imaging_instrument", "priority") %in% names(il_links)))
+})
+
+test_that("nua image labeling metadata is retrieved", {
+  skip_if_offline()
+  skip_if_resource_unavailable(nua_url)
+
+  il_metadata <- get_nua_image_labeling_metadata()
+
+  expect_s3_class(il_metadata, "data.frame")
+  expect_true(nrow(il_metadata) > 0)
+  expect_true(all(c("slug", "taxon_slug", "scientific_name", "file", "type", "title",
+                     "license", "location", "contributor", "imaging_instrument",
+                     "training_dataset", "geographic_area", "institute",
+                     "priority", "created_at", "updated_at") %in% names(il_metadata)))
+})

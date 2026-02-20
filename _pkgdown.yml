@@ -82,7 +82,10 @@ reference:
   contents:
   - get_nua_external_links
   - get_nua_harmfulness
+  - get_nua_image_labeling_links
+  - get_nua_image_labeling_metadata
   - get_nua_media_links
+  - get_nua_media_metadata
   - get_nua_taxa
 
 - subtitle: Plankton Toolbox

@@ -1,5 +1,11 @@
 # SHARK4R (development version)
 
+## New features
+
+* Added `get_nua_media_metadata()` to retrieve detailed metadata for media items from Nordic Microalgae
+* Added `get_nua_image_labeling_links()` to retrieve media URLs for automated imaging images (e.g., IFCB) from Nordic Microalgae
+* Added `get_nua_image_labeling_metadata()` to retrieve detailed metadata for automated imaging images from Nordic Microalgae
+
 ## Bug fixes and CRAN compliance
 
 * Package cache directory is now removed after R CMD check to avoid leaving files behind.
