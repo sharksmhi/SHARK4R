@@ -1,5 +1,6 @@
 # Retrieve the API key
 dyntaxa_key <- Sys.getenv("DYNTAXA_KEY")
+has_dyntaxa_key <- nzchar(dyntaxa_key)
 
 test_id <- 238460  # Dinophysis acuta
 test_genus_id <- 1010631  # Dinophysis
@@ -12,6 +13,7 @@ dyntaxa_url <- "https://artfakta.se/"
 test_that("records are retrieved", {
   skip_on_cran()
   skip_if_offline()
+  skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
   skip_if_resource_unavailable(dyntaxa_url)
 
   dyntaxa_record <- get_dyntaxa_records(test_id, dyntaxa_key)
@@ -24,6 +26,7 @@ test_that("records are retrieved", {
 test_that("parent ids are retrieved", {
   skip_on_cran()
   skip_if_offline()
+  skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
   skip_if_resource_unavailable(dyntaxa_url)
 
   dyntaxa_parents <- get_dyntaxa_parent_ids(test_id, dyntaxa_key)
@@ -35,6 +38,7 @@ test_that("parent ids are retrieved", {
 test_that("children hierarchy is retrieved", {
   skip_on_cran()
   skip_if_offline()
+  skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
   skip_if_resource_unavailable(dyntaxa_url)
 
   dyntaxa_children_hierarchy <- SHARK4R:::get_dyntaxa_children_hierarchy(test_genus_id, dyntaxa_key)
@@ -47,6 +51,7 @@ test_that("children hierarchy is retrieved", {
 test_that("parent ids are retrieved", {
   skip_on_cran()
   skip_if_offline()
+  skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
   skip_if_resource_unavailable(dyntaxa_url)
 
   dyntaxa_children_ids <- SHARK4R:::get_dyntaxa_children_ids(test_genus_id, dyntaxa_key)
@@ -58,6 +63,7 @@ test_that("parent ids are retrieved", {
 test_that("construct_dyntaxa_table is working", {
   skip_on_cran()
   skip_if_offline()
+  skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
   skip_if_resource_unavailable(dyntaxa_url)
 
   dyntaxa_table <- construct_dyntaxa_table(test_id, dyntaxa_key, add_descendants = FALSE, add_hierarchy = TRUE)
@@ -77,6 +83,7 @@ test_that("construct_dyntaxa_table is working", {
 test_that("construct_dyntaxa_table is working with deprecated arguments", {
   skip_on_cran()
   skip_if_offline()
+  skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
   skip_if_resource_unavailable(dyntaxa_url)
 
   parent_ids <- get_dyntaxa_parent_ids(test_genus_id, dyntaxa_key)
@@ -93,6 +100,7 @@ test_that("construct_dyntaxa_table is working with deprecated arguments", {
 test_that("taxon match is working as expected", {
   skip_on_cran()
   skip_if_offline()
+  skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
   skip_if_resource_unavailable(dyntaxa_url)
 
   taxon_match <- match_dyntaxa_taxa(test_species_name, dyntaxa_key, multiple_options = FALSE)
@@ -118,6 +126,7 @@ test_that("deprecated taxon match is working as expected", {
 test_that("update_dyntaxa_taxonomy is working as expected", {
   skip_on_cran()
   skip_if_offline()
+  skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
   skip_if_resource_unavailable(dyntaxa_url)
 
   updated_data <- update_dyntaxa_taxonomy(test_id, dyntaxa_key)
@@ -130,6 +139,7 @@ test_that("update_dyntaxa_taxonomy is working as expected", {
 test_that("is_in_dyntaxa returns logical vector", {
   skip_on_cran()
   skip_if_offline()
+  skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
   skip_if_resource_unavailable(dyntaxa_url)
 
   # Replace with your real DYNTAXA_KEY for local testing
@@ -146,6 +156,7 @@ test_that("is_in_dyntaxa returns logical vector", {
 test_that("is_in_dyntaxa use dwca and returns dataframe", {
   skip_on_cran()
   skip_if_offline()
+  skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
   skip_if_resource_unavailable(dyntaxa_url)
 
   # Replace with your real DYNTAXA_KEY for local testing
@@ -162,6 +173,7 @@ test_that("is_in_dyntaxa use dwca and returns dataframe", {
 test_that("is_in_dyntaxa detects unmatched taxa", {
   skip_on_cran()
   skip_if_offline()
+  skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
   skip_if_resource_unavailable(dyntaxa_url)
 
   taxa <- c("Skeletonema marinoi", "Nonexistent species")
@@ -175,6 +187,7 @@ test_that("is_in_dyntaxa detects unmatched taxa", {
 test_that("match_dyntaxa calls is_in_dyntaxa and warns about deprecation", {
   skip_on_cran()
   skip_if_offline()
+  skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
   skip_if_resource_unavailable(dyntaxa_url)
 
   taxa <- c("Skeletonema marinoi", "Nonexistent species")
@@ -187,6 +200,7 @@ test_that("match_dyntaxa calls is_in_dyntaxa and warns about deprecation", {
 test_that("construct_dyntaxa_missing_table caches results", {
   skip_on_cran()
   skip_if_offline()
+  skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
   skip_if_resource_unavailable(dyntaxa_url)
 
   parent_ids <- get_dyntaxa_parent_ids(test_genus_id, dyntaxa_key)
@@ -217,6 +231,7 @@ test_that("functions stops if input key is missing or wrong", {
 
 test_that("get_dyntaxa_dwca stops if file_to_read is wrong", {
   skip_on_cran()
+  skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
 
   expect_error(get_dyntaxa_dwca(subscription_key = dyntaxa_key,
                                 file_to_read = "non-existing-file"), "Invalid file_to_read")

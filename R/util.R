@@ -310,28 +310,26 @@ load_shark4r_stats <- function(file_name = "sea_basin.rds",
 #'
 #' @export
 load_shark4r_fields <- function(verbose = TRUE) {
-  base_url <- "https://raw.githubusercontent.com/nodc-sweden/SHARK4R-statistics/main/fields/fields.R"
-  tmp <- tempfile(fileext = ".R")
+  base_url <- "https://raw.githubusercontent.com/nodc-sweden/SHARK4R-statistics/main/fields/fields.rds"
+  tmp <- tempfile(fileext = ".rds")
 
   tryCatch({
     if (verbose) message("Downloading SHARK4R field definitions from GitHub...")
-    utils::download.file(base_url, destfile = tmp, quiet = !verbose)
+    utils::download.file(base_url, destfile = tmp, mode = "wb", quiet = !verbose)
 
-    if (verbose) message("Sourcing field definitions into R...")
-    env <- new.env()
-    sys.source(tmp, envir = env)
+    if (verbose) message("Reading field definitions into R...")
+    defs <- readRDS(tmp)
 
-    if (!exists(".field_definitions", envir = env)) {
-      stop("The sourced file does not contain an object named '.field_definitions'.")
+    if (!is.list(defs)) {
+      stop("Downloaded field definitions file has unexpected format (expected a list).")
     }
-
-    defs <- get(".field_definitions", envir = env)
 
     if (verbose) message("Field definitions successfully loaded.")
     return(defs)
   },
   error = function(e) {
-    stop("Failed to load SHARK4R field definitions from GitHub: ", e$message)
+    stop("Failed to load SHARK4R field definitions from GitHub: ", e$message,
+         call. = FALSE)
   })
 }
 
@@ -460,7 +458,6 @@ get_xy_clean_duplicates <- function(data, latcol = "sample_latitude_dd", loncol 
 
 list_cache <- function(include_perm = FALSE) {
   cache_dir <- cache_dir()
-  list.files(cache_dir, full.names = TRUE)
   if(include_perm) {
     perm_dir <- file.path(cache_dir, "perm")
     if(dir.exists(perm_dir)) {
@@ -485,8 +482,6 @@ cache_call <- function(key, expr, env = NULL) {
   saveRDS(list(key = key, expr = expr), tmpfile)
   hash <- tools::md5sum(tmpfile)
   unlink(tmpfile)
-
-  cachefile <- file.path(cache_dir, paste0("call_", hash, ".rds"))
 
   cachefile <- file.path(cache_dir, paste0("call_", hash, ".rds"))
   if(file.exists(cachefile) && difftime(Sys.time(), file.info(cachefile)[,"mtime"], units = "hours") < 10) {

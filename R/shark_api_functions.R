@@ -410,6 +410,14 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     stop("To save the data, set 'save_data' to TRUE and specify a valid 'file_path': ", file_path)
   }
 
+  # Validate file_path to prevent path traversal
+  if (!is.null(file_path)) {
+    resolved_path <- normalizePath(file_path, mustWork = FALSE)
+    if (grepl("\\.\\.", file_path)) {
+      stop("'file_path' must not contain '..' path components.")
+    }
+  }
+
   # Normalize user input (case-insensitive)
   tableView <- tolower(trimws(tableView))
 
@@ -569,8 +577,8 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
                                   datasets = datasets, maxSamplingDepth = maxSamplingDepth, checkStatus = checkStatus,
                                   minSamplingDepth = minSamplingDepth, redListedCategory = redListedCategory, taxonName = taxonName,
                                   stationName = stationName, vattenDistrikt = vattenDistrikt, seaBasins = seaBasins,
-                                  counties = counties, municipalities = c(), waterCategories = c(),
-                                  typOmraden = c(), helcomOspar = helcomOspar, seaAreas = seaAreas, prod = prod)
+                                  counties = counties, municipalities = municipalities, waterCategories = waterCategories,
+                                  typOmraden = typOmraden, helcomOspar = helcomOspar, seaAreas = seaAreas, prod = prod)
 
   # Download data in chunks or everything at once
   if (count > row_limit && !grepl("report_", tableView)) {
@@ -890,6 +898,8 @@ get_shark_datasets <- function(dataset_name,
   if (!dir.exists(save_dir)) dir.create(save_dir, recursive = TRUE, showWarnings = FALSE)
 
   results <- lapply(matched_datasets, function(md) {
+    # Sanitize dataset name to prevent path traversal
+    md <- basename(md)
     zip_path <- file.path(save_dir, md)
 
     if (!file.exists(zip_path)) {

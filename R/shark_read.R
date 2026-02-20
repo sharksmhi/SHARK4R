@@ -31,7 +31,7 @@
 read_shark_deliv <- function(filename, skip = 2, sheet = 2) {
 
   if (!file.exists(filename)) {
-    message("ERROR: File does not exist: ", filename)
+    warning("File does not exist: ", filename, call. = FALSE)
     return(NULL)
   }
 
@@ -42,7 +42,7 @@ read_shark_deliv <- function(filename, skip = 2, sheet = 2) {
                    xlsx = readxl::read_xlsx,
                    xls  = readxl::read_xls,
                    {
-                     message("ERROR: Unsupported file extension: ", ext)
+                     warning("Unsupported file extension: ", ext, call. = FALSE)
                      return(NULL)
                    }
   )
@@ -51,13 +51,13 @@ read_shark_deliv <- function(filename, skip = 2, sheet = 2) {
     reader(filename, skip = skip, sheet = sheet,
            guess_max = 2000, col_names = TRUE, progress = FALSE),
     error = function(e) {
-      message("ERROR: Could not read file: ", e$message)
+      warning("Could not read file: ", e$message, call. = FALSE)
       return(NULL)
     }
   )
 
   if (is.null(i) || ncol(i) == 0 || nrow(i) == 0) {
-    message("ERROR: File is empty or not in Excel format")
+    warning("File is empty or not in Excel format", call. = FALSE)
     return(NULL)
   }
 
@@ -202,7 +202,7 @@ read_shark <- function(filename,
     return(i)
   } else {
     msg <- if (is_zip) "Zip archive is empty or invalid" else "File is empty or invalid"
-    message("ERROR: ", msg)
+    warning(msg, call. = FALSE)
     return(NULL)
   }
 }

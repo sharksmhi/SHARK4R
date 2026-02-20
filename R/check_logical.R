@@ -47,8 +47,9 @@ check_value_logical <- function(data, return_df = FALSE) {
   non_valid_idx <- !valid_ok
 
   if (any(non_valid_idx)) {
-    message("ERROR: Expected numerical/logical value but found invalid characters.")
-    message("Common problems are e.g. '<', '>' signs, text labels, or malformed numbers.")
+    warning("Expected numerical/logical value but found invalid characters. ",
+            "Common problems are e.g. '<', '>' signs, text labels, or malformed numbers.",
+            call. = FALSE)
     matches <- unique(vals_chr[non_valid_idx])
     matches_df <- data.frame(value = matches, stringsAsFactors = FALSE)
     if (return_df) {
@@ -98,7 +99,7 @@ check_zero_value <- function(data, return_df = FALSE) {
   vals <- suppressWarnings(as.numeric(as.character(data$value)))
 
   if (any(vals == 0, na.rm = TRUE)) {
-    message("ERROR: Value contain zeroes (0). Please check zero values!")
+    warning("Value column contains zeroes (0). Please check zero values!", call. = FALSE)
     zero_values <- data %>%
       dplyr::filter(vals == 0) %>%
       dplyr::select(
@@ -189,7 +190,7 @@ check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, r
   if (return_logical) return(zero_vec)
 
   if (any(zero_vec)) {
-    if (verbose) message("ERROR: Positions contain zeroes (0). Please check station coordinates with zero values!")
+    if (verbose) warning("Positions contain zeroes (0). Please check station coordinates with zero values!", call. = FALSE)
 
     zero_positions <- data %>%
       dplyr::filter(zero_vec) %>%

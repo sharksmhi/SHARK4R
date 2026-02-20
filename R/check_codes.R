@@ -123,7 +123,7 @@ check_codes <- function(data,
   # message
   if (verbose) {
     if (any(!match_type)) {
-      message(sprintf("ERROR: Unmatched %s code(s) found", code_type))
+      warning(sprintf("Unmatched %s code(s) found", code_type), call. = FALSE)
       print(dplyr::filter(matches, !match_type))
     } else {
       message(sprintf("All %s codes found", code_type))
