@@ -79,14 +79,22 @@ check_onland <- function(data, land = NULL, report = FALSE, buffer = 0, offline 
     landpath <- file.path(cache_dir, 'land.gpkg')
     if(!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
     if (!file.exists(landpath)) {
-      utils::download.file("https://obis-resources.s3.amazonaws.com/land.gpkg", landpath, mode = "wb")
+      tryCatch(
+        utils::download.file("https://obis-resources.s3.amazonaws.com/land.gpkg", landpath, mode = "wb"),
+        error = function(e) {
+          unlink(landpath)
+          stop("Failed to download land shapefile: ", e$message, call. = FALSE)
+        }
+      )
     }
     land <- tryCatch({
       sf::read_sf(landpath) %>% terra::vect()
     }, error = function(e) {
+      unlink(landpath)
       stop(
-        "Failed to read land shapefile at: ", landpath, "\n", "Error: ", e$message, "\n\n",
-        "Try clearing the cache:\n", "  clean_shark4r_cache(days = 0, clear_perm_cache = TRUE)",
+        "Failed to read land shapefile (removed corrupt file). ",
+        "Please re-run to trigger a fresh download.\n",
+        "Error: ", e$message,
         call. = FALSE
       )
     })

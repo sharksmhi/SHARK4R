@@ -1,8 +1,29 @@
 # SHARK4R (development version)
 
+## New features
+
+* Added `get_nua_media_metadata()` to retrieve detailed metadata for media items from Nordic Microalgae
+* Added `get_nua_image_labeling_links()` to retrieve media URLs for automated imaging images (e.g., IFCB) from Nordic Microalgae
+* Added `get_nua_image_labeling_metadata()` to retrieve detailed metadata for automated imaging images from Nordic Microalgae
+
+## Security improvements
+
+* `load_shark4r_fields()` now downloads field definitions as a binary `.rds` file instead of sourcing a remote R script, eliminating a remote code execution risk.
+* `get_shark_data()` now validates that `file_path` does not contain `..` path components, preventing path traversal when used in downstream applications.
+* `get_shark_datasets()` now sanitizes dataset names from the API with `basename()` before writing to disk.
+
 ## Bug fixes and CRAN compliance
 
-* Package cache directory is now removed after R CMD check to avoid leaving files behind.
+* Fixed `get_dyntaxa_records()` silently returning a character string on API error instead of raising a condition with `stop()`.
+* Fixed `get_shark_data()` silently dropping `municipalities`, `waterCategories`, and `typOmraden` parameters when computing the pre-download row count, which could bypass the chunked download path.
+* Fixed operator precedence bug `nrow(genus > 0)` to `nrow(genus) > 0` in `construct_dyntaxa_missing_table()`.
+* Replaced unsafe `1:length()` and `1:nrow()` loops with `seq_along()` and `seq_len()` in `construct_dyntaxa_missing_table()` and `construct_dyntaxa_table()` to prevent errors on zero-length input.
+* Replaced `message("ERROR: ...")` calls with `warning()` in `check_value_logical()`, `check_zero_value()`, `check_zero_positions()`, `check_codes()`, and `read_shark_deliv()` so conditions can be caught programmatically with `tryCatch()`.
+* Removed duplicate `cachefile` assignment in `cache_call()` and dead `list.files()` call in `list_cache()`.
+* All internal cache paths now use the `cache_dir()` helper, which redirects to `tempdir()` during R CMD check. Previously several functions called `tools::R_user_dir()` directly, which could create `~/.cache/R/SHARK4R` during CRAN checks.
+* Fixed evaluation order bug in `clean_shark4r_cache()` where `search_pattern = NULL` (the default) could cause an error.
+* Fixed deprecation warning version numbers in algaebase functions (now correctly reference `1.0.0`).
+* Fixed spelling of "Microalgae" and other minor typos in `get_hab_list()` documentation.
 
 # SHARK4R 1.0.3
 

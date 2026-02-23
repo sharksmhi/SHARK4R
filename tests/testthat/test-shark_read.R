@@ -19,7 +19,7 @@ test_that("read_shark_deliv reads valid .xlsx", {
 
 test_that("read_shark_deliv handles non-existent file", {
   file <- file.path(exdir, "nonexistent.xlsx")
-  expect_message(result <- read_shark_deliv(file), "does not exist")
+  expect_warning(result <- read_shark_deliv(file), "does not exist")
   expect_null(result)
 })
 

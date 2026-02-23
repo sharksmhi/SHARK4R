@@ -86,8 +86,9 @@ get_dyntaxa_records <- function(taxon_ids,
     df <- fromJSON(content(response, "text"), flatten = TRUE)
     return(tibble(df))
   } else {
-    # If the request was not successful, return an error message
-    return(paste("Error: ", status_code(response), " - ", content(response, "text")))
+    stop("Dyntaxa API error (HTTP ", status_code(response), "): ",
+         substr(content(response, "text", encoding = "UTF-8"), 1, 500),
+         call. = FALSE)
   }
 }
 #' Get parent taxon IDs for specified taxon IDs from Dyntaxa
@@ -510,7 +511,7 @@ construct_dyntaxa_missing_table <- function(parent_ids,
 
     taxa_i <- data.frame()
 
-    for (id in 1:length(single)) {
+    for (id in seq_along(single)) {
       if (single[id] %in% taxa$taxon_id) {
         if_counter <- if_counter + 1
 
@@ -637,7 +638,7 @@ construct_dyntaxa_missing_table <- function(parent_ids,
       genus <- taxa_i %>%
         filter(rank == "Genus" & recommended)
 
-      if (nrow(genus > 0)) {
+      if (nrow(genus) > 0) {
         children_ids <- get_dyntaxa_children_ids(genus$taxon_id, subscription_key, verbose = FALSE)
 
         children_records <- get_dyntaxa_records(unlist(children_ids), subscription_key)
@@ -659,7 +660,7 @@ construct_dyntaxa_missing_table <- function(parent_ids,
           taxonId_recommended = character(0)
         )
 
-        for (j in 1:nrow(children_records)) {
+        for (j in seq_len(nrow(children_records))) {
 
           children_record <- children_records %>%
             filter(taxonId == children_records$taxonId[j])
@@ -1486,7 +1487,7 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DY
     }
 
     # Loop over each genus and find its descendants
-    for (i in 1:nrow(rank_data)) {
+    for (i in seq_len(nrow(rank_data))) {
       genus <- rank_data$taxonId[i]  # Get the taxonId of the current genus
       descendants <- bind_rows(descendants, find_descendants(genus, data))  # Find descendants for this genus
 

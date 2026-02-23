@@ -68,7 +68,7 @@ get_nua_taxa <- function(unparsed = FALSE) {
         extract_taxa_info(x)
       } else {
         tibble(slug = NA, scientific_name = NA, authority = NA, rank = NA,
-               image_l_url = NA, image_m_url = NA, image_o_url = NA, image_s_url = NA)
+               nua_url = NA)
       }
     }))
 
@@ -378,5 +378,361 @@ get_nua_media_links <- function(unparsed = FALSE) {
   } else {
     # Return the error message if the request failed
     stop("Failed to retrieve options: ", status_code(response))
+  }
+}
+#' Retrieve media metadata from Nordic Microalgae
+#'
+#' This function retrieves metadata for media items from the Nordic Microalgae API.
+#' It returns detailed attributes such as title, caption, location, sampling date,
+#' geographic coordinates, and contributor information.
+#'
+#' @param unparsed Logical. If `TRUE`, complete API response is returned as an unparsed list. Default is `FALSE`.
+#'
+#' @return When unparsed = `FALSE`: a `tibble` with the following columns:
+#'   \itemize{
+#'     \item \code{slug}: The slug of the media item.
+#'     \item \code{taxon_slug}: The slug of the related taxon.
+#'     \item \code{scientific_name}: The scientific name of the related taxon.
+#'     \item \code{file}: The filename of the media item.
+#'     \item \code{type}: The MIME type of the media item.
+#'     \item \code{title}: The title of the media item.
+#'     \item \code{caption}: The caption of the media item.
+#'     \item \code{license}: The license of the media item.
+#'     \item \code{location}: The location where the media was collected.
+#'     \item \code{contributor}: The contributor of the media item.
+#'     \item \code{photographer_artist}: The photographer or artist.
+#'     \item \code{copyright_holder}: The copyright holder.
+#'     \item \code{galleries}: Comma-separated list of galleries.
+#'     \item \code{technique}: The imaging technique used.
+#'     \item \code{contrast_enhancement}: The contrast enhancement method used.
+#'     \item \code{preservation}: The preservation method used.
+#'     \item \code{stain}: The stain used.
+#'     \item \code{sampling_date}: The date the sample was collected.
+#'     \item \code{geographic_area}: The geographic area of collection.
+#'     \item \code{latitude_degree}: The latitude in degrees.
+#'     \item \code{longitude_degree}: The longitude in degrees.
+#'     \item \code{institute}: Comma-separated list of institutes.
+#'     \item \code{contributing_organisation}: The contributing organisation.
+#'     \item \code{created_at}: The creation timestamp.
+#'     \item \code{updated_at}: The last update timestamp.
+#'   }
+#'
+#' @seealso \url{https://nordicmicroalgae.org/} for Nordic Microalgae website.
+#' @seealso \url{https://nordicmicroalgae.org/api/} for Nordic Microalgae API documentation.
+#' @seealso \code{\link{get_nua_media_links}} for retrieving media image URLs.
+#'
+#' @examples
+#' \donttest{
+#' # Retrieve media metadata
+#' media_metadata <- get_nua_media_metadata(unparsed = FALSE)
+#'
+#' # Preview the extracted data
+#' head(media_metadata)
+#' }
+#' @export
+get_nua_media_metadata <- function(unparsed = FALSE) {
+  # Define the base URL
+  base_url <- "https://nordicmicroalgae.org/api/media/"
+
+  # Check if the server is reachable
+  base_url_short <- gsub("api/media/", "", base_url)
+  url_response <- try(GET(base_url_short), silent = TRUE)
+  if (inherits(url_response, "try-error") || http_error(url_response)) {
+    stop("The Nordic Microalgae server cannot be reached: ", base_url_short, ". Please check your network connection.")
+  }
+
+  # Make the GET request
+  response <- GET(base_url, add_headers("accept" = "application/json"))
+
+  # Check if the request was successful
+  if (status_code(response) == 200) {
+    # Parse the JSON response content
+    nua_media <- content(response, as = "parsed", type = "application/json")
+    nua_media <- nua_media$media
+
+    if (unparsed) {
+      return(nua_media)
+    }
+
+    # Function to extract metadata
+    extract_media_metadata <- function(nua_media) {
+      do.call(rbind, lapply(nua_media, function(media_item) {
+        attrs <- media_item$attributes
+
+        # Extract related taxon info
+        related_slug <- if (!is.null(media_item$related_taxon)) media_item$related_taxon$slug else NA
+        scientific_name <- if (!is.null(media_item$related_taxon)) media_item$related_taxon$scientific_name else NA
+
+        # Extract galleries and institute as comma-separated strings
+        galleries <- if (!is.null(attrs$galleries)) paste(attrs$galleries, collapse = ", ") else NA
+        institute <- if (!is.null(attrs$institute)) paste(attrs$institute, collapse = ", ") else NA
+
+        tibble(
+          slug = ifelse(!is.null(media_item$slug), media_item$slug, NA),
+          taxon_slug = related_slug,
+          scientific_name = scientific_name,
+          file = ifelse(!is.null(media_item$file), media_item$file, NA),
+          type = ifelse(!is.null(media_item$type), media_item$type, NA),
+          title = ifelse(!is.null(attrs$title), attrs$title, NA),
+          caption = ifelse(!is.null(attrs$caption), attrs$caption, NA),
+          license = ifelse(!is.null(attrs$license), attrs$license, NA),
+          location = ifelse(!is.null(attrs$location), attrs$location, NA),
+          contributor = ifelse(!is.null(attrs$contributor), attrs$contributor, NA),
+          photographer_artist = ifelse(!is.null(attrs$photographer_artist), attrs$photographer_artist, NA),
+          copyright_holder = ifelse(!is.null(attrs$copyright_holder), attrs$copyright_holder, NA),
+          galleries = galleries,
+          technique = ifelse(!is.null(attrs$technique), attrs$technique, NA),
+          contrast_enhancement = ifelse(!is.null(attrs$contrast_enhancement), attrs$contrast_enhancement, NA),
+          preservation = ifelse(!is.null(attrs$preservation), attrs$preservation, NA),
+          stain = ifelse(!is.null(attrs$stain), attrs$stain, NA),
+          sampling_date = ifelse(!is.null(attrs$sampling_date), attrs$sampling_date, NA),
+          geographic_area = ifelse(!is.null(attrs$geographic_area), attrs$geographic_area, NA),
+          latitude_degree = ifelse(!is.null(attrs$latitude_degree), attrs$latitude_degree, NA),
+          longitude_degree = ifelse(!is.null(attrs$longitude_degree), attrs$longitude_degree, NA),
+          institute = institute,
+          contributing_organisation = ifelse(!is.null(attrs$contributing_organisation), attrs$contributing_organisation, NA),
+          created_at = ifelse(!is.null(media_item$created_at), media_item$created_at, NA),
+          updated_at = ifelse(!is.null(media_item$updated_at), media_item$updated_at, NA)
+        )
+      }))
+    }
+
+    # Extract data
+    nua_media_metadata <- extract_media_metadata(nua_media)
+
+    return(nua_media_metadata)
+
+  } else {
+    stop("Failed to retrieve media metadata: ", status_code(response))
+  }
+}
+#' Retrieve image labeling media links from Nordic Microalgae
+#'
+#' This function retrieves media URLs for automated imaging images from the Nordic Microalgae API.
+#' These are images from automated imaging instruments (e.g., IFCB) used for image labeling purposes.
+#' It returns URLs for different renditions (large, medium, original, small) along with basic attribution.
+#'
+#' @param unparsed Logical. If `TRUE`, complete API response is returned as an unparsed list. Default is `FALSE`.
+#'
+#' @return When unparsed = `FALSE`: a `tibble` with the following columns:
+#'   \itemize{
+#'     \item \code{slug}: The slug of the related taxon.
+#'     \item \code{image_l_url}: The URL for the "large" rendition.
+#'     \item \code{image_o_url}: The URL for the "original" rendition.
+#'     \item \code{image_s_url}: The URL for the "small" rendition.
+#'     \item \code{image_m_url}: The URL for the "medium" rendition.
+#'     \item \code{contributor}: The contributor of the media item.
+#'     \item \code{copyright_holder}: The copyright holder.
+#'     \item \code{license}: The license of the media item.
+#'     \item \code{imaging_instrument}: Comma-separated list of imaging instruments.
+#'     \item \code{priority}: The priority of the image.
+#'   }
+#'
+#' @seealso \url{https://nordicmicroalgae.org/} for Nordic Microalgae website.
+#' @seealso \url{https://nordicmicroalgae.org/api/} for Nordic Microalgae API documentation.
+#' @seealso \code{\link{get_nua_image_labeling_metadata}} for retrieving full metadata for image labeling images.
+#' @seealso \code{\link{get_nua_media_links}} for retrieving regular media image URLs.
+#'
+#' @examples
+#' \donttest{
+#' # Retrieve image labeling media links
+#' il_links <- get_nua_image_labeling_links(unparsed = FALSE)
+#'
+#' # Preview the extracted data
+#' head(il_links)
+#' }
+#' @export
+get_nua_image_labeling_links <- function(unparsed = FALSE) {
+  # Define the base URL
+  base_url <- "https://nordicmicroalgae.org/api/media/image_labeling/"
+
+  # Check if the server is reachable
+  base_url_short <- gsub("api/media/image_labeling/", "", base_url)
+  url_response <- try(GET(base_url_short), silent = TRUE)
+  if (inherits(url_response, "try-error") || http_error(url_response)) {
+    stop("The Nordic Microalgae server cannot be reached: ", base_url_short, ". Please check your network connection.")
+  }
+
+  # Make the GET request
+  response <- GET(base_url, add_headers("accept" = "application/json"))
+
+  # Check if the request was successful
+  if (status_code(response) == 200) {
+    # Parse the JSON response content
+    nua_media <- content(response, as = "parsed", type = "application/json")
+    nua_media <- nua_media$image_labeling_images
+
+    if (unparsed) {
+      return(nua_media)
+    }
+
+    # Function to extract slug and URLs
+    extract_il_links <- function(nua_media) {
+      do.call(rbind, lapply(nua_media, function(media_item) {
+        # Extract related_taxon slug
+        related_slug <- if (!is.null(media_item$related_taxon)) media_item$related_taxon$slug else NA
+
+        # Extract attribution info
+        contributor <- if (!is.null(media_item$attributes$contributor)) media_item$attributes$contributor else NA
+        copyright_holder <- if (!is.null(media_item$attributes$copyright_holder)) media_item$attributes$copyright_holder else NA
+        license <- if (!is.null(media_item$attributes$license)) media_item$attributes$license else NA
+        imaging_instrument <- if (!is.null(media_item$attributes$imaging_instrument)) paste(media_item$attributes$imaging_instrument, collapse = ", ") else NA
+
+        # Extract priority
+        priority <- if (!is.null(media_item$priority)) media_item$priority else NA
+
+        # Extract URLs for renditions (l, o, s, m)
+        renditions <- media_item$renditions
+        urls <- list(
+          l = if (!is.null(renditions$l)) renditions$l$url else NA,
+          o = if (!is.null(renditions$o)) renditions$o$url else NA,
+          s = if (!is.null(renditions$s)) renditions$s$url else NA,
+          m = if (!is.null(renditions$m)) renditions$m$url else NA
+        )
+
+        # Combine into a data frame
+        tibble(
+          slug = related_slug,
+          image_l_url = urls$l,
+          image_o_url = urls$o,
+          image_s_url = urls$s,
+          image_m_url = urls$m,
+          contributor = contributor,
+          copyright_holder = copyright_holder,
+          license = license,
+          imaging_instrument = imaging_instrument,
+          priority = priority
+        )
+      }))
+    }
+
+    # Extract data
+    nua_il_links <- extract_il_links(nua_media)
+
+    return(nua_il_links)
+
+  } else {
+    stop("Failed to retrieve image labeling media: ", status_code(response))
+  }
+}
+#' Retrieve image labeling metadata from Nordic Microalgae
+#'
+#' This function retrieves detailed metadata for automated imaging images from the Nordic Microalgae API.
+#' These are images from automated imaging instruments (e.g., IFCB) used for image labeling purposes.
+#' It returns comprehensive metadata including location, instrument, dataset, and taxonomic information.
+#'
+#' @param unparsed Logical. If `TRUE`, complete API response is returned as an unparsed list. Default is `FALSE`.
+#'
+#' @return When unparsed = `FALSE`: a `tibble` with the following columns:
+#'   \itemize{
+#'     \item \code{slug}: The slug of the media item.
+#'     \item \code{taxon_slug}: The slug of the related taxon.
+#'     \item \code{scientific_name}: The scientific name of the related taxon.
+#'     \item \code{file}: The filename of the media item.
+#'     \item \code{type}: The MIME type of the media item.
+#'     \item \code{title}: The title of the media item.
+#'     \item \code{caption}: The caption of the media item.
+#'     \item \code{license}: The license of the media item.
+#'     \item \code{location}: The location where the media was collected.
+#'     \item \code{contributor}: The contributor of the media item.
+#'     \item \code{copyright_holder}: The copyright holder.
+#'     \item \code{imaging_instrument}: Comma-separated list of imaging instruments.
+#'     \item \code{training_dataset}: DOI or URL of the training dataset.
+#'     \item \code{sampling_date}: The date the sample was collected.
+#'     \item \code{geographic_area}: The geographic area of collection.
+#'     \item \code{latitude_degree}: The latitude in degrees.
+#'     \item \code{longitude_degree}: The longitude in degrees.
+#'     \item \code{institute}: Comma-separated list of institutes.
+#'     \item \code{contributing_organisation}: The contributing organisation.
+#'     \item \code{priority}: The priority of the image.
+#'     \item \code{created_at}: The creation timestamp.
+#'     \item \code{updated_at}: The last update timestamp.
+#'   }
+#'
+#' @seealso \url{https://nordicmicroalgae.org/} for Nordic Microalgae website.
+#' @seealso \url{https://nordicmicroalgae.org/api/} for Nordic Microalgae API documentation.
+#' @seealso \code{\link{get_nua_image_labeling_links}} for retrieving image labeling media URLs.
+#' @seealso \code{\link{get_nua_media_metadata}} for retrieving regular media metadata.
+#'
+#' @examples
+#' \donttest{
+#' # Retrieve image labeling metadata
+#' il_metadata <- get_nua_image_labeling_metadata(unparsed = FALSE)
+#'
+#' # Preview the extracted data
+#' head(il_metadata)
+#' }
+#' @export
+get_nua_image_labeling_metadata <- function(unparsed = FALSE) {
+  # Define the base URL
+  base_url <- "https://nordicmicroalgae.org/api/media/image_labeling/"
+
+  # Check if the server is reachable
+  base_url_short <- gsub("api/media/image_labeling/", "", base_url)
+  url_response <- try(GET(base_url_short), silent = TRUE)
+  if (inherits(url_response, "try-error") || http_error(url_response)) {
+    stop("The Nordic Microalgae server cannot be reached: ", base_url_short, ". Please check your network connection.")
+  }
+
+  # Make the GET request
+  response <- GET(base_url, add_headers("accept" = "application/json"))
+
+  # Check if the request was successful
+  if (status_code(response) == 200) {
+    # Parse the JSON response content
+    nua_media <- content(response, as = "parsed", type = "application/json")
+    nua_media <- nua_media$image_labeling_images
+
+    if (unparsed) {
+      return(nua_media)
+    }
+
+    # Function to extract metadata
+    extract_il_metadata <- function(nua_media) {
+      do.call(rbind, lapply(nua_media, function(media_item) {
+        attrs <- media_item$attributes
+
+        # Extract related taxon info
+        related_slug <- if (!is.null(media_item$related_taxon)) media_item$related_taxon$slug else NA
+        scientific_name <- if (!is.null(media_item$related_taxon)) media_item$related_taxon$scientific_name else NA
+
+        # Extract list fields as comma-separated strings
+        imaging_instrument <- if (!is.null(attrs$imaging_instrument)) paste(attrs$imaging_instrument, collapse = ", ") else NA
+        institute <- if (!is.null(attrs$institute)) paste(attrs$institute, collapse = ", ") else NA
+
+        tibble(
+          slug = ifelse(!is.null(media_item$slug), media_item$slug, NA),
+          taxon_slug = related_slug,
+          scientific_name = scientific_name,
+          file = ifelse(!is.null(media_item$file), media_item$file, NA),
+          type = ifelse(!is.null(media_item$type), media_item$type, NA),
+          title = ifelse(!is.null(attrs$title), attrs$title, NA),
+          caption = ifelse(!is.null(attrs$caption), attrs$caption, NA),
+          license = ifelse(!is.null(attrs$license), attrs$license, NA),
+          location = ifelse(!is.null(attrs$location), attrs$location, NA),
+          contributor = ifelse(!is.null(attrs$contributor), attrs$contributor, NA),
+          copyright_holder = ifelse(!is.null(attrs$copyright_holder), attrs$copyright_holder, NA),
+          imaging_instrument = imaging_instrument,
+          training_dataset = ifelse(!is.null(attrs$training_dataset), attrs$training_dataset, NA),
+          sampling_date = ifelse(!is.null(attrs$sampling_date), attrs$sampling_date, NA),
+          geographic_area = ifelse(!is.null(attrs$geographic_area), attrs$geographic_area, NA),
+          latitude_degree = ifelse(!is.null(attrs$latitude_degree), attrs$latitude_degree, NA),
+          longitude_degree = ifelse(!is.null(attrs$longitude_degree), attrs$longitude_degree, NA),
+          institute = institute,
+          contributing_organisation = ifelse(!is.null(attrs$contributing_organisation), attrs$contributing_organisation, NA),
+          priority = ifelse(!is.null(media_item$priority), media_item$priority, NA),
+          created_at = ifelse(!is.null(media_item$created_at), media_item$created_at, NA),
+          updated_at = ifelse(!is.null(media_item$updated_at), media_item$updated_at, NA)
+        )
+      }))
+    }
+
+    # Extract data
+    nua_il_metadata <- extract_il_metadata(nua_media)
+
+    return(nua_il_metadata)
+
+  } else {
+    stop("Failed to retrieve image labeling metadata: ", status_code(response))
   }
 }

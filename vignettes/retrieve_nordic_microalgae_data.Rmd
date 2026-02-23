@@ -63,7 +63,7 @@ The full list of facts can be accessed as an unparsed list by setting the `unpar
 
 ## Get Nordic Microalgae Harmfulness Information
 
-Taxa listed in the [IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae](https://www.marinespecies.org/hab/) contain information about harmfulness. This information can be retrieved through the API.
+Taxa listed in the [IOC-UNESCO Taxonomic Reference List of Harmful Microalgae](https://www.marinespecies.org/hab/) contain information about harmfulness. This information can be retrieved through the API.
 
 ```{r}
 # Get external links
@@ -88,6 +88,42 @@ print(media)
 ```
 
 Complete media information can be retrieved as an unparsed list by setting the `unparsed` parameter to `TRUE`.
+
+## Get Nordic Microalgae Media Metadata
+
+Detailed metadata for all media items on Nordic Microalgae can be retrieved through the API. This includes information such as location, sampling date, geographic coordinates, imaging technique, and contributor details.
+
+```{r}
+# Get all media metadata
+media_metadata <- get_nua_media_metadata(unparsed = FALSE)
+
+# Print list
+print(media_metadata)
+```
+
+## Get Nordic Microalgae Image Labeling Links
+
+Nordic Microalgae hosts images from automated imaging instruments (e.g., IFCB) used for image labeling. Links to these images can be retrieved through the API, similar to `get_nua_media_links()`.
+
+```{r}
+# Get all image labeling media links
+il_links <- get_nua_image_labeling_links(unparsed = FALSE)
+
+# Print list
+print(il_links)
+```
+
+## Get Nordic Microalgae Image Labeling Metadata
+
+Detailed metadata for automated imaging images can be retrieved through the API. This includes information about the imaging instrument, training dataset, location, and taxonomic details.
+
+```{r}
+# Get all image labeling metadata
+il_metadata <- get_nua_image_labeling_metadata(unparsed = FALSE)
+
+# Print list
+print(il_metadata)
+```
 
 ## Get NOMP and EG Phyto Biovolume lists
 

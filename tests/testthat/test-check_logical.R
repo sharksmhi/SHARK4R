@@ -1,9 +1,9 @@
 test_that("check_value_logical detects invalid characters", {
   df_char <- data.frame(value = c("<5", "10", "maybe", ">20"), stringsAsFactors = FALSE)
 
-  expect_message(
+  expect_warning(
     res <- check_value_logical(df_char),
-    "ERROR: Expected numerical/logical value but found invalid characters"
+    "Expected numerical/logical value but found invalid characters"
   )
   expect_s3_class(res, "datatables")
 
@@ -47,9 +47,9 @@ test_that("check_zero_value detects zeros (datatable)", {
     value = c(0, 5)
   )
 
-  expect_message(
+  expect_warning(
     res <- check_zero_value(df_zero_value),
-    "ERROR: Value contain zeroes"
+    "Value column contains zeroes"
   )
   expect_s3_class(res, "datatables")
 })
@@ -65,9 +65,9 @@ test_that("check_zero_value detects zeros (return_df = TRUE)", {
     value = c(0, 5)
   )
 
-  expect_message(
+  expect_warning(
     res <- check_zero_value(df_zero_value, return_df = TRUE),
-    "ERROR: Value contain zeroes"
+    "Value column contains zeroes"
   )
   expect_s3_class(res, "data.frame")
   expect_equal(res$value, 0)  # only zeros should be returned
@@ -114,13 +114,20 @@ test_that("check_zero_positions detects zero in both coordinates", {
 })
 
 test_that("check_zero_positions returns correct data.frame with return_df", {
-  res <- check_zero_positions(df_zero_position, coord = "both", return_df = TRUE)
+  expect_warning(
+    res <- check_zero_positions(df_zero_position, coord = "both", return_df = TRUE),
+    "Positions contain zeroes"
+  )
   expect_s3_class(res, "data.frame")
   expect_equal(nrow(res), 3)
 })
 
 test_that("check_zero_positions returns DT datatable by default", {
-  expect_s3_class(check_zero_positions(df_zero_position, coord = "both"), "datatables")
+  expect_warning(
+    res <- check_zero_positions(df_zero_position, coord = "both"),
+    "Positions contain zeroes"
+  )
+  expect_s3_class(res, "datatables")
 })
 
 test_that("check_zero_positions returns FALSE when no zeros", {

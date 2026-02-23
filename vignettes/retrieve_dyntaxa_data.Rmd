@@ -14,7 +14,7 @@ Dyntaxa is a taxonomic database of Swedish organisms hosted at [SLU Artdatabanke
   
 ## Getting Started
   
-### Installation
+#### Installation
 
 You can install the latest version of `SHARK4R` from CRAN using:
 ```{r, eval=FALSE}

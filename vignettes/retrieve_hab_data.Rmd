@@ -14,7 +14,7 @@ The Intergovernmental Oceanographic Commission (IOC) of UNESCO is the United Nat
 
 The [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/) complements this list by providing detailed reference information about toxins, some of which are associated with harmful algal events.
 
-The information from these databases can be access through APIs, as demonstrated in this tutorial using `SHARK4R`.
+The information from these databases can be accessed through APIs, as demonstrated in this tutorial using `SHARK4R`.
 
 ## Getting Started
 
