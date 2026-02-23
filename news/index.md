@@ -31,6 +31,36 @@
 
 ### Bug fixes and CRAN compliance
 
+- Fixed species not getting properly matched in
+  [`match_algaebase_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_algaebase_taxa.md).
+  The join between API results and input data used
+  `left_join(by = c("genus", "species"))`, which silently dropped
+  results when AlgaeBase returned a reclassified genus (e.g., querying
+  “Chlorella” but API returns “Auxenochlorella”). (Part of
+  [\#47](https://github.com/sharksmhi/SHARK4R/issues/47))
+- Fixed
+  [`match_algaebase_genus()`](https://sharksmhi.github.io/SHARK4R/reference/match_algaebase_genus.md)
+  returning unrelated genera when `exact_matches_only = TRUE`. A
+  variable shadowing bug inside
+  [`tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+  caused the `input_match` column to always equal 1, making the exact
+  match filter ineffective. For example, querying “Nitzschia” returned 7
+  genera (Cymbellonitzschia, Pseudo-nitzschia, etc.) instead of just
+  Nitzschia. (Part of
+  [\#47](https://github.com/sharksmhi/SHARK4R/issues/47))
+- Fixed genus column collision in
+  [`match_algaebase_species()`](https://sharksmhi.github.io/SHARK4R/reference/match_algaebase_species.md).
+  When higher taxonomy was requested, `genus = genus_taxonomy$genus` was
+  included in the taxonomy tibble, which could overwrite the
+  species-level genus value. (Part of
+  [\#47](https://github.com/sharksmhi/SHARK4R/issues/47))
+- Removed genus fallback in
+  [`match_algaebase_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/match_algaebase_taxa.md)
+  for species-level queries. Previously, when a species was not found in
+  AlgaeBase, the function fell back to a genus-level query. This
+  produced misleading results where a species record linked to an
+  unrelated genus page. Species queries that fail now return NA instead.
+  (Part of [\#47](https://github.com/sharksmhi/SHARK4R/issues/47))
 - Fixed
   [`get_dyntaxa_records()`](https://sharksmhi.github.io/SHARK4R/reference/get_dyntaxa_records.md)
   silently returning a character string on API error instead of raising
@@ -74,6 +104,11 @@
 - Fixed spelling of “Microalgae” and other minor typos in
   [`get_hab_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_hab_list.md)
   documentation.
+- [`get_hab_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_hab_list.md)
+  updated to wrap inline text with
+  [`I()`](https://rdrr.io/r/base/AsIs.html) in
+  [`readr::read_delim()`](https://readr.tidyverse.org/reference/read_delim.html)
+  for `readr` ≥ 2.2.0 compatibility and to remove deprecation warnings.
 
 ## SHARK4R 1.0.3
 
