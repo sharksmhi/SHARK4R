@@ -276,7 +276,7 @@ get_hab_list <- function(species_only = TRUE,
     } else {
       # Load the data into a dataframe using read.delim on the text
       habs_taxlist_df <- read_delim(
-        file = content_text,
+        file = I(content_text),
         delim = "\t",
         col_types = cols(),
         na = c("", "NA"),
