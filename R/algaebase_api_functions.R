@@ -157,6 +157,13 @@ match_algaebase_taxa <- function(genera, species, subscription_key = Sys.getenv(
     genus_i <- unique_data$genus[i]
     species_i <- unique_data$species[i]
 
+    # Determine the expected input_name for this row (used for joining later)
+    expected_input_name <- if (genus_only || is.na(species_i) || species_i == "") {
+      genus_i
+    } else {
+      paste(genus_i, species_i)
+    }
+
     if (is.na(genus_i) || genus_i == "") {
       tmp <- generate_error_row(i, genus_only, unique_data$genus, unique_data$species, higher)
     } else if (genus_only || is.na(species_i) || species_i == "") {
@@ -173,29 +180,32 @@ match_algaebase_taxa <- function(genera, species, subscription_key = Sys.getenv(
           genus = genus_i, species = species_i, subscription_key = subscription_key,
           higher = higher, unparsed = unparsed, exact_matches_only = exact_matches_only, newest_only = newest_only
         ),
-        error = function(e) {
-          tryCatch(
-            match_algaebase_genus(
-              genus = genus_i, subscription_key = subscription_key, higher = higher,
-              unparsed = unparsed, exact_matches_only = exact_matches_only, newest_only = newest_only
-            ),
-            error = function(e) generate_error_row(i, genus_only, unique_data$genus, unique_data$species, higher)
-          )
-        }
+        error = function(e) generate_error_row(i, genus_only, unique_data$genus, unique_data$species, higher)
       )
     }
+
+    # Ensure input_name matches the expected value for joining with input_data
+    tmp$input_name <- expected_input_name
 
     algaebase_df <- rbind(algaebase_df, tmp)
   }
 
   if (verbose) {close(pb)}
 
-  # Replace blanks with NA to prepare for merge
-  input_data$species[input_data$species == ""] <- NA
+  # Create input_name for joining (matches the input_name created by sub-functions)
+  input_data$input_name <- ifelse(
+    is.na(input_data$species) | input_data$species == "",
+    input_data$genus,
+    paste(input_data$genus, input_data$species)
+  )
 
-  # Merge results back to the original input
+  # Merge results back to the original input using input_name
+  # This avoids join failures when AlgaeBase returns a reclassified genus/species
+  # Drop genus/species from input_data to avoid duplicate columns after join
+  # (algaebase_df already has genus/species from the API response)
   final_results <- input_data %>%
-    left_join(algaebase_df, by = c("genus", "species"))
+    select(-genus, -species) %>%
+    left_join(algaebase_df, by = "input_name")
 
   # Remove potential duplicates
   final_results <- distinct(final_results)
@@ -782,6 +792,11 @@ match_algaebase_genus <- function(genus, subscription_key = Sys.getenv("ALGAEBAS
     colnames(higher_taxonomy) <- gsub("^dwc:", "", colnames(higher_taxonomy))
   }
 
+  # Store the queried genus name before creating the tibble,
+
+  # because 'genus' would be shadowed by the column definition inside tibble()
+  input_genus <- genus
+
   output <- tibble(
     id = combined_results$`dwc:scientificNameID`,
     genus = combined_results$`dwc:genus`,
@@ -791,8 +806,8 @@ match_algaebase_genus <- function(genus, subscription_key = Sys.getenv("ALGAEBAS
     currently_accepted = ifelse(combined_results$`dwc:taxonomicStatus` == "currently accepted taxonomically", 1, 0),
     accepted_name = combined_results$`dwc:acceptedNameUsage`,
     genus_only = 1,
-    input_name = genus,
-    input_match = ifelse(genus == combined_results$`dwc:genus`, 1, 0),
+    input_name = input_genus,
+    input_match = ifelse(input_genus == combined_results$`dwc:genus`, 1, 0),
     taxon_rank = combined_results$`dwc:taxonRank`,
     mod_date = mod_date,
     long_name = combined_results$`dwc:scientificName`,
