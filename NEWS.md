@@ -14,6 +14,10 @@
 
 ## Bug fixes and CRAN compliance
 
+* Fixed species not getting properly matched in `match_algaebase_taxa()`. The join between API results and input data used `left_join(by = c("genus", "species"))`, which silently dropped results when AlgaeBase returned a reclassified genus (e.g., querying "Chlorella" but API returns "Auxenochlorella"). (Part of #47)
+* Fixed `match_algaebase_genus()` returning unrelated genera when `exact_matches_only = TRUE`. A variable shadowing bug inside `tibble()` caused the `input_match` column to always equal 1, making the exact match filter ineffective. For example, querying "Nitzschia" returned 7 genera (Cymbellonitzschia, Pseudo-nitzschia, etc.) instead of just Nitzschia. (Part of #47)
+* Fixed genus column collision in `match_algaebase_species()`. When higher taxonomy was requested, `genus = genus_taxonomy$genus` was included in the taxonomy tibble, which could overwrite the species-level genus value. (Part of #47)
+* Removed genus fallback in `match_algaebase_taxa()` for species-level queries. Previously, when a species was not found in AlgaeBase, the function fell back to a genus-level query. This produced misleading results where a species record linked to an unrelated genus page. Species queries that fail now return NA instead. (Part of #47)
 * Fixed `get_dyntaxa_records()` silently returning a character string on API error instead of raising a condition with `stop()`.
 * Fixed `get_shark_data()` silently dropping `municipalities`, `waterCategories`, and `typOmraden` parameters when computing the pre-download row count, which could bypass the chunked download path.
 * Fixed operator precedence bug `nrow(genus > 0)` to `nrow(genus) > 0` in `construct_dyntaxa_missing_table()`.
@@ -24,6 +28,7 @@
 * Fixed evaluation order bug in `clean_shark4r_cache()` where `search_pattern = NULL` (the default) could cause an error.
 * Fixed deprecation warning version numbers in algaebase functions (now correctly reference `1.0.0`).
 * Fixed spelling of "Microalgae" and other minor typos in `get_hab_list()` documentation.
+* `get_hab_list()` updated to wrap inline text with `I()` in `readr::read_delim()` for `readr` ≥ 2.2.0 compatibility and to remove deprecation warnings.
 
 # SHARK4R 1.0.3
 
