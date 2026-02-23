@@ -49,12 +49,12 @@ Shiny app directly after setup.
 # Download support files into a temporary directory
 check_setup(path = tempdir())
 #> Downloading setup files for SHARK4R...
-#> Setup complete. Files are available in /tmp/RtmpAKpmcm
+#> Setup complete. Files are available in /tmp/Rtmpl0NGD4
 
 # Force re-download if already present
 check_setup(path = tempdir(), force = TRUE)
 #> Downloading setup files for SHARK4R...
-#> Setup complete. Files are available in /tmp/RtmpAKpmcm
+#> Setup complete. Files are available in /tmp/Rtmpl0NGD4
 
 # Download and run the QC Shiny app
 if(interactive()){

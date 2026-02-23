@@ -55,11 +55,10 @@ genus_records <- match_algaebase_genus(genus = "Gymnodinium",
 print(genus_records)
 ```
 
-    ## # A tibble: 2 × 20
+    ## # A tibble: 1 × 20
     ##   kingdom phylum class order family    id genus species infrasp taxonomic_status
     ##   <chr>   <chr>  <chr> <chr> <chr>  <int> <chr> <lgl>   <lgl>   <chr>           
     ## 1 Chromi… Dinof… Dino… Gymn… Gymno… 43632 Gymn… NA      NA      currently accep…
-    ## 2 Chromi… Dinof… Dino… Gymn… Gymno… 51372 Para… NA      NA      currently accep…
     ## # ℹ 10 more variables: nomenclatural_status <lgl>, currently_accepted <dbl>,
     ## #   accepted_name <lgl>, genus_only <dbl>, input_name <chr>, input_match <dbl>,
     ## #   taxon_rank <chr>, mod_date <date>, long_name <chr>, authorship <chr>
@@ -144,19 +143,19 @@ print(algaebase_match)
 ```
 
     ## # A tibble: 9 × 20
-    ##   genus   species     id accepted_name input_name input_match currently_accepted
-    ##   <chr>   <chr>    <int> <chr>         <chr>            <dbl>              <dbl>
-    ## 1 Guinar… delica…  43911 Guinardia de… Guinardia…           1                  1
-    ## 2 Monora… contor…  27719 Monoraphidiu… Monoraphi…           1                  1
-    ## 3 Flagel… NA          NA NA            NA                  NA                 NA
-    ## 4 Thalas… baltica  39921 Thalassiosir… Thalassio…           1                  1
-    ## 5 Amylax  triaca…  52120 Amylax triac… Amylax tr…           1                  1
-    ## 6 Karlod… micrum   44335 Karlodinium … Karlodini…           1                  0
-    ## 7 Crypto… NA          NA NA            NA                  NA                 NA
-    ## 8 Octact… specul… 164546 Octactis spe… Octactis …           1                  1
-    ## 9 Mesodi… rubrum   56539 Mesodinium r… Mesodiniu…           1                  1
-    ## # ℹ 13 more variables: genus_only <dbl>, kingdom <chr>, phylum <chr>,
-    ## #   class <chr>, order <chr>, family <chr>, infrasp <lgl>, long_name <chr>,
+    ##   input_name          id accepted_name input_match currently_accepted genus_only
+    ##   <chr>            <int> <chr>               <dbl>              <dbl>      <dbl>
+    ## 1 Guinardia deli…  43911 Guinardia de…           1                  1          0
+    ## 2 Monoraphidium …  27719 Monoraphidiu…           1                  1          0
+    ## 3 Flagellates         NA NA                      0                 NA          0
+    ## 4 Thalassiosira …  39921 Thalassiosir…           1                  1          0
+    ## 5 Amylax triacan…  52120 Amylax triac…           1                  1          0
+    ## 6 Karlodinium mi…  44335 Karlodinium …           1                  0          0
+    ## 7 Cryptomonadales     NA NA                      0                 NA          0
+    ## 8 Octactis specu… 164546 Octactis spe…           1                  1          0
+    ## 9 Mesodinium rub…  56539 Mesodinium r…           1                  1          0
+    ## # ℹ 14 more variables: kingdom <chr>, phylum <chr>, class <chr>, order <chr>,
+    ## #   family <chr>, genus <chr>, species <chr>, infrasp <lgl>, long_name <chr>,
     ## #   taxonomic_status <chr>, nomenclatural_status <lgl>, taxon_rank <chr>,
     ## #   mod_date <date>, authorship <chr>
 
