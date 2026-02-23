@@ -42,8 +42,7 @@ df <- data.frame(
 
 # Check for invalid (non-numeric / non-logical) entries
 check_value_logical(df, return_df = TRUE)
-#> ERROR: Expected numerical/logical value but found invalid characters.
-#> Common problems are e.g. '<', '>' signs, text labels, or malformed numbers.
+#> Warning: Expected numerical/logical value but found invalid characters. Common problems are e.g. '<', '>' signs, text labels, or malformed numbers.
 #>   value
 #> 1  <0.2
 #> 2    NA

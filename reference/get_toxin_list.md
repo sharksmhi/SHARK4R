@@ -35,14 +35,14 @@ a `tibble` of toxins with detailed information.
 toxin_list <- get_toxin_list()
 head(toxin_list)
 #> # A tibble: 6 × 55
-#>      id toxin_group recommended_name       synonyms recommended_acronym acronyms
-#>   <int> <chr>       <chr>                  <list>   <chr>               <list>  
-#> 1   606 Anatoxin    10-OH-homoanatoxin-a   <NULL>   NA                  <NULL>  
-#> 2   605 Anatoxin    10-OH-anatoxin-a       <NULL>   NA                  <NULL>  
-#> 3   604 Anatoxin    10-OH-H2-homoanatoxin… <NULL>   NA                  <NULL>  
-#> 4   603 Anatoxin    10-OH-H2-anatoxin-a    <NULL>   NA                  <NULL>  
-#> 5   602 Anatoxin    CH3SH-anatoxin-a       <NULL>   NA                  <NULL>  
-#> 6   601 Anatoxin    CH3O-homoanatoxin-a    <NULL>   NA                  <NULL>  
+#>      id toxin_group recommended_name     synonyms recommended_acronym acronyms 
+#>   <int> <chr>       <chr>                <list>   <chr>               <list>   
+#> 1   610 Brevetoxin  Brevetoxin-5         <NULL>   BTX-5               <NULL>   
+#> 2   609 Brevetoxin  Brevetoxin-3         <NULL>   BTX-3               <NULL>   
+#> 3   608 Brevetoxin  Brevetoxin B         <NULL>   BTX-2               <chr [1]>
+#> 4   607 Brevetoxin  Brevetoxin A         <NULL>   BTX-1               <chr [1]>
+#> 5   606 Anatoxin    10-OH-homoanatoxin-a <NULL>   NA                  <NULL>   
+#> 6   605 Anatoxin    10-OH-anatoxin-a     <NULL>   NA                  <NULL>   
 #> # ℹ 49 more variables: cas_number <chr>, alternative_cas_numbers <list>,
 #> #   formula <chr>, exact_mono_isotopic_mass <dbl>, molfile <chr>,
 #> #   alternative_molfiles <lgl>, smiles <chr>, alternative_smiles <list>,
@@ -54,6 +54,6 @@ head(toxin_list)
 # Retrieve only the count of toxins
 toxin_count <- get_toxin_list(return_count = TRUE)
 print(toxin_count)
-#> [1] 521
+#> [1] 525
 # }
 ```

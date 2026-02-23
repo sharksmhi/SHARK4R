@@ -118,7 +118,7 @@ and return_logical = FALSE).</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Check for zeroes in both coordinates and return as data.frame</span></span></span>
 <span class="r-in"><span><span class="fu">check_zero_positions</span><span class="op">(</span><span class="va">df</span>, coord <span class="op">=</span> <span class="st">"both"</span>, return_df <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ERROR: Positions contain zeroes (0). Please check station coordinates with zero values!</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Positions contain zeroes (0). Please check station coordinates with zero values!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   station_name sample_longitude_dd sample_latitude_dd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            B                 0.0               58.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            C                18.7                0.0</span>

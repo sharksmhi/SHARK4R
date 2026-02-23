@@ -17,7 +17,7 @@ intended for internal data validation. The tutorial covers:
 
 This workflow ensures SHARK data are consistent, valid, and ready for
 analysis. Several quality control components, originally developed by
-Provoost and Bosch (2018), have been adapted for compatibility with the
+Provoost and Bosch (2024), have been adapted for compatibility with the
 SHARK format.
 
 ------------------------------------------------------------------------
@@ -306,7 +306,7 @@ Verify station names against the official SHARK registry:
 station_match <- match_station(chlorophyll_data$station_name)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmpWnBrxV/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpeucCEi/station.txt
 
     ## All stations found
 
@@ -330,7 +330,7 @@ check_station_distance(data = chlorophyll_data,
                        plot_leaflet = TRUE)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmpWnBrxV/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpeucCEi/station.txt
 
     ## WARNING: Some stations are outside the allowed distance limit
 

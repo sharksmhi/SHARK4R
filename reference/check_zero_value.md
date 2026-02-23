@@ -42,7 +42,7 @@ df <- data.frame(
 
 # Return a plain data.frame of zero-value records
 check_zero_value(df, return_df = TRUE)
-#> ERROR: Value contain zeroes (0). Please check zero values!
+#> Warning: Value column contains zeroes (0). Please check zero values!
 #>   station_name sample_date value
 #> 1            B  2023-06-02     0
 #> 2            D  2023-06-04     0

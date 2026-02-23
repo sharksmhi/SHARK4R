@@ -15,7 +15,7 @@ The [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/)
 complements this list by providing detailed reference information about
 toxins, some of which are associated with harmful algal events.
 
-The information from these databases can be access through APIs, as
+The information from these databases can be accessed through APIs, as
 demonstrated in this tutorial using `SHARK4R`.
 
 ## Getting Started
@@ -127,20 +127,20 @@ toxin_list <- get_toxin_list()
 print(toxin_list)
 ```
 
-    ## # A tibble: 521 × 55
+    ## # A tibble: 525 × 55
     ##       id toxin_group recommended_name      synonyms recommended_acronym acronyms
     ##    <int> <chr>       <chr>                 <list>   <chr>               <list>  
-    ##  1   606 Anatoxin    10-OH-homoanatoxin-a  <NULL>   NA                  <NULL>  
-    ##  2   605 Anatoxin    10-OH-anatoxin-a      <NULL>   NA                  <NULL>  
-    ##  3   604 Anatoxin    10-OH-H2-homoanatoxi… <NULL>   NA                  <NULL>  
-    ##  4   603 Anatoxin    10-OH-H2-anatoxin-a   <NULL>   NA                  <NULL>  
-    ##  5   602 Anatoxin    CH3SH-anatoxin-a      <NULL>   NA                  <NULL>  
-    ##  6   601 Anatoxin    CH3O-homoanatoxin-a   <NULL>   NA                  <NULL>  
-    ##  7   600 Anatoxin    CH3O-anatoxin-a       <NULL>   NA                  <NULL>  
-    ##  8   599 Anatoxin    3-OH-homoanatoxin-a   <NULL>   NA                  <NULL>  
-    ##  9   598 Anatoxin    3-OH-anatoxin-a       <NULL>   NA                  <NULL>  
-    ## 10   597 Anatoxin    carboxyhomoanatoxin-a <NULL>   NA                  <NULL>  
-    ## # ℹ 511 more rows
+    ##  1   610 Brevetoxin  Brevetoxin-5          <NULL>   BTX-5               <NULL>  
+    ##  2   609 Brevetoxin  Brevetoxin-3          <NULL>   BTX-3               <NULL>  
+    ##  3   608 Brevetoxin  Brevetoxin B          <NULL>   BTX-2               <chr>   
+    ##  4   607 Brevetoxin  Brevetoxin A          <NULL>   BTX-1               <chr>   
+    ##  5   606 Anatoxin    10-OH-homoanatoxin-a  <NULL>   NA                  <NULL>  
+    ##  6   605 Anatoxin    10-OH-anatoxin-a      <NULL>   NA                  <NULL>  
+    ##  7   604 Anatoxin    10-OH-H2-homoanatoxi… <NULL>   NA                  <NULL>  
+    ##  8   603 Anatoxin    10-OH-H2-anatoxin-a   <NULL>   NA                  <NULL>  
+    ##  9   602 Anatoxin    CH3SH-anatoxin-a      <NULL>   NA                  <NULL>  
+    ## 10   601 Anatoxin    CH3O-homoanatoxin-a   <NULL>   NA                  <NULL>  
+    ## # ℹ 515 more rows
     ## # ℹ 49 more variables: cas_number <chr>, alternative_cas_numbers <list>,
     ## #   formula <chr>, exact_mono_isotopic_mass <dbl>, molfile <chr>,
     ## #   alternative_molfiles <lgl>, smiles <chr>, alternative_smiles <list>,
@@ -177,7 +177,7 @@ print(toxin_list)
   Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas,
   R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO
   Taxonomic Reference List of Harmful Microalgae. Accessed at
-  <https://www.marinespecies.org/hab/> on 2026-01-26.
+  <https://www.marinespecies.org/hab/> on 2026-02-23.
   [doi:10.14284/362](https://doi.org/10.14284/362)
 - Zingone A. and L. Escalera (2025) Non toxigenic animal-killing
   microalgal species. In: Lundholm, N.; Bernard, C.; Churro, C.;
@@ -185,4 +185,4 @@ print(toxin_list)
   Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds)
   (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful
   Microalgae. Accessed at <https://www.marinespecies.org/hab/> on
-  2026-01-26. [doi:10.14284/362](https://doi.org/10.14284/362)
+  2026-02-23. [doi:10.14284/362](https://doi.org/10.14284/362)

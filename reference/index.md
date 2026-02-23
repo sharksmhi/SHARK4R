@@ -77,12 +77,11 @@ These functions are used to retrieve data from the AlgaeBase API
 ### IOC-UNESCO HAB
 
 These functions are used to retrieve data from the IOC-UNESCO Taxonomic
-Reference List of Harmful Micro Algae and the IOC-UNESCO Toxins
-database.
+Reference List of Harmful Microalgae and the IOC-UNESCO Toxins database.
 
 - [`get_hab_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_hab_list.md)
-  : Download the IOC-UNESCO Taxonomic Reference List of Harmful Micro
-  Algae
+  : Download the IOC-UNESCO Taxonomic Reference List of Harmful
+  Microalgae
 - [`get_toxin_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_toxin_list.md)
   : Retrieve marine biotoxin data from IOC-UNESCO Toxins Database
 
@@ -94,8 +93,14 @@ These functions are used to retrieve data from the Nordic Microalgae API
   : Retrieve external links or facts for taxa from Nordic Microalgae
 - [`get_nua_harmfulness()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_harmfulness.md)
   : Retrieve harmfulness for taxa from Nordic Microalgae
+- [`get_nua_image_labeling_links()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_image_labeling_links.md)
+  : Retrieve image labeling media links from Nordic Microalgae
+- [`get_nua_image_labeling_metadata()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_image_labeling_metadata.md)
+  : Retrieve image labeling metadata from Nordic Microalgae
 - [`get_nua_media_links()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_media_links.md)
   : Retrieve and extract media URLs from Nordic Microalgae
+- [`get_nua_media_metadata()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_media_metadata.md)
+  : Retrieve media metadata from Nordic Microalgae
 - [`get_nua_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_taxa.md)
   : Retrieve taxa information from Nordic Microalgae
 

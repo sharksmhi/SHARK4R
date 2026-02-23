@@ -30,7 +30,7 @@ clean_shark4r_cache(
 
 - clear_perm_cache:
 
-  Logical. If `TRUE`, filed that are cached across R sessions are
+  Logical. If `TRUE`, files that are cached across R sessions are
   cleared, i.e. geographical shape files. Defaults to `FALSE`.
 
 - search_pattern:

@@ -180,7 +180,7 @@ the <code>unparsed</code> parameter to <code>TRUE</code>.</p>
 <h2 id="get-nordic-microalgae-harmfulness-information">Get Nordic Microalgae Harmfulness Information<a class="anchor" aria-label="anchor" href="#get-nordic-microalgae-harmfulness-information"></a>
 </h2>
 <p>Taxa listed in the <a href="https://www.marinespecies.org/hab/" class="external-link">IOC-UNESCO Taxonomic Reference
-List of Harmful Micro Algae</a> contain information about harmfulness.
+List of Harmful Microalgae</a> contain information about harmfulness.
 This information can be retrieved through the API.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get external links</span></span>
@@ -237,17 +237,113 @@ small (s), medium (m), and large (l).</p>
 setting the <code>unparsed</code> parameter to <code>TRUE</code>.</p>
 </div>
 <div class="section level2">
+<h2 id="get-nordic-microalgae-media-metadata">Get Nordic Microalgae Media Metadata<a class="anchor" aria-label="anchor" href="#get-nordic-microalgae-media-metadata"></a>
+</h2>
+<p>Detailed metadata for all media items on Nordic Microalgae can be
+retrieved through the API. This includes information such as location,
+sampling date, geographic coordinates, imaging technique, and
+contributor details.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get all media metadata</span></span>
+<span><span class="va">media_metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nua_media_metadata.html">get_nua_media_metadata</a></span><span class="op">(</span>unparsed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Print list</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">media_metadata</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2,421 × 25</span></span></span>
+<span><span class="co">##    slug    taxon_slug scientific_name file  type  title caption license location</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> octact… octactis-… Octactis specu… octa… imag… Octa… <span style="color: #949494;">"</span>Two c… Creati… Danafjo…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> lennox… lennoxia-… Lennoxia faveo… lenn… imag… Lenn… <span style="color: #949494;">""</span>      Creati… Danafjo…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> bolmen… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              bolm… imag… Bolm… <span style="color: #949494;">"</span>Taken… Creati… Bolmen,…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> bolmen… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              bolm… imag… Bolm… <span style="color: #949494;">"</span>Taken… Creati… Bolmen,…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> bolmen… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              bolm… imag… Bolm… <span style="color: #949494;">"</span>Taken… Creati… Bolmen,…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> hassle… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              hass… imag… Hass… <span style="color: #949494;">"</span>Taken… Creati… Hasslem…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> hassle… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              hass… imag… Hass… <span style="color: #949494;">"</span>Taken… Creati… Hasslem…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> pleuro… pleurosig… Pleurosigma     pleu… imag… Pleu… <span style="color: #949494;">""</span>      Creati… Byttelo…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> vombsj… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              vomb… imag… Vomb… <span style="color: #949494;">"</span>Taken… Creati… Vombsjö…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> vombsj… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              vomb… imag… Vomb… <span style="color: #949494;">"</span>Taken… Creati… Vombsjö…</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 2,411 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 16 more variables: contributor &lt;chr&gt;, photographer_artist &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   copyright_holder &lt;chr&gt;, galleries &lt;chr&gt;, technique &lt;list&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   contrast_enhancement &lt;list&gt;, preservation &lt;list&gt;, stain &lt;list&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   sampling_date &lt;chr&gt;, geographic_area &lt;chr&gt;, latitude_degree &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   longitude_degree &lt;chr&gt;, institute &lt;chr&gt;, contributing_organisation &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   created_at &lt;chr&gt;, updated_at &lt;chr&gt;</span></span></span></code></pre>
+</div>
+<div class="section level2">
+<h2 id="get-nordic-microalgae-image-labeling-links">Get Nordic Microalgae Image Labeling Links<a class="anchor" aria-label="anchor" href="#get-nordic-microalgae-image-labeling-links"></a>
+</h2>
+<p>Nordic Microalgae hosts images from automated imaging instruments
+(e.g., IFCB) used for image labeling. Links to these images can be
+retrieved through the API, similar to
+<code><a href="../reference/get_nua_media_links.html">get_nua_media_links()</a></code>.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get all image labeling media links</span></span>
+<span><span class="va">il_links</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nua_image_labeling_links.html">get_nua_image_labeling_links</a></span><span class="op">(</span>unparsed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Print list</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">il_links</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 796 × 10</span></span></span>
+<span><span class="co">##    slug            image_l_url   image_o_url image_s_url image_m_url contributor</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> tripos-muelleri https://nord… https://no… https://no… https://no… Anders Tor…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> tripos-muelleri https://nord… https://no… https://no… https://no… Anders Tor…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> tripos-muelleri https://nord… https://no… https://no… https://no… Anders Tor…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> tripos-muelleri https://nord… https://no… https://no… https://no… Anders Tor…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> tripos-muelleri https://nord… https://no… https://no… https://no… Anders Tor…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> tripos-lineatus https://nord… https://no… https://no… https://no… Anders Tor…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> tripos-lineatus https://nord… https://no… https://no… https://no… Anders Tor…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> tripos-lineatus https://nord… https://no… https://no… https://no… Anders Tor…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> tripos-lineatus https://nord… https://no… https://no… https://no… Anders Tor…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> tripos-lineatus https://nord… https://no… https://no… https://no… Anders Tor…</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 786 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 4 more variables: copyright_holder &lt;chr&gt;, license &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   imaging_instrument &lt;chr&gt;, priority &lt;int&gt;</span></span></span></code></pre>
+</div>
+<div class="section level2">
+<h2 id="get-nordic-microalgae-image-labeling-metadata">Get Nordic Microalgae Image Labeling Metadata<a class="anchor" aria-label="anchor" href="#get-nordic-microalgae-image-labeling-metadata"></a>
+</h2>
+<p>Detailed metadata for automated imaging images can be retrieved
+through the API. This includes information about the imaging instrument,
+training dataset, location, and taxonomic details.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get all image labeling metadata</span></span>
+<span><span class="va">il_metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nua_image_labeling_metadata.html">get_nua_image_labeling_metadata</a></span><span class="op">(</span>unparsed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Print list</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">il_metadata</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 796 × 22</span></span></span>
+<span><span class="co">##    slug    taxon_slug scientific_name file  type  title caption license location</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> tripos… tripos-mu… Tripos muelleri trip… imag… Trip… <span style="color: #949494;">""</span>      Creati… Tångesu…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> tripos… tripos-mu… Tripos muelleri trip… imag… Trip… <span style="color: #949494;">""</span>      Creati… Tångesu…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> tripos… tripos-mu… Tripos muelleri trip… imag… Trip… <span style="color: #949494;">""</span>      Creati… Tångesu…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> tripos… tripos-mu… Tripos muelleri trip… imag… Trip… <span style="color: #949494;">""</span>      Creati… Tångesu…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> tripos… tripos-mu… Tripos muelleri trip… imag… Trip… <span style="color: #949494;">""</span>      Creati… Tångesu…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> tripos… tripos-li… Tripos lineatus trip… imag… Trip… <span style="color: #949494;">""</span>      Creati… Tångesu…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> tripos… tripos-li… Tripos lineatus trip… imag… Trip… <span style="color: #949494;">""</span>      Creati… Tångesu…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> tripos… tripos-li… Tripos lineatus trip… imag… Trip… <span style="color: #949494;">""</span>      Creati… Tångesu…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> tripos… tripos-li… Tripos lineatus trip… imag… Trip… <span style="color: #949494;">""</span>      Creati… Tångesu…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> tripos… tripos-li… Tripos lineatus trip… imag… Trip… <span style="color: #949494;">""</span>      Creati… Tångesu…</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 786 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 13 more variables: contributor &lt;chr&gt;, copyright_holder &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   imaging_instrument &lt;chr&gt;, training_dataset &lt;chr&gt;, sampling_date &lt;lgl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   geographic_area &lt;chr&gt;, latitude_degree &lt;chr&gt;, longitude_degree &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   institute &lt;chr&gt;, contributing_organisation &lt;chr&gt;, priority &lt;int&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   created_at &lt;chr&gt;, updated_at &lt;chr&gt;</span></span></span></code></pre>
+</div>
+<div class="section level2">
 <h2 id="get-nomp-and-eg-phyto-biovolume-lists">Get NOMP and EG Phyto Biovolume lists<a class="anchor" aria-label="anchor" href="#get-nomp-and-eg-phyto-biovolume-lists"></a>
 </h2>
 <p>To standardize phytoplankton monitoring efforts in the Baltic Sea,
 Skagerrak, and the North Sea, various lists containing size class
 information for each taxon have been established. These lists can be
 retrieved directly in R using <code>SHARK4R</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get EG Phyto Biovolume list</span></span>
 <span><span class="va">peg_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_peg_list.html">get_peg_list</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading PEG biovolume Excel file for year: 2025</span></span></code></pre>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Print list</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">peg_list</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 3,527 × 36</span></span></span>
@@ -270,12 +366,12 @@ retrieved directly in R using <code>SHARK4R</code>:</p>
 <span><span class="co">## <span style="color: #949494;">#   `Width(w)µm` &lt;dbl&gt;, `Height(h)µm` &lt;dbl&gt;, `Diameter(d1)µm` &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   `Diameter(d2)µm` &lt;dbl&gt;, `No_of_cells/counting_unit` &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   `Calculated_volume_µm3 (with formula) - NOT IMPORTED, NOT handled by ICES` &lt;dbl&gt;, …</span></span></span></code></pre>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get NOMP Biovolume list</span></span>
 <span><span class="va">nomp_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nomp_list.html">get_nomp_list</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## File for year 2026 not available. Trying previous year...</span></span></code></pre>
 <pre><code><span><span class="co">## File for year 2025 downloaded and cached.</span></span></code></pre>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Print list</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">nomp_list</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 3,852 × 39</span></span></span>
@@ -330,7 +426,7 @@ Toolbox</a> data files: <code><a href="../reference/read_ptbx.html">read_ptbx()<
 <ul>
 <li>Torstensson, A., Loo, A., Sundqvist, L., Skjevik, A.-T., Karlberg,
 M., Johansen, M., Andreasson, A., and Karlson, B. (2024). Nordic
-Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-01-26.</li>
+Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-02-23.</li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

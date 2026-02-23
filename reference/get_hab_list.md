@@ -1,7 +1,7 @@
-# Download the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae
+# Download the IOC-UNESCO Taxonomic Reference List of Harmful Microalgae
 
 This function retrieves the IOC-UNESCO Taxonomic Reference List of
-Harmful Micro Algae (Lundholm et al. 2009) from the World Register of
+Harmful Microalgae (Lundholm et al. 2009) from the World Register of
 Marine Species (WoRMS). The data is returned as a dataframe, with
 options to customize the fields included in the download.
 
@@ -113,8 +113,7 @@ get_hab_list(
 
 - verbose:
 
-  Logical. Whether to display progress information. Default is
-  \`TRUE“\`.
+  Logical. Whether to display progress information. Default is `TRUE`.
 
 ## Value
 
@@ -124,7 +123,7 @@ selected parameters.
 ## Details
 
 This function submits a POST request to the WoRMS database to retrieve
-the IOC-UNESCO Taxonomic Reference List of Harmful Micro Algae. The
+the IOC-UNESCO Taxonomic Reference List of Harmful Microalgae. The
 downloaded data can include various fields, which are controlled by the
 input parameters. If a field is not required, set the corresponding
 parameter to `FALSE` to exclude it from the output.
@@ -140,7 +139,7 @@ https://www.marinespecies.org/hab/. doi:10.14284/362
 ## See also
 
 <https://www.marinespecies.org/hab/> for IOC-UNESCO Taxonomic Reference
-List of Harmful Micro Algae
+List of Harmful Microalgae
 
 ## Examples
 
@@ -166,7 +165,7 @@ head(habs_taxlist_df)
 #> #   Qualitystatus <chr>, Unacceptreason <chr>, DateLastModified <date>,
 #> #   LSID <chr>, `Parent AphiaID` <dbl>, Storedpath <chr>, Citation <chr>
 
-# Include higer taxa records
+# Include higher taxa records
 habs_taxlist_df <- get_hab_list(species_only = FALSE)
 head(habs_taxlist_df)
 #> # A tibble: 6 × 29

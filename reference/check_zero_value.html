@@ -99,7 +99,7 @@ if no zero values are found.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Return a plain data.frame of zero-value records</span></span></span>
 <span class="r-in"><span><span class="fu">check_zero_value</span><span class="op">(</span><span class="va">df</span>, return_df <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ERROR: Value contain zeroes (0). Please check zero values!</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Value column contains zeroes (0). Please check zero values!</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   station_name sample_date value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            B  2023-06-02     0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            D  2023-06-04     0</span>

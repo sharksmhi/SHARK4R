@@ -50,8 +50,32 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="shark4r-development-version">SHARK4R (development version)<a class="anchor" aria-label="anchor" href="#shark4r-development-version"></a></h2>
 <div class="section level3">
+<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>Added <code><a href="../reference/get_nua_media_metadata.html">get_nua_media_metadata()</a></code> to retrieve detailed metadata for media items from Nordic Microalgae</li>
+<li>Added <code><a href="../reference/get_nua_image_labeling_links.html">get_nua_image_labeling_links()</a></code> to retrieve media URLs for automated imaging images (e.g., IFCB) from Nordic Microalgae</li>
+<li>Added <code><a href="../reference/get_nua_image_labeling_metadata.html">get_nua_image_labeling_metadata()</a></code> to retrieve detailed metadata for automated imaging images from Nordic Microalgae</li>
+</ul></div>
+<div class="section level3">
+<h3 id="security-improvements-development-version">Security improvements<a class="anchor" aria-label="anchor" href="#security-improvements-development-version"></a></h3>
+<ul><li>
+<code><a href="../reference/load_shark4r_fields.html">load_shark4r_fields()</a></code> now downloads field definitions as a binary <code>.rds</code> file instead of sourcing a remote R script, eliminating a remote code execution risk.</li>
+<li>
+<code><a href="../reference/get_shark_data.html">get_shark_data()</a></code> now validates that <code>file_path</code> does not contain <code>..</code> path components, preventing path traversal when used in downstream applications.</li>
+<li>
+<code><a href="../reference/get_shark_datasets.html">get_shark_datasets()</a></code> now sanitizes dataset names from the API with <code><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename()</a></code> before writing to disk.</li>
+</ul></div>
+<div class="section level3">
 <h3 id="bug-fixes-and-cran-compliance-development-version">Bug fixes and CRAN compliance<a class="anchor" aria-label="anchor" href="#bug-fixes-and-cran-compliance-development-version"></a></h3>
-<ul><li>Package cache directory is now removed after R CMD check to avoid leaving files behind.</li>
+<ul><li>Fixed <code><a href="../reference/get_dyntaxa_records.html">get_dyntaxa_records()</a></code> silently returning a character string on API error instead of raising a condition with <code><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop()</a></code>.</li>
+<li>Fixed <code><a href="../reference/get_shark_data.html">get_shark_data()</a></code> silently dropping <code>municipalities</code>, <code>waterCategories</code>, and <code>typOmraden</code> parameters when computing the pre-download row count, which could bypass the chunked download path.</li>
+<li>Fixed operator precedence bug <code>nrow(genus &gt; 0)</code> to <code>nrow(genus) &gt; 0</code> in <code>construct_dyntaxa_missing_table()</code>.</li>
+<li>Replaced unsafe <code>1:length()</code> and <code>1:nrow()</code> loops with <code><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along()</a></code> and <code><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len()</a></code> in <code>construct_dyntaxa_missing_table()</code> and <code><a href="../reference/construct_dyntaxa_table.html">construct_dyntaxa_table()</a></code> to prevent errors on zero-length input.</li>
+<li>Replaced <code>message("ERROR: ...")</code> calls with <code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code> in <code><a href="../reference/check_value_logical.html">check_value_logical()</a></code>, <code><a href="../reference/check_zero_value.html">check_zero_value()</a></code>, <code><a href="../reference/check_zero_positions.html">check_zero_positions()</a></code>, <code><a href="../reference/check_codes.html">check_codes()</a></code>, and <code><a href="../reference/read_shark_deliv.html">read_shark_deliv()</a></code> so conditions can be caught programmatically with <code><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch()</a></code>.</li>
+<li>Removed duplicate <code>cachefile</code> assignment in <code>cache_call()</code> and dead <code><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files()</a></code> call in <code>list_cache()</code>.</li>
+<li>All internal cache paths now use the <code>cache_dir()</code> helper, which redirects to <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> during R CMD check. Previously several functions called <code><a href="https://rdrr.io/r/tools/userdir.html" class="external-link">tools::R_user_dir()</a></code> directly, which could create <code>~/.cache/R/SHARK4R</code> during CRAN checks.</li>
+<li>Fixed evaluation order bug in <code><a href="../reference/clean_shark4r_cache.html">clean_shark4r_cache()</a></code> where <code>search_pattern = NULL</code> (the default) could cause an error.</li>
+<li>Fixed deprecation warning version numbers in algaebase functions (now correctly reference <code>1.0.0</code>).</li>
+<li>Fixed spelling of “Microalgae” and other minor typos in <code><a href="../reference/get_hab_list.html">get_hab_list()</a></code> documentation.</li>
 </ul></div>
 </div>
     <div class="section level2">

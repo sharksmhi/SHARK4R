@@ -2,10 +2,78 @@
 
 ## SHARK4R (development version)
 
+### New features
+
+- Added
+  [`get_nua_media_metadata()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_media_metadata.md)
+  to retrieve detailed metadata for media items from Nordic Microalgae
+- Added
+  [`get_nua_image_labeling_links()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_image_labeling_links.md)
+  to retrieve media URLs for automated imaging images (e.g., IFCB) from
+  Nordic Microalgae
+- Added
+  [`get_nua_image_labeling_metadata()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_image_labeling_metadata.md)
+  to retrieve detailed metadata for automated imaging images from Nordic
+  Microalgae
+
+### Security improvements
+
+- [`load_shark4r_fields()`](https://sharksmhi.github.io/SHARK4R/reference/load_shark4r_fields.md)
+  now downloads field definitions as a binary `.rds` file instead of
+  sourcing a remote R script, eliminating a remote code execution risk.
+- [`get_shark_data()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_data.md)
+  now validates that `file_path` does not contain `..` path components,
+  preventing path traversal when used in downstream applications.
+- [`get_shark_datasets()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_datasets.md)
+  now sanitizes dataset names from the API with
+  [`basename()`](https://rdrr.io/r/base/basename.html) before writing to
+  disk.
+
 ### Bug fixes and CRAN compliance
 
-- Package cache directory is now removed after R CMD check to avoid
-  leaving files behind.
+- Fixed
+  [`get_dyntaxa_records()`](https://sharksmhi.github.io/SHARK4R/reference/get_dyntaxa_records.md)
+  silently returning a character string on API error instead of raising
+  a condition with [`stop()`](https://rdrr.io/r/base/stop.html).
+- Fixed
+  [`get_shark_data()`](https://sharksmhi.github.io/SHARK4R/reference/get_shark_data.md)
+  silently dropping `municipalities`, `waterCategories`, and
+  `typOmraden` parameters when computing the pre-download row count,
+  which could bypass the chunked download path.
+- Fixed operator precedence bug `nrow(genus > 0)` to `nrow(genus) > 0`
+  in `construct_dyntaxa_missing_table()`.
+- Replaced unsafe `1:length()` and `1:nrow()` loops with
+  [`seq_along()`](https://rdrr.io/r/base/seq.html) and
+  [`seq_len()`](https://rdrr.io/r/base/seq.html) in
+  `construct_dyntaxa_missing_table()` and
+  [`construct_dyntaxa_table()`](https://sharksmhi.github.io/SHARK4R/reference/construct_dyntaxa_table.md)
+  to prevent errors on zero-length input.
+- Replaced `message("ERROR: ...")` calls with
+  [`warning()`](https://rdrr.io/r/base/warning.html) in
+  [`check_value_logical()`](https://sharksmhi.github.io/SHARK4R/reference/check_value_logical.md),
+  [`check_zero_value()`](https://sharksmhi.github.io/SHARK4R/reference/check_zero_value.md),
+  [`check_zero_positions()`](https://sharksmhi.github.io/SHARK4R/reference/check_zero_positions.md),
+  [`check_codes()`](https://sharksmhi.github.io/SHARK4R/reference/check_codes.md),
+  and
+  [`read_shark_deliv()`](https://sharksmhi.github.io/SHARK4R/reference/read_shark_deliv.md)
+  so conditions can be caught programmatically with
+  [`tryCatch()`](https://rdrr.io/r/base/conditions.html).
+- Removed duplicate `cachefile` assignment in `cache_call()` and dead
+  [`list.files()`](https://rdrr.io/r/base/list.files.html) call in
+  `list_cache()`.
+- All internal cache paths now use the `cache_dir()` helper, which
+  redirects to [`tempdir()`](https://rdrr.io/r/base/tempfile.html)
+  during R CMD check. Previously several functions called
+  [`tools::R_user_dir()`](https://rdrr.io/r/tools/userdir.html)
+  directly, which could create `~/.cache/R/SHARK4R` during CRAN checks.
+- Fixed evaluation order bug in
+  [`clean_shark4r_cache()`](https://sharksmhi.github.io/SHARK4R/reference/clean_shark4r_cache.md)
+  where `search_pattern = NULL` (the default) could cause an error.
+- Fixed deprecation warning version numbers in algaebase functions (now
+  correctly reference `1.0.0`).
+- Fixed spelling of “Microalgae” and other minor typos in
+  [`get_hab_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_hab_list.md)
+  documentation.
 
 ## SHARK4R 1.0.3
 

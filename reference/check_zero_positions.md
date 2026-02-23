@@ -64,7 +64,7 @@ df <- data.frame(
 
 # Check for zeroes in both coordinates and return as data.frame
 check_zero_positions(df, coord = "both", return_df = TRUE)
-#> ERROR: Positions contain zeroes (0). Please check station coordinates with zero values!
+#> Warning: Positions contain zeroes (0). Please check station coordinates with zero values!
 #>   station_name sample_longitude_dd sample_latitude_dd
 #> 1            B                 0.0               58.1
 #> 2            C                18.7                0.0

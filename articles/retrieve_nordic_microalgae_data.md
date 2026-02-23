@@ -102,9 +102,9 @@ the `unparsed` parameter to `TRUE`.
 
 ## Get Nordic Microalgae Harmfulness Information
 
-Taxa listed in the [IOC-UNESCO Taxonomic Reference List of Harmful Micro
-Algae](https://www.marinespecies.org/hab/) contain information about
-harmfulness. This information can be retrieved through the API.
+Taxa listed in the [IOC-UNESCO Taxonomic Reference List of Harmful
+Microalgae](https://www.marinespecies.org/hab/) contain information
+about harmfulness. This information can be retrieved through the API.
 
 ``` r
 # Get external links
@@ -164,6 +164,108 @@ print(media)
 
 Complete media information can be retrieved as an unparsed list by
 setting the `unparsed` parameter to `TRUE`.
+
+## Get Nordic Microalgae Media Metadata
+
+Detailed metadata for all media items on Nordic Microalgae can be
+retrieved through the API. This includes information such as location,
+sampling date, geographic coordinates, imaging technique, and
+contributor details.
+
+``` r
+# Get all media metadata
+media_metadata <- get_nua_media_metadata(unparsed = FALSE)
+
+# Print list
+print(media_metadata)
+```
+
+    ## # A tibble: 2,421 × 25
+    ##    slug    taxon_slug scientific_name file  type  title caption license location
+    ##    <chr>   <chr>      <chr>           <chr> <chr> <chr> <chr>   <chr>   <chr>   
+    ##  1 octact… octactis-… Octactis specu… octa… imag… Octa… "Two c… Creati… Danafjo…
+    ##  2 lennox… lennoxia-… Lennoxia faveo… lenn… imag… Lenn… ""      Creati… Danafjo…
+    ##  3 bolmen… NA         NA              bolm… imag… Bolm… "Taken… Creati… Bolmen,…
+    ##  4 bolmen… NA         NA              bolm… imag… Bolm… "Taken… Creati… Bolmen,…
+    ##  5 bolmen… NA         NA              bolm… imag… Bolm… "Taken… Creati… Bolmen,…
+    ##  6 hassle… NA         NA              hass… imag… Hass… "Taken… Creati… Hasslem…
+    ##  7 hassle… NA         NA              hass… imag… Hass… "Taken… Creati… Hasslem…
+    ##  8 pleuro… pleurosig… Pleurosigma     pleu… imag… Pleu… ""      Creati… Byttelo…
+    ##  9 vombsj… NA         NA              vomb… imag… Vomb… "Taken… Creati… Vombsjö…
+    ## 10 vombsj… NA         NA              vomb… imag… Vomb… "Taken… Creati… Vombsjö…
+    ## # ℹ 2,411 more rows
+    ## # ℹ 16 more variables: contributor <chr>, photographer_artist <chr>,
+    ## #   copyright_holder <chr>, galleries <chr>, technique <list>,
+    ## #   contrast_enhancement <list>, preservation <list>, stain <list>,
+    ## #   sampling_date <chr>, geographic_area <chr>, latitude_degree <chr>,
+    ## #   longitude_degree <chr>, institute <chr>, contributing_organisation <chr>,
+    ## #   created_at <chr>, updated_at <chr>
+
+## Get Nordic Microalgae Image Labeling Links
+
+Nordic Microalgae hosts images from automated imaging instruments (e.g.,
+IFCB) used for image labeling. Links to these images can be retrieved
+through the API, similar to
+[`get_nua_media_links()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_media_links.md).
+
+``` r
+# Get all image labeling media links
+il_links <- get_nua_image_labeling_links(unparsed = FALSE)
+
+# Print list
+print(il_links)
+```
+
+    ## # A tibble: 796 × 10
+    ##    slug            image_l_url   image_o_url image_s_url image_m_url contributor
+    ##    <chr>           <chr>         <chr>       <chr>       <chr>       <chr>      
+    ##  1 tripos-muelleri https://nord… https://no… https://no… https://no… Anders Tor…
+    ##  2 tripos-muelleri https://nord… https://no… https://no… https://no… Anders Tor…
+    ##  3 tripos-muelleri https://nord… https://no… https://no… https://no… Anders Tor…
+    ##  4 tripos-muelleri https://nord… https://no… https://no… https://no… Anders Tor…
+    ##  5 tripos-muelleri https://nord… https://no… https://no… https://no… Anders Tor…
+    ##  6 tripos-lineatus https://nord… https://no… https://no… https://no… Anders Tor…
+    ##  7 tripos-lineatus https://nord… https://no… https://no… https://no… Anders Tor…
+    ##  8 tripos-lineatus https://nord… https://no… https://no… https://no… Anders Tor…
+    ##  9 tripos-lineatus https://nord… https://no… https://no… https://no… Anders Tor…
+    ## 10 tripos-lineatus https://nord… https://no… https://no… https://no… Anders Tor…
+    ## # ℹ 786 more rows
+    ## # ℹ 4 more variables: copyright_holder <chr>, license <chr>,
+    ## #   imaging_instrument <chr>, priority <int>
+
+## Get Nordic Microalgae Image Labeling Metadata
+
+Detailed metadata for automated imaging images can be retrieved through
+the API. This includes information about the imaging instrument,
+training dataset, location, and taxonomic details.
+
+``` r
+# Get all image labeling metadata
+il_metadata <- get_nua_image_labeling_metadata(unparsed = FALSE)
+
+# Print list
+print(il_metadata)
+```
+
+    ## # A tibble: 796 × 22
+    ##    slug    taxon_slug scientific_name file  type  title caption license location
+    ##    <chr>   <chr>      <chr>           <chr> <chr> <chr> <chr>   <chr>   <chr>   
+    ##  1 tripos… tripos-mu… Tripos muelleri trip… imag… Trip… ""      Creati… Tångesu…
+    ##  2 tripos… tripos-mu… Tripos muelleri trip… imag… Trip… ""      Creati… Tångesu…
+    ##  3 tripos… tripos-mu… Tripos muelleri trip… imag… Trip… ""      Creati… Tångesu…
+    ##  4 tripos… tripos-mu… Tripos muelleri trip… imag… Trip… ""      Creati… Tångesu…
+    ##  5 tripos… tripos-mu… Tripos muelleri trip… imag… Trip… ""      Creati… Tångesu…
+    ##  6 tripos… tripos-li… Tripos lineatus trip… imag… Trip… ""      Creati… Tångesu…
+    ##  7 tripos… tripos-li… Tripos lineatus trip… imag… Trip… ""      Creati… Tångesu…
+    ##  8 tripos… tripos-li… Tripos lineatus trip… imag… Trip… ""      Creati… Tångesu…
+    ##  9 tripos… tripos-li… Tripos lineatus trip… imag… Trip… ""      Creati… Tångesu…
+    ## 10 tripos… tripos-li… Tripos lineatus trip… imag… Trip… ""      Creati… Tångesu…
+    ## # ℹ 786 more rows
+    ## # ℹ 13 more variables: contributor <chr>, copyright_holder <chr>,
+    ## #   imaging_instrument <chr>, training_dataset <chr>, sampling_date <lgl>,
+    ## #   geographic_area <chr>, latitude_degree <chr>, longitude_degree <chr>,
+    ## #   institute <chr>, contributing_organisation <chr>, priority <int>,
+    ## #   created_at <chr>, updated_at <chr>
 
 ## Get NOMP and EG Phyto Biovolume lists
 
@@ -272,4 +374,4 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
 
 - Torstensson, A., Loo, A., Sundqvist, L., Skjevik, A.-T., Karlberg, M.,
   Johansen, M., Andreasson, A., and Karlson, B. (2024). Nordic
-  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-01-26.
+  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-02-23.

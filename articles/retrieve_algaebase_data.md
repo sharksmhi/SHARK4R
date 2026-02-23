@@ -14,7 +14,7 @@ affiliated with AlgaeBase.
 
 ## Getting Started
 
-### Installation
+#### Installation
 
 You can install the latest version of `SHARK4R` from CRAN using:
 
@@ -146,7 +146,7 @@ print(algaebase_match)
     ## # A tibble: 9 × 20
     ##   genus   species     id accepted_name input_name input_match currently_accepted
     ##   <chr>   <chr>    <int> <chr>         <chr>            <dbl>              <dbl>
-    ## 1 Guinar… delica…     NA NA            NA                  NA                 NA
+    ## 1 Guinar… delica…  43911 Guinardia de… Guinardia…           1                  1
     ## 2 Monora… contor…  27719 Monoraphidiu… Monoraphi…           1                  1
     ## 3 Flagel… NA          NA NA            NA                  NA                 NA
     ## 4 Thalas… baltica  39921 Thalassiosir… Thalassio…           1                  1

@@ -98,8 +98,7 @@ if all values are correctly formatted as numeric or logical.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Check for invalid (non-numeric / non-logical) entries</span></span></span>
 <span class="r-in"><span><span class="fu">check_value_logical</span><span class="op">(</span><span class="va">df</span>, return_df <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ERROR: Expected numerical/logical value but found invalid characters.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Common problems are e.g. '&lt;', '&gt;' signs, text labels, or malformed numbers.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Expected numerical/logical value but found invalid characters. Common problems are e.g. '&lt;', '&gt;' signs, text labels, or malformed numbers.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  &lt;0.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    NA</span>
