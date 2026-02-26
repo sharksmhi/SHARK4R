@@ -24,6 +24,7 @@ When unparsed = \code{FALSE}: a \code{tibble} with the following columns:
 \item \code{contributor}: The contributor of the media item.
 \item \code{photographer_artist}: The photographer or artist.
 \item \code{copyright_holder}: The copyright holder.
+\item \code{copyright_stamp}: The copyright stamp.
 \item \code{galleries}: Comma-separated list of galleries.
 \item \code{technique}: The imaging technique used.
 \item \code{contrast_enhancement}: The contrast enhancement method used.
