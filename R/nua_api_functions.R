@@ -402,6 +402,7 @@ get_nua_media_links <- function(unparsed = FALSE) {
 #'     \item \code{contributor}: The contributor of the media item.
 #'     \item \code{photographer_artist}: The photographer or artist.
 #'     \item \code{copyright_holder}: The copyright holder.
+#'     \item \code{copyright_stamp}: The copyright stamp.
 #'     \item \code{galleries}: Comma-separated list of galleries.
 #'     \item \code{technique}: The imaging technique used.
 #'     \item \code{contrast_enhancement}: The contrast enhancement method used.
@@ -480,6 +481,7 @@ get_nua_media_metadata <- function(unparsed = FALSE) {
           contributor = ifelse(!is.null(attrs$contributor), attrs$contributor, NA),
           photographer_artist = ifelse(!is.null(attrs$photographer_artist), attrs$photographer_artist, NA),
           copyright_holder = ifelse(!is.null(attrs$copyright_holder), attrs$copyright_holder, NA),
+          copyright_stamp = ifelse(!is.null(attrs$copyright_stamp), attrs$copyright_stamp, NA),
           galleries = galleries,
           technique = ifelse(!is.null(attrs$technique), attrs$technique, NA),
           contrast_enhancement = ifelse(!is.null(attrs$contrast_enhancement), attrs$contrast_enhancement, NA),
