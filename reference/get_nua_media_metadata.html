@@ -85,6 +85,7 @@ geographic coordinates, and contributor information.</p>
 <li><p><code>contributor</code>: The contributor of the media item.</p></li>
 <li><p><code>photographer_artist</code>: The photographer or artist.</p></li>
 <li><p><code>copyright_holder</code>: The copyright holder.</p></li>
+<li><p><code>copyright_stamp</code>: The copyright stamp.</p></li>
 <li><p><code>galleries</code>: Comma-separated list of galleries.</p></li>
 <li><p><code>technique</code>: The imaging technique used.</p></li>
 <li><p><code>contrast_enhancement</code>: The contrast enhancement method used.</p></li>
@@ -114,21 +115,21 @@ geographic coordinates, and contributor information.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Preview the extracted data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">media_metadata</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 25</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 26</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   slug     taxon_slug scientific_name file  type  title caption license location</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> octacti… octactis-… Octactis specu… octa… imag… Octa… <span style="color: #949494;">"</span>Two c… Creati… Danafjo…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> lennoxi… lennoxia-… Lennoxia faveo… lenn… imag… Lenn… <span style="color: #949494;">""</span>      Creati… Danafjo…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> bolmen-… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              bolm… imag… Bolm… <span style="color: #949494;">"</span>Taken… Creati… Bolmen,…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> bolmen-… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              bolm… imag… Bolm… <span style="color: #949494;">"</span>Taken… Creati… Bolmen,…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> odontel… odontella… Odontella sine… odon… imag… Odon… <span style="color: #949494;">"</span>O. si… Creati… Kosterf…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> odontel… odontella… Odontella auri… odon… imag… Odon… <span style="color: #949494;">"</span>Live … Creati… Havsten…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> octacti… octactis-… Octactis specu… octa… imag… Octa… <span style="color: #949494;">"</span>Two c… Creati… Danafjo…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> lennoxi… lennoxia-… Lennoxia faveo… lenn… imag… Lenn… <span style="color: #949494;">""</span>      Creati… Danafjo…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> bolmen-… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              bolm… imag… Bolm… <span style="color: #949494;">"</span>Taken… Creati… Bolmen,…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> hasslem… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              hass… imag… Hass… <span style="color: #949494;">"</span>Taken… Creati… Hasslem…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 16 more variables: contributor &lt;chr&gt;, photographer_artist &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   copyright_holder &lt;chr&gt;, galleries &lt;chr&gt;, technique &lt;list&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   contrast_enhancement &lt;list&gt;, preservation &lt;list&gt;, stain &lt;list&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   sampling_date &lt;chr&gt;, geographic_area &lt;chr&gt;, latitude_degree &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   longitude_degree &lt;chr&gt;, institute &lt;chr&gt;, contributing_organisation &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   created_at &lt;chr&gt;, updated_at &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> bolmen-… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              bolm… imag… Bolm… <span style="color: #949494;">"</span>Taken… Creati… Bolmen,…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 17 more variables: contributor &lt;chr&gt;, photographer_artist &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   copyright_holder &lt;chr&gt;, copyright_stamp &lt;chr&gt;, galleries &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   technique &lt;list&gt;, contrast_enhancement &lt;list&gt;, preservation &lt;list&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   stain &lt;list&gt;, sampling_date &lt;chr&gt;, geographic_area &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   latitude_degree &lt;chr&gt;, longitude_degree &lt;chr&gt;, institute &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   contributing_organisation &lt;chr&gt;, created_at &lt;chr&gt;, updated_at &lt;chr&gt;</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

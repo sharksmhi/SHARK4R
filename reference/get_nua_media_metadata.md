@@ -46,6 +46,8 @@ When unparsed = `FALSE`: a `tibble` with the following columns:
 
 - `copyright_holder`: The copyright holder.
 
+- `copyright_stamp`: The copyright stamp.
+
 - `galleries`: Comma-separated list of galleries.
 
 - `technique`: The imaging technique used.
@@ -91,20 +93,20 @@ media_metadata <- get_nua_media_metadata(unparsed = FALSE)
 
 # Preview the extracted data
 head(media_metadata)
-#> # A tibble: 6 × 25
+#> # A tibble: 6 × 26
 #>   slug     taxon_slug scientific_name file  type  title caption license location
 #>   <chr>    <chr>      <chr>           <chr> <chr> <chr> <chr>   <chr>   <chr>   
-#> 1 octacti… octactis-… Octactis specu… octa… imag… Octa… "Two c… Creati… Danafjo…
-#> 2 lennoxi… lennoxia-… Lennoxia faveo… lenn… imag… Lenn… ""      Creati… Danafjo…
-#> 3 bolmen-… NA         NA              bolm… imag… Bolm… "Taken… Creati… Bolmen,…
-#> 4 bolmen-… NA         NA              bolm… imag… Bolm… "Taken… Creati… Bolmen,…
+#> 1 odontel… odontella… Odontella sine… odon… imag… Odon… "O. si… Creati… Kosterf…
+#> 2 odontel… odontella… Odontella auri… odon… imag… Odon… "Live … Creati… Havsten…
+#> 3 octacti… octactis-… Octactis specu… octa… imag… Octa… "Two c… Creati… Danafjo…
+#> 4 lennoxi… lennoxia-… Lennoxia faveo… lenn… imag… Lenn… ""      Creati… Danafjo…
 #> 5 bolmen-… NA         NA              bolm… imag… Bolm… "Taken… Creati… Bolmen,…
-#> 6 hasslem… NA         NA              hass… imag… Hass… "Taken… Creati… Hasslem…
-#> # ℹ 16 more variables: contributor <chr>, photographer_artist <chr>,
-#> #   copyright_holder <chr>, galleries <chr>, technique <list>,
-#> #   contrast_enhancement <list>, preservation <list>, stain <list>,
-#> #   sampling_date <chr>, geographic_area <chr>, latitude_degree <chr>,
-#> #   longitude_degree <chr>, institute <chr>, contributing_organisation <chr>,
-#> #   created_at <chr>, updated_at <chr>
+#> 6 bolmen-… NA         NA              bolm… imag… Bolm… "Taken… Creati… Bolmen,…
+#> # ℹ 17 more variables: contributor <chr>, photographer_artist <chr>,
+#> #   copyright_holder <chr>, copyright_stamp <chr>, galleries <chr>,
+#> #   technique <list>, contrast_enhancement <list>, preservation <list>,
+#> #   stain <list>, sampling_date <chr>, geographic_area <chr>,
+#> #   latitude_degree <chr>, longitude_degree <chr>, institute <chr>,
+#> #   contributing_organisation <chr>, created_at <chr>, updated_at <chr>
 # }
 ```
