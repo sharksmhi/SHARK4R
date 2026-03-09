@@ -32,10 +32,10 @@ which returns a data frame with a column for taxon slugs, along with other relev
 \examples{
 \donttest{
   # Retrieve external links for a vector of slugs
-  harmfulness <- get_nua_harmfulness(slug = c("dinophysis-acuta",
+  try(harmfulness <- get_nua_harmfulness(slug = c("dinophysis-acuta",
                                               "alexandrium-ostenfeldii"),
-                                     verbose = FALSE)
-  print(harmfulness)
+                                     verbose = FALSE))
+  if (exists("harmfulness")) print(harmfulness)
 }
 }
 \seealso{

@@ -23,8 +23,8 @@ It fetches details including scientific names, authorities, ranks, and image URL
 \examples{
 \donttest{
   # Retrieve and display taxa data
-  taxa_data <- get_nua_taxa(unparsed = FALSE)
-  head(taxa_data)
+  try(taxa_data <- get_nua_taxa(unparsed = FALSE))
+  if (exists("taxa_data")) head(taxa_data)
 }
 
 }

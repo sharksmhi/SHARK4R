@@ -48,10 +48,10 @@ geographic coordinates, and contributor information.
 \examples{
 \donttest{
 # Retrieve media metadata
-media_metadata <- get_nua_media_metadata(unparsed = FALSE)
+try(media_metadata <- get_nua_media_metadata(unparsed = FALSE))
 
 # Preview the extracted data
-head(media_metadata)
+if (exists("media_metadata")) head(media_metadata)
 }
 }
 \seealso{

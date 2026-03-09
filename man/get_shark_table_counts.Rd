@@ -131,9 +131,9 @@ data type, stations, and taxa. To view available filter options, see
 \examples{
 \donttest{
   # Retrieve chlorophyll data for April to June from 2019 to 2020
-  shark_data_counts <- get_shark_table_counts(fromYear = 2019, toYear = 2020,
-                                              months = c(4, 5, 6), dataTypes = c("Chlorophyll"))
-  print(shark_data_counts)
+  try(shark_data_counts <- get_shark_table_counts(fromYear = 2019, toYear = 2020,
+                                              months = c(4, 5, 6), dataTypes = c("Chlorophyll")))
+  if (exists("shark_data_counts")) print(shark_data_counts)
 }
 
 }

@@ -45,12 +45,12 @@ Excel file by default. You can also specify which file in the archive to read.
 \examples{
 \donttest{
   # Get the latest available list
-  nomp_list <- get_nomp_list()
-  head(nomp_list)
+  try(nomp_list <- get_nomp_list())
+  if (exists("nomp_list")) head(nomp_list)
 
   # Get the 2023 list and clean old cache files older than 60 days
-  nomp_list_2023 <- get_nomp_list(2023, clean_cache_days = 60)
-  head(nomp_list_2023)
+  try(nomp_list_2023 <- get_nomp_list(2023, clean_cache_days = 60))
+  if (exists("nomp_list_2023")) head(nomp_list_2023)
 }
 }
 \seealso{

@@ -42,8 +42,8 @@ You can also specify which file in the archive to read.
 \examples{
 \donttest{
   # Read the first Excel file from the PEG zip
-  peg_list <- get_peg_list()
-  head(peg_list)
+  try(peg_list <- get_peg_list())
+  if (exists("peg_list")) head(peg_list)
 }
 }
 \seealso{

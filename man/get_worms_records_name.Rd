@@ -48,8 +48,8 @@ If all attempts fail, the function stops and throws an error.
 \examples{
 \donttest{
 # Retrieve WoRMS records for the taxonomic names "Amphidinium" and "Karenia"
-records <- get_worms_records_name(c("Amphidinium", "Karenia"),
-                                  max_retries = 3, sleep_time = 5, marine_only = TRUE)
+try(records <- get_worms_records_name(c("Amphidinium", "Karenia"),
+                                  max_retries = 3, sleep_time = 5, marine_only = TRUE))
 }
 
 }

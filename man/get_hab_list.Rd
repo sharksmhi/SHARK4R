@@ -79,20 +79,20 @@ If a field is not required, set the corresponding parameter to \code{FALSE} to e
 \examples{
 \donttest{
 # Download the default HABs taxonomic list
-habs_taxlist_df <- get_hab_list()
-head(habs_taxlist_df)
+try(habs_taxlist_df <- get_hab_list())
+if (exists("habs_taxlist_df")) head(habs_taxlist_df)
 
 # Include higher taxa records
-habs_taxlist_df <- get_hab_list(species_only = FALSE)
-head(habs_taxlist_df)
+try(habs_taxlist_df <- get_hab_list(species_only = FALSE))
+if (exists("habs_taxlist_df")) head(habs_taxlist_df)
 
 # Retrieve only non-toxigenic harmful species (experimental stage)
-habs_taxlist_df <- get_hab_list(harmful_non_toxic_only = TRUE, verbose = FALSE)
-head(habs_taxlist_df)
+try(habs_taxlist_df <- get_hab_list(harmful_non_toxic_only = TRUE, verbose = FALSE))
+if (exists("habs_taxlist_df")) head(habs_taxlist_df)
 
 # Include only specific fields in the output
-habs_taxlist_df <- get_hab_list(aphia_id = TRUE, scientific_name = TRUE, authority = FALSE)
-head(habs_taxlist_df)
+try(habs_taxlist_df <- get_hab_list(aphia_id = TRUE, scientific_name = TRUE, authority = FALSE))
+if (exists("habs_taxlist_df")) head(habs_taxlist_df)
 }
 }
 \references{

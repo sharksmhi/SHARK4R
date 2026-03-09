@@ -14,8 +14,8 @@
 #' @examples
 #' \donttest{
 #'   # Retrieve and display taxa data
-#'   taxa_data <- get_nua_taxa(unparsed = FALSE)
-#'   head(taxa_data)
+#'   try(taxa_data <- get_nua_taxa(unparsed = FALSE))
+#'   if (exists("taxa_data")) head(taxa_data)
 #' }
 #'
 #' @seealso \url{https://nordicmicroalgae.org/} for Nordic Microalgae website.
@@ -105,9 +105,11 @@ get_nua_taxa <- function(unparsed = FALSE) {
 #' @examples
 #' \donttest{
 #'   # Retrieve external links for a vector of slugs
-#'   external_links <- get_nua_external_links(slug = c("chaetoceros-debilis", "alexandrium-tamarense"),
-#'                                            verbose = FALSE)
-#'   head(external_links)
+#'   slugs <- c("chaetoceros-debilis", "alexandrium-tamarense")
+#'   try(external_links <- get_nua_external_links(
+#'     slug = slugs, verbose = FALSE
+#'   ))
+#'   if (exists("external_links")) head(external_links)
 #' }
 #' @export
 get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
@@ -205,10 +207,10 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
 #' @examples
 #' \donttest{
 #'   # Retrieve external links for a vector of slugs
-#'   harmfulness <- get_nua_harmfulness(slug = c("dinophysis-acuta",
+#'   try(harmfulness <- get_nua_harmfulness(slug = c("dinophysis-acuta",
 #'                                               "alexandrium-ostenfeldii"),
-#'                                      verbose = FALSE)
-#'   print(harmfulness)
+#'                                      verbose = FALSE))
+#'   if (exists("harmfulness")) print(harmfulness)
 #' }
 #' @export
 get_nua_harmfulness <- function(slug, verbose = TRUE) {
@@ -294,10 +296,10 @@ get_nua_harmfulness <- function(slug, verbose = TRUE) {
 #' @examples
 #' \donttest{
 #' # Retrieve media information
-#' media_info <- get_nua_media_links(unparsed = FALSE)
+#' try(media_info <- get_nua_media_links(unparsed = FALSE))
 #'
 #' # Preview the extracted data
-#' head(media_info)
+#' if (exists("media_info")) head(media_info)
 #' }
 #' @export
 get_nua_media_links <- function(unparsed = FALSE) {
@@ -425,10 +427,10 @@ get_nua_media_links <- function(unparsed = FALSE) {
 #' @examples
 #' \donttest{
 #' # Retrieve media metadata
-#' media_metadata <- get_nua_media_metadata(unparsed = FALSE)
+#' try(media_metadata <- get_nua_media_metadata(unparsed = FALSE))
 #'
 #' # Preview the extracted data
-#' head(media_metadata)
+#' if (exists("media_metadata")) head(media_metadata)
 #' }
 #' @export
 get_nua_media_metadata <- function(unparsed = FALSE) {
@@ -538,10 +540,10 @@ get_nua_media_metadata <- function(unparsed = FALSE) {
 #' @examples
 #' \donttest{
 #' # Retrieve image labeling media links
-#' il_links <- get_nua_image_labeling_links(unparsed = FALSE)
+#' try(il_links <- get_nua_image_labeling_links(unparsed = FALSE))
 #'
 #' # Preview the extracted data
-#' head(il_links)
+#' if (exists("il_links")) head(il_links)
 #' }
 #' @export
 get_nua_image_labeling_links <- function(unparsed = FALSE) {
@@ -659,10 +661,10 @@ get_nua_image_labeling_links <- function(unparsed = FALSE) {
 #' @examples
 #' \donttest{
 #' # Retrieve image labeling metadata
-#' il_metadata <- get_nua_image_labeling_metadata(unparsed = FALSE)
+#' try(il_metadata <- get_nua_image_labeling_metadata(unparsed = FALSE))
 #'
 #' # Preview the extracted data
-#' head(il_metadata)
+#' if (exists("il_metadata")) head(il_metadata)
 #' }
 #' @export
 get_nua_image_labeling_metadata <- function(unparsed = FALSE) {

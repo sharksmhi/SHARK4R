@@ -26,8 +26,8 @@ The data is organized into a full taxonomic table that can be joined with data d
 \examples{
 \donttest{
 # Update WoRMS taxonomy for a set of Aphia IDs
-updated_taxonomy <- update_worms_taxonomy(c(149619, 149122, 11))
-print(updated_taxonomy)
+try(updated_taxonomy <- update_worms_taxonomy(c(149619, 149122, 11)))
+if (exists("updated_taxonomy")) print(updated_taxonomy)
 }
 }
 \seealso{

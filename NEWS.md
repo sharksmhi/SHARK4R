@@ -1,4 +1,4 @@
-# SHARK4R (development version)
+# SHARK4R 1.1.0
 
 ## New features
 
@@ -29,6 +29,9 @@
 * Fixed deprecation warning version numbers in algaebase functions (now correctly reference `1.0.0`).
 * Fixed spelling of "Microalgae" and other minor typos in `get_hab_list()` documentation.
 * `get_hab_list()` updated to wrap inline text with `I()` in `readr::read_delim()` for `readr` ≥ 2.2.0 compatibility and to remove deprecation warnings.
+* Tests that depend on the OBIS xylookup API now skip correctly when the endpoint returns a server error. Previously, the availability check targeted the base URL (`https://api.obis.org/`) which could return 200 while the `/xylookup` endpoint itself returned 500.
+* All `\donttest{}` examples that call external APIs are now wrapped with `try()` so that transient service outages do not cause `R CMD check --run-donttest` failures.
+* The `quality_control` vignette now wraps OBIS-dependent calls (`check_onland()`, `check_depth()`) in `tryCatch()` so the vignette builds even when the API is unavailable.
 
 # SHARK4R 1.0.3
 

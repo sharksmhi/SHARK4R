@@ -30,14 +30,14 @@ to retrieve available search filters and options that can be used in SHARK data 
 \examples{
 \donttest{
   # Retrieve available search options (simplified)
-  shark_options <- get_shark_options()
-  names(shark_options)
+  try(shark_options <- get_shark_options())
+  if (exists("shark_options")) names(shark_options)
 
   # Retrieve full unparsed JSON response
-  raw_options <- get_shark_options(unparsed = TRUE)
+  try(raw_options <- get_shark_options(unparsed = TRUE))
 
   # View available datatypes
-  print(shark_options$dataTypes)
+  if (exists("shark_options")) print(shark_options$dataTypes)
 }
 
 }

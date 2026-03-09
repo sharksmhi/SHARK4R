@@ -8,6 +8,13 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, include=FALSE}
+nua_available <- tryCatch({
+  httr::status_code(httr::GET("https://nordicmicroalgae.org/",
+                               httr::timeout(5))) < 400
+}, error = function(e) FALSE)
+```
+
 ## Nordic Microalgae
 
 [Nordic Microalgae](https://nordicmicroalgae.org/) is an online platform providing high-quality images, illustrations, and detailed information about aquatic microalgae and related organisms in the Nordic region, including phytoplankton, microzooplankton, and benthic microalgae (Torstensson et al. 2024). It features a comprehensive species checklist, up-to-date taxonomic data linked to WoRMS and AlgaeBase, and supplementary resources such as biovolume lists and occurrence maps. Established in 1996 and supported by long-term funding from the Swedish Research Council through the Swedish Biodiversity Data Infrastructure (SBDI).
@@ -32,7 +39,7 @@ library(SHARK4R)
 
 A complete Nordic Microalgae taxa list can be retrieved through the API.
 
-```{r}
+```{r, eval=nua_available}
 # Get taxa information
 taxa <- get_nua_taxa(unparsed = FALSE)
 
@@ -46,13 +53,13 @@ The full taxonomic information can be accessed as an unparsed list by enabling t
 
 Each taxon sheet on Nordic Microalgae contains facts, such as links to external webpages (e.g. AlgaeBase, WoRMS and Dyntaxa). These links can be retrieved through the API.
 
-```{r}
+```{r, eval=nua_available}
 # Randomly select 10 taxa from shark_taxon$scientific_name
 slugs <- sample(taxa$slug, size = 10)
 
 # Get external links
-external_links <- get_nua_external_links(slugs, 
-                                         verbose = FALSE, 
+external_links <- get_nua_external_links(slugs,
+                                         verbose = FALSE,
                                          unparsed = FALSE)
 
 # Print list
@@ -65,10 +72,10 @@ The full list of facts can be accessed as an unparsed list by setting the `unpar
 
 Taxa listed in the [IOC-UNESCO Taxonomic Reference List of Harmful Microalgae](https://www.marinespecies.org/hab/) contain information about harmfulness. This information can be retrieved through the API.
 
-```{r}
+```{r, eval=nua_available}
 # Get external links
-harmfulness <- get_nua_harmfulness(c("dinophysis-acuta", 
-                                     "alexandrium-ostenfeldii"), 
+harmfulness <- get_nua_harmfulness(c("dinophysis-acuta",
+                                     "alexandrium-ostenfeldii"),
                                    verbose = FALSE)
 
 # Print list
@@ -79,7 +86,7 @@ print(harmfulness)
 
 Links to all images present on Nordic Microalgae can be retrieved through the API. The images are available in four sizes: original (o), small (s), medium (m), and large (l).
 
-```{r}
+```{r, eval=nua_available}
 # Get all media links
 media <- get_nua_media_links(unparsed = FALSE)
 
@@ -93,7 +100,7 @@ Complete media information can be retrieved as an unparsed list by setting the `
 
 Detailed metadata for all media items on Nordic Microalgae can be retrieved through the API. This includes information such as location, sampling date, geographic coordinates, imaging technique, and contributor details.
 
-```{r}
+```{r, eval=nua_available}
 # Get all media metadata
 media_metadata <- get_nua_media_metadata(unparsed = FALSE)
 
@@ -105,7 +112,7 @@ print(media_metadata)
 
 Nordic Microalgae hosts images from automated imaging instruments (e.g., IFCB) used for image labeling. Links to these images can be retrieved through the API, similar to `get_nua_media_links()`.
 
-```{r}
+```{r, eval=nua_available}
 # Get all image labeling media links
 il_links <- get_nua_image_labeling_links(unparsed = FALSE)
 
@@ -117,7 +124,7 @@ print(il_links)
 
 Detailed metadata for automated imaging images can be retrieved through the API. This includes information about the imaging instrument, training dataset, location, and taxonomic details.
 
-```{r}
+```{r, eval=nua_available}
 # Get all image labeling metadata
 il_metadata <- get_nua_image_labeling_metadata(unparsed = FALSE)
 
@@ -129,7 +136,7 @@ print(il_metadata)
 
 To standardize phytoplankton monitoring efforts in the Baltic Sea, Skagerrak, and the North Sea, various lists containing size class information for each taxon have been established. These lists can be retrieved directly in R using `SHARK4R`:
 
-```{r}
+```{r, eval=nua_available}
 # Get EG Phyto Biovolume list
 peg_list <- get_peg_list()
 

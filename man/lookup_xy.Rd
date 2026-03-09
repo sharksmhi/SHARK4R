@@ -61,13 +61,13 @@ requesting a single area value.
 # Using a data frame
 df <- data.frame(sample_longitude_dd = c(10.9, 18.3),
                  sample_latitude_dd = c(58.1, 58.3))
-lookup_xy(df)
+try(lookup_xy(df))
 
 # Area search within a radius
-lookup_xy(df, areas = 500)
+try(lookup_xy(df, areas = 500))
 
 # Using separate coordinate vectors
-lookup_xy(lon = c(10.9, 18.3), lat = c(58.1, 58.3))
+try(lookup_xy(lon = c(10.9, 18.3), lat = c(58.1, 58.3)))
 }
 
 }

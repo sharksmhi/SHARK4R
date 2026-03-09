@@ -84,21 +84,21 @@ The function performs the following steps:
 \examples{
 \donttest{
 # Retrieve hierarchy for a single AphiaID
-get_worms_taxonomy_tree(aphia_ids = 109604, verbose = FALSE)
+try(get_worms_taxonomy_tree(aphia_ids = 109604, verbose = FALSE))
 
 # Retrieve hierarchy including species-level descendants
-get_worms_taxonomy_tree(
+try(get_worms_taxonomy_tree(
   aphia_ids = c(109604, 376667),
   add_descendants = TRUE,
   verbose = FALSE
-)
+))
 
 # Retrieve hierarchy including hierarchy column
-get_worms_taxonomy_tree(
+try(get_worms_taxonomy_tree(
   aphia_ids = c(109604, 376667),
   add_hierarchy = TRUE,
   verbose = FALSE
-)
+))
 }
 
 }

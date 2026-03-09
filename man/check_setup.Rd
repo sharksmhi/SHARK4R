@@ -36,14 +36,14 @@ QC Shiny app directly after setup.
 \examples{
 \donttest{
 # Download support files into a temporary directory
-check_setup(path = tempdir())
+try(check_setup(path = tempdir()))
 
 # Force re-download if already present
-check_setup(path = tempdir(), force = TRUE)
+try(check_setup(path = tempdir(), force = TRUE))
 
 # Download and run the QC Shiny app
 if(interactive()){
- check_setup(path = tempdir(), run_app = TRUE)
+ try(check_setup(path = tempdir(), run_app = TRUE))
 }
 }
 

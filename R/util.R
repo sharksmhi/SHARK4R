@@ -29,7 +29,7 @@
 #' @examples
 #' \donttest{
 #'   # Remove files older than 60 days and clear session cache
-#'   clean_shark4r_cache(days = 60)
+#'   try(clean_shark4r_cache(days = 60))
 #' }
 clean_shark4r_cache <- function(days = 1,
                                 cache_dir = NULL,
@@ -102,14 +102,14 @@ clean_shark4r_cache <- function(days = 1,
 #' @examples
 #' \donttest{
 #' # Download support files into a temporary directory
-#' check_setup(path = tempdir())
+#' try(check_setup(path = tempdir()))
 #'
 #' # Force re-download if already present
-#' check_setup(path = tempdir(), force = TRUE)
+#' try(check_setup(path = tempdir(), force = TRUE))
 #'
 #' # Download and run the QC Shiny app
 #' if(interactive()){
-#'  check_setup(path = tempdir(), run_app = TRUE)
+#'  try(check_setup(path = tempdir(), run_app = TRUE))
 #' }
 #' }
 #'
@@ -223,12 +223,12 @@ translate_shark_datatype <- function(x) {
 #' @examples
 #' \donttest{
 #' # Load the default SHARK4R statistics file
-#' stats <- load_shark4r_stats(verbose = FALSE)
-#' print(stats)
+#' try(stats <- load_shark4r_stats(verbose = FALSE))
+#' if (exists("stats")) print(stats)
 #'
 #' # Load a specific file
-#' thresholds <- load_shark4r_stats("scientific_name.rds", verbose = FALSE)
-#' print(thresholds)
+#' try(thresholds <- load_shark4r_stats("scientific_name.rds", verbose = FALSE))
+#' if (exists("thresholds")) print(thresholds)
 #' }
 #'
 #' @export
@@ -297,11 +297,11 @@ load_shark4r_stats <- function(file_name = "sea_basin.rds",
 #' @examples
 #' \donttest{
 #' # Load SHARK4R field definitions from GitHub
-#' fields <- load_shark4r_fields(verbose = FALSE)
+#' try(fields <- load_shark4r_fields(verbose = FALSE))
 #'
 #' # Access required or recommended fields for the first entry
-#' fields[[1]]$required
-#' fields[[1]]$recommended
+#' if (exists("fields")) fields[[1]]$required
+#' if (exists("fields")) fields[[1]]$recommended
 #' }
 #' \dontrun{
 #' # Use the loaded definitions in check_fields()

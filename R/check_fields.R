@@ -199,10 +199,10 @@ check_datatype <- function(data, level = "error") {
 #'
 #' \donttest{
 #' # Example 2: Load latest definitions from GitHub and use them
-#' defs <- load_shark4r_fields(verbose = FALSE)
+#' try(defs <- load_shark4r_fields(verbose = FALSE))
 #'
 #' # Check fields using loaded field definitions
-#' check_fields(df_phyto, "Phytoplankton", field_definitions = defs)
+#' if (exists("defs")) try(check_fields(df_phyto, "Phytoplankton", field_definitions = defs))
 #' }
 #'
 #' # Example 3: Custom datatype with required + recommended fields

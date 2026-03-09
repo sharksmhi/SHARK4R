@@ -1,7 +1,7 @@
 test_that("check_depth detects invalid or impossible depth values", {
   skip_on_cran()
   skip_if_offline()
-  skip_if_resource_unavailable("https://api.obis.org/")
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
 
   if(Sys.getenv("TZ") == "") {
     Sys.setenv(TZ="Europe/Brussels") # handle warning
@@ -61,7 +61,7 @@ test_that("check_depth detects invalid or impossible depth values", {
 test_that("support for tibble", {
   skip_on_cran()
   skip_if_offline()
-  skip_if_resource_unavailable("https://api.obis.org/")
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
 
   skip_if_not_installed("dplyr")
   t1 <- data.frame(sample_longitude_dd=0, sample_latitude_dd=0,
@@ -76,6 +76,9 @@ test_that("support for tibble", {
 
 
 test_that("check_depth works with SpatRaster bathymetry", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
 
   # Create small test bathymetry raster
   r <- terra::rast(nrows=10, ncols=10, xmin=0, xmax=10, ymin=0, ymax=10)

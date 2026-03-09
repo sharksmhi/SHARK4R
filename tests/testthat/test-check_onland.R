@@ -16,7 +16,7 @@ test_that("check_onland offline parameter works", {
 test_that("check_onland buffer parameter works", {
   skip_on_cran()
   skip_if_offline()
-  skip_if_resource_unavailable("https://api.obis.org/")
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
   skip_if_resource_unavailable("https://obis-resources.s3.amazonaws.com",
                                allow_status = c(0:399, 403))
 
@@ -32,7 +32,7 @@ test_that("check_onland buffer parameter works", {
 test_that("check_onland all on land works", {
   skip_on_cran()
   skip_if_offline()
-  skip_if_resource_unavailable("https://api.obis.org/")
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
   skip_if_resource_unavailable("https://obis-resources.s3.amazonaws.com",
                                allow_status = c(0:399, 403))
 
@@ -46,7 +46,7 @@ test_that("check_onland all on land works", {
 test_that("check_onland buffer parameter works", {
   skip_on_cran()
   skip_if_offline()
-  skip_if_resource_unavailable("https://api.obis.org/")
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
   skip_if_resource_unavailable("https://obis-resources.s3.amazonaws.com",
                                allow_status = c(0:399, 403))
 
@@ -64,6 +64,7 @@ test_that("check_onland plot_leaflet parameter works", {
   skip_if_offline()
   skip_if_resource_unavailable("https://obis-resources.s3.amazonaws.com",
                                allow_status = c(0:399, 403))
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
 
   data <- test_data(x = c(2.89052, 2.921677), y = c(51.243543, 51.229194))
   m <- check_onland(data, offline = FALSE, plot_leaflet = TRUE)

@@ -8,6 +8,18 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, include=FALSE}
+hab_available <- tryCatch({
+  httr::status_code(httr::GET("https://www.marinespecies.org/hab/",
+                               httr::timeout(5))) < 400
+}, error = function(e) FALSE)
+
+toxin_available <- tryCatch({
+  httr::status_code(httr::GET("https://toxins.hais.ioc-unesco.org/",
+                               httr::timeout(5))) < 400
+}, error = function(e) FALSE)
+```
+
 ## IOC-UNESCO Databases
 
 The Intergovernmental Oceanographic Commission (IOC) of UNESCO is the United Nations body dedicated to supporting global ocean science, services, and governance. The [IOC-UNESCO Taxonomic Reference List of Harmful Microalgae](https://www.marinespecies.org/hab/) (Lundholm et al., 2009) focuses on species known to produce toxins or exhibit toxic effects, along with a few species suspected of toxin production. All toxic species in the list are verified with [WoRMS](https://www.marinespecies.org) to ensure accurate taxonomy.
@@ -34,7 +46,7 @@ library(SHARK4R)
 
 The complete HAB list, including scientific names and AphiaIDs, can be downloaded from the [IOC-UNESCO Taxonomic Reference List of Harmful Microalgae](https://www.marinespecies.org/hab/). The output fields are customizable through function parameters—for example, setting `classification = FALSE` excludes higher taxonomic information from the results.
 
-```{r}
+```{r, eval=hab_available}
 # Retrieve complete HAB list
 hab_list <- get_hab_list()
 
@@ -44,7 +56,7 @@ print(hab_list)
 
 A separate list of harmful non-toxic species is also available (Zingone & Escalera, 2025). This compilation focuses on taxa for which no toxin production is known, yet which have been linked to negative impacts on marine organisms, including mortality and ecosystem disturbance. The list is designed to be used alongside the IOC-UNESCO Taxonomic Reference List of Harmful Microalgae and is mutually exclusive with it. As a result, any species known to produce toxins is omitted, even when reported harmful effects are attributed to non-toxic processes such as oxygen depletion.
 
-```{r}
+```{r, eval=hab_available}
 # Retrieve complete Harmful non-toxic list
 hab_non_toxic_list <- get_hab_list(harmful_non_toxic_only = TRUE,
                                    verbose = FALSE)
@@ -57,7 +69,7 @@ print(hab_non_toxic_list)
 
 The complete Toxin list can be downloaded from the [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/) using the `get_toxin_list()` function.
 
-```{r}
+```{r, eval=toxin_available}
 # Retrieve complete toxin list
 toxin_list <- get_toxin_list()
 
