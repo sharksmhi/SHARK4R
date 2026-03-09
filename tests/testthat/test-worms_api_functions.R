@@ -159,10 +159,16 @@ test_that("assign_phytoplankton_group works with custom groups", {
 })
 
 test_that("deprecated match_worms_taxa_interactive works as expected", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable(url)
   lifecycle::expect_deprecated(match_wormstaxa(test_names, ask = FALSE))
 })
 
 test_that("deprecated update_worms_taxonomy with deprecated argument works as expected", {
+  skip_on_cran()
+  skip_if_offline()
+  skip_if_resource_unavailable(url)
   lifecycle::expect_deprecated(lifecycle::expect_deprecated(
     update_worms_taxonomy(aphiaid = test_aphia_id))
   )
