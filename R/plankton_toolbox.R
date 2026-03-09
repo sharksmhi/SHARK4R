@@ -76,12 +76,12 @@ read_ptbx <- function(file_path, sheet = c("sample_data.txt", "sample_info.txt",
 #' @examples
 #' \donttest{
 #'   # Get the latest available list
-#'   nomp_list <- get_nomp_list()
-#'   head(nomp_list)
+#'   try(nomp_list <- get_nomp_list())
+#'   if (exists("nomp_list")) head(nomp_list)
 #'
 #'   # Get the 2023 list and clean old cache files older than 60 days
-#'   nomp_list_2023 <- get_nomp_list(2023, clean_cache_days = 60)
-#'   head(nomp_list_2023)
+#'   try(nomp_list_2023 <- get_nomp_list(2023, clean_cache_days = 60))
+#'   if (exists("nomp_list_2023")) head(nomp_list_2023)
 #' }
 get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
                           file = NULL,
@@ -158,8 +158,8 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
 #' @examples
 #' \donttest{
 #'   # Read the first Excel file from the PEG zip
-#'   peg_list <- get_peg_list()
-#'   head(peg_list)
+#'   try(peg_list <- get_peg_list())
+#'   if (exists("peg_list")) head(peg_list)
 #' }
 get_peg_list <- function(file = NULL,
                          sheet = NULL,

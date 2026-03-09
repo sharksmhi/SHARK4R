@@ -58,13 +58,13 @@ https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbio
 \examples{
 \donttest{
 # Only single "*" required columns
-find_required_fields("Bacterioplankton")
+try(find_required_fields("Bacterioplankton"))
 
 # Include both "*" and "**" required columns (national monitoring too)
-find_required_fields("Bacterioplankton", stars = 2)
+try(find_required_fields("Bacterioplankton", stars = 2))
 
 # Include up to three levels of "*"
-find_required_fields("Phytoplankton", stars = 3)
+try(find_required_fields("Phytoplankton", stars = 3))
 }
 
 }

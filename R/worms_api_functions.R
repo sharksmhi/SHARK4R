@@ -22,8 +22,8 @@
 #' @examples
 #' \donttest{
 #' # Update WoRMS taxonomy for a set of Aphia IDs
-#' updated_taxonomy <- update_worms_taxonomy(c(149619, 149122, 11))
-#' print(updated_taxonomy)
+#' try(updated_taxonomy <- update_worms_taxonomy(c(149619, 149122, 11)))
+#' if (exists("updated_taxonomy")) print(updated_taxonomy)
 #' }
 #' @seealso \url{https://marinespecies.org/} for WoRMS website.
 #' @seealso \code{\link{get_shark_data}}, \code{\link{update_dyntaxa_taxonomy}}, [WoRMS API Documentation](https://www.marinespecies.org/rest/), \url{https://CRAN.R-project.org/package=worrms}
@@ -72,14 +72,14 @@ update_worms_taxonomy <- function(aphia_id, aphiaid=deprecated()) {
 #' @examples
 #' \donttest{
 #' # Using AphiaID only
-#' add_worms_taxonomy(c(1080, 109604), verbose = FALSE)
+#' try(add_worms_taxonomy(c(1080, 109604), verbose = FALSE))
 #'
 #' # Using a combination of AphiaID and scientific name
-#' add_worms_taxonomy(
+#' try(add_worms_taxonomy(
 #'   aphia_ids = c(NA, 109604),
 #'   scientific_names = c("Calanus finmarchicus", "Oithona similis"),
 #'   verbose = FALSE
-#' )
+#' ))
 #' }
 #'
 #' @export
@@ -206,9 +206,9 @@ add_worms_taxonomy <- function(aphia_ids,
 #' \donttest{
 #' # Example usage with a vector of Aphia IDs
 #' aphia_ids <- c(12345, 67890, 112233)
-#' worms_records <- get_worms_records(aphia_ids, verbose = FALSE)
+#' try(worms_records <- get_worms_records(aphia_ids, verbose = FALSE))
 #'
-#' print(worms_records)
+#' if (exists("worms_records")) print(worms_records)
 #' }
 #'
 #' @seealso \url{https://marinespecies.org/} for WoRMS website.
@@ -336,18 +336,18 @@ get_worms_records <- function(aphia_ids, max_retries = 3, sleep_time = 10, verbo
 #' @examples
 #' \donttest{
 #' # Retrieve WoRMS records iteratively for two taxonomic names
-#' records <- match_worms_taxa(c("Amphidinium", "Karenia"),
+#' try(records <- match_worms_taxa(c("Amphidinium", "Karenia"),
 #'                             max_retries = 3,
 #'                             sleep_time = 5,
 #'                             marine_only = TRUE,
-#'                             verbose = FALSE)
-#' print(records)
+#'                             verbose = FALSE))
+#' if (exists("records")) print(records)
 #'
 #' # Retrieve WoRMS records in bulk mode (faster for many names)
-#' records_bulk <- match_worms_taxa(c("Amphidinium", "Karenia", "Navicula"),
+#' try(records_bulk <- match_worms_taxa(c("Amphidinium", "Karenia", "Navicula"),
 #'                                  bulk = TRUE,
 #'                                  marine_only = TRUE,
-#'                                  verbose = FALSE)
+#'                                  verbose = FALSE))
 #' }
 #'
 #' @seealso \url{https://marinespecies.org/} for WoRMS website.
@@ -628,8 +628,8 @@ match_worms_taxa <- function(taxa_names,
 #' @examples
 #' \donttest{
 #' # Retrieve WoRMS records for the taxonomic names "Amphidinium" and "Karenia"
-#' records <- get_worms_records_name(c("Amphidinium", "Karenia"),
-#'                                   max_retries = 3, sleep_time = 5, marine_only = TRUE)
+#' try(records <- get_worms_records_name(c("Amphidinium", "Karenia"),
+#'                                   max_retries = 3, sleep_time = 5, marine_only = TRUE))
 #' }
 #'
 #' @seealso \url{https://marinespecies.org/} for WoRMS website.
@@ -696,21 +696,21 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #' @examples
 #' \donttest{
 #' # Assign plankton groups to a list of species names
-#' result <- assign_phytoplankton_group(
+#' try(result <- assign_phytoplankton_group(
 #'   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
-#'   verbose = FALSE)
+#'   verbose = FALSE))
 #'
-#' print(result)
+#' if (exists("result")) print(result)
 #'
 #' # Improve classification by explicitly providing Aphia IDs for ambiguous taxa
 #' # Actinocyclus and Navicula are names shared by both diatoms and animals,
 #' # which can lead to incorrect group assignment without an Aphia ID
-#' result <- assign_phytoplankton_group(
+#' try(result <- assign_phytoplankton_group(
 #'   scientific_names = c("Actinocyclus", "Navicula", "Nodularia spumigena", "Tripos fusus"),
 #'   aphia_ids = c(148944, 149142, NA, NA),
-#'   verbose = FALSE)
+#'   verbose = FALSE))
 #'
-#' print(result)
+#' if (exists("result")) print(result)
 #'
 #' # Assign plankton groups using additional custom grouping
 #' custom_groups <- list(
@@ -719,14 +719,14 @@ get_worms_records_name <- function(taxa_names, fuzzy = TRUE, best_match_only = T
 #' )
 #'
 #' # Assign with custom groups
-#' result_custom <- assign_phytoplankton_group(
+#' try(result_custom <- assign_phytoplankton_group(
 #'   scientific_names = c("Teleaulax amphioxeia", "Mesodinium rubrum", "Dinophysis acuta"),
 #'   aphia_ids = c(106306, 232069, 109604),
 #'   custom_groups = custom_groups,         # Adding custom groups
 #'   verbose = FALSE
-#' )
+#' ))
 #'
-#' print(result_custom)
+#' if (exists("result_custom")) print(result_custom)
 #' }
 #'
 #' @seealso \url{https://marinespecies.org/} for WoRMS website.
@@ -996,21 +996,21 @@ match_wormstaxa <- function(names, ask = TRUE) {
 #' @examples
 #' \donttest{
 #' # Retrieve hierarchy for a single AphiaID
-#' get_worms_taxonomy_tree(aphia_ids = 109604, verbose = FALSE)
+#' try(get_worms_taxonomy_tree(aphia_ids = 109604, verbose = FALSE))
 #'
 #' # Retrieve hierarchy including species-level descendants
-#' get_worms_taxonomy_tree(
+#' try(get_worms_taxonomy_tree(
 #'   aphia_ids = c(109604, 376667),
 #'   add_descendants = TRUE,
 #'   verbose = FALSE
-#' )
+#' ))
 #'
 #' # Retrieve hierarchy including hierarchy column
-#' get_worms_taxonomy_tree(
+#' try(get_worms_taxonomy_tree(
 #'   aphia_ids = c(109604, 376667),
 #'   add_hierarchy = TRUE,
 #'   verbose = FALSE
-#' )
+#' ))
 #' }
 #'
 #' @seealso \code{\link{add_worms_taxonomy}}, \code{\link{construct_dyntaxa_table}}
@@ -1239,23 +1239,23 @@ get_worms_taxonomy_tree <- function(aphia_ids,
 #' @examples
 #' \donttest{
 #' # Single AphiaID
-#' single_taxa <- get_worms_classification(109604, verbose = FALSE)
-#' print(single_taxa)
+#' try(single_taxa <- get_worms_classification(109604, verbose = FALSE))
+#' if (exists("single_taxa")) print(single_taxa)
 #'
 #' # Multiple AphiaIDs
-#' multiple_taxa <- get_worms_classification(c(109604, 376667), verbose = FALSE)
-#' print(multiple_taxa)
+#' try(multiple_taxa <- get_worms_classification(c(109604, 376667), verbose = FALSE))
+#' if (exists("multiple_taxa")) print(multiple_taxa)
 #'
 #' # Hierarchy with ranks in the string
-#' with_rank <- get_worms_classification(c(109604, 376667),
+#' try(with_rank <- get_worms_classification(c(109604, 376667),
 #'                                       add_rank_to_hierarchy = TRUE,
-#'                                       verbose = FALSE)
+#'                                       verbose = FALSE))
 #'
 #' # Print hierarchy columns with ranks
-#' print(with_rank$worms_hierarchy[1])
+#' if (exists("with_rank")) print(with_rank$worms_hierarchy[1])
 #'
 #' # Compare with result when add_rank_to_hierarchy = FALSE
-#' print(multiple_taxa$worms_hierarchy[1])
+#' if (exists("multiple_taxa")) print(multiple_taxa$worms_hierarchy[1])
 #' }
 #'
 #' @seealso \code{\link[worrms]{wm_classification}}, \url{https://marinespecies.org/}

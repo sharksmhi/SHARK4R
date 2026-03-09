@@ -75,21 +75,21 @@ and a specific group \code{Teleaulax} (name-based), it will be assigned to \code
 \examples{
 \donttest{
 # Assign plankton groups to a list of species names
-result <- assign_phytoplankton_group(
+try(result <- assign_phytoplankton_group(
   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
-  verbose = FALSE)
+  verbose = FALSE))
 
-print(result)
+if (exists("result")) print(result)
 
 # Improve classification by explicitly providing Aphia IDs for ambiguous taxa
 # Actinocyclus and Navicula are names shared by both diatoms and animals,
 # which can lead to incorrect group assignment without an Aphia ID
-result <- assign_phytoplankton_group(
+try(result <- assign_phytoplankton_group(
   scientific_names = c("Actinocyclus", "Navicula", "Nodularia spumigena", "Tripos fusus"),
   aphia_ids = c(148944, 149142, NA, NA),
-  verbose = FALSE)
+  verbose = FALSE))
 
-print(result)
+if (exists("result")) print(result)
 
 # Assign plankton groups using additional custom grouping
 custom_groups <- list(
@@ -98,14 +98,14 @@ custom_groups <- list(
 )
 
 # Assign with custom groups
-result_custom <- assign_phytoplankton_group(
+try(result_custom <- assign_phytoplankton_group(
   scientific_names = c("Teleaulax amphioxeia", "Mesodinium rubrum", "Dinophysis acuta"),
   aphia_ids = c(106306, 232069, 109604),
   custom_groups = custom_groups,         # Adding custom groups
   verbose = FALSE
-)
+))
 
-print(result_custom)
+if (exists("result_custom")) print(result_custom)
 }
 
 }

@@ -44,10 +44,10 @@ It returns comprehensive metadata including location, instrument, dataset, and t
 \examples{
 \donttest{
 # Retrieve image labeling metadata
-il_metadata <- get_nua_image_labeling_metadata(unparsed = FALSE)
+try(il_metadata <- get_nua_image_labeling_metadata(unparsed = FALSE))
 
 # Preview the extracted data
-head(il_metadata)
+if (exists("il_metadata")) head(il_metadata)
 }
 }
 \seealso{

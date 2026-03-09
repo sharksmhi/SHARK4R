@@ -5,7 +5,7 @@ test_data <- function(x=c(1,2,3), y=c(51,52,53)) {
 test_that("lookup_xy returns correct data", {
   skip_on_cran()
   skip_if_offline()
-  skip_if_resource_unavailable("https://api.obis.org/")
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
 
   results <- lookup_xy(test_data(), as_data_frame = FALSE)
   expect_equal(length(results), 3)
@@ -17,7 +17,7 @@ test_that("lookup_xy returns correct data", {
 test_that("lookup_xy results filtering works", {
   skip_on_cran()
   skip_if_offline()
-  skip_if_resource_unavailable("https://api.obis.org/")
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
 
   results <- lookup_xy(test_data(), areas = TRUE)
   expect_equal(nrow(results), 3)
@@ -33,7 +33,7 @@ test_that("lookup_xy results filtering works", {
 test_that("lookup_xy empty areas works", {
   skip_on_cran()
   skip_if_offline()
-  skip_if_resource_unavailable("https://api.obis.org/")
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
 
   results <- lookup_xy(test_data(x=90,y=60), areas = TRUE, shoredistance = FALSE, grids = FALSE)
   expect_equal(nrow(results), 1)
@@ -43,7 +43,7 @@ test_that("lookup_xy empty areas works", {
 test_that("lookup_xy duplicate coordinates works", {
   skip_on_cran()
   skip_if_offline()
-  skip_if_resource_unavailable("https://api.obis.org/")
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
 
   results <- lookup_xy(test_data(x=c(90,90,0,1,2,1),y=c(60,60,0,4,3,4)), as_data_frame = FALSE)
   expect_equal(length(results), 6)
@@ -59,7 +59,7 @@ test_that("lookup_xy duplicate coordinates works", {
 test_that("lookup_xy mix of valid and invalid coordinates works", {
   skip_on_cran()
   skip_if_offline()
-  skip_if_resource_unavailable("https://api.obis.org/")
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
 
   data <- test_data(x=c(90,"90",NA,-181,2,181,0),y=c(-91,60,0,4,91,4,0))
   expect_error(lookup_xy(data, as_data_frame = FALSE))
@@ -80,7 +80,7 @@ test_that("lookup_xy mix of valid and invalid coordinates works", {
 test_that("lookup_xy no data works", {
   skip_on_cran()
   skip_if_offline()
-  skip_if_resource_unavailable("https://api.obis.org/")
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
 
   data <- test_data(x=numeric(0),y=numeric(0))
   expect_equal(length(lookup_xy(data, as_data_frame = FALSE)), 0)
@@ -100,7 +100,7 @@ test_that("wrong url fails", {
 test_that("lookup_xy only areas works", {
   skip_on_cran()
   skip_if_offline()
-  skip_if_resource_unavailable("https://api.obis.org/")
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
 
   data <- test_data(x=c(0,1),y=c(0,0))
   result <- lookup_xy(data, shoredistance = FALSE, grids = FALSE, areas = TRUE)
@@ -112,7 +112,7 @@ test_that("lookup_xy only areas works", {
 test_that("lookup_xy works with lon/lat vectors (data frame output)", {
   skip_on_cran()
   skip_if_offline()
-  skip_if_resource_unavailable("https://api.obis.org/")
+  skip_if_resource_unavailable("https://api.obis.org/xylookup?x=0&y=0")
 
   lon <- c(1, 2, 3)
   lat <- c(51, 52, 53)

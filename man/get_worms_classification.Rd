@@ -57,23 +57,23 @@ The function performs the following steps:
 \examples{
 \donttest{
 # Single AphiaID
-single_taxa <- get_worms_classification(109604, verbose = FALSE)
-print(single_taxa)
+try(single_taxa <- get_worms_classification(109604, verbose = FALSE))
+if (exists("single_taxa")) print(single_taxa)
 
 # Multiple AphiaIDs
-multiple_taxa <- get_worms_classification(c(109604, 376667), verbose = FALSE)
-print(multiple_taxa)
+try(multiple_taxa <- get_worms_classification(c(109604, 376667), verbose = FALSE))
+if (exists("multiple_taxa")) print(multiple_taxa)
 
 # Hierarchy with ranks in the string
-with_rank <- get_worms_classification(c(109604, 376667),
+try(with_rank <- get_worms_classification(c(109604, 376667),
                                       add_rank_to_hierarchy = TRUE,
-                                      verbose = FALSE)
+                                      verbose = FALSE))
 
 # Print hierarchy columns with ranks
-print(with_rank$worms_hierarchy[1])
+if (exists("with_rank")) print(with_rank$worms_hierarchy[1])
 
 # Compare with result when add_rank_to_hierarchy = FALSE
-print(multiple_taxa$worms_hierarchy[1])
+if (exists("multiple_taxa")) print(multiple_taxa$worms_hierarchy[1])
 }
 
 }

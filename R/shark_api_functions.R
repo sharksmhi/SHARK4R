@@ -22,14 +22,14 @@
 #' @examples
 #' \donttest{
 #'   # Retrieve available search options (simplified)
-#'   shark_options <- get_shark_options()
-#'   names(shark_options)
+#'   try(shark_options <- get_shark_options())
+#'   if (exists("shark_options")) names(shark_options)
 #'
 #'   # Retrieve full unparsed JSON response
-#'   raw_options <- get_shark_options(unparsed = TRUE)
+#'   try(raw_options <- get_shark_options(unparsed = TRUE))
 #'
 #'   # View available datatypes
-#'   print(shark_options$dataTypes)
+#'   if (exists("shark_options")) print(shark_options$dataTypes)
 #' }
 #'
 #' @export
@@ -158,9 +158,9 @@ get_shark_options <- function(prod = TRUE, utv = FALSE, unparsed = FALSE) {
 #' @examples
 #' \donttest{
 #'   # Retrieve chlorophyll data for April to June from 2019 to 2020
-#'   shark_data_counts <- get_shark_table_counts(fromYear = 2019, toYear = 2020,
-#'                                               months = c(4, 5, 6), dataTypes = c("Chlorophyll"))
-#'   print(shark_data_counts)
+#'   try(shark_data_counts <- get_shark_table_counts(fromYear = 2019, toYear = 2020,
+#'                                               months = c(4, 5, 6), dataTypes = c("Chlorophyll")))
+#'   if (exists("shark_data_counts")) print(shark_data_counts)
 #' }
 #'
 #' @export
@@ -384,10 +384,10 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
 #' @examples
 #' \donttest{
 #'   # Retrieve chlorophyll data from 2019 to 2020 for April to June
-#'   shark_data <- get_shark_data(fromYear = 2019, toYear = 2020,
+#'   try(shark_data <- get_shark_data(fromYear = 2019, toYear = 2020,
 #'                                months = c(4, 5, 6), dataTypes = "Chlorophyll",
-#'                                verbose = FALSE)
-#'   print(shark_data)
+#'                                verbose = FALSE))
+#'   if (exists("shark_data")) print(shark_data)
 #' }
 #'
 #' @export
@@ -830,22 +830,22 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 #' @examples
 #' \donttest{
 #' # Get a specific dataset
-#' get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF", verbose = FALSE)
+#' try(get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF", verbose = FALSE))
 #'
 #' # Get all Zooplankton datasets from 2022 and unzip them
-#' get_shark_datasets(
+#' try(get_shark_datasets(
 #'   dataset_name = "Zooplankton_2022",
 #'   unzip_file = TRUE,
 #'   verbose = FALSE
-#' )
+#' ))
 #'
 #' # Get all Chlorophyll datasets and return as a combined data frame
-#' combined_df <- get_shark_datasets(
+#' try(combined_df <- get_shark_datasets(
 #'   dataset_name = "Chlorophyll",
 #'   return_df = TRUE,
 #'   verbose = FALSE
-#' )
-#' head(combined_df)
+#' ))
+#' if (exists("combined_df")) head(combined_df)
 #' }
 #'
 #' @export
@@ -1016,15 +1016,15 @@ get_shark_datasets <- function(dataset_name,
 #' @examples
 #' \donttest{
 #' # Uses previous 5 years automatically, Chlorophyll data only
-#' res <- get_shark_statistics(datatype = "Chlorophyll", verbose = FALSE)
-#' print(res)
+#' try(res <- get_shark_statistics(datatype = "Chlorophyll", verbose = FALSE))
+#' if (exists("res")) print(res)
 #'
 #' # Group by station name and save result in persistent cache
-#' res_station <- get_shark_statistics(datatype = "Chlorophyll",
+#' try(res_station <- get_shark_statistics(datatype = "Chlorophyll",
 #'                                     group_col = "station_name",
 #'                                     cache_result = TRUE,
-#'                                     verbose = FALSE)
-#' print(res_station)
+#'                                     verbose = FALSE))
+#' if (exists("res_station")) print(res_station)
 #' }
 get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL, group_col = NULL,
                                  min_obs = 3, max_non_numeric_frac = 0.05, cache_result = FALSE,

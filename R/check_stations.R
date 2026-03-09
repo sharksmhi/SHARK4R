@@ -81,7 +81,7 @@ check_nominal_station <- function(data, verbose = TRUE) {
 #'   sample_longitude_dd = rep(c(15.0, 16.0), 3),
 #'   sample_latitude_dd = rep(c(58.5, 58.6), 3)
 #' )
-#' nominal_station(df)
+#' try(nominal_station(df))
 #' }
 #'
 #' @keywords internal
@@ -257,13 +257,13 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
 #' )
 #'
 #' # Check station distance
-#' check_station_distance(df, try_synonyms = TRUE, verbose = FALSE)
+#' try(check_station_distance(df, try_synonyms = TRUE, verbose = FALSE))
 #'
 #' # Plot bad points in leaflet map
-#' map <- check_station_distance(df,
+#' try(map <- check_station_distance(df,
 #'                               plot_leaflet = TRUE,
 #'                               only_bad = TRUE,
-#'                               verbose = FALSE)
+#'                               verbose = FALSE))
 #' }
 #'
 #' @export

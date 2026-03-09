@@ -26,10 +26,10 @@ and URLs for different renditions (large, original, small, medium) for each medi
 \examples{
 \donttest{
 # Retrieve media information
-media_info <- get_nua_media_links(unparsed = FALSE)
+try(media_info <- get_nua_media_links(unparsed = FALSE))
 
 # Preview the extracted data
-head(media_info)
+if (exists("media_info")) head(media_info)
 }
 }
 \seealso{

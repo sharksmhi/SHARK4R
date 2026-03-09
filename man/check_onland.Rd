@@ -75,18 +75,18 @@ example_data <- data.frame(
 )
 
 # Report points on land with a 100 m buffer
-report <- check_onland(example_data, report = TRUE, buffer = 100)
-print(report)
+try(report <- check_onland(example_data, report = TRUE, buffer = 100))
+if (exists("report")) print(report)
 
 # Plot all points colored by land/water
-map <- check_onland(example_data, plot_leaflet = TRUE)
+try(map <- check_onland(example_data, plot_leaflet = TRUE))
 
 # Plot only bad points on land
-map_bad <- check_onland(example_data, plot_leaflet = TRUE, only_bad = TRUE)
+try(map_bad <- check_onland(example_data, plot_leaflet = TRUE, only_bad = TRUE))
 
 # Remove points on land by adding a buffer of 2000 m
-ok <- check_onland(example_data, report = FALSE, buffer = 2000)
-print(nrow(ok))
+try(ok <- check_onland(example_data, report = FALSE, buffer = 2000))
+if (exists("ok")) print(nrow(ok))
 }
 
 }

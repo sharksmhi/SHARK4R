@@ -59,18 +59,18 @@ removing trailing periods, collapsing extra spaces and by trimming whitespace.
 \examples{
 \donttest{
 # Retrieve WoRMS records iteratively for two taxonomic names
-records <- match_worms_taxa(c("Amphidinium", "Karenia"),
+try(records <- match_worms_taxa(c("Amphidinium", "Karenia"),
                             max_retries = 3,
                             sleep_time = 5,
                             marine_only = TRUE,
-                            verbose = FALSE)
-print(records)
+                            verbose = FALSE))
+if (exists("records")) print(records)
 
 # Retrieve WoRMS records in bulk mode (faster for many names)
-records_bulk <- match_worms_taxa(c("Amphidinium", "Karenia", "Navicula"),
+try(records_bulk <- match_worms_taxa(c("Amphidinium", "Karenia", "Navicula"),
                                  bulk = TRUE,
                                  marine_only = TRUE,
-                                 verbose = FALSE)
+                                 verbose = FALSE))
 }
 
 }

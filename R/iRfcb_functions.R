@@ -51,10 +51,10 @@
 #' longitudes <- c(17.845993, 20.394418, 18.284523, 16.227174)
 #'
 #' # Call the function
-#' near_land <- positions_are_near_land(latitudes, longitudes, distance = 300, crs = 4326)
+#' try(near_land <- positions_are_near_land(latitudes, longitudes, distance = 300, crs = 4326))
 #'
 #' # Print the result
-#' print(near_land)
+#' if (exists("near_land")) print(near_land)
 #' }
 #'
 #' @export

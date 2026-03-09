@@ -43,7 +43,7 @@ must be cleared explicitly using \code{clear_perm_cache = TRUE}.
 \examples{
 \donttest{
   # Remove files older than 60 days and clear session cache
-  clean_shark4r_cache(days = 60)
+  try(clean_shark4r_cache(days = 60))
 }
 }
 \seealso{

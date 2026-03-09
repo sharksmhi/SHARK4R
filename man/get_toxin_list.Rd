@@ -18,12 +18,12 @@ This function collects data from the \href{https://toxins.hais.ioc-unesco.org/}{
 \examples{
 \donttest{
 # Retrieve the full list of toxins
-toxin_list <- get_toxin_list()
-head(toxin_list)
+try(toxin_list <- get_toxin_list())
+if (exists("toxin_list")) head(toxin_list)
 
 # Retrieve only the count of toxins
-toxin_count <- get_toxin_list(return_count = TRUE)
-print(toxin_count)
+try(toxin_count <- get_toxin_list(return_count = TRUE))
+if (exists("toxin_count")) print(toxin_count)
 }
 
 }

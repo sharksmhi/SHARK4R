@@ -121,8 +121,14 @@ message("The interactive map is omitted here but appears in the online tutorial.
 ### Identify Points on Land
 
 ```{r}
-n_rows_on_land <- check_onland(chlorophyll_data)
-nrow(n_rows_on_land)
+n_rows_on_land <- tryCatch(
+  check_onland(chlorophyll_data),
+  error = function(e) {
+    message("OBIS xylookup API unavailable: ", conditionMessage(e))
+    NULL
+  }
+)
+if (!is.null(n_rows_on_land)) nrow(n_rows_on_land)
 ```
 
 Optional geospatial QC functions:
@@ -137,8 +143,14 @@ Optional geospatial QC functions:
 Verify plausibility and consistency of depth values:
 
 ```{r}
-check_depth(data = chlorophyll_data) # default columns: min/max depth
-check_depth(data = chlorophyll_data, "water_depth_m")
+tryCatch(
+  check_depth(data = chlorophyll_data),
+  error = function(e) message("OBIS xylookup API unavailable: ", conditionMessage(e))
+) # default columns: min/max depth
+tryCatch(
+  check_depth(data = chlorophyll_data, "water_depth_m"),
+  error = function(e) message("OBIS xylookup API unavailable: ", conditionMessage(e))
+)
 ```
 
 Checks performed:

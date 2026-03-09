@@ -41,11 +41,11 @@ so it does not need to be downloaded again in subsequent sessions.
 \examples{
 \donttest{
   # Read the first sheet, skipping the first row
-  codes <- get_shark_codes()
-  head(codes)
+  try(codes <- get_shark_codes())
+  if (exists("codes")) head(codes)
 
   # Force re-download of the Excel file
-  codes <- get_shark_codes(force = TRUE)
+  try(codes <- get_shark_codes(force = TRUE))
 }
 }
 \seealso{

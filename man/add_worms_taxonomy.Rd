@@ -46,14 +46,14 @@ Missing AphiaIDs can be resolved from scientific names automatically.
 \examples{
 \donttest{
 # Using AphiaID only
-add_worms_taxonomy(c(1080, 109604), verbose = FALSE)
+try(add_worms_taxonomy(c(1080, 109604), verbose = FALSE))
 
 # Using a combination of AphiaID and scientific name
-add_worms_taxonomy(
+try(add_worms_taxonomy(
   aphia_ids = c(NA, 109604),
   scientific_names = c("Calanus finmarchicus", "Oithona similis"),
   verbose = FALSE
-)
+))
 }
 
 }

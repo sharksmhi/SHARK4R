@@ -41,25 +41,25 @@
 #' @examples
 #' \donttest{
 #' # Bacterioplankton abundance
-#' abun <- get_delivery_template("Bacterioplankton",
-#'                               bacterioplankton_subtype = "abundance")
+#' try(abun <- get_delivery_template("Bacterioplankton",
+#'                               bacterioplankton_subtype = "abundance"))
 #'
-#' print(abun)
+#' if (exists("abun")) print(abun)
 #'
 #' # Bacterioplankton production
-#' prod <- get_delivery_template("Bacterioplankton",
-#'                               bacterioplankton_subtype = "production")
+#' try(prod <- get_delivery_template("Bacterioplankton",
+#'                               bacterioplankton_subtype = "production"))
 #'
 #' # Phytoplankton template
-#' phyto <- get_delivery_template("Phytoplankton")
+#' try(phyto <- get_delivery_template("Phytoplankton"))
 #'
 #' # Phytoplankton column explanation (sheet number 3)
-#' phyto_column_explanation <- get_delivery_template("Phytoplankton",
+#' try(phyto_column_explanation <- get_delivery_template("Phytoplankton",
 #'                                                   sheet = 3,
 #'                                                   header_row = 4,
-#'                                                   skip = 3)
+#'                                                   skip = 3))
 #'
-#' print(phyto_column_explanation)
+#' if (exists("phyto_column_explanation")) print(phyto_column_explanation)
 #' }
 #'
 #' @export
@@ -232,13 +232,13 @@ get_delivery_template <- function(datatype,
 #' @examples
 #' \donttest{
 #' # Only single "*" required columns
-#' find_required_fields("Bacterioplankton")
+#' try(find_required_fields("Bacterioplankton"))
 #'
 #' # Include both "*" and "**" required columns (national monitoring too)
-#' find_required_fields("Bacterioplankton", stars = 2)
+#' try(find_required_fields("Bacterioplankton", stars = 2))
 #'
 #' # Include up to three levels of "*"
-#' find_required_fields("Phytoplankton", stars = 3)
+#' try(find_required_fields("Phytoplankton", stars = 3))
 #' }
 #'
 #' @export

@@ -34,9 +34,11 @@ which returns a data frame with a column for taxon slugs, along with other relev
 \examples{
 \donttest{
   # Retrieve external links for a vector of slugs
-  external_links <- get_nua_external_links(slug = c("chaetoceros-debilis", "alexandrium-tamarense"),
-                                           verbose = FALSE)
-  head(external_links)
+  slugs <- c("chaetoceros-debilis", "alexandrium-tamarense")
+  try(external_links <- get_nua_external_links(
+    slug = slugs, verbose = FALSE
+  ))
+  if (exists("external_links")) head(external_links)
 }
 }
 \seealso{
