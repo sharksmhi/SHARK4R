@@ -145,7 +145,7 @@ example_data <- data.frame(
 )
 
 # Validate depths using OBIS XY lookup (bathymetry = NULL)
-check_depth(example_data, depth_cols = "sample_depth_m")
+try(check_depth(example_data, depth_cols = "sample_depth_m"))
 #> # A tibble: 1 × 4
 #>   level     row field          message                                          
 #>   <chr>   <int> <chr>          <chr>                                            
@@ -159,7 +159,7 @@ example_data2 <- data.frame(
   sample_max_depth_m = c(3, 20)
 )
 
-check_depth(example_data2, depth_cols = c("sample_min_depth_m", "sample_max_depth_m"))
+try(check_depth(example_data2, depth_cols = c("sample_min_depth_m", "sample_max_depth_m")))
 #> # A tibble: 3 × 4
 #>   level     row field                                 message                   
 #>   <chr>   <int> <chr>                                 <chr>                     
@@ -168,7 +168,7 @@ check_depth(example_data2, depth_cols = c("sample_min_depth_m", "sample_max_dept
 #> 3 warning     1 sample_max_depth_m                    Depth value (3) is greate…
 
 # Return only failing rows
-check_depth(example_data, depth_cols = "sample_depth_m", report = FALSE)
+try(check_depth(example_data, depth_cols = "sample_depth_m", report = FALSE))
 #> # A tibble: 1 × 3
 #>   sample_latitude_dd sample_longitude_dd sample_depth_m
 #>                <dbl>               <dbl>          <dbl>

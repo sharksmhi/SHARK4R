@@ -50,8 +50,8 @@ documentation.
 ``` r
 # \donttest{
   # Retrieve and display taxa data
-  taxa_data <- get_nua_taxa(unparsed = FALSE)
-  head(taxa_data)
+  try(taxa_data <- get_nua_taxa(unparsed = FALSE))
+  if (exists("taxa_data")) head(taxa_data)
 #> # A tibble: 6 × 5
 #>   scientific_name          authority                    rank    slug     nua_url
 #>   <chr>                    <chr>                        <chr>   <chr>    <chr>  

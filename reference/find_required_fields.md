@@ -81,7 +81,7 @@ https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbio
 ``` r
 # \donttest{
 # Only single "*" required columns
-find_required_fields("Bacterioplankton")
+try(find_required_fields("Bacterioplankton"))
 #>  [1] "MYEAR"    "STATN"    "PROJ"     "ORDERER"  "SHIPC"    "SDATE"   
 #>  [7] "LATIT"    "LONGI"    "POSYS"    "WADEP"    "SMPDEP"   "SLABO"   
 #> [13] "ACKR_SMP" "SMTYP"    "SMVOL"    "SPVOL"    "COEFF"    "SUBNO"   
@@ -89,7 +89,7 @@ find_required_fields("Bacterioplankton")
 #> [25] "ACKR_ANA" "ANADATE"  "METDC"   
 
 # Include both "*" and "**" required columns (national monitoring too)
-find_required_fields("Bacterioplankton", stars = 2)
+try(find_required_fields("Bacterioplankton", stars = 2))
 #>  [1] "MYEAR"    "STATN"    "PROJ"     "ORDERER"  "SHIPC"    "SDATE"   
 #>  [7] "LATIT"    "LONGI"    "POSYS"    "WADEP"    "MPROG"    "SMPDEP"  
 #> [13] "SLABO"    "ACKR_SMP" "SMTYP"    "SMVOL"    "SPVOL"    "COEFF"   
@@ -97,7 +97,7 @@ find_required_fields("Bacterioplankton", stars = 2)
 #> [25] "ALABO"    "ACKR_ANA" "ANADATE"  "METDC"   
 
 # Include up to three levels of "*"
-find_required_fields("Phytoplankton", stars = 3)
+try(find_required_fields("Phytoplankton", stars = 3))
 #>  [1] "MYEAR"    "STATN"    "PROJ"     "ORDERER"  "SHIPC"    "SDATE"   
 #>  [7] "LATIT"    "LONGI"    "POSYS"    "WADEP"    "MSTAT"    "MNDEP"   
 #> [13] "MXDEP"    "SLABO"    "ACKR_SMP" "SMTYP"    "SMVOL"    "LATNM"   

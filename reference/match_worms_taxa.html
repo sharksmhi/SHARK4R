@@ -11,7 +11,7 @@ all names at once using a bulk API call or iterate over names individually."><me
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -140,12 +140,12 @@ removing trailing periods, collapsing extra spaces and by trimming whitespace.</
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Retrieve WoRMS records iteratively for two taxonomic names</span></span></span>
-<span class="r-in"><span><span class="va">records</span> <span class="op">&lt;-</span> <span class="fu">match_worms_taxa</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Amphidinium"</span>, <span class="st">"Karenia"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">records</span> <span class="op">&lt;-</span> <span class="fu">match_worms_taxa</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Amphidinium"</span>, <span class="st">"Karenia"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                            max_retries <span class="op">=</span> <span class="fl">3</span>,</span></span>
 <span class="r-in"><span>                            sleep_time <span class="op">=</span> <span class="fl">5</span>,</span></span>
 <span class="r-in"><span>                            marine_only <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>                            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">records</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"records"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">records</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 29</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name  AphiaID url   scientificname authority status unacceptreason taxonRankID</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
@@ -159,10 +159,10 @@ removing trailing periods, collapsing extra spaces and by trimming whitespace.</
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   modified &lt;chr&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Retrieve WoRMS records in bulk mode (faster for many names)</span></span></span>
-<span class="r-in"><span><span class="va">records_bulk</span> <span class="op">&lt;-</span> <span class="fu">match_worms_taxa</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Amphidinium"</span>, <span class="st">"Karenia"</span>, <span class="st">"Navicula"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">records_bulk</span> <span class="op">&lt;-</span> <span class="fu">match_worms_taxa</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Amphidinium"</span>, <span class="st">"Karenia"</span>, <span class="st">"Navicula"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                                 bulk <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>                                 marine_only <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>                                 verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                                 verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

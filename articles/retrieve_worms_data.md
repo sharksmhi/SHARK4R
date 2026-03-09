@@ -42,9 +42,9 @@ tutorial.
 
 ``` r
 # Retrieve all phytoplankton data from April 2015
-shark_data <- get_shark_data(fromYear = 2015, 
+shark_data <- get_shark_data(fromYear = 2015,
                              toYear = 2015,
-                             months = 4, 
+                             months = 4,
                              dataTypes = "Phytoplankton",
                              verbose = FALSE)
 ```
@@ -63,7 +63,7 @@ no_aphia_id <- shark_data %>%
   filter(is.na(aphia_id))
 
 # Randomly select taxa with missing aphia_id
-taxa_names <- sample(unique(no_aphia_id$scientific_name), 
+taxa_names <- sample(unique(no_aphia_id$scientific_name),
                      size = 10,
                      replace = TRUE)
 
@@ -101,7 +101,7 @@ function.
 
 ``` r
 # Randomly select ten Aphia IDs
-aphia_ids <- sample(unique(shark_data$aphia_id), 
+aphia_ids <- sample(unique(shark_data$aphia_id),
                     size = 10)
 
 # Remove NAs
@@ -122,7 +122,7 @@ print(worms_records)
     ##  2  146715 https://w… Aphanothece    Nägeli, … accep… NA                     180
     ##  3  837459 https://w… Tripos lineat… (Ehrenbe… accep… NA                     220
     ##  4  134529 https://w… Pyramimonas    Schmarda… accep… NA                     180
-    ##  5  575737 https://w… Binuclearia l… (Schmidl… accep… NA                     220
+    ##  5  575737 https://w… Binuclearia l… (Schmidl… unacc… NA                     220
     ##  6  110153 https://w… Heterocapsa t… (Ehrenbe… unacc… NA                     220
     ##  7  148899 https://w… Bacillariophy… Haeckel,… accep… NA                      60
     ##  8  106287 https://w… Hemiselmis     Parke, 1… accep… NA                     180
@@ -270,7 +270,7 @@ plankton_group_sum <- shark_data_subset %>%
   summarise(sum_plankton_groups = sum(value, na.rm = TRUE))
 
 # Plot a pie chart
-ggplot(plankton_group_sum, 
+ggplot(plankton_group_sum,
        aes(x = "", y = sum_plankton_groups, fill = plankton_group)) +
   geom_col(width = 1) +
   coord_polar(theta = "y") +
@@ -284,7 +284,7 @@ ggplot(plankton_group_sum,
   theme(plot.background = element_rect(fill = "white", color = NA))
 ```
 
-![](retrieve_worms_data_files/figure-html/unnamed-chunk-9-1.png)
+![](retrieve_worms_data_files/figure-html/unnamed-chunk-10-1.png)
 
 #### Assign Custom Phytoplankton Groups
 
@@ -299,8 +299,8 @@ Ciliates in the list in the example below.
 # Define custom plankton groups using a named list
 custom_groups <- list(
   "Cryptophytes" = list(class = "Cryptophyceae"),
-  "Green Algae" = list(class = c("Trebouxiophyceae", 
-                                 "Chlorophyceae", 
+  "Green Algae" = list(class = c("Trebouxiophyceae",
+                                 "Chlorophyceae",
                                  "Pyramimonadophyceae"),
                        phylum = "Chlorophyta"),
   "Ciliates" = list(phylum = "Ciliophora"),
@@ -322,7 +322,7 @@ plankton_custom_group_sum <- shark_data_subset %>%
   summarise(sum_plankton_groups = sum(value, na.rm = TRUE))
 
 # Plot a new pie chart, including the custom groups
-ggplot(plankton_custom_group_sum, 
+ggplot(plankton_custom_group_sum,
        aes(x = "", y = sum_plankton_groups, fill = plankton_group)) +
   geom_col(width = 1) +
   coord_polar(theta = "y") +
@@ -336,7 +336,7 @@ ggplot(plankton_custom_group_sum,
   theme(plot.background = element_rect(fill = "white", color = NA))
 ```
 
-![](retrieve_worms_data_files/figure-html/unnamed-chunk-10-1.png)
+![](retrieve_worms_data_files/figure-html/unnamed-chunk-11-1.png)
 
 ------------------------------------------------------------------------
 
@@ -346,7 +346,7 @@ ggplot(plankton_custom_group_sum,
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.0.3.
+    ##   Databases. R package version 1.1.0.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -355,6 +355,6 @@ ggplot(plankton_custom_group_sum,
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.0.3},
+    ##     note = {R package version 1.1.0},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }

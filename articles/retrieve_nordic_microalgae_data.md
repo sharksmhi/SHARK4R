@@ -74,8 +74,8 @@ be retrieved through the API.
 slugs <- sample(taxa$slug, size = 10)
 
 # Get external links
-external_links <- get_nua_external_links(slugs, 
-                                         verbose = FALSE, 
+external_links <- get_nua_external_links(slugs,
+                                         verbose = FALSE,
                                          unparsed = FALSE)
 
 # Print list
@@ -108,8 +108,8 @@ about harmfulness. This information can be retrieved through the API.
 
 ``` r
 # Get external links
-harmfulness <- get_nua_harmfulness(c("dinophysis-acuta", 
-                                     "alexandrium-ostenfeldii"), 
+harmfulness <- get_nua_harmfulness(c("dinophysis-acuta",
+                                     "alexandrium-ostenfeldii"),
                                    verbose = FALSE)
 
 # Print list
@@ -145,20 +145,20 @@ media <- get_nua_media_links(unparsed = FALSE)
 print(media)
 ```
 
-    ## # A tibble: 2,423 × 10
+    ## # A tibble: 2,424 × 10
     ##    slug              image_l_url image_o_url image_s_url image_m_url contributor
     ##    <chr>             <chr>       <chr>       <chr>       <chr>       <chr>      
-    ##  1 odontella-sinens… https://no… https://no… https://no… https://no… Ann-Turi S…
-    ##  2 odontella-aurita  https://no… https://no… https://no… https://no… Ann-Turi S…
-    ##  3 octactis-speculum https://no… https://no… https://no… https://no… SMHI       
-    ##  4 lennoxia-faveola… https://no… https://no… https://no… https://no… Maria Karl…
-    ##  5 NA                https://no… https://no… https://no… https://no… Per Wilhel…
+    ##  1 NA                https://no… https://no… https://no… https://no… Per Wilhel…
+    ##  2 odontella-sinens… https://no… https://no… https://no… https://no… Ann-Turi S…
+    ##  3 odontella-aurita  https://no… https://no… https://no… https://no… Ann-Turi S…
+    ##  4 octactis-speculum https://no… https://no… https://no… https://no… SMHI       
+    ##  5 lennoxia-faveola… https://no… https://no… https://no… https://no… Maria Karl…
     ##  6 NA                https://no… https://no… https://no… https://no… Per Wilhel…
     ##  7 NA                https://no… https://no… https://no… https://no… Per Wilhel…
     ##  8 NA                https://no… https://no… https://no… https://no… Per Wilhel…
     ##  9 NA                https://no… https://no… https://no… https://no… Per Wilhel…
-    ## 10 pleurosigma       https://no… https://no… https://no… https://no… Maria Karl…
-    ## # ℹ 2,413 more rows
+    ## 10 NA                https://no… https://no… https://no… https://no… Per Wilhel…
+    ## # ℹ 2,414 more rows
     ## # ℹ 4 more variables: photographer_artist <chr>, copyright_holder <chr>,
     ## #   license <chr>, galleries <chr>
 
@@ -180,20 +180,20 @@ media_metadata <- get_nua_media_metadata(unparsed = FALSE)
 print(media_metadata)
 ```
 
-    ## # A tibble: 2,423 × 26
+    ## # A tibble: 2,424 × 26
     ##    slug    taxon_slug scientific_name file  type  title caption license location
     ##    <chr>   <chr>      <chr>           <chr> <chr> <chr> <chr>   <chr>   <chr>   
-    ##  1 odonte… odontella… Odontella sine… odon… imag… Odon… "O. si… Creati… Kosterf…
-    ##  2 odonte… odontella… Odontella auri… odon… imag… Odon… "Live … Creati… Havsten…
-    ##  3 octact… octactis-… Octactis specu… octa… imag… Octa… "Two c… Creati… Danafjo…
-    ##  4 lennox… lennoxia-… Lennoxia faveo… lenn… imag… Lenn… ""      Creati… Danafjo…
-    ##  5 bolmen… NA         NA              bolm… imag… Bolm… "Taken… Creati… Bolmen,…
+    ##  1 stigfj… NA         NA              stig… imag… Stig… "Taken… Creati… Stigfjo…
+    ##  2 odonte… odontella… Odontella sine… odon… imag… Odon… "O. si… Creati… Kosterf…
+    ##  3 odonte… odontella… Odontella auri… odon… imag… Odon… "Live … Creati… Havsten…
+    ##  4 octact… octactis-… Octactis specu… octa… imag… Octa… "Two c… Creati… Danafjo…
+    ##  5 lennox… lennoxia-… Lennoxia faveo… lenn… imag… Lenn… ""      Creati… Danafjo…
     ##  6 bolmen… NA         NA              bolm… imag… Bolm… "Taken… Creati… Bolmen,…
     ##  7 bolmen… NA         NA              bolm… imag… Bolm… "Taken… Creati… Bolmen,…
-    ##  8 hassle… NA         NA              hass… imag… Hass… "Taken… Creati… Hasslem…
+    ##  8 bolmen… NA         NA              bolm… imag… Bolm… "Taken… Creati… Bolmen,…
     ##  9 hassle… NA         NA              hass… imag… Hass… "Taken… Creati… Hasslem…
-    ## 10 pleuro… pleurosig… Pleurosigma     pleu… imag… Pleu… ""      Creati… Byttelo…
-    ## # ℹ 2,413 more rows
+    ## 10 hassle… NA         NA              hass… imag… Hass… "Taken… Creati… Hasslem…
+    ## # ℹ 2,414 more rows
     ## # ℹ 17 more variables: contributor <chr>, photographer_artist <chr>,
     ## #   copyright_holder <chr>, copyright_stamp <chr>, galleries <chr>,
     ## #   technique <list>, contrast_enhancement <list>, preservation <list>,
@@ -355,7 +355,7 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.0.3.
+    ##   Databases. R package version 1.1.0.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -364,7 +364,7 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.0.3},
+    ##     note = {R package version 1.1.0},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
 
@@ -374,4 +374,4 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
 
 - Torstensson, A., Loo, A., Sundqvist, L., Skjevik, A.-T., Karlberg, M.,
   Johansen, M., Andreasson, A., and Karlson, B. (2024). Nordic
-  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-02-26.
+  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-03-09.

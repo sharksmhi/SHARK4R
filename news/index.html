@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,15 +48,15 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="shark4r-development-version">SHARK4R (development version)<a class="anchor" aria-label="anchor" href="#shark4r-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.1.0" id="shark4r-110">SHARK4R 1.1.0<a class="anchor" aria-label="anchor" href="#shark4r-110"></a></h2>
 <div class="section level3">
-<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<h3 id="new-features-1-1-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1-0"></a></h3>
 <ul><li>Added <code><a href="../reference/get_nua_media_metadata.html">get_nua_media_metadata()</a></code> to retrieve detailed metadata for media items from Nordic Microalgae</li>
 <li>Added <code><a href="../reference/get_nua_image_labeling_links.html">get_nua_image_labeling_links()</a></code> to retrieve media URLs for automated imaging images (e.g., IFCB) from Nordic Microalgae</li>
 <li>Added <code><a href="../reference/get_nua_image_labeling_metadata.html">get_nua_image_labeling_metadata()</a></code> to retrieve detailed metadata for automated imaging images from Nordic Microalgae</li>
 </ul></div>
 <div class="section level3">
-<h3 id="security-improvements-development-version">Security improvements<a class="anchor" aria-label="anchor" href="#security-improvements-development-version"></a></h3>
+<h3 id="security-improvements-1-1-0">Security improvements<a class="anchor" aria-label="anchor" href="#security-improvements-1-1-0"></a></h3>
 <ul><li>
 <code><a href="../reference/load_shark4r_fields.html">load_shark4r_fields()</a></code> now downloads field definitions as a binary <code>.rds</code> file instead of sourcing a remote R script, eliminating a remote code execution risk.</li>
 <li>
@@ -65,7 +65,7 @@
 <code><a href="../reference/get_shark_datasets.html">get_shark_datasets()</a></code> now sanitizes dataset names from the API with <code><a href="https://rdrr.io/r/base/basename.html" class="external-link">basename()</a></code> before writing to disk.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-and-cran-compliance-development-version">Bug fixes and CRAN compliance<a class="anchor" aria-label="anchor" href="#bug-fixes-and-cran-compliance-development-version"></a></h3>
+<h3 id="bug-fixes-and-cran-compliance-1-1-0">Bug fixes and CRAN compliance<a class="anchor" aria-label="anchor" href="#bug-fixes-and-cran-compliance-1-1-0"></a></h3>
 <ul><li>Fixed species not getting properly matched in <code><a href="../reference/match_algaebase_taxa.html">match_algaebase_taxa()</a></code>. The join between API results and input data used <code>left_join(by = c("genus", "species"))</code>, which silently dropped results when AlgaeBase returned a reclassified genus (e.g., querying “Chlorella” but API returns “Auxenochlorella”). (Part of <a href="https://github.com/sharksmhi/SHARK4R/issues/47" class="external-link">#47</a>)</li>
 <li>Fixed <code><a href="../reference/match_algaebase_genus.html">match_algaebase_genus()</a></code> returning unrelated genera when <code>exact_matches_only = TRUE</code>. A variable shadowing bug inside <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble()</a></code> caused the <code>input_match</code> column to always equal 1, making the exact match filter ineffective. For example, querying “Nitzschia” returned 7 genera (Cymbellonitzschia, Pseudo-nitzschia, etc.) instead of just Nitzschia. (Part of <a href="https://github.com/sharksmhi/SHARK4R/issues/47" class="external-link">#47</a>)</li>
 <li>Fixed genus column collision in <code><a href="../reference/match_algaebase_species.html">match_algaebase_species()</a></code>. When higher taxonomy was requested, <code>genus = genus_taxonomy$genus</code> was included in the taxonomy tibble, which could overwrite the species-level genus value. (Part of <a href="https://github.com/sharksmhi/SHARK4R/issues/47" class="external-link">#47</a>)</li>
@@ -82,6 +82,9 @@
 <li>Fixed spelling of “Microalgae” and other minor typos in <code><a href="../reference/get_hab_list.html">get_hab_list()</a></code> documentation.</li>
 <li>
 <code><a href="../reference/get_hab_list.html">get_hab_list()</a></code> updated to wrap inline text with <code><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I()</a></code> in <code><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">readr::read_delim()</a></code> for <code>readr</code> ≥ 2.2.0 compatibility and to remove deprecation warnings.</li>
+<li>Tests that depend on the OBIS xylookup API now skip correctly when the endpoint returns a server error. Previously, the availability check targeted the base URL (<code>https://api.obis.org/</code>) which could return 200 while the <code>/xylookup</code> endpoint itself returned 500.</li>
+<li>All <code>\donttest{}</code> examples that call external APIs are now wrapped with <code><a href="https://rdrr.io/r/base/try.html" class="external-link">try()</a></code> so that transient service outages do not cause <code>R CMD check --run-donttest</code> failures.</li>
+<li>The <code>quality_control</code> vignette now wraps OBIS-dependent calls (<code><a href="../reference/check_onland.html">check_onland()</a></code>, <code><a href="../reference/check_depth.html">check_depth()</a></code>) in <code><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch()</a></code> so the vignette builds even when the API is unavailable.</li>
 </ul></div>
 </div>
     <div class="section level2">

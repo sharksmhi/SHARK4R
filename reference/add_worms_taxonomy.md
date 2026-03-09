@@ -62,7 +62,7 @@ A `tibble` with taxonomy columns added, including:
 ``` r
 # \donttest{
 # Using AphiaID only
-add_worms_taxonomy(c(1080, 109604), verbose = FALSE)
+try(add_worms_taxonomy(c(1080, 109604), verbose = FALSE))
 #> # A tibble: 2 × 10
 #>   aphia_id worms_scientific_name worms_kingdom worms_phylum worms_class
 #>      <dbl> <chr>                 <chr>         <chr>        <chr>      
@@ -72,11 +72,11 @@ add_worms_taxonomy(c(1080, 109604), verbose = FALSE)
 #> #   worms_species <chr>, worms_hierarchy <chr>
 
 # Using a combination of AphiaID and scientific name
-add_worms_taxonomy(
+try(add_worms_taxonomy(
   aphia_ids = c(NA, 109604),
   scientific_names = c("Calanus finmarchicus", "Oithona similis"),
   verbose = FALSE
-)
+))
 #> # A tibble: 2 × 11
 #>   aphia_id scientific_name      worms_scientific_name worms_kingdom worms_phylum
 #>      <dbl> <chr>                <chr>                 <chr>         <chr>       

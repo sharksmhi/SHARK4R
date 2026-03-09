@@ -1,6 +1,6 @@
 # Changelog
 
-## SHARK4R (development version)
+## SHARK4R 1.1.0
 
 ### New features
 
@@ -109,6 +109,18 @@
   [`I()`](https://rdrr.io/r/base/AsIs.html) in
   [`readr::read_delim()`](https://readr.tidyverse.org/reference/read_delim.html)
   for `readr` ≥ 2.2.0 compatibility and to remove deprecation warnings.
+- Tests that depend on the OBIS xylookup API now skip correctly when the
+  endpoint returns a server error. Previously, the availability check
+  targeted the base URL (`https://api.obis.org/`) which could return 200
+  while the `/xylookup` endpoint itself returned 500.
+- All `\donttest{}` examples that call external APIs are now wrapped
+  with [`try()`](https://rdrr.io/r/base/try.html) so that transient
+  service outages do not cause `R CMD check --run-donttest` failures.
+- The `quality_control` vignette now wraps OBIS-dependent calls
+  ([`check_onland()`](https://sharksmhi.github.io/SHARK4R/reference/check_onland.md),
+  [`check_depth()`](https://sharksmhi.github.io/SHARK4R/reference/check_depth.md))
+  in [`tryCatch()`](https://rdrr.io/r/base/conditions.html) so the
+  vignette builds even when the API is unavailable.
 
 ## SHARK4R 1.0.3
 

@@ -85,10 +85,10 @@ for retrieving regular media metadata.
 ``` r
 # \donttest{
 # Retrieve image labeling metadata
-il_metadata <- get_nua_image_labeling_metadata(unparsed = FALSE)
+try(il_metadata <- get_nua_image_labeling_metadata(unparsed = FALSE))
 
 # Preview the extracted data
-head(il_metadata)
+if (exists("il_metadata")) head(il_metadata)
 #> # A tibble: 6 × 22
 #>   slug     taxon_slug scientific_name file  type  title caption license location
 #>   <chr>    <chr>      <chr>           <chr> <chr> <chr> <chr>   <chr>   <chr>   

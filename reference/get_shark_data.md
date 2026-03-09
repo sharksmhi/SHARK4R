@@ -373,10 +373,10 @@ filtering by year, data type, or region for improved performance.
 ``` r
 # \donttest{
   # Retrieve chlorophyll data from 2019 to 2020 for April to June
-  shark_data <- get_shark_data(fromYear = 2019, toYear = 2020,
+  try(shark_data <- get_shark_data(fromYear = 2019, toYear = 2020,
                                months = c(4, 5, 6), dataTypes = "Chlorophyll",
-                               verbose = FALSE)
-  print(shark_data)
+                               verbose = FALSE))
+  if (exists("shark_data")) print(shark_data)
 #> # A tibble: 179 × 72
 #>    delivery_datatype check_status_sv data_checked_by_sv visit_year visit_month
 #>    <chr>             <chr>           <chr>                   <dbl>       <dbl>

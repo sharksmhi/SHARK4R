@@ -49,8 +49,8 @@ for retrieving actual data from the SHARK API.
 ``` r
 # \donttest{
   # Retrieve available search options (simplified)
-  shark_options <- get_shark_options()
-  names(shark_options)
+  try(shark_options <- get_shark_options())
+  if (exists("shark_options")) names(shark_options)
 #>  [1] "datasets"              "dataTypes"             "parameters"           
 #>  [4] "minYear"               "maxYear"               "months"               
 #>  [7] "checkStatuses"         "qualityFlags"          "deliverers"           
@@ -62,10 +62,10 @@ for retrieving actual data from the SHARK API.
 #> [25] "minYearPerDatatype"   
 
   # Retrieve full unparsed JSON response
-  raw_options <- get_shark_options(unparsed = TRUE)
+  try(raw_options <- get_shark_options(unparsed = TRUE))
 
   # View available datatypes
-  print(shark_options$dataTypes)
+  if (exists("shark_options")) print(shark_options$dataTypes)
 #>  [1] "Bacterioplankton"      "Chlorophyll"           "Epibenthos"           
 #>  [4] "Grey seal"             "Harbour Porpoise"      "Harbour seal"         
 #>  [7] "Physical and Chemical" "Phytoplankton"         "Picoplankton"         

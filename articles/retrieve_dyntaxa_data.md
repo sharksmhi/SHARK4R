@@ -177,7 +177,7 @@ print(matches)
     ##  3 Chrysotila carterae          236939 Chrysotila carterae     (Braa… Chrysotil…
     ##  4 Bacillaria paxillifera       237763 Bacillaria paxillifera  (O.F.… Bacillari…
     ##  5 Protoperidinium conicoides   238248 Protoperidinium conico… (Paul… Protoperi…
-    ##  6 Scrippsiella                1010578 Scrippsiella            Balec… Scrippsie…
+    ##  6 Scrippsiella                1010578 Scrippsiella            Balech Scrippsie…
     ##  7 Binuclearia lauterbornii     238927 Binuclearia lauterborn… (Schm… Binuclear…
     ##  8 Dictyochales                3000573 Dictyochales            Haeck… Dictyocha…
     ##  9 Diatoma vulgaris             238027 Diatoma vulgaris        Bory   Diatoma v…
@@ -207,16 +207,16 @@ print(dyntaxa_records)
     ## # A tibble: 10 × 24
     ##    taxonId parentId secondaryParents sortOrder isMicrospecies externalComment   
     ##      <int>    <int> <list>               <int> <lgl>          <chr>             
-    ##  1  236939  6018284 <list [0]>           69010 FALSE           NA               
-    ##  2  237763  1010465 <list [0]>           71499 FALSE          "Illustration (LM…
-    ##  3  238027  1010523 <list [0]>           73406 FALSE          "Illustration (LM…
-    ##  4  238248  1010596 <list [0]>           69933 FALSE           NA               
-    ##  5  238927  1016130 <list [0]>          113795 FALSE           NA               
-    ##  6  257418  6001140 <list [0]>          112930 FALSE           NA               
-    ##  7  263645  1016291 <list [0]>           67710 FALSE          "2005. Published …
-    ##  8 1010578  6332738 <list [0]>           70055 FALSE          "Scrippsiella han…
-    ##  9 1010594  2003235 <list [0]>           69917 FALSE           NA               
-    ## 10 3000573  4000161 <list [0]>           71259 FALSE           NA               
+    ##  1  236939  6018284 <list [0]>           69015 FALSE           NA               
+    ##  2  237763  1010465 <list [0]>           71504 FALSE          "Illustration (LM…
+    ##  3  238027  1010523 <list [0]>           73411 FALSE          "Illustration (LM…
+    ##  4  238248  1010596 <list [0]>           69938 FALSE           NA               
+    ##  5  238927  1016130 <list [0]>          113830 FALSE           NA               
+    ##  6  257418  6001140 <list [0]>          112965 FALSE           NA               
+    ##  7  263645  1016291 <list [0]>           67715 FALSE          "2005. Published …
+    ##  8 1010578  6332738 <list [0]>           70060 FALSE          "Scrippsiella han…
+    ##  9 1010594  2003235 <list [0]>           69922 FALSE           NA               
+    ## 10 3000573  4000161 <list [0]>           71264 FALSE           NA               
     ## # ℹ 18 more variables: redlistCategory <lgl>, excludeFromReportingSystem <lgl>,
     ## #   nrOfChilds <int>, names <list>, typedRelations.parentRelations <list>,
     ## #   typedRelations.childRelations <list>, status.id <int>, status.value <chr>,
@@ -313,13 +313,13 @@ print(taxonomy_table)
     ##    <chr>          <chr>               <chr>             <chr>          <chr>    
     ##  1 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Pseudopediast… species  
     ##  2 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Dictyochales   order    
-    ##  3 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Binuclearia l… species  
+    ##  3 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Chrysotila ca… species  
     ##  4 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Scrippsiella   genus    
-    ##  5 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Bacillaria pa… species  
-    ##  6 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Chrysotila ca… species  
-    ##  7 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Oblea          genus    
-    ##  8 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  
-    ##  9 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Cuspidothrix … species  
+    ##  5 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  
+    ##  6 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Bacillaria pa… species  
+    ##  7 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Cuspidothrix … species  
+    ##  8 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Binuclearia l… species  
+    ##  9 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Oblea          genus    
     ## 10 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Protoperidini… species  
     ## # ℹ 286 more rows
     ## # ℹ 11 more variables: scientificNameAuthorship <chr>, taxonomicStatus <chr>,
@@ -334,7 +334,7 @@ print(taxonomy_table)
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.0.3.
+    ##   Databases. R package version 1.1.0.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -343,6 +343,6 @@ print(taxonomy_table)
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.0.3},
+    ##     note = {R package version 1.1.0},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }

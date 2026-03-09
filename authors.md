@@ -29,12 +29,12 @@ Source:
 
 Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and Validating
 Marine Environmental Data from 'SHARK' and Related Databases. R package
-version 1.0.3. https://CRAN.R-project.org/package=SHARK4R
+version 1.1.0. https://CRAN.R-project.org/package=SHARK4R
 
     @Manual{,
       title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
       author = {Markus Lindh and Anders Torstensson},
       year = {2026},
-      note = {R package version 1.0.3},
+      note = {R package version 1.1.0},
       url = {https://CRAN.R-project.org/package=SHARK4R},
     }

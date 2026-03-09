@@ -67,9 +67,9 @@ message.
 # \donttest{
 # Example usage with a vector of Aphia IDs
 aphia_ids <- c(12345, 67890, 112233)
-worms_records <- get_worms_records(aphia_ids, verbose = FALSE)
+try(worms_records <- get_worms_records(aphia_ids, verbose = FALSE))
 
-print(worms_records)
+if (exists("worms_records")) print(worms_records)
 #> # A tibble: 3 × 28
 #>   AphiaID status url   scientificname authority unacceptreason taxonRankID rank 
 #>     <dbl> <chr>  <chr> <chr>          <chr>     <lgl>                <int> <chr>

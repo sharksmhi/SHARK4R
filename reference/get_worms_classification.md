@@ -84,8 +84,8 @@ The function performs the following steps:
 ``` r
 # \donttest{
 # Single AphiaID
-single_taxa <- get_worms_classification(109604, verbose = FALSE)
-print(single_taxa)
+try(single_taxa <- get_worms_classification(109604, verbose = FALSE))
+if (exists("single_taxa")) print(single_taxa)
 #> # A tibble: 1 × 15
 #>   aphia_id scientific_name  parent_name Kingdom   Subkingdom Infrakingdom Phylum
 #>      <dbl> <chr>            <chr>       <chr>     <chr>      <chr>        <chr> 
@@ -95,8 +95,8 @@ print(single_taxa)
 #> #   worms_hierarchy <chr>
 
 # Multiple AphiaIDs
-multiple_taxa <- get_worms_classification(c(109604, 376667), verbose = FALSE)
-print(multiple_taxa)
+try(multiple_taxa <- get_worms_classification(c(109604, 376667), verbose = FALSE))
+if (exists("multiple_taxa")) print(multiple_taxa)
 #> # A tibble: 2 × 17
 #>   aphia_id scientific_name    parent_name Kingdom Subkingdom Infrakingdom Phylum
 #>      <dbl> <chr>              <chr>       <chr>   <chr>      <chr>        <chr> 
@@ -107,16 +107,16 @@ print(multiple_taxa)
 #> #   Superorder <chr>, worms_hierarchy <chr>
 
 # Hierarchy with ranks in the string
-with_rank <- get_worms_classification(c(109604, 376667),
+try(with_rank <- get_worms_classification(c(109604, 376667),
                                       add_rank_to_hierarchy = TRUE,
-                                      verbose = FALSE)
+                                      verbose = FALSE))
 
 # Print hierarchy columns with ranks
-print(with_rank$worms_hierarchy[1])
+if (exists("with_rank")) print(with_rank$worms_hierarchy[1])
 #> [1] "[Kingdom] Chromista - [Subkingdom] Harosa - [Infrakingdom] Alveolata - [Phylum] Myzozoa - [Subphylum] Dinozoa - [Infraphylum] Dinoflagellata - [Class] Dinophyceae - [Order] Dinophysales - [Family] Dinophysaceae - [Genus] Dinophysis - [Species] Dinophysis acuta"
 
 # Compare with result when add_rank_to_hierarchy = FALSE
-print(multiple_taxa$worms_hierarchy[1])
+if (exists("multiple_taxa")) print(multiple_taxa$worms_hierarchy[1])
 #> [1] "Chromista - Harosa - Alveolata - Myzozoa - Dinozoa - Dinoflagellata - Dinophyceae - Dinophysales - Dinophysaceae - Dinophysis - Dinophysis acuta"
 # }
 ```

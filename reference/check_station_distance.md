@@ -129,7 +129,7 @@ df <- data.frame(
 )
 
 # Check station distance
-check_station_distance(df, try_synonyms = TRUE, verbose = FALSE)
+try(check_station_distance(df, try_synonyms = TRUE, verbose = FALSE))
 #>      station_name sample_longitude_dd sample_latitude_dd distance_m
 #> 1        ANHOLT E               12.10              56.70  3551.0004
 #> 2 BY5 BORNHOLMSDJ               15.97              55.25   898.1066
@@ -140,9 +140,9 @@ check_station_distance(df, try_synonyms = TRUE, verbose = FALSE)
 #> 3           NA
 
 # Plot bad points in leaflet map
-map <- check_station_distance(df,
+try(map <- check_station_distance(df,
                               plot_leaflet = TRUE,
                               only_bad = TRUE,
-                              verbose = FALSE)
+                              verbose = FALSE))
 # }
 ```

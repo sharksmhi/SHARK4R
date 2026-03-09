@@ -7,12 +7,12 @@ control (QC) on SHARK data. These functions help identify missing or
 invalid values, spatial errors, and statistical outliers and are mainly
 intended for internal data validation. The tutorial covers:
 
-- **Field validation** (required and datatype-specific fields)  
-- **Code validation** (project and platform codes)  
-- **Geospatial checks** (points on land, basins, proximity to shore)  
-- **Depth checks** (missing, negative, or implausible values)  
-- **Outlier detection** (parameter-specific thresholds)  
-- **Logical Parameter Checks** (parameter-specific rules)  
+- **Field validation** (required and datatype-specific fields)
+- **Code validation** (project and platform codes)
+- **Geospatial checks** (points on land, basins, proximity to shore)
+- **Depth checks** (missing, negative, or implausible values)
+- **Outlier detection** (parameter-specific thresholds)
+- **Logical Parameter Checks** (parameter-specific rules)
 - **Interactive QC** with a Shiny app
 
 This workflow ensures SHARK data are consistent, valid, and ready for
@@ -51,7 +51,7 @@ Filter datasets containing “Chlorophyll”:
 
 ``` r
 # Filter names using grepl
-chlorophyll_datasets <- shark_options$datasets[grepl("Chlorophyll", 
+chlorophyll_datasets <- shark_options$datasets[grepl("Chlorophyll",
                                                      shark_options$datasets)]
 
 # Select the first dataset for demonstration
@@ -107,7 +107,7 @@ for both ZIP archives or text files.
 Validate mandatory fields:
 
 - **Global fields**:
-  [`check_datatype()`](https://sharksmhi.github.io/SHARK4R/reference/check_datatype.md)  
+  [`check_datatype()`](https://sharksmhi.github.io/SHARK4R/reference/check_datatype.md)
 - **Datatype-specific fields**:
   [`check_fields()`](https://sharksmhi.github.io/SHARK4R/reference/check_fields.md)
   with optional `field_definitions`
@@ -151,9 +151,9 @@ check_codes(chlorophyll_data)
 
 ``` r
 # Validate ship/platform codes
-check_codes(data = chlorophyll_data, 
-            field = "platform_code", 
-            code_type = "SHIPC", 
+check_codes(data = chlorophyll_data,
+            field = "platform_code",
+            code_type = "SHIPC",
             match_column = "Code")
 ```
 
@@ -186,7 +186,7 @@ nrow(n_rows_on_land)
 
 Optional geospatial QC functions:
 
-- [`positions_are_near_land()`](https://sharksmhi.github.io/SHARK4R/reference/positions_are_near_land.md)  
+- [`positions_are_near_land()`](https://sharksmhi.github.io/SHARK4R/reference/positions_are_near_land.md)
 - [`which_basin()`](https://sharksmhi.github.io/SHARK4R/reference/which_basin.md)
   from the [iRfcb package](https://CRAN.R-project.org/package=iRfcb)
 
@@ -227,8 +227,8 @@ check_depth(data = chlorophyll_data, "water_depth_m")
 
 Checks performed:
 
-- Missing depth column or empty values (warnings)  
-- Non-numeric or negative values (errors)  
+- Missing depth column or empty values (warnings)
+- Non-numeric or negative values (errors)
 - Depth exceeding bathymetry or minimum \> maximum (errors)
 
 ------------------------------------------------------------------------
@@ -306,7 +306,7 @@ Verify station names against the official SHARK registry:
 station_match <- match_station(chlorophyll_data$station_name)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/Rtmp6NlRVp/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpCqYhxO/station.txt
 
     ## All stations found
 
@@ -330,7 +330,7 @@ check_station_distance(data = chlorophyll_data,
                        plot_leaflet = TRUE)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/Rtmp6NlRVp/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpCqYhxO/station.txt
 
     ## WARNING: Some stations are outside the allowed distance limit
 
@@ -373,24 +373,24 @@ above.
 
 1.  **Check Required Fields**
     ([`check_datatype()`](https://sharksmhi.github.io/SHARK4R/reference/check_datatype.md),
-    [`check_fields()`](https://sharksmhi.github.io/SHARK4R/reference/check_fields.md))  
+    [`check_fields()`](https://sharksmhi.github.io/SHARK4R/reference/check_fields.md))
 2.  **Validate Codes**
-    ([`check_codes()`](https://sharksmhi.github.io/SHARK4R/reference/check_codes.md))  
+    ([`check_codes()`](https://sharksmhi.github.io/SHARK4R/reference/check_codes.md))
 3.  **Geospatial Checks**
     ([`plot_map_leaflet()`](https://sharksmhi.github.io/SHARK4R/reference/plot_map_leaflet.md),
     [`check_onland()`](https://sharksmhi.github.io/SHARK4R/reference/check_onland.md),
     optional
     [`positions_are_near_land()`](https://sharksmhi.github.io/SHARK4R/reference/positions_are_near_land.md),
-    [`which_basin()`](https://sharksmhi.github.io/SHARK4R/reference/which_basin.md))  
+    [`which_basin()`](https://sharksmhi.github.io/SHARK4R/reference/which_basin.md))
 4.  **Depth Checks**
-    ([`check_depth()`](https://sharksmhi.github.io/SHARK4R/reference/check_depth.md))  
+    ([`check_depth()`](https://sharksmhi.github.io/SHARK4R/reference/check_depth.md))
 5.  **Outlier Detection**
     ([`check_outliers()`](https://sharksmhi.github.io/SHARK4R/reference/check_outliers.md),
-    [`scatterplot()`](https://sharksmhi.github.io/SHARK4R/reference/scatterplot.md))  
+    [`scatterplot()`](https://sharksmhi.github.io/SHARK4R/reference/scatterplot.md))
 6.  **Logical Parameter Checks**
-    ([`check_parameter_rules()`](https://sharksmhi.github.io/SHARK4R/reference/check_parameter_rules.md))  
+    ([`check_parameter_rules()`](https://sharksmhi.github.io/SHARK4R/reference/check_parameter_rules.md))
 7.  **Station Matching**
-    ([`match_station()`](https://sharksmhi.github.io/SHARK4R/reference/match_station.md))  
+    ([`match_station()`](https://sharksmhi.github.io/SHARK4R/reference/match_station.md))
 8.  **Final Review & Visualization** (interactive maps and scatterplots)
 
 Following this order ensures comprehensive QC and prepares your SHARK
@@ -404,7 +404,7 @@ data for analysis.
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.0.3.
+    ##   Databases. R package version 1.1.0.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -413,7 +413,7 @@ data for analysis.
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.0.3},
+    ##     note = {R package version 1.1.0},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
 

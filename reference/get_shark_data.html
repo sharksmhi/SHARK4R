@@ -11,7 +11,7 @@ retrieved data as a structured tibble. To view available filter options, see get
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -350,10 +350,10 @@ by year, data type, or region for improved performance.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span>  <span class="co"># Retrieve chlorophyll data from 2019 to 2020 for April to June</span></span></span>
-<span class="r-in"><span>  <span class="va">shark_data</span> <span class="op">&lt;-</span> <span class="fu">get_shark_data</span><span class="op">(</span>fromYear <span class="op">=</span> <span class="fl">2019</span>, toYear <span class="op">=</span> <span class="fl">2020</span>,</span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">shark_data</span> <span class="op">&lt;-</span> <span class="fu">get_shark_data</span><span class="op">(</span>fromYear <span class="op">=</span> <span class="fl">2019</span>, toYear <span class="op">=</span> <span class="fl">2020</span>,</span></span>
 <span class="r-in"><span>                               months <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span>, dataTypes <span class="op">=</span> <span class="st">"Chlorophyll"</span>,</span></span>
-<span class="r-in"><span>                               verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">shark_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                               verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"shark_data"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">shark_data</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 179 × 72</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    delivery_datatype check_status_sv data_checked_by_sv visit_year visit_month</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>

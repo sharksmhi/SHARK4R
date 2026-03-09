@@ -151,8 +151,8 @@ example, if called in 2025 it will use data from 2020–2024.
 ``` r
 # \donttest{
 # Uses previous 5 years automatically, Chlorophyll data only
-res <- get_shark_statistics(datatype = "Chlorophyll", verbose = FALSE)
-print(res)
+try(res <- get_shark_statistics(datatype = "Chlorophyll", verbose = FALSE))
+if (exists("res")) print(res)
 #> # A tibble: 1 × 24
 #>   parameter  datatype fromYear toYear     n   min    Q1 median    Q3   max   P01
 #>   <chr>      <chr>       <dbl>  <dbl> <int> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl>
@@ -162,11 +162,11 @@ print(res)
 #> #   mild_upper <dbl>, extreme_lower <dbl>, extreme_upper <dbl>
 
 # Group by station name and save result in persistent cache
-res_station <- get_shark_statistics(datatype = "Chlorophyll",
+try(res_station <- get_shark_statistics(datatype = "Chlorophyll",
                                     group_col = "station_name",
                                     cache_result = TRUE,
-                                    verbose = FALSE)
-print(res_station)
+                                    verbose = FALSE))
+if (exists("res_station")) print(res_station)
 #> # A tibble: 77 × 25
 #>    parameter     datatype  station_name fromYear toYear   min    Q1 median    Q3
 #>    <chr>         <chr>     <chr>           <dbl>  <dbl> <dbl> <dbl>  <dbl> <dbl>

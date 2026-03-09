@@ -53,8 +53,8 @@ for generating interactive plots with threshold values.
 ``` r
 # \donttest{
 # Load the default SHARK4R statistics file
-stats <- load_shark4r_stats(verbose = FALSE)
-print(stats)
+try(stats <- load_shark4r_stats(verbose = FALSE))
+if (exists("stats")) print(stats)
 #> # A tibble: 746 × 25
 #>    parameter datatype      location_sea_basin fromYear toYear     n   min     Q1
 #>    <chr>     <chr>         <chr>                 <dbl>  <dbl> <int> <dbl>  <dbl>
@@ -75,8 +75,8 @@ print(stats)
 #> #   extreme_upper <dbl>
 
 # Load a specific file
-thresholds <- load_shark4r_stats("scientific_name.rds", verbose = FALSE)
-print(thresholds)
+try(thresholds <- load_shark4r_stats("scientific_name.rds", verbose = FALSE))
+if (exists("thresholds")) print(thresholds)
 #> # A tibble: 6,209 × 25
 #>    parameter datatype  scientific_name fromYear toYear     n   min     Q1 median
 #>    <chr>     <chr>     <chr>              <dbl>  <dbl> <int> <dbl>  <dbl>  <dbl>

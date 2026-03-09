@@ -60,8 +60,8 @@ to manually clear cached files.
 ``` r
 # \donttest{
   # Read the first sheet, skipping the first row
-  codes <- get_shark_codes()
-  head(codes)
+  try(codes <- get_shark_codes())
+  if (exists("codes")) head(codes)
 #> # A tibble: 6 × 6
 #>   Data_field Code  Beskrivning/Svensk ö…¹ Description/English …² Note  Reference
 #>   <chr>      <chr> <chr>                  <chr>                  <chr> <chr>    
@@ -75,6 +75,6 @@ to manually clear cached files.
 #> #   ²​`Description/English translate`
 
   # Force re-download of the Excel file
-  codes <- get_shark_codes(force = TRUE)
+  try(codes <- get_shark_codes(force = TRUE))
 # }
 ```

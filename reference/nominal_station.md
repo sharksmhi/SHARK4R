@@ -44,7 +44,7 @@ df <- data.frame(
   sample_longitude_dd = rep(c(15.0, 16.0), 3),
   sample_latitude_dd = rep(c(58.5, 58.6), 3)
 )
-nominal_station(df)
+try(nominal_station(df))
 #> Warning: `nominal_station()` was deprecated in SHARK4R 1.0.0.
 #> ℹ Please use `check_nominal_station()` instead.
 #> WARNING: Suspected nominal positions reported! Is this correct?

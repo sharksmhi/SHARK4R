@@ -64,10 +64,10 @@ for loading precomputed SHARK4R statistics,
 ``` r
 # \donttest{
 # Load SHARK4R field definitions from GitHub
-fields <- load_shark4r_fields(verbose = FALSE)
+try(fields <- load_shark4r_fields(verbose = FALSE))
 
 # Access required or recommended fields for the first entry
-fields[[1]]$required
+if (exists("fields")) fields[[1]]$required
 #>  [1] "visit_year"                         "station_name"                      
 #>  [3] "sample_project_name_sv"             "sample_orderer_name_sv"            
 #>  [5] "platform_code"                      "sample_date"                       
@@ -82,7 +82,7 @@ fields[[1]]$required
 #> [23] "analytical_laboratory_name_sv"      "analytical_laboratory_accreditated"
 #> [25] "analysed_volume_cm3"                "preservation_method_code"          
 #> [27] "counted_portions"                   "reporting_institute_name_sv"       
-fields[[1]]$recommended
+if (exists("fields")) fields[[1]]$recommended
 #> [1] "monitoring_program_code"
 # }
 if (FALSE) { # \dontrun{

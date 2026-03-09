@@ -11,7 +11,7 @@ asterisks to include.'><meta property="og:image" content="https://sharksmhi.gith
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,7 +121,7 @@ https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbio
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Only single "*" required columns</span></span></span>
-<span class="r-in"><span><span class="fu">find_required_fields</span><span class="op">(</span><span class="st">"Bacterioplankton"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">find_required_fields</span><span class="op">(</span><span class="st">"Bacterioplankton"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "MYEAR"    "STATN"    "PROJ"     "ORDERER"  "SHIPC"    "SDATE"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "LATIT"    "LONGI"    "POSYS"    "WADEP"    "SMPDEP"   "SLABO"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13] "ACKR_SMP" "SMTYP"    "SMVOL"    "SPVOL"    "COEFF"    "SUBNO"   </span>
@@ -129,7 +129,7 @@ https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbio
 <span class="r-out co"><span class="r-pr">#&gt;</span> [25] "ACKR_ANA" "ANADATE"  "METDC"   </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Include both "*" and "**" required columns (national monitoring too)</span></span></span>
-<span class="r-in"><span><span class="fu">find_required_fields</span><span class="op">(</span><span class="st">"Bacterioplankton"</span>, stars <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">find_required_fields</span><span class="op">(</span><span class="st">"Bacterioplankton"</span>, stars <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "MYEAR"    "STATN"    "PROJ"     "ORDERER"  "SHIPC"    "SDATE"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "LATIT"    "LONGI"    "POSYS"    "WADEP"    "MPROG"    "SMPDEP"  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13] "SLABO"    "ACKR_SMP" "SMTYP"    "SMVOL"    "SPVOL"    "COEFF"   </span>
@@ -137,7 +137,7 @@ https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbio
 <span class="r-out co"><span class="r-pr">#&gt;</span> [25] "ALABO"    "ACKR_ANA" "ANADATE"  "METDC"   </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Include up to three levels of "*"</span></span></span>
-<span class="r-in"><span><span class="fu">find_required_fields</span><span class="op">(</span><span class="st">"Phytoplankton"</span>, stars <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">find_required_fields</span><span class="op">(</span><span class="st">"Phytoplankton"</span>, stars <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "MYEAR"    "STATN"    "PROJ"     "ORDERER"  "SHIPC"    "SDATE"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "LATIT"    "LONGI"    "POSYS"    "WADEP"    "MSTAT"    "MNDEP"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13] "MXDEP"    "SLABO"    "ACKR_SMP" "SMTYP"    "SMVOL"    "LATNM"   </span>

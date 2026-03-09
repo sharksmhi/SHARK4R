@@ -101,13 +101,13 @@ Intergovernmental Oceanographic Commission of UNESCO. R package version
 # Using a data frame
 df <- data.frame(sample_longitude_dd = c(10.9, 18.3),
                  sample_latitude_dd = c(58.1, 58.3))
-lookup_xy(df)
+try(lookup_xy(df))
 #>   shoredistance sssalinity sstemperature bathymetry
 #> 1         25043    29.2312       10.3866      185.8
 #> 2         48074     6.4531        8.9640      132.8
 
 # Area search within a radius
-lookup_xy(df, areas = 500)
+try(lookup_xy(df, areas = 500))
 #>   shoredistance sssalinity sstemperature bathymetry
 #> 1         25043    29.2312       10.3866      185.8
 #> 2         48074     6.4531        8.9640      132.8
@@ -116,7 +116,7 @@ lookup_xy(df, areas = 500)
 #> 2 233, 234, Sweden: all, Sweden: Baltic Sea 40023, Baltic Sea 32401, Baltic Sea
 
 # Using separate coordinate vectors
-lookup_xy(lon = c(10.9, 18.3), lat = c(58.1, 58.3))
+try(lookup_xy(lon = c(10.9, 18.3), lat = c(58.1, 58.3)))
 #>   shoredistance sssalinity sstemperature bathymetry
 #> 1         25043    29.2312       10.3866      185.8
 #> 2         48074     6.4531        8.9640      132.8

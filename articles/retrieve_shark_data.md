@@ -39,9 +39,9 @@ and the information below.
 
 ``` r
 # Retrieve chlorophyll data for April to June from 2019 to 2020
-shark_data <- get_shark_data(fromYear = 2019, 
+shark_data <- get_shark_data(fromYear = 2019,
                              toYear = 2020,
-                             months = c(4, 5, 6), 
+                             months = c(4, 5, 6),
                              dataTypes = "Chlorophyll",
                              verbose = FALSE)
 
@@ -148,10 +148,10 @@ print(shark_data_zip)
 ```
 
     ## $`SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip`
-    ## [1] "/tmp/Rtmp5dV5l0/SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip"
+    ## [1] "/tmp/RtmpgFaoUM/SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip"
     ## 
     ## $`SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip`
-    ## [1] "/tmp/Rtmp5dV5l0/SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip"
+    ## [1] "/tmp/RtmpgFaoUM/SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip"
 
 Please note that `SHARK4R` also includes useful functions for reading
 local SHARK data files, such as
@@ -167,7 +167,7 @@ and
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.0.3.
+    ##   Databases. R package version 1.1.0.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -176,6 +176,6 @@ and
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.0.3},
+    ##     note = {R package version 1.1.0},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }

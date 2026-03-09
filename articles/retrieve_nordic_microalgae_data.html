@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -153,8 +153,8 @@ can be retrieved through the API.</p>
 <span><span class="va">slugs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">taxa</span><span class="op">$</span><span class="va">slug</span>, size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Get external links</span></span>
-<span><span class="va">external_links</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nua_external_links.html">get_nua_external_links</a></span><span class="op">(</span><span class="va">slugs</span>, </span>
-<span>                                         verbose <span class="op">=</span> <span class="cn">FALSE</span>, </span>
+<span><span class="va">external_links</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nua_external_links.html">get_nua_external_links</a></span><span class="op">(</span><span class="va">slugs</span>,</span>
+<span>                                         verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>                                         unparsed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print list</span></span>
@@ -184,8 +184,8 @@ List of Harmful Microalgae</a> contain information about harmfulness.
 This information can be retrieved through the API.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get external links</span></span>
-<span><span class="va">harmfulness</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nua_harmfulness.html">get_nua_harmfulness</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dinophysis-acuta"</span>, </span>
-<span>                                     <span class="st">"alexandrium-ostenfeldii"</span><span class="op">)</span>, </span>
+<span><span class="va">harmfulness</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_nua_harmfulness.html">get_nua_harmfulness</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dinophysis-acuta"</span>,</span>
+<span>                                     <span class="st">"alexandrium-ostenfeldii"</span><span class="op">)</span>,</span>
 <span>                                   verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Print list</span></span>
@@ -217,20 +217,20 @@ small (s), medium (m), and large (l).</p>
 <span></span>
 <span><span class="co"># Print list</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">media</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2,423 × 10</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2,424 × 10</span></span></span>
 <span><span class="co">##    slug              image_l_url image_o_url image_s_url image_m_url contributor</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> odontella-sinens… https://no… https://no… https://no… https://no… Ann-Turi S…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> odontella-aurita  https://no… https://no… https://no… https://no… Ann-Turi S…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> octactis-speculum https://no… https://no… https://no… https://no… SMHI       </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> lennoxia-faveola… https://no… https://no… https://no… https://no… Maria Karl…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> <span style="color: #BB0000;">NA</span>                https://no… https://no… https://no… https://no… Per Wilhel…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> <span style="color: #BB0000;">NA</span>                https://no… https://no… https://no… https://no… Per Wilhel…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> odontella-sinens… https://no… https://no… https://no… https://no… Ann-Turi S…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> odontella-aurita  https://no… https://no… https://no… https://no… Ann-Turi S…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> octactis-speculum https://no… https://no… https://no… https://no… SMHI       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> lennoxia-faveola… https://no… https://no… https://no… https://no… Maria Karl…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 6</span> <span style="color: #BB0000;">NA</span>                https://no… https://no… https://no… https://no… Per Wilhel…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 7</span> <span style="color: #BB0000;">NA</span>                https://no… https://no… https://no… https://no… Per Wilhel…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 8</span> <span style="color: #BB0000;">NA</span>                https://no… https://no… https://no… https://no… Per Wilhel…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> <span style="color: #BB0000;">NA</span>                https://no… https://no… https://no… https://no… Per Wilhel…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> pleurosigma       https://no… https://no… https://no… https://no… Maria Karl…</span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 2,413 more rows</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> <span style="color: #BB0000;">NA</span>                https://no… https://no… https://no… https://no… Per Wilhel…</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 2,414 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 4 more variables: photographer_artist &lt;chr&gt;, copyright_holder &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   license &lt;chr&gt;, galleries &lt;chr&gt;</span></span></span></code></pre>
 <p>Complete media information can be retrieved as an unparsed list by
@@ -249,20 +249,20 @@ contributor details.</p>
 <span></span>
 <span><span class="co"># Print list</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">media_metadata</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2,423 × 26</span></span></span>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2,424 × 26</span></span></span>
 <span><span class="co">##    slug    taxon_slug scientific_name file  type  title caption license location</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> odonte… odontella… Odontella sine… odon… imag… Odon… <span style="color: #949494;">"</span>O. si… Creati… Kosterf…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> odonte… odontella… Odontella auri… odon… imag… Odon… <span style="color: #949494;">"</span>Live … Creati… Havsten…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> octact… octactis-… Octactis specu… octa… imag… Octa… <span style="color: #949494;">"</span>Two c… Creati… Danafjo…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> lennox… lennoxia-… Lennoxia faveo… lenn… imag… Lenn… <span style="color: #949494;">""</span>      Creati… Danafjo…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> bolmen… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              bolm… imag… Bolm… <span style="color: #949494;">"</span>Taken… Creati… Bolmen,…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> stigfj… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              stig… imag… Stig… <span style="color: #949494;">"</span>Taken… Creati… Stigfjo…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> odonte… odontella… Odontella sine… odon… imag… Odon… <span style="color: #949494;">"</span>O. si… Creati… Kosterf…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> odonte… odontella… Odontella auri… odon… imag… Odon… <span style="color: #949494;">"</span>Live … Creati… Havsten…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> octact… octactis-… Octactis specu… octa… imag… Octa… <span style="color: #949494;">"</span>Two c… Creati… Danafjo…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> lennox… lennoxia-… Lennoxia faveo… lenn… imag… Lenn… <span style="color: #949494;">""</span>      Creati… Danafjo…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 6</span> bolmen… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              bolm… imag… Bolm… <span style="color: #949494;">"</span>Taken… Creati… Bolmen,…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 7</span> bolmen… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              bolm… imag… Bolm… <span style="color: #949494;">"</span>Taken… Creati… Bolmen,…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> hassle… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              hass… imag… Hass… <span style="color: #949494;">"</span>Taken… Creati… Hasslem…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> bolmen… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              bolm… imag… Bolm… <span style="color: #949494;">"</span>Taken… Creati… Bolmen,…</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 9</span> hassle… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              hass… imag… Hass… <span style="color: #949494;">"</span>Taken… Creati… Hasslem…</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span> pleuro… pleurosig… Pleurosigma     pleu… imag… Pleu… <span style="color: #949494;">""</span>      Creati… Byttelo…</span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 2,413 more rows</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> hassle… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              hass… imag… Hass… <span style="color: #949494;">"</span>Taken… Creati… Hasslem…</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 2,414 more rows</span></span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 17 more variables: contributor &lt;chr&gt;, photographer_artist &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   copyright_holder &lt;chr&gt;, copyright_stamp &lt;chr&gt;, galleries &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   technique &lt;list&gt;, contrast_enhancement &lt;list&gt;, preservation &lt;list&gt;,</span></span></span>
@@ -406,7 +406,7 @@ Toolbox</a> data files: <code><a href="../reference/read_ptbx.html">read_ptbx()<
 <span><span class="co">## </span></span>
 <span><span class="co">##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and</span></span>
 <span><span class="co">##   Validating Marine Environmental Data from 'SHARK' and Related</span></span>
-<span><span class="co">##   Databases. R package version 1.0.3.</span></span>
+<span><span class="co">##   Databases. R package version 1.1.0.</span></span>
 <span><span class="co">##   https://CRAN.R-project.org/package=SHARK4R</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
@@ -415,7 +415,7 @@ Toolbox</a> data files: <code><a href="../reference/read_ptbx.html">read_ptbx()<
 <span><span class="co">##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson},</span></span>
 <span><span class="co">##     year = {2026},</span></span>
-<span><span class="co">##     note = {R package version 1.0.3},</span></span>
+<span><span class="co">##     note = {R package version 1.1.0},</span></span>
 <span><span class="co">##     url = {https://CRAN.R-project.org/package=SHARK4R},</span></span>
 <span><span class="co">##   }</span></span></code></pre>
 <hr>
@@ -426,7 +426,7 @@ Toolbox</a> data files: <code><a href="../reference/read_ptbx.html">read_ptbx()<
 <ul>
 <li>Torstensson, A., Loo, A., Sundqvist, L., Skjevik, A.-T., Karlberg,
 M., Johansen, M., Andreasson, A., and Karlson, B. (2024). Nordic
-Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-02-26.</li>
+Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-03-09.</li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

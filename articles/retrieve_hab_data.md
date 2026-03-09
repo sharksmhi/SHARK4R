@@ -127,7 +127,26 @@ toxin_list <- get_toxin_list()
 print(toxin_list)
 ```
 
-    ## # A tibble: 0 × 0
+    ## # A tibble: 525 × 55
+    ##       id toxin_group recommended_name      synonyms recommended_acronym acronyms
+    ##    <int> <chr>       <chr>                 <list>   <chr>               <list>  
+    ##  1   610 Brevetoxin  Brevetoxin-5          <NULL>   BTX-5               <NULL>  
+    ##  2   609 Brevetoxin  Brevetoxin-3          <NULL>   BTX-3               <NULL>  
+    ##  3   608 Brevetoxin  Brevetoxin B          <NULL>   BTX-2               <chr>   
+    ##  4   607 Brevetoxin  Brevetoxin A          <NULL>   BTX-1               <chr>   
+    ##  5   606 Anatoxin    10-OH-homoanatoxin-a  <NULL>   NA                  <NULL>  
+    ##  6   605 Anatoxin    10-OH-anatoxin-a      <NULL>   NA                  <NULL>  
+    ##  7   604 Anatoxin    10-OH-H2-homoanatoxi… <NULL>   NA                  <NULL>  
+    ##  8   603 Anatoxin    10-OH-H2-anatoxin-a   <NULL>   NA                  <NULL>  
+    ##  9   602 Anatoxin    CH3SH-anatoxin-a      <NULL>   NA                  <NULL>  
+    ## 10   601 Anatoxin    CH3O-homoanatoxin-a   <NULL>   NA                  <NULL>  
+    ## # ℹ 515 more rows
+    ## # ℹ 49 more variables: cas_number <chr>, alternative_cas_numbers <list>,
+    ## #   formula <chr>, exact_mono_isotopic_mass <dbl>, molfile <chr>,
+    ## #   alternative_molfiles <lgl>, smiles <chr>, alternative_smiles <list>,
+    ## #   inchi_key <chr>, alternative_inchi_keys <list>, inchi <chr>,
+    ## #   alternative_inchies <lgl>, spectra_available <lgl>, certified <lgl>,
+    ## #   non_certified_reference_material <lgl>, chemical_analysis_research <lgl>, …
 
 ------------------------------------------------------------------------
 
@@ -137,7 +156,7 @@ print(toxin_list)
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.0.3.
+    ##   Databases. R package version 1.1.0.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -146,7 +165,7 @@ print(toxin_list)
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.0.3},
+    ##     note = {R package version 1.1.0},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
 
@@ -158,7 +177,7 @@ print(toxin_list)
   Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas,
   R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO
   Taxonomic Reference List of Harmful Microalgae. Accessed at
-  <https://www.marinespecies.org/hab/> on 2026-02-26.
+  <https://www.marinespecies.org/hab/> on 2026-03-09.
   [doi:10.14284/362](https://doi.org/10.14284/362)
 - Zingone A. and L. Escalera (2025) Non toxigenic animal-killing
   microalgal species. In: Lundholm, N.; Bernard, C.; Churro, C.;
@@ -166,4 +185,4 @@ print(toxin_list)
   Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds)
   (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful
   Microalgae. Accessed at <https://www.marinespecies.org/hab/> on
-  2026-02-26. [doi:10.14284/362](https://doi.org/10.14284/362)
+  2026-03-09. [doi:10.14284/362](https://doi.org/10.14284/362)

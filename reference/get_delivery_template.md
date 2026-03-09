@@ -96,10 +96,10 @@ the header row.
 ``` r
 # \donttest{
 # Bacterioplankton abundance
-abun <- get_delivery_template("Bacterioplankton",
-                              bacterioplankton_subtype = "abundance")
+try(abun <- get_delivery_template("Bacterioplankton",
+                              bacterioplankton_subtype = "abundance"))
 
-print(abun)
+if (exists("abun")) print(abun)
 #> # A tibble: 3 × 57
 #>   `Tabellhuvud:`   MYEAR  STATN STATION_ID SITE_ID PROJ  ORDERER SHIPC CRUISE_NO
 #>   <chr>            <chr>  <chr> <chr>      <chr>   <chr> <chr>   <chr> <chr>    
@@ -115,19 +115,19 @@ print(abun)
 #> #   COEFF <chr>, SUBNO <chr>, METFP <chr>, BCTCNT <chr>, BCTABU <chr>, …
 
 # Bacterioplankton production
-prod <- get_delivery_template("Bacterioplankton",
-                              bacterioplankton_subtype = "production")
+try(prod <- get_delivery_template("Bacterioplankton",
+                              bacterioplankton_subtype = "production"))
 
 # Phytoplankton template
-phyto <- get_delivery_template("Phytoplankton")
+try(phyto <- get_delivery_template("Phytoplankton"))
 
 # Phytoplankton column explanation (sheet number 3)
-phyto_column_explanation <- get_delivery_template("Phytoplankton",
+try(phyto_column_explanation <- get_delivery_template("Phytoplankton",
                                                   sheet = 3,
                                                   header_row = 4,
-                                                  skip = 3)
+                                                  skip = 3))
 
-print(phyto_column_explanation)
+if (exists("phyto_column_explanation")) print(phyto_column_explanation)
 #> # A tibble: 68 × 6
 #>    ...1  ...2  `Förklaring/ Svenskt namn`  `Fältnamn/ Kort-namn` Enhet 
 #>    <chr> <lgl> <chr>                       <chr>                 <chr> 

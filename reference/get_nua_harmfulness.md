@@ -72,10 +72,10 @@ documentation.
 ``` r
 # \donttest{
   # Retrieve external links for a vector of slugs
-  harmfulness <- get_nua_harmfulness(slug = c("dinophysis-acuta",
+  try(harmfulness <- get_nua_harmfulness(slug = c("dinophysis-acuta",
                                               "alexandrium-ostenfeldii"),
-                                     verbose = FALSE)
-  print(harmfulness)
+                                     verbose = FALSE))
+  if (exists("harmfulness")) print(harmfulness)
 #> # A tibble: 11 × 6
 #>    slug                    provider   label  external_id external_url collection
 #>    <chr>                   <chr>      <chr>  <chr>       <chr>        <chr>     

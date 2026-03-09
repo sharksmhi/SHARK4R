@@ -144,7 +144,7 @@ The function performs the following steps:
 ``` r
 # \donttest{
 # Retrieve hierarchy for a single AphiaID
-get_worms_taxonomy_tree(aphia_ids = 109604, verbose = FALSE)
+try(get_worms_taxonomy_tree(aphia_ids = 109604, verbose = FALSE))
 #> # A tibble: 11 × 28
 #>    AphiaID url        scientificname authority status unacceptreason taxonRankID
 #>      <int> <chr>      <chr>          <chr>     <chr>  <lgl>                <int>
@@ -167,11 +167,11 @@ get_worms_taxonomy_tree(aphia_ids = 109604, verbose = FALSE)
 #> #   modified <chr>
 
 # Retrieve hierarchy including species-level descendants
-get_worms_taxonomy_tree(
+try(get_worms_taxonomy_tree(
   aphia_ids = c(109604, 376667),
   add_descendants = TRUE,
   verbose = FALSE
-)
+))
 #> # A tibble: 86 × 28
 #>    AphiaID url        scientificname authority status unacceptreason taxonRankID
 #>      <int> <chr>      <chr>          <chr>     <chr>  <chr>                <int>
@@ -194,11 +194,11 @@ get_worms_taxonomy_tree(
 #> #   modified <chr>
 
 # Retrieve hierarchy including hierarchy column
-get_worms_taxonomy_tree(
+try(get_worms_taxonomy_tree(
   aphia_ids = c(109604, 376667),
   add_hierarchy = TRUE,
   verbose = FALSE
-)
+))
 #> # A tibble: 20 × 31
 #>    AphiaID url        scientificname authority status unacceptreason taxonRankID
 #>      <int> <chr>      <chr>          <chr>     <chr>  <lgl>                <int>

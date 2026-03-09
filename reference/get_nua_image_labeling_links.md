@@ -61,10 +61,10 @@ for retrieving regular media image URLs.
 ``` r
 # \donttest{
 # Retrieve image labeling media links
-il_links <- get_nua_image_labeling_links(unparsed = FALSE)
+try(il_links <- get_nua_image_labeling_links(unparsed = FALSE))
 
 # Preview the extracted data
-head(il_links)
+if (exists("il_links")) head(il_links)
 #> # A tibble: 6 × 10
 #>   slug            image_l_url    image_o_url image_s_url image_m_url contributor
 #>   <chr>           <chr>          <chr>       <chr>       <chr>       <chr>      

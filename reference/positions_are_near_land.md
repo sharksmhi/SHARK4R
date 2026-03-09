@@ -120,11 +120,11 @@ latitudes <- c(62.500353, 58.964498, 57.638725, 56.575338)
 longitudes <- c(17.845993, 20.394418, 18.284523, 16.227174)
 
 # Call the function
-near_land <- positions_are_near_land(latitudes, longitudes, distance = 300, crs = 4326)
+try(near_land <- positions_are_near_land(latitudes, longitudes, distance = 300, crs = 4326))
 #> Downloading OBIS coastline data...
 
 # Print the result
-print(near_land)
+if (exists("near_land")) print(near_land)
 #> [1]  TRUE FALSE  TRUE  TRUE
 # }
 ```

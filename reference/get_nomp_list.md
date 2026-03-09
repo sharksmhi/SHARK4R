@@ -72,10 +72,10 @@ to manually clear cached files.
 ``` r
 # \donttest{
   # Get the latest available list
-  nomp_list <- get_nomp_list()
+  try(nomp_list <- get_nomp_list())
 #> File for year 2026 not available. Trying previous year...
 #> File for year 2025 downloaded and cached.
-  head(nomp_list)
+  if (exists("nomp_list")) head(nomp_list)
 #> # A tibble: 6 × 39
 #>   List       `HELCOM area` `OSPAR area` Division Class Order Genus Species SFLAG
 #>   <chr>      <chr>         <chr>        <chr>    <chr> <chr> <chr> <chr>   <chr>
@@ -94,9 +94,9 @@ to manually clear cached files.
 #> #   `Calculated_volume_µm3 (with formula) - NOT IMPORTED, NOT handled by ICES` <dbl>, …
 
   # Get the 2023 list and clean old cache files older than 60 days
-  nomp_list_2023 <- get_nomp_list(2023, clean_cache_days = 60)
+  try(nomp_list_2023 <- get_nomp_list(2023, clean_cache_days = 60))
 #> File for year 2023 downloaded and cached.
-  head(nomp_list_2023)
+  if (exists("nomp_list_2023")) head(nomp_list_2023)
 #> # A tibble: 6 × 37
 #>   List       `HELCOM area` `OSPAR area` Division Class Order Genus Species SFLAG
 #>   <chr>      <chr>         <chr>        <chr>    <chr> <chr> <chr> <chr>   <chr>

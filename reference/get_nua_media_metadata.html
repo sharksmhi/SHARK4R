@@ -11,7 +11,7 @@ geographic coordinates, and contributor information."><meta property="og:image" 
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,18 +111,18 @@ geographic coordinates, and contributor information.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Retrieve media metadata</span></span></span>
-<span class="r-in"><span><span class="va">media_metadata</span> <span class="op">&lt;-</span> <span class="fu">get_nua_media_metadata</span><span class="op">(</span>unparsed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">media_metadata</span> <span class="op">&lt;-</span> <span class="fu">get_nua_media_metadata</span><span class="op">(</span>unparsed <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Preview the extracted data</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">media_metadata</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"media_metadata"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">media_metadata</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 26</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   slug     taxon_slug scientific_name file  type  title caption license location</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> odontel… odontella… Odontella sine… odon… imag… Odon… <span style="color: #949494;">"</span>O. si… Creati… Kosterf…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> odontel… odontella… Odontella auri… odon… imag… Odon… <span style="color: #949494;">"</span>Live … Creati… Havsten…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> octacti… octactis-… Octactis specu… octa… imag… Octa… <span style="color: #949494;">"</span>Two c… Creati… Danafjo…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> lennoxi… lennoxia-… Lennoxia faveo… lenn… imag… Lenn… <span style="color: #949494;">""</span>      Creati… Danafjo…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> bolmen-… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              bolm… imag… Bolm… <span style="color: #949494;">"</span>Taken… Creati… Bolmen,…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> stigfjo… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              stig… imag… Stig… <span style="color: #949494;">"</span>Taken… Creati… Stigfjo…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> odontel… odontella… Odontella sine… odon… imag… Odon… <span style="color: #949494;">"</span>O. si… Creati… Kosterf…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> odontel… odontella… Odontella auri… odon… imag… Odon… <span style="color: #949494;">"</span>Live … Creati… Havsten…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> octacti… octactis-… Octactis specu… octa… imag… Octa… <span style="color: #949494;">"</span>Two c… Creati… Danafjo…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> lennoxi… lennoxia-… Lennoxia faveo… lenn… imag… Lenn… <span style="color: #949494;">""</span>      Creati… Danafjo…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> bolmen-… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              bolm… imag… Bolm… <span style="color: #949494;">"</span>Taken… Creati… Bolmen,…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 17 more variables: contributor &lt;chr&gt;, photographer_artist &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   copyright_holder &lt;chr&gt;, copyright_stamp &lt;chr&gt;, galleries &lt;chr&gt;,</span></span>
