@@ -91,6 +91,7 @@ test_that("lookup_xy no data works", {
 })
 
 test_that("wrong url fails", {
+  skip_if_offline()
   options(obistools_xylookup_url = "https://api.obis.org/thisdoesnotexist")
   on.exit(options(obistools_xylookup_url = NULL))
   data <- test_data(x=0,y=0)

@@ -175,6 +175,8 @@ test_that("deprecated update_worms_taxonomy with deprecated argument works as ex
 })
 
 test_that("match_worms_taxa handles empty or NA taxa gracefully", {
+  skip_if_offline()
+  skip_if_resource_unavailable(url)
   res_empty <- match_worms_taxa(c("", NA))
   expect_s3_class(res_empty, "data.frame")
   expect_true("" %in% res_empty$name)

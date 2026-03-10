@@ -55,13 +55,24 @@ library(SHARK4R)
 
 You can fetch SHARK data using the same filtering options as the SHARK web interface. Explore available options with:
 
-```{r, eval=shark_available}
+```{r, include=FALSE, eval=shark_available}
+shark_options <- try(get_shark_options(), silent = TRUE)
+if (inherits(shark_options, "try-error")) shark_available <- FALSE
+```
+
+```{r, eval=FALSE}
 shark_options <- get_shark_options()
 ```
 
 Filter datasets containing "Chlorophyll":
 
-```{r, eval=shark_available}
+```{r, include=FALSE, eval=shark_available}
+chlorophyll_datasets <- shark_options$datasets[grepl("Chlorophyll",
+                                                     shark_options$datasets)]
+selected_dataset <- chlorophyll_datasets[1]
+```
+
+```{r, eval=FALSE}
 # Filter names using grepl
 chlorophyll_datasets <- shark_options$datasets[grepl("Chlorophyll",
                                                      shark_options$datasets)]
@@ -73,14 +84,31 @@ selected_dataset <- chlorophyll_datasets[1]
 print(selected_dataset)
 ```
 
+```{r, echo=FALSE, eval=shark_available}
+print(selected_dataset)
+```
+
 Download the selected dataset as a data frame:
 
-```{r, eval=shark_available}
+```{r, include=FALSE, eval=shark_available}
+chlorophyll_data <- try(
+  get_shark_datasets(selected_dataset, save_dir = tempdir(),
+                     return_df = TRUE, verbose = FALSE),
+  silent = TRUE
+)
+if (inherits(chlorophyll_data, "try-error")) shark_available <- FALSE
+```
+
+```{r, eval=FALSE}
 chlorophyll_data <- get_shark_datasets(selected_dataset,
                                        save_dir = tempdir(),
                                        return_df = TRUE,
                                        verbose = FALSE)
 
+print(chlorophyll_data)
+```
+
+```{r, echo=FALSE, eval=shark_available}
 print(chlorophyll_data)
 ```
 
@@ -95,8 +123,19 @@ Validate mandatory fields:
 - **Global fields**: `check_datatype()`
 - **Datatype-specific fields**: `check_fields()` with optional `field_definitions`
 
-```{r, eval=shark_available}
+```{r, include=FALSE, eval=shark_available}
+check_fields_result <- try(
+  check_fields(data = chlorophyll_data, datatype = "Chlorophyll"),
+  silent = TRUE
+)
+```
+
+```{r, eval=FALSE}
 check_fields(data = chlorophyll_data, datatype = "Chlorophyll")
+```
+
+```{r, echo=FALSE, eval=shark_available && !inherits(check_fields_result, "try-error")}
+check_fields_result
 ```
 
 ---
@@ -105,7 +144,16 @@ check_fields(data = chlorophyll_data, datatype = "Chlorophyll")
 
 Ensure metadata codes follow SHARK conventions:
 
-```{r, eval=shark_available}
+```{r, include=FALSE, eval=shark_available}
+check_codes_result1 <- try(check_codes(chlorophyll_data), silent = TRUE)
+check_codes_result2 <- try(
+  check_codes(data = chlorophyll_data, field = "platform_code",
+              code_type = "SHIPC", match_column = "Code"),
+  silent = TRUE
+)
+```
+
+```{r, eval=FALSE}
 # Validate project codes
 check_codes(chlorophyll_data)
 
@@ -114,6 +162,14 @@ check_codes(data = chlorophyll_data,
             field = "platform_code",
             code_type = "SHIPC",
             match_column = "Code")
+```
+
+```{r, echo=FALSE, eval=shark_available && !inherits(check_codes_result1, "try-error")}
+check_codes_result1
+```
+
+```{r, echo=FALSE, eval=shark_available && !inherits(check_codes_result2, "try-error")}
+check_codes_result2
 ```
 
 ---
@@ -132,8 +188,17 @@ message("The interactive map is omitted here but appears in the online tutorial.
 
 ### Identify Points on Land
 
-```{r, eval=shark_available && obis_available}
+```{r, include=FALSE, eval=shark_available && obis_available}
+n_rows_on_land <- try(check_onland(chlorophyll_data), silent = TRUE)
+onland_ok <- !inherits(n_rows_on_land, "try-error")
+```
+
+```{r, eval=FALSE}
 n_rows_on_land <- check_onland(chlorophyll_data)
+nrow(n_rows_on_land)
+```
+
+```{r, echo=FALSE, eval=shark_available && obis_available && onland_ok}
 nrow(n_rows_on_land)
 ```
 
@@ -148,9 +213,23 @@ Optional geospatial QC functions:
 
 Verify plausibility and consistency of depth values:
 
-```{r, eval=shark_available && obis_available}
+```{r, include=FALSE, eval=shark_available && obis_available}
+depth_result1 <- try(check_depth(data = chlorophyll_data), silent = TRUE)
+depth_result2 <- try(
+  check_depth(data = chlorophyll_data, "water_depth_m"),
+  silent = TRUE
+)
+depth_ok <- !inherits(depth_result1, "try-error")
+```
+
+```{r, eval=FALSE}
 check_depth(data = chlorophyll_data) # default columns: min/max depth
 check_depth(data = chlorophyll_data, "water_depth_m")
+```
+
+```{r, echo=FALSE, eval=shark_available && obis_available && depth_ok}
+depth_result1
+depth_result2
 ```
 
 Checks performed:
@@ -165,7 +244,16 @@ Checks performed:
 
 Retrieve reference statistics for your datatype:
 
-```{r, eval=shark_available}
+```{r, include=FALSE, eval=shark_available}
+shark_statistics <- try(
+  get_shark_statistics(datatype = "Chlorophyll", fromYear = 2020,
+                       toYear = 2024, verbose = FALSE),
+  silent = TRUE
+)
+stats_ok <- !inherits(shark_statistics, "try-error")
+```
+
+```{r, eval=FALSE}
 shark_statistics <- get_shark_statistics(datatype = "Chlorophyll",
                                          fromYear = 2020,
                                          toYear = 2024,
@@ -174,9 +262,21 @@ shark_statistics <- get_shark_statistics(datatype = "Chlorophyll",
 print(shark_statistics)
 ```
 
+```{r, echo=FALSE, eval=shark_available && stats_ok}
+print(shark_statistics)
+```
+
 Detect extreme values using thresholds (e.g., 99th percentile):
 
-```{r, eval=shark_available}
+```{r, eval=FALSE}
+check_outliers(data = chlorophyll_data,
+               parameter = "Chlorophyll-a",
+               datatype = "Chlorophyll",
+               threshold_col = "P99",
+               thresholds = shark_statistics)
+```
+
+```{r, echo=FALSE, eval=shark_available && stats_ok}
 check_outliers(data = chlorophyll_data,
                parameter = "Chlorophyll-a",
                datatype = "Chlorophyll",
@@ -186,7 +286,7 @@ check_outliers(data = chlorophyll_data,
 
 Visualize anomalies:
 
-```{r, eval=shark_available && Sys.getenv("NOT_CRAN", unset = "FALSE") == "TRUE"}
+```{r, eval=shark_available && stats_ok && Sys.getenv("NOT_CRAN", unset = "FALSE") == "TRUE"}
 # Scatterplot with horizontal line at 99th percentile
 scatterplot(chlorophyll_data,
             hline = shark_statistics$P99)
@@ -202,7 +302,11 @@ message("The interactive plot is omitted here but appears in the online tutorial
 
 Use `check_parameter_rules()` to flag measurements that violate parameter-specific or row-wise logical rules.
 
-```{r, eval=shark_available}
+```{r, eval=FALSE}
+check_parameter_rules(data = chlorophyll_data)
+```
+
+```{r, echo=FALSE, eval=shark_available}
 check_parameter_rules(data = chlorophyll_data)
 ```
 
@@ -217,7 +321,12 @@ check_parameter_rules(data = chlorophyll_data)
 
 Verify station names against the official SHARK registry:
 
-```{r, eval=shark_available}
+```{r, eval=FALSE}
+station_match <- match_station(chlorophyll_data$station_name)
+head(station_match)
+```
+
+```{r, echo=FALSE, eval=shark_available}
 station_match <- match_station(chlorophyll_data$station_name)
 head(station_match)
 ```
@@ -235,7 +344,11 @@ message("The interactive map is omitted here but appears in the online tutorial.
 
 To check if stations are nominal (comparing unique coordinates per station):
 
-```{r, eval=shark_available}
+```{r, eval=FALSE}
+check_nominal_station(data = chlorophyll_data)
+```
+
+```{r, echo=FALSE, eval=shark_available}
 check_nominal_station(data = chlorophyll_data)
 ```
 

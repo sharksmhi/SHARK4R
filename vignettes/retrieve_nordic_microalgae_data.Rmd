@@ -39,11 +39,20 @@ library(SHARK4R)
 
 A complete Nordic Microalgae taxa list can be retrieved through the API.
 
-```{r, eval=nua_available}
+```{r, include=FALSE, eval=nua_available}
+taxa <- try(get_nua_taxa(unparsed = FALSE), silent = TRUE)
+if (inherits(taxa, "try-error")) nua_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Get taxa information
 taxa <- get_nua_taxa(unparsed = FALSE)
 
 # Print data
+print(taxa)
+```
+
+```{r, echo=FALSE, eval=nua_available}
 print(taxa)
 ```
 
@@ -53,7 +62,16 @@ The full taxonomic information can be accessed as an unparsed list by enabling t
 
 Each taxon sheet on Nordic Microalgae contains facts, such as links to external webpages (e.g. AlgaeBase, WoRMS and Dyntaxa). These links can be retrieved through the API.
 
-```{r, eval=nua_available}
+```{r, include=FALSE, eval=nua_available}
+slugs <- sample(taxa$slug, size = 10)
+external_links <- try(
+  get_nua_external_links(slugs, verbose = FALSE, unparsed = FALSE),
+  silent = TRUE
+)
+if (inherits(external_links, "try-error")) nua_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Randomly select 10 taxa from shark_taxon$scientific_name
 slugs <- sample(taxa$slug, size = 10)
 
@@ -66,13 +84,26 @@ external_links <- get_nua_external_links(slugs,
 print(external_links)
 ```
 
+```{r, echo=FALSE, eval=nua_available}
+print(external_links)
+```
+
 The full list of facts can be accessed as an unparsed list by setting the `unparsed` parameter to `TRUE`.
 
 ## Get Nordic Microalgae Harmfulness Information
 
 Taxa listed in the [IOC-UNESCO Taxonomic Reference List of Harmful Microalgae](https://www.marinespecies.org/hab/) contain information about harmfulness. This information can be retrieved through the API.
 
-```{r, eval=nua_available}
+```{r, include=FALSE, eval=nua_available}
+harmfulness <- try(
+  get_nua_harmfulness(c("dinophysis-acuta", "alexandrium-ostenfeldii"),
+                      verbose = FALSE),
+  silent = TRUE
+)
+if (inherits(harmfulness, "try-error")) nua_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Get external links
 harmfulness <- get_nua_harmfulness(c("dinophysis-acuta",
                                      "alexandrium-ostenfeldii"),
@@ -82,15 +113,28 @@ harmfulness <- get_nua_harmfulness(c("dinophysis-acuta",
 print(harmfulness)
 ```
 
+```{r, echo=FALSE, eval=nua_available}
+print(harmfulness)
+```
+
 ## Get Nordic Microalgae Media Links
 
 Links to all images present on Nordic Microalgae can be retrieved through the API. The images are available in four sizes: original (o), small (s), medium (m), and large (l).
 
-```{r, eval=nua_available}
+```{r, include=FALSE, eval=nua_available}
+media <- try(get_nua_media_links(unparsed = FALSE), silent = TRUE)
+if (inherits(media, "try-error")) nua_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Get all media links
 media <- get_nua_media_links(unparsed = FALSE)
 
 # Print list
+print(media)
+```
+
+```{r, echo=FALSE, eval=nua_available}
 print(media)
 ```
 
@@ -100,7 +144,12 @@ Complete media information can be retrieved as an unparsed list by setting the `
 
 Detailed metadata for all media items on Nordic Microalgae can be retrieved through the API. This includes information such as location, sampling date, geographic coordinates, imaging technique, and contributor details.
 
-```{r, eval=nua_available}
+```{r, include=FALSE, eval=nua_available}
+media_metadata <- try(get_nua_media_metadata(unparsed = FALSE), silent = TRUE)
+if (inherits(media_metadata, "try-error")) nua_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Get all media metadata
 media_metadata <- get_nua_media_metadata(unparsed = FALSE)
 
@@ -108,11 +157,20 @@ media_metadata <- get_nua_media_metadata(unparsed = FALSE)
 print(media_metadata)
 ```
 
+```{r, echo=FALSE, eval=nua_available}
+print(media_metadata)
+```
+
 ## Get Nordic Microalgae Image Labeling Links
 
 Nordic Microalgae hosts images from automated imaging instruments (e.g., IFCB) used for image labeling. Links to these images can be retrieved through the API, similar to `get_nua_media_links()`.
 
-```{r, eval=nua_available}
+```{r, include=FALSE, eval=nua_available}
+il_links <- try(get_nua_image_labeling_links(unparsed = FALSE), silent = TRUE)
+if (inherits(il_links, "try-error")) nua_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Get all image labeling media links
 il_links <- get_nua_image_labeling_links(unparsed = FALSE)
 
@@ -120,11 +178,23 @@ il_links <- get_nua_image_labeling_links(unparsed = FALSE)
 print(il_links)
 ```
 
+```{r, echo=FALSE, eval=nua_available}
+print(il_links)
+```
+
 ## Get Nordic Microalgae Image Labeling Metadata
 
 Detailed metadata for automated imaging images can be retrieved through the API. This includes information about the imaging instrument, training dataset, location, and taxonomic details.
 
-```{r, eval=nua_available}
+```{r, include=FALSE, eval=nua_available}
+il_metadata <- try(
+  get_nua_image_labeling_metadata(unparsed = FALSE),
+  silent = TRUE
+)
+if (inherits(il_metadata, "try-error")) nua_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Get all image labeling metadata
 il_metadata <- get_nua_image_labeling_metadata(unparsed = FALSE)
 
@@ -132,11 +202,22 @@ il_metadata <- get_nua_image_labeling_metadata(unparsed = FALSE)
 print(il_metadata)
 ```
 
+```{r, echo=FALSE, eval=nua_available}
+print(il_metadata)
+```
+
 ## Get NOMP and EG Phyto Biovolume lists
 
 To standardize phytoplankton monitoring efforts in the Baltic Sea, Skagerrak, and the North Sea, various lists containing size class information for each taxon have been established. These lists can be retrieved directly in R using `SHARK4R`:
 
-```{r, eval=nua_available}
+```{r, include=FALSE, eval=nua_available}
+peg_list <- try(get_peg_list(), silent = TRUE)
+nomp_list <- try(get_nomp_list(), silent = TRUE)
+peg_ok <- !inherits(peg_list, "try-error")
+nomp_ok <- !inherits(nomp_list, "try-error")
+```
+
+```{r, eval=FALSE}
 # Get EG Phyto Biovolume list
 peg_list <- get_peg_list()
 
@@ -147,6 +228,14 @@ print(peg_list)
 nomp_list <- get_nomp_list()
 
 # Print list
+print(nomp_list)
+```
+
+```{r, echo=FALSE, eval=nua_available && peg_ok}
+print(peg_list)
+```
+
+```{r, echo=FALSE, eval=nua_available && nomp_ok}
 print(nomp_list)
 ```
 
