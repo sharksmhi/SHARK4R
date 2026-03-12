@@ -83,6 +83,14 @@ shark_options <- get_shark_options()
 
 # List the names of the available options
 names(shark_options)
+
+# View available datatypes
+dataTypes <- shark_options$dataTypes
+print(dataTypes)
+
+# View available dataset names
+datasetNames <- shark_options$datasets
+head(datasetNames) # Print first few dataset names
 ```
 
     ##  [1] "datasets"              "dataTypes"             "parameters"           
@@ -95,24 +103,12 @@ names(shark_options)
     ## [22] "helcomOspar"           "parametersForDatatype" "headerlangers"        
     ## [25] "minYearPerDatatype"
 
-``` r
-# View available datatypes
-dataTypes <- shark_options$dataTypes
-print(dataTypes)
-```
-
     ##  [1] "Bacterioplankton"      "Chlorophyll"           "Epibenthos"           
     ##  [4] "Grey seal"             "Harbour Porpoise"      "Harbour seal"         
     ##  [7] "Physical and Chemical" "Phytoplankton"         "Picoplankton"         
     ## [10] "Plankton Barcoding"    "Plankton Imaging"      "Primary production"   
     ## [13] "Profile"               "Ringed seal"           "Seal pathology"       
     ## [16] "Sedimentation"         "Zoobenthos"            "Zooplankton"
-
-``` r
-# View available dataset names
-datasetNames <- shark_options$datasets
-head(datasetNames) # Print first few dataset names
-```
 
     ## [1] "SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip"        
     ## [2] "SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip"
@@ -148,10 +144,10 @@ print(shark_data_zip)
 ```
 
     ## $`SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip`
-    ## [1] "/tmp/RtmpwU9uOV/SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip"
+    ## [1] "/tmp/RtmpbjbNod/SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip"
     ## 
     ## $`SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip`
-    ## [1] "/tmp/RtmpwU9uOV/SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip"
+    ## [1] "/tmp/RtmpbjbNod/SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip"
 
 Please note that `SHARK4R` also includes useful functions for reading
 local SHARK data files, such as
@@ -167,7 +163,7 @@ and
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.1.0.
+    ##   Databases. R package version 1.1.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -176,6 +172,6 @@ and
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.1.0},
+    ##     note = {R package version 1.1.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }

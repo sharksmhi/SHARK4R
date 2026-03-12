@@ -156,7 +156,7 @@ print(toxin_list)
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.1.0.
+    ##   Databases. R package version 1.1.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -165,7 +165,7 @@ print(toxin_list)
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.1.0},
+    ##     note = {R package version 1.1.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
 
@@ -177,7 +177,7 @@ print(toxin_list)
   Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas,
   R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO
   Taxonomic Reference List of Harmful Microalgae. Accessed at
-  <https://www.marinespecies.org/hab/> on 2026-03-09.
+  <https://www.marinespecies.org/hab/> on 2026-03-12.
   [doi:10.14284/362](https://doi.org/10.14284/362)
 - Zingone A. and L. Escalera (2025) Non toxigenic animal-killing
   microalgal species. In: Lundholm, N.; Bernard, C.; Churro, C.;
@@ -185,4 +185,4 @@ print(toxin_list)
   Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds)
   (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful
   Microalgae. Accessed at <https://www.marinespecies.org/hab/> on
-  2026-03-09. [doi:10.14284/362](https://doi.org/10.14284/362)
+  2026-03-12. [doi:10.14284/362](https://doi.org/10.14284/362)

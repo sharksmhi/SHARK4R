@@ -277,13 +277,15 @@ retrieved directly in R using `SHARK4R`:
 ``` r
 # Get EG Phyto Biovolume list
 peg_list <- get_peg_list()
-```
 
-    ## Reading PEG biovolume Excel file for year: 2025
-
-``` r
 # Print list
 print(peg_list)
+
+# Get NOMP Biovolume list
+nomp_list <- get_nomp_list()
+
+# Print list
+print(nomp_list)
 ```
 
     ## # A tibble: 3,527 × 36
@@ -306,20 +308,6 @@ print(peg_list)
     ## #   `Width(w)µm` <dbl>, `Height(h)µm` <dbl>, `Diameter(d1)µm` <dbl>,
     ## #   `Diameter(d2)µm` <dbl>, `No_of_cells/counting_unit` <dbl>,
     ## #   `Calculated_volume_µm3 (with formula) - NOT IMPORTED, NOT handled by ICES` <dbl>, …
-
-``` r
-# Get NOMP Biovolume list
-nomp_list <- get_nomp_list()
-```
-
-    ## File for year 2026 not available. Trying previous year...
-
-    ## File for year 2025 downloaded and cached.
-
-``` r
-# Print list
-print(nomp_list)
-```
 
     ## # A tibble: 3,852 × 39
     ##    List      `HELCOM area` `OSPAR area` Division Class Order Genus Species SFLAG
@@ -355,7 +343,7 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.1.0.
+    ##   Databases. R package version 1.1.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -364,7 +352,7 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.1.0},
+    ##     note = {R package version 1.1.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
 
@@ -374,4 +362,4 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
 
 - Torstensson, A., Loo, A., Sundqvist, L., Skjevik, A.-T., Karlberg, M.,
   Johansen, M., Andreasson, A., and Karlson, B. (2024). Nordic
-  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-03-09.
+  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-03-12.

@@ -140,16 +140,7 @@ Ensure metadata codes follow SHARK conventions:
 ``` r
 # Validate project codes
 check_codes(chlorophyll_data)
-```
 
-    ## All PROJ codes found
-
-    ## # A tibble: 1 × 2
-    ##   reported_code              match_type
-    ##   <chr>                      <lgl>     
-    ## 1 National marine monitoring TRUE
-
-``` r
 # Validate ship/platform codes
 check_codes(data = chlorophyll_data,
             field = "platform_code",
@@ -157,7 +148,10 @@ check_codes(data = chlorophyll_data,
             match_column = "Code")
 ```
 
-    ## All SHIPC codes found
+    ## # A tibble: 1 × 2
+    ##   reported_code              match_type
+    ##   <chr>                      <lgl>     
+    ## 1 National marine monitoring TRUE
 
     ## # A tibble: 2 × 2
     ##   reported_code match_type
@@ -198,6 +192,7 @@ Verify plausibility and consistency of depth values:
 
 ``` r
 check_depth(data = chlorophyll_data) # default columns: min/max depth
+check_depth(data = chlorophyll_data, "water_depth_m")
 ```
 
     ## # A tibble: 2 × 4
@@ -205,10 +200,6 @@ check_depth(data = chlorophyll_data) # default columns: min/max depth
     ##   <chr>   <int> <chr>              <chr>                                        
     ## 1 warning    17 sample_max_depth_m Depth value (20) is greater than the value f…
     ## 2 warning    80 sample_max_depth_m Depth value (20) is greater than the value f…
-
-``` r
-check_depth(data = chlorophyll_data, "water_depth_m")
-```
 
     ## # A tibble: 57 × 4
     ##    level     row field         message                                          
@@ -304,15 +295,12 @@ Verify station names against the official SHARK registry:
 
 ``` r
 station_match <- match_station(chlorophyll_data$station_name)
-```
-
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmpDTqncp/station.txt
-
-    ## All stations found
-
-``` r
 head(station_match)
 ```
+
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpF08HuO/station.txt
+
+    ## All stations found
 
     ##   reported_station_name match_type
     ## 1            425 GNIBEN       TRUE
@@ -330,7 +318,7 @@ check_station_distance(data = chlorophyll_data,
                        plot_leaflet = TRUE)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmpDTqncp/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpF08HuO/station.txt
 
     ## WARNING: Some stations are outside the allowed distance limit
 
@@ -404,7 +392,7 @@ data for analysis.
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.1.0.
+    ##   Databases. R package version 1.1.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -413,7 +401,7 @@ data for analysis.
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.1.0},
+    ##     note = {R package version 1.1.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
 

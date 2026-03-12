@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve Data From SHARK</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.1.0/vignettes/retrieve_shark_data.Rmd" class="external-link"><code>vignettes/retrieve_shark_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/vignettes/retrieve_shark_data.Rmd" class="external-link"><code>vignettes/retrieve_shark_data.Rmd</code></a></small>
       <div class="d-none name"><code>retrieve_shark_data.Rmd</code></div>
     </div>
 
@@ -159,7 +159,15 @@ taxa, and more, can be retrieved using the
 <span><span class="va">shark_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_shark_options.html">get_shark_options</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># List the names of the available options</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">shark_options</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">shark_options</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># View available datatypes</span></span>
+<span><span class="va">dataTypes</span> <span class="op">&lt;-</span> <span class="va">shark_options</span><span class="op">$</span><span class="va">dataTypes</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dataTypes</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># View available dataset names</span></span>
+<span><span class="va">datasetNames</span> <span class="op">&lt;-</span> <span class="va">shark_options</span><span class="op">$</span><span class="va">datasets</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datasetNames</span><span class="op">)</span> <span class="co"># Print first few dataset names</span></span></code></pre></div>
 <pre><code><span><span class="co">##  [1] "datasets"              "dataTypes"             "parameters"           </span></span>
 <span><span class="co">##  [4] "minYear"               "maxYear"               "months"               </span></span>
 <span><span class="co">##  [7] "checkStatuses"         "qualityFlags"          "deliverers"           </span></span>
@@ -169,20 +177,12 @@ taxa, and more, can be retrieved using the
 <span><span class="co">## [19] "counties"              "municipalities"        "waterCategories"      </span></span>
 <span><span class="co">## [22] "helcomOspar"           "parametersForDatatype" "headerlangers"        </span></span>
 <span><span class="co">## [25] "minYearPerDatatype"</span></span></code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># View available datatypes</span></span>
-<span><span class="va">dataTypes</span> <span class="op">&lt;-</span> <span class="va">shark_options</span><span class="op">$</span><span class="va">dataTypes</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dataTypes</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##  [1] "Bacterioplankton"      "Chlorophyll"           "Epibenthos"           </span></span>
 <span><span class="co">##  [4] "Grey seal"             "Harbour Porpoise"      "Harbour seal"         </span></span>
 <span><span class="co">##  [7] "Physical and Chemical" "Phytoplankton"         "Picoplankton"         </span></span>
 <span><span class="co">## [10] "Plankton Barcoding"    "Plankton Imaging"      "Primary production"   </span></span>
 <span><span class="co">## [13] "Profile"               "Ringed seal"           "Seal pathology"       </span></span>
 <span><span class="co">## [16] "Sedimentation"         "Zoobenthos"            "Zooplankton"</span></span></code></pre>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># View available dataset names</span></span>
-<span><span class="va">datasetNames</span> <span class="op">&lt;-</span> <span class="va">shark_options</span><span class="op">$</span><span class="va">datasets</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datasetNames</span><span class="op">)</span> <span class="co"># Print first few dataset names</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip"        </span></span>
 <span><span class="co">## [2] "SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip"</span></span>
 <span><span class="co">## [3] "SHARK_Bacterioplankton_ABU_2007_UMSC_Bactabund_version_2024-09-27.zip"</span></span>
@@ -200,7 +200,7 @@ to store complete datasets locally for further analysis.</p>
 <code><a href="../reference/get_shark_options.html">get_shark_options()</a></code>. Once you know which datasets you need,
 you can pass their names (or partial names) to the
 <code><a href="../reference/get_shark_datasets.html">get_shark_datasets()</a></code> function.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Select a dataset name (e.g., the first two in the list)</span></span>
 <span><span class="va">dataset_name</span> <span class="op">&lt;-</span> <span class="va">datasetNames</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>
 <span></span>
@@ -212,10 +212,10 @@ you can pass their names (or partial names) to the
 <span><span class="co"># Print the paths to the downloaded files</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">shark_data_zip</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## $`SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip`</span></span>
-<span><span class="co">## [1] "/tmp/RtmpwU9uOV/SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip"</span></span>
+<span><span class="co">## [1] "/tmp/RtmpbjbNod/SHARK_Bacterioplankton_ABUND_2023_UMSC_version_2024-06-04.zip"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $`SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip`</span></span>
-<span><span class="co">## [1] "/tmp/RtmpwU9uOV/SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip"</span></span></code></pre>
+<span><span class="co">## [1] "/tmp/RtmpbjbNod/SHARK_Bacterioplankton_ABU_2006_UMSC_Bactabund_version_2024-09-27.zip"</span></span></code></pre>
 <p>Please note that <code>SHARK4R</code> also includes useful functions
 for reading local SHARK data files, such as <code><a href="../reference/read_shark.html">read_shark()</a></code>
 and <code><a href="../reference/read_shark_deliv.html">read_shark_deliv()</a></code>.</p>
@@ -228,7 +228,7 @@ and <code><a href="../reference/read_shark_deliv.html">read_shark_deliv()</a></c
 <span><span class="co">## </span></span>
 <span><span class="co">##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and</span></span>
 <span><span class="co">##   Validating Marine Environmental Data from 'SHARK' and Related</span></span>
-<span><span class="co">##   Databases. R package version 1.1.0.</span></span>
+<span><span class="co">##   Databases. R package version 1.1.1.</span></span>
 <span><span class="co">##   https://CRAN.R-project.org/package=SHARK4R</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## A BibTeX entry for LaTeX users is</span></span>
@@ -237,7 +237,7 @@ and <code><a href="../reference/read_shark_deliv.html">read_shark_deliv()</a></c
 <span><span class="co">##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},</span></span>
 <span><span class="co">##     author = {Markus Lindh and Anders Torstensson},</span></span>
 <span><span class="co">##     year = {2026},</span></span>
-<span><span class="co">##     note = {R package version 1.1.0},</span></span>
+<span><span class="co">##     note = {R package version 1.1.1},</span></span>
 <span><span class="co">##     url = {https://CRAN.R-project.org/package=SHARK4R},</span></span>
 <span><span class="co">##   }</span></span></code></pre>
 </div>

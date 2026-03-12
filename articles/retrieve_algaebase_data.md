@@ -167,7 +167,7 @@ print(algaebase_match)
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.1.0.
+    ##   Databases. R package version 1.1.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -176,6 +176,6 @@ print(algaebase_match)
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.1.0},
+    ##     note = {R package version 1.1.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }

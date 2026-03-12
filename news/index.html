@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,9 +44,19 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.1.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.1" id="shark4r-111">SHARK4R 1.1.1<a class="anchor" aria-label="anchor" href="#shark4r-111"></a></h2><p class="text-muted">CRAN release: 2026-03-12</p>
+<div class="section level3">
+<h3 id="cran-compliance-1-1-1">CRAN compliance<a class="anchor" aria-label="anchor" href="#cran-compliance-1-1-1"></a></h3>
+<ul><li>All vignettes that call external APIs now use a hidden availability check followed by <code><a href="https://rdrr.io/r/base/try.html" class="external-link">try()</a></code>-protected execution chunks, so transient server errors (502, 503, 500) never cause vignette rebuild failures. The user-facing code shown on pkgdown remains clean and uncluttered.</li>
+<li>Added <code>skip_if_offline()</code> and <code>skip_if_resource_unavailable()</code> guards to previously unprotected tests for deprecated WoRMS wrappers (<code>match_wormstaxa</code>, <code>update_worms_taxonomy</code>) and the empty/NA input edge case (<code>match_worms_taxa(c("", NA))</code>).</li>
+<li>Added <code>skip_on_cran()</code> to deprecated WoRMS wrapper tests, since the base-URL availability check can pass while individual API endpoints return server errors.</li>
+<li>Added <code>skip_if_offline()</code> to the <code>"wrong url fails"</code> test in <code>test-xylookup.R</code>.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.0" id="shark4r-110">SHARK4R 1.1.0<a class="anchor" aria-label="anchor" href="#shark4r-110"></a></h2><p class="text-muted">CRAN release: 2026-03-09</p>
 <div class="section level3">

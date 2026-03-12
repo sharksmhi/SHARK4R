@@ -151,6 +151,10 @@ worms_taxonomy <- add_worms_taxonomy(aphia_ids,
 
 # Print result
 print(worms_taxonomy)
+
+# Enrich SHARK data with taxonomic data from WoRMS
+shark_data_with_worms <- shark_data %>%
+  left_join(worms_taxonomy, by = "aphia_id")
 ```
 
     ## # A tibble: 10 × 10
@@ -168,12 +172,6 @@ print(worms_taxonomy)
     ## 10   109553 Protoperidinium          Chromista     Myzozoa          Dinophyceae 
     ## # ℹ 5 more variables: worms_order <chr>, worms_family <chr>, worms_genus <chr>,
     ## #   worms_species <chr>, worms_hierarchy <chr>
-
-``` r
-# Enrich SHARK data with taxonomic data from WoRMS
-shark_data_with_worms <- shark_data %>%
-  left_join(worms_taxonomy, by = "aphia_id")
-```
 
 ### Retrieve WoRMS Taxonomic Hierarchies
 
@@ -244,24 +242,7 @@ plankton_groups <- assign_phytoplankton_group(
 
 # Print result
 distinct(plankton_groups)
-```
 
-    ## # A tibble: 23 × 2
-    ##    scientific_name      plankton_group 
-    ##    <chr>                <chr>          
-    ##  1 Pauliella taeniata   Diatoms        
-    ##  2 Amylax triacantha    Dinoflagellates
-    ##  3 Aphanocapsa          Cyanobacteria  
-    ##  4 Aphanothece          Cyanobacteria  
-    ##  5 Chaetoceros similis  Diatoms        
-    ##  6 Dinobryon balticum   Other          
-    ##  7 Dinophysis acuminata Dinoflagellates
-    ##  8 Dinophysis norvegica Dinoflagellates
-    ##  9 Gymnodinium          Dinoflagellates
-    ## 10 Protodinium simplex  Other          
-    ## # ℹ 13 more rows
-
-``` r
 # Add plankton groups to data and summarize abundance results
 plankton_group_sum <- shark_data_subset %>%
   mutate(plankton_group = plankton_groups$plankton_group) %>%
@@ -284,7 +265,22 @@ ggplot(plankton_group_sum,
   theme(plot.background = element_rect(fill = "white", color = NA))
 ```
 
-![](retrieve_worms_data_files/figure-html/unnamed-chunk-10-1.png)
+    ## # A tibble: 23 × 2
+    ##    scientific_name      plankton_group 
+    ##    <chr>                <chr>          
+    ##  1 Pauliella taeniata   Diatoms        
+    ##  2 Amylax triacantha    Dinoflagellates
+    ##  3 Aphanocapsa          Cyanobacteria  
+    ##  4 Aphanothece          Cyanobacteria  
+    ##  5 Chaetoceros similis  Diatoms        
+    ##  6 Dinobryon balticum   Other          
+    ##  7 Dinophysis acuminata Dinoflagellates
+    ##  8 Dinophysis norvegica Dinoflagellates
+    ##  9 Gymnodinium          Dinoflagellates
+    ## 10 Protodinium simplex  Other          
+    ## # ℹ 13 more rows
+
+![](retrieve_worms_data_files/figure-html/unnamed-chunk-21-1.png)
 
 #### Assign Custom Phytoplankton Groups
 
@@ -336,7 +332,7 @@ ggplot(plankton_custom_group_sum,
   theme(plot.background = element_rect(fill = "white", color = NA))
 ```
 
-![](retrieve_worms_data_files/figure-html/unnamed-chunk-11-1.png)
+![](retrieve_worms_data_files/figure-html/unnamed-chunk-24-1.png)
 
 ------------------------------------------------------------------------
 
@@ -346,7 +342,7 @@ ggplot(plankton_custom_group_sum,
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.1.0.
+    ##   Databases. R package version 1.1.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -355,6 +351,6 @@ ggplot(plankton_custom_group_sum,
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.1.0},
+    ##     note = {R package version 1.1.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
