@@ -37,7 +37,17 @@ library(SHARK4R)
 
 Data can be retrieved with the same filtering options available in [SHARK](https://shark.smhi.se/en/). To see the available filtering options, please refer to `get_shark_options()` and the information below.
 
-```{r, eval=shark_available}
+```{r, include=FALSE, eval=shark_available}
+shark_data <- try(
+  get_shark_data(fromYear = 2019, toYear = 2020,
+                 months = c(4, 5, 6), dataTypes = "Chlorophyll",
+                 verbose = FALSE),
+  silent = TRUE
+)
+if (inherits(shark_data, "try-error")) shark_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Retrieve chlorophyll data for April to June from 2019 to 2020
 shark_data <- get_shark_data(fromYear = 2019,
                              toYear = 2020,
@@ -49,11 +59,20 @@ shark_data <- get_shark_data(fromYear = 2019,
 print(shark_data)
 ```
 
+```{r, echo=FALSE, eval=shark_available}
+print(shark_data)
+```
+
 ## Get SHARK API Options
 
 Filtering options, including data types, dataset names, stations, taxa, and more, can be retrieved using the `get_shark_options()` function.
 
-```{r, eval=shark_available}
+```{r, include=FALSE, eval=shark_available}
+shark_options <- try(get_shark_options(), silent = TRUE)
+if (inherits(shark_options, "try-error")) shark_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Retrieve available search options
 shark_options <- get_shark_options()
 
@@ -69,13 +88,30 @@ datasetNames <- shark_options$datasets
 head(datasetNames) # Print first few dataset names
 ```
 
+```{r, echo=FALSE, eval=shark_available}
+names(shark_options)
+dataTypes <- shark_options$dataTypes
+print(dataTypes)
+datasetNames <- shark_options$datasets
+head(datasetNames)
+```
+
 ## Retrieve Datasets (Zip-archives)
 
 In addition to accessing data in tabular form, you can also download complete datasets packaged as zip archives. This is useful if you want to store complete datasets locally for further analysis.
 
 To explore all available dataset names, use the `get_shark_options()`. Once you know which datasets you need, you can pass their names (or partial names) to the `get_shark_datasets()` function.
 
-```{r, eval=shark_available}
+```{r, include=FALSE, eval=shark_available}
+dataset_name <- datasetNames[1:2]
+shark_data_zip <- try(
+  get_shark_datasets(dataset_name, save_dir = tempdir(), verbose = FALSE),
+  silent = TRUE
+)
+if (inherits(shark_data_zip, "try-error")) shark_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Select a dataset name (e.g., the first two in the list)
 dataset_name <- datasetNames[1:2]
 
@@ -85,6 +121,10 @@ shark_data_zip <- get_shark_datasets(dataset_name,
                                      verbose = FALSE) # Quiet output
 
 # Print the paths to the downloaded files
+print(shark_data_zip)
+```
+
+```{r, echo=FALSE, eval=shark_available}
 print(shark_data_zip)
 ```
 

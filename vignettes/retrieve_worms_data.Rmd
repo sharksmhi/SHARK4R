@@ -56,7 +56,16 @@ suppressPackageStartupMessages({
 
 Phytoplankton data, including scientific names and AphiaIDs, are downloaded from SHARK. To see more download options, please visit the [Retrieve Data From SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html) tutorial.
 
-```{r, eval=apis_available}
+```{r, include=FALSE, eval=apis_available}
+shark_data <- try(
+  get_shark_data(fromYear = 2015, toYear = 2015, months = 4,
+                 dataTypes = "Phytoplankton", verbose = FALSE),
+  silent = TRUE
+)
+if (inherits(shark_data, "try-error")) apis_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Retrieve all phytoplankton data from April 2015
 shark_data <- get_shark_data(fromYear = 2015,
                              toYear = 2015,
@@ -69,7 +78,20 @@ shark_data <- get_shark_data(fromYear = 2015,
 
 Taxon names can be matched with the WoRMS API to retrieve Aphia IDs and corresponding taxonomic information. The `match_worms_taxa()` function incorporates retry logic to handle temporary failures, ensuring that all names are processed successfully.
 
-```{r, eval=apis_available}
+```{r, include=FALSE, eval=apis_available}
+no_aphia_id <- shark_data %>% filter(is.na(aphia_id))
+taxa_names <- sample(unique(no_aphia_id$scientific_name),
+                     size = 10, replace = TRUE)
+worms_records <- try(
+  match_worms_taxa(unique(taxa_names), fuzzy = TRUE,
+                   best_match_only = TRUE, marine_only = TRUE,
+                   verbose = FALSE),
+  silent = TRUE
+)
+if (inherits(worms_records, "try-error")) apis_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Find taxa without Aphia ID
 no_aphia_id <- shark_data %>%
   filter(is.na(aphia_id))
@@ -90,11 +112,25 @@ worms_records <- match_worms_taxa(unique(taxa_names),
 print(worms_records)
 ```
 
+```{r, echo=FALSE, eval=apis_available}
+print(worms_records)
+```
+
 ### Get WoRMS records from AphiaID
 
 Taxonomic records can also be retrieved using Aphia IDs, employing the same retry and error-handling logic as the `match_worms_taxa()` function.
 
-```{r, eval=apis_available}
+```{r, include=FALSE, eval=apis_available}
+aphia_ids <- sample(unique(shark_data$aphia_id), size = 10)
+aphia_ids <- aphia_ids[!is.na(aphia_ids)]
+worms_records <- try(
+  get_worms_records(aphia_ids, verbose = FALSE),
+  silent = TRUE
+)
+if (inherits(worms_records, "try-error")) apis_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Randomly select ten Aphia IDs
 aphia_ids <- sample(unique(shark_data$aphia_id),
                     size = 10)
@@ -110,11 +146,23 @@ worms_records <- get_worms_records(aphia_ids,
 print(worms_records)
 ```
 
+```{r, echo=FALSE, eval=apis_available}
+print(worms_records)
+```
+
 ### Get WoRMS Taxonomy
 
 SHARK sources taxonomic information from [Dyntaxa](https://artfakta.se/), which is reflected in columns starting with `taxon_xxxxx`. Equivalent columns based on WoRMS can be retrieved using the `add_worms_taxonomy()` function.
 
-```{r, eval=apis_available}
+```{r, include=FALSE, eval=apis_available}
+worms_taxonomy <- try(
+  add_worms_taxonomy(aphia_ids, verbose = FALSE),
+  silent = TRUE
+)
+if (inherits(worms_taxonomy, "try-error")) apis_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Retrieve taxonomic table
 worms_taxonomy <- add_worms_taxonomy(aphia_ids,
                                      verbose = FALSE)
@@ -127,11 +175,26 @@ shark_data_with_worms <- shark_data %>%
   left_join(worms_taxonomy, by = "aphia_id")
 ```
 
+```{r, echo=FALSE, eval=apis_available}
+print(worms_taxonomy)
+shark_data_with_worms <- shark_data %>%
+  left_join(worms_taxonomy, by = "aphia_id")
+```
+
 ### Retrieve WoRMS Taxonomic Hierarchies
 
 To explore the full hierarchical taxonomy records of your Aphia IDs, you can use the `get_worms_taxonomy_tree()` function. This function retrieves records for the entire taxonomic tree from WoRMS, including parent-child relationships, and can optionally fetch all descendants (e.g. species) under a genus or known synonyms.
 
-```{r, eval=apis_available}
+```{r, include=FALSE, eval=apis_available}
+worms_tree <- try(
+  get_worms_taxonomy_tree(aphia_ids[1], add_descendants = FALSE,
+                          add_synonyms = FALSE, verbose = FALSE),
+  silent = TRUE
+)
+if (inherits(worms_tree, "try-error")) apis_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Retrieve taxonomic tree
 worms_tree <- get_worms_taxonomy_tree(
   aphia_ids[1],                # use first id only in this example
@@ -144,11 +207,39 @@ worms_tree <- get_worms_taxonomy_tree(
 print(worms_tree)
 ```
 
+```{r, echo=FALSE, eval=apis_available}
+print(worms_tree)
+```
+
 ### Assign Phytoplankton Groups
 
 Phytoplankton data are often categorized into major groups such as Dinoflagellates, Diatoms, Cyanobacteria, and Others. This grouping can be achieved by referencing information from WoRMS and assigning taxa to these groups based on their taxonomic classification, as demonstrated in the example below.
 
-```{r, eval=apis_available}
+```{r, include=FALSE, eval=apis_available}
+nat_stations <- shark_data %>%
+  filter(station_name %in% c("BY5 BORNHOLMSDJ"))
+sample <- sample(unique(nat_stations$shark_sample_id_md5), 1)
+shark_data_subset <- shark_data %>%
+  filter(shark_sample_id_md5 == sample)
+plankton_groups <- try(
+  assign_phytoplankton_group(
+    scientific_names = shark_data_subset$scientific_name,
+    aphia_ids = shark_data_subset$aphia_id,
+    verbose = FALSE),
+  silent = TRUE
+)
+if (inherits(plankton_groups, "try-error")) {
+  apis_available <- FALSE
+} else {
+  plankton_group_sum <- shark_data_subset %>%
+    mutate(plankton_group = plankton_groups$plankton_group) %>%
+    filter(parameter == "Abundance") %>%
+    group_by(plankton_group) %>%
+    summarise(sum_plankton_groups = sum(value, na.rm = TRUE))
+}
+```
+
+```{r, eval=FALSE}
 # Subset data from one national monitoring station
 nat_stations <- shark_data %>%
   filter(station_name %in% c("BY5 BORNHOLMSDJ"))
@@ -191,11 +282,57 @@ ggplot(plankton_group_sum,
   theme(plot.background = element_rect(fill = "white", color = NA))
 ```
 
+```{r, echo=FALSE, eval=apis_available}
+distinct(plankton_groups)
+
+ggplot(plankton_group_sum,
+       aes(x = "", y = sum_plankton_groups, fill = plankton_group)) +
+  geom_col(width = 1) +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Phytoplankton Groups",
+    subtitle = paste(unique(shark_data_subset$station_name),
+                     unique(shark_data_subset$sample_date)),
+    fill = "Plankton Group"
+  ) +
+  theme_void() +
+  theme(plot.background = element_rect(fill = "white", color = NA))
+```
+
 #### Assign Custom Phytoplankton Groups
 
 You can add custom plankton groups by using the `custom_groups` parameter, allowing flexibility to categorize plankton based on specific taxonomic criteria. Please note that the order of the list matters: taxa are assigned to the last matching group. For example: Mesodinium rubrum will be excluded from the Ciliates group because it appears after Ciliates in the list in the example below.
 
-```{r, eval=apis_available}
+```{r, include=FALSE, eval=apis_available}
+custom_groups <- list(
+  "Cryptophytes" = list(class = "Cryptophyceae"),
+  "Green Algae" = list(class = c("Trebouxiophyceae",
+                                 "Chlorophyceae",
+                                 "Pyramimonadophyceae"),
+                       phylum = "Chlorophyta"),
+  "Ciliates" = list(phylum = "Ciliophora"),
+  "Mesodinium rubrum" = list(scientific_name = "Mesodinium rubrum"),
+  "Dinophysis" = list(genus = "Dinophysis")
+)
+plankton_groups <- try(
+  assign_phytoplankton_group(
+    scientific_names = shark_data_subset$scientific_name,
+    custom_groups = custom_groups,
+    verbose = FALSE),
+  silent = TRUE
+)
+if (inherits(plankton_groups, "try-error")) {
+  apis_available <- FALSE
+} else {
+  plankton_custom_group_sum <- shark_data_subset %>%
+    mutate(plankton_group = plankton_groups$plankton_group) %>%
+    filter(parameter == "Abundance") %>%
+    group_by(plankton_group) %>%
+    summarise(sum_plankton_groups = sum(value, na.rm = TRUE))
+}
+```
+
+```{r, eval=FALSE}
 # Define custom plankton groups using a named list
 custom_groups <- list(
   "Cryptophytes" = list(class = "Cryptophyceae"),
@@ -222,6 +359,21 @@ plankton_custom_group_sum <- shark_data_subset %>%
   summarise(sum_plankton_groups = sum(value, na.rm = TRUE))
 
 # Plot a new pie chart, including the custom groups
+ggplot(plankton_custom_group_sum,
+       aes(x = "", y = sum_plankton_groups, fill = plankton_group)) +
+  geom_col(width = 1) +
+  coord_polar(theta = "y") +
+  labs(
+    title = "Phytoplankton Custom Groups",
+    subtitle = paste(unique(shark_data_subset$station_name),
+                     unique(shark_data_subset$sample_date)),
+    fill = "Plankton Group"
+  ) +
+  theme_void() +
+  theme(plot.background = element_rect(fill = "white", color = NA))
+```
+
+```{r, echo=FALSE, eval=apis_available}
 ggplot(plankton_custom_group_sum,
        aes(x = "", y = sum_plankton_groups, fill = plankton_group)) +
   geom_col(width = 1) +

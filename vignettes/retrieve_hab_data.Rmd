@@ -46,7 +46,12 @@ library(SHARK4R)
 
 The complete HAB list, including scientific names and AphiaIDs, can be downloaded from the [IOC-UNESCO Taxonomic Reference List of Harmful Microalgae](https://www.marinespecies.org/hab/). The output fields are customizable through function parameters—for example, setting `classification = FALSE` excludes higher taxonomic information from the results.
 
-```{r, eval=hab_available}
+```{r, include=FALSE, eval=hab_available}
+hab_list <- try(get_hab_list(), silent = TRUE)
+if (inherits(hab_list, "try-error")) hab_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Retrieve complete HAB list
 hab_list <- get_hab_list()
 
@@ -54,9 +59,21 @@ hab_list <- get_hab_list()
 print(hab_list)
 ```
 
+```{r, echo=FALSE, eval=hab_available}
+print(hab_list)
+```
+
 A separate list of harmful non-toxic species is also available (Zingone & Escalera, 2025). This compilation focuses on taxa for which no toxin production is known, yet which have been linked to negative impacts on marine organisms, including mortality and ecosystem disturbance. The list is designed to be used alongside the IOC-UNESCO Taxonomic Reference List of Harmful Microalgae and is mutually exclusive with it. As a result, any species known to produce toxins is omitted, even when reported harmful effects are attributed to non-toxic processes such as oxygen depletion.
 
-```{r, eval=hab_available}
+```{r, include=FALSE, eval=hab_available}
+hab_non_toxic_list <- try(
+  get_hab_list(harmful_non_toxic_only = TRUE, verbose = FALSE),
+  silent = TRUE
+)
+if (inherits(hab_non_toxic_list, "try-error")) hab_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Retrieve complete Harmful non-toxic list
 hab_non_toxic_list <- get_hab_list(harmful_non_toxic_only = TRUE,
                                    verbose = FALSE)
@@ -65,15 +82,28 @@ hab_non_toxic_list <- get_hab_list(harmful_non_toxic_only = TRUE,
 print(hab_non_toxic_list)
 ```
 
+```{r, echo=FALSE, eval=hab_available}
+print(hab_non_toxic_list)
+```
+
 ## Retrieve HAB Toxins From IOC Toxins Database
 
 The complete Toxin list can be downloaded from the [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/) using the `get_toxin_list()` function.
 
-```{r, eval=toxin_available}
+```{r, include=FALSE, eval=toxin_available}
+toxin_list <- try(get_toxin_list(), silent = TRUE)
+if (inherits(toxin_list, "try-error")) toxin_available <- FALSE
+```
+
+```{r, eval=FALSE}
 # Retrieve complete toxin list
 toxin_list <- get_toxin_list()
 
 # Print result
+print(toxin_list)
+```
+
+```{r, echo=FALSE, eval=toxin_available}
 print(toxin_list)
 ```
 

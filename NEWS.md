@@ -1,3 +1,12 @@
+# SHARK4R 1.1.1
+
+## CRAN compliance
+
+* All vignettes that call external APIs now use a hidden availability check followed by `try()`-protected execution chunks, so transient server errors (502, 503, 500) never cause vignette rebuild failures. The user-facing code shown on pkgdown remains clean and uncluttered.
+* Added `skip_if_offline()` and `skip_if_resource_unavailable()` guards to previously unprotected tests for deprecated WoRMS wrappers (`match_wormstaxa`, `update_worms_taxonomy`) and the empty/NA input edge case (`match_worms_taxa(c("", NA))`).
+* Added `skip_on_cran()` to deprecated WoRMS wrapper tests, since the base-URL availability check can pass while individual API endpoints return server errors.
+* Added `skip_if_offline()` to the `"wrong url fails"` test in `test-xylookup.R`.
+
 # SHARK4R 1.1.0
 
 ## New features
