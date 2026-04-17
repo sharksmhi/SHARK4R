@@ -207,16 +207,16 @@ print(dyntaxa_records)
     ## # A tibble: 10 × 24
     ##    taxonId parentId secondaryParents sortOrder isMicrospecies externalComment   
     ##      <int>    <int> <list>               <int> <lgl>          <chr>             
-    ##  1  236939  6018284 <list [0]>           69023 FALSE           NA               
-    ##  2  237763  1010465 <list [0]>           71512 FALSE          "Illustration (LM…
-    ##  3  238027  1010523 <list [0]>           73419 FALSE          "Illustration (LM…
-    ##  4  238248  1010596 <list [0]>           69946 FALSE           NA               
-    ##  5  238927  1016130 <list [0]>          113856 FALSE           NA               
-    ##  6  257418  6001140 <list [0]>          112991 FALSE           NA               
-    ##  7  263645  1016291 <list [0]>           67723 FALSE          "2005. Published …
-    ##  8 1010578  6332738 <list [0]>           70068 FALSE          "Scrippsiella han…
-    ##  9 1010594  2003235 <list [0]>           69930 FALSE           NA               
-    ## 10 3000573  4000161 <list [0]>           71272 FALSE           NA               
+    ##  1  236939  6018284 <list [0]>           69082 FALSE           NA               
+    ##  2  237763  1010465 <list [0]>           71571 FALSE          "Illustration (LM…
+    ##  3  238027  1010523 <list [0]>           73478 FALSE          "Illustration (LM…
+    ##  4  238248  1010596 <list [0]>           70005 FALSE           NA               
+    ##  5  238927  1016130 <list [0]>          113930 FALSE           NA               
+    ##  6  257418  6001140 <list [0]>          113065 FALSE           NA               
+    ##  7  263645  1016291 <list [0]>           67782 FALSE          "2005. Published …
+    ##  8 1010578  6332738 <list [0]>           70127 FALSE          "Scrippsiella han…
+    ##  9 1010594  2003235 <list [0]>           69989 FALSE           NA               
+    ## 10 3000573  4000161 <list [0]>           71331 FALSE           NA               
     ## # ℹ 18 more variables: redlistCategory <lgl>, excludeFromReportingSystem <lgl>,
     ## #   nrOfChilds <int>, names <list>, typedRelations.parentRelations <list>,
     ## #   typedRelations.childRelations <list>, status.id <int>, status.value <chr>,
@@ -311,16 +311,16 @@ print(taxonomy_table)
     ## # A tibble: 296 × 16
     ##    taxonId        acceptedNameUsageID parentNameUsageID scientificName taxonRank
     ##    <chr>          <chr>               <chr>             <chr>          <chr>    
-    ##  1 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Oblea          genus    
-    ##  2 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Dictyochales   order    
-    ##  3 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Bacillaria pa… species  
-    ##  4 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  
-    ##  5 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Scrippsiella   genus    
-    ##  6 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Pseudopediast… species  
-    ##  7 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Chrysotila ca… species  
-    ##  8 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Cuspidothrix … species  
-    ##  9 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Protoperidini… species  
-    ## 10 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Binuclearia l… species  
+    ##  1 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  
+    ##  2 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Scrippsiella   genus    
+    ##  3 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Oblea          genus    
+    ##  4 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Chrysotila ca… species  
+    ##  5 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Pseudopediast… species  
+    ##  6 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Dictyochales   order    
+    ##  7 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Cuspidothrix … species  
+    ##  8 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Protoperidini… species  
+    ##  9 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Binuclearia l… species  
+    ## 10 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Bacillaria pa… species  
     ## # ℹ 286 more rows
     ## # ℹ 11 more variables: scientificNameAuthorship <chr>, taxonomicStatus <chr>,
     ## #   nomenclaturalStatus <chr>, taxonRemarks <chr>, kingdom <chr>, phylum <chr>,

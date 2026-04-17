@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve marine biotoxin data from IOC-UNESCO Toxins Database</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.1.1/R/hab_api_functions.R" class="external-link"><code>R/hab_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/hab_api_functions.R" class="external-link"><code>R/hab_api_functions.R</code></a></small>
       <div class="d-none name"><code>get_toxin_list.Rd</code></div>
     </div>
 
@@ -81,14 +81,14 @@
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">toxin_list</span> <span class="op">&lt;-</span> <span class="fu">get_toxin_list</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"toxin_list"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">toxin_list</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 55</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      id toxin_group recommended_name     synonyms recommended_acronym acronyms </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   610 Brevetoxin  Brevetoxin-5         <span style="color: #949494;">&lt;NULL&gt;</span>   BTX-5               <span style="color: #949494;">&lt;NULL&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   609 Brevetoxin  Brevetoxin-3         <span style="color: #949494;">&lt;NULL&gt;</span>   BTX-3               <span style="color: #949494;">&lt;NULL&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>   608 Brevetoxin  Brevetoxin B         <span style="color: #949494;">&lt;NULL&gt;</span>   BTX-2               <span style="color: #949494;">&lt;chr [1]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>   607 Brevetoxin  Brevetoxin A         <span style="color: #949494;">&lt;NULL&gt;</span>   BTX-1               <span style="color: #949494;">&lt;chr [1]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>   606 Anatoxin    10-OH-homoanatoxin-a <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>   605 Anatoxin    10-OH-anatoxin-a     <span style="color: #949494;">&lt;NULL&gt;</span>   <span style="color: #BB0000;">NA</span>                  <span style="color: #949494;">&lt;NULL&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      id toxin_group recommended_name synonyms recommended_acronym acronyms </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   612 Azaspiracid Azaspiracid-28   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA-28              <span style="color: #949494;">&lt;NULL&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   611 Azaspiracid Azaspiracid-26   <span style="color: #949494;">&lt;NULL&gt;</span>   AZA-26              <span style="color: #949494;">&lt;NULL&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>   610 Brevetoxin  Brevetoxin-5     <span style="color: #949494;">&lt;NULL&gt;</span>   BTX-5               <span style="color: #949494;">&lt;NULL&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>   609 Brevetoxin  Brevetoxin-3     <span style="color: #949494;">&lt;NULL&gt;</span>   BTX-3               <span style="color: #949494;">&lt;NULL&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>   608 Brevetoxin  Brevetoxin B     <span style="color: #949494;">&lt;NULL&gt;</span>   BTX-2               <span style="color: #949494;">&lt;chr [1]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>   607 Brevetoxin  Brevetoxin A     <span style="color: #949494;">&lt;NULL&gt;</span>   BTX-1               <span style="color: #949494;">&lt;chr [1]&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 49 more variables: cas_number &lt;chr&gt;, alternative_cas_numbers &lt;list&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   formula &lt;chr&gt;, exact_mono_isotopic_mass &lt;dbl&gt;, molfile &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   alternative_molfiles &lt;lgl&gt;, smiles &lt;chr&gt;, alternative_smiles &lt;list&gt;,</span></span>
@@ -100,7 +100,7 @@
 <span class="r-in"><span><span class="co"># Retrieve only the count of toxins</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">toxin_count</span> <span class="op">&lt;-</span> <span class="fu">get_toxin_list</span><span class="op">(</span>return_count <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"toxin_count"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">toxin_count</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 525</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 524</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

@@ -51,7 +51,7 @@ hab_list <- get_hab_list()
 print(hab_list)
 ```
 
-    ## # A tibble: 378 × 29
+    ## # A tibble: 380 × 29
     ##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹
     ##      <dbl> <chr>               <chr>                <dbl> <chr>                 
     ##  1  841664 Aetokthonos hydril… S.B.Wild…           841664 Aetokthonos hydrillic…
@@ -64,7 +64,7 @@ print(hab_list)
     ##  8  231873 Alexandrium catene… (Whedon …           231873 Alexandrium catenella 
     ##  9  233472 Alexandrium excava… (Braarud…           231873 Alexandrium catenella 
     ## 10 1469211 Alexandrium fragae  S.Branco…          1469211 Alexandrium fragae    
-    ## # ℹ 368 more rows
+    ## # ℹ 370 more rows
     ## # ℹ abbreviated name: ¹​ScientificName_accepted
     ## # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
     ## #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
@@ -127,20 +127,20 @@ toxin_list <- get_toxin_list()
 print(toxin_list)
 ```
 
-    ## # A tibble: 525 × 55
+    ## # A tibble: 524 × 55
     ##       id toxin_group recommended_name      synonyms recommended_acronym acronyms
     ##    <int> <chr>       <chr>                 <list>   <chr>               <list>  
-    ##  1   610 Brevetoxin  Brevetoxin-5          <NULL>   BTX-5               <NULL>  
-    ##  2   609 Brevetoxin  Brevetoxin-3          <NULL>   BTX-3               <NULL>  
-    ##  3   608 Brevetoxin  Brevetoxin B          <NULL>   BTX-2               <chr>   
-    ##  4   607 Brevetoxin  Brevetoxin A          <NULL>   BTX-1               <chr>   
-    ##  5   606 Anatoxin    10-OH-homoanatoxin-a  <NULL>   NA                  <NULL>  
-    ##  6   605 Anatoxin    10-OH-anatoxin-a      <NULL>   NA                  <NULL>  
-    ##  7   604 Anatoxin    10-OH-H2-homoanatoxi… <NULL>   NA                  <NULL>  
-    ##  8   603 Anatoxin    10-OH-H2-anatoxin-a   <NULL>   NA                  <NULL>  
-    ##  9   602 Anatoxin    CH3SH-anatoxin-a      <NULL>   NA                  <NULL>  
-    ## 10   601 Anatoxin    CH3O-homoanatoxin-a   <NULL>   NA                  <NULL>  
-    ## # ℹ 515 more rows
+    ##  1   612 Azaspiracid Azaspiracid-28        <NULL>   AZA-28              <NULL>  
+    ##  2   611 Azaspiracid Azaspiracid-26        <NULL>   AZA-26              <NULL>  
+    ##  3   610 Brevetoxin  Brevetoxin-5          <NULL>   BTX-5               <NULL>  
+    ##  4   609 Brevetoxin  Brevetoxin-3          <NULL>   BTX-3               <NULL>  
+    ##  5   608 Brevetoxin  Brevetoxin B          <NULL>   BTX-2               <chr>   
+    ##  6   607 Brevetoxin  Brevetoxin A          <NULL>   BTX-1               <chr>   
+    ##  7   606 Anatoxin    10-OH-homoanatoxin-a  <NULL>   NA                  <NULL>  
+    ##  8   605 Anatoxin    10-OH-anatoxin-a      <NULL>   NA                  <NULL>  
+    ##  9   604 Anatoxin    10-OH-H2-homoanatoxi… <NULL>   NA                  <NULL>  
+    ## 10   603 Anatoxin    10-OH-H2-anatoxin-a   <NULL>   NA                  <NULL>  
+    ## # ℹ 514 more rows
     ## # ℹ 49 more variables: cas_number <chr>, alternative_cas_numbers <list>,
     ## #   formula <chr>, exact_mono_isotopic_mass <dbl>, molfile <chr>,
     ## #   alternative_molfiles <lgl>, smiles <chr>, alternative_smiles <list>,
@@ -177,7 +177,7 @@ print(toxin_list)
   Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas,
   R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO
   Taxonomic Reference List of Harmful Microalgae. Accessed at
-  <https://www.marinespecies.org/hab/> on 2026-03-12.
+  <https://www.marinespecies.org/hab/> on 2026-04-17.
   [doi:10.14284/362](https://doi.org/10.14284/362)
 - Zingone A. and L. Escalera (2025) Non toxigenic animal-killing
   microalgal species. In: Lundholm, N.; Bernard, C.; Churro, C.;
@@ -185,4 +185,4 @@ print(toxin_list)
   Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds)
   (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful
   Microalgae. Accessed at <https://www.marinespecies.org/hab/> on
-  2026-03-12. [doi:10.14284/362](https://doi.org/10.14284/362)
+  2026-04-17. [doi:10.14284/362](https://doi.org/10.14284/362)
