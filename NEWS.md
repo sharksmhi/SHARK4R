@@ -1,3 +1,9 @@
+# SHARK4R (development version)
+
+## New features
+
+* Added `calc_zooplankton_dry_weight()` to calculate zooplankton dry weight from `"Length (mean)"` using AphiaID-based taxa-specific coefficients from `inst/extdata/Mesozooplankton_Kattegat_Skagerrak_taxa_and_biomass_calculations.xlsx`. The function uses adult coefficients for non-`NP` stages, taxon-specific nauplii coefficients where available, and otherwise falls back to the general copepod nauplii coefficients.
+
 # SHARK4R 1.1.1
 
 ## CRAN compliance
