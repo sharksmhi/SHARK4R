@@ -2,7 +2,7 @@ test_that("calc_zooplankton_dry_weight uses adult coefficients for non-nauplii",
   zoo <- dplyr::tibble(
     parameter = "Length (mean)",
     value = 800,
-    aphia_id = 149755,
+    aphia_id = 104251,
     dev_stage_code = "AD"
   )
 
@@ -10,7 +10,7 @@ test_that("calc_zooplankton_dry_weight uses adult coefficients for non-nauplii",
 
   expected <- 10^((2.965 * log10(800)) - 7.713)
 
-  expect_equal(result$parameter, "Dry weight")
+  expect_equal(result$parameter, "Dry weight (mean)")
   expect_equal(result$value, expected)
   expect_equal(result$dry_weight_reference, "Hay 1991")
   expect_equal(result$dw_match_type, "adult")
@@ -37,7 +37,7 @@ test_that("calc_zooplankton_dry_weight falls back to general nauplii coefficient
   zoo <- dplyr::tibble(
     parameter = "Length (mean)",
     value = 160,
-    aphia_id = 149755,
+    aphia_id = 104251,
     dev_stage_code = "NP"
   )
 
@@ -61,23 +61,25 @@ test_that("calc_zooplankton_dry_weight appends dry-weight rows and preserves ori
   zoo <- dplyr::tibble(
     parameter = c("Length (mean)", "Abundance"),
     value = c(800, 12),
-    aphia_id = c(149755, 149755),
+    unit = c("um", "ind/m3"),
+    aphia_id = c(104251, 104251),
     dev_stage_code = c("AD", "AD")
   )
 
   result <- calc_zooplankton_dry_weight(zoo, append = TRUE)
 
   expect_equal(nrow(result), 3)
-  expect_equal(sum(result$parameter == "Dry weight"), 1)
+  expect_equal(sum(result$parameter == "Dry weight (mean)"), 1)
   expect_equal(sum(result$parameter == "Abundance"), 1)
   expect_equal(sum(result$parameter == "Length (mean)"), 1)
+  expect_equal(result$unit[result$parameter == "Dry weight (mean)"], "ug")
 })
 
 test_that("calc_zooplankton_dry_weight errors on missing required columns", {
   zoo <- dplyr::tibble(
     parameter = "Length (mean)",
     value = 800,
-    aphia_id = 149755
+    aphia_id = 104251
   )
 
   expect_error(
@@ -86,7 +88,7 @@ test_that("calc_zooplankton_dry_weight errors on missing required columns", {
   )
 })
 
-test_that("calc_zooplankton_dry_weight keeps NA when no adult coefficients are available", {
+test_that("calc_zooplankton_dry_weight drops NA dry-weight rows by default", {
   zoo <- dplyr::tibble(
     parameter = "Length (mean)",
     value = 500,
@@ -95,6 +97,24 @@ test_that("calc_zooplankton_dry_weight keeps NA when no adult coefficients are a
   )
 
   result <- calc_zooplankton_dry_weight(zoo, append = FALSE, keep_reference = TRUE)
+
+  expect_equal(nrow(result), 0)
+})
+
+test_that("calc_zooplankton_dry_weight can keep NA dry-weight rows", {
+  zoo <- dplyr::tibble(
+    parameter = "Length (mean)",
+    value = 500,
+    aphia_id = 999999,
+    dev_stage_code = "AD"
+  )
+
+  result <- calc_zooplankton_dry_weight(
+    zoo,
+    append = FALSE,
+    drop_na_values = FALSE,
+    keep_reference = TRUE
+  )
 
   expect_true(is.na(result$value))
   expect_true(is.na(result$dw_match_type))

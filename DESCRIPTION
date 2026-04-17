@@ -11,6 +11,10 @@ Authors@R: c(
            comment = c("Swedish Meteorological and Hydrological Institute", ORCID = "0009-0007-5124-9956")),
     person("Bengt", "Karlson", role = "ctb",
            comment = c("Swedish Meteorological and Hydrological Institute", ORCID = "0000-0002-7524-3504")),
+    person("Peter", "Thor", role = "ctb",
+           comment = c("Swedish University of Agricultural Sciences", ORCID = "0000-0002-2603-2284")),
+    person("Marie", "Johansen", role = "ctb",
+           comment = c("Swedish Meteorological and Hydrological Institute")),
     person("SHARK", email = "shark@smhi.se", role = "cph"),
     person("SBDI", role = "fnd",
            comment = "Swedish Research Council, 2019-00242")
