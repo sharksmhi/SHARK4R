@@ -91,6 +91,7 @@ reference:
 - subtitle: Plankton Toolbox
   desc: These functions are used to read data related to Plankton Toolbox
   contents:
+  - calc_zooplankton_dry_weight
   - get_nomp_list
   - get_peg_list
   - read_ptbx
