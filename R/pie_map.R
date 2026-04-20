@@ -335,13 +335,18 @@ place_pie_labels <- function(wide,
         sqrt(dx^2 + dy^2) - 1.0
       }, numeric(1L)))
 
+      # Two axis-aligned bounding boxes overlap only when they overlap on
+      # BOTH axes, so the non-overlap test is max(gap_x, gap_y) >= 0,
+      # not min(gap_x, gap_y) >= 0. A vertical gap of 2 degrees should
+      # let a horizontally-overlapping label pass (they don't actually
+      # touch), but `min` would reject it.
       label_score <- if (rank <= 1L) Inf else
         min(vapply(seq_len(rank - 1L), function(k) {
           b <- placed[[order_idx[k]]]
           if (is.null(b)) return(Inf)
           gap_x <- abs(center_x - b[1L]) - (hw_lon + b[3L])
           gap_y <- abs(ly       - b[2L]) - (char_h  + b[4L])
-          min(gap_x, gap_y)
+          max(gap_x, gap_y)
         }, numeric(1L)))
 
       is_clear <- pie_score > 0.02 && label_score >= 0
@@ -707,8 +712,17 @@ create_pie_map <- function(data,
 
   wide$r_lon <- wide$r_pie / cos(wide$lat * pi / 180)
   if (isTRUE(show_labels)) {
-    label_char_w <- min(max(diff(xlim) * 0.0046, 0.014), 0.055)
-    label_char_h <- min(max(diff(ylim) * 0.0092, 0.024), 0.055)
+    # Empirical per-character width/height estimators used by the label
+    # placement bounds check. These are deliberately conservative (err on
+    # the side of overestimating the rendered text size) because the
+    # actual glyph width depends on the output device and font, neither
+    # of which we know at plot-build time. A too-small estimate lets the
+    # greedy placer pick a position that technically passes the bbox test
+    # but overflows the map panel when rendered; a slight overestimate
+    # just nudges the label further from the pie.
+    size_factor  <- label_size / 3
+    label_char_w <- min(max(diff(xlim) * 0.014 * size_factor, 0.025), 0.14)
+    label_char_h <- min(max(diff(ylim) * 0.014 * size_factor, 0.03),  0.14)
     wide <- place_pie_labels(
       wide,
       map_xlim = xlim,
