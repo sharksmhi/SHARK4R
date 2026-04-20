@@ -31,6 +31,8 @@ Other contributors:
 \itemize{
   \item Mikael Hedblom (\href{https://orcid.org/0009-0007-5124-9956}{ORCID}) (Swedish Meteorological and Hydrological Institute) [contributor]
   \item Bengt Karlson (\href{https://orcid.org/0000-0002-7524-3504}{ORCID}) (Swedish Meteorological and Hydrological Institute) [contributor]
+  \item Peter Thor (\href{https://orcid.org/0000-0002-2603-2284}{ORCID}) (Swedish University of Agricultural Sciences) [contributor]
+  \item Marie Johansen (Swedish Meteorological and Hydrological Institute) [contributor]
   \item SHARK \email{shark@smhi.se} [copyright holder]
   \item SBDI (Swedish Research Council, 2019-00242) [funder]
 }

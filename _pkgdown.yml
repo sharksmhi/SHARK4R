@@ -88,8 +88,8 @@ reference:
   - get_nua_media_metadata
   - get_nua_taxa
 
-- subtitle: Plankton Toolbox
-  desc: These functions are used to read data related to Plankton Toolbox
+- subtitle: Plankton Tools
+  desc: These functions are used for plankton-related tools and calculations
   contents:
   - calc_zooplankton_dry_weight
   - get_nomp_list
