@@ -190,9 +190,9 @@ These functions are used to retrieve data from the Nordic Microalgae API
 - [`get_nua_taxa()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_taxa.md)
   : Retrieve taxa information from Nordic Microalgae
 
-### Plankton Toolbox
+### Plankton Tools
 
-These functions are used to read data related to Plankton Toolbox
+These functions are used for plankton-related tools and calculations
 
 - [`calc_zooplankton_dry_weight()`](https://sharksmhi.github.io/SHARK4R/reference/calc_zooplankton_dry_weight.md)
   : Calculate zooplankton dry weight from mean length

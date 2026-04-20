@@ -42,6 +42,12 @@ Other contributors:
 - Bengt Karlson ([ORCID](https://orcid.org/0000-0002-7524-3504))
   (Swedish Meteorological and Hydrological Institute) \[contributor\]
 
+- Peter Thor ([ORCID](https://orcid.org/0000-0002-2603-2284)) (Swedish
+  University of Agricultural Sciences) \[contributor\]
+
+- Marie Johansen (Swedish Meteorological and Hydrological Institute)
+  \[contributor\]
+
 - SHARK <shark@smhi.se> \[copyright holder\]
 
 - SBDI (Swedish Research Council, 2019-00242) \[funder\]

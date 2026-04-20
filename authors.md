@@ -17,6 +17,13 @@
   [](https://orcid.org/0000-0002-7524-3504)  
   Swedish Meteorological and Hydrological Institute
 
+- **Peter Thor**. Contributor.
+  [](https://orcid.org/0000-0002-2603-2284)  
+  Swedish University of Agricultural Sciences
+
+- **Marie Johansen**. Contributor.  
+  Swedish Meteorological and Hydrological Institute
+
 - **SHARK**. Copyright holder.
 
 - **SBDI**. Funder.  
