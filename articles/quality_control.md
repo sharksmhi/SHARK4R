@@ -298,7 +298,7 @@ station_match <- match_station(chlorophyll_data$station_name)
 head(station_match)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmpZEaOnW/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpkqMhvr/station.txt
 
     ## All stations found
 
@@ -318,7 +318,7 @@ check_station_distance(data = chlorophyll_data,
                        plot_leaflet = TRUE)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmpZEaOnW/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpkqMhvr/station.txt
 
     ## WARNING: Some stations are outside the allowed distance limit
 

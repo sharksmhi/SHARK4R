@@ -52,6 +52,7 @@
 <div class="section level3">
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
 <ul><li>Added <code><a href="../reference/calc_zooplankton_dry_weight.html">calc_zooplankton_dry_weight()</a></code> to calculate zooplankton dry weight from <code>"Length (mean)"</code> using AphiaID-based taxa-specific coefficients from <code>inst/extdata/Mesozooplankton_Kattegat_Skagerrak_taxa_and_biomass_calculations.xlsx</code>. The function uses adult coefficients for non-<code>NP</code> stages, taxon-specific nauplii coefficients where available, and otherwise falls back to the general copepod nauplii coefficients.</li>
+<li>Added <code><a href="../reference/create_pie_map.html">create_pie_map()</a></code>, a general-purpose pie chart map for station data with automatic pie displacement and leader lines to prevent overlap in crowded regions. Works with any grouping (phytoplankton groups, zooplankton orders, microbial phyla, …) and any numeric value (biomass, biovolume, abundance, …). The optional default coastline basemap uses <code>rnaturalearth</code> (Suggests); HTML-formatted legend labels use <code>ggtext</code> (Suggests).</li>
 </ul></div>
 </div>
     <div class="section level2">

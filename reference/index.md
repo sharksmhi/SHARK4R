@@ -171,6 +171,8 @@ These functions are used for plankton-related tools and calculations
   : Clean SHARK4R cache by file age and session
 - [`convert_ddmm_to_dd()`](https://sharksmhi.github.io/SHARK4R/reference/convert_ddmm_to_dd.md)
   : Convert coordinates from DDMM format to decimal degrees
+- [`create_pie_map()`](https://sharksmhi.github.io/SHARK4R/reference/create_pie_map.md)
+  : Pie chart map with displacement and leader lines
 - [`find_required_fields()`](https://sharksmhi.github.io/SHARK4R/reference/find_required_fields.md)
   : Find required fields in a SHARK delivery template
 - [`get_delivery_template()`](https://sharksmhi.github.io/SHARK4R/reference/get_delivery_template.md)
