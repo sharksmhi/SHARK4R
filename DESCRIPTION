@@ -50,13 +50,16 @@ Imports:
     tidyr,
     vroom,
     worrms
-Suggests: 
+Suggests:
+    ggtext,
     htmltools,
     iRfcb,
     knitr,
     plotly,
     RColorBrewer,
     rmarkdown,
+    rnaturalearth,
+    rnaturalearthdata,
     skimr,
     spelling,
     shiny,

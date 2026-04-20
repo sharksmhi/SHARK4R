@@ -3,6 +3,7 @@
 ## New features
 
 * Added `calc_zooplankton_dry_weight()` to calculate zooplankton dry weight from `"Length (mean)"` using AphiaID-based taxa-specific coefficients from `inst/extdata/Mesozooplankton_Kattegat_Skagerrak_taxa_and_biomass_calculations.xlsx`. The function uses adult coefficients for non-`NP` stages, taxon-specific nauplii coefficients where available, and otherwise falls back to the general copepod nauplii coefficients.
+* Added `create_pie_map()`, a general-purpose pie chart map for station data with automatic pie displacement and leader lines to prevent overlap in crowded regions. Works with any grouping (phytoplankton groups, zooplankton orders, microbial phyla, ...) and any numeric value (biomass, biovolume, abundance, ...). The optional default coastline basemap uses `rnaturalearth` (Suggests); HTML-formatted legend labels use `ggtext` (Suggests).
 
 # SHARK4R 1.1.1
 
