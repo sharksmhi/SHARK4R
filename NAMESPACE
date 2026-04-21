@@ -2,6 +2,7 @@
 
 export(add_worms_taxonomy)
 export(assign_phytoplankton_group)
+export(calc_zooplankton_biomass)
 export(calc_zooplankton_dry_weight)
 export(check_Bacterioplankton)
 export(check_Chlorophyll)
