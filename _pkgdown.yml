@@ -92,6 +92,7 @@ reference:
   desc: These functions are used for plankton-related tools and calculations
   contents:
   - calc_zooplankton_dry_weight
+  - calc_zooplankton_biomass
   - get_nomp_list
   - get_peg_list
   - read_ptbx
