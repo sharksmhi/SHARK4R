@@ -110,6 +110,8 @@ These functions are used for plankton-related tools and calculations
 
 - [`calc_zooplankton_dry_weight()`](https://sharksmhi.github.io/SHARK4R/reference/calc_zooplankton_dry_weight.md)
   : Calculate zooplankton dry weight from mean length
+- [`calc_zooplankton_biomass()`](https://sharksmhi.github.io/SHARK4R/reference/calc_zooplankton_biomass.md)
+  : Calculate zooplankton biomass from dry weight and abundance
 - [`get_nomp_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_nomp_list.md)
   : Get the latest NOMP biovolume Excel list
 - [`get_peg_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_peg_list.md)

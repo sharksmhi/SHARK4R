@@ -13,6 +13,17 @@
   taxon-specific nauplii coefficients where available, and otherwise
   falls back to the general copepod nauplii coefficients.
 - Added
+  [`calc_zooplankton_biomass()`](https://sharksmhi.github.io/SHARK4R/reference/calc_zooplankton_biomass.md)
+  to calculate zooplankton biomass concentration (`mg/m3`) from
+  `"Abundance"` and integrated biomass (`mg/m2`) from
+  `"Integrated abundance"` by combining abundance with per-individual
+  dry weight on the SHARK observation key (`platform_code`,
+  `station_name`, `sample_date`, `sample_time`, `sample_min_depth_m`,
+  `sample_max_depth_m`, `aphia_id`, `sex_code`, `dev_stage_code`,
+  `size_class`). If dry-weight rows are not present, they are calculated
+  internally via
+  [`calc_zooplankton_dry_weight()`](https://sharksmhi.github.io/SHARK4R/reference/calc_zooplankton_dry_weight.md).
+- Added
   [`create_pie_map()`](https://sharksmhi.github.io/SHARK4R/reference/create_pie_map.md),
   a general-purpose pie chart map for station data with automatic pie
   displacement and leader lines to prevent overlap in crowded regions.

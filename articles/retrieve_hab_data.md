@@ -127,20 +127,20 @@ toxin_list <- get_toxin_list()
 print(toxin_list)
 ```
 
-    ## # A tibble: 524 × 55
-    ##       id toxin_group recommended_name      synonyms recommended_acronym acronyms
-    ##    <int> <chr>       <chr>                 <list>   <chr>               <list>  
-    ##  1   612 Azaspiracid Azaspiracid-28        <NULL>   AZA-28              <NULL>  
-    ##  2   611 Azaspiracid Azaspiracid-26        <NULL>   AZA-26              <NULL>  
-    ##  3   610 Brevetoxin  Brevetoxin-5          <NULL>   BTX-5               <NULL>  
-    ##  4   609 Brevetoxin  Brevetoxin-3          <NULL>   BTX-3               <NULL>  
-    ##  5   608 Brevetoxin  Brevetoxin B          <NULL>   BTX-2               <chr>   
-    ##  6   607 Brevetoxin  Brevetoxin A          <NULL>   BTX-1               <chr>   
-    ##  7   606 Anatoxin    10-OH-homoanatoxin-a  <NULL>   NA                  <NULL>  
-    ##  8   605 Anatoxin    10-OH-anatoxin-a      <NULL>   NA                  <NULL>  
-    ##  9   604 Anatoxin    10-OH-H2-homoanatoxi… <NULL>   NA                  <NULL>  
-    ## 10   603 Anatoxin    10-OH-H2-anatoxin-a   <NULL>   NA                  <NULL>  
-    ## # ℹ 514 more rows
+    ## # A tibble: 529 × 55
+    ##       id toxin_group recommended_name synonyms recommended_acronym acronyms 
+    ##    <int> <chr>       <chr>            <list>   <chr>               <list>   
+    ##  1   617 Azaspiracid Azaspiracid-48   <NULL>   AZA-48              <NULL>   
+    ##  2   616 Azaspiracid Azaspiracid-47   <NULL>   AZA-47              <NULL>   
+    ##  3   615 Azaspiracid Azaspiracid-46   <NULL>   AZA-46              <NULL>   
+    ##  4   614 Azaspiracid Azaspiracid-45   <NULL>   AZA-45              <NULL>   
+    ##  5   613 Azaspiracid Azaspiracid-44   <NULL>   AZA-44              <NULL>   
+    ##  6   612 Azaspiracid Azaspiracid-28   <NULL>   AZA-28              <NULL>   
+    ##  7   611 Azaspiracid Azaspiracid-26   <NULL>   AZA-26              <NULL>   
+    ##  8   610 Brevetoxin  Brevetoxin-5     <NULL>   BTX-5               <NULL>   
+    ##  9   609 Brevetoxin  Brevetoxin-3     <NULL>   BTX-3               <NULL>   
+    ## 10   608 Brevetoxin  Brevetoxin B     <NULL>   BTX-2               <chr [1]>
+    ## # ℹ 519 more rows
     ## # ℹ 49 more variables: cas_number <chr>, alternative_cas_numbers <list>,
     ## #   formula <chr>, exact_mono_isotopic_mass <dbl>, molfile <chr>,
     ## #   alternative_molfiles <lgl>, smiles <chr>, alternative_smiles <list>,
@@ -177,7 +177,7 @@ print(toxin_list)
   Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas,
   R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO
   Taxonomic Reference List of Harmful Microalgae. Accessed at
-  <https://www.marinespecies.org/hab/> on 2026-04-20.
+  <https://www.marinespecies.org/hab/> on 2026-04-28.
   [doi:10.14284/362](https://doi.org/10.14284/362)
 - Zingone A. and L. Escalera (2025) Non toxigenic animal-killing
   microalgal species. In: Lundholm, N.; Bernard, C.; Churro, C.;
@@ -185,4 +185,4 @@ print(toxin_list)
   Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds)
   (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful
   Microalgae. Accessed at <https://www.marinespecies.org/hab/> on
-  2026-04-20. [doi:10.14284/362](https://doi.org/10.14284/362)
+  2026-04-28. [doi:10.14284/362](https://doi.org/10.14284/362)
