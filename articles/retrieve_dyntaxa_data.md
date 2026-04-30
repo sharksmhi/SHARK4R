@@ -23,12 +23,14 @@ not affiliated with Dyntaxa.
 You can install the latest version of `SHARK4R` from CRAN using:
 
 ``` r
+
 install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R` and `dplyr` libraries:
 
 ``` r
+
 library(SHARK4R)
 ```
 
@@ -43,6 +45,7 @@ SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html)
 tutorial.
 
 ``` r
+
 # Retrieve taxonomy reports for phytoplankton between 2019 and 2020
 shark_taxon <- get_shark_data(tableView = "report_taxon",
                               fromYear = 2019,
@@ -71,6 +74,7 @@ print(shark_taxon)
     ## # ℹ 1 more variable: counted_rows <dbl>
 
 ``` r
+
 # Retrieve all phytoplankton data from July 2015
 shark_data <- get_shark_data(tableView = "sharkdata_phytoplankton",
                              fromYear = 2015, 
@@ -113,6 +117,7 @@ Portal](https://api-portal.artdatabanken.se/). In the example below, the
 key is retrieved from an environment variable.
 
 ``` r
+
 # Retrieve the API key
 dyntaxa_key <- Sys.getenv("DYNTAXA_KEY")
 ```
@@ -126,6 +131,7 @@ Alternatively, data can be retrieved from WoRMS. For details, see the
 Tutorial](https://sharksmhi.github.io/SHARK4R/articles/retrieve_worms_data.html).
 
 ``` r
+
 # Update taxonomy information for the retrieved phytoplankton data
 updated_taxonomy <- update_dyntaxa_taxonomy(
   dyntaxa_ids = shark_data$dyntaxa_id,
@@ -156,6 +162,7 @@ print(updated_taxonomy)
 ## Match Taxon Names
 
 ``` r
+
 # Randomly select 10 phytoplankton taxa from shark_taxon
 taxon_names <- sample(shark_taxon$scientific_name, size = 10)
 
@@ -190,6 +197,7 @@ Taxonomic records can be retrieved for individual taxa using the
 function.
 
 ``` r
+
 # Get all Dyntaxa IDs
 dyntaxa_id <- unique(matches$taxon_id)
 
@@ -211,8 +219,8 @@ print(dyntaxa_records)
     ##  2  237763  1010465 <list [0]>           71577 FALSE          "Illustration (LM…
     ##  3  238027  1010523 <list [0]>           73484 FALSE          "Illustration (LM…
     ##  4  238248  1010596 <list [0]>           70011 FALSE           NA               
-    ##  5  238927  1016130 <list [0]>          113953 FALSE           NA               
-    ##  6  257418  6001140 <list [0]>          113088 FALSE           NA               
+    ##  5  238927  1016130 <list [0]>          113955 FALSE           NA               
+    ##  6  257418  6001140 <list [0]>          113090 FALSE           NA               
     ##  7  263645  1016291 <list [0]>           67788 FALSE          "2005. Published …
     ##  8 1010578  6332738 <list [0]>           70133 FALSE          "Scrippsiella han…
     ##  9 1010594  2003235 <list [0]>           69995 FALSE           NA               
@@ -231,6 +239,7 @@ All parent taxa above the Dyntaxa ID can be retrieved using the
 function.
 
 ``` r
+
 # Get all parents
 parents_id <- get_dyntaxa_parent_ids(taxon_ids = dyntaxa_id, 
                                      subscription_key = dyntaxa_key,
@@ -292,6 +301,7 @@ information can be added as a string of parent taxa separated by “-”
 using the `add_hierarchy` argument.
 
 ``` r
+
 # Retrieve complete taxonomic table (including parents and descendants)
 taxonomy_table <- construct_dyntaxa_table(taxon_ids = dyntaxa_id, 
                                           subscription_key = dyntaxa_key, 
@@ -311,14 +321,14 @@ print(taxonomy_table)
     ## # A tibble: 296 × 16
     ##    taxonId        acceptedNameUsageID parentNameUsageID scientificName taxonRank
     ##    <chr>          <chr>               <chr>             <chr>          <chr>    
-    ##  1 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Pseudopediast… species  
-    ##  2 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Chrysotila ca… species  
-    ##  3 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Oblea          genus    
-    ##  4 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Scrippsiella   genus    
-    ##  5 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  
-    ##  6 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Binuclearia l… species  
-    ##  7 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Dictyochales   order    
-    ##  8 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Protoperidini… species  
+    ##  1 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Chrysotila ca… species  
+    ##  2 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Oblea          genus    
+    ##  3 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Scrippsiella   genus    
+    ##  4 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  
+    ##  5 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Dictyochales   order    
+    ##  6 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Pseudopediast… species  
+    ##  7 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Protoperidini… species  
+    ##  8 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Binuclearia l… species  
     ##  9 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Bacillaria pa… species  
     ## 10 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Cuspidothrix … species  
     ## # ℹ 286 more rows

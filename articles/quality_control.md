@@ -27,12 +27,14 @@ SHARK format.
 You can install the latest version of `SHARK4R` from CRAN using:
 
 ``` r
+
 install.packages("SHARK4R")
 ```
 
 Load the package along with `dplyr`:
 
 ``` r
+
 library(SHARK4R)
 ```
 
@@ -44,12 +46,14 @@ You can fetch SHARK data using the same filtering options as the SHARK
 web interface. Explore available options with:
 
 ``` r
+
 shark_options <- get_shark_options()
 ```
 
 Filter datasets containing “Chlorophyll”:
 
 ``` r
+
 # Filter names using grepl
 chlorophyll_datasets <- shark_options$datasets[grepl("Chlorophyll",
                                                      shark_options$datasets)]
@@ -66,6 +70,7 @@ print(selected_dataset)
 Download the selected dataset as a data frame:
 
 ``` r
+
 chlorophyll_data <- get_shark_datasets(selected_dataset,
                                        save_dir = tempdir(),
                                        return_df = TRUE,
@@ -113,6 +118,7 @@ Validate mandatory fields:
   with optional `field_definitions`
 
 ``` r
+
 check_fields(data = chlorophyll_data, datatype = "Chlorophyll")
 ```
 
@@ -138,6 +144,7 @@ check_fields(data = chlorophyll_data, datatype = "Chlorophyll")
 Ensure metadata codes follow SHARK conventions:
 
 ``` r
+
 # Validate project codes
 check_codes(chlorophyll_data)
 
@@ -166,12 +173,14 @@ check_codes(data = chlorophyll_data,
 ### Visualize Data Points
 
 ``` r
+
 plot_map_leaflet(chlorophyll_data)
 ```
 
 ### Identify Points on Land
 
 ``` r
+
 n_rows_on_land <- check_onland(chlorophyll_data)
 nrow(n_rows_on_land)
 ```
@@ -191,6 +200,7 @@ Optional geospatial QC functions:
 Verify plausibility and consistency of depth values:
 
 ``` r
+
 check_depth(data = chlorophyll_data) # default columns: min/max depth
 check_depth(data = chlorophyll_data, "water_depth_m")
 ```
@@ -229,6 +239,7 @@ Checks performed:
 Retrieve reference statistics for your datatype:
 
 ``` r
+
 shark_statistics <- get_shark_statistics(datatype = "Chlorophyll",
                                          fromYear = 2020,
                                          toYear = 2024,
@@ -248,6 +259,7 @@ print(shark_statistics)
 Detect extreme values using thresholds (e.g., 99th percentile):
 
 ``` r
+
 check_outliers(data = chlorophyll_data,
                parameter = "Chlorophyll-a",
                datatype = "Chlorophyll",
@@ -260,6 +272,7 @@ check_outliers(data = chlorophyll_data,
 Visualize anomalies:
 
 ``` r
+
 # Scatterplot with horizontal line at 99th percentile
 scatterplot(chlorophyll_data,
             hline = shark_statistics$P99)
@@ -275,6 +288,7 @@ to flag measurements that violate parameter-specific or row-wise logical
 rules.
 
 ``` r
+
 check_parameter_rules(data = chlorophyll_data)
 ```
 
@@ -294,11 +308,12 @@ check_parameter_rules(data = chlorophyll_data)
 Verify station names against the official SHARK registry:
 
 ``` r
+
 station_match <- match_station(chlorophyll_data$station_name)
 head(station_match)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/Rtmp8ULSKz/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmprcUVxI/station.txt
 
     ## All stations found
 
@@ -314,11 +329,12 @@ To plot stations and their distances from the station register in an
 interactive map:
 
 ``` r
+
 check_station_distance(data = chlorophyll_data,
                        plot_leaflet = TRUE)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/Rtmp8ULSKz/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmprcUVxI/station.txt
 
     ## WARNING: Some stations are outside the allowed distance limit
 
@@ -333,6 +349,7 @@ To check if stations are nominal (comparing unique coordinates per
 station):
 
 ``` r
+
 check_nominal_station(data = chlorophyll_data)
 ```
 
@@ -345,6 +362,7 @@ check_nominal_station(data = chlorophyll_data)
 For a more user-friendly interface, use the Shiny QC app:
 
 ``` r
+
 # Run the app
 run_qc_app()
 

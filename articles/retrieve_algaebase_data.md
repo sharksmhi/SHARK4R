@@ -19,12 +19,14 @@ affiliated with AlgaeBase.
 You can install the latest version of `SHARK4R` from CRAN using:
 
 ``` r
+
 install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R` and `dplyr` libraries:
 
 ``` r
+
 library(SHARK4R)
 ```
 
@@ -36,6 +38,7 @@ documentation](https://www.algaebase.org/api/). In the example below,
 the key is retrieved from an environment variable.
 
 ``` r
+
 # Retrieve the API key
 algaebase_key <- Sys.getenv("ALGAEBASE_KEY")
 ```
@@ -47,6 +50,7 @@ Taxonomic records can be retrieved for individual genera names using the
 function.
 
 ``` r
+
 # Match a genus name with AlgaeBase API
 genus_records <- match_algaebase_genus(genus = "Gymnodinium",
                                        subscription_key = algaebase_key)
@@ -71,6 +75,7 @@ the
 function.
 
 ``` r
+
 # Match a species with AlgaeBase API
 species_records <- match_algaebase_species(genus = "Tripos",
                                            species = "muelleri",
@@ -100,6 +105,7 @@ the
 function.
 
 ``` r
+
 # Retrieve all phytoplankton data from April 2015
 shark_data <- get_shark_data(fromYear = 2015, 
                              toYear = 2015,
@@ -132,6 +138,7 @@ print(parsed_taxa)
     ## 10 Mesodinium      "rubrum"
 
 ``` r
+
 # Match the taxa with AlgaeBase
 algaebase_match <- match_algaebase_taxa(genera = parsed_taxa$genus,
                                         species = parsed_taxa$species,

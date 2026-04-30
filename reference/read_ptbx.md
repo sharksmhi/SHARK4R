@@ -41,6 +41,7 @@ Toolbox source code.
 ## Examples
 
 ``` r
+
 # Read the default data sheet
 sample_data <- read_ptbx(system.file("extdata/Anholt_E_2024-09-15_0-10m.xlsx",
                                      package = "SHARK4R"))

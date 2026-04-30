@@ -24,12 +24,14 @@ demonstrating how to extract data using the SHARK4R package.
 You can install the latest version of `SHARK4R` from CRAN using:
 
 ``` r
+
 install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R` and `dplyr` libraries:
 
 ``` r
+
 library(SHARK4R)
 ```
 
@@ -38,6 +40,7 @@ library(SHARK4R)
 A complete Nordic Microalgae taxa list can be retrieved through the API.
 
 ``` r
+
 # Get taxa information
 taxa <- get_nua_taxa(unparsed = FALSE)
 
@@ -70,6 +73,7 @@ external webpages (e.g. AlgaeBase, WoRMS and Dyntaxa). These links can
 be retrieved through the API.
 
 ``` r
+
 # Randomly select 10 taxa from shark_taxon$scientific_name
 slugs <- sample(taxa$slug, size = 10)
 
@@ -107,6 +111,7 @@ Microalgae](https://www.marinespecies.org/hab/) contain information
 about harmfulness. This information can be retrieved through the API.
 
 ``` r
+
 # Get external links
 harmfulness <- get_nua_harmfulness(c("dinophysis-acuta",
                                      "alexandrium-ostenfeldii"),
@@ -138,6 +143,7 @@ through the API. The images are available in four sizes: original (o),
 small (s), medium (m), and large (l).
 
 ``` r
+
 # Get all media links
 media <- get_nua_media_links(unparsed = FALSE)
 
@@ -173,6 +179,7 @@ sampling date, geographic coordinates, imaging technique, and
 contributor details.
 
 ``` r
+
 # Get all media metadata
 media_metadata <- get_nua_media_metadata(unparsed = FALSE)
 
@@ -209,6 +216,7 @@ through the API, similar to
 [`get_nua_media_links()`](https://sharksmhi.github.io/SHARK4R/reference/get_nua_media_links.md).
 
 ``` r
+
 # Get all image labeling media links
 il_links <- get_nua_image_labeling_links(unparsed = FALSE)
 
@@ -240,6 +248,7 @@ the API. This includes information about the imaging instrument,
 training dataset, location, and taxonomic details.
 
 ``` r
+
 # Get all image labeling metadata
 il_metadata <- get_nua_image_labeling_metadata(unparsed = FALSE)
 
@@ -275,6 +284,7 @@ information for each taxon have been established. These lists can be
 retrieved directly in R using `SHARK4R`:
 
 ``` r
+
 # Get EG Phyto Biovolume list
 peg_list <- get_peg_list()
 
@@ -362,4 +372,4 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
 
 - Torstensson, A., Loo, A., Sundqvist, L., Skjevik, A.-T., Karlberg, M.,
   Johansen, M., Andreasson, A., and Karlson, B. (2024). Nordic
-  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-04-28.
+  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-04-30.

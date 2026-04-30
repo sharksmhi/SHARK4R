@@ -102,23 +102,23 @@ Intergovernmental Oceanographic Commission of UNESCO. R package version
 df <- data.frame(sample_longitude_dd = c(10.9, 18.3),
                  sample_latitude_dd = c(58.1, 58.3))
 try(lookup_xy(df))
-#>   shoredistance sssalinity sstemperature bathymetry
-#> 1         25043    29.2312       10.3866      185.8
-#> 2         48074     6.4531        8.9640      132.8
+#>   shoredistance sstemperature sssalinity bathymetry
+#> 1         25043       10.3866    29.2312      185.8
+#> 2         48074        8.9640     6.4531      132.8
 
 # Area search within a radius
 try(lookup_xy(df, areas = 500))
-#>   shoredistance sssalinity sstemperature bathymetry
-#> 1         25043    29.2312       10.3866      185.8
-#> 2         48074     6.4531        8.9640      132.8
+#>   shoredistance sstemperature sssalinity bathymetry
+#> 1         25043       10.3866    29.2312      185.8
+#> 2         48074        8.9640     6.4531      132.8
 #>                                        obis               lme               iho
 #> 1  233, 235, Sweden: all, Sweden: North Sea  40022, North Sea  32379, Skagerrak
 #> 2 233, 234, Sweden: all, Sweden: Baltic Sea 40023, Baltic Sea 32401, Baltic Sea
 
 # Using separate coordinate vectors
 try(lookup_xy(lon = c(10.9, 18.3), lat = c(58.1, 58.3)))
-#>   shoredistance sssalinity sstemperature bathymetry
-#> 1         25043    29.2312       10.3866      185.8
-#> 2         48074     6.4531        8.9640      132.8
+#>   shoredistance sstemperature sssalinity bathymetry
+#> 1         25043       10.3866    29.2312      185.8
+#> 2         48074        8.9640     6.4531      132.8
 # }
 ```

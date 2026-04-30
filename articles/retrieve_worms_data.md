@@ -19,12 +19,14 @@ affiliated with WoRMS.
 You can install the latest version of `SHARK4R` from CRAN using:
 
 ``` r
+
 install.packages("SHARK4R")
 ```
 
 Load the `SHARK4R`, `dplyr` and `ggplot2` libraries:
 
 ``` r
+
 library(SHARK4R)
 library(dplyr)
 library(ggplot2)
@@ -41,6 +43,7 @@ SHARK](https://sharksmhi.github.io/SHARK4R/articles/retrieve_shark_data.html)
 tutorial.
 
 ``` r
+
 # Retrieve all phytoplankton data from April 2015
 shark_data <- get_shark_data(fromYear = 2015,
                              toYear = 2015,
@@ -58,6 +61,7 @@ function incorporates retry logic to handle temporary failures, ensuring
 that all names are processed successfully.
 
 ``` r
+
 # Find taxa without Aphia ID
 no_aphia_id <- shark_data %>%
   filter(is.na(aphia_id))
@@ -100,6 +104,7 @@ same retry and error-handling logic as the
 function.
 
 ``` r
+
 # Randomly select ten Aphia IDs
 aphia_ids <- sample(unique(shark_data$aphia_id),
                     size = 10)
@@ -145,6 +150,7 @@ using the
 function.
 
 ``` r
+
 # Retrieve taxonomic table
 worms_taxonomy <- add_worms_taxonomy(aphia_ids,
                                      verbose = FALSE)
@@ -183,6 +189,7 @@ from WoRMS, including parent-child relationships, and can optionally
 fetch all descendants (e.g. species) under a genus or known synonyms.
 
 ``` r
+
 # Retrieve taxonomic tree
 worms_tree <- get_worms_taxonomy_tree(
   aphia_ids[1],                # use first id only in this example
@@ -223,6 +230,7 @@ these groups based on their taxonomic classification, as demonstrated in
 the example below.
 
 ``` r
+
 # Subset data from one national monitoring station
 nat_stations <- shark_data %>%
   filter(station_name %in% c("BY5 BORNHOLMSDJ"))
@@ -292,6 +300,7 @@ will be excluded from the Ciliates group because it appears after
 Ciliates in the list in the example below.
 
 ``` r
+
 # Define custom plankton groups using a named list
 custom_groups <- list(
   "Cryptophytes" = list(class = "Cryptophyceae"),

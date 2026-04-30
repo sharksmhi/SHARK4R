@@ -22,12 +22,14 @@ adapted for compatibility with the SHARK format.
 You can install the latest version of `SHARK4R` from CRAN using:
 
 ``` r
+
 install.packages("SHARK4R")
 ```
 
 Or install the development version (requiring the `remotes` package):
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("sharksmhi/SHARK4R", 
                         dependencies = TRUE)

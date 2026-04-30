@@ -80,38 +80,38 @@ Taxa with no matching coefficient keep `NA` dry-weight values.
 
 ## Reference coefficient table
 
-|                                       |             |                           |       |       |                       |
-|---------------------------------------|-------------|---------------------------|-------|-------|-----------------------|
-| **Reference taxon**                   | **AphiaID** | **Development stage**     | **A** | **B** | **Reference**         |
-| Acartia bifilosa                      | 345919      | all stages except nauplii | 7.71  | 2.96  | Hay 1991¹             |
-| Acartia clausi                        | 149755      | all stages except nauplii | 7.71  | 2.96  | Hay 1991¹             |
-| Acartia longiremis                    | 346037      | all stages except nauplii | 7.71  | 2.96  | Hay 1991¹             |
-| Acartia                               | 104108      | all stages except nauplii | 7.71  | 2.96  | Hay 1991¹             |
-| Calanus finmarchicus                  | 104464      | all stages except nauplii | 6.88  | 2.69  | Hay 1991¹             |
-| Calanus finmarchicus                  | 104464      | nauplii                   | 5.38  | 2.03  | Hygum et al. 2000²    |
-| Centropages hamatus                   | 104496      | all stages except nauplii | 6.09  | 2.45  | Hay 1991¹             |
-| Centropages                           | 104159      | all stages except nauplii | 6.10  | 2.45  | Hay 1991¹             |
-| Centropages typicus                   | 104499      | all stages except nauplii | 6.10  | 2.45  | Hay 1991¹             |
-| Clausocalanus                         | 104161      | all stages except nauplii | 8.90  | 3.35  | Hay et al. 1988³      |
-| Corycaeus                             | 128634      | all stages except nauplii | 6.07  | 2.63  | Satapoomin 1999⁴      |
-| Cyclopoida                            | 106415      | all stages except nauplii | 6.72  | 2.71  | Uye 1982⁵             |
-| Evadne nordmanni                      | 106273      | all stages except nauplii | 5.79  | 2.80  | Hernroth 1985⁶        |
-| Fritillaria                           | 103358      | all stages except nauplii | 4.51  | 2.66  | Paffenhofer 1976¹⁰    |
-| Harpacticoid copepod                  | 1102        | all stages except nauplii | 7.24  | 2.89  | Uye 1982⁵             |
-| copepod nauplii \*all copepod species | 1080        | nauplii                   | 5.48  | 2.23  | Hay 1991¹             |
-| Metridia                              | 104190      | all stages except nauplii | 7.12  | 2.68  | Hirche and Mumm 1992⁹ |
-| Microcalanus                          | 104164      | all stages except nauplii | 7.86  | 2.91  | Hay 1991¹             |
-| Microsetella                          | 115341      | all stages except nauplii | 7.66  | 2.88  | Satapoomin 1999⁴      |
-| Oikopleura dioica                     | 103407      | all stages except nauplii | 4.51  | 2.66  | Paffenhofer 1976¹⁰    |
-| Oithona                               | 106485      | nauplii                   | 2.68  | 2.14  | Almeda et al. 2010⁸   |
-| Oithona similis                       | 106656      | all stages except nauplii | 6.72  | 2.71  | Uye 1982⁵             |
-| Oncaea                                | 128690      | all stages except nauplii | 6.28  | 2.63  | Satapoomin 1999⁴      |
-| Paracalanus parvus                    | 104685      | all stages except nauplii | 6.16  | 2.45  | Hay 1991¹             |
-| Penilia avirostris                    | 106272      | all stages except nauplii | 4.95  | 2.38  | Atienza et al. 2006⁷  |
-| Podon leukarti                        | 106277      | all stages except nauplii | 7.52  | 3.02  | Uye 1982⁵             |
-| Podon polyphemoides                   | 159919      | all stages except nauplii | 6.60  | 2.75  | Uye 1982⁵             |
-| Pseudocalanus                         | 104165      | all stages except nauplii | 8.37  | 3.00  | Hay et al. 1988³      |
-| Temora longicornis                    | 104878      | all stages except nauplii | 8.37  | 3.00  | Hay et al. 1988³      |
+|  |  |  |  |  |  |
+|----|----|----|----|----|----|
+| **Reference taxon** | **AphiaID** | **Development stage** | **A** | **B** | **Reference** |
+| Acartia bifilosa | 345919 | all stages except nauplii | 7.71 | 2.96 | Hay 1991¹ |
+| Acartia clausi | 149755 | all stages except nauplii | 7.71 | 2.96 | Hay 1991¹ |
+| Acartia longiremis | 346037 | all stages except nauplii | 7.71 | 2.96 | Hay 1991¹ |
+| Acartia | 104108 | all stages except nauplii | 7.71 | 2.96 | Hay 1991¹ |
+| Calanus finmarchicus | 104464 | all stages except nauplii | 6.88 | 2.69 | Hay 1991¹ |
+| Calanus finmarchicus | 104464 | nauplii | 5.38 | 2.03 | Hygum et al. 2000² |
+| Centropages hamatus | 104496 | all stages except nauplii | 6.09 | 2.45 | Hay 1991¹ |
+| Centropages | 104159 | all stages except nauplii | 6.10 | 2.45 | Hay 1991¹ |
+| Centropages typicus | 104499 | all stages except nauplii | 6.10 | 2.45 | Hay 1991¹ |
+| Clausocalanus | 104161 | all stages except nauplii | 8.90 | 3.35 | Hay et al. 1988³ |
+| Corycaeus | 128634 | all stages except nauplii | 6.07 | 2.63 | Satapoomin 1999⁴ |
+| Cyclopoida | 106415 | all stages except nauplii | 6.72 | 2.71 | Uye 1982⁵ |
+| Evadne nordmanni | 106273 | all stages except nauplii | 5.79 | 2.80 | Hernroth 1985⁶ |
+| Fritillaria | 103358 | all stages except nauplii | 4.51 | 2.66 | Paffenhofer 1976¹⁰ |
+| Harpacticoid copepod | 1102 | all stages except nauplii | 7.24 | 2.89 | Uye 1982⁵ |
+| copepod nauplii \*all copepod species | 1080 | nauplii | 5.48 | 2.23 | Hay 1991¹ |
+| Metridia | 104190 | all stages except nauplii | 7.12 | 2.68 | Hirche and Mumm 1992⁹ |
+| Microcalanus | 104164 | all stages except nauplii | 7.86 | 2.91 | Hay 1991¹ |
+| Microsetella | 115341 | all stages except nauplii | 7.66 | 2.88 | Satapoomin 1999⁴ |
+| Oikopleura dioica | 103407 | all stages except nauplii | 4.51 | 2.66 | Paffenhofer 1976¹⁰ |
+| Oithona | 106485 | nauplii | 2.68 | 2.14 | Almeda et al. 2010⁸ |
+| Oithona similis | 106656 | all stages except nauplii | 6.72 | 2.71 | Uye 1982⁵ |
+| Oncaea | 128690 | all stages except nauplii | 6.28 | 2.63 | Satapoomin 1999⁴ |
+| Paracalanus parvus | 104685 | all stages except nauplii | 6.16 | 2.45 | Hay 1991¹ |
+| Penilia avirostris | 106272 | all stages except nauplii | 4.95 | 2.38 | Atienza et al. 2006⁷ |
+| Podon leukarti | 106277 | all stages except nauplii | 7.52 | 3.02 | Uye 1982⁵ |
+| Podon polyphemoides | 159919 | all stages except nauplii | 6.60 | 2.75 | Uye 1982⁵ |
+| Pseudocalanus | 104165 | all stages except nauplii | 8.37 | 3.00 | Hay et al. 1988³ |
+| Temora longicornis | 104878 | all stages except nauplii | 8.37 | 3.00 | Hay et al. 1988³ |
 
 ## References
 
