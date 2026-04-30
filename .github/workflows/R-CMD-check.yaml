@@ -47,13 +47,15 @@ jobs:
           echo "DYNTAXA_KEY=${{ secrets.DYNTAXA_KEY }}" >> ~/.Renviron
           echo "ALGAEBASE_KEY=${{ secrets.ALGAEBASE_KEY }}" >> ~/.Renviron
 
-      - name: Configure PROJ on macOS
+      - name: Install spatial libs on macOS
         if: runner.os == 'macOS'
         shell: bash
         run: |
+          brew install proj gdal geos
           PROJ_DATA_DIR="$(brew --prefix proj)/share/proj"
           echo "PROJ_DATA=${PROJ_DATA_DIR}" >> $GITHUB_ENV
           echo "PROJ_LIB=${PROJ_DATA_DIR}" >> $GITHUB_ENV
+          ls -la "${PROJ_DATA_DIR}/proj.db" || echo "WARNING: proj.db not found at ${PROJ_DATA_DIR}"
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
