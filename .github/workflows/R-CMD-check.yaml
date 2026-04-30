@@ -47,6 +47,14 @@ jobs:
           echo "DYNTAXA_KEY=${{ secrets.DYNTAXA_KEY }}" >> ~/.Renviron
           echo "ALGAEBASE_KEY=${{ secrets.ALGAEBASE_KEY }}" >> ~/.Renviron
 
+      - name: Configure PROJ on macOS
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          PROJ_DATA_DIR="$(brew --prefix proj)/share/proj"
+          echo "PROJ_DATA=${PROJ_DATA_DIR}" >> $GITHUB_ENV
+          echo "PROJ_LIB=${PROJ_DATA_DIR}" >> $GITHUB_ENV
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
