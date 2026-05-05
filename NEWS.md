@@ -5,6 +5,15 @@
 * Added `calc_zooplankton_dry_weight()` to calculate zooplankton dry weight from `"Length (mean)"` using AphiaID-based taxa-specific coefficients from `inst/extdata/Mesozooplankton_Kattegat_Skagerrak_taxa_and_biomass_calculations.xlsx`. The function uses adult coefficients for non-`NP` stages, taxon-specific nauplii coefficients where available, and otherwise falls back to the general copepod nauplii coefficients.
 * Added `calc_zooplankton_biomass()` to calculate zooplankton biomass concentration (`mg/m3`) from `"Abundance"` and integrated biomass (`mg/m2`) from `"Integrated abundance"` by combining abundance with per-individual dry weight on the SHARK observation key (`platform_code`, `station_name`, `sample_date`, `sample_time`, `sample_min_depth_m`, `sample_max_depth_m`, `aphia_id`, `sex_code`, `dev_stage_code`, `size_class`). If dry-weight rows are not present, they are calculated internally via `calc_zooplankton_dry_weight()`.
 * Added `create_pie_map()`, a general-purpose pie chart map for station data with automatic pie displacement and leader lines to prevent overlap in crowded regions. Works with any grouping (phytoplankton groups, zooplankton orders, microbial phyla, ...) and any numeric value (biomass, biovolume, abundance, ...). The optional default coastline basemap uses `rnaturalearth` (Suggests); HTML-formatted legend labels use `ggtext` (Suggests).
+* The `shark-qc` Shiny app has been rebuilt on `bslib` (Bootstrap 5) for a modernised UI, with improved server-side error handling so transient failures surface as user-facing notifications instead of crashing the session.
+
+## Minor improvements and fixes
+
+* Threshold values previously defined in `R/zzz.R` are now bundled as `inst/extdata/threshold_values.csv` and loaded at runtime, removing several package-level global variables.
+* All internal cache paths now consistently redirect to `tempdir()` during `R CMD check`, extending the `cache_dir()` redirect to the remaining call sites in `R/util.R`.
+* Removed unused arguments from defunct functions in `R/defunct.R` and updated their documentation accordingly.
+* CI workflow updated to install required spatial libraries and configure PROJ on the macOS runner.
+* Bumped GitHub Actions to versions running on Node.js 24 to clear the Node 20 deprecation warnings: `actions/checkout@v6`, `actions/upload-artifact@v7`, `codecov/codecov-action@v6`, and `JamesIves/github-pages-deploy-action@v4.8.0`.
 
 # SHARK4R 1.1.1
 
