@@ -126,12 +126,17 @@ calc_zooplankton_biomass <- function(data,
     )
   }
 
+  reference_cols <- c(
+    "dry_weight_coeff_a", "dry_weight_coeff_b",
+    "dry_weight_reference", "dry_weight_reference_taxon",
+    "dw_match_type"
+  )
+  extra_cols <- if (keep_reference) intersect(reference_cols, names(working)) else character()
+
   dry_weight_lookup <- working %>%
     dplyr::filter(.data$parameter == dry_weight_parameter) %>%
     dplyr::mutate(value = suppressWarnings(as.numeric(.data$value))) %>%
-    dplyr::select(dplyr::all_of(key_cols), dry_weight_ug = "value")
-
-  dry_weight_lookup <- dry_weight_lookup %>%
+    dplyr::select(dplyr::all_of(c(key_cols, extra_cols)), dry_weight_ug = "value") %>%
     dplyr::distinct(dplyr::across(dplyr::all_of(key_cols)), .keep_all = TRUE)
 
   biomass_concentration_rows <- build_biomass_rows(
@@ -140,7 +145,8 @@ calc_zooplankton_biomass <- function(data,
     biomass_concentration_parameter,
     "mg/m3",
     dry_weight_lookup,
-    key_cols
+    key_cols,
+    keep_reference = keep_reference
   )
 
   integrated_biomass_rows <- build_biomass_rows(
@@ -149,7 +155,8 @@ calc_zooplankton_biomass <- function(data,
     integrated_biomass_parameter,
     "mg/m2",
     dry_weight_lookup,
-    key_cols
+    key_cols,
+    keep_reference = keep_reference
   )
 
   biomass_rows <- dplyr::bind_rows(
@@ -174,22 +181,31 @@ build_biomass_rows <- function(data,
                                target_parameter,
                                target_unit,
                                dry_weight_lookup,
-                               key_cols) {
+                               key_cols,
+                               keep_reference = FALSE) {
+  empty_result <- data[0, , drop = FALSE]
+  if ("parameter" %in% names(empty_result)) {
+    empty_result$parameter <- rep(target_parameter, 0)
+  }
+  if ("unit" %in% names(empty_result)) {
+    empty_result$unit <- rep(target_unit, 0)
+  }
+
   abundance_rows <- data %>%
     dplyr::filter(.data$parameter == source_parameter)
 
   if (nrow(abundance_rows) == 0) {
-    return(abundance_rows[0, , drop = FALSE])
+    return(empty_result)
   }
 
   abundance_rows <- abundance_rows %>%
     dplyr::mutate(value = suppressWarnings(as.numeric(.data$value))) %>%
     dplyr::left_join(dry_weight_lookup, by = key_cols) %>%
     dplyr::mutate(
-      value = dplyr::case_when(
-        !is.na(.data$dry_weight_ug) & !is.na(.data$value) ~
-          .data$dry_weight_ug * .data$value / 1000,
-        TRUE ~ NA_real_
+      value = dplyr::if_else(
+        !is.na(.data$dry_weight_ug) & !is.na(.data$value),
+        .data$dry_weight_ug * .data$value / 1000,
+        NA_real_
       ),
       parameter = target_parameter
     )
@@ -212,10 +228,15 @@ build_biomass_rows <- function(data,
   }
 
   if ("reported_value" %in% names(abundance_rows)) {
+    reported_template <- data[["reported_value"]][NA_integer_]
     abundance_rows <- abundance_rows %>%
-      dplyr::mutate(reported_value = NA)
+      dplyr::mutate(reported_value = reported_template)
   }
 
-  abundance_rows %>%
-    dplyr::select(-dplyr::any_of("dry_weight_ug"))
+  if (!keep_reference) {
+    abundance_rows <- abundance_rows %>%
+      dplyr::select(-dplyr::any_of("dry_weight_ug"))
+  }
+
+  abundance_rows
 }

@@ -196,22 +196,44 @@ calc_zooplankton_dry_weight <- function(data,
     )
 
   general_nauplii <- nauplii_coeffs %>%
-    dplyr::filter(.data$aphia_id == 1080) %>%
-    dplyr::slice(1)
+    dplyr::filter(.data$aphia_id == GENERIC_COPEPOD_NAUPLII_APHIA_ID)
 
-  if (nrow(general_nauplii) != 1) {
+  if (nrow(general_nauplii) == 0) {
     stop("General copepod nauplii coefficients could not be loaded.", call. = FALSE)
   }
+  if (nrow(general_nauplii) > 1) {
+    warning(
+      "Multiple rows for generic copepod nauplii (AphiaID ",
+      GENERIC_COPEPOD_NAUPLII_APHIA_ID,
+      ") in coefficient workbook; using the first.",
+      call. = FALSE
+    )
+    general_nauplii <- dplyr::slice(general_nauplii, 1)
+  }
 
-  dry_weight_rows <- data %>%
+  length_rows <- data %>%
     dplyr::filter(.data$parameter == length_parameter) %>%
     dplyr::mutate(
       value = suppressWarnings(as.numeric(.data$value)),
       aphia_id = suppressWarnings(as.numeric(.data$aphia_id))
-    ) %>%
+    )
+
+  n_invalid_length <- sum(
+    !is.na(length_rows$value) & length_rows$value <= 0,
+    na.rm = TRUE
+  )
+  if (n_invalid_length > 0) {
+    warning(
+      n_invalid_length,
+      " ", length_parameter, " row(s) with non-positive value were dropped from dry-weight calculation.",
+      call. = FALSE
+    )
+  }
+
+  dry_weight_rows <- length_rows %>%
     dplyr::left_join(adult_coeffs, by = "aphia_id") %>%
     dplyr::left_join(
-      dplyr::filter(nauplii_coeffs, .data$aphia_id != 1080),
+      dplyr::filter(nauplii_coeffs, .data$aphia_id != GENERIC_COPEPOD_NAUPLII_APHIA_ID),
       by = "aphia_id"
     ) %>%
     dplyr::mutate(
@@ -268,8 +290,9 @@ calc_zooplankton_dry_weight <- function(data,
   }
 
   if ("reported_value" %in% names(dry_weight_rows)) {
+    reported_template <- data[["reported_value"]][NA_integer_]
     dry_weight_rows <- dry_weight_rows %>%
-      dplyr::mutate(reported_value = NA)
+      dplyr::mutate(reported_value = reported_template)
   }
 
   if (isTRUE(drop_na_values)) {
@@ -303,6 +326,10 @@ calc_zooplankton_dry_weight <- function(data,
 
   dry_weight_rows
 }
+
+# WoRMS AphiaID for the generic "copepod nauplii" group used when no
+# taxon-specific nauplii coefficients are available.
+GENERIC_COPEPOD_NAUPLII_APHIA_ID <- 1080
 
 load_zooplankton_dry_weight_coefficients <- function() {
   coeff_path <- system.file(
