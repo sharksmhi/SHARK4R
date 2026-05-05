@@ -54,9 +54,7 @@ clean_shark4r_cache <- function(days = 1,
     }
   }
 
-  if (is.null(search_pattern) || search_pattern == "") {
-    # No filtering
-  } else {
+  if (!is.null(search_pattern) && nzchar(search_pattern)) {
     files <- files[grepl(search_pattern, basename(files))]
   }
 
@@ -122,31 +120,45 @@ check_setup <- function(path, run_app = FALSE, force = FALSE, verbose = TRUE) {
   if (!force && dir.exists(products_dir)) {
     if (verbose) message("Products and scripts already exist in: ", normalizePath(path))
   } else {
-    if (verbose) message("Downloading setup files for SHARK4R...")
+    # Pin download to the installed package version so users get reproducible
+    # support files rather than an unpinned snapshot of master.
+    pkg_version <- tryCatch(
+      as.character(utils::packageVersion("SHARK4R")),
+      error = function(e) NA_character_
+    )
+    dev_version <- !is.na(pkg_version) && grepl("\\.9[0-9]{3}$", pkg_version)
 
-    # GitHub master url
-    zip_url <- "https://github.com/sharksmhi/SHARK4R/archive/refs/heads/master.zip"
+    if (is.na(pkg_version) || dev_version) {
+      ref <- "master"
+      src_subdir <- "SHARK4R-master"
+    } else {
+      ref <- paste0("v", pkg_version)
+      src_subdir <- paste0("SHARK4R-", pkg_version)
+    }
+    zip_url <- paste0(
+      "https://github.com/sharksmhi/SHARK4R/archive/refs/",
+      if (ref == "master") "heads/master.zip" else paste0("tags/", ref, ".zip")
+    )
 
-    # Temporary download location
+    if (verbose) message("Downloading setup files for SHARK4R (", ref, ")...")
+
     tmp <- tempfile(fileext = ".zip")
-    utils::download.file(zip_url, tmp, quiet = !verbose)
-
-    # Unpack into temp folder
+    on.exit(unlink(tmp), add = TRUE)
     unpack_dir <- tempfile()
+    on.exit(unlink(unpack_dir, recursive = TRUE), add = TRUE)
+
+    utils::download.file(zip_url, tmp, quiet = !verbose, mode = "wb")
     utils::unzip(tmp, exdir = unpack_dir)
 
-    # Source root inside the zip
-    src_root <- file.path(unpack_dir, "SHARK4R-master")
+    src_root <- file.path(unpack_dir, src_subdir)
+    if (!dir.exists(src_root)) {
+      # Fall back to whatever single directory the archive contains
+      top <- list.dirs(unpack_dir, recursive = FALSE)
+      if (length(top) == 1) src_root <- top
+    }
 
     dir.create(path, showWarnings = FALSE, recursive = TRUE)
-
-    # Copy the wanted folders
     file.copy(file.path(src_root, "products"), path, recursive = TRUE, overwrite = force)
-    # file.copy(file.path(src_root, "inst", "shiny", "shark-qc", "report.Rmd"), path, recursive = TRUE, overwrite = force)
-
-    # Clean up
-    unlink(tmp)
-    unlink(unpack_dir, recursive = TRUE)
 
     if (verbose) message("Setup complete. Files are available in ", normalizePath(path))
   }
@@ -671,11 +683,33 @@ is_check <- function() {
 
 cache_dir <- function() {
   if (is_check()) {
-    file.path(tempdir(), "SHARK4R")
-  } else {
-    tools::R_user_dir("SHARK4R", "cache")
+    # During R CMD check (incl. --run-donttest) the cache lives in tempdir(),
+    # which R cleans automatically. Nothing is written to the user's
+    # R_user_dir, satisfying CRAN's "no files left in user folder" rule.
+    return(file.path(tempdir(), "SHARK4R"))
   }
+
+  persistent <- tools::R_user_dir("SHARK4R", "cache")
+
+  # Lazy, once-per-session stale cleanup of the persistent cache. Runs the
+  # first time cache_dir() is called (and only if the directory already
+  # exists), so we never create files at package load and never delete them
+  # on detach.
+  if (!isTRUE(.shark_state$cache_cleaned)) {
+    .shark_state$cache_cleaned <- TRUE
+    if (dir.exists(persistent)) {
+      try(
+        clean_shark4r_cache(days = 1, cache_dir = persistent, verbose = FALSE),
+        silent = TRUE
+      )
+    }
+  }
+
+  persistent
 }
+
+.shark_state <- new.env(parent = emptyenv())
+.shark_state$cache_cleaned <- FALSE
 
 .hab_state <- new.env(parent = emptyenv())
 .hab_state$last_call_time <- NULL
