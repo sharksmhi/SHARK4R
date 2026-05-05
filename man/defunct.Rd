@@ -2,11 +2,73 @@
 % Please edit documentation in R/defunct.R
 \name{defunct}
 \alias{defunct}
+\alias{get_shark_table}
+\alias{check_data_version}
+\alias{update_data}
+\alias{download_sharkdata}
+\alias{load_dataset_names}
+\alias{load_sharkdata}
+\alias{load_dataset_types}
+\alias{download_file}
+\alias{year_filter}
+\alias{data_deliverer_filter}
+\alias{read_data}
+\alias{validate_dataset_names}
+\alias{load_dyntaxa_taxonomy}
+\alias{read_species_list}
+\alias{gather_species_info}
+\alias{add_species_info}
+\alias{load_worms_taxonomy}
+\alias{gather_worms_species_info}
+\alias{add_worms_species_info}
+\alias{get_geographical_info}
+\alias{filter_outdated_datasets}
 \title{Defunct functions}
 \usage{
-# Deprecated in 1.0.0 -------------------------------------
+get_shark_table(...)
 
-# Deprecated in 0.1.4 -------------------------------------
+check_data_version(...)
+
+update_data(...)
+
+download_sharkdata(...)
+
+load_dataset_names(...)
+
+load_sharkdata(...)
+
+load_dataset_types(...)
+
+download_file(...)
+
+year_filter(...)
+
+data_deliverer_filter(...)
+
+read_data(...)
+
+validate_dataset_names(...)
+
+load_dyntaxa_taxonomy(...)
+
+read_species_list(...)
+
+gather_species_info(...)
+
+add_species_info(...)
+
+load_worms_taxonomy(...)
+
+gather_worms_species_info(...)
+
+add_worms_species_info(...)
+
+get_geographical_info(...)
+
+filter_outdated_datasets(...)
+}
+\arguments{
+\item{...}{Arguments previously accepted by the function. Ignored.}
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#defunct}{\figure{lifecycle-defunct.svg}{options: alt='[Defunct]'}}}{\strong{[Defunct]}}
