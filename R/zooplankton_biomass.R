@@ -1,5 +1,6 @@
 #' Calculate zooplankton biomass from dry weight and abundance
 #'
+#' @description
 #' Calculates zooplankton biomass by combining per-individual dry weight
 #' (`"Dry weight (mean)"`, in `ug`) with abundance measurements in the same
 #' observation. Two biomass parameters are produced:
@@ -11,6 +12,7 @@
 #'     (`ind/m2`).
 #' }
 #'
+#' @details
 #' The conversion is `biomass = dry_weight_ug * abundance / 1000` so that the
 #' result is expressed in `mg/m3` or `mg/m2`.
 #'

@@ -80,10 +80,12 @@ get_nua_taxa <- function(unparsed = FALSE) {
 }
 #' Retrieve external links or facts for taxa from Nordic Microalgae
 #'
+#' @description
 #' This function retrieves external links related to algae taxa from the Nordic Microalgae API.
 #' It takes a vector of slugs (taxon identifiers) and returns a data frame containing the external links
 #' associated with each taxon. The data includes the provider, label, external ID, and the URL of the external link.
 #'
+#' @details
 #' The slugs (taxon identifiers) used in this function can be retrieved using the `get_nua_taxa()` function,
 #' which returns a data frame with a column for taxon slugs, along with other relevant metadata for each taxon.
 #'
@@ -183,10 +185,12 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
 }
 #' Retrieve harmfulness for taxa from Nordic Microalgae
 #'
+#' @description
 #' This function retrieves harmfulness information related to algae taxa from the Nordic Microalgae API.
 #' It takes a vector of slugs (taxon identifiers) and returns a data frame containing the harmfulness information
 #' associated with each taxon. The data includes the provider, label, external ID, and the URL of the external link.
 #'
+#' @details
 #' The slugs (taxon identifiers) used in this function can be retrieved using the `get_nua_taxa()` function,
 #' which returns a data frame with a column for taxon slugs, along with other relevant metadata for each taxon.
 #'

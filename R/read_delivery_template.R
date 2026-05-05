@@ -190,14 +190,16 @@ get_delivery_template <- function(datatype,
 
 #' Find required fields in a SHARK delivery template
 #'
+#' @description
 #' Identifies which columns are mandatory in the SHARK delivery template based on
 #' rows starting with "*" (one or more). You can specify how many levels of
 #' asterisks to include.
 #'
+#' @details
 #' Note: A single "*" marks required fields in the standard SHARK template.
 #' A double "**" is often used to specify columns required for **national monitoring only**.
 #' For more information, see:
-#' https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data
+#' \url{https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data}
 #'
 #' @param datatype Character. The datatype name.
 #'   Available options include:

@@ -76,12 +76,14 @@ read_shark_deliv <- function(filename, skip = 2, sheet = 2) {
 
 #' Read SHARK export files (tab- or semicolon-delimited, plain text or zipped)
 #'
+#' @description
 #' Reads tab- or semicolon-delimited SHARK export files with standardized format.
 #' The function can handle plain text files (`.txt`) or zip archives (`.zip`) containing
 #' a file named `shark_data.txt`. It automatically detects and converts column types
 #' and can optionally coerce the `"value"` column to numeric. The `"sample_date"` column
 #' is converted to `Date` if it exists.
 #'
+#' @details
 #' This function is robust to file encoding issues. By default (`guess_encoding = TRUE`),
 #' it attempts to automatically detect the file encoding and will use it if it differs
 #' from the user-specified `encoding`. Automatic detection can be disabled.
@@ -246,9 +248,11 @@ shark_read_deliv_xls <- function(filename, skip = 2, sheet = 2) {
 
 #' Read tab delimited files downloaded from SHARK
 #'
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #' This function is deprecated and has been replaced by [read_shark()].
 #'
+#' @details
 #' Uses `read_delim()` to read tab-delimited or semicolon-delimited files
 #' with standardized export format from SHARK.
 #'
@@ -277,9 +281,11 @@ shark_read <- function(filename, delimiters = "point-tab", encoding = "latin_1")
 
 #' Read zip archive and unzip tab delimited files downloaded from SHARK
 #'
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #' This function is deprecated and has been replaced by [read_shark()].
 #'
+#' @details
 #' Uses `unz()` and `read_delim()` to extract and read tab-delimited or
 #' semicolon-delimited files with standardized export format from SHARK.
 #'

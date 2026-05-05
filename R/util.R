@@ -77,11 +77,13 @@ clean_shark4r_cache <- function(days = 1,
 
 #' Download and set up SHARK4R support files
 #'
+#' @description
 #' This function downloads the \code{products} folder from
 #' the SHARK4R GitHub repository and places them in a user-specified directory.
 #' These folders contain Shiny applications and R Markdown documents used for
 #' quality control (QC) of SHARK data.
 #'
+#' @details
 #' If the `path` folders already exist, the download will be skipped unless
 #' \code{force = TRUE} is specified. Optionally, the function can launch the
 #' QC Shiny app directly after setup.
@@ -272,6 +274,7 @@ load_shark4r_stats <- function(file_name = "sea_basin.rds",
 
 #' Load SHARK4R fields from GitHub
 #'
+#' @description
 #' This function downloads and sources the SHARK4R required and recommended field definitions
 #' directly from the
 #' [SHARK4R-statistics](https://github.com/nodc-sweden/SHARK4R-statistics) GitHub repository.
@@ -347,12 +350,14 @@ load_shark4r_fields <- function(verbose = TRUE) {
 
 #' Convert coordinates from DDMM format to decimal degrees
 #'
+#' @description
 #' This function converts geographic coordinates provided in the DDMM
 #' format (degrees and minutes) to decimal degrees. It can handle:
 #' - DDMM (e.g., 5733 to 57°33' to 57.55°)
 #' - DDMMss or DDMMss… (extra digits after minutes are interpreted
 #'   as fractional minutes, e.g., 573345 to 57°33.45' to 57.5575°)
 #'
+#' @details
 #' Non-numeric characters are removed before conversion. Coordinates
 #' shorter than 4 digits are returned as `NA`.
 #'

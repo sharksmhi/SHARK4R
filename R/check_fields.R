@@ -1,5 +1,6 @@
 #' Validate SHARK system fields in a data frame
 #'
+#' @description
 #' This function checks whether the required and recommended global and
 #' datatype-specific SHARK system fields are present in a data frame.
 #'
@@ -101,6 +102,7 @@ check_datatype <- function(data, level = "error") {
 
 #' Validate SHARK data fields for a given datatype
 #'
+#' @description
 #' This function checks a SHARK data frame against the required and recommended
 #' fields defined for a specific datatype. It verifies that all required fields
 #' are present and contain non-empty values. If \code{level = "warning"}, it
@@ -109,7 +111,7 @@ check_datatype <- function(data, level = "error") {
 #' Note: A single "*" marks required fields in the standard SHARK template.
 #' A double "**" is often used to specify columns required for **national monitoring only**.
 #' For more information, see:
-#' https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data
+#' \url{https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data}
 #'
 #' @param data A data frame containing SHARK data to be validated.
 #' @param datatype A string giving the SHARK datatype to validate against.

@@ -54,13 +54,13 @@ This function checks a SHARK data frame against the required and recommended
 fields defined for a specific datatype. It verifies that all required fields
 are present and contain non-empty values. If \code{level = "warning"}, it
 also checks for recommended fields and empty values within them.
-}
-\details{
+
 Note: A single "*" marks required fields in the standard SHARK template.
 A double "**" is often used to specify columns required for \strong{national monitoring only}.
 For more information, see:
-https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data
-
+\url{https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data}
+}
+\details{
 Field definitions for SHARK data can be loaded in two ways:
 \enumerate{
 \item \strong{From the SHARK4R package bundle (default):}

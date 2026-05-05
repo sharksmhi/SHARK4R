@@ -55,15 +55,15 @@ returned.
 Calculates zooplankton biomass by combining per-individual dry weight
 (\code{"Dry weight (mean)"}, in \code{ug}) with abundance measurements in the same
 observation. Two biomass parameters are produced:
-}
-\details{
+
 \itemize{
 \item \strong{Biomass concentration} (\code{mg/m3}) from \code{"Abundance"} rows
 (\code{ind/m3}).
 \item \strong{Integrated biomass} (\code{mg/m2}) from \code{"Integrated abundance"} rows
 (\code{ind/m2}).
 }
-
+}
+\details{
 The conversion is \code{biomass = dry_weight_ug * abundance / 1000} so that the
 result is expressed in \code{mg/m3} or \code{mg/m2}.
 }

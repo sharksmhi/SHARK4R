@@ -966,9 +966,11 @@ get_shark_datasets <- function(dataset_name,
 
 #' Summarize numeric SHARK parameters with ranges and outlier thresholds
 #'
+#' @description
 #' Downloads SHARK data for a given time period, filters to numeric parameters,
 #' and calculates descriptive statistics and Tukey outlier thresholds.
 #'
+#' @details
 #' By default, the function uses the *previous five complete years*.
 #' For example, if called in 2025 it will use data from 2020–2024.
 #'

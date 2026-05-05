@@ -53,9 +53,11 @@ check_nominal_station <- function(data, verbose = TRUE) {
 
 #' Check if stations are reported as nominal positions
 #'
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #' This function is deprecated and has been replaced by [check_nominal_station()].
 #'
+#' @details
 #' This function attempts to determine whether stations in a dataset are reported
 #' using nominal positions (i.e., generic or repeated coordinates across events),
 #' rather than actual measured coordinates. It compares the number of unique

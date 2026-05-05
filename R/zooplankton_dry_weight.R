@@ -1,9 +1,11 @@
 #' Calculate zooplankton dry weight from mean length
 #'
+#' @description
 #' Calculates zooplankton dry weight from rows where `parameter` equals
 #' `"Length (mean)"` using bundled taxa-specific coefficients for
 #' mesozooplankton from Kattegat and Skagerrak.
 #'
+#' @details
 #' The dry weight calculation follows:
 #'
 #' `DW = 10^((B * log10(length)) - A)`

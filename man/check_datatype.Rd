@@ -27,8 +27,6 @@ A \code{tibble} summarizing missing or empty fields, with columns:
 \description{
 This function checks whether the required and recommended global and
 datatype-specific SHARK system fields are present in a data frame.
-}
-\details{
 \itemize{
 \item \strong{Required fields}: Missing or empty required fields are reported as \strong{errors}.
 \item \strong{Recommended fields}: Missing or empty recommended fields are reported as \strong{warnings},

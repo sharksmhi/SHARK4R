@@ -20,11 +20,11 @@ Invisibly returns a list with two elements:
 This function downloads and sources the SHARK4R required and recommended field definitions
 directly from the
 \href{https://github.com/nodc-sweden/SHARK4R-statistics}{SHARK4R-statistics} GitHub repository.
-}
-\details{
+
 The definitions are stored in an R script (\code{fields.R}) located in the \verb{fields/} folder of the repository.
 The function sources this file directly from GitHub into the current R session.
-
+}
+\details{
 The sourced script defines two main objects:
 \itemize{
 \item \code{required_fields} — vector or data frame of required SHARK fields.

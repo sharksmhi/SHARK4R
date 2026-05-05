@@ -1,5 +1,6 @@
 #' Determine if positions are near land
 #'
+#' @description
 #' This function is a **wrapper/re-export** of
 #' `iRfcb::ifcb_is_near_land()`. The `iRfcb` package is only required
 #' if you want to actually call this function.
@@ -184,6 +185,7 @@ positions_are_near_land <- function(latitudes,
 
 #' Determine if points are in a specified sea basin
 #'
+#' @description
 #' This function is a **wrapper/re-export** of
 #' `iRfcb::ifcb_which_basin()`. The `iRfcb` package is only required
 #' if you want to actually call this function.
