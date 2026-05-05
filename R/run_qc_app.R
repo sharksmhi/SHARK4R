@@ -35,7 +35,7 @@ run_qc_app <- function(interactive = TRUE) {
 
   # Core required packages
   needed_pkgs <- c(
-    "shiny", "shinythemes", "htmltools", "rmarkdown",
+    "shiny", "bslib", "bsicons", "htmltools", "rmarkdown",
     "skimr", "DT", "leaflet", "dplyr", "plotly"
   )
 
