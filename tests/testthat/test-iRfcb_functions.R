@@ -147,5 +147,5 @@ test_that("positions_are_near_land fails gracefully", {
   # Test with default parameters
   expect_error(positions_are_near_land(latitudes, longitudes,
                                        source = "invalid_source"),
-               "Invalid value for 'source'")
+               "Invalid value for.*source")
 })

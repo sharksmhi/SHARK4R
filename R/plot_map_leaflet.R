@@ -50,8 +50,11 @@ plot_map_leaflet <- function(data, provider = "CartoDB.Positron") {
       select(STATN, LONGI, LATIT) %>%
       rename(STATION = STATN, LON = LONGI, LAT = LATIT)
   } else {
-    stop("Data frame must contain either standard columns (station_name, sample_longitude_dd, sample_latitude_dd) ",
-         "or delivery-style columns (STATN, LONGI, LATIT).")
+    cli::cli_abort(c(
+      "Data frame must contain coordinate columns.",
+      "i" = "Standard: {.field station_name}, {.field sample_longitude_dd}, {.field sample_latitude_dd}",
+      "i" = "Delivery-style: {.field STATN}, {.field LONGI}, {.field LATIT}"
+    ))
   }
 
   # Remove duplicates

@@ -49,7 +49,7 @@ get_shark_options <- function(prod = TRUE, utv = FALSE, unparsed = FALSE) {
   url_response <- try(GET(url_short), silent = TRUE)
 
   if (inherits(url_response, "try-error") || http_error(url_response)) {
-    stop("The SHARK ", ifelse(prod, "PROD", "TEST"), " server cannot be reached: ", url_short, ". Please check network connection.")
+    cli::cli_abort("The SHARK {ifelse(prod, 'PROD', 'TEST')} server cannot be reached: {.url {url_short}}. Please check network connection.")
   }
 
   # Make the GET request
@@ -81,7 +81,7 @@ get_shark_options <- function(prod = TRUE, utv = FALSE, unparsed = FALSE) {
     return(parsed_options)
   } else {
     # Return the error message if the request failed
-    stop("Failed to retrieve options: ", status_code(response))
+    cli::cli_abort("Failed to retrieve options: HTTP {status_code(response)}")
   }
 }
 #' Retrieve SHARK data table row counts
@@ -188,7 +188,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
   # Check if the URL is reachable
   url_response <- try(GET(url_short), silent = TRUE)
   if (inherits(url_response, "try-error") || http_error(url_response)) {
-    stop("The SHARK ", ifelse(prod, "PROD", "TEST"), " server cannot be reached: ", url_short, ". Please check network connection.")
+    cli::cli_abort("The SHARK {ifelse(prod, 'PROD', 'TEST')} server cannot be reached: {.url {url_short}}. Please check network connection.")
   }
 
   # Create the JSON body as a list
@@ -241,7 +241,7 @@ get_shark_table_counts <- function(tableView = "sharkweb_overview",
     return(data)
   } else {
     # Return the error message
-    stop("Failed to retrieve data: ", status_code(response))
+    cli::cli_abort("Failed to retrieve data: HTTP {status_code(response)}")
   }
 }
 #' Retrieve tabular data from SHARK
@@ -403,18 +403,18 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 
   # Set up file path to .txt file
   if (save_data && is.null(file_path)) {
-    stop("Please specify 'file_path' when 'save_data' is TRUE")
+    cli::cli_abort("Please specify {.arg file_path} when {.arg save_data} is TRUE")
   }
 
   if (!save_data & !is.null(file_path)) {
-    stop("To save the data, set 'save_data' to TRUE and specify a valid 'file_path': ", file_path)
+    cli::cli_abort("To save the data, set {.arg save_data} to TRUE and specify a valid {.arg file_path}: {.file {file_path}}")
   }
 
   # Validate file_path to prevent path traversal
   if (!is.null(file_path)) {
     resolved_path <- normalizePath(file_path, mustWork = FALSE)
     if (grepl("\\.\\.", file_path)) {
-      stop("'file_path' must not contain '..' path components.")
+      cli::cli_abort("{.arg file_path} must not contain {.val ..} path components.")
     }
   }
 
@@ -458,12 +458,11 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 
   # Validate tableView
   if (!grepl("^(sharkweb_|sharkdata_|report_)", tableView)) {
-    stop(
-      "Invalid 'tableView' value: ", tableView,
-      ". It must be one of the following (case-insensitive): ",
-      paste(sort(unique(names(table_aliases))), collapse = ", "), ".\n",
-      "Or use the full SHARK API name (e.g., 'sharkdata_phytoplankton')."
-    )
+    cli::cli_abort(c(
+      "Invalid {.arg tableView} value: {.val {tableView}}",
+      "i" = "Must be one of (case-insensitive): {.val {sort(unique(names(table_aliases)))}}",
+      "i" = "Or use the full SHARK API name, e.g. {.val sharkdata_phytoplankton}."
+    ))
   }
 
   # Select environment
@@ -480,7 +479,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
   # Check if the URL is reachable
   url_response <- try(GET(url_short), silent = TRUE)
   if (inherits(url_response, "try-error") || http_error(url_response)) {
-    stop("The SHARK ", ifelse(prod, "PROD", "TEST"), " server cannot be reached: ", url_short, ". Please check network connection.")
+    cli::cli_abort("The SHARK {ifelse(prod, 'PROD', 'TEST')} server cannot be reached: {.url {url_short}}. Please check network connection.")
   }
 
   # Encoding translation
@@ -490,8 +489,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
                     "latin_1" = "ISO-8859-1")
 
   if (!encoding %in% c("cp1252", "utf_8", "utf_16", "latin_1")) {
-    warning("'encoding' must be one of 'cp1252', 'utf_8', 'utf_16', or 'latin_1'. Defaulting to 'utf_8'.")
-
+    cli::cli_warn("{.arg encoding} must be one of {.val cp1252}, {.val utf_8}, {.val utf_16}, or {.val latin_1}. Defaulting to {.val utf_8}.")
     encoding<-"utf_8"
   }
 
@@ -499,8 +497,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
   content_encoding <- encoding_map[[encoding]]
 
   if (!delimiters %in% c("point-tab", "point-semi")) {
-    warning("'delimiters' must be one of 'point-tab' or 'point-semi'. Defaulting to 'point-tab'.")
-
+    cli::cli_warn("{.arg delimiters} must be one of {.val point-tab} or {.val point-semi}. Defaulting to {.val point-tab}.")
     delimiters<-"point-tab"
   }
 
@@ -509,12 +506,11 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     delimiters,
     "point-tab" = "\t",   # Tab-separated
     "point-semi" = ";",   # Semicolon-separated
-    stop("Invalid 'delimiters' value. Use 'point-tab' or 'point-semi'.")
+    cli::cli_abort("Invalid {.arg delimiters} value. Use {.val point-tab} or {.val point-semi}.")
   )
 
   if (!lineEnd %in% c("win", "unix")) {
-    warning("'lineEnd' must be one of 'win' or 'unix'. Defaulting to 'win'.")
-
+    cli::cli_warn("{.arg lineEnd} must be one of {.val win} or {.val unix}. Defaulting to {.val win}.")
     lineEnd<-"win"
   }
 
@@ -530,13 +526,11 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
   missing_dataTypes <- setdiff(dataTypes, available_dataTypes)
 
   if (length(missing_dataTypes) > 0) {
-    warning(
-      "The following 'dataTypes' do not currently exist in the SHARK database: ",
-      paste(missing_dataTypes, collapse = ", "), ".\n",
-      "Valid 'dataTypes' (with available data) are: ",
-      paste(available_dataTypes, collapse = ", "), ".\n",
-      "See ?get_shark_options for more details."
-    )
+    cli::cli_warn(c(
+      "The following {.arg dataTypes} do not currently exist in the SHARK database: {.val {missing_dataTypes}}",
+      "i" = "Valid {.arg dataTypes} (with available data) are: {.val {available_dataTypes}}",
+      "i" = "See {.fn get_shark_options} for more details."
+    ))
   }
 
   # Check if either 'fromYear' or 'toYear' is NULL
@@ -585,13 +579,14 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
 
     # Print message
     if (verbose) {
-      message("The requested data exceeds the maximum row limit of ", row_limit, ". Data will be downloaded in yearly chunks to ensure all data is retrieved.")
+      cli::cli_inform("The requested data exceeds the maximum row limit of {format(row_limit, big.mark = ',')}. Data will be downloaded in yearly chunks to ensure all data is retrieved.")
     }
 
     all_data <- list()  # Initialize a list to store yearly data
+    failed_years <- c()  # Collect years that fail
 
     # Set up the progress bar
-    if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(years), style = 3)}
+    if (verbose) cli::cli_progress_bar("Downloading yearly chunks", total = length(years))
 
     # Temporary folder to save yearly files
     temp_dir <- tempdir()
@@ -600,7 +595,7 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
       year <- years[i]  # Get the current year
 
       # Update progress bar
-      if (verbose) { utils::setTxtProgressBar(pb, i) }
+      if (verbose) cli::cli_progress_update()
 
       # Update the body for the POST request with the current year
       body <- list(
@@ -665,13 +660,18 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
         write_tsv(year_data, temp_file, progress = FALSE)
 
       } else {
-        warning("Failed to retrieve data for year: ", year, " HTTP Status: ", status_code(response))
+        failed_years <- c(failed_years, year)
       }
     }
 
     # Close the progress bar
-    if (verbose) {
-      close(pb)
+    if (verbose) cli::cli_progress_done()
+
+    if (length(failed_years) > 0) {
+      cli::cli_warn(c(
+        "Failed to retrieve data for {length(failed_years)} year{?s}.",
+        "x" = "Failed year{?s}: {.val {failed_years}}"
+      ))
     }
 
     # Combine files from disk
@@ -745,15 +745,14 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     body_json <- toJSON(body, auto_unbox = TRUE)
 
     # Send the POST request
+    if (verbose) cli::cli_progress_step("Downloading {format(count, big.mark = ',')} rows from SHARK")
     response <- POST(
       url,
       add_headers("accept" = "application/json", "Content-Type" = "application/json"),
       body = body_json,
-      write_disk(file_path, overwrite = TRUE),
-      if (verbose) {
-        progress()
-      }
+      write_disk(file_path, overwrite = TRUE)
     )
+    if (verbose) cli::cli_progress_done()
 
     # Check response status
     if (status_code(response) == 200) {
@@ -779,8 +778,12 @@ get_shark_data <- function(tableView = "sharkweb_overview", headerLang = "intern
     } else {
       # Clean up temporary file in case of an error
       unlink(file_path)
-      stop("Failed to retrieve data: HTTP Status ", status_code(response), "\n",
-           content(response, as = "text", encoding = "UTF-8"))
+      body <- substr(content(response, as = "text", encoding = "UTF-8"), 1, 500)
+      cli::cli_abort(c(
+        "Failed to retrieve data.",
+        "x" = "HTTP status: {status_code(response)}",
+        "i" = "Response: {body}"
+      ))
     }
   }
 }
@@ -860,7 +863,7 @@ get_shark_datasets <- function(dataset_name,
                                verbose = TRUE) {
 
   if (missing(dataset_name) || length(dataset_name) == 0) {
-    stop("Please provide at least one 'dataset_name'.")
+    cli::cli_abort("Please provide at least one {.arg dataset_name}.")
   }
 
   available_datasets <- get_shark_options(prod = prod)$dataset
@@ -870,7 +873,7 @@ get_shark_datasets <- function(dataset_name,
   })))
 
   if (length(matched_datasets) == 0) {
-    warning("No datasets found matching: ", paste(dataset_name, collapse = ", "))
+    cli::cli_warn("No datasets found matching: {.val {dataset_name}}")
     return(NULL)
   }
 
@@ -887,8 +890,7 @@ get_shark_datasets <- function(dataset_name,
   url_short <- sub("api/dataset/download/.*", "", base_url)
   url_response <- try(httr::GET(url_short), silent = TRUE)
   if (inherits(url_response, "try-error") || httr::http_error(url_response)) {
-    stop("The SHARK ", ifelse(prod, "PROD", "TEST"),
-         " server cannot be reached: ", url_short)
+    cli::cli_abort("The SHARK {ifelse(prod, 'PROD', 'TEST')} server cannot be reached: {.url {url_short}}")
   }
 
   if (is.null(save_dir) || identical(save_dir, "") || nchar(save_dir) == 0) {
@@ -911,20 +913,19 @@ get_shark_datasets <- function(dataset_name,
         if (verbose) httr::progress()
       )
       if (httr::status_code(response) != 200) {
-        warning("Failed to download dataset: ", md,
-                " HTTP Status: ", httr::status_code(response))
+        cli::cli_warn("Failed to download dataset: {.val {md}} HTTP Status: {httr::status_code(response)}")
         return(NA_character_)
       }
-      if (verbose) message("Zip file saved at: ", zip_path)
+      if (verbose) cli::cli_inform(c("v" = "Zip file saved at: {.file {zip_path}}"))
     } else {
-      if (verbose) message("Already exists, skipping download: ", zip_path)
+      if (verbose) cli::cli_inform("Already exists, skipping download: {.file {zip_path}}")
     }
 
     if (unzip_file) {
       unzip_dir <- file.path(save_dir, tools::file_path_sans_ext(md))
       dir.create(unzip_dir, showWarnings = FALSE, recursive = TRUE)
       utils::unzip(zip_path, exdir = unzip_dir)
-      if (verbose) message("Files extracted to: ", unzip_dir)
+      if (verbose) cli::cli_inform("Files extracted to: {.file {unzip_dir}}")
       return(unzip_dir)
     } else {
       return(zip_path)
@@ -966,9 +967,11 @@ get_shark_datasets <- function(dataset_name,
 
 #' Summarize numeric SHARK parameters with ranges and outlier thresholds
 #'
+#' @description
 #' Downloads SHARK data for a given time period, filters to numeric parameters,
 #' and calculates descriptive statistics and Tukey outlier thresholds.
 #'
+#' @details
 #' By default, the function uses the *previous five complete years*.
 #' For example, if called in 2025 it will use data from 2020–2024.
 #'
@@ -1037,7 +1040,7 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
   if (is.null(fromYear)) fromYear <- toYear - 4
 
   if (verbose) {
-    message(sprintf("Downloading SHARK data from %d to %d...", fromYear, toYear))
+    cli::cli_inform("Downloading SHARK data from {fromYear} to {toYear}...")
   }
 
   if (is.null(datatype)) {
@@ -1053,7 +1056,7 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
                          verbose = verbose)
 
   if (nrow(data) == 0) {
-    warning("No data retrieved from SHARK for the specified years and datatype.")
+    cli::cli_warn("No data retrieved from SHARK for the specified years and datatype.")
     return(tibble())
   }
 
@@ -1125,7 +1128,7 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
   group_vars <- c("parameter", "delivery_datatype")
   if (!is.null(group_col)) {
     if (!group_col %in% names(df)) {
-      stop("Column '", group_col, "' not found in SHARK data.")
+      cli::cli_abort("Column {.field {group_col}} not found in SHARK data.")
     }
     group_vars <- c(group_vars, group_col)
   }
@@ -1145,7 +1148,7 @@ get_shark_statistics <- function(fromYear = NULL, toYear = NULL, datatype = NULL
     cache_dir <- file.path(cache_dir(), "perm")
     if (!dir.exists(cache_dir)) dir.create(cache_dir, recursive = TRUE)
     saveRDS(result_tbl, file = file.path(cache_dir, "statistics.rds"))
-    if (verbose) message("Cached SHARK statistics at: ", file.path(cache_dir, "statistics.rds"))
+    if (verbose) cli::cli_inform(c("v" = "Cached SHARK statistics at: {.file {file.path(cache_dir, 'statistics.rds')}}"))
   }
 
   return(result_tbl)

@@ -22,7 +22,7 @@ test_that("check_nominal_station returns coordinates only when suspected nominal
   )
 
   expect_message(result3 <- check_nominal_station(data_nominal),
-                 "Suspected nominal positions reported! Is this correct?")
+                 "Suspected nominal positions")
   expect_true(is.data.frame(result3))
   expect_equal(nrow(result3), 1)
 })
@@ -30,7 +30,7 @@ test_that("check_nominal_station returns coordinates only when suspected nominal
 test_that("match_station identifies matched and unmatched stations", {
   station_names <- c("N7 OST NIDINGEN", "NonexistentStation")
 
-  expect_message(match_station(station_names), "WARNING: Unmatched stations found")
+  expect_message(match_station(station_names), "Unmatched stations")
 })
 
 test_that("match_station finds all stations without unmatched", {
@@ -75,7 +75,7 @@ test_that("match_station reads a station_file correctly", {
   stations_to_check <- c("ST1", "STX")
 
   # Run match_station with custom station file
-  result <- match_station(stations_to_check, station_file = tmp_file)
+  result <- suppressMessages(match_station(stations_to_check, station_file = tmp_file))
 
   # Expect a data frame with correct match_type
   expect_s3_class(result, "data.frame")
@@ -104,7 +104,7 @@ test_that("match_station reads a station_file correctly", {
   stations_to_check <- c("ST1", "STX")
 
   # Run match_station with custom station file
-  result <- match_station(stations_to_check, station_file = tmp_file)
+  result <- suppressMessages(match_station(stations_to_check, station_file = tmp_file))
 
   # Expect a data frame with correct match_type
   expect_s3_class(result, "data.frame")
@@ -160,8 +160,8 @@ test_that("basic functionality: matches within distance using station.txt bundle
     sample_latitude_dd  = c(58.5, 58.6)
   )
 
-  res <- check_station_distance(df,
-                                plot_leaflet = FALSE)
+  res <- suppressMessages(check_station_distance(df,
+                                plot_leaflet = FALSE))
 
   # expect_true(all(res$match_type))
   expect_true(!all(res$within_limit))
@@ -201,7 +201,7 @@ test_that("unmatched stations trigger warnings", {
   expect_message(res <- check_station_distance(df,
                                                station_file = tmp_file,
                                                plot_leaflet = FALSE),
-                 "Unmatched stations found")
+                 "Unmatched stations")
 
   # expect_true(res$match_type[1])
   # expect_false(res$match_type[2])
@@ -244,7 +244,7 @@ test_that("missing required columns in data triggers error", {
   expect_error(check_station_distance(df,
                                       station_file = tmp_file,
                                       plot_leaflet = FALSE),
-               "Missing required column\\(s\\) in input data")
+               "Missing required column")
 
   # Clean up
   unlink(tmp_file)
@@ -261,7 +261,7 @@ test_that("missing required columns in station_db triggers error", {
   )
 
   expect_error(check_station_distance(df, station_file = tmp_file),
-               "Missing required column\\(s\\) in station database")
+               "Missing required column")
 
   # Clean up
   unlink(tmp_file)
@@ -298,16 +298,16 @@ test_that("plot_leaflet = TRUE returns a leaflet object", {
   )
 
   # Expect no error and return a leaflet map when plot_leaflet = TRUE
-  m <- check_station_distance(df,
+  m <- suppressMessages(check_station_distance(df,
                               station_file = tmp_file,
                               plot_leaflet = TRUE,
-                              only_bad = FALSE)
+                              only_bad = FALSE))
 
   # Expect no error and return a leaflet map when plot_leaflet = TRUE and only_bad = TRUE
-  m2 <- check_station_distance(df,
+  m2 <- suppressMessages(check_station_distance(df,
                                station_file = tmp_file,
                                plot_leaflet = TRUE,
-                               only_bad = TRUE)
+                               only_bad = TRUE))
 
 
 

@@ -64,21 +64,22 @@ scatterplot <- function(data,
 
   required_cols <- c("station_name", "sample_date", "value", "parameter", "unit")
   if (!all(required_cols %in% names(data))) {
-    stop("Data must contain the following columns: ",
-         paste(required_cols, collapse = ", "))
+    cli::cli_abort("Data must contain the following columns: {.field {required_cols}}")
   }
 
   # Filter by selected parameter (if specified)
   available_params <- unique(data$parameter)
   if (!is.null(parameter)) {
     if (!parameter %in% available_params) {
-      stop("Parameter '", parameter, "' not found in data. Available parameters: ",
-           paste(available_params, collapse = ", "))
+      cli::cli_abort(c(
+        "Parameter {.val {parameter}} not found in data.",
+        "i" = "Available parameters: {.val {available_params}}"
+      ))
     }
     data <- data[data$parameter == parameter, ]
   } else {
     if (length(available_params) > 1) {
-      if (verbose) message("Multiple parameters found. Using the first: ", available_params[1])
+      if (verbose) cli::cli_inform("Multiple parameters found. Using the first: {.val {available_params[1]}}")
       data <- data[data$parameter == available_params[1], ]
     }
   }
@@ -118,11 +119,10 @@ scatterplot <- function(data,
       )
     } else if (is.data.frame(hline)) {
       if (is.null(hline_group_col) || is.null(hline_value_col)) {
-        stop("When hline is a dataframe, specify 'hline_group_col' and 'hline_value_col'.")
+        cli::cli_abort("When {.arg hline} is a dataframe, specify {.arg hline_group_col} and {.arg hline_value_col}.")
       }
       if (!all(c(hline_group_col, hline_value_col) %in% names(hline))) {
-        stop("Columns '", hline_group_col, "' and '", hline_value_col,
-             "' must exist in the hline dataframe.")
+        cli::cli_abort("Columns {.field {hline_group_col}} and {.field {hline_value_col}} must exist in the {.arg hline} dataframe.")
       }
 
       # Keep only groups that exist in data
@@ -146,7 +146,7 @@ scatterplot <- function(data,
         linewidth = hline_style$size
       )
     } else {
-      stop("'hline' must be either numeric or a data.frame.")
+      cli::cli_abort("{.arg hline} must be either numeric or a data.frame.")
     }
   }
 
@@ -165,7 +165,7 @@ scatterplot <- function(data,
 
   if (!interactive) return(p)
   if (!requireNamespace("plotly", quietly = TRUE))
-    stop("Package 'plotly' is required for interactive plots.")
+    cli::cli_abort("Package {.pkg plotly} is required for interactive plots.")
 
   plt <- plotly::ggplotly(p)
   y_buttons <- list(

@@ -133,8 +133,10 @@ get_delivery_template <- function(datatype,
   )
 
   if (!datatype %in% names(url_map)) {
-    stop(sprintf("Datatype '%s' is not recognized. Must be one of: %s",
-                 datatype, paste(names(url_map), collapse = ", ")))
+    cli::cli_abort(c(
+      "Datatype {.val {datatype}} is not recognized.",
+      "i" = "Must be one of: {.val {names(url_map)}}"
+    ))
   }
 
   # Determine file URL
@@ -146,7 +148,7 @@ get_delivery_template <- function(datatype,
   }
 
   if (is.na(file_url)) {
-    stop(sprintf("No URL is available for datatype '%s'.", datatype))
+    cli::cli_abort("No URL is available for datatype {.val {datatype}}.")
   }
 
   file_url <- paste0(base_url, file_url)
@@ -190,14 +192,16 @@ get_delivery_template <- function(datatype,
 
 #' Find required fields in a SHARK delivery template
 #'
+#' @description
 #' Identifies which columns are mandatory in the SHARK delivery template based on
 #' rows starting with "*" (one or more). You can specify how many levels of
 #' asterisks to include.
 #'
+#' @details
 #' Note: A single "*" marks required fields in the standard SHARK template.
 #' A double "**" is often used to specify columns required for **national monitoring only**.
 #' For more information, see:
-#' https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data
+#' \url{https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data}
 #'
 #' @param datatype Character. The datatype name.
 #'   Available options include:

@@ -30,12 +30,12 @@
 run_qc_app <- function(interactive = TRUE) {
   appDir <- system.file("shiny", "shark-qc", package = "SHARK4R")
   if (appDir == "") {
-    stop("Could not find shark-qc directory. Try re-installing `SHARK4R`.", call. = FALSE)
+    cli::cli_abort("Could not find shark-qc directory. Try re-installing {.pkg SHARK4R}.")
   }
 
   # Core required packages
   needed_pkgs <- c(
-    "shiny", "shinythemes", "htmltools", "rmarkdown",
+    "shiny", "bslib", "bsicons", "htmltools", "rmarkdown",
     "skimr", "DT", "leaflet", "dplyr", "plotly"
   )
 
@@ -43,19 +43,22 @@ run_qc_app <- function(interactive = TRUE) {
   missing <- needed_pkgs[!vapply(needed_pkgs, requireNamespace, logical(1), quietly = TRUE)]
 
   if (length(missing)) {
-    msg <- paste("The following packages are required to run the app:",
-                 paste(missing, collapse = ", "))
-
     if (interactive() && interactive) {
-      message(msg, "\nWould you like to install them now? [y/N] ")
+      cli::cli_inform(c(
+        "The following package{?s} {?is/are} required to run the app: {.pkg {missing}}",
+        "i" = "Would you like to install them now? [y/N]"
+      ))
       ans <- tolower(trimws(readline()))
       if (ans %in% c("y", "yes")) {
         utils::install.packages(missing)
       } else {
-        stop(msg, call. = FALSE)
+        cli::cli_abort("Required package{?s} not installed: {.pkg {missing}}")
       }
     } else {
-      stop(msg, " Please install them manually.", call. = FALSE)
+      cli::cli_abort(c(
+        "Required package{?s} not installed: {.pkg {missing}}",
+        "i" = "Please install them manually."
+      ))
     }
   }
 

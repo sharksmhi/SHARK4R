@@ -95,7 +95,7 @@ check_depth <- function(data,
   stopifnot(is.data.frame(data))
   missing_cols <- setdiff(c(lat_col, lon_col), colnames(data))
   if (length(missing_cols) > 0) {
-    stop("Missing required columns: ", paste(missing_cols, collapse = ", "))
+    cli::cli_abort("Missing required column{?s}: {.field {missing_cols}}")
   }
 
   # --- Check lon/lat first ---
@@ -129,7 +129,7 @@ check_depth <- function(data,
     xmin <- terra::xmin(bathymetry); xmax <- terra::xmax(bathymetry)
     ymin <- terra::ymin(bathymetry); ymax <- terra::ymax(bathymetry)
   } else {
-    stop("bathymetry should be a SpatRaster or NULL")
+    cli::cli_abort("{.arg bathymetry} should be a {.cls SpatRaster} or {.code NULL}")
   }
 
   # --- Min/max depth consistency ---

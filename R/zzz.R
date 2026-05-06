@@ -1,39 +1,37 @@
-# suppress warning for "no visible binding for global variable" in R CMD check
-utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv", "threshold",
-                         "sample_orderer_name_sv", "platform_code", "sample_date", "parent_name",
-                         "sample_latitude_dd", "sample_longitude_dd", "positioning_system_code",
-                         "water_depth_m", "Statistic", "x", "y", "ymin", "ymax", "lower", "parentName",
-                         "middle", "upper", "Value", "Ok", "sample_id", "shark_sample_id_md5",
-                         "sample_min_depth_m", "sample_max_depth_m", "parameter", "value",
-                         "taxon_species", "taxon_genus", "worms_species", "worms_genus", "worms_scientific_name",
-                         "scientific_name", "nameShort", "isRecommended", "delivery_datatype",
-                         "usage.name", "usage.value", "taxonId", ".", "Species", "taxonId_recommended",
-                         "acceptedNameUsageID", "parentNameUsageID", "scientificName", "taxonRank",
-                         "scientificNameAuthorship", "taxonomicStatus", "nomenclaturalStatus",
-                         "taxonRemarks", "dataset_name", "taxon_name", "aphia_id", "TYPOMRNAMN",
-                         "NAMN", "BASIN_NR", "lon", "lat", "geometry", "datatype", "dyntaxa_id",
-                         "family", "genus", "taxon_id", "scientificname", "authority", "status",
-                         "match_type", "STATN", "LONGI", "LATIT", "species", "SDATE", "Description/English translate",
-                         "author", "guid", "name", "Kingdom", "Phylum", "Class", "Order", "Family",
-                         "Genus", "Species", "hierarchy", "kingdom", "AphiaID", "worms_hierarchy", "taxon_hierarchy",
-                         "up_to_date", "Data_field", "DT", "phylum", "plankton_group", "longitude", "latitude",
-                         "value_num", "n_non_numeric", "frac_non_numeric", "n_total", "stats",
-                         "distance_m", "within_limit", "SYNONYM_NAMES", "LATITUDE_WGS84_SWEREF99_DD",
-                         "LAT_REF", "LONGITUDE_WGS84_SWEREF99_DD", "LON_REF", "OUT_OF_BOUNDS_RADIUS",
-                         "RADIUS", "STATION", "STATION_NAME", "bad_point", ".data", ":=", "valid_name"))
+# Suppress "no visible binding for global variable" NOTEs in R CMD check.
+# This list is scoped to the symbols actually flagged by codetools; audit it
+# (or regenerate it) when NSE-using code changes. Ideally each entry would
+# be replaced by an explicit `.data$col` reference in the underlying code.
+utils::globalVariables(c(
+  ".", ":=",
+  # Column names referenced via NSE in dplyr/ggplot calls
+  "AphiaID", "Class", "Data_field", "Family", "Genus", "Kingdom", "Order",
+  "Phylum", "Species",
+  "LATIT", "LAT_REF", "LATITUDE_WGS84_SWEREF99_DD",
+  "LONGI", "LON_REF", "LONGITUDE_WGS84_SWEREF99_DD",
+  "OUT_OF_BOUNDS_RADIUS", "RADIUS", "STATION", "STATION_NAME", "STATN",
+  "SYNONYM_NAMES",
+  "acceptedNameUsageID", "aphia_id", "author", "bad_point",
+  "delivery_datatype", "distance_m", "family", "frac_non_numeric",
+  "genus", "hierarchy", "isRecommended", "kingdom",
+  "match_type", "n_non_numeric", "n_total", "name", "nameShort",
+  "nomenclaturalStatus", "parameter", "parentName", "parentNameUsageID",
+  "parent_name", "phylum", "plankton_group",
+  "sample_date", "sample_latitude_dd", "sample_longitude_dd",
+  "scientificName", "scientificNameAuthorship", "scientific_name",
+  "scientificname", "species", "station_name", "stats", "status",
+  "taxonId", "taxonId_recommended", "taxonRank", "taxonRemarks",
+  "taxon_id", "taxonomicStatus", "usage.value", "value", "value_num",
+  "visit_year", "within_limit", "worms_hierarchy"
+))
 
-.onLoad <- function(libname, pkgname){
-  clean_shark4r_cache(days = 1, verbose = FALSE)
-}
-
-.onUnload <- function(libpath) {
-  if (!is_check()) {
-    try({
-      cache_dir <- cache_dir()
-      unlink(cache_dir, recursive = TRUE, force = TRUE)
-    }, silent = TRUE)
-  }
-}
+# Cache cleanliness is handled inside `cache_dir()`:
+#   - During R CMD check (including --run-donttest), `is_check()` redirects
+#     the cache to `tempdir()`, which R cleans automatically at session end,
+#     so nothing is ever written to the user's R_user_dir during check.
+#   - In normal interactive/batch use, stale persistent-cache files are
+#     cleaned lazily the first time the cache is accessed per session.
+# No .onLoad / .onUnload side effects are needed.
 
 .field_definitions <- list(
   Bacterioplankton = list(
@@ -257,44 +255,23 @@ utils::globalVariables(c("visit_year", "station_name", "sample_project_name_sv",
   )
 )
 
-.threshold_values <- dplyr::tribble(
-  ~parameter,                                ~mild_upper,     ~extreme_upper, ~datatype,
-  "Bacterial carbon production",             765842329,       1200706084,     "Bacterioplankton",
-  "Bacterial abundance",                     4686343500,      6779382000,     "Bacterioplankton",
-  "Bacterial cell carbon content",           18.96,           20.76,          "Bacterioplankton",
-  "Chlorophyll-a",                           6.25,            9.4,            "Chlorophyll",
-  "Abundance",                85155831,        133564616,      "Picoplankton",
-  "Biovolume concentration",  0.05928825,      0.09323008,     "Picoplankton",
-  "Carbon concentration",     13.27727,        20.85692,       "Picoplankton",
-  "# counted",                461.5,           733,            "Picoplankton",
-  "Abundance",                 1092.02,         1731.232,       "Zooplankton",
-  "# counted",                 54.5,            86,             "Zooplankton",
-  "Length (mean)",                           1286.662,        1898.325,       "Zooplankton",
-  "Length (median)",                         1287,            1899,           "Zooplankton",
-  "Wet weight",                0.82,            1.3,            "Zooplankton",
-  "Carbon content",            3.88,            6.16,           "Zooplankton",
-  "Wet weight/volume",                       9.816648,        15.54263,       "Zooplankton",
-  "Wet weight/area",                         372.6163,        593.9886,       "Zooplankton",
-  "Abundance",               39460,           62920,          "Phytoplankton",
-  "Biovolume concentration", 0.01514523,      0.02397705,     "Phytoplankton",
-  "Carbon concentration",    1.679784,        2.653602,       "Phytoplankton",
-  "# counted",               52,              82,             "Phytoplankton",
-  "Carbon production",                       36.6904,         58.41079,       "Primary production",
-  "Carbon prod in light",                    36.6904,         58.41079,       "Primary production",
-  "Carbon production/hour",                  11.86375,        18.6775,        "Primary production",
-  "# counted",                  87,              138,            "Epibenthos",
-  "Dry weight",                 0.2303094,       0.367895,       "Epibenthos",
-  "Species distribution max depth",          29.3125,         44.425,         "Epibenthos",
-  "Species distribution min depth",          13.075,          20.65,          "Epibenthos",
-  "# counted",                162.5,           260,            "Harbour seal",
-  "# counted",                   397.25,          632,            "Grey seal",
-  "BQIm",                                    18.52294,        26.96423,       "Zoobenthos",
-  "Abundance",                  185,             290,            "Zoobenthos",
-  "# counted",                  21,              33,             "Zoobenthos",
-  "Wet weight",                 0.5395,          0.859,          "Zoobenthos",
-  "Calculated # counted",      28.247,          41.6792,        "Ringed seal",
-  "Porpoise positive minutes",               189.5,           299,            "Harbour Porpoise"
-)
+# Outlier thresholds are shipped as a CSV in inst/extdata so they can be
+# reviewed/edited without touching R code. The table is loaded once at
+# package-namespace load from the installed file.
+load_threshold_values <- function() {
+  path <- system.file("extdata", "threshold_values.csv", package = "SHARK4R")
+  if (!nzchar(path)) {
+    cli::cli_abort("Could not locate {.file threshold_values.csv} in inst/extdata.")
+  }
+  utils::read.csv(
+    path,
+    stringsAsFactors = FALSE,
+    check.names = FALSE,
+    encoding = "UTF-8"
+  )
+}
+
+.threshold_values <- load_threshold_values()
 
 # --- Define parameter-specific conditions ---
 .param_conditions <- list(

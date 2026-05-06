@@ -34,7 +34,7 @@
 #' @export
 read_ptbx <- function(file_path, sheet = c("sample_data.txt", "sample_info.txt", "counting_method.txt", "Sample summary", "README")) {
   if (!file.exists(file_path)) {
-    stop("File does not exist: ", file_path)
+    cli::cli_abort("File does not exist: {.file {file_path}}")
   }
 
   sheet <- match.arg(sheet)  # Ensure sheet is one of the allowed options
@@ -43,10 +43,10 @@ read_ptbx <- function(file_path, sheet = c("sample_data.txt", "sample_info.txt",
     if (sheet %in% excel_sheets(file_path)) {
       return(read_excel(file_path, sheet = sheet, progress = FALSE))
     } else {
-      stop("Sheet not found in the Excel file.")
+      cli::cli_abort("Sheet {.val {sheet}} not found in the Excel file.")
     }
   } else {
-    stop("Only Excel (.xlsx) files are supported.")
+    cli::cli_abort("Only Excel (.xlsx) files are supported.")
   }
 }
 #' Get the latest NOMP biovolume Excel list
@@ -115,17 +115,18 @@ get_nomp_list <- function(year = as.numeric(format(Sys.Date(), "%Y")),
   if (is.null(file)) {
     # Default: first Excel file found
     excel_files <- unzipped_files[grepl("\\.xlsx$", unzipped_files, ignore.case = TRUE)]
-    if (length(excel_files) == 0) stop("No Excel files found in the zip archive.")
+    if (length(excel_files) == 0) cli::cli_abort("No Excel files found in the zip archive.")
     file_to_read <- excel_files[1]
   } else {
     file_to_read <- file.path(tmp_dir, file)
-    if (!file.exists(file_to_read)) stop("Specified file not found in the zip archive: ", file)
+    if (!file.exists(file_to_read)) cli::cli_abort("Specified file not found in the zip archive: {.file {file}}")
   }
 
   if (!grepl("bvol_nomp", basename(file_to_read), ignore.case = TRUE)) {
-    warning("Selected file does not contain 'bvol_nomp' in its name: ",
-            basename(file_to_read),
-            ". Consider specifying the correct file using the 'file' argument.")
+    cli::cli_warn(c(
+      "Selected file does not contain {.val bvol_nomp} in its name: {.file {basename(file_to_read)}}",
+      "i" = "Consider specifying the correct file using the {.arg file} argument."
+    ))
   }
 
   # Read Excel
@@ -188,23 +189,24 @@ get_peg_list <- function(file = NULL,
   if (is.null(file)) {
     # Default: first Excel file found
     excel_files <- unzipped_files[grepl("\\.xlsx$", unzipped_files, ignore.case = TRUE)]
-    if (length(excel_files) == 0) stop("No Excel files found in the zip archive.")
+    if (length(excel_files) == 0) cli::cli_abort("No Excel files found in the zip archive.")
     file_to_read <- excel_files[1]
   } else {
     file_to_read <- file.path(tmp_dir, file)
-    if (!file.exists(file_to_read)) stop("Specified file not found in the zip archive: ", file)
+    if (!file.exists(file_to_read)) cli::cli_abort("Specified file not found in the zip archive: {.file {file}}")
   }
 
   if (!grepl("PEG_BVOL", basename(file_to_read), ignore.case = TRUE)) {
-    warning("Selected file does not contain 'PEG_BVOL' in its name: ",
-            basename(file_to_read),
-            ". Consider specifying the correct file using the 'file' argument.")
+    cli::cli_warn(c(
+      "Selected file does not contain {.val PEG_BVOL} in its name: {.file {basename(file_to_read)}}",
+      "i" = "Consider specifying the correct file using the {.arg file} argument."
+    ))
   }
 
   # Extract year from filename
   year_match <- regmatches(basename(file_to_read), regexpr("\\d{4}", basename(file_to_read)))
   if (length(year_match) == 1) {
-    if (verbose) message("Reading PEG biovolume Excel file for year: ", year_match)
+    if (verbose) cli::cli_inform("Reading PEG biovolume Excel file for year: {.val {year_match}}")
   }
 
   # Read Excel

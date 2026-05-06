@@ -31,7 +31,7 @@
 read_shark_deliv <- function(filename, skip = 2, sheet = 2) {
 
   if (!file.exists(filename)) {
-    warning("File does not exist: ", filename, call. = FALSE)
+    cli::cli_warn("File does not exist: {.file {filename}}")
     return(NULL)
   }
 
@@ -42,7 +42,7 @@ read_shark_deliv <- function(filename, skip = 2, sheet = 2) {
                    xlsx = readxl::read_xlsx,
                    xls  = readxl::read_xls,
                    {
-                     warning("Unsupported file extension: ", ext, call. = FALSE)
+                     cli::cli_warn("Unsupported file extension: {.val {ext}}")
                      return(NULL)
                    }
   )
@@ -51,13 +51,13 @@ read_shark_deliv <- function(filename, skip = 2, sheet = 2) {
     reader(filename, skip = skip, sheet = sheet,
            guess_max = 2000, col_names = TRUE, progress = FALSE),
     error = function(e) {
-      warning("Could not read file: ", e$message, call. = FALSE)
+      cli::cli_warn(c("Could not read {.file {filename}}.", "x" = "{conditionMessage(e)}"))
       return(NULL)
     }
   )
 
   if (is.null(i) || ncol(i) == 0 || nrow(i) == 0) {
-    warning("File is empty or not in Excel format", call. = FALSE)
+    cli::cli_warn("File is empty or not in Excel format")
     return(NULL)
   }
 
@@ -68,7 +68,7 @@ read_shark_deliv <- function(filename, skip = 2, sheet = 2) {
   if ("SDATE" %in% names(i)) {
     i$SDATE <- as.Date(i$SDATE)
   } else {
-    warning("Column 'SDATE' not found. Skipping date conversion.")
+    cli::cli_warn("Column {.field SDATE} not found. Skipping date conversion.")
   }
 
   return(i)
@@ -76,12 +76,14 @@ read_shark_deliv <- function(filename, skip = 2, sheet = 2) {
 
 #' Read SHARK export files (tab- or semicolon-delimited, plain text or zipped)
 #'
+#' @description
 #' Reads tab- or semicolon-delimited SHARK export files with standardized format.
 #' The function can handle plain text files (`.txt`) or zip archives (`.zip`) containing
 #' a file named `shark_data.txt`. It automatically detects and converts column types
 #' and can optionally coerce the `"value"` column to numeric. The `"sample_date"` column
 #' is converted to `Date` if it exists.
 #'
+#' @details
 #' This function is robust to file encoding issues. By default (`guess_encoding = TRUE`),
 #' it attempts to automatically detect the file encoding and will use it if it differs
 #' from the user-specified `encoding`. Automatic detection can be disabled.
@@ -133,7 +135,7 @@ read_shark <- function(filename,
   )
 
   if (!encoding %in% names(encoding_map)) {
-    warning("'encoding' must be one of 'cp1252', 'utf_8', 'utf_16', or 'latin_1'. Defaulting to 'utf_8'.")
+    cli::cli_warn("{.arg encoding} must be one of {.val cp1252}, {.val utf_8}, {.val utf_16}, or {.val latin_1}. Defaulting to {.val utf_8}.")
     encoding <- "utf_8"
   }
 
@@ -141,7 +143,7 @@ read_shark <- function(filename,
     delimiters,
     "point-tab"  = "\t",
     "point-semi" = ";",
-    { warning("Invalid 'delimiters'. Defaulting to 'point-tab'."); "\t" }
+    { cli::cli_warn("Invalid {.arg delimiters}. Defaulting to {.val point-tab}."); "\t" }
   )
 
   # Decide if file is zip or not
@@ -161,8 +163,7 @@ read_shark <- function(filename,
     best_guess <- normalize_encoding(detected$Encoding[1])
 
     if (!is.null(best_guess) && best_guess != encoding) {
-      message(sprintf("Detected encoding '%s' differs from specified '%s'. Using detected encoding.",
-                      detected$Encoding[1], encoding))
+      cli::cli_inform("Detected encoding {.val {detected$Encoding[1]}} differs from specified {.val {encoding}}. Using detected encoding.")
       encoding <- best_guess
     }
   }
@@ -201,8 +202,7 @@ read_shark <- function(filename,
   if (nrow(i) > 0) {
     return(i)
   } else {
-    msg <- if (is_zip) "Zip archive is empty or invalid" else "File is empty or invalid"
-    warning(msg, call. = FALSE)
+    cli::cli_warn(if (is_zip) "Zip archive is empty or invalid." else "File is empty or invalid.")
     return(NULL)
   }
 }
@@ -246,9 +246,11 @@ shark_read_deliv_xls <- function(filename, skip = 2, sheet = 2) {
 
 #' Read tab delimited files downloaded from SHARK
 #'
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #' This function is deprecated and has been replaced by [read_shark()].
 #'
+#' @details
 #' Uses `read_delim()` to read tab-delimited or semicolon-delimited files
 #' with standardized export format from SHARK.
 #'
@@ -277,9 +279,11 @@ shark_read <- function(filename, delimiters = "point-tab", encoding = "latin_1")
 
 #' Read zip archive and unzip tab delimited files downloaded from SHARK
 #'
+#' @description
 #' `r lifecycle::badge("deprecated")`
 #' This function is deprecated and has been replaced by [read_shark()].
 #'
+#' @details
 #' Uses `unz()` and `read_delim()` to extract and read tab-delimited or
 #' semicolon-delimited files with standardized export format from SHARK.
 #'

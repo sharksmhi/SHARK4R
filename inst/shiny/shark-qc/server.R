@@ -11,6 +11,15 @@ shinyServer(function(input, output, session) {
 
   options(shiny.maxRequestSize = 100*1024^2)
 
+  # Local null-coalescing operator (avoid relying on rlang or base R >= 4.4)
+  `%||%` <- function(a, b) if (is.null(a) || length(a) == 0 || is.na(a[1])) b else a
+
+  # Show an error notification with a user-friendly message
+  notify_error <- function(msg, e = NULL) {
+    detail <- if (!is.null(e)) paste0(": ", conditionMessage(e)) else ""
+    showNotification(paste0("❌ ", msg, detail), type = "error", duration = 10)
+  }
+
   # --- Reactive expression for whether we're in PROD or TEST
   is_prod <- reactive({
     req(input$env)
@@ -34,12 +43,7 @@ shinyServer(function(input, output, session) {
       opts <- load_shark_options(prod = is_prod())
       options_data(opts)
 
-      # Update Data Type dropdown
-      types <- opts$types
-      canonical_types <- type_lookup[types]
-      updateSelectizeInput(session, "datatype", choices = canonical_types, server = TRUE)
-
-      # Reset dataset dropdown
+      # Reset dataset dropdown; datatype dropdown is updated by the observer below
       updateSelectizeInput(session, "dataset", choices = NULL, server = TRUE)
 
       showNotification(paste(env_label, "environment loaded ✅"), type = "message")
@@ -97,15 +101,13 @@ shinyServer(function(input, output, session) {
   observeEvent(input$refreshData, {
     showNotification("Refreshing dataset list...", type = "message")
 
-    options_data(load_shark_options(prod = is_prod()))
-
-    types <- options_data()$types
-    canonical_types <- type_lookup[types]
-    updateSelectizeInput(session, "datatype", choices = canonical_types, server = TRUE)
-
-    updateSelectizeInput(session, "dataset", choices = NULL, server = TRUE)
-
-    showNotification("Dataset list refreshed ✅", type = "message")
+    tryCatch({
+      options_data(load_shark_options(prod = is_prod()))
+      updateSelectizeInput(session, "dataset", choices = NULL, server = TRUE)
+      showNotification("Dataset list refreshed ✅", type = "message")
+    }, error = function(e) {
+      notify_error("Could not refresh dataset list", e)
+    })
   })
 
   # --- Reactive value to store datasets
@@ -120,57 +122,57 @@ shinyServer(function(input, output, session) {
 
     file_path <- file.path(tempdir(), gsub(".zip", ".txt", basename(input$dataset)))
 
-    shiny::withProgress(message = "Downloading dataset...", {
-      df <- get_shark_data(
-        tableView = "sharkweb_all",
-        save_data = TRUE,
-        encoding = "latin_1",
-        file_path = file_path,
-        datasets = input$dataset,
-        hideEmptyColumns = TRUE,
-        prod = is_prod(),
-        verbose = FALSE
-      ) %>%
-        select(where(~ any(!is.na(.))))
+    tryCatch({
+      shiny::withProgress(message = "Downloading dataset...", {
+        df <- get_shark_data(
+          tableView = "sharkweb_all",
+          save_data = TRUE,
+          encoding = "latin_1",
+          file_path = file_path,
+          datasets = input$dataset,
+          hideEmptyColumns = TRUE,
+          prod = is_prod(),
+          verbose = FALSE
+        ) %>%
+          select(where(~ any(!is.na(.))))
 
-      # Convert types
-      df <- suppressWarnings(type.convert(df))
+        df <- suppressWarnings(type.convert(df))
 
-      dataset(df)
+        dataset(df)
+        dataset_path(file_path)
+      })
 
-      dataset_path(file_path)
+      showNotification(
+        ui = "Dataset downloaded successfully ✅",
+        action = tags$button("Copy path", class = "btn btn-link btn-sm", id = "copyBtn"),
+        duration = 5,
+        type = "message",
+        closeButton = TRUE
+      )
 
+      session$sendCustomMessage("setClipboard", list(
+        id = "copyBtn",
+        text = file_path
+      ))
+    }, error = function(e) {
+      notify_error("Failed to download dataset", e)
     })
-
-    # Show a notification with a copy-to-clipboard action
-    showNotification(
-      ui = paste("Dataset downloaded successfully ✅"),
-      action = tags$button(
-        "Copy path",
-        class = "btn btn-link btn-sm",
-        id = "copyBtn"
-      ),
-      duration = 5,
-      type = "message",
-      closeButton = TRUE
-    )
-
-    # Send JS to copy file path to clipboard when button clicked
-    session$sendCustomMessage("setClipboard", list(
-      id = "copyBtn",
-      text = file_path
-    ))
   })
 
   # --- Reactive dataset (uploaded or downloaded)
   shark_data <- reactive({
     if (!is.null(input$file1)) {
-      read_shark(input$file1$datapath, encoding = "latin_1")
+      tryCatch(
+        read_shark(input$file1$datapath, encoding = "latin_1"),
+        error = function(e) {
+          notify_error("Could not read uploaded ZIP file", e)
+          NULL
+        }
+      )
     } else if (!is.null(dataset()) && is.data.frame(dataset())) {
-      # Read downloaded dataset folder
       dataset()
     } else {
-      return(NULL)
+      NULL
     }
   })
 
@@ -404,18 +406,14 @@ shinyServer(function(input, output, session) {
 
   # --- Station distance map
   output$station_distance <- renderLeaflet({
-    req(shark_data())  # Ensure dataset is available
+    req(shark_data())
     nid <- showNotification("Calculating distance...", duration = NULL)
+    on.exit(removeNotification(nid), add = TRUE)
 
-    # Capture leaflet object
-    leaf <- check_station_distance(shark_data(),
-                                   plot_leaflet = TRUE,
-                                   verbose = FALSE,
-                                   only_bad = input$only_bad_distance)
-    removeNotification(nid)
-
-    # Return the leaflet object
-    leaf
+    check_station_distance(shark_data(),
+                           plot_leaflet = TRUE,
+                           verbose = FALSE,
+                           only_bad = input$only_bad_distance)
   })
 
   # --- Station distance table
@@ -726,12 +724,18 @@ shinyServer(function(input, output, session) {
 
     if ("scientific_name" %in% colnames(shark_data())) {
       nid <- showNotification("Matching taxa against Dyntaxa API...", duration = NULL)
+      on.exit(removeNotification(nid), add = TRUE)
 
-      dyntaxa_res <- is_in_dyntaxa(unique(shark_data()$scientific_name),
-                                   use_dwca = TRUE,
-                                   return_df = TRUE)
-
-      removeNotification(nid)
+      dyntaxa_res <- tryCatch(
+        is_in_dyntaxa(unique(shark_data()$scientific_name),
+                      use_dwca = TRUE,
+                      return_df = TRUE),
+        error = function(e) {
+          notify_error("Dyntaxa API request failed", e)
+          NULL
+        }
+      )
+      validate(need(!is.null(dyntaxa_res), "Could not fetch Dyntaxa results"))
 
       shark_dyntaxa_id <- shark_data() %>%
         select(scientific_name, dyntaxa_id) %>%
@@ -791,12 +795,22 @@ shinyServer(function(input, output, session) {
         distinct()
 
       nid <- showNotification("Matching taxa against WoRMS API...", duration = NULL)
+      on.exit(removeNotification(nid), add = TRUE)
 
-      # Find unique names and remove NA
-      scientific_names <- unique(shark_data()$scientific_name)[!is.na(unique(shark_data()$scientific_name))]
+      scientific_names <- unique(shark_data()$scientific_name)
+      scientific_names <- scientific_names[!is.na(scientific_names)]
 
-      worms_res <- match_worms_taxa(scientific_names, marine_only = FALSE,
-                                    bulk = TRUE, verbose = FALSE) %>%
+      worms_raw <- tryCatch(
+        match_worms_taxa(scientific_names, marine_only = FALSE,
+                         bulk = TRUE, verbose = FALSE),
+        error = function(e) {
+          notify_error("WoRMS API request failed", e)
+          NULL
+        }
+      )
+      validate(need(!is.null(worms_raw), "Could not fetch WoRMS results"))
+
+      worms_res <- worms_raw %>%
         distinct() %>%
         arrange(scientificname) %>%
         rename(aphia_id = AphiaID,
@@ -805,8 +819,6 @@ shinyServer(function(input, output, session) {
         select(scientific_name, in_worms, aphia_id) %>%
         left_join(shark_worms_id, by = "scientific_name") %>%
         mutate(shark_diff = ifelse(shark_aphia_id == aphia_id, FALSE, TRUE))
-
-      removeNotification(nid)
 
       DT::datatable(
         worms_res,
@@ -863,6 +875,7 @@ shinyServer(function(input, output, session) {
     filename = "report.html",
     content = function(file) {
       nid <- showNotification("Rendering report...", duration = NULL)
+      on.exit(removeNotification(nid), add = TRUE)
 
       tempReport <- file.path(tempdir(), "report.Rmd")
       file.copy("report.Rmd", tempReport, overwrite = TRUE)
@@ -888,14 +901,18 @@ shinyServer(function(input, output, session) {
         threshold_group = input$threshold_group
       )
 
-      rmarkdown::render(
-        tempReport,
-        output_file = file,
-        params = params,
-        envir = new.env(parent = globalenv())
+      tryCatch(
+        rmarkdown::render(
+          tempReport,
+          output_file = file,
+          params = params,
+          envir = new.env(parent = globalenv())
+        ),
+        error = function(e) {
+          notify_error("Report rendering failed", e)
+          stop(e)  # let downloadHandler signal the failed download
+        }
       )
-
-      removeNotification(nid)
     }
   )
 })

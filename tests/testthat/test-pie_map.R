@@ -46,7 +46,7 @@ test_that("create_pie_map works with custom column names", {
 test_that("create_pie_map errors on missing column", {
   df <- shark_df()
   df$value <- NULL
-  expect_error(create_pie_map(df), "missing required columns")
+  expect_error(create_pie_map(df), "missing required column")
 })
 
 test_that("create_pie_map errors on non-numeric value column", {

@@ -33,7 +33,7 @@ get_nua_taxa <- function(unparsed = FALSE) {
   url_response <- try(GET(url_short), silent = TRUE)
 
   if (inherits(url_response, "try-error") || http_error(url_response)) {
-    stop("The Nordic Microalgae server cannot be reached: ", url_short, ". Please check network connection.")
+    cli::cli_abort("The Nordic Microalgae server cannot be reached: {.url {url_short}}. Please check network connection.")
   }
 
   # Make the GET request
@@ -75,15 +75,17 @@ get_nua_taxa <- function(unparsed = FALSE) {
     return(result)
   } else {
     # Return the error message if the request failed
-    stop("Failed to retrieve options: ", status_code(response))
+    cli::cli_abort("Failed to retrieve options: HTTP {status_code(response)}")
   }
 }
 #' Retrieve external links or facts for taxa from Nordic Microalgae
 #'
+#' @description
 #' This function retrieves external links related to algae taxa from the Nordic Microalgae API.
 #' It takes a vector of slugs (taxon identifiers) and returns a data frame containing the external links
 #' associated with each taxon. The data includes the provider, label, external ID, and the URL of the external link.
 #'
+#' @details
 #' The slugs (taxon identifiers) used in this function can be retrieved using the `get_nua_taxa()` function,
 #' which returns a data frame with a column for taxon slugs, along with other relevant metadata for each taxon.
 #'
@@ -120,11 +122,10 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
   base_url_short <- gsub("api/facts/", "", base_url)
   url_response <- try(GET(base_url_short), silent = TRUE)
   if (inherits(url_response, "try-error") || http_error(url_response)) {
-    stop("The Nordic Microalgae server cannot be reached: ", base_url_short, ". Please check your network connection.")
+    cli::cli_abort("The Nordic Microalgae server cannot be reached: {.url {base_url_short}}. Please check your network connection.")
   }
 
-  # Set up progress bar
-  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(slug), style = 3)}
+  if (verbose) cli::cli_progress_bar("Retrieving NUA facts", total = length(slug))
 
   # Initialize an empty dataframe or list to store results
   if (unparsed) {
@@ -136,8 +137,7 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
   for (i in seq_along(slug)) {
     url <- paste0(base_url, slug[i])
 
-    # Update progress bar
-    if (verbose) {utils::setTxtProgressBar(pb, i)}
+    if (verbose) cli::cli_progress_update()
 
     # Make the GET request
     response <- GET(url, add_headers("accept" = "application/json"))
@@ -173,20 +173,22 @@ get_nua_external_links <- function(slug, verbose = TRUE, unparsed = FALSE) {
         nua_facts <- bind_rows(nua_facts, facts_df)
       }
     } else {
-      warning("Failed to retrieve facts for slug: ", slug[i], " (status code: ", status_code(response), ")")
+      cli::cli_warn("Failed to retrieve facts for slug: {.val {slug[i]}} (HTTP {status_code(response)})")
     }
   }
 
-  if (verbose) {close(pb)}
+  if (verbose) cli::cli_progress_done()
 
   return(nua_facts)
 }
 #' Retrieve harmfulness for taxa from Nordic Microalgae
 #'
+#' @description
 #' This function retrieves harmfulness information related to algae taxa from the Nordic Microalgae API.
 #' It takes a vector of slugs (taxon identifiers) and returns a data frame containing the harmfulness information
 #' associated with each taxon. The data includes the provider, label, external ID, and the URL of the external link.
 #'
+#' @details
 #' The slugs (taxon identifiers) used in this function can be retrieved using the `get_nua_taxa()` function,
 #' which returns a data frame with a column for taxon slugs, along with other relevant metadata for each taxon.
 #'
@@ -221,11 +223,10 @@ get_nua_harmfulness <- function(slug, verbose = TRUE) {
   base_url_short <- gsub("api/facts/", "", base_url)
   url_response <- try(GET(base_url_short), silent = TRUE)
   if (inherits(url_response, "try-error") || http_error(url_response)) {
-    stop("The Nordic Microalgae server cannot be reached: ", base_url_short, ". Please check your network connection.")
+    cli::cli_abort("The Nordic Microalgae server cannot be reached: {.url {base_url_short}}. Please check your network connection.")
   }
 
-  # Set up progress bar
-  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(slug), style = 3)}
+  if (verbose) cli::cli_progress_bar("Retrieving NUA harmfulness", total = length(slug))
 
   # Initialize an empty data frame to store results
   nua_facts <- tibble()
@@ -233,8 +234,7 @@ get_nua_harmfulness <- function(slug, verbose = TRUE) {
   for (i in seq_along(slug)) {
     url <- paste0(base_url, slug[i])
 
-    # Update progress bar
-    if (verbose) {utils::setTxtProgressBar(pb, i)}
+    if (verbose) cli::cli_progress_update()
 
     # Make the GET request
     response <- GET(url, add_headers("accept" = "application/json"))
@@ -266,11 +266,11 @@ get_nua_harmfulness <- function(slug, verbose = TRUE) {
       nua_facts <- bind_rows(nua_facts, facts_df)
 
     } else {
-      warning("Failed to retrieve facts for slug: ", slug[i], " (status code: ", status_code(response), ")")
+      cli::cli_warn("Failed to retrieve harmfulness for slug: {.val {slug[i]}} (HTTP {status_code(response)})")
     }
   }
 
-  if (verbose) {close(pb)}
+  if (verbose) cli::cli_progress_done()
 
   return(nua_facts)
 }
@@ -310,7 +310,7 @@ get_nua_media_links <- function(unparsed = FALSE) {
   base_url_short <- gsub("api/media/", "", base_url)
   url_response <- try(GET(base_url_short), silent = TRUE)
   if (inherits(url_response, "try-error") || http_error(url_response)) {
-    stop("The Nordic Microalgae server cannot be reached: ", base_url_short, ". Please check your network connection.")
+    cli::cli_abort("The Nordic Microalgae server cannot be reached: {.url {base_url_short}}. Please check your network connection.")
   }
 
   # Make the GET request
@@ -379,7 +379,7 @@ get_nua_media_links <- function(unparsed = FALSE) {
 
   } else {
     # Return the error message if the request failed
-    stop("Failed to retrieve options: ", status_code(response))
+    cli::cli_abort("Failed to retrieve options: HTTP {status_code(response)}")
   }
 }
 #' Retrieve media metadata from Nordic Microalgae
@@ -441,7 +441,7 @@ get_nua_media_metadata <- function(unparsed = FALSE) {
   base_url_short <- gsub("api/media/", "", base_url)
   url_response <- try(GET(base_url_short), silent = TRUE)
   if (inherits(url_response, "try-error") || http_error(url_response)) {
-    stop("The Nordic Microalgae server cannot be reached: ", base_url_short, ". Please check your network connection.")
+    cli::cli_abort("The Nordic Microalgae server cannot be reached: {.url {base_url_short}}. Please check your network connection.")
   }
 
   # Make the GET request
@@ -507,7 +507,7 @@ get_nua_media_metadata <- function(unparsed = FALSE) {
     return(nua_media_metadata)
 
   } else {
-    stop("Failed to retrieve media metadata: ", status_code(response))
+    cli::cli_abort("Failed to retrieve media metadata: HTTP {status_code(response)}")
   }
 }
 #' Retrieve image labeling media links from Nordic Microalgae
@@ -554,7 +554,7 @@ get_nua_image_labeling_links <- function(unparsed = FALSE) {
   base_url_short <- gsub("api/media/image_labeling/", "", base_url)
   url_response <- try(GET(base_url_short), silent = TRUE)
   if (inherits(url_response, "try-error") || http_error(url_response)) {
-    stop("The Nordic Microalgae server cannot be reached: ", base_url_short, ". Please check your network connection.")
+    cli::cli_abort("The Nordic Microalgae server cannot be reached: {.url {base_url_short}}. Please check your network connection.")
   }
 
   # Make the GET request
@@ -616,7 +616,7 @@ get_nua_image_labeling_links <- function(unparsed = FALSE) {
     return(nua_il_links)
 
   } else {
-    stop("Failed to retrieve image labeling media: ", status_code(response))
+    cli::cli_abort("Failed to retrieve image labeling media: HTTP {status_code(response)}")
   }
 }
 #' Retrieve image labeling metadata from Nordic Microalgae
@@ -675,7 +675,7 @@ get_nua_image_labeling_metadata <- function(unparsed = FALSE) {
   base_url_short <- gsub("api/media/image_labeling/", "", base_url)
   url_response <- try(GET(base_url_short), silent = TRUE)
   if (inherits(url_response, "try-error") || http_error(url_response)) {
-    stop("The Nordic Microalgae server cannot be reached: ", base_url_short, ". Please check your network connection.")
+    cli::cli_abort("The Nordic Microalgae server cannot be reached: {.url {base_url_short}}. Please check your network connection.")
   }
 
   # Make the GET request
@@ -737,6 +737,6 @@ get_nua_image_labeling_metadata <- function(unparsed = FALSE) {
     return(nua_il_metadata)
 
   } else {
-    stop("Failed to retrieve image labeling metadata: ", status_code(response))
+    cli::cli_abort("Failed to retrieve image labeling metadata: HTTP {status_code(response)}")
   }
 }

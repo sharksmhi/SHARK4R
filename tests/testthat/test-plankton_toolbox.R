@@ -108,7 +108,7 @@ test_that("get_peg_list prints the year in the message", {
 
   expect_message(
     get_peg_list(clean_cache_days = 1),
-    "Reading PEG biovolume Excel file for year: \\d{4}"
+    "Reading PEG biovolume Excel file for year"
   )
 })
 
@@ -175,7 +175,7 @@ test_that("clean_shark4r_cache does nothing if no old files", {
   Sys.setFileTime(new_file, Sys.time())
 
   expect_message(clean_shark4r_cache(days = 1, cache_dir = tmp_cache),
-                 "No files older than 1 days to remove.")
+                 "No files older than 1 day")
 
   unlink(tmp_cache, recursive = TRUE)
 })

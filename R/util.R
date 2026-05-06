@@ -41,7 +41,7 @@ clean_shark4r_cache <- function(days = 1,
   if (is.null(cache_dir)) cache_dir <- cache_dir()
 
   if (!dir.exists(cache_dir)) {
-    if (verbose) message("No SHARK4R cache directory found.")
+    if (verbose) cli::cli_inform("No {.pkg SHARK4R} cache directory found.")
     return(invisible(NULL))
   }
 
@@ -54,36 +54,36 @@ clean_shark4r_cache <- function(days = 1,
     }
   }
 
-  if (is.null(search_pattern) || search_pattern == "") {
-    # No filtering
-  } else {
+  if (!is.null(search_pattern) && nzchar(search_pattern)) {
     files <- files[grepl(search_pattern, basename(files))]
   }
 
   if (length(files) == 0) {
-    if (verbose) message("SHARK4R cache is already empty.")
+    if (verbose) cli::cli_inform(c("v" = "{.pkg SHARK4R} cache is already empty."))
     return(invisible(NULL))
   }
 
   old_files <- files[file.info(files)$mtime < Sys.time() - days * 24*60*60]
 
   if (length(old_files) == 0) {
-    if (verbose) message("No files older than ", days, " days to remove.")
+    if (verbose) cli::cli_inform("No files older than {days} day{?s} to remove.")
     return(invisible(NULL))
   }
 
   unlink(old_files, recursive = TRUE, force = TRUE)
-  if (verbose) message("Removed ", length(old_files), " file(s) older than ", days, " days from SHARK4R cache.")
+  if (verbose) cli::cli_inform("Removed {length(old_files)} file{?s} older than {days} day{?s} from {.pkg SHARK4R} cache.")
   invisible(NULL)
 }
 
 #' Download and set up SHARK4R support files
 #'
+#' @description
 #' This function downloads the \code{products} folder from
 #' the SHARK4R GitHub repository and places them in a user-specified directory.
 #' These folders contain Shiny applications and R Markdown documents used for
 #' quality control (QC) of SHARK data.
 #'
+#' @details
 #' If the `path` folders already exist, the download will be skipped unless
 #' \code{force = TRUE} is specified. Optionally, the function can launch the
 #' QC Shiny app directly after setup.
@@ -120,41 +120,55 @@ check_setup <- function(path, run_app = FALSE, force = FALSE, verbose = TRUE) {
 
   # If already present
   if (!force && dir.exists(products_dir)) {
-    if (verbose) message("Products and scripts already exist in: ", normalizePath(path))
+    if (verbose) cli::cli_inform("Products and scripts already exist in: {.file {normalizePath(path)}}")
   } else {
-    if (verbose) message("Downloading setup files for SHARK4R...")
+    # Pin download to the installed package version so users get reproducible
+    # support files rather than an unpinned snapshot of master.
+    pkg_version <- tryCatch(
+      as.character(utils::packageVersion("SHARK4R")),
+      error = function(e) NA_character_
+    )
+    dev_version <- !is.na(pkg_version) && grepl("\\.9[0-9]{3}$", pkg_version)
 
-    # GitHub master url
-    zip_url <- "https://github.com/sharksmhi/SHARK4R/archive/refs/heads/master.zip"
+    if (is.na(pkg_version) || dev_version) {
+      ref <- "master"
+      src_subdir <- "SHARK4R-master"
+    } else {
+      ref <- paste0("v", pkg_version)
+      src_subdir <- paste0("SHARK4R-", pkg_version)
+    }
+    zip_url <- paste0(
+      "https://github.com/sharksmhi/SHARK4R/archive/refs/",
+      if (ref == "master") "heads/master.zip" else paste0("tags/", ref, ".zip")
+    )
 
-    # Temporary download location
+    if (verbose) cli::cli_inform("Downloading setup files for {.pkg SHARK4R} ({ref})...")
+
     tmp <- tempfile(fileext = ".zip")
-    utils::download.file(zip_url, tmp, quiet = !verbose)
-
-    # Unpack into temp folder
+    on.exit(unlink(tmp), add = TRUE)
     unpack_dir <- tempfile()
+    on.exit(unlink(unpack_dir, recursive = TRUE), add = TRUE)
+
+    utils::download.file(zip_url, tmp, quiet = !verbose, mode = "wb")
     utils::unzip(tmp, exdir = unpack_dir)
 
-    # Source root inside the zip
-    src_root <- file.path(unpack_dir, "SHARK4R-master")
+    src_root <- file.path(unpack_dir, src_subdir)
+    if (!dir.exists(src_root)) {
+      # Fall back to whatever single directory the archive contains
+      top <- list.dirs(unpack_dir, recursive = FALSE)
+      if (length(top) == 1) src_root <- top
+    }
 
     dir.create(path, showWarnings = FALSE, recursive = TRUE)
-
-    # Copy the wanted folders
     file.copy(file.path(src_root, "products"), path, recursive = TRUE, overwrite = force)
-    # file.copy(file.path(src_root, "inst", "shiny", "shark-qc", "report.Rmd"), path, recursive = TRUE, overwrite = force)
 
-    # Clean up
-    unlink(tmp)
-    unlink(unpack_dir, recursive = TRUE)
-
-    if (verbose) message("Setup complete. Files are available in ", normalizePath(path))
+    if (verbose) cli::cli_inform(c("v" = "Setup complete. Files are available in {.file {normalizePath(path)}}"))
   }
 
   # Run Shiny app if requested
   if (run_app) {
 
-    message("Launching SHARK4R Bio-QC Shiny app...")
+    cli::cli_inform("Launching {.pkg SHARK4R} Bio-QC Shiny app...")
     run_qc_app()
   }
 
@@ -187,7 +201,7 @@ translate_shark_datatype <- function(x) {
   # Warn if some names are unknown
   unknown <- x[is.na(translated)]
   if (length(unknown) > 0) {
-    warning("Unknown datatype(s) not in .type_lookup: ", paste(unknown, collapse = ", "))
+    cli::cli_warn("Unknown datatype{?s} not in .type_lookup: {.val {unknown}}")
     translated[is.na(translated)] <- unknown  # keep original
   }
 
@@ -244,22 +258,23 @@ load_shark4r_stats <- function(file_name = "sea_basin.rds",
 
   # Try downloading the file
   tryCatch({
-    if (verbose) message("Downloading stats data from GitHub...")
+    if (verbose) cli::cli_inform("Downloading stats data from GitHub...")
     utils::download.file(url, destfile = tmp, mode = "wb", quiet = !verbose)
 
-    if (verbose) message("Reading ", file_name, " file into R...")
+    if (verbose) cli::cli_inform("Reading {.file {file_name}} into R...")
     data <- readRDS(tmp)
 
-    if (verbose) message("Data successfully loaded.")
+    if (verbose) cli::cli_inform(c("v" = "Data successfully loaded."))
     return(data)
   },
   error = function(e) {
-    stop("Failed to load data from GitHub: ", e$message)
+    cli::cli_abort("Failed to load data from GitHub: {e$message}")
   })
 }
 
 #' Load SHARK4R fields from GitHub
 #'
+#' @description
 #' This function downloads and sources the SHARK4R required and recommended field definitions
 #' directly from the
 #' [SHARK4R-statistics](https://github.com/nodc-sweden/SHARK4R-statistics) GitHub repository.
@@ -314,33 +329,34 @@ load_shark4r_fields <- function(verbose = TRUE) {
   tmp <- tempfile(fileext = ".rds")
 
   tryCatch({
-    if (verbose) message("Downloading SHARK4R field definitions from GitHub...")
+    if (verbose) cli::cli_inform("Downloading {.pkg SHARK4R} field definitions from GitHub...")
     utils::download.file(base_url, destfile = tmp, mode = "wb", quiet = !verbose)
 
-    if (verbose) message("Reading field definitions into R...")
+    if (verbose) cli::cli_inform("Reading field definitions into R...")
     defs <- readRDS(tmp)
 
     if (!is.list(defs)) {
-      stop("Downloaded field definitions file has unexpected format (expected a list).")
+      cli::cli_abort("Downloaded field definitions file has unexpected format (expected a list).")
     }
 
-    if (verbose) message("Field definitions successfully loaded.")
+    if (verbose) cli::cli_inform(c("v" = "Field definitions successfully loaded."))
     return(defs)
   },
   error = function(e) {
-    stop("Failed to load SHARK4R field definitions from GitHub: ", e$message,
-         call. = FALSE)
+    cli::cli_abort("Failed to load {.pkg SHARK4R} field definitions from GitHub: {e$message}")
   })
 }
 
 #' Convert coordinates from DDMM format to decimal degrees
 #'
+#' @description
 #' This function converts geographic coordinates provided in the DDMM
 #' format (degrees and minutes) to decimal degrees. It can handle:
 #' - DDMM (e.g., 5733 to 57°33' to 57.55°)
 #' - DDMMss or DDMMss… (extra digits after minutes are interpreted
 #'   as fractional minutes, e.g., 573345 to 57°33.45' to 57.5575°)
 #'
+#' @details
 #' Non-numeric characters are removed before conversion. Coordinates
 #' shorter than 4 digits are returned as `NA`.
 #'
@@ -398,20 +414,20 @@ missing_values <- function(data) {
 check_lonlat <- function(data, report = TRUE, latcol = "sample_latitude_dd", loncol = "sample_longitude_dd") {
   errors <- c()
   if (!loncol %in% names(data)) {
-    errors <- c(errors, sprintf("Column %s missing", loncol))
+    errors <- c(errors, cli::format_inline("Column {.field {loncol}} missing"))
   } else if (!is.numeric(data[[loncol]])) {
-    errors <- c(errors, sprintf("Column %s is not numeric", loncol))
+    errors <- c(errors, cli::format_inline("Column {.field {loncol}} is not numeric"))
   }
   if (!latcol %in% names(data)) {
-    errors <- c(errors, sprintf("Column %s missing", latcol))
+    errors <- c(errors, cli::format_inline("Column {.field {latcol}} missing"))
   } else if (!is.numeric(data[[latcol]])) {
-    errors <- c(errors, sprintf("Column %s is not numeric", latcol))
+    errors <- c(errors, cli::format_inline("Column {.field {latcol}} is not numeric"))
   }
   if(length(errors) > 0) {
     if(report) {
       return(tibble(level = "error", message = errors))
     } else {
-      stop(paste(errors, collapse = ", "))
+      cli::cli_abort(c("Invalid coordinate data:", stats::setNames(errors, rep("x", length(errors)))))
     }
   }
   return(NULL)
@@ -508,9 +524,9 @@ service_call <- function(url, msg) {
                raw_content <- httr::content(response, as="raw")
                if(response$status_code != 200) {
                  if(is.list(raw_content) && all(c("title", "description") %in% names(raw_content))) {
-                   stop(paste0(raw_content$title, ": ", raw_content$description))
+                   cli::cli_abort("{raw_content$title}: {raw_content$description}")
                  }
-                 stop(rawToChar(raw_content))
+                 cli::cli_abort(rawToChar(raw_content))
                }
                raw_content
              }))
@@ -538,10 +554,9 @@ cache_excel_download <- function(url = "https://smhi.se/oceanografi/oce_info_dat
 
     if (!ok) {
       if (file.exists(destfile)) {
-        warning("Download failed, using cached copy at: ", destfile)
+        cli::cli_warn("Download failed, using cached copy at: {.file {destfile}}")
       } else {
-        stop("Download failed and no cached file available. ",
-             "Check your internet connection or URL: ", url, call. = FALSE)
+        cli::cli_abort("Download failed and no cached file available. Check your internet connection or URL: {.url {url}}")
       }
     }
   }
@@ -559,7 +574,7 @@ cache_nomp_zip <- function(base_url = "https://www.smhi.se/oceanografi/oce_info_
 
   current_year <- as.numeric(format(Sys.Date(), "%Y"))
   if (year > current_year + 1) {
-    warning("Requested year is in the future. Using ", current_year + 1, " as starting year.")
+    cli::cli_warn("Requested year is in the future. Using {current_year + 1} as starting year.")
     year <- current_year + 1
   }
 
@@ -577,24 +592,24 @@ cache_nomp_zip <- function(base_url = "https://www.smhi.se/oceanografi/oce_info_
       }, error = function(e) FALSE, warning = function(w) FALSE)
 
       if (ok) {
-        if (verbose) message("File for year ", year, " downloaded and cached.")
+        if (verbose) cli::cli_inform(c("v" = "File for year {year} downloaded and cached."))
         return(destfile)
       } else if (file.exists(destfile)) {
-        warning("Download failed, using cached copy at: ", destfile)
+        cli::cli_warn("Download failed, using cached copy at: {.file {destfile}}")
         return(destfile)
       } else {
-        if (verbose) message("File for year ", year, " not available. Trying previous year...")
+        if (verbose) cli::cli_inform("File for year {year} not available. Trying previous year...")
         year <- year - 1
         next
       }
     } else {
-      if (verbose) message("File for year ", year, " found in cache.")
+      if (verbose) cli::cli_inform("File for year {year} found in cache.")
       # Already cached
       return(destfile)
     }
   }
 
-  stop("No NOMP biovolume file could be downloaded or found in cache for recent years.", call. = FALSE)
+  cli::cli_abort("No NOMP biovolume file could be downloaded or found in cache for recent years.")
 }
 
 cache_peg_zip <- function(url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL.zip",
@@ -615,9 +630,9 @@ cache_peg_zip <- function(url = "https://www.ices.dk/data/Documents/ENV/PEG_BVOL
 
     if (!ok) {
       if (file.exists(destfile)) {
-        warning("Download failed, using cached copy at: ", destfile)
+        cli::cli_warn("Download failed, using cached copy at: {.file {destfile}}")
       } else {
-        stop("Download failed and no cached file available. Check your internet connection or URL: ", url, call. = FALSE)
+        cli::cli_abort("Download failed and no cached file available. Check your internet connection or URL: {.url {url}}")
       }
     }
   }
@@ -636,7 +651,7 @@ normalize_encoding <- function(enc) {
   if (enc %in% c("ISO-8859-1", "LATIN1", "LATIN_1")) return("latin_1")
 
   # Fallback for unknowns
-  warning("Unknown encoding detected: ", enc, ". Defaulting to 'utf_8'.")
+  cli::cli_warn("Unknown encoding detected: {.val {enc}}. Defaulting to {.val utf_8}.")
   return("utf_8")
 }
 
@@ -671,11 +686,33 @@ is_check <- function() {
 
 cache_dir <- function() {
   if (is_check()) {
-    file.path(tempdir(), "SHARK4R")
-  } else {
-    tools::R_user_dir("SHARK4R", "cache")
+    # During R CMD check (incl. --run-donttest) the cache lives in tempdir(),
+    # which R cleans automatically. Nothing is written to the user's
+    # R_user_dir, satisfying CRAN's "no files left in user folder" rule.
+    return(file.path(tempdir(), "SHARK4R"))
   }
+
+  persistent <- tools::R_user_dir("SHARK4R", "cache")
+
+  # Lazy, once-per-session stale cleanup of the persistent cache. Runs the
+  # first time cache_dir() is called (and only if the directory already
+  # exists), so we never create files at package load and never delete them
+  # on detach.
+  if (!isTRUE(.shark_state$cache_cleaned)) {
+    .shark_state$cache_cleaned <- TRUE
+    if (dir.exists(persistent)) {
+      try(
+        clean_shark4r_cache(days = 1, cache_dir = persistent, verbose = FALSE),
+        silent = TRUE
+      )
+    }
+  }
+
+  persistent
 }
+
+.shark_state <- new.env(parent = emptyenv())
+.shark_state$cache_cleaned <- FALSE
 
 .hab_state <- new.env(parent = emptyenv())
 .hab_state$last_call_time <- NULL

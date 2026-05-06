@@ -94,7 +94,7 @@ match_algaebase_taxa <- function(genera, species, subscription_key = Sys.getenv(
 
   # Check input lengths
   if (length(genera) != length(species)) {
-    stop("`genera` and `species` vectors must be of equal length.")
+    cli::cli_abort("{.arg genera} and {.arg species} vectors must be of equal length.")
   }
 
   # Check for deprecated 'apikey' argument
@@ -107,12 +107,12 @@ match_algaebase_taxa <- function(genera, species, subscription_key = Sys.getenv(
   }
 
   if (is.null(subscription_key) || subscription_key == "") {
-    stop("No AlgaeBase subscription key provided. See ?match_algaebase_taxa for setup instructions.")
+    cli::cli_abort("No AlgaeBase subscription key provided. See {.fn match_algaebase_taxa} for setup instructions.")
   }
 
   # Check if API is operational
   if (!check_algaebase_api(subscription_key)) {
-    stop("API is not operational or the API key is invalid. Please check and try again.")
+    cli::cli_abort("AlgaeBase API is not operational or the {.arg subscription_key} is invalid. Please check and try again.")
   }
 
   # Create unique combinations of genera and species
@@ -144,15 +144,13 @@ match_algaebase_taxa <- function(genera, species, subscription_key = Sys.getenv(
     return(err_df)
   }
 
-  # Set up progress bar
-  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = nrow(unique_data), style = 3)}
+  if (verbose) cli::cli_progress_bar("Matching AlgaeBase taxa", total = nrow(unique_data))
 
   # Main loop over unique combinations
   for (i in seq_len(nrow(unique_data))) {
     Sys.sleep(sleep_time)
 
-    # Update progress bar
-    if (verbose) {utils::setTxtProgressBar(pb, i)}
+    if (verbose) cli::cli_progress_update()
 
     genus_i <- unique_data$genus[i]
     species_i <- unique_data$species[i]
@@ -190,7 +188,7 @@ match_algaebase_taxa <- function(genera, species, subscription_key = Sys.getenv(
     algaebase_df <- rbind(algaebase_df, tmp)
   }
 
-  if (verbose) {close(pb)}
+  if (verbose) cli::cli_progress_done()
 
   # Create input_name for joining (matches the input_name created by sub-functions)
   input_data$input_name <- ifelse(
@@ -1133,7 +1131,7 @@ check_algaebase_api <- function(subscription_key = Sys.getenv("ALGAEBASE_KEY"), 
       if (httr::status_code(response) == 200) {
         return(TRUE)
       } else {
-        stop("API request failed with status: ", httr::status_code(response))
+        cli::cli_abort("AlgaeBase API request failed with status: {httr::status_code(response)}")
       }
     },
     error = function(e) {

@@ -58,10 +58,10 @@ and position points colored by their proximity to land.
 This function is a \strong{wrapper/re-export} of
 \code{iRfcb::ifcb_is_near_land()}. The \code{iRfcb} package is only required
 if you want to actually call this function.
+
+Determines whether given positions are near land based on a land polygon shape file.
 }
 \details{
-Determines whether given positions are near land based on a land polygon shape file.
-
 This function calculates a buffered area around the coastline using a polygon shapefile and
 determines if each input position intersects with this buffer or the landmass itself.
 By default, it uses the OBIS land vector dataset.

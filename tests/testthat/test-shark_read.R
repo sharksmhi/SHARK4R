@@ -61,7 +61,7 @@ test_that("read_shark reads valid .txt", {
   file <- file.path(exdir, "sharkweb_data.txt")
   expect_warning(read_shark(file,
                             encoding = "no-encoding"),
-                 "'encoding' must be one of")
+                 "encoding.*must be one of")
 
   result <- suppressWarnings(read_shark(file,
                                         encoding = "no-encoding"))
@@ -71,7 +71,7 @@ test_that("read_shark reads valid .txt", {
 
   expect_warning(read_shark(file,
                             delimiters = "no-delim"),
-                 "Invalid 'delimiters'")
+                 "Invalid.*delimiters")
 
   result <- suppressWarnings(read_shark(file,
                                         delimiters = "no-delim"))
@@ -107,7 +107,7 @@ test_that("read_shark reads valid .txt", {
   file <- file.path(exdir, "SHARK_Chlorophyll_2022_SMHI_version_2023-04-28.zip")
   expect_warning(read_shark(file,
                                 encoding = "no-encoding"),
-                 "'encoding' must be one of")
+                 "encoding.*must be one of")
 
   result <- suppressWarnings(read_shark(file,
                                             encoding = "no-encoding"))
@@ -117,7 +117,7 @@ test_that("read_shark reads valid .txt", {
 
   expect_warning(read_shark(file,
                                 delimiters = "no-delim"),
-                 "Invalid 'delimiters'")
+                 "Invalid.*delimiters")
 
   result <- suppressWarnings(read_shark(file,
                                             delimiters = "no-delim"))

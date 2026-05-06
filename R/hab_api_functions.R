@@ -32,10 +32,10 @@ get_toxin_list <- function(return_count = FALSE) {
   )
 
   if (inherits(res, "error")) {
-    warning(
-      "Partial response detected during download. Returning only complete toxin records. ",
-      "Error: ", conditionMessage(res)
-    )
+    cli::cli_warn(c(
+      "Partial response detected during download. Returning only complete toxin records.",
+      "x" = "{conditionMessage(res)}"
+    ))
   }
 
   txt <- readLines(temp_file, warn = FALSE)
@@ -131,7 +131,7 @@ get_hab_list <- function(species_only = TRUE,
               accepted_taxon)
 
   if (!any(params)) {
-    stop("At least one column must be selected (i.e., one parameter set to TRUE).")
+    cli::cli_abort("At least one column must be selected (i.e., one parameter set to TRUE).")
   }
 
   # Rate limit of 5 seconds between calls
@@ -293,7 +293,7 @@ get_hab_list <- function(species_only = TRUE,
     # Return the dataframe
     return(habs_taxlist_df)
   } else {
-    stop("Failed to download the HABs list. Status code:", response$status_code)
+    cli::cli_abort("Failed to download the HABs list. Status code: {response$status_code}")
   }
 }
 

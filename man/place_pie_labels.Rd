@@ -34,7 +34,7 @@ anchor range.}
 }
 \description{
 Uses a greedy sequential algorithm: stations are processed most-constrained
-first, and each label is placed in the direction that maximises clearance
+first, and each label is placed in the direction that maximizes clearance
 from all pie circles \emph{and} from already-placed label bounding boxes.
 }
 \keyword{internal}

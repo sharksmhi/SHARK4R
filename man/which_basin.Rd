@@ -23,11 +23,11 @@ A vector indicating the basin each point belongs to, or a ggplot object if \code
 This function is a \strong{wrapper/re-export} of
 \code{iRfcb::ifcb_which_basin()}. The \code{iRfcb} package is only required
 if you want to actually call this function.
-}
-\details{
+
 This function identifies which sub-basin a set of latitude and longitude points belong to, using a user-specified or default shapefile.
 The default shapefile includes the Baltic Sea, Kattegat, and Skagerrak basins and is included in the \code{iRfcb} package.
-
+}
+\details{
 This function reads a pre-packaged shapefile of the Baltic Sea, Kattegat, and Skagerrak basins from the \code{iRfcb} package by default, or a user-supplied
 shapefile if provided. The shapefiles originate from SHARK (https://shark.smhi.se/en/). It sets the CRS, transforms the CRS to WGS84 (EPSG:4326) if necessary, and checks if the given points
 fall within the specified sea basin. Optionally, it plots the points and the sea basin polygons together.

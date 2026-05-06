@@ -192,7 +192,7 @@ test_that("match_dyntaxa calls is_in_dyntaxa and warns about deprecation", {
 
   taxa <- c("Skeletonema marinoi", "Nonexistent species")
 
-  expect_warning(res <- match_dyntaxa(taxa), "deprecated")
+  suppressMessages(expect_warning(res <- match_dyntaxa(taxa), "deprecated"))
   expect_type(res, "logical")
   expect_length(res, length(taxa))
 })
@@ -207,14 +207,15 @@ test_that("construct_dyntaxa_missing_table caches results", {
   related_parent_ids <- get_dyntaxa_parent_ids(tail(parent_ids[[1]], 2), dyntaxa_key)
   output <- capture.output(SHARK4R:::construct_dyntaxa_missing_table(related_parent_ids,
                                                          subscription_key = dyntaxa_key,
-                                                         add_genus_children = TRUE))
+                                                         add_genus_children = TRUE),
+                           type = "message")
 
   # Collapse the output lines into a single string (optional)
   output_text <- paste(output, collapse = " ")
 
   # Test with regex
-  expect_match(output_text, "Cached taxa requests: [0-9]+")
-  expect_match(output_text, "Unique taxa requests: [0-9]+")
+  expect_match(output_text, "Cached requests: [0-9]+")
+  expect_match(output_text, "Unique API requests: [0-9]+")
 })
 
 test_that("functions stops if input key is missing or wrong", {
@@ -234,5 +235,5 @@ test_that("get_dyntaxa_dwca stops if file_to_read is wrong", {
   skip_if(!has_dyntaxa_key, "DYNTAXA_KEY not set")
 
   expect_error(get_dyntaxa_dwca(subscription_key = dyntaxa_key,
-                                file_to_read = "non-existing-file"), "Invalid file_to_read")
+                                file_to_read = "non-existing-file"), "Invalid.*file_to_read")
 })

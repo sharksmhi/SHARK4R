@@ -105,6 +105,7 @@ Oithona
 Oncaea
 Orderers
 Ostend
+PROJ
 Paffenhofer
 Paffenhöfer
 Paracalanus
@@ -133,6 +134,7 @@ Sundqvist
 Svenskt
 Temora
 Tillmann
+UI
 UTV
 Uye
 WoRMS
@@ -146,6 +148,7 @@ algaebase
 appendicularia
 avirostris
 barcoding
+basemap
 bathymetry
 benthic
 benthos
@@ -165,7 +168,6 @@ copepods
 cyanobacteria
 datatable
 datatypes
-datavardskap
 davisae
 df
 dinoflagellate
@@ -180,22 +182,20 @@ funder
 geopackage
 geospatial
 ggplot
+ggplot's
 github
 hab
 hamatus
-hav
-havsmiljo
 http
 https
 iRfcb
 infraspecies
 interquantile
 io
+js
 leukarti
-leverera
 longicornis
 longiremis
-marinbiologi
 marinespecies
 mesozooplankton
 microalgae
@@ -209,7 +209,6 @@ nordicmicroalgae
 nordmanni
 nrow
 obistools
-oceanografi
 onwards
 organisation
 parvus
@@ -224,6 +223,7 @@ readxl
 rubrum
 sd
 se
+secchi
 sharkdata
 similis
 smhi

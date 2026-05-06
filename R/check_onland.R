@@ -71,8 +71,8 @@ check_onland <- function(data, land = NULL, report = FALSE, buffer = 0, offline 
   errors <- check_lonlat(data, report)
   if (NROW(errors) > 0 && report) return(errors)
 
-  if(!is.null(land) && !offline) warning("The land parameter is not supported when offline = FALSE")
-  if (buffer !=0 && offline) warning("The buffer parameter is not supported when offline = TRUE")
+  if(!is.null(land) && !offline) cli::cli_warn("The {.arg land} parameter is not supported when {.arg offline} = FALSE")
+  if (buffer !=0 && offline) cli::cli_warn("The {.arg buffer} parameter is not supported when {.arg offline} = TRUE")
 
   if (offline && is.null(land)) {
     cache_dir <- file.path(cache_dir(), "perm")
@@ -83,7 +83,7 @@ check_onland <- function(data, land = NULL, report = FALSE, buffer = 0, offline 
         utils::download.file("https://obis-resources.s3.amazonaws.com/land.gpkg", landpath, mode = "wb"),
         error = function(e) {
           unlink(landpath)
-          stop("Failed to download land shapefile: ", e$message, call. = FALSE)
+          cli::cli_abort("Failed to download land shapefile: {e$message}")
         }
       )
     }
@@ -91,12 +91,11 @@ check_onland <- function(data, land = NULL, report = FALSE, buffer = 0, offline 
       sf::read_sf(landpath) %>% terra::vect()
     }, error = function(e) {
       unlink(landpath)
-      stop(
-        "Failed to read land shapefile (removed corrupt file). ",
-        "Please re-run to trigger a fresh download.\n",
-        "Error: ", e$message,
-        call. = FALSE
-      )
+      cli::cli_abort(c(
+        "Failed to read land shapefile (removed corrupt file).",
+        "i" = "Please re-run to trigger a fresh download.",
+        "x" = "{e$message}"
+      ))
     })
   }
 

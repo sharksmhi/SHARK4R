@@ -112,7 +112,7 @@ add_worms_taxonomy <- function(aphia_ids,
 
   # --- Input validation ---
   if (!is.null(scientific_names) && length(aphia_ids) != length(scientific_names)) {
-    stop("'scientific_names' and 'aphia_ids' must have the same length.")
+    cli::cli_abort("{.arg scientific_names} and {.arg aphia_ids} must have the same length.")
   }
 
   # --- Resolve missing AphiaIDs from scientific names ---
@@ -121,7 +121,7 @@ add_worms_taxonomy <- function(aphia_ids,
     to_match <- scientific_names[is.na(aphia_ids)]
 
     if (length(to_match) > 0) {
-      if (verbose) cat("Resolving", length(unique(to_match)), "missing AphiaIDs from scientific names...\n")
+      if (verbose) cli::cli_inform("Resolving {length(unique(to_match))} missing AphiaID{?s} from scientific names...")
 
       worms_records <- match_worms_taxa(unique(to_match), verbose = verbose)
       name_map <- dplyr::select(worms_records, name, AphiaID)
@@ -130,7 +130,7 @@ add_worms_taxonomy <- function(aphia_ids,
         dplyr::left_join(name_map, by = c("scientific_names" = "name")) %>%
         dplyr::mutate(aphia_ids = dplyr::coalesce(aphia_ids, AphiaID))
     } else if (verbose) {
-      cat("All AphiaIDs provided, skipping name lookup.\n")
+      cli::cli_inform("All AphiaIDs provided, skipping name lookup.")
     }
 
     aphia_ids <- aphia_id_df$aphia_ids
@@ -232,7 +232,7 @@ get_worms_records <- function(aphia_ids, max_retries = 3, sleep_time = 10, verbo
   no_content_messages <- c()
 
   if (verbose) {
-    pb <- utils::txtProgressBar(min = 0, max = length(aphia_ids), style = 3)
+    cli::cli_progress_bar("Retrieving WoRMS records", total = length(aphia_ids))
   }
 
   for (i in seq_along(aphia_ids)) {
@@ -240,7 +240,7 @@ get_worms_records <- function(aphia_ids, max_retries = 3, sleep_time = 10, verbo
     worms_record <- NULL
 
     # Update progress bar
-    if (verbose) utils::setTxtProgressBar(pb, i)
+    if (verbose) cli::cli_progress_update()
 
     # Check cache first
     if (!is.null(cache[[as.character(id)]])) {
@@ -268,11 +268,9 @@ get_worms_records <- function(aphia_ids, max_retries = 3, sleep_time = 10, verbo
             )
             success <<- TRUE
           } else if (attempt == max_retries) {
-            stop("Error retrieving WoRMS record for AphiaID ", id,
-                 " after ", max_retries, " attempts: ", error_message)
+            cli::cli_abort("Error retrieving WoRMS record for AphiaID {id} after {max_retries} attempts: {error_message}")
           } else {
-            message("Attempt ", attempt, " failed for AphiaID ", id, ": ",
-                    error_message, " - Retrying...")
+            cli::cli_warn("Attempt {attempt} failed for AphiaID {id}: {error_message} - Retrying...")
             Sys.sleep(sleep_time)
           }
         })
@@ -295,10 +293,11 @@ get_worms_records <- function(aphia_ids, max_retries = 3, sleep_time = 10, verbo
     worms_records <- bind_rows(worms_records, worms_record)
   }
 
-  if (verbose) close(pb)
+  if (verbose) cli::cli_progress_done()
 
   if (verbose && length(no_content_messages) > 0) {
-    cat(paste(no_content_messages, collapse = "\n"), "\n")
+    cli::cli_inform(c("WoRMS returned no content for some AphiaIDs:",
+                      stats::setNames(no_content_messages, rep("i", length(no_content_messages)))))
   }
 
   worms_records
@@ -384,7 +383,7 @@ match_worms_taxa <- function(taxa_names,
   unique_taxa <- unique(taxa_names)
   name_map <- data.frame(
     taxa_names = unique_taxa,
-    cleaned = vapply(unique_taxa, clean_taxon, character(1)),
+    cleaned = vapply(unique_taxa, clean_taxon, character(1), USE.NAMES = FALSE),
     stringsAsFactors = FALSE,
     row.names = NULL
   )
@@ -439,7 +438,7 @@ match_worms_taxa <- function(taxa_names,
                         scientificname = NA_character_))
         }
         if (attempt == attempt_max) {
-          stop("Error retrieving WoRMS record for '", q, "' after ", attempt_max, " attempts: ", msg)
+          cli::cli_abort("Error retrieving WoRMS record for {.val {q}} after {attempt_max} attempts: {msg}")
         } else {
           Sys.sleep(sleep_time)
           attempt <<- attempt + 1
@@ -519,8 +518,7 @@ match_worms_taxa <- function(taxa_names,
             worms_unique_list <<- c(worms_unique_list, fallback)
             success <<- TRUE
           } else if (attempt == max_retries) {
-            stop("Error retrieving WoRMS records for chunk ", chunk_idx,
-                 " after ", max_retries, " attempts: ", msg)
+            cli::cli_abort("Error retrieving WoRMS records for chunk {chunk_idx} after {max_retries} attempts: {msg}")
           } else {
             Sys.sleep(sleep_time)
           }
@@ -531,15 +529,15 @@ match_worms_taxa <- function(taxa_names,
   } else {
     # iterative calls for each cleaned name (excluding _empty_)
     names_to_query <- unique_names_api
-    if (verbose && length(names_to_query) > 0) pb <- utils::txtProgressBar(min = 0, max = length(names_to_query), style = 3)
+    if (verbose && length(names_to_query) > 0) cli::cli_progress_bar("Retrieving WoRMS records", total = length(names_to_query))
     for (i in seq_along(names_to_query)) {
       q <- names_to_query[i]
-      if (verbose) utils::setTxtProgressBar(pb, i)
+      if (verbose) cli::cli_progress_update()
       # fetch with retries
       worms_res <- fetch_single(q, max_retries)
       worms_unique_list <- c(worms_unique_list, list(worms_res))
     }
-    if (verbose && length(names_to_query) > 0) close(pb)
+    if (verbose && length(names_to_query) > 0) cli::cli_progress_done()
   }
 
   # ---------------------------
@@ -741,7 +739,7 @@ assign_phytoplankton_group <- function(scientific_names, aphia_ids = NULL,
                                        verbose = TRUE) {
   # Ensure input lengths match
   if (!length(aphia_ids) == length(scientific_names) & !is.null(aphia_ids)) {
-    stop("'aphia_ids' and 'scientific_names' must have the same length.")
+    cli::cli_abort("{.arg aphia_ids} and {.arg scientific_names} must have the same length.")
   }
 
   # Create a data frame to store input data
@@ -1027,24 +1025,24 @@ get_worms_taxonomy_tree <- function(aphia_ids,
                                     verbose = TRUE) {
   # --- Input validation ---
   if (missing(aphia_ids) || all(is.na(aphia_ids))) {
-    stop("No valid 'aphia_ids' provided.")
+    cli::cli_abort("No valid {.arg aphia_ids} provided.")
   }
 
   unique_ids <- unique(stats::na.omit(aphia_ids))
   if (length(unique_ids) == 0) {
-    stop("All 'aphia_ids' values are NA.")
+    cli::cli_abort("All {.arg aphia_ids} values are {.val NA}.")
   }
 
   if (verbose) {
-    cat("Retrieving higher taxonomy for", length(unique_ids), "unique AphiaIDs...\n")
-    pb1 <- utils::txtProgressBar(min = 0, max = length(unique_ids), style = 3)
+    cli::cli_inform("Retrieving higher taxonomy for {length(unique_ids)} unique AphiaID{?s}...")
+    cli::cli_progress_bar("Retrieving higher taxonomy", total = length(unique_ids))
   }
 
   # --- Retrieve hierarchical data from WoRMS ---
   worms_list <- vector("list", length(unique_ids))
 
   for (i in seq_along(unique_ids)) {
-    if (verbose) utils::setTxtProgressBar(pb1, i)
+    if (verbose) cli::cli_progress_update()
     id <- unique_ids[i]
 
     worms_list[[i]] <- tryCatch({
@@ -1062,18 +1060,18 @@ get_worms_taxonomy_tree <- function(aphia_ids,
     })
   }
 
-  if (verbose) close(pb1)
+  if (verbose) cli::cli_progress_done()
 
   worms_unique <- dplyr::bind_rows(worms_list) %>%
     dplyr::distinct()
 
   if (!"AphiaID" %in% names(worms_unique)) {
-    stop("No valid WoRMS records retrieved.")
+    cli::cli_abort("No valid WoRMS records retrieved.")
   }
 
   if (verbose) {
     n_ids <- length(unique(worms_unique$AphiaID))
-    cat("Retrieving records for", n_ids, "unique AphiaIDs...\n")
+    cli::cli_inform("Retrieving records for {n_ids} unique AphiaID{?s}...")
   }
 
   # --- Retrieve detailed records for all AphiaIDs ---
@@ -1086,8 +1084,8 @@ get_worms_taxonomy_tree <- function(aphia_ids,
 
     if (length(unique_genera) > 0) {
       if (verbose) {
-        cat("Retrieving child records for", length(unique_genera), "unique genera...\n")
-        pb2 <- utils::txtProgressBar(min = 0, max = length(unique_genera), style = 3)
+        cli::cli_inform("Retrieving child records for {length(unique_genera)} unique genera...")
+        cli::cli_progress_bar("Retrieving child records", total = length(unique_genera))
       }
 
       children_list <- tibble()
@@ -1095,7 +1093,7 @@ get_worms_taxonomy_tree <- function(aphia_ids,
       for (i in seq_along(unique_genera)) {
         genus_id <- unique_genera[i]
 
-        if (verbose) utils::setTxtProgressBar(pb2, i)
+        if (verbose) cli::cli_progress_update()
 
         children <- tryCatch({
           worrms::wm_children(genus_id)
@@ -1108,7 +1106,7 @@ get_worms_taxonomy_tree <- function(aphia_ids,
         }
       }
 
-      if (verbose) close(pb2)
+      if (verbose) cli::cli_progress_done()
 
       # Bind with main data frame
       if (nrow(children_list) > 0) {
@@ -1122,8 +1120,8 @@ get_worms_taxonomy_tree <- function(aphia_ids,
     aphia_ids_to_use <- unique(worms_records$AphiaID)
 
     if (verbose) {
-      cat("Retrieving synonym records for", length(aphia_ids_to_use), "unique taxa...\n")
-      pb3 <- utils::txtProgressBar(min = 0, max = length(aphia_ids_to_use), style = 3)
+      cli::cli_inform("Retrieving synonym records for {length(aphia_ids_to_use)} unique taxa...")
+      cli::cli_progress_bar("Retrieving synonyms", total = length(aphia_ids_to_use))
     }
 
     synonyms <- tibble()
@@ -1131,7 +1129,7 @@ get_worms_taxonomy_tree <- function(aphia_ids,
     for (i in seq_along(aphia_ids_to_use)) {
       id <- aphia_ids_to_use[i]
 
-      if (verbose) utils::setTxtProgressBar(pb3, i)
+      if (verbose) cli::cli_progress_update()
 
       synonym <- tryCatch({
         worrms::wm_synonyms(id)
@@ -1148,7 +1146,7 @@ get_worms_taxonomy_tree <- function(aphia_ids,
     worms_records <- bind_rows(worms_records, synonyms) %>%
       dplyr::distinct()
 
-    if (verbose) close(pb3)
+    if (verbose) cli::cli_progress_done()
   }
 
   # --- Add hierarchy ---
@@ -1266,22 +1264,22 @@ get_worms_classification <- function(aphia_ids,
 
   # --- Input validation ---
   if (is.null(aphia_ids) || length(aphia_ids) == 0) {
-    stop("'aphia_ids' cannot be NULL or empty.")
+    cli::cli_abort("{.arg aphia_ids} cannot be NULL or empty.")
   }
 
   input_ids <- aphia_ids  # keep original input for matching
   aphia_ids <- aphia_ids[!is.na(aphia_ids)]
 
   if (verbose) {
-    cat("Retrieving WoRMS classification for", length(aphia_ids), "AphiaIDs.\n")
-    pb <- utils::txtProgressBar(min = 0, max = length(aphia_ids), style = 3)
+    cli::cli_inform("Retrieving WoRMS classification for {length(aphia_ids)} AphiaID{?s}.")
+    cli::cli_progress_bar("Retrieving WoRMS classification", total = length(aphia_ids))
   }
 
   worms_list <- vector("list", length(aphia_ids))
 
   # --- Retrieve classification for each AphiaID ---
   for (i in seq_along(aphia_ids)) {
-    if (verbose) utils::setTxtProgressBar(pb, i)
+    if (verbose) cli::cli_progress_update()
     id <- aphia_ids[i]
 
     worms_list[[i]] <- tryCatch({
@@ -1320,12 +1318,12 @@ get_worms_classification <- function(aphia_ids,
       }
 
     }, error = function(e) {
-      if (verbose) message("Failed to retrieve classification for AphiaID ", id, ": ", e$message)
+      if (verbose) cli::cli_warn("Failed to retrieve WoRMS classification for AphiaID {id}: {conditionMessage(e)}")
       tibble(aphia_id = id)
     })
   }
 
-  if (verbose) close(pb)
+  if (verbose) cli::cli_progress_done()
 
   # --- Combine all results ---
   df_all <- dplyr::bind_rows(worms_list)
