@@ -2,7 +2,7 @@
 % Please edit documentation in R/pie_map.R
 \name{repel_pie_centers}
 \alias{repel_pie_centers}
-\title{Displace pie chart centres away from each other}
+\title{Displace pie chart centers away from each other}
 \usage{
 repel_pie_centers(
   wide,
@@ -17,9 +17,9 @@ repel_pie_centers(
 (the per-station pie radius in latitude degrees). True (anchor)
 coordinates are read from \code{lon}/\code{lat}.}
 
-\item{map_xlim, map_ylim}{Numeric length-2 vectors bounding the pie centre.}
+\item{map_xlim, map_ylim}{Numeric length-2 vectors bounding the pie center.}
 
-\item{min_sep}{Minimum centre-to-centre separation between two pies,
+\item{min_sep}{Minimum center-to-center separation between two pies,
 expressed as a multiple of the larger of the two radii. Default \code{2.40}.}
 
 \item{min_disp}{Minimum displacement for a pie that is moved at all,
@@ -28,7 +28,7 @@ expressed as a multiple of its radius. Default \code{1.60}.}
 \value{
 \code{wide} with added columns \code{anchor_lon}, \code{anchor_lat}
 (the true station coordinates) and updated \code{lon}/\code{lat}
-holding the displaced pie centres.
+holding the displaced pie centers.
 }
 \description{
 Sequential, asymmetric placement so that pie charts never overlap and any

@@ -30,7 +30,7 @@
 #' @export
 check_value_logical <- function(data, return_df = FALSE) {
   if (!"value" %in% names(data)) {
-    stop("data must contain a 'value' column")
+    cli::cli_abort("{.arg data} must contain a {.field value} column.")
   }
 
   vals <- data$value
@@ -47,9 +47,10 @@ check_value_logical <- function(data, return_df = FALSE) {
   non_valid_idx <- !valid_ok
 
   if (any(non_valid_idx)) {
-    warning("Expected numerical/logical value but found invalid characters. ",
-            "Common problems are e.g. '<', '>' signs, text labels, or malformed numbers.",
-            call. = FALSE)
+    cli::cli_warn(c(
+      "Expected numerical/logical value but found invalid characters.",
+      "i" = "Common problems: comparison operators (< or >), text labels, or malformed numbers."
+    ))
     matches <- unique(vals_chr[non_valid_idx])
     matches_df <- data.frame(value = matches, stringsAsFactors = FALSE)
     if (return_df) {
@@ -58,7 +59,7 @@ check_value_logical <- function(data, return_df = FALSE) {
       return(DT::datatable(matches_df, style = "bootstrap"))
     }
   } else {
-    message("All values are correctly formatted as numeric or logical.")
+    cli::cli_inform(c("v" = "All values are correctly formatted as numeric or logical."))
     invisible(NULL)
   }
 }
@@ -92,14 +93,14 @@ check_value_logical <- function(data, return_df = FALSE) {
 #' @export
 check_zero_value <- function(data, return_df = FALSE) {
   if (!"value" %in% names(data)) {
-    stop("data must contain a 'value' column")
+    cli::cli_abort("{.arg data} must contain a {.field value} column.")
   }
 
   # Coerce to numeric safely (for factors/characters that are numeric-like)
   vals <- suppressWarnings(as.numeric(as.character(data$value)))
 
   if (any(vals == 0, na.rm = TRUE)) {
-    warning("Value column contains zeroes (0). Please check zero values!", call. = FALSE)
+    cli::cli_warn("{.field value} column contains zeroes (0). Please check zero values!")
     zero_values <- data %>%
       dplyr::filter(vals == 0) %>%
       dplyr::select(
@@ -117,7 +118,7 @@ check_zero_value <- function(data, return_df = FALSE) {
                            style = "bootstrap"))
     }
   } else {
-    message("No zero values were found")
+    cli::cli_inform(c("v" = "No zero values were found"))
     invisible(NULL)
   }
 }
@@ -159,7 +160,7 @@ check_zero_value <- function(data, return_df = FALSE) {
 check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, return_logical = FALSE,
                                  verbose = TRUE) {
   if(return_df & return_logical) {
-    warning("Both return_df and return_logical are TRUE. Ignoring return_df and returning logical vector.")
+    cli::cli_warn("Both {.arg return_df} and {.arg return_logical} are TRUE. Ignoring {.arg return_df} and returning logical vector.")
     return_df <- FALSE
   }
 
@@ -172,7 +173,7 @@ check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, r
 
   missing_cols <- setdiff(required_cols, names(data))
   if (length(missing_cols) > 0) {
-    stop("data must contain column(s): ", paste(missing_cols, collapse = ", "))
+    cli::cli_abort("{.arg data} must contain column{?s}: {.field {missing_cols}}")
   }
 
   # Coerce to numeric safely
@@ -190,7 +191,7 @@ check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, r
   if (return_logical) return(zero_vec)
 
   if (any(zero_vec)) {
-    if (verbose) warning("Positions contain zeroes (0). Please check station coordinates with zero values!", call. = FALSE)
+    if (verbose) cli::cli_warn("Positions contain zeroes (0). Please check station coordinates with zero values!")
 
     zero_positions <- data %>%
       dplyr::filter(zero_vec) %>%
@@ -209,7 +210,7 @@ check_zero_positions <- function(data, coord = "longitude", return_df = FALSE, r
                            style = "bootstrap"))
     }
   } else {
-    if (verbose) message("No zero positions were found")
+    if (verbose) cli::cli_inform(c("v" = "No zero positions were found"))
     invisible(NULL)
   }
 }
@@ -258,11 +259,11 @@ check_logical_parameter <- function(data, param_name, condition,
   required_cols <- c("parameter", "value")
   missing_cols <- setdiff(required_cols, names(data))
   if (length(missing_cols) > 0) {
-    stop("data must contain column(s): ", paste(missing_cols, collapse = ", "))
+    cli::cli_abort("{.arg data} must contain column{?s}: {.field {missing_cols}}")
   }
 
   if (return_df & return_logical) {
-    warning("Both return_df and return_logical are TRUE. Ignoring return_df and returning logical vector.")
+    cli::cli_warn("Both {.arg return_df} and {.arg return_logical} are TRUE. Ignoring {.arg return_df} and returning logical vector.")
     return_df <- FALSE
   }
 
@@ -318,10 +319,10 @@ check_epibenthos_totcover_logical <- function(data, return_df = FALSE, return_lo
   if (is.logical(res)) return(res)
 
   if (!is.null(res)) {
-    message("Parameter Total cover of all species (%), measurement(s) > 100%")
+    cli::cli_inform(c("!" = "Parameter Total cover of all species (%), measurement(s) > 100%"))
     return(res)
   } else {
-    message("Parameter Total cover of all species (%), measurement(s) are within 0-100%")
+    cli::cli_inform(c("v" = "Parameter Total cover of all species (%), measurement(s) are within 0-100%"))
     return(invisible(NULL))
   }
 }
@@ -352,10 +353,10 @@ check_epibenthos_coverpercent_logical <- function(data, return_df = FALSE, retur
   if (is.logical(res)) return(res)
 
   if (!is.null(res)) {
-    message("Parameter Cover (%), measurement(s) > 100%")
+    cli::cli_inform(c("!" = "Parameter Cover (%), measurement(s) > 100%"))
     return(res)
   } else {
-    message("Parameter Cover (%), measurement(s) are within 0-100%")
+    cli::cli_inform(c("v" = "Parameter Cover (%), measurement(s) are within 0-100%"))
     return(invisible(NULL))
   }
 }
@@ -386,10 +387,10 @@ check_epibenthos_cover_logical <- function(data, return_df = FALSE, return_logic
   if (is.logical(res)) return(res)
 
   if (!is.null(res)) {
-    message("Parameter Cover, measurement(s) > 100%")
+    cli::cli_inform(c("!" = "Parameter Cover, measurement(s) > 100%"))
     return(res)
   } else {
-    message("Parameter Cover, measurement(s) are within 0-100%")
+    cli::cli_inform(c("v" = "Parameter Cover, measurement(s) are within 0-100%"))
     return(invisible(NULL))
   }
 }
@@ -420,10 +421,10 @@ check_epibenthos_coverclass_logical <- function(data, return_df = FALSE, return_
   if (is.logical(res)) return(res)
 
   if (!is.null(res)) {
-    message("Parameter Cover class, measurement(s) > 10")
+    cli::cli_inform(c("!" = "Parameter Cover class, measurement(s) > 10"))
     return(res)
   } else {
-    message("Parameter Cover class, measurement(s) are within 0-10")
+    cli::cli_inform(c("v" = "Parameter Cover class, measurement(s) are within 0-10"))
     return(invisible(NULL))
   }
 }
@@ -454,10 +455,10 @@ check_epibenthos_sedimentdepos_logical <- function(data, return_df = FALSE, retu
   if (is.logical(res)) return(res)
 
   if (!is.null(res)) {
-    message("Parameter Sediment deposition cover (%), measurement(s) > 100%")
+    cli::cli_inform(c("!" = "Parameter Sediment deposition cover (%), measurement(s) > 100%"))
     return(res)
   } else {
-    message("Parameter Sediment deposition cover (%), measurement(s) are within 0-100%")
+    cli::cli_inform(c("v" = "Parameter Sediment deposition cover (%), measurement(s) are within 0-100%"))
     return(invisible(NULL))
   }
 }
@@ -488,10 +489,10 @@ check_epibenthos_abundclass_logical <- function(data, return_df = FALSE, return_
   if (is.logical(res)) return(res)
 
   if (!is.null(res)) {
-    message("Parameter Abundance class, measurement(s) > 10")
+    cli::cli_inform(c("!" = "Parameter Abundance class, measurement(s) > 10"))
     return(res)
   } else {
-    message("Parameter Abundance class, measurement(s) are within 0-10")
+    cli::cli_inform(c("v" = "Parameter Abundance class, measurement(s) are within 0-10"))
     return(invisible(NULL))
   }
 }
@@ -515,12 +516,12 @@ check_zoobenthos_BQIm_logical <- function(data, return_df = FALSE, return_logica
   required_cols <- c("parameter", "value")
   missing_cols <- setdiff(required_cols, names(data))
   if (length(missing_cols) > 0) {
-    stop("data must contain column(s): ", paste(missing_cols, collapse = ", "))
+    cli::cli_abort("{.arg data} must contain column{?s}: {.field {missing_cols}}")
   }
 
   # Resolve conflicting return options
   if (return_df & return_logical) {
-    warning("Both return_df and return_logical are TRUE. Ignoring return_df and returning logical vector.")
+    cli::cli_warn("Both {.arg return_df} and {.arg return_logical} are TRUE. Ignoring {.arg return_df} and returning logical vector.")
     return_df <- FALSE
   }
 
@@ -540,7 +541,7 @@ check_zoobenthos_BQIm_logical <- function(data, return_df = FALSE, return_logica
 
   # If any violation, prepare and return data.frame or DT::datatable
   if (any(error_vec)) {
-    message("Parameter BQIm, measurement(s) > 0 when Abundance = 0")
+    cli::cli_inform(c("!" = "Parameter BQIm, measurement(s) > 0 when Abundance = 0"))
     logical_error <- data %>%
       dplyr::filter(error_vec) %>%
       dplyr::select(dplyr::any_of(c(
@@ -556,7 +557,7 @@ check_zoobenthos_BQIm_logical <- function(data, return_df = FALSE, return_logica
     }
 
   } else {
-    message("Parameter BQIm, measurement(s) follow logical assumption")
+    cli::cli_inform(c("v" = "Parameter BQIm, measurement(s) follow logical assumption"))
     invisible(NULL)
   }
 }
@@ -587,10 +588,10 @@ check_zoobenthos_wetweight_logical <- function(data, return_df = FALSE, return_l
   if (is.logical(res)) return(res)
 
   if (!is.null(res)) {
-    message("Parameter Wet weight, measurement(s) violate logical assumption: should not be 0")
+    cli::cli_inform(c("!" = "Parameter Wet weight, measurement(s) violate logical assumption: should not be 0"))
     return(res)
   } else {
-    message("Parameter Wet weight, measurement(s) follow logical assumption: > 0")
+    cli::cli_inform(c("v" = "Parameter Wet weight, measurement(s) follow logical assumption: > 0"))
     return(invisible(NULL))
   }
 }
@@ -663,11 +664,11 @@ check_parameter_rules <- function(
   required_cols <- c("parameter", "value")
   missing_cols <- setdiff(required_cols, names(data))
   if (length(missing_cols) > 0) {
-    stop("data must contain column(s): ", paste(missing_cols, collapse = ", "))
+    cli::cli_abort("{.arg data} must contain column{?s}: {.field {missing_cols}}")
   }
 
   if (return_df & return_logical) {
-    warning("Both return_df and return_logical are TRUE. Returning logical vectors.")
+    cli::cli_warn("Both {.arg return_df} and {.arg return_logical} are TRUE. Ignoring {.arg return_df} and returning logical vector.")
     return_df <- FALSE
   }
 
@@ -676,10 +677,10 @@ check_parameter_rules <- function(
   params_in_data <- intersect(all_params, unique(data$parameter))
 
   if (length(params_in_data) == 0) {
-    if (verbose) message(
-      "No parameters from the logical rules are present in the dataset. ",
-      "Available parameters are: ", paste(names(param_conditions), collapse = ", ")
-    )
+    if (verbose) cli::cli_inform(c(
+      "No parameters from the logical rules are present in the dataset.",
+      "i" = "Available parameters: {.val {names(param_conditions)}}"
+    ))
     return(invisible(NULL))
   }
 
@@ -701,11 +702,11 @@ check_parameter_rules <- function(
       results[[param]] <- error_vec
     } else if (any(error_vec)) {
       res_df <- data[error_vec, ]
-      if (verbose) message("Parameter ", param, ", measurement(s) outside expected range: ", range_msg)
+      if (verbose) cli::cli_inform(c("!" = "Parameter {param}, measurement(s) outside expected range: {range_msg}"))
       results[[param]] <- if (return_df) res_df else DT::datatable(res_df)
     } else {
       results[[param]] <- NULL
-      if (verbose) message("Parameter ", param, ", all measurements within expected range: ", range_msg)
+      if (verbose) cli::cli_inform(c("v" = "Parameter {param}, all measurements within expected range: {range_msg}"))
     }
   }
 
@@ -723,11 +724,11 @@ check_parameter_rules <- function(
       results[[param]] <- error_vec
     } else if (any(error_vec)) {
       res_df <- data[error_vec, ]
-      if (verbose) message("Parameter ", param, ", row-wise logical check failed")
+      if (verbose) cli::cli_inform(c("!" = "Parameter {param}, row-wise logical check failed"))
       results[[param]] <- if (return_df) res_df else DT::datatable(res_df)
     } else {
       results[[param]] <- NULL
-      if (verbose) message("Parameter ", param, ", row-wise logical check passed")
+      if (verbose) cli::cli_inform(c("v" = "Parameter {param}, row-wise logical check passed"))
     }
   }
 

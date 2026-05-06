@@ -20,13 +20,13 @@ test_data <- dplyr::tibble(
 )
 
 test_that("check_outliers returns datatable for outliers", {
-  out <- check_outliers(
+  out <- suppressMessages(check_outliers(
     data = test_data,
     parameter = "TestParam1",
     datatype = "TypeA",
     threshold_col = "extreme_upper",
     thresholds = test_thresholds
-  )
+  ))
 
   expect_s3_class(out, "datatables")
   expect_equal(nrow(out$x$data), 1) # Only the second row exceeds threshold
@@ -70,7 +70,7 @@ test_that("check_outliers errors if parameter not in thresholds", {
       threshold_col = "extreme_upper",
       thresholds = test_thresholds
     ),
-    "No thresholds found for NonexistentParam and TypeA"
+    "No thresholds found"
   )
 })
 
@@ -88,13 +88,13 @@ test_that("check_outliers only filters by datatype", {
       delivery_datatype = "TypeB"
     )
 
-  out <- check_outliers(
+  out <- suppressMessages(check_outliers(
     data = data_mixed,
     parameter = "TestParam1",
     datatype = "TypeA",
     threshold_col = "extreme_upper",
     thresholds = test_thresholds
-  )
+  ))
 
   # Only TypeA row above threshold should be flagged
   expect_equal(nrow(out$x$data), 1)
@@ -210,9 +210,9 @@ for (fname in names(outlier_checks)) {
     )
 
     # Expect deprecated warning
-    lifecycle::expect_deprecated(
+    suppressMessages(lifecycle::expect_deprecated(
       out <- fn(df_trigger)
-    )
+    ))
   })
 }
 
@@ -234,7 +234,7 @@ test_that("check_outliers works with custom_group", {
   data_grouped <- test_data %>% mutate(group = c("A", "A", "B"))
   thresholds_grouped <- test_thresholds %>% mutate(group = c("A", "B"))
 
-  out <- check_outliers(
+  out <- suppressMessages(check_outliers(
     data = data_grouped,
     parameter = "TestParam1",
     datatype = "TypeA",
@@ -242,7 +242,7 @@ test_that("check_outliers works with custom_group", {
     threshold_col = "extreme_upper",
     custom_group = "group",
     return_df = TRUE
-  )
+  ))
 
   # Only the second row in group A exceeds threshold
   expect_equal(nrow(out), 1)
@@ -250,14 +250,14 @@ test_that("check_outliers works with custom_group", {
 })
 
 test_that("check_outliers returns data.frame if return_df = TRUE", {
-  out <- check_outliers(
+  out <- suppressMessages(check_outliers(
     data = test_data,
     parameter = "TestParam1",
     datatype = "TypeA",
     threshold_col = "extreme_upper",
     thresholds = test_thresholds,
     return_df = TRUE
-  )
+  ))
 
   expect_s3_class(out, "data.frame")
 })

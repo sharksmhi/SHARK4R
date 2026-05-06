@@ -36,6 +36,7 @@ BugReports: https://github.com/sharksmhi/SHARK4R/issues
 Depends:
     R (>= 4.1.0)
 Imports:
+    cli,
     dplyr,
     DT,
     ggplot2,

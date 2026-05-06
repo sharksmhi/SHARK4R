@@ -47,7 +47,7 @@ check_datatype <- function(data, level = "error") {
       message = paste0("Required field ", fields, " is missing")
     ))
   } else {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
   }
 
   # find empty values for required fields
@@ -78,7 +78,7 @@ check_datatype <- function(data, level = "error") {
       ))
     }
     else {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
 
     # find empty values for recommended fields
@@ -226,7 +226,7 @@ check_fields <- function(data, datatype, level = "error", stars = 1,
                          bacterioplankton_subtype = "abundance", field_definitions = .field_definitions) {
 
   if (!datatype %in% names(field_definitions) && !grepl("^deliv_", datatype)) {
-    stop("Unknown datatype: ", datatype)
+    cli::cli_abort("Unknown datatype: {.val {datatype}}")
   }
 
   all_caps <- all(names(data) == toupper(names(data)))
@@ -311,9 +311,9 @@ check_Bacterioplankton <- function(data, level = "error") {
   errors <- check_fields(data, "Bacterioplankton", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -334,9 +334,9 @@ check_Chlorophyll <- function(data, level = "error") {
   lifecycle::deprecate_warn("1.0.0", "check_Chlorophyll()", "check_fields()")
   errors <- check_fields(data, "Chlorophyll", level = level)
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -358,9 +358,9 @@ check_Epibenthos <- function(data, level = "error") {
   errors <- check_fields(data, "Epibenthos", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -381,9 +381,9 @@ check_EpibenthosDropvideo <- function(data, level = "error") {
   errors <- check_fields(data, "EpibenthosDropvideo", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -404,9 +404,9 @@ check_GreySeal <- function(data, level = "error") {
   errors <- check_fields(data, "GreySeal", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -427,9 +427,9 @@ check_HarbourPorpoise <- function(data, level = "error") {
   errors <- check_fields(data, "HarbourPorpoise", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -450,9 +450,9 @@ check_HarbourSeal <- function(data, level = "error") {
   errors <- check_fields(data, "HarbourSeal", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -473,9 +473,9 @@ check_PhysicalChemical <- function(data, level = "error") {
   errors <- check_fields(data, "PhysicalChemical", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -496,9 +496,9 @@ check_Phytoplankton <- function(data, level = "error") {
   errors <- check_fields(data, "Phytoplankton", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -519,9 +519,9 @@ check_Picoplankton <- function(data, level = "error") {
   errors <- check_fields(data, "Picoplankton", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -542,9 +542,9 @@ check_PrimaryProduction <- function(data, level = "error") {
   errors <- check_fields(data, "PrimaryProduction", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -565,9 +565,9 @@ check_RingedSeal <- function(data, level = "error") {
   errors <- check_fields(data, "RingedSeal", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -588,9 +588,9 @@ check_SealPathology <- function(data, level = "error") {
   errors <- check_fields(data, "SealPathology", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -611,9 +611,9 @@ check_Sedimentation <- function(data, level = "error") {
   errors <- check_fields(data, "Sedimentation", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -634,9 +634,9 @@ check_Zoobenthos <- function(data, level = "error") {
   errors <- check_fields(data, "Zoobenthos", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -657,9 +657,9 @@ check_Zooplankton <- function(data, level = "error") {
   errors <- check_fields(data, "Zooplankton", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -681,9 +681,9 @@ check_deliv_Bacterioplankton <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_Bacterioplankton", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -705,9 +705,9 @@ check_deliv_Chlorophyll <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_Chlorophyll", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -729,9 +729,9 @@ check_deliv_Epibenthos <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_Epibenthos", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -752,9 +752,9 @@ check_deliv_EpibenthosDropvideo <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_EpibenthosDropvideo", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -775,9 +775,9 @@ check_deliv_GreySeal <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_GreySeal", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -798,9 +798,9 @@ check_deliv_HarbourPorpoise <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_HarbourPorpoise", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -821,9 +821,9 @@ check_deliv_HarbourSeal <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_HarbourSeal", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -844,9 +844,9 @@ check_deliv_PhysicalChemical <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_PhysicalChemical", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -867,9 +867,9 @@ check_deliv_Phytoplankton <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_Phytoplankton", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -890,9 +890,9 @@ check_deliv_Picoplankton <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_Picoplankton", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -913,9 +913,9 @@ check_deliv_PrimaryProduction <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_PrimaryProduction", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -936,9 +936,9 @@ check_deliv_RingedSeal <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_RingedSeal", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -959,9 +959,9 @@ check_deliv_SealPathology <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_SealPathology", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -982,9 +982,9 @@ check_deliv_Sedimentation <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_Sedimentation", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -1005,9 +1005,9 @@ check_deliv_Zoobenthos <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_Zoobenthos", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 
@@ -1028,9 +1028,9 @@ check_deliv_Zooplankton <- function(data, level = "error") {
   errors <- check_fields(data, "deliv_Zooplankton", level = level)
 
   if (nrow(errors) == 0) {
-    message("All required fields present")
+    cli::cli_inform(c("v" = "All required fields present"))
     if (level == "warning") {
-      message("All recommended fields present")
+      cli::cli_inform(c("v" = "All recommended fields present"))
     }
   }
 

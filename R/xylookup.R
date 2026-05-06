@@ -57,10 +57,10 @@ lookup_xy <- function(data = NULL, lon = NULL, lat = NULL,
   # Handle vector input
   if (!is.null(lon) || !is.null(lat)) {
     if (is.null(lon) || is.null(lat)) {
-      stop("Both lon and lat must be provided")
+      cli::cli_abort("Both {.arg lon} and {.arg lat} must be provided")
     }
     if (!is.null(data)) {
-      warning("Data frame ignored because lon and lat were supplied")
+      cli::cli_warn("Data frame ignored because {.arg lon} and {.arg lat} were supplied")
     }
     data <- data.frame(
       sample_longitude_dd = lon,
@@ -71,7 +71,7 @@ lookup_xy <- function(data = NULL, lon = NULL, lat = NULL,
 
   # Require that 'data' exists at this point
   if (is.null(data)) {
-    stop("Provide either a data frame or lon and lat vectors")
+    cli::cli_abort("Provide either a data frame or {.arg lon} and {.arg lat} vectors")
   }
 
   xy <- get_xy_clean_duplicates(data)
@@ -88,13 +88,13 @@ lookup_xy <- function(data = NULL, lon = NULL, lat = NULL,
     areasdistancewithin = 0
     if(is.numeric(areas) && as.numeric(as.integer(areas)) == areas) {
       if(areas < 0) {
-        warning("Areas parameter should be TRUE/FALSE or a positive integer")
+        cli::cli_warn("{.arg areas} parameter should be TRUE/FALSE or a positive integer")
       } else {
         areasdistancewithin = areas
         areas = TRUE
       }
     } else if(!is.logical(areas)) {
-      warning("Areas parameter should be TRUE/FALSE or a positive integer")
+      cli::cli_warn("{.arg areas} parameter should be TRUE/FALSE or a positive integer")
       areas = FALSE
     }
 

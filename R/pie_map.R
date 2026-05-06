@@ -1,7 +1,7 @@
-#' Clamp pie chart centres to lie inside the map panel
+#' Clamp pie chart centers to lie inside the map panel
 #'
 #' @param wide Data frame with columns `lon`, `lat` and optional `r_pie`.
-#' @param map_xlim,map_ylim Numeric length-2 vectors bounding the pie centre.
+#' @param map_xlim,map_ylim Numeric length-2 vectors bounding the pie center.
 #' @return `wide` with clamped `lon`/`lat`.
 #' @keywords internal
 clamp_pie_centers <- function(wide,
@@ -33,7 +33,7 @@ clamp_pie_centers <- function(wide,
   wide
 }
 
-#' Displace pie chart centres away from each other
+#' Displace pie chart centers away from each other
 #'
 #' Sequential, asymmetric placement so that pie charts never overlap and any
 #' pie that *does* get displaced is pushed far enough that its anchor (true
@@ -45,14 +45,14 @@ clamp_pie_centers <- function(wide,
 #' @param wide Data frame with columns `lon`, `lat` and `r_pie`
 #'   (the per-station pie radius in latitude degrees). True (anchor)
 #'   coordinates are read from `lon`/`lat`.
-#' @param map_xlim,map_ylim Numeric length-2 vectors bounding the pie centre.
-#' @param min_sep Minimum centre-to-centre separation between two pies,
+#' @param map_xlim,map_ylim Numeric length-2 vectors bounding the pie center.
+#' @param min_sep Minimum center-to-center separation between two pies,
 #'   expressed as a multiple of the larger of the two radii. Default `2.40`.
 #' @param min_disp Minimum displacement for a pie that is moved at all,
 #'   expressed as a multiple of its radius. Default `1.60`.
 #' @return `wide` with added columns `anchor_lon`, `anchor_lat`
 #'   (the true station coordinates) and updated `lon`/`lat`
-#'   holding the displaced pie centres.
+#'   holding the displaced pie centers.
 #' @keywords internal
 repel_pie_centers <- function(wide,
                               map_xlim = c(10.5, 21.5),
@@ -201,7 +201,7 @@ repel_pie_centers <- function(wide,
 #' Find label positions that avoid all pie charts and each other
 #'
 #' Uses a greedy sequential algorithm: stations are processed most-constrained
-#' first, and each label is placed in the direction that maximises clearance
+#' first, and each label is placed in the direction that maximizes clearance
 #' from all pie circles *and* from already-placed label bounding boxes.
 #'
 #' @param wide Data frame with one row per station, columns
@@ -467,7 +467,7 @@ scale_pie_radii <- function(raw, size_range = c(0.15, 0.40)) {
 #'   to omit labels entirely.
 #' @param group_levels Optional character vector controlling the legend and
 #'   slice ordering. Groups not present in `data` are dropped.
-#' @param group_colors Optional named character vector of colours, keyed by
+#' @param group_colors Optional named character vector of colors, keyed by
 #'   group name. If `NULL`, ggplot's default discrete palette is used.
 #' @param group_labels Optional named character vector of legend labels,
 #'   keyed by group name. Labels may include HTML markup (requires the
@@ -482,7 +482,7 @@ scale_pie_radii <- function(raw, size_range = c(0.15, 0.40)) {
 #' @param size_range Numeric length-2: minimum and maximum radius (in
 #'   latitude degrees) when `size_by` is set. Default `c(0.15, 0.40)`.
 #' @param repel Logical. Run the displacement algorithm? Default `TRUE`.
-#' @param min_sep Minimum centre-to-centre separation between two pies,
+#' @param min_sep Minimum center-to-center separation between two pies,
 #'   expressed as a multiple of the larger of the two radii. Default `2.40`.
 #' @param min_disp Minimum displacement for a pie that has been moved at
 #'   all, as a multiple of its radius. Default `1.60`.
@@ -499,7 +499,7 @@ scale_pie_radii <- function(raw, size_range = c(0.15, 0.40)) {
 #' @param basemap_scale Resolution passed to
 #'   `rnaturalearth::ne_countries()` when `basemap` is `NULL`.
 #'   One of `"small"`, `"medium"` or `"large"`.
-#' @param basemap_fill,basemap_border,sea_color Colours for the default
+#' @param basemap_fill,basemap_border,sea_color Colors for the default
 #'   coastline basemap.
 #' @param xlim,ylim Optional numeric length-2 vectors. If supplied they
 #'   override the auto-fitted map extent.
@@ -607,15 +607,13 @@ create_pie_map <- function(data,
   required <- c(station_col, lon_col, lat_col, group_col, value_col)
   missing_cols <- setdiff(required, names(data))
   if (length(missing_cols) > 0) {
-    stop("`data` is missing required columns: ",
-         paste(missing_cols, collapse = ", "), call. = FALSE)
+    cli::cli_abort("{.arg data} is missing required column{?s}: {.field {missing_cols}}")
   }
   if (!is.numeric(data[[value_col]])) {
-    stop("`", value_col, "` must be numeric.", call. = FALSE)
+    cli::cli_abort("{.field {value_col}} must be numeric.")
   }
   if (!is.null(label_col) && !label_col %in% names(data)) {
-    stop("`label_col` ('", label_col, "') not found in `data`.",
-         call. = FALSE)
+    cli::cli_abort("{.arg label_col} ({.val {label_col}}) not found in {.arg data}.")
   }
 
   long <- data.frame(
@@ -639,7 +637,7 @@ create_pie_map <- function(data,
   }
   long <- long[long$group %in% group_levels, , drop = FALSE]
   if (nrow(long) == 0) {
-    stop("No rows left after filtering by `group_levels`.", call. = FALSE)
+    cli::cli_abort("No rows left after filtering by {.arg group_levels}.")
   }
 
   wide <- tidyr::pivot_wider(
@@ -671,8 +669,7 @@ create_pie_map <- function(data,
       )
       metric$.metric[match(wide$station, metric$station)]
     } else {
-      stop("`size_by` must be NULL, 'total', or the name of a numeric ",
-           "column in `data`.", call. = FALSE)
+      cli::cli_abort("{.arg size_by} must be NULL, {.val total}, or the name of a numeric column in {.arg data}.")
     }
     raw <- as.numeric(raw)
     wide$r_pie <- scale_pie_radii(raw, size_range = size_range)
@@ -737,9 +734,10 @@ create_pie_map <- function(data,
 
   if (is.null(basemap)) {
     if (!requireNamespace("rnaturalearth", quietly = TRUE)) {
-      stop("The `rnaturalearth` package is required for the default basemap. ",
-           "Install it with install.packages(\"rnaturalearth\") or pass a ",
-           "custom `basemap` layer.", call. = FALSE)
+      cli::cli_abort(c(
+        "The {.pkg rnaturalearth} package is required for the default basemap.",
+        "i" = "Install it with {.code install.packages(\"rnaturalearth\")} or pass a custom {.arg basemap} layer."
+      ))
     }
     world <- rnaturalearth::ne_countries(scale = basemap_scale,
                                          returnclass = "sf")
@@ -806,9 +804,10 @@ create_pie_map <- function(data,
 
   legend_text_element <- if (uses_markdown_labels) {
     if (!requireNamespace("ggtext", quietly = TRUE)) {
-      stop("Rendering HTML in `group_labels` requires the `ggtext` package. ",
-           "Install it with install.packages(\"ggtext\") or supply plain-text ",
-           "labels.", call. = FALSE)
+      cli::cli_abort(c(
+        "Rendering HTML in {.arg group_labels} requires the {.pkg ggtext} package.",
+        "i" = "Install it with {.code install.packages(\"ggtext\")} or supply plain-text labels."
+      ))
     }
     ggtext::element_markdown()
   } else {

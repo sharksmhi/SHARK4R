@@ -60,7 +60,7 @@ to omit labels entirely.}
 \item{group_levels}{Optional character vector controlling the legend and
 slice ordering. Groups not present in \code{data} are dropped.}
 
-\item{group_colors}{Optional named character vector of colours, keyed by
+\item{group_colors}{Optional named character vector of colors, keyed by
 group name. If \code{NULL}, ggplot's default discrete palette is used.}
 
 \item{group_labels}{Optional named character vector of legend labels,
@@ -81,7 +81,7 @@ latitude degrees) when \code{size_by} is set. Default \code{c(0.15, 0.40)}.}
 
 \item{repel}{Logical. Run the displacement algorithm? Default \code{TRUE}.}
 
-\item{min_sep}{Minimum centre-to-centre separation between two pies,
+\item{min_sep}{Minimum center-to-center separation between two pies,
 expressed as a multiple of the larger of the two radii. Default \code{2.40}.}
 
 \item{min_disp}{Minimum displacement for a pie that has been moved at
@@ -107,7 +107,7 @@ is drawn (requires the \code{rnaturalearth} package).}
 \code{rnaturalearth::ne_countries()} when \code{basemap} is \code{NULL}.
 One of \code{"small"}, \code{"medium"} or \code{"large"}.}
 
-\item{basemap_fill, basemap_border, sea_color}{Colours for the default
+\item{basemap_fill, basemap_border, sea_color}{Colors for the default
 coastline basemap.}
 
 \item{xlim, ylim}{Optional numeric length-2 vectors. If supplied they

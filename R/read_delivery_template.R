@@ -133,8 +133,10 @@ get_delivery_template <- function(datatype,
   )
 
   if (!datatype %in% names(url_map)) {
-    stop(sprintf("Datatype '%s' is not recognized. Must be one of: %s",
-                 datatype, paste(names(url_map), collapse = ", ")))
+    cli::cli_abort(c(
+      "Datatype {.val {datatype}} is not recognized.",
+      "i" = "Must be one of: {.val {names(url_map)}}"
+    ))
   }
 
   # Determine file URL
@@ -146,7 +148,7 @@ get_delivery_template <- function(datatype,
   }
 
   if (is.na(file_url)) {
-    stop(sprintf("No URL is available for datatype '%s'.", datatype))
+    cli::cli_abort("No URL is available for datatype {.val {datatype}}.")
   }
 
   file_url <- paste0(base_url, file_url)

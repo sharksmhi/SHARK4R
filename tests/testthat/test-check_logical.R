@@ -33,7 +33,7 @@ test_that("check_value_logical passes with logical values", {
 })
 
 test_that("check_value_logical errors if value column missing", {
-  expect_error(check_value_logical(data.frame(x = 1)), "data must contain a 'value' column")
+  expect_error(check_value_logical(data.frame(x = 1)), "must contain a.*value.*column")
 })
 
 test_that("check_zero_value detects zeros (datatable)", {
@@ -49,7 +49,7 @@ test_that("check_zero_value detects zeros (datatable)", {
 
   expect_warning(
     res <- check_zero_value(df_zero_value),
-    "Value column contains zeroes"
+    "value column contains zeroes"
   )
   expect_s3_class(res, "datatables")
 })
@@ -67,7 +67,7 @@ test_that("check_zero_value detects zeros (return_df = TRUE)", {
 
   expect_warning(
     res <- check_zero_value(df_zero_value, return_df = TRUE),
-    "Value column contains zeroes"
+    "value column contains zeroes"
   )
   expect_s3_class(res, "data.frame")
   expect_equal(res$value, 0)  # only zeros should be returned
@@ -84,7 +84,7 @@ test_that("check_zero_value passes when no zeros", {
 })
 
 test_that("check_zero_value errors if value column missing", {
-  expect_error(check_zero_value(data.frame(x = 1)), "data must contain a 'value' column")
+  expect_error(check_zero_value(data.frame(x = 1)), "must contain a.*value.*column")
 })
 
 df_zero_position <- data.frame(
@@ -138,7 +138,7 @@ test_that("check_zero_positions returns FALSE when no zeros", {
 test_that("warns when both return_df and return_logical are TRUE", {
   expect_warning(
     res <- check_zero_positions(df_zero_position, return_df = TRUE, return_logical = TRUE),
-    "Both return_df and return_logical are TRUE"
+    "return_df.*return_logical"
   )
   expect_type(res, "logical")
 })
@@ -202,7 +202,7 @@ test_that("Total cover errors if required columns missing", {
   expect_condition(
     expect_error(
       check_epibenthos_totcover_logical(data.frame(x=1)),
-      "data must contain column\\(s\\): parameter, value"
+      "must contain column"
     ),
     class = "lifecycle_warning_deprecated"
   )
@@ -267,7 +267,7 @@ test_that("Cover percent errors if required columns missing", {
   expect_condition(
     expect_error(
       check_epibenthos_coverpercent_logical(data.frame(x=1)),
-      "data must contain column\\(s\\): parameter, value"
+      "must contain column"
     ),
     class = "lifecycle_warning_deprecated"
   )
@@ -332,7 +332,7 @@ test_that("Cover errors if required columns missing", {
   expect_condition(
     expect_error(
       check_epibenthos_cover_logical(data.frame(x=1)),
-      "data must contain column\\(s\\): parameter, value"
+      "must contain column"
     ),
     class = "lifecycle_warning_deprecated"
   )
@@ -562,7 +562,7 @@ test_that("returns NULL if no rows match condition", {
 test_that("warns when both return_df and return_logical are TRUE", {
   expect_warning(
     res <- check_logical_parameter(df_test, "Param1", function(x) x > 0, return_df = TRUE, return_logical = TRUE),
-    "Both return_df and return_logical are TRUE"
+    "return_df.*return_logical"
   )
   expect_type(res, "logical")
 })
@@ -570,7 +570,7 @@ test_that("warns when both return_df and return_logical are TRUE", {
 test_that("errors if required columns missing", {
   expect_error(
     check_logical_parameter(data.frame(x=1), "Param1", function(x) x > 0),
-    "data must contain column\\(s\\): parameter, value"
+    "must contain column"
   )
 })
 
@@ -666,7 +666,7 @@ test_that("both return_df and return_logical triggers warning", {
 
   expect_warning(
     check_parameter_rules(df, return_df = TRUE, return_logical = TRUE),
-    "Both return_df and return_logical are TRUE"
+    "return_df.*return_logical"
   )
 })
 

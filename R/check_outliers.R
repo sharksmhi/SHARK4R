@@ -100,16 +100,16 @@ check_outliers <- function(data,
 
   # --- Validate inputs ---
   if (!threshold_col %in% names(thresholds)) {
-    warning(paste("Column", threshold_col, "not found in thresholds dataframe"))
+    cli::cli_warn("Column {.field {threshold_col}} not found in thresholds dataframe")
     return(invisible(NULL))
   }
 
   if (!all(c("parameter", "datatype") %in% names(thresholds))) {
-    stop("Thresholds must contain columns 'parameter' and 'datatype'")
+    cli::cli_abort("Thresholds must contain columns {.field parameter} and {.field datatype}")
   }
 
   if (!is.null(custom_group) && !custom_group %in% names(data)) {
-    stop(paste("Grouping column", custom_group, "not found in data"))
+    cli::cli_abort("Grouping column {.field {custom_group}} not found in data")
   }
 
   # --- Filter relevant thresholds ---
@@ -117,7 +117,7 @@ check_outliers <- function(data,
     dplyr::filter(parameter == !!parameter, datatype == !!datatype)
 
   if (nrow(thr_df) == 0) {
-    warning(paste("No thresholds found for", parameter, "and", datatype))
+    cli::cli_warn("No thresholds found for {.val {parameter}} and {.val {datatype}}")
     return(invisible(NULL))
   }
 
@@ -160,12 +160,12 @@ check_outliers <- function(data,
   # --- Output ---
   if (nrow(outliers) > 0) {
     if (verbose) {
-      msg <- paste(
-        "WARNING:", parameter, "(", datatype, ")",
-        if (direction == "above") "exceeds" else "is below",
-        threshold_col, "in", if (!is.null(custom_group)) custom_group else "dataset"
-      )
-      message(msg)
+      direction_word <- if (direction == "above") "exceeds" else "is below"
+      group_desc <- if (!is.null(custom_group)) custom_group else "dataset"
+      cli::cli_inform(c(
+        "Outlier detected for {.field {parameter}} ({datatype}).",
+        "!" = "Value {direction_word} {.field {threshold_col}} threshold in {group_desc}."
+      ))
     }
 
     if (return_df) {
@@ -175,7 +175,7 @@ check_outliers <- function(data,
     }
 
   } else {
-    if (verbose) message(parameter, " is within the ", threshold_col, " range.")
+    if (verbose) cli::cli_inform(c("v" = "{.val {parameter}} is within the {.field {threshold_col}} range."))
     return(invisible(outliers))
   }
 }

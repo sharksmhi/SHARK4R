@@ -2,19 +2,19 @@
 % Please edit documentation in R/pie_map.R
 \name{clamp_pie_centers}
 \alias{clamp_pie_centers}
-\title{Clamp pie chart centres to lie inside the map panel}
+\title{Clamp pie chart centers to lie inside the map panel}
 \usage{
 clamp_pie_centers(wide, map_xlim = c(10.5, 21.5), map_ylim = c(54.2, 59.8))
 }
 \arguments{
 \item{wide}{Data frame with columns \code{lon}, \code{lat} and optional \code{r_pie}.}
 
-\item{map_xlim, map_ylim}{Numeric length-2 vectors bounding the pie centre.}
+\item{map_xlim, map_ylim}{Numeric length-2 vectors bounding the pie center.}
 }
 \value{
 \code{wide} with clamped \code{lon}/\code{lat}.
 }
 \description{
-Clamp pie chart centres to lie inside the map panel
+Clamp pie chart centers to lie inside the map panel
 }
 \keyword{internal}

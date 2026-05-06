@@ -71,7 +71,7 @@ positions_are_near_land <- function(latitudes,
                                     verbose = TRUE) {
 
   if (!requireNamespace("iRfcb", quietly = TRUE)) {
-    stop("The `iRfcb` package is required for `positions_are_near_land()`.")
+    cli::cli_abort("The {.pkg iRfcb} package is required for {.fn positions_are_near_land}.")
   }
 
   allowed_sources <- c("obis", "ne", "eea")
@@ -79,14 +79,10 @@ positions_are_near_land <- function(latitudes,
   if (!is.null(shape) && !missing(source)) {
     # source is ignored when shape is provided, so no validation needed
   } else if (!source %in% allowed_sources) {
-    stop(
-      sprintf(
-        "Invalid value for 'source': '%s'. Allowed values are %s.",
-        source,
-        paste(shQuote(allowed_sources), collapse = ", ")
-      ),
-      call. = FALSE
-    )
+    cli::cli_abort(c(
+      "Invalid value for {.arg source}: {.val {source}}.",
+      "i" = "Allowed values are: {.val {allowed_sources}}"
+    ))
   }
 
   # Cache OBIS shapefile across sessions if source is "eea" and shape is NULL
@@ -101,12 +97,15 @@ positions_are_near_land <- function(latitudes,
     }
 
     if (!file.exists(shape)) {
-      if (verbose) cat("Downloading OBIS coastline data...\n")
+      if (verbose) cli::cli_inform("Downloading OBIS coastline data...")
       tryCatch({
         utils::download.file(url, shape, mode = "wb")
       }, error = function(e) {
-        stop("Could not download OBIS land data. Please manually download it from:\n",
-             url, "\nThen provide the path to the `.gpkg` or `.shp` file using the `shape` argument. Or set `source = 'ne'` or `source = 'eea'` to use alternative vectors")
+        cli::cli_abort(c(
+          "Could not download OBIS land data.",
+          "i" = "Manually download from: {.url {url}}",
+          "i" = "Then provide the path using {.arg shape}, or set {.arg source} to {.val ne} or {.val eea}."
+        ))
       })
     }
   }
@@ -134,8 +133,8 @@ positions_are_near_land <- function(latitudes,
 
       # set up progress bar
       if (verbose && n_chunks > 0) {
-        cat("Downloading EEA coastline data...\n")
-        pb <- utils::txtProgressBar(min = 0, max = n_chunks, style = 3)
+        cli::cli_inform("Downloading EEA coastline data...")
+        cli::cli_progress_bar("Downloading EEA chunks", total = n_chunks)
       }
 
       coast_list <- vector("list", n_chunks)
@@ -143,7 +142,7 @@ positions_are_near_land <- function(latitudes,
       for (i in seq_along(chunks)) {
 
         if (verbose && n_chunks > 0) {
-          utils::setTxtProgressBar(pb, i)
+          cli::cli_progress_update()
         }
 
         query <- paste0(
@@ -159,7 +158,7 @@ positions_are_near_land <- function(latitudes,
 
       # close progress bar
       if (verbose && n_chunks > 0) {
-        close(pb)
+        cli::cli_progress_done()
       }
 
       coast <- do.call(rbind, coast_list)
@@ -222,7 +221,7 @@ positions_are_near_land <- function(latitudes,
 #' @export
 which_basin <- function(latitudes, longitudes, plot = FALSE, shape_file = NULL) {
   if (!requireNamespace("iRfcb", quietly = TRUE)) {
-    stop("The `iRfcb` package is required for `which_basin()`.")
+    cli::cli_abort("The {.pkg iRfcb} package is required for {.fn which_basin}.")
   }
   iRfcb::ifcb_which_basin(latitudes = latitudes,
                           longitudes = longitudes,

@@ -173,7 +173,7 @@ test_that("get_shark_statistics throws warning if no data are returned", {
   res <- expect_warning(expect_warning(get_shark_statistics(datatype = "no datatype",
                                              verbose = TRUE),
                         "No data retrieved from SHARK for the specified years and datatype"),
-                        "The following 'dataTypes' do not currently exist in the SHARK database:")
+                        "do not currently exist in the SHARK database")
 })
 
 test_that("get_shark_statistics returns results grouped by station", {

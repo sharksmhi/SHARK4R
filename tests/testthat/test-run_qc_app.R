@@ -11,6 +11,6 @@ test_that("run_qc_app stops when dependencies are missing", {
 
   expect_error(
     run_qc_app_test(interactive = FALSE),
-    "required to run the app"
+    "Required package.*not installed"
   )
 })

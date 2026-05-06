@@ -48,19 +48,19 @@
 get_dyntaxa_records <- function(taxon_ids,
                                 subscription_key = Sys.getenv("DYNTAXA_KEY")) {
   if (is.null(subscription_key) || subscription_key == "") {
-    stop("No Dyntaxa subscription key provided. See ?get_dyntaxa_records for setup instructions.")
+    cli::cli_abort("No Dyntaxa subscription key provided. See {.fn get_dyntaxa_records} for setup instructions.")
   }
 
   if (length(taxon_ids) == 0) {
-    stop("taxon_ids should not be empty.")
+    cli::cli_abort("{.arg taxon_ids} should not be empty.")
   }
 
   if (any(taxon_ids > .Machine$integer.max, na.rm = TRUE)) {
-    stop("One or more taxon_ids exceed the maximum integer value: ", .Machine$integer.max, ".")
+    cli::cli_abort("One or more {.arg taxon_ids} exceed the maximum integer value: {.Machine$integer.max}.")
   }
 
   if (any(is.na(taxon_ids))) {
-    stop("taxon_ids should not contain NA.")
+    cli::cli_abort("{.arg taxon_ids} should not contain {.val NA}.")
   }
 
   url <- "https://api.artdatabanken.se/taxonservice/v1/taxa?culture=sv_SE"
@@ -86,9 +86,12 @@ get_dyntaxa_records <- function(taxon_ids,
     df <- fromJSON(content(response, "text"), flatten = TRUE)
     return(tibble(df))
   } else {
-    stop("Dyntaxa API error (HTTP ", status_code(response), "): ",
-         substr(content(response, "text", encoding = "UTF-8"), 1, 500),
-         call. = FALSE)
+    body <- substr(content(response, "text", encoding = "UTF-8"), 1, 500)
+    cli::cli_abort(c(
+      "Dyntaxa API error.",
+      "x" = "HTTP status: {status_code(response)}",
+      "i" = "Response: {body}"
+    ))
   }
 }
 #' Get parent taxon IDs for specified taxon IDs from Dyntaxa
@@ -142,19 +145,19 @@ get_dyntaxa_parent_ids <- function(taxon_ids,
                                    subscription_key = Sys.getenv("DYNTAXA_KEY"),
                                    verbose = TRUE) {
   if (is.null(subscription_key) || subscription_key == "") {
-    stop("No Dyntaxa subscription key provided. See ?get_dyntaxa_parent_ids for setup instructions.")
+    cli::cli_abort("No Dyntaxa subscription key provided. See {.fn get_dyntaxa_parent_ids} for setup instructions.")
   }
 
   if (length(taxon_ids) == 0) {
-    stop("taxon_ids should not be empty.")
+    cli::cli_abort("{.arg taxon_ids} should not be empty.")
   }
 
   if (any(taxon_ids > .Machine$integer.max, na.rm = TRUE)) {
-    stop("One or more taxon_ids exceed the maximum integer value: ", .Machine$integer.max, ".")
+    cli::cli_abort("One or more {.arg taxon_ids} exceed the maximum integer value: {.Machine$integer.max}.")
   }
 
   if (any(is.na(taxon_ids))) {
-    stop("taxon_ids should not contain NA.")
+    cli::cli_abort("{.arg taxon_ids} should not contain {.val NA}.")
   }
 
   url <- paste0("https://api.artdatabanken.se/taxonservice/v1/taxa/", taxon_ids, "/parentids")
@@ -164,11 +167,10 @@ get_dyntaxa_parent_ids <- function(taxon_ids,
     'Ocp-Apim-Subscription-Key' = subscription_key
   )
 
-  # Set up the progress bar
-  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(taxon_ids), style = 3)}
+  pb_id <- if (verbose) cli::cli_progress_bar("Retrieving parent IDs", total = length(taxon_ids))
 
   responses <- lapply(seq_along(url), function(i) {
-    if (verbose) {utils::setTxtProgressBar(pb, i)}
+    if (verbose) cli::cli_progress_update(id = pb_id)
     return(GET(url[i], add_headers(headers)))
   })
 
@@ -180,14 +182,11 @@ get_dyntaxa_parent_ids <- function(taxon_ids,
       parsed_result <- parsed_result[parsed_result != 0]  # Remove root
       return(parsed_result)
     } else {
-      stop(paste0("Error in `get_dyntaxa_parent_ids` for taxon_id ", taxon_ids[i], ": ", http_status(response)$message))
+      cli::cli_abort("Error in {.fn get_dyntaxa_parent_ids} for taxon_id {taxon_ids[i]}: {http_status(response)$message}")
     }
   })
 
-  # Close the progress bar
-  if (verbose) {
-    close(pb)
-  }
+  if (verbose) cli::cli_progress_done(id = pb_id)
 
   results <- Map(function(vec, val) if (!is.null(vec)) c(vec, val) else vec, results, taxon_ids)
 
@@ -250,19 +249,19 @@ get_dyntaxa_children_hierarchy <- function(taxon_ids,
                                            main_children = TRUE,
                                            verbose = TRUE) {
   if (is.null(subscription_key) || subscription_key == "") {
-    stop("No Dyntaxa subscription key provided. See ?get_dyntaxa_children_hierarchy for setup instructions.")
+    cli::cli_abort("No Dyntaxa subscription key provided. See {.fn get_dyntaxa_children_hierarchy} for setup instructions.")
   }
 
   if (length(taxon_ids) == 0) {
-    stop("taxon_ids should not be empty.")
+    cli::cli_abort("{.arg taxon_ids} should not be empty.")
   }
 
   if (any(taxon_ids > .Machine$integer.max, na.rm = TRUE)) {
-    stop("One or more taxon_ids exceed the maximum integer value: ", .Machine$integer.max, ".")
+    cli::cli_abort("One or more {.arg taxon_ids} exceed the maximum integer value: {.Machine$integer.max}.")
   }
 
   if (any(is.na(taxon_ids))) {
-    stop("taxon_ids should not contain NA.")
+    cli::cli_abort("{.arg taxon_ids} should not contain {.val NA}.")
   }
 
   url <- paste0("https://api.artdatabanken.se/taxonservice/v1/taxa/", taxon_ids, "/childhierarchy?levels=", levels, "&onlyMainChildren=", main_children)
@@ -272,19 +271,18 @@ get_dyntaxa_children_hierarchy <- function(taxon_ids,
     'Ocp-Apim-Subscription-Key' = subscription_key
   )
 
-  # Set up the progress bar
-  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(taxon_ids), style = 3)}
+  pb_id <- if (verbose) cli::cli_progress_bar("Retrieving children hierarchy", total = length(taxon_ids))
 
   # Perform GET requests and check status
   responses <- lapply(seq_along(url), function(i) {
-    if (verbose) {utils::setTxtProgressBar(pb, i)}
+    if (verbose) cli::cli_progress_update(id = pb_id)
     res <- GET(url[i], add_headers(headers))
 
     # Check if the response is successful
     if (http_status(res)$category == "Success") {
       return(res)
     } else {
-      stop(paste("Error:", http_status(res)$reason))
+      cli::cli_abort("Dyntaxa API error: {http_status(res)$reason}")
     }
   })
 
@@ -297,9 +295,7 @@ get_dyntaxa_children_hierarchy <- function(taxon_ids,
   })
 
   # Close the progress bar
-  if (verbose) {
-    close(pb)
-  }
+  if (verbose) cli::cli_progress_done(id = pb_id)
 
   # Combine all parsed tibbles into one
   results <- bind_rows(results)
@@ -360,19 +356,19 @@ get_dyntaxa_children_ids <- function(taxon_ids,
                                      main_children = TRUE,
                                      verbose = TRUE) {
   if (is.null(subscription_key) || subscription_key == "") {
-    stop("No Dyntaxa subscription key provided. See ?get_dyntaxa_children_ids for setup instructions.")
+    cli::cli_abort("No Dyntaxa subscription key provided. See {.fn get_dyntaxa_children_ids} for setup instructions.")
   }
 
   if (length(taxon_ids) == 0) {
-    stop("taxon_ids should not be empty.")
+    cli::cli_abort("{.arg taxon_ids} should not be empty.")
   }
 
   if (any(taxon_ids > .Machine$integer.max, na.rm = TRUE)) {
-    stop("One or more taxon_ids exceed the maximum integer value: ", .Machine$integer.max, ".")
+    cli::cli_abort("One or more {.arg taxon_ids} exceed the maximum integer value: {.Machine$integer.max}.")
   }
 
   if (any(is.na(taxon_ids))) {
-    stop("taxon_ids should not contain NA.")
+    cli::cli_abort("{.arg taxon_ids} should not contain {.val NA}.")
   }
 
   url <- paste0("https://api.artdatabanken.se/taxonservice/v1/taxa/", taxon_ids, "/childids?useMainChildren=", main_children)
@@ -382,18 +378,14 @@ get_dyntaxa_children_ids <- function(taxon_ids,
     'Ocp-Apim-Subscription-Key' = subscription_key
   )
 
-  # Set up the progress bar
-  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(taxon_ids), style = 3)}
+  pb_id <- if (verbose) cli::cli_progress_bar("Retrieving children IDs", total = length(taxon_ids))
 
   responses <- lapply(seq_along(url), function(i) {
-    if (verbose) {utils::setTxtProgressBar(pb, i)}
+    if (verbose) cli::cli_progress_update(id = pb_id)
     return(GET(url[i], add_headers(headers)))
   })
 
-  # Close the progress bar
-  if (verbose) {
-    close(pb)
-  }
+  if (verbose) cli::cli_progress_done(id = pb_id)
 
   results <- lapply(responses, function(response) {
     if (http_status(response)$category == "Success") {
@@ -402,7 +394,7 @@ get_dyntaxa_children_ids <- function(taxon_ids,
       parsed_result <- parsed_result[parsed_result != 0]  # Remove root
       return(parsed_result)
     } else {
-      stop(paste("Error:", http_status(response)$reason))
+      cli::cli_abort("Dyntaxa API error: {http_status(response)$reason}")
     }
   })
 
@@ -479,7 +471,7 @@ construct_dyntaxa_missing_table <- function(parent_ids,
                                             add_hierarchy = FALSE,
                                             verbose = TRUE) {
   if (is.null(subscription_key) || subscription_key == "") {
-    stop("No Dyntaxa subscription key provided. See ?construct_dyntaxa_missing_table for setup instructions.")
+    cli::cli_abort("No Dyntaxa subscription key provided. See {.fn construct_dyntaxa_missing_table} for setup instructions.")
   }
 
   if (!is.list(parent_ids)) {
@@ -487,13 +479,12 @@ construct_dyntaxa_missing_table <- function(parent_ids,
   }
 
   if (any(is.na(unlist(parent_ids)))) {
-    stop("parent_ids should not contain NA.")
+    cli::cli_abort("{.arg parent_ids} should not contain {.val NA}.")
   }
 
   taxa <- data.frame()
 
-  # Set up progress bar
-  if (verbose) {pb <- utils::txtProgressBar(min = 0, max = length(parent_ids), style = 3)}
+  if (verbose) cli::cli_progress_bar("Constructing missing taxa table", total = length(parent_ids))
 
   # Initialize counters
   if_counter <- 0
@@ -504,8 +495,7 @@ construct_dyntaxa_missing_table <- function(parent_ids,
     single <- unique(ids)
 
     if (is.null(ids)) {
-      # Update progress bar at the end of each iteration
-      if (verbose) {utils::setTxtProgressBar(pb, i)}
+      if (verbose) cli::cli_progress_update()
       next
     }
 
@@ -792,12 +782,10 @@ construct_dyntaxa_missing_table <- function(parent_ids,
 
     taxa <- bind_rows(taxa, taxa_i)
 
-    # Update progress bar at the end of each iteration
-    if (verbose) {utils::setTxtProgressBar(pb, i)}
+    if (verbose) cli::cli_progress_update()
   }
 
-  # Close progress bar
-  if (verbose) {close(pb)}
+  if (verbose) cli::cli_progress_done()
 
   if (nrow(taxa) == 0) {
     return(data.frame())
@@ -846,10 +834,12 @@ construct_dyntaxa_missing_table <- function(parent_ids,
       mutate(parentNameUsageID = gsub("urn:lsid:dyntaxa.se:Taxon:NA", NA, parentNameUsageID))
   }
 
-  # Print the counters, for debugging
   if (verbose) {
-    cat("Cached taxa requests:", if_counter, "\n")
-    cat("Unique taxa requests:", else_counter, "\n")
+    cli::cli_inform(c(
+      "Dyntaxa request summary:",
+      "i" = "Cached requests: {if_counter}",
+      "i" = "Unique API requests: {else_counter}"
+    ))
   }
 
   return(taxa_filtered)
@@ -933,12 +923,10 @@ update_dyntaxa_taxonomy <- function(dyntaxa_ids,
                                     add_missing_taxa = FALSE,
                                     verbose = TRUE) {
   if (is.null(subscription_key) || subscription_key == "") {
-    stop("No Dyntaxa subscription key provided. See ?update_dyntaxa_taxonomy for setup instructions.")
+    cli::cli_abort("No Dyntaxa subscription key provided. See {.fn update_dyntaxa_taxonomy} for setup instructions.")
   }
 
-  if (verbose) {
-    cat("Collecting full taxonomy records from Dyntaxa\n")
-  }
+  if (verbose) cli::cli_inform("Collecting full taxonomy records from Dyntaxa...")
 
   tax_table <- construct_dyntaxa_table(dyntaxa_ids,
                                        subscription_key,
@@ -1033,7 +1021,7 @@ match_dyntaxa_taxa <- function(taxon_names,
                                verbose = TRUE) {
 
   if (is.null(subscription_key) || subscription_key == "") {
-    stop("No Dyntaxa subscription key provided. See ?match_dyntaxa_taxa for setup instructions.")
+    cli::cli_abort("No Dyntaxa subscription key provided. See {.fn match_dyntaxa_taxa} for setup instructions.")
   }
 
   # Make sure there are no NA
@@ -1044,8 +1032,8 @@ match_dyntaxa_taxa <- function(taxon_names,
 
   # Check if there are any invalid names and print them with a warning
   if (length(invalid_names) > 0) {
-    warning("Some taxon names contain special characters, which may cause API issues: ",
-            paste(invalid_names, collapse = ", "))
+    cli::cli_warn(c("Some taxon names contain special characters, which may cause API issues",
+                    "!" = "Affected names: {.val {invalid_names}}"))
   }
 
   url <- "https://api.artdatabanken.se/taxonservice/v1/taxa/names"
@@ -1055,9 +1043,7 @@ match_dyntaxa_taxa <- function(taxon_names,
   )
 
   # Initialize progress bar if verbose is TRUE
-  if (verbose) {
-    pb <- utils::txtProgressBar(min = 0, max = length(taxon_names), style = 3)
-  }
+  pb_id <- if (verbose) cli::cli_progress_bar("Matching Dyntaxa taxa", total = length(taxon_names))
 
   # Loop over taxon_names and collect results
   result_list <- map(seq_along(taxon_names), ~{
@@ -1074,10 +1060,7 @@ match_dyntaxa_taxa <- function(taxon_names,
 
     response <- GET(url, query = query, add_headers(.headers = headers))
 
-    # Update the progress bar
-    if (verbose) {
-      utils::setTxtProgressBar(pb, .x)
-    }
+    if (verbose) cli::cli_progress_update(id = pb_id)
 
     result <- list(
       taxon_name = taxon_name,
@@ -1117,10 +1100,7 @@ match_dyntaxa_taxa <- function(taxon_names,
     }
   })
 
-  # Close the progress bar
-  if (verbose) {
-    close(pb)
-  }
+  if (verbose) cli::cli_progress_done(id = pb_id)
 
   result_df <- do.call(rbind, result_list) %>%
     distinct()
@@ -1270,14 +1250,14 @@ get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
                              verbose = TRUE) {
 
   if (is.null(subscription_key) || subscription_key == "") {
-    stop("No Dyntaxa subscription key provided. See ?get_dyntaxa_dwca for setup instructions.")
+    cli::cli_abort("No Dyntaxa subscription key provided. See {.fn get_dyntaxa_dwca} for setup instructions.")
   }
 
   allowed_files <- c("Reference.csv", "SpeciesDistribution.csv",
                      "Taxon.csv", "VernacularName.csv")
   if (!file_to_read %in% allowed_files) {
-    stop("Invalid file_to_read. Allowed options are: ",
-         paste(allowed_files, collapse = ", "))
+    cli::cli_abort(c("Invalid {.arg file_to_read}: {.val {file_to_read}}",
+                     "i" = "Allowed options are: {.val {allowed_files}}"))
   }
 
   cache_dir <- cache_dir()
@@ -1285,15 +1265,12 @@ get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
 
   # Check cache
   if (!force && file.exists(csv_path)) {
-    if (verbose) message("Using cached copy of ", file_to_read)
+    if (verbose) cli::cli_inform("Using cached copy of {.file {file_to_read}}")
     csv <- tryCatch(
       readr::read_tsv(csv_path, col_types = cols(), progress = FALSE),
-      error = function(e) stop(
-        sprintf(
-          "Failed to read CSV file at '%s': %s\nConsider using force = TRUE to re-download the file.",
-          csv_path, e$message
-        ),
-        call. = FALSE
+      error = function(e) cli::cli_abort(
+        c("Failed to read CSV file at {.file {csv_path}}: {e$message}",
+          "i" = "Consider using {.code force = TRUE} to re-download the file.")
       )
     )
     return(csv)
@@ -1305,9 +1282,9 @@ get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
       'Ocp-Apim-Subscription-Key' = subscription_key
     )
 
-    response <- httr::GET(url,
-                          httr::add_headers(headers),
-                          if (verbose) httr::progress())
+    if (verbose) cli::cli_progress_step("Downloading Dyntaxa DwC-A archive")
+    response <- httr::GET(url, httr::add_headers(headers))
+    if (verbose) cli::cli_progress_done()
 
     if (httr::status_code(response) == 200) {
       temp_file <- tempfile(fileext = ".zip")
@@ -1324,10 +1301,10 @@ get_dyntaxa_dwca <- function(subscription_key = Sys.getenv("DYNTAXA_KEY"),
       if (file.exists(csv_path)) {
         return(readr::read_tsv(csv_path, col_types = cols(), progress = FALSE))
       } else {
-        stop(file_to_read, " not found in the extracted files.")
+        cli::cli_abort("{.val {file_to_read}} not found in the extracted files.")
       }
     } else {
-      stop("Failed to download the zip file: ", httr::status_code(response))
+      cli::cli_abort("Failed to download the Dyntaxa DwC-A zip file: HTTP {httr::status_code(response)}")
     }
   }
 }
@@ -1402,7 +1379,7 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DY
                                     recommended_only = deprecated(), parent_ids = deprecated()) {
 
   if (is.null(subscription_key) || subscription_key == "") {
-    stop("No Dyntaxa subscription key provided. See ?construct_dyntaxa_table for setup instructions.")
+    cli::cli_abort("No Dyntaxa subscription key provided. See {.fn construct_dyntaxa_table} for setup instructions.")
   }
 
   # Check for deprecated 'parent_ids' argument
@@ -1445,17 +1422,16 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DY
   # Validate the 'add_descendants_rank' parameter to ensure it is one of the allowed ranks
   allowed_ranks <- c("kingdom", "phylum", "class", "order", "family", "genus", "species")
   if (add_descendants && !add_descendants_rank %in% allowed_ranks) {
-    stop("Invalid add_descendants_rank. Allowed options are: ", paste(allowed_ranks, collapse = ", "))
+    cli::cli_abort(c("Invalid {.arg add_descendants_rank}: {.val {add_descendants_rank}}",
+                     "i" = "Allowed options are: {.val {allowed_ranks}}"))
   }
 
   if (any(taxon_ids > .Machine$integer.max, na.rm = TRUE)) {
-    stop("One or more taxon_ids exceed the maximum integer value: ", .Machine$integer.max, ".")
+    cli::cli_abort("One or more {.arg taxon_ids} exceed the maximum integer value: {.Machine$integer.max}.")
   }
 
   # Print a message to indicate data download
-  if (verbose) {
-    cat("Downloading DwC-A list:", "\n")
-  }
+  if (verbose) cli::cli_inform("Downloading DwC-A list...")
 
   # Download the DyNTaxa data using the subscription key
   data <- get_dyntaxa_dwca(subscription_key, verbose = verbose)
@@ -1482,8 +1458,8 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DY
 
     # Initialize a progress bar for the descendant search
     if (verbose) {
-      cat("Finding descendants from:", add_descendants_rank, "\n")
-      pb <- utils::txtProgressBar(min = 0, max = nrow(rank_data), style = 3)
+      cli::cli_inform("Finding descendants from rank: {.val {add_descendants_rank}}")
+      cli::cli_progress_bar("Finding descendants", total = nrow(rank_data))
     }
 
     # Loop over each genus and find its descendants
@@ -1491,16 +1467,10 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DY
       genus <- rank_data$taxonId[i]  # Get the taxonId of the current genus
       descendants <- bind_rows(descendants, find_descendants(genus, data))  # Find descendants for this genus
 
-      # Update the progress bar after each iteration
-      if (verbose) {
-        utils::setTxtProgressBar(pb, i)
-      }
+      if (verbose) cli::cli_progress_update()
     }
 
-    # Close the progress bar once done
-    if (verbose) {
-      close(pb)
-    }
+    if (verbose) cli::cli_progress_done()
 
     # Combine the descendants with the main data frame and ensure uniqueness
     data_all <- distinct(bind_rows(data_all, descendants))
@@ -1525,16 +1495,12 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DY
 
     if (length(missing_ids) > 0) {
 
-      if (verbose) {
-        cat("Getting parent IDs from", length(missing_ids), "missing taxa:", "\n")
-      }
+      if (verbose) cli::cli_inform("Getting parent IDs from {length(missing_ids)} missing taxa...")
 
       # Retrieve the parent IDs for the missing taxa
       parents <- get_dyntaxa_parent_ids(missing_ids, subscription_key, verbose = verbose)
 
-      if (verbose) {
-        cat("Getting records from", length(missing_ids), "missing taxa:", "\n")
-      }
+      if (verbose) cli::cli_inform("Getting records from {length(missing_ids)} missing taxa...")
 
       # Construct a table for the missing taxa
       missing_table <- construct_dyntaxa_missing_table(parents,
@@ -1563,9 +1529,7 @@ construct_dyntaxa_table <- function(taxon_ids, subscription_key = Sys.getenv("DY
   if (add_hierarchy) {
     data <- distinct(bind_rows(data_all, data))
 
-    if (verbose) {
-      cat("Building hierarchy:", "\n")
-    }
+    if (verbose) cli::cli_inform("Building hierarchy...")
     data_all <- add_hierarchy_column(data_all,
                                      data,
                                      verbose = verbose)
@@ -1770,8 +1734,7 @@ add_hierarchy_column <- function(data, data_dwca = NULL, verbose = TRUE) {
     data_dwca <- data
   }
 
-  # Initialize progress bar
-  if (verbose) { pb <- utils::txtProgressBar(min = 0, max = nrow(data), style = 3) }
+  if (verbose) cli::cli_progress_bar("Building hierarchy", total = nrow(data))
 
   # Add hierarchy column
   data$hierarchy <- vector("list", nrow(data)) # Preallocate list column
@@ -1782,12 +1745,10 @@ add_hierarchy_column <- function(data, data_dwca = NULL, verbose = TRUE) {
     # Add the current row's scientificName as the last element in the hierarchy
     data$hierarchy[[i]] <- c(hierarchy, data$scientificName[i])
 
-    # Update progress bar
-    if (verbose) { utils::setTxtProgressBar(pb, i) }
+    if (verbose) cli::cli_progress_update()
   }
 
-  # Close progress bar
-  if (verbose) { close(pb) }
+  if (verbose) cli::cli_progress_done()
 
   # Convert hierarchy list to a readable string
   data <- data %>%
@@ -1903,7 +1864,7 @@ is_in_dyntaxa <- function(taxon_names,
                           verbose = FALSE) {
 
   if (is.null(subscription_key) || subscription_key == "") {
-    stop("No Dyntaxa subscription key provided. See ?is_in_dyntaxa for setup instructions.")
+    cli::cli_abort("No Dyntaxa subscription key provided. See {.fn is_in_dyntaxa} for setup instructions.")
   }
 
   # Get unique taxon names
@@ -1943,13 +1904,13 @@ is_in_dyntaxa <- function(taxon_names,
 
   if (verbose) {
     if (any(!match)) {
-      message("Unmatched taxa found:")
-      print(data.frame(
-        reported_ScientificName = taxon_names[!match],
-        in_dyntaxa = match[!match]
+      unmatched_taxa <- taxon_names[!match]
+      cli::cli_inform(c(
+        "Unmatched taxa found",
+        "!" = "Not in Dyntaxa: {.val {unmatched_taxa}}"
       ))
     } else {
-      message("All taxa found")
+      cli::cli_inform(c("v" = "All taxa found"))
     }
   }
 

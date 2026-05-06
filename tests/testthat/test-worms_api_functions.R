@@ -237,7 +237,7 @@ test_that("add_hierarchy adds extra column", {
 })
 
 test_that("Function fails gracefully with NA or missing AphiaIDs", {
-  expect_error(get_worms_taxonomy_tree(NA), "No valid 'aphia_ids' provided")
+  expect_error(get_worms_taxonomy_tree(NA), "No valid.*aphia_ids.*provided")
 })
 
 test_that("Function handles invalid AphiaIDs without crashing", {

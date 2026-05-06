@@ -89,14 +89,16 @@ check_codes <- function(data,
                         verbose = TRUE) {
   # validate field in data
   if (!field %in% names(data)) {
-    stop(sprintf("Field '%s' not found in data.", field))
+    cli::cli_abort("Field {.field {field}} not found in data.")
   }
 
   # validate match_column
   valid_columns <- c("Code", "Description/English translate")
   if (!match_column %in% valid_columns) {
-    stop(sprintf("Invalid match_column '%s'. Must be one of: %s",
-                 match_column, paste(valid_columns, collapse = ", ")))
+    cli::cli_abort(c(
+      "Invalid {.arg match_column} {.val {match_column}}.",
+      "i" = "Must be one of: {.val {valid_columns}}"
+    ))
   }
 
   # split codes by comma and trim whitespace
@@ -123,10 +125,13 @@ check_codes <- function(data,
   # message
   if (verbose) {
     if (any(!match_type)) {
-      warning(sprintf("Unmatched %s code(s) found", code_type), call. = FALSE)
-      print(dplyr::filter(matches, !match_type))
+      unmatched <- dplyr::filter(matches, !match_type)$reported_code
+      cli::cli_warn(c(
+        "Unmatched {code_type} code{?s} found",
+        "x" = "Unmatched: {.val {unmatched}}"
+      ))
     } else {
-      message(sprintf("All %s codes found", code_type))
+      cli::cli_inform(c("v" = "All {code_type} codes found"))
     }
   }
 

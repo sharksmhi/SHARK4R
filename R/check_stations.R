@@ -43,10 +43,10 @@ check_nominal_station <- function(data, verbose = TRUE) {
     distinct()
 
   if (nrow(eventdate) > nrow(coord)) {
-    if (verbose) message("WARNING: Suspected nominal positions reported! Is this correct?")
+    if (verbose) cli::cli_inform("Suspected nominal positions reported! Is this correct?")
     return(coord)
   } else {
-    if (verbose) message("Positions are not suspected to be nominal")
+    if (verbose) cli::cli_inform(c("v" = "Positions are not suspected to be nominal"))
     return(invisible(NULL))
   }
 }
@@ -176,9 +176,9 @@ match_station <- function(names, station_file = NULL, try_synonyms = TRUE, verbo
   )
 
   if (any(!match_type)) {
-    if (verbose) message("WARNING: Unmatched stations found, check synonyms")
+    if (verbose) cli::cli_inform("Unmatched stations found, check synonyms")
   } else {
-    if (verbose) message("All stations found")
+    if (verbose) cli::cli_inform(c("v" = "All stations found"))
   }
 
   return(matches)
@@ -279,8 +279,7 @@ check_station_distance <- function(data, station_file = NULL,
   required_data_cols <- c("station_name", "sample_longitude_dd", "sample_latitude_dd")
   missing_data_cols <- setdiff(required_data_cols, names(data))
   if (length(missing_data_cols) > 0) {
-    stop("Missing required column(s) in input data: ",
-         paste(missing_data_cols, collapse = ", "))
+    cli::cli_abort("Missing required column{?s} in input data: {.field {missing_data_cols}}")
   }
 
   # ---- Load station database (replaces duplicated logic) ----
@@ -292,8 +291,7 @@ check_station_distance <- function(data, station_file = NULL,
                         "OUT_OF_BOUNDS_RADIUS")
   missing_db_cols <- setdiff(required_db_cols, names(station_db))
   if (length(missing_db_cols) > 0) {
-    stop("Missing required column(s) in station database: ",
-         paste(missing_db_cols, collapse = ", "))
+    cli::cli_abort("Missing required column{?s} in station database: {.field {missing_db_cols}}")
   }
 
   # ---- Initial join with station names ----
@@ -355,13 +353,22 @@ check_station_distance <- function(data, station_file = NULL,
 
   # ---- Messages ----
   if (any(!merged$match_type, na.rm = TRUE)) {
-    if (verbose) message("WARNING: Unmatched stations found, check synonyms")
-    if (verbose) print(merged[!merged$match_type, c("station_name")])
+    if (verbose) {
+      unmatched <- merged$station_name[!merged$match_type]
+      cli::cli_inform(c(
+        "Unmatched stations found, check synonyms",
+        "!" = "Unmatched: {.val {unique(unmatched)}}"
+      ))
+    }
   }
   if (any(merged$match_type & !merged$within_limit, na.rm = TRUE)) {
-    if (verbose) message("WARNING: Some stations are outside the allowed distance limit")
-    if (verbose) print(merged[merged$match_type & !merged$within_limit,
-                              c("station_name", "distance_m", "OUT_OF_BOUNDS_RADIUS")])
+    if (verbose) {
+      outside <- merged[merged$match_type & !merged$within_limit, c("station_name", "distance_m", "OUT_OF_BOUNDS_RADIUS")]
+      cli::cli_inform(c(
+        "Some stations are outside the allowed distance limit",
+        "!" = "Stations: {.val {unique(outside$station_name)}}"
+      ))
+    }
   }
 
   # ---- Leaflet map ----
@@ -477,7 +484,7 @@ load_station_bundle <- function(station_file = NULL, verbose = TRUE) {
                           pattern = "^station\\.txt$", recursive = TRUE, full.names = TRUE)
       if (length(files) > 0) {
         station_file <- files[1]
-        if (verbose) message("Using station.txt from NODC_CONFIG: ", station_file)
+        if (verbose) cli::cli_inform("Using station.txt from NODC_CONFIG: {.file {station_file}}")
       }
     }
     if (is.null(station_file)) {
@@ -487,13 +494,13 @@ load_station_bundle <- function(station_file = NULL, verbose = TRUE) {
       files <- list.files(tmp_dir, pattern = "^station\\.txt$", recursive = TRUE, full.names = TRUE)
       if (length(files) > 0) {
         station_file <- files[1]
-        if (verbose) message("Using station.txt from SHARK4R bundle: ", station_file)
+        if (verbose) cli::cli_inform("Using station.txt from {.pkg SHARK4R} bundle: {.file {station_file}}")
       }
     }
   }
 
   if (is.null(station_file)) {
-    stop("No station.txt file found via station_file, NODC_CONFIG, or package bundle.")
+    cli::cli_abort("No {.file station.txt} file found via {.arg station_file}, NODC_CONFIG, or package bundle.")
   }
 
   # ---- Read station database ----

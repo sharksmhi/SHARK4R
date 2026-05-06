@@ -261,7 +261,7 @@ utils::globalVariables(c(
 load_threshold_values <- function() {
   path <- system.file("extdata", "threshold_values.csv", package = "SHARK4R")
   if (!nzchar(path)) {
-    stop("Could not locate threshold_values.csv in inst/extdata.", call. = FALSE)
+    cli::cli_abort("Could not locate {.file threshold_values.csv} in inst/extdata.")
   }
   utils::read.csv(
     path,

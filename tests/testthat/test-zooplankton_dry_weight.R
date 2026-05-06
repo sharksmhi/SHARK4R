@@ -84,7 +84,7 @@ test_that("calc_zooplankton_dry_weight errors on missing required columns", {
 
   expect_error(
     calc_zooplankton_dry_weight(zoo),
-    "Missing required columns: dev_stage_code"
+    "Missing required column"
   )
 })
 
