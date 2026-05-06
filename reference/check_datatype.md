@@ -3,6 +3,13 @@
 This function checks whether the required and recommended global and
 datatype-specific SHARK system fields are present in a data frame.
 
+- **Required fields**: Missing or empty required fields are reported as
+  **errors**.
+
+- **Recommended fields**: Missing or empty recommended fields are
+  reported as **warnings**, but only if `level = "warning"` is
+  specified.
+
 ## Usage
 
 ``` r
@@ -35,15 +42,6 @@ A `tibble` summarizing missing or empty fields, with columns:
   column is missing.
 
 - `message`: Description of the issue.
-
-## Details
-
-- **Required fields**: Missing or empty required fields are reported as
-  **errors**.
-
-- **Recommended fields**: Missing or empty recommended fields are
-  reported as **warnings**, but only if `level = "warning"` is
-  specified.
 
 ## Examples
 

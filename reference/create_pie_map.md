@@ -75,7 +75,7 @@ create_pie_map(
 
 - group_colors:
 
-  Optional named character vector of colours, keyed by group name. If
+  Optional named character vector of colors, keyed by group name. If
   `NULL`, ggplot's default discrete palette is used.
 
 - group_labels:
@@ -107,7 +107,7 @@ create_pie_map(
 
 - min_sep:
 
-  Minimum centre-to-centre separation between two pies, expressed as a
+  Minimum center-to-center separation between two pies, expressed as a
   multiple of the larger of the two radii. Default `2.40`.
 
 - min_disp:
@@ -151,7 +151,7 @@ create_pie_map(
 
 - basemap_fill, basemap_border, sea_color:
 
-  Colours for the default coastline basemap.
+  Colors for the default coastline basemap.
 
 - xlim, ylim:
 

@@ -5,6 +5,9 @@ This function is a **wrapper/re-export** of
 The `iRfcb` package is only required if you want to actually call this
 function.
 
+Determines whether given positions are near land based on a land polygon
+shape file.
+
 ## Usage
 
 ``` r
@@ -90,9 +93,6 @@ showing the land polygon, buffer area, and position points colored by
 their proximity to land.
 
 ## Details
-
-Determines whether given positions are near land based on a land polygon
-shape file.
 
 This function calculates a buffered area around the coastline using a
 polygon shapefile and determines if each input position intersects with

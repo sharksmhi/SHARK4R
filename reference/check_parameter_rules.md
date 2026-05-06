@@ -105,13 +105,13 @@ df <- data.frame(
 
 # Check against default package rules
 check_parameter_rules(df)
-#> Parameter Wet weight, measurement(s) outside expected range: > 0
-#> Parameter BQIm, row-wise logical check failed
+#> ! Parameter Wet weight, measurement(s) outside expected range: > 0
+#> ! Parameter BQIm, row-wise logical check failed
 
 # Return problematic rows as data.frame
 check_parameter_rules(df, return_df = TRUE)
-#> Parameter Wet weight, measurement(s) outside expected range: > 0
-#> Parameter BQIm, row-wise logical check failed
+#> ! Parameter Wet weight, measurement(s) outside expected range: > 0
+#> ! Parameter BQIm, row-wise logical check failed
 
 # Return logical vectors for each parameter
 rule_check <- check_parameter_rules(df, return_logical = TRUE)

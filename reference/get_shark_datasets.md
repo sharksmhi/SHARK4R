@@ -100,7 +100,7 @@ for downloading tabular data.
 # Get a specific dataset
 try(get_shark_datasets("SHARK_Phytoplankton_2023_SMHI_BVVF", verbose = FALSE))
 #> $`SHARK_Phytoplankton_2023_SMHI_BVVF_version_2025-03-09.zip`
-#> [1] "/tmp/RtmpWtNKV7/SHARK_Phytoplankton_2023_SMHI_BVVF_version_2025-03-09.zip"
+#> [1] "/tmp/RtmpGSGOoR/SHARK_Phytoplankton_2023_SMHI_BVVF_version_2025-03-09.zip"
 #> 
 
 # Get all Zooplankton datasets from 2022 and unzip them
@@ -110,13 +110,13 @@ try(get_shark_datasets(
   verbose = FALSE
 ))
 #> $`SHARK_Zooplankton_2022_DEEP_version_2024-12-17.zip`
-#> [1] "/tmp/RtmpWtNKV7/SHARK_Zooplankton_2022_DEEP_version_2024-12-17"
+#> [1] "/tmp/RtmpGSGOoR/SHARK_Zooplankton_2022_DEEP_version_2024-12-17"
 #> 
 #> $`SHARK_Zooplankton_2022_SMHI_version_2024-12-17.zip`
-#> [1] "/tmp/RtmpWtNKV7/SHARK_Zooplankton_2022_SMHI_version_2024-12-17"
+#> [1] "/tmp/RtmpGSGOoR/SHARK_Zooplankton_2022_SMHI_version_2024-12-17"
 #> 
 #> $`SHARK_Zooplankton_2022_UMSC_version_2024-03-27.zip`
-#> [1] "/tmp/RtmpWtNKV7/SHARK_Zooplankton_2022_UMSC_version_2024-03-27"
+#> [1] "/tmp/RtmpGSGOoR/SHARK_Zooplankton_2022_UMSC_version_2024-03-27"
 #> 
 
 # Get all Chlorophyll datasets and return as a combined data frame
@@ -125,7 +125,8 @@ try(combined_df <- get_shark_datasets(
   return_df = TRUE,
   verbose = FALSE
 ))
-#> Detected encoding 'windows-1252' differs from specified 'latin_1'. Using detected encoding.
+#> Detected encoding "windows-1252" differs from specified "latin_1". Using
+#> detected encoding.
 if (exists("combined_df")) head(combined_df)
 #> # A tibble: 6 × 73
 #>   source delivery_datatype check_status_sv data_checked_by_sv visit_year

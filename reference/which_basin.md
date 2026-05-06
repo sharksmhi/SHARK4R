@@ -5,6 +5,11 @@ This function is a **wrapper/re-export** of
 The `iRfcb` package is only required if you want to actually call this
 function.
 
+This function identifies which sub-basin a set of latitude and longitude
+points belong to, using a user-specified or default shapefile. The
+default shapefile includes the Baltic Sea, Kattegat, and Skagerrak
+basins and is included in the `iRfcb` package.
+
 ## Usage
 
 ``` r
@@ -38,11 +43,6 @@ A vector indicating the basin each point belongs to, or a ggplot object
 if `plot = TRUE`.
 
 ## Details
-
-This function identifies which sub-basin a set of latitude and longitude
-points belong to, using a user-specified or default shapefile. The
-default shapefile includes the Baltic Sea, Kattegat, and Skagerrak
-basins and is included in the `iRfcb` package.
 
 This function reads a pre-packaged shapefile of the Baltic Sea,
 Kattegat, and Skagerrak basins from the `iRfcb` package by default, or a

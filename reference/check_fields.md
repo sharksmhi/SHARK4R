@@ -6,6 +6,11 @@ required fields are present and contain non-empty values. If
 `level = "warning"`, it also checks for recommended fields and empty
 values within them.
 
+Note: A single "\*" marks required fields in the standard SHARK
+template. A double "\*\*" is often used to specify columns required for
+**national monitoring only**. For more information, see:
+<https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data>
+
 ## Usage
 
 ``` r
@@ -80,11 +85,6 @@ A tibble with the following columns:
 The tibble will be empty if no problems are found.
 
 ## Details
-
-Note: A single "\*" marks required fields in the standard SHARK
-template. A double "\*\*" is often used to specify columns required for
-**national monitoring only**. For more information, see:
-https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data
 
 Field definitions for SHARK data can be loaded in two ways:
 

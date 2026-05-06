@@ -47,7 +47,7 @@ df <- data.frame(
 try(nominal_station(df))
 #> Warning: `nominal_station()` was deprecated in SHARK4R 1.0.0.
 #> ℹ Please use `check_nominal_station()` instead.
-#> WARNING: Suspected nominal positions reported! Is this correct?
+#> Suspected nominal positions reported! Is this correct?
 #>   STATION LON  LAT
 #> 1     ST1  15 58.5
 #> 2     ST2  16 58.6

@@ -47,7 +47,7 @@ df <- data.frame(
   sample_latitude_dd = rep(c(58.5, 58.6), 3)
 )
 check_nominal_station(df)
-#> WARNING: Suspected nominal positions reported! Is this correct?
+#> Suspected nominal positions reported! Is this correct?
 #>   STATION LON  LAT
 #> 1     ST1  15 58.5
 #> 2     ST2  16 58.6

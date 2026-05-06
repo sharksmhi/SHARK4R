@@ -141,7 +141,8 @@ check_outliers(
   thresholds = example_thresholds,
   return_df = TRUE
 )
-#> WARNING: Param1 ( TypeA ) exceeds extreme_upper in dataset
+#> Outlier detected for Param1 (TypeA).
+#> ! Value exceeds extreme_upper threshold in dataset.
 #> # A tibble: 1 × 7
 #>   delivery_datatype station_name sample_date sample_id parameter value threshold
 #>   <chr>             <chr>        <date>          <int> <chr>     <dbl>     <dbl>
@@ -156,7 +157,8 @@ check_outliers(
   thresholds = example_thresholds,
   return_df = TRUE
 )
-#> WARNING: Param1 ( TypeA ) exceeds mild_upper in dataset
+#> Outlier detected for Param1 (TypeA).
+#> ! Value exceeds mild_upper threshold in dataset.
 #> # A tibble: 1 × 7
 #>   delivery_datatype station_name sample_date sample_id parameter value threshold
 #>   <chr>             <chr>        <date>          <int> <chr>     <dbl>     <dbl>

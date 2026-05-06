@@ -67,7 +67,7 @@ to manually clear cached files.
 # \donttest{
   # Read the first Excel file from the PEG zip
   try(peg_list <- get_peg_list())
-#> Reading PEG biovolume Excel file for year: 2025
+#> Reading PEG biovolume Excel file for year: "2025"
   if (exists("peg_list")) head(peg_list)
 #> # A tibble: 6 × 36
 #>   Division     Class Order Genus Species SFLAG STAGE Author AphiaID AphiaID_link

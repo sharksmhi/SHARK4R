@@ -54,6 +54,16 @@
 <ul><li>Added <code><a href="../reference/calc_zooplankton_dry_weight.html">calc_zooplankton_dry_weight()</a></code> to calculate zooplankton dry weight from <code>"Length (mean)"</code> using AphiaID-based taxa-specific coefficients from <code>inst/extdata/Mesozooplankton_Kattegat_Skagerrak_taxa_and_biomass_calculations.xlsx</code>. The function uses adult coefficients for non-<code>NP</code> stages, taxon-specific nauplii coefficients where available, and otherwise falls back to the general copepod nauplii coefficients.</li>
 <li>Added <code><a href="../reference/calc_zooplankton_biomass.html">calc_zooplankton_biomass()</a></code> to calculate zooplankton biomass concentration (<code>mg/m3</code>) from <code>"Abundance"</code> and integrated biomass (<code>mg/m2</code>) from <code>"Integrated abundance"</code> by combining abundance with per-individual dry weight on the SHARK observation key (<code>platform_code</code>, <code>station_name</code>, <code>sample_date</code>, <code>sample_time</code>, <code>sample_min_depth_m</code>, <code>sample_max_depth_m</code>, <code>aphia_id</code>, <code>sex_code</code>, <code>dev_stage_code</code>, <code>size_class</code>). If dry-weight rows are not present, they are calculated internally via <code><a href="../reference/calc_zooplankton_dry_weight.html">calc_zooplankton_dry_weight()</a></code>.</li>
 <li>Added <code><a href="../reference/create_pie_map.html">create_pie_map()</a></code>, a general-purpose pie chart map for station data with automatic pie displacement and leader lines to prevent overlap in crowded regions. Works with any grouping (phytoplankton groups, zooplankton orders, microbial phyla, …) and any numeric value (biomass, biovolume, abundance, …). The optional default coastline basemap uses <code>rnaturalearth</code> (Suggests); HTML-formatted legend labels use <code>ggtext</code> (Suggests).</li>
+<li>The <code>shark-qc</code> Shiny app has been rebuilt on <code>bslib</code> (Bootstrap 5) for a modernized UI, with improved server-side error handling so transient failures surface as user-facing notifications instead of crashing the session.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-improvements-and-fixes-development-version">Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-development-version"></a></h3>
+<ul><li>All user-facing console output has been migrated from base R (<code><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop()</a></code>, <code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code>, <code><a href="https://rdrr.io/r/base/message.html" class="external-link">message()</a></code>, <code><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat()</a></code>, <code>txtProgressBar</code>) to the <code>cli</code> package. Errors use <code>cli_abort()</code>, warnings use <code>cli_warn()</code>, and informational messages use <code>cli_inform()</code>, all with structured bullet lists and inline markup for arguments, values, file paths, and function names. Progress bars in long-running API functions are replaced with <code>cli_progress_bar()</code>.</li>
+<li>Threshold values previously defined in <code>R/zzz.R</code> are now bundled as <code>inst/extdata/threshold_values.csv</code> and loaded at runtime, removing several package-level global variables.</li>
+<li>All internal cache paths now consistently redirect to <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> during <code>R CMD check</code>, extending the <code>cache_dir()</code> redirect to the remaining call sites in <code>R/util.R</code>.</li>
+<li>Removed unused arguments from defunct functions in <code>R/defunct.R</code> and updated their documentation accordingly.</li>
+<li>CI workflow updated to install required spatial libraries and configure PROJ on the macOS runner.</li>
+<li>Bumped GitHub Actions to versions running on Node.js 24 to clear the Node 20 deprecation warnings: <code>actions/checkout@v6</code>, <code>actions/upload-artifact@v7</code>, <code>codecov/codecov-action@v6</code>, and <code>JamesIves/github-pages-deploy-action@v4.8.0</code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -229,7 +239,7 @@
 </ul></div>
 <div class="section level3">
 <h3 id="defunct--removed-1-0-0">Defunct / Removed<a class="anchor" aria-label="anchor" href="#defunct--removed-1-0-0"></a></h3>
-<ul><li>Defunct function <code>get_shark_table()</code>
+<ul><li>Defunct function <code><a href="../reference/defunct.html">get_shark_table()</a></code>
 </li>
 </ul></div>
 <div class="section level3">

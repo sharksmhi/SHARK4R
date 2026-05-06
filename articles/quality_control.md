@@ -267,7 +267,7 @@ check_outliers(data = chlorophyll_data,
                thresholds = shark_statistics)
 ```
 
-    ## Chlorophyll-a is within the P99 range.
+    ## ✔ "Chlorophyll-a" is within the P99 range.
 
 Visualize anomalies:
 
@@ -292,7 +292,9 @@ rules.
 check_parameter_rules(data = chlorophyll_data)
 ```
 
-    ## No parameters from the logical rules are present in the dataset. Available parameters are: Total cover of all species, Cover, Cover class, Sediment deposition cover, Abundance class, Wet weight
+    ## No parameters from the logical rules are present in the dataset.
+    ## ℹ Available parameters: "Total cover of all species", "Cover", "Cover class",
+    ##   "Sediment deposition cover", "Abundance class", and "Wet weight"
 
 - `return_df = TRUE` gives a data frame of violations.
 - `return_logical = TRUE` gives logical vectors for each parameter.
@@ -313,9 +315,8 @@ station_match <- match_station(chlorophyll_data$station_name)
 head(station_match)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmprcUVxI/station.txt
-
-    ## All stations found
+    ## Using station.txt from SHARK4R bundle: /tmp/Rtmp0C16me/station.txt
+    ## ✔ All stations found
 
     ##   reported_station_name match_type
     ## 1            425 GNIBEN       TRUE
@@ -334,16 +335,9 @@ check_station_distance(data = chlorophyll_data,
                        plot_leaflet = TRUE)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmprcUVxI/station.txt
-
-    ## WARNING: Some stations are outside the allowed distance limit
-
-    ## # A tibble: 3 × 3
-    ##   station_name distance_m OUT_OF_BOUNDS_RADIUS
-    ##   <chr>             <dbl>                <dbl>
-    ## 1 LÄSÖ RÄNNA       10360.                 1200
-    ## 2 OH7               2233.                 1200
-    ## 3 HS2               2233.                 1200
+    ## Using station.txt from SHARK4R bundle: /tmp/Rtmp0C16me/station.txt
+    ## Some stations are outside the allowed distance limit
+    ## ! Stations: "LÄSÖ RÄNNA", "OH7", and "HS2"
 
 To check if stations are nominal (comparing unique coordinates per
 station):
@@ -353,7 +347,7 @@ station):
 check_nominal_station(data = chlorophyll_data)
 ```
 
-    ## Positions are not suspected to be nominal
+    ## ✔ Positions are not suspected to be nominal
 
 ------------------------------------------------------------------------
 

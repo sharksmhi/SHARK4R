@@ -74,7 +74,7 @@ A character vector of column names that are required in the template.
 Note: A single "\*" marks required fields in the standard SHARK
 template. A double "\*\*" is often used to specify columns required for
 **national monitoring only**. For more information, see:
-https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data
+<https://www.smhi.se/data/hav-och-havsmiljo/datavardskap-oceanografi-och-marinbiologi/leverera-data>
 
 ## Examples
 

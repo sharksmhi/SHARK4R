@@ -37,12 +37,12 @@ if (exists("toxin_list")) head(toxin_list)
 #> # A tibble: 6 × 55
 #>      id toxin_group recommended_name synonyms recommended_acronym acronyms
 #>   <int> <chr>       <chr>            <list>   <chr>               <list>  
-#> 1   618 Azaspiracid Azaspiracid-49   <NULL>   AZA-49              <NULL>  
-#> 2   617 Azaspiracid Azaspiracid-48   <NULL>   AZA-48              <NULL>  
-#> 3   616 Azaspiracid Azaspiracid-47   <NULL>   AZA-47              <NULL>  
-#> 4   615 Azaspiracid Azaspiracid-46   <NULL>   AZA-46              <NULL>  
-#> 5   614 Azaspiracid Azaspiracid-45   <NULL>   AZA-45              <NULL>  
-#> 6   613 Azaspiracid Azaspiracid-44   <NULL>   AZA-44              <NULL>  
+#> 1   624 Azaspiracid Azaspiracid-68   <NULL>   AZA-68              <NULL>  
+#> 2   623 Azaspiracid Azaspiracid-67   <NULL>   AZA-67              <NULL>  
+#> 3   622 Azaspiracid Azaspiracid-66   <NULL>   AZA-66              <NULL>  
+#> 4   621 Azaspiracid Azaspiracid-65   <NULL>   AZA-65              <NULL>  
+#> 5   620 Azaspiracid Azaspiracid-61   <NULL>   AZA-61              <NULL>  
+#> 6   619 Azaspiracid Azaspiracid-60   <NULL>   AZA-60              <NULL>  
 #> # ℹ 49 more variables: cas_number <chr>, alternative_cas_numbers <list>,
 #> #   formula <chr>, exact_mono_isotopic_mass <dbl>, molfile <chr>,
 #> #   alternative_molfiles <lgl>, smiles <chr>, alternative_smiles <list>,
@@ -54,6 +54,6 @@ if (exists("toxin_list")) head(toxin_list)
 # Retrieve only the count of toxins
 try(toxin_count <- get_toxin_list(return_count = TRUE))
 if (exists("toxin_count")) print(toxin_count)
-#> [1] 530
+#> [1] 536
 # }
 ```

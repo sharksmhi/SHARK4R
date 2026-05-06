@@ -4,6 +4,12 @@ Calculates zooplankton biomass by combining per-individual dry weight
 (`"Dry weight (mean)"`, in `ug`) with abundance measurements in the same
 observation. Two biomass parameters are produced:
 
+- **Biomass concentration** (`mg/m3`) from `"Abundance"` rows
+  (`ind/m3`).
+
+- **Integrated biomass** (`mg/m2`) from `"Integrated abundance"` rows
+  (`ind/m2`).
+
 ## Usage
 
 ``` r
@@ -75,12 +81,6 @@ biomass rows appended. If `append = FALSE`, only the calculated rows are
 returned.
 
 ## Details
-
-- **Biomass concentration** (`mg/m3`) from `"Abundance"` rows
-  (`ind/m3`).
-
-- **Integrated biomass** (`mg/m2`) from `"Integrated abundance"` rows
-  (`ind/m2`).
 
 The conversion is `biomass = dry_weight_ug * abundance / 1000` so that
 the result is expressed in `mg/m3` or `mg/m2`.

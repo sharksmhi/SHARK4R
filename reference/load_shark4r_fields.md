@@ -5,6 +5,10 @@ field definitions directly from the
 [SHARK4R-statistics](https://github.com/nodc-sweden/SHARK4R-statistics)
 GitHub repository.
 
+The definitions are stored in an R script (`fields.R`) located in the
+`fields/` folder of the repository. The function sources this file
+directly from GitHub into the current R session.
+
 ## Usage
 
 ``` r
@@ -31,10 +35,6 @@ Invisibly returns a list with two elements:
   Object containing recommended SHARK fields.
 
 ## Details
-
-The definitions are stored in an R script (`fields.R`) located in the
-`fields/` folder of the repository. The function sources this file
-directly from GitHub into the current R session.
 
 The sourced script defines two main objects:
 

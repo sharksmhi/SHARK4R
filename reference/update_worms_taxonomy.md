@@ -51,7 +51,6 @@ try(updated_taxonomy <- update_worms_taxonomy(c(149619, 149122, 11)))
 #> Warning: `update_worms_taxonomy()` was deprecated in SHARK4R 0.1.3.
 #> ℹ Please use `add_worms_taxonomy()` instead.
 #> Retrieving WoRMS classification for 3 AphiaIDs.
-#>   |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |===============================================                       |  67%  |                                                                              |======================================================================| 100%
 if (exists("updated_taxonomy")) print(updated_taxonomy)
 #> # A tibble: 3 × 10
 #>   aphia_id worms_scientific_name worms_kingdom worms_phylum     worms_class     

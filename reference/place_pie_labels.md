@@ -2,7 +2,7 @@
 
 Uses a greedy sequential algorithm: stations are processed
 most-constrained first, and each label is placed in the direction that
-maximises clearance from all pie circles *and* from already-placed label
+maximizes clearance from all pie circles *and* from already-placed label
 bounding boxes.
 
 ## Usage

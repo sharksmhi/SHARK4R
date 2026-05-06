@@ -32,6 +32,38 @@
   abundance, …). The optional default coastline basemap uses
   `rnaturalearth` (Suggests); HTML-formatted legend labels use `ggtext`
   (Suggests).
+- The `shark-qc` Shiny app has been rebuilt on `bslib` (Bootstrap 5) for
+  a modernized UI, with improved server-side error handling so transient
+  failures surface as user-facing notifications instead of crashing the
+  session.
+
+### Minor improvements and fixes
+
+- All user-facing console output has been migrated from base R
+  ([`stop()`](https://rdrr.io/r/base/stop.html),
+  [`warning()`](https://rdrr.io/r/base/warning.html),
+  [`message()`](https://rdrr.io/r/base/message.html),
+  [`cat()`](https://rdrr.io/r/base/cat.html), `txtProgressBar`) to the
+  `cli` package. Errors use `cli_abort()`, warnings use `cli_warn()`,
+  and informational messages use `cli_inform()`, all with structured
+  bullet lists and inline markup for arguments, values, file paths, and
+  function names. Progress bars in long-running API functions are
+  replaced with `cli_progress_bar()`.
+- Threshold values previously defined in `R/zzz.R` are now bundled as
+  `inst/extdata/threshold_values.csv` and loaded at runtime, removing
+  several package-level global variables.
+- All internal cache paths now consistently redirect to
+  [`tempdir()`](https://rdrr.io/r/base/tempfile.html) during
+  `R CMD check`, extending the `cache_dir()` redirect to the remaining
+  call sites in `R/util.R`.
+- Removed unused arguments from defunct functions in `R/defunct.R` and
+  updated their documentation accordingly.
+- CI workflow updated to install required spatial libraries and
+  configure PROJ on the macOS runner.
+- Bumped GitHub Actions to versions running on Node.js 24 to clear the
+  Node 20 deprecation warnings: `actions/checkout@v6`,
+  `actions/upload-artifact@v7`, `codecov/codecov-action@v6`, and
+  `JamesIves/github-pages-deploy-action@v4.8.0`.
 
 ## SHARK4R 1.1.1
 
@@ -434,7 +466,8 @@ CRAN release: 2025-12-09
 
 ### Defunct / Removed
 
-- Defunct function `get_shark_table()`
+- Defunct function
+  [`get_shark_table()`](https://sharksmhi.github.io/SHARK4R/reference/defunct.md)
 
 ### Documentation
 

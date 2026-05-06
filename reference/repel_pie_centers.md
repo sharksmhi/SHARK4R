@@ -1,4 +1,4 @@
-# Displace pie chart centres away from each other
+# Displace pie chart centers away from each other
 
 Sequential, asymmetric placement so that pie charts never overlap and
 any pie that *does* get displaced is pushed far enough that its anchor
@@ -30,11 +30,11 @@ repel_pie_centers(
 
 - map_xlim, map_ylim:
 
-  Numeric length-2 vectors bounding the pie centre.
+  Numeric length-2 vectors bounding the pie center.
 
 - min_sep:
 
-  Minimum centre-to-centre separation between two pies, expressed as a
+  Minimum center-to-center separation between two pies, expressed as a
   multiple of the larger of the two radii. Default `2.40`.
 
 - min_disp:
@@ -45,4 +45,4 @@ repel_pie_centers(
 ## Value
 
 `wide` with added columns `anchor_lon`, `anchor_lat` (the true station
-coordinates) and updated `lon`/`lat` holding the displaced pie centres.
+coordinates) and updated `lon`/`lat` holding the displaced pie centers.
