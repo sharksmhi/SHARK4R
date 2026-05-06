@@ -125,6 +125,8 @@ reference:
   - check_zero_value
   - run_qc_app
 
+- title: Miscellaneous
+
 - subtitle: MISC
   contents:
   - clean_shark4r_cache
