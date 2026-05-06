@@ -383,7 +383,7 @@ match_worms_taxa <- function(taxa_names,
   unique_taxa <- unique(taxa_names)
   name_map <- data.frame(
     taxa_names = unique_taxa,
-    cleaned = vapply(unique_taxa, clean_taxon, character(1)),
+    cleaned = vapply(unique_taxa, clean_taxon, character(1), USE.NAMES = FALSE),
     stringsAsFactors = FALSE,
     row.names = NULL
   )
