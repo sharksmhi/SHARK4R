@@ -149,7 +149,19 @@ check_setup <- function(path, run_app = FALSE, force = FALSE, verbose = TRUE) {
     unpack_dir <- tempfile()
     on.exit(unlink(unpack_dir, recursive = TRUE), add = TRUE)
 
-    utils::download.file(zip_url, tmp, quiet = !verbose, mode = "wb")
+    tryCatch(
+      utils::download.file(zip_url, tmp, quiet = !verbose, mode = "wb"),
+      error = function(e) {
+        if (ref != "master") {
+          if (verbose) cli::cli_inform("Tag {ref} not yet published, retrying from master branch...")
+          fallback_url <- "https://github.com/sharksmhi/SHARK4R/archive/refs/heads/master.zip"
+          utils::download.file(fallback_url, tmp, quiet = !verbose, mode = "wb")
+          src_subdir <<- "SHARK4R-master"
+        } else {
+          stop(e)
+        }
+      }
+    )
     utils::unzip(tmp, exdir = unpack_dir)
 
     src_root <- file.path(unpack_dir, src_subdir)
