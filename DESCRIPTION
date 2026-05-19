@@ -49,7 +49,6 @@ Imports:
     readxl,
     rlang,
     sf,
-    sp,
     stringi,
     terra,
     tidyr,
