@@ -741,14 +741,33 @@ create_pie_map <- function(data,
     }
     world <- rnaturalearth::ne_countries(scale = basemap_scale,
                                          returnclass = "sf")
+    # Crop the world basemap to the panel bbox so its visible extent is
+    # bounded by the basemap geometry itself, not by panel clipping. This
+    # lets us turn `clip = "off"` on for `coord_sf` (below) without the
+    # land polygons bleeding out around the panel. We temporarily disable
+    # `s2` for the crop because spherical geometry cuts along great
+    # circles, which appear as curves on the equirectangular display and
+    # leave the basemap top/bottom edges visibly bowed.
+    panel_bbox <- sf::st_bbox(c(xmin = xlim[1], xmax = xlim[2],
+                                ymin = ylim[1], ymax = ylim[2]),
+                              crs = sf::st_crs(world))
+    s2_was <- sf::sf_use_s2()
+    on.exit(sf::sf_use_s2(s2_was), add = TRUE)
+    sf::sf_use_s2(FALSE)
+    world <- suppressWarnings(sf::st_crop(world, panel_bbox))
     p <- p + ggplot2::geom_sf(data = world, fill = basemap_fill,
                               color = basemap_border)
   } else {
     p <- p + basemap
   }
 
+  # `clip = "off"` keeps station labels visible if the placer's per-char
+  # width estimator slightly underestimates rendered glyph width and the
+  # text would otherwise overflow the panel edge. With the basemap above
+  # cropped to the panel, this does not let the land polygons escape.
   p <- p +
-    ggplot2::coord_sf(xlim = xlim, ylim = ylim, expand = FALSE) +
+    ggplot2::coord_sf(xlim = xlim, ylim = ylim, expand = FALSE,
+                      clip = "off") +
     ggplot2::geom_polygon(
       data  = pie_data,
       ggplot2::aes(x = .data$x, y = .data$y,
