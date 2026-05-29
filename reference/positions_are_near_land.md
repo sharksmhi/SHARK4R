@@ -99,9 +99,22 @@ polygon shapefile and determines if each input position intersects with
 this buffer or the landmass itself. By default, it uses the OBIS land
 vector dataset.
 
-The EEA shapefile is downloaded from
-<https://www.eea.europa.eu/data-and-maps/data/eea-coastline-for-analysis-2/gis-data/eea-coastline-polygon>
-when `source = "eea"`.
+Coastline sources used when `shape = NULL`:
+
+- `"obis"` - the land polygon distributed by the Ocean Biodiversity
+  Information System, downloaded from
+  <https://obis-resources.s3.amazonaws.com/land.gpkg>. The first call
+  downloads and caches the file under
+  [`clean_shark4r_cache()`](https://sharksmhi.github.io/SHARK4R/reference/clean_shark4r_cache.md).
+
+- `"ne"` - Natural Earth 1:10m coastline / land vectors, provided via
+  the `rnaturalearth` package; see <https://www.naturalearthdata.com>.
+
+- `"eea"` - high-resolution European coastline from the European
+  Environment Agency (EEA Coastline 2017). Downloaded chunked from the
+  EEA arcgis service the first time and cached locally. Dataset
+  metadata:
+  <https://sdi.eea.europa.eu/catalogue/datahub/api/records/9faa6ea1-372a-4826-a3c7-fb5b05e31c52/formatters/xsl-view?output=pdf&language=eng&approved=true>.
 
 ## See also
 

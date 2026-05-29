@@ -151,12 +151,12 @@ if (exists("habs_taxlist_df")) head(habs_taxlist_df)
 #> # A tibble: 6 × 29
 #>   AphiaID ScientificName       Authority AphiaID_accepted ScientificName_accep…¹
 #>     <dbl> <chr>                <chr>                <dbl> <chr>                 
-#> 1  841664 Aetokthonos hydrill… S.B.Wild…           841664 Aetokthonos hydrillic…
-#> 2  232546 Akashiwo sanguinea   (K.Hiras…           232546 Akashiwo sanguinea    
-#> 3  109707 Alexandrium affine   (H.Inoue…           109707 Alexandrium affine    
-#> 4  231872 Alexandrium anderso… Balech, …           246835 Alexandrium andersonii
-#> 5  246835 Alexandrium anderso… Balech, …           246835 Alexandrium andersonii
-#> 6  233452 Alexandrium angusti… F.J.R.Ta…           109711 Alexandrium minutum   
+#> 1  639809 Achomosphaera hyper… (Defland…           110041 Gonyaulax spinifera   
+#> 2  841664 Aetokthonos hydrill… S.B.Wild…           841664 Aetokthonos hydrillic…
+#> 3  232546 Akashiwo sanguinea   (K.Hiras…           232546 Akashiwo sanguinea    
+#> 4  233407 Alexandrium acatene… (Whedon …           231873 Alexandrium catenella 
+#> 5  109707 Alexandrium affine   (H.Inoue…           109707 Alexandrium affine    
+#> 6  231872 Alexandrium anderso… Balech, …           246835 Alexandrium andersonii
 #> # ℹ abbreviated name: ¹​ScientificName_accepted
 #> # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
 #> #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
@@ -171,12 +171,12 @@ if (exists("habs_taxlist_df")) head(habs_taxlist_df)
 #> # A tibble: 6 × 29
 #>   AphiaID ScientificName       Authority AphiaID_accepted ScientificName_accep…¹
 #>     <dbl> <chr>                <chr>                <dbl> <chr>                 
-#> 1 1653558 Aerosakkonemataceae  Struneck…          1653558 Aerosakkonemataceae   
-#> 2  836651 Aetokthonos          S.B.Wild…           836651 Aetokthonos           
-#> 3  841664 Aetokthonos hydrill… S.B.Wild…           841664 Aetokthonos hydrillic…
-#> 4  231787 Akashiwo             G.Hansen…           231787 Akashiwo              
-#> 5  232546 Akashiwo sanguinea   (K.Hiras…           232546 Akashiwo sanguinea    
-#> 6  109470 Alexandrium          Halim, 1…           109470 Alexandrium           
+#> 1  601319 Achomosphaera        Evitt, 1…           601319 Achomosphaera         
+#> 2  639809 Achomosphaera hyper… (Defland…           110041 Gonyaulax spinifera   
+#> 3 1653558 Aerosakkonemataceae  Struneck…          1653558 Aerosakkonemataceae   
+#> 4  836651 Aetokthonos          S.B.Wild…           836651 Aetokthonos           
+#> 5  841664 Aetokthonos hydrill… S.B.Wild…           841664 Aetokthonos hydrillic…
+#> 6  231787 Akashiwo             G.Hansen…           231787 Akashiwo              
 #> # ℹ abbreviated name: ¹​ScientificName_accepted
 #> # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
 #> #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
@@ -208,14 +208,14 @@ if (exists("habs_taxlist_df")) head(habs_taxlist_df)
 try(habs_taxlist_df <- get_hab_list(aphia_id = TRUE, scientific_name = TRUE, authority = FALSE))
 if (exists("habs_taxlist_df")) head(habs_taxlist_df)
 #> # A tibble: 6 × 28
-#>   AphiaID ScientificName               AphiaID_accepted ScientificName_accepted 
-#>     <dbl> <chr>                                   <dbl> <chr>                   
-#> 1  841664 Aetokthonos hydrillicola               841664 Aetokthonos hydrillicola
-#> 2  232546 Akashiwo sanguinea                     232546 Akashiwo sanguinea      
-#> 3  109707 Alexandrium affine                     109707 Alexandrium affine      
-#> 4  231872 Alexandrium andersoni                  246835 Alexandrium andersonii  
-#> 5  246835 Alexandrium andersonii                 246835 Alexandrium andersonii  
-#> 6  233452 Alexandrium angustitabulatum           109711 Alexandrium minutum     
+#>   AphiaID ScientificName             AphiaID_accepted ScientificName_accepted 
+#>     <dbl> <chr>                                 <dbl> <chr>                   
+#> 1  639809 Achomosphaera hyperacantha           110041 Gonyaulax spinifera     
+#> 2  841664 Aetokthonos hydrillicola             841664 Aetokthonos hydrillicola
+#> 3  232546 Akashiwo sanguinea                   232546 Akashiwo sanguinea      
+#> 4  233407 Alexandrium acatenella               231873 Alexandrium catenella   
+#> 5  109707 Alexandrium affine                   109707 Alexandrium affine      
+#> 6  231872 Alexandrium andersoni                246835 Alexandrium andersonii  
 #> # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
 #> #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
 #> #   Genus <chr>, Subgenus <lgl>, Species <chr>, Subspecies <lgl>, Marine <dbl>,

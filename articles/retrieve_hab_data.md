@@ -54,20 +54,20 @@ hab_list <- get_hab_list()
 print(hab_list)
 ```
 
-    ## # A tibble: 380 × 29
+    ## # A tibble: 537 × 29
     ##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹
     ##      <dbl> <chr>               <chr>                <dbl> <chr>                 
-    ##  1  841664 Aetokthonos hydril… S.B.Wild…           841664 Aetokthonos hydrillic…
-    ##  2  232546 Akashiwo sanguinea  (K.Hiras…           232546 Akashiwo sanguinea    
-    ##  3  109707 Alexandrium affine  (H.Inoue…           109707 Alexandrium affine    
-    ##  4  231872 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
-    ##  5  246835 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
-    ##  6  233452 Alexandrium angust… F.J.R.Ta…           109711 Alexandrium minutum   
-    ##  7  833063 Alexandrium austra… Sh.Murra…           833063 Alexandrium australie…
-    ##  8  231873 Alexandrium catene… (Whedon …           231873 Alexandrium catenella 
-    ##  9  233472 Alexandrium excava… (Braarud…           231873 Alexandrium catenella 
-    ## 10 1469211 Alexandrium fragae  S.Branco…          1469211 Alexandrium fragae    
-    ## # ℹ 370 more rows
+    ##  1  639809 Achomosphaera hype… (Defland…           110041 Gonyaulax spinifera   
+    ##  2  841664 Aetokthonos hydril… S.B.Wild…           841664 Aetokthonos hydrillic…
+    ##  3  232546 Akashiwo sanguinea  (K.Hiras…           232546 Akashiwo sanguinea    
+    ##  4  233407 Alexandrium acaten… (Whedon …           231873 Alexandrium catenella 
+    ##  5  109707 Alexandrium affine  (H.Inoue…           109707 Alexandrium affine    
+    ##  6  231872 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
+    ##  7  246835 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
+    ##  8  233452 Alexandrium angust… F.J.R.Ta…           109711 Alexandrium minutum   
+    ##  9  833063 Alexandrium austra… Sh.Murra…           833063 Alexandrium australie…
+    ## 10  231873 Alexandrium catene… (Whedon …           231873 Alexandrium catenella 
+    ## # ℹ 527 more rows
     ## # ℹ abbreviated name: ¹​ScientificName_accepted
     ## # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
     ## #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
@@ -182,7 +182,7 @@ print(toxin_list)
   Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas,
   R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO
   Taxonomic Reference List of Harmful Microalgae. Accessed at
-  <https://www.marinespecies.org/hab/> on 2026-05-06.
+  <https://www.marinespecies.org/hab/> on 2026-05-29.
   [doi:10.14284/362](https://doi.org/10.14284/362)
 - Zingone A. and L. Escalera (2025) Non toxigenic animal-killing
   microalgal species. In: Lundholm, N.; Bernard, C.; Churro, C.;
@@ -190,4 +190,4 @@ print(toxin_list)
   Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds)
   (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful
   Microalgae. Accessed at <https://www.marinespecies.org/hab/> on
-  2026-05-06. [doi:10.14284/362](https://doi.org/10.14284/362)
+  2026-05-29. [doi:10.14284/362](https://doi.org/10.14284/362)

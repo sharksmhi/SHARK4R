@@ -167,6 +167,8 @@ These functions are used for plankton-related tools and calculations
 - [`run_qc_app()`](https://sharksmhi.github.io/SHARK4R/reference/run_qc_app.md)
   : Launch the SHARK4R Bio-QC Tool
 
+## Miscellaneous
+
 ### MISC
 
 - [`clean_shark4r_cache()`](https://sharksmhi.github.io/SHARK4R/reference/clean_shark4r_cache.md)

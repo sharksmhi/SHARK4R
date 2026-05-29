@@ -37,6 +37,7 @@ create_pie_map(
   anchor_fill = "white",
   anchor_size = 1.8,
   basemap = NULL,
+  basemap_source = c("ne", "eea", "obis"),
   basemap_scale = "medium",
   basemap_fill = "gray95",
   basemap_border = "gray70",
@@ -45,7 +46,8 @@ create_pie_map(
   ylim = NULL,
   pad = 1,
   title = NULL,
-  legend_title = "Group"
+  legend_title = "Group",
+  verbose = TRUE
 )
 ```
 
@@ -140,14 +142,31 @@ create_pie_map(
 - basemap:
 
   Optional ggplot layer (or list of layers) used as the base map. If
-  `NULL`, a coastline polygon from `rnaturalearth` is drawn (requires
-  the `rnaturalearth` package).
+  `NULL`, a coastline polygon from the source named by `basemap_source`
+  is drawn.
+
+- basemap_source:
+
+  One of `"ne"` (Natural Earth, default), `"eea"`, or `"obis"`. Ignored
+  when `basemap` is supplied.
+
+  - `"ne"` uses
+    [`rnaturalearth::ne_countries()`](https://docs.ropensci.org/rnaturalearth/reference/ne_countries.html)
+    (requires the `rnaturalearth` package).
+
+  - `"eea"` uses the high-resolution European Environment Agency
+    coastline (Europe only).
+
+  - `"obis"` uses the global OBIS land polygon. For `"eea"` and `"obis"`
+    the polygon dataset is downloaded once and cached on disk.
 
 - basemap_scale:
 
   Resolution passed to
   [`rnaturalearth::ne_countries()`](https://docs.ropensci.org/rnaturalearth/reference/ne_countries.html)
-  when `basemap` is `NULL`. One of `"small"`, `"medium"` or `"large"`.
+  when `basemap` is `NULL` and `basemap_source = "ne"`. One of
+  `"small"`, `"medium"` or `"large"`. Ignored for the `eea` and `obis`
+  sources.
 
 - basemap_fill, basemap_border, sea_color:
 
@@ -167,9 +186,41 @@ create_pie_map(
 
   Optional plot title and legend title.
 
+- verbose:
+
+  Logical. If `TRUE` (default) print progress messages when a coastline
+  dataset has to be downloaded (only triggered by
+  `basemap_source = "eea"` or `"obis"` on the first call). Set to
+  `FALSE` to keep examples / pkgdown output clean.
+
 ## Value
 
 A `ggplot` object.
+
+## Details
+
+Coastline sources available via `basemap_source` when `basemap = NULL`:
+
+- `"ne"` - Natural Earth 1:10m / 1:50m / 1:110m land vectors, fetched on
+  the fly through
+  [`rnaturalearth::ne_countries()`](https://docs.ropensci.org/rnaturalearth/reference/ne_countries.html).
+  Resolution is controlled by `basemap_scale`. See
+  <https://www.naturalearthdata.com>. Requires the `rnaturalearth` and
+  `rnaturalearthdata` packages (both Suggests).
+
+- `"eea"` - high-resolution European coastline from the European
+  Environment Agency (EEA Coastline 2017). Best choice for detailed
+  regional maps of European waters. Downloaded chunked from the EEA
+  arcgis service the first time and cached locally. Dataset metadata:
+  <https://sdi.eea.europa.eu/catalogue/datahub/api/records/9faa6ea1-372a-4826-a3c7-fb5b05e31c52/formatters/xsl-view?output=pdf&language=eng&approved=true>.
+
+- `"obis"` - global land polygon distributed by the Ocean Biodiversity
+  Information System, downloaded from
+  <https://obis-resources.s3.amazonaws.com/land.gpkg>.
+
+The `"eea"` and `"obis"` datasets are cached across sessions and can be
+cleared with
+[`clean_shark4r_cache()`](https://sharksmhi.github.io/SHARK4R/reference/clean_shark4r_cache.md).
 
 ## Examples
 
@@ -234,6 +285,20 @@ if (has_basemap) create_pie_map(
   size_range   = c(0.18, 0.50),
   legend_title = "Taxon group",
   title        = "Pie size scaled by chlorophyll-a"
+)
+
+
+# 4. Use the high-resolution EEA coastline instead of the Natural Earth
+#    default. The first call downloads the EEA polygon and caches it
+#    for re-use; subsequent calls are fast. `basemap_scale` is ignored
+#    for EEA. Suitable for regional European maps where Natural Earth's
+#    coastline is too coarse.
+create_pie_map(
+  stations,
+  basemap_source = "eea",
+  legend_title   = "Taxon group",
+  title          = "High-resolution EEA coastline",
+  verbose        = FALSE
 )
 
 # }

@@ -80,6 +80,10 @@ Taxa with no matching coefficient keep `NA` dry-weight values.
 
 ## Reference coefficient table
 
+The bundled workbook used for these coefficients can be downloaded
+directly: [Download coefficient workbook
+(.xlsx)](https://github.com/sharksmhi/SHARK4R/raw/refs/heads/master/inst/extdata/Mesozooplankton_Kattegat_Skagerrak_taxa_and_biomass_calculations.xlsx)
+
 |  |  |  |  |  |  |
 |----|----|----|----|----|----|
 | **Reference taxon** | **AphiaID** | **Development stage** | **A** | **B** | **Reference** |
@@ -112,6 +116,12 @@ Taxa with no matching coefficient keep `NA` dry-weight values.
 | Podon polyphemoides | 159919 | all stages except nauplii | 6.60 | 2.75 | Uye 1982⁵ |
 | Pseudocalanus | 104165 | all stages except nauplii | 8.37 | 3.00 | Hay et al. 1988³ |
 | Temora longicornis | 104878 | all stages except nauplii | 8.37 | 3.00 | Hay et al. 1988³ |
+
+For a local copy within an installed package, use:
+`system.file("extdata", "Mesozooplankton_Kattegat_Skagerrak_taxa_and_biomass_calculations.xlsx", package = "SHARK4R")`
+
+To download the latest version directly: [Download from
+GitHub](https://github.com/sharksmhi/SHARK4R/raw/refs/heads/master/inst/extdata/Mesozooplankton_Kattegat_Skagerrak_taxa_and_biomass_calculations.xlsx)
 
 ## References
 
@@ -160,6 +170,10 @@ Taxa with no matching coefficient keep `NA` dry-weight values.
 10. Paffenhöfer GA (1976) On the biology of appendicularia of the
     southeastern North Sea. In: 10th European Symposium on Marine
     Biology, Ostend, Belgium, 17-23 September 1975, Vol. 2, pp. 437-455.
+
+## See also
+
+[`calc_zooplankton_biomass()`](https://sharksmhi.github.io/SHARK4R/reference/calc_zooplankton_biomass.md)
 
 ## Examples
 
