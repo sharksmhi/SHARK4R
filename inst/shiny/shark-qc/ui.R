@@ -114,16 +114,14 @@ app_sidebar <- sidebar(
         col_widths = c(8, 4),
         actionButton(
           "downloadDataset",
-          "Download",
-          icon = bs_icon("download"),
+          label = tagList(bs_icon("download"), "Download"),
           class = "btn-primary",
           width = "100%"
         ),
         tooltip(
           actionButton(
             "refreshData",
-            NULL,
-            icon = bs_icon("arrow-clockwise"),
+            label = bs_icon("arrow-clockwise"),
             class = "btn-secondary",
             width = "100%"
           ),
@@ -136,7 +134,10 @@ app_sidebar <- sidebar(
     accordion_panel(
       "Report",
       icon = bs_icon("file-earmark-text"),
-      downloadButton("report", "Generate report", icon = bs_icon("file-earmark-arrow-down"))
+      downloadButton(
+        "report",
+        label = tagList(bs_icon("file-earmark-arrow-down"), "Generate report")
+      )
     )
   )
 )
