@@ -91,23 +91,23 @@
 #' 1. Hay SJ, Kiørboe T, Matthews A (1991) Zooplankton biomass and production
 #' in the North Sea during the Autumn Circulation experiment, October
 #' 1987-March 1988. *Continental Shelf Research* 11(12):1453-1476.
-#' <https://doi.org/10.1016/0278-4343(91)90021-W>
+#' \doi{10.1016/0278-4343(91)90021-W}
 #'
 #' 2. Hygum BH, Rey C, Hansen BW (2000) Growth and development rates of
 #' *Calanus finmarchicus* nauplii during a diatom spring bloom. *Marine
-#' Biology* 136:1075-1085. <https://doi.org/10.1007/s002270000313>
+#' Biology* 136:1075-1085. \doi{10.1007/s002270000313}
 #'
 #' 3. Hay SJ, Evans GT, Gamble JC (1988) Birth, growth and death rates for
 #' enclosed populations of calanoid copepods. *Journal of Plankton Research*
-#' 10(3):431-454. <https://doi.org/10.1093/plankt/10.3.431>
+#' 10(3):431-454. \doi{10.1093/plankt/10.3.431}
 #'
 #' 4. Satapoomin S (1999) Carbon content of some common tropical Andaman Sea
 #' copepods. *Journal of Plankton Research* 21(11):2117-2123.
-#' <https://doi.org/10.1093/plankt/21.11.2117>
+#' \doi{10.1093/plankt/21.11.2117}
 #'
 #' 5. Uye SI (1982) Length-weight relationships of important zooplankton from
 #' the Inland Sea of Japan. *Journal of the Oceanographical Society of Japan*
-#' 38:149-158. <https://doi.org/10.1007/BF02110286>
+#' 38:149-158. \doi{10.1007/BF02110286}
 #'
 #' 6. Hernroth L, ed. (1985) *Recommendations on methods for marine biological
 #' studies in the Baltic Sea: mesozooplankton biomass assessment / individual
@@ -117,18 +117,18 @@
 #' 7. Atienza D, Saiz E, Calbet A (2006) Feeding ecology of the marine
 #' cladoceran *Penilia avirostris*: natural diet, prey selectivity and daily
 #' ration. *Marine Ecology Progress Series* 315:211-220.
-#' <https://doi.org/10.3354/meps315211>
+#' \doi{10.3354/meps315211}
 #'
 #' 8. Almeda R, Calbet A, Alcaraz M, Yebra L, Saiz E (2010) Effects of
 #' temperature and food concentration on the survival, development and growth
 #' rates of naupliar stages of *Oithona davisae* (Copepoda, Cyclopoida).
 #' *Marine Ecology Progress Series* 410:97-109.
-#' <https://doi.org/10.3354/meps08625>
+#' \doi{10.3354/meps08625}
 #'
 #' 9. Hirche HJ, Mumm N (1992) Distribution of dominant copepods in the Nansen
 #' Basin, Arctic Ocean, in summer. *Deep-Sea Research Part A. Oceanographic
 #' Research Papers* 39(Suppl. 2):S485-S505.
-#' <https://doi.org/10.1016/S0198-0149(06)80017-8>
+#' \doi{10.1016/S0198-0149(06)80017-8}
 #'
 #' 10. Paffenhöfer GA (1976) On the biology of appendicularia of the
 #' southeastern North Sea. In: 10th European Symposium on Marine Biology,

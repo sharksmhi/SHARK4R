@@ -144,19 +144,19 @@ calc_zooplankton_dry_weight(
 \item Hay SJ, Kiørboe T, Matthews A (1991) Zooplankton biomass and production
 in the North Sea during the Autumn Circulation experiment, October
 1987-March 1988. \emph{Continental Shelf Research} 11(12):1453-1476.
-\url{https://doi.org/10.1016/0278-4343(91)90021-W}
+\doi{10.1016/0278-4343(91)90021-W}
 \item Hygum BH, Rey C, Hansen BW (2000) Growth and development rates of
 \emph{Calanus finmarchicus} nauplii during a diatom spring bloom. \emph{Marine
-Biology} 136:1075-1085. \url{https://doi.org/10.1007/s002270000313}
+Biology} 136:1075-1085. \doi{10.1007/s002270000313}
 \item Hay SJ, Evans GT, Gamble JC (1988) Birth, growth and death rates for
 enclosed populations of calanoid copepods. \emph{Journal of Plankton Research}
-10(3):431-454. \url{https://doi.org/10.1093/plankt/10.3.431}
+10(3):431-454. \doi{10.1093/plankt/10.3.431}
 \item Satapoomin S (1999) Carbon content of some common tropical Andaman Sea
 copepods. \emph{Journal of Plankton Research} 21(11):2117-2123.
-\url{https://doi.org/10.1093/plankt/21.11.2117}
+\doi{10.1093/plankt/21.11.2117}
 \item Uye SI (1982) Length-weight relationships of important zooplankton from
 the Inland Sea of Japan. \emph{Journal of the Oceanographical Society of Japan}
-38:149-158. \url{https://doi.org/10.1007/BF02110286}
+38:149-158. \doi{10.1007/BF02110286}
 \item Hernroth L, ed. (1985) \emph{Recommendations on methods for marine biological
 studies in the Baltic Sea: mesozooplankton biomass assessment / individual
 volume technique}. Publication / The Baltic Marine Biologists - BMB, 10.
@@ -164,16 +164,16 @@ Lysekil: Institute of Marine Research.
 \item Atienza D, Saiz E, Calbet A (2006) Feeding ecology of the marine
 cladoceran \emph{Penilia avirostris}: natural diet, prey selectivity and daily
 ration. \emph{Marine Ecology Progress Series} 315:211-220.
-\url{https://doi.org/10.3354/meps315211}
+\doi{10.3354/meps315211}
 \item Almeda R, Calbet A, Alcaraz M, Yebra L, Saiz E (2010) Effects of
 temperature and food concentration on the survival, development and growth
 rates of naupliar stages of \emph{Oithona davisae} (Copepoda, Cyclopoida).
 \emph{Marine Ecology Progress Series} 410:97-109.
-\url{https://doi.org/10.3354/meps08625}
+\doi{10.3354/meps08625}
 \item Hirche HJ, Mumm N (1992) Distribution of dominant copepods in the Nansen
 Basin, Arctic Ocean, in summer. \emph{Deep-Sea Research Part A. Oceanographic
 Research Papers} 39(Suppl. 2):S485-S505.
-\url{https://doi.org/10.1016/S0198-0149(06)80017-8}
+\doi{10.1016/S0198-0149(06)80017-8}
 \item Paffenhöfer GA (1976) On the biology of appendicularia of the
 southeastern North Sea. In: 10th European Symposium on Marine Biology,
 Ostend, Belgium, 17-23 September 1975, Vol. 2, pp. 437-455.
