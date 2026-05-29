@@ -31,6 +31,7 @@ create_pie_map(
   anchor_fill = "white",
   anchor_size = 1.8,
   basemap = NULL,
+  basemap_source = c("ne", "eea", "obis"),
   basemap_scale = "medium",
   basemap_fill = "gray95",
   basemap_border = "gray70",
@@ -39,7 +40,8 @@ create_pie_map(
   ylim = NULL,
   pad = 1,
   title = NULL,
-  legend_title = "Group"
+  legend_title = "Group",
+  verbose = TRUE
 )
 }
 \arguments{
@@ -100,12 +102,25 @@ drawn from anchor to displaced pie edge.}
 at the true station location of each displaced pie.}
 
 \item{basemap}{Optional ggplot layer (or list of layers) used as the
-base map. If \code{NULL}, a coastline polygon from \code{rnaturalearth}
-is drawn (requires the \code{rnaturalearth} package).}
+base map. If \code{NULL}, a coastline polygon from the source named by
+\code{basemap_source} is drawn.}
+
+\item{basemap_source}{One of \code{"ne"} (Natural Earth, default), \code{"eea"},
+or \code{"obis"}. Ignored when \code{basemap} is supplied.
+\itemize{
+\item \code{"ne"} uses \code{rnaturalearth::ne_countries()} (requires
+the \code{rnaturalearth} package).
+\item \code{"eea"} uses the high-resolution European Environment Agency
+coastline (Europe only).
+\item \code{"obis"} uses the global OBIS land polygon.
+For \code{"eea"} and \code{"obis"} the polygon dataset is downloaded once
+and cached on disk.
+}}
 
 \item{basemap_scale}{Resolution passed to
-\code{rnaturalearth::ne_countries()} when \code{basemap} is \code{NULL}.
-One of \code{"small"}, \code{"medium"} or \code{"large"}.}
+\code{rnaturalearth::ne_countries()} when \code{basemap} is \code{NULL} and
+\code{basemap_source = "ne"}. One of \code{"small"}, \code{"medium"} or
+\code{"large"}. Ignored for the \code{eea} and \code{obis} sources.}
 
 \item{basemap_fill, basemap_border, sea_color}{Colors for the default
 coastline basemap.}
@@ -117,6 +132,11 @@ override the auto-fitted map extent.}
 auto-fitting the extent.}
 
 \item{title, legend_title}{Optional plot title and legend title.}
+
+\item{verbose}{Logical. If \code{TRUE} (default) print progress messages
+when a coastline dataset has to be downloaded (only triggered by
+\code{basemap_source = "eea"} or \code{"obis"} on the first call). Set to
+\code{FALSE} to keep examples / pkgdown output clean.}
 }
 \value{
 A \code{ggplot} object.
@@ -128,6 +148,27 @@ true station coordinates and a leader line + anchor dot is drawn so the
 viewer can still tell which pie belongs to which station. Works with any
 grouping (phytoplankton groups, zooplankton orders, microbial phyla, ...)
 and any numeric value (biomass, biovolume, abundance, ...).
+}
+\details{
+Coastline sources available via \code{basemap_source} when \code{basemap = NULL}:
+\itemize{
+\item \code{"ne"} - Natural Earth 1:10m / 1:50m / 1:110m land vectors,
+fetched on the fly through \code{rnaturalearth::ne_countries()}.
+Resolution is controlled by \code{basemap_scale}. See
+\url{https://www.naturalearthdata.com}. Requires the
+\code{rnaturalearth} and \code{rnaturalearthdata} packages (both Suggests).
+\item \code{"eea"} - high-resolution European coastline from the
+European Environment Agency (EEA Coastline 2017). Best choice
+for detailed regional maps of European waters. Downloaded
+chunked from the EEA arcgis service the first time and cached
+locally. Dataset metadata:
+\url{https://sdi.eea.europa.eu/catalogue/datahub/api/records/9faa6ea1-372a-4826-a3c7-fb5b05e31c52/formatters/xsl-view?output=pdf&language=eng&approved=true}.
+\item \code{"obis"} - global land polygon distributed by the Ocean
+Biodiversity Information System, downloaded from
+\url{https://obis-resources.s3.amazonaws.com/land.gpkg}.
+}
+The \code{"eea"} and \code{"obis"} datasets are cached across sessions and can
+be cleared with \code{\link[=clean_shark4r_cache]{clean_shark4r_cache()}}.
 }
 \examples{
 # Six SHARK monitoring stations spanning the Swedish west coast,
@@ -188,6 +229,19 @@ if (has_basemap) create_pie_map(
   size_range   = c(0.18, 0.50),
   legend_title = "Taxon group",
   title        = "Pie size scaled by chlorophyll-a"
+)
+
+# 4. Use the high-resolution EEA coastline instead of the Natural Earth
+#    default. The first call downloads the EEA polygon and caches it
+#    for re-use; subsequent calls are fast. `basemap_scale` is ignored
+#    for EEA. Suitable for regional European maps where Natural Earth's
+#    coastline is too coarse.
+create_pie_map(
+  stations,
+  basemap_source = "eea",
+  legend_title   = "Taxon group",
+  title          = "High-resolution EEA coastline",
+  verbose        = FALSE
 )
 }
 }

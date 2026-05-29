@@ -66,8 +66,22 @@ This function calculates a buffered area around the coastline using a polygon sh
 determines if each input position intersects with this buffer or the landmass itself.
 By default, it uses the OBIS land vector dataset.
 
-The EEA shapefile is downloaded from \url{https://www.eea.europa.eu/data-and-maps/data/eea-coastline-for-analysis-2/gis-data/eea-coastline-polygon}
-when \code{source = "eea"}.
+Coastline sources used when \code{shape = NULL}:
+\itemize{
+\item \code{"obis"} - the land polygon distributed by the
+Ocean Biodiversity Information System, downloaded from
+\url{https://obis-resources.s3.amazonaws.com/land.gpkg}.
+The first call downloads and caches the file under
+\code{\link[=clean_shark4r_cache]{clean_shark4r_cache()}}.
+\item \code{"ne"} - Natural Earth 1:10m coastline / land vectors,
+provided via the \code{rnaturalearth} package; see
+\url{https://www.naturalearthdata.com}.
+\item \code{"eea"} - high-resolution European coastline from the
+European Environment Agency (EEA Coastline 2017). Downloaded
+chunked from the EEA arcgis service the first time and cached
+locally. Dataset metadata:
+\url{https://sdi.eea.europa.eu/catalogue/datahub/api/records/9faa6ea1-372a-4826-a3c7-fb5b05e31c52/formatters/xsl-view?output=pdf&language=eng&approved=true}.
+}
 }
 \examples{
 \donttest{

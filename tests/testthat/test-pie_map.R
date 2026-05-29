@@ -131,6 +131,22 @@ test_that("create_pie_map honours xlim / ylim override", {
   expect_equal(coord$limits$y, c(54, 60))
 })
 
+test_that("create_pie_map rejects malformed xlim / ylim", {
+  df <- shark_df()
+  # Wrong length
+  expect_error(create_pie_map(df, xlim = 1),         "xlim.*length 2")
+  expect_error(create_pie_map(df, xlim = c(1, 2, 3)),"xlim.*length 2")
+  expect_error(create_pie_map(df, ylim = numeric(0)),"ylim.*length 2")
+  # NA / non-finite
+  expect_error(create_pie_map(df, xlim = c(NA, 10)), "xlim.*length 2")
+  expect_error(create_pie_map(df, ylim = c(10, Inf)),"ylim.*length 2")
+  # Reversed (xlim[1] >= xlim[2])
+  expect_error(create_pie_map(df, xlim = c(20, 10)), "xlim.*length 2")
+  expect_error(create_pie_map(df, ylim = c(60, 60)), "ylim.*length 2")
+  # Non-numeric
+  expect_error(create_pie_map(df, xlim = c("a","b")),"xlim.*length 2")
+})
+
 test_that("create_pie_map shows no labels when show_labels = FALSE", {
   skip_without_basemap()
   p <- create_pie_map(shark_df(), show_labels = FALSE)
