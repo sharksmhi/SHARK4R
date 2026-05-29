@@ -45,6 +45,9 @@
 #'   are returned.
 #'
 #' @section Reference coefficient table:
+#' The bundled workbook used for these coefficients can be downloaded directly:
+#' \href{https://github.com/sharksmhi/SHARK4R/raw/refs/heads/master/inst/extdata/Mesozooplankton_Kattegat_Skagerrak_taxa_and_biomass_calculations.xlsx}{Download coefficient workbook (.xlsx)}
+#'
 #' \tabular{llllll}{
 #' \strong{Reference taxon} \tab \strong{AphiaID} \tab \strong{Development stage} \tab \strong{A} \tab \strong{B} \tab \strong{Reference}\cr
 #' Acartia bifilosa \tab 345919 \tab all stages except nauplii \tab 7.71 \tab 2.96 \tab Hay 1991¹\cr
@@ -77,6 +80,12 @@
 #' Pseudocalanus \tab 104165 \tab all stages except nauplii \tab 8.37 \tab 3.00 \tab Hay et al. 1988³\cr
 #' Temora longicornis \tab 104878 \tab all stages except nauplii \tab 8.37 \tab 3.00 \tab Hay et al. 1988³\cr
 #' }
+#'
+#' For a local copy within an installed package, use:
+#' \code{system.file("extdata", "Mesozooplankton_Kattegat_Skagerrak_taxa_and_biomass_calculations.xlsx", package = "SHARK4R")}
+#'
+#' To download the latest version directly:
+#' \href{https://github.com/sharksmhi/SHARK4R/raw/refs/heads/master/inst/extdata/Mesozooplankton_Kattegat_Skagerrak_taxa_and_biomass_calculations.xlsx}{Download from GitHub}
 #'
 #' @references
 #' 1. Hay SJ, Kiørboe T, Matthews A (1991) Zooplankton biomass and production
@@ -156,6 +165,8 @@
 #' )
 #' }
 #'
+#' @seealso [calc_zooplankton_biomass()]
+#'
 #' @importFrom rlang .data
 #' @export
 calc_zooplankton_dry_weight <- function(data,
@@ -174,7 +185,7 @@ calc_zooplankton_dry_weight <- function(data,
   coeffs <- load_zooplankton_dry_weight_coefficients()
 
   adult_coeffs <- coeffs %>%
-    dplyr::filter(is.na(.data$Stadium)) %>%
+    dplyr::filter(is.na(.data$Stage)) %>%
     dplyr::transmute(
       aphia_id = .data$AphiaID,
       dw_B_adult = .data$B,
@@ -184,7 +195,7 @@ calc_zooplankton_dry_weight <- function(data,
     )
 
   nauplii_coeffs <- coeffs %>%
-    dplyr::filter(.data$Stadium == "NP") %>%
+    dplyr::filter(.data$Stage == "NP") %>%
     dplyr::transmute(
       aphia_id = .data$AphiaID,
       dw_B_np = .data$B,

@@ -64,6 +64,9 @@ no matching coefficient keep \code{NA} dry-weight values.
 }
 \section{Reference coefficient table}{
 
+The bundled workbook used for these coefficients can be downloaded directly:
+\href{https://github.com/sharksmhi/SHARK4R/raw/refs/heads/master/inst/extdata/Mesozooplankton_Kattegat_Skagerrak_taxa_and_biomass_calculations.xlsx}{Download coefficient workbook (.xlsx)}
+
 \tabular{llllll}{
 \strong{Reference taxon} \tab \strong{AphiaID} \tab \strong{Development stage} \tab \strong{A} \tab \strong{B} \tab \strong{Reference}\cr
 Acartia bifilosa \tab 345919 \tab all stages except nauplii \tab 7.71 \tab 2.96 \tab Hay 1991¹\cr
@@ -96,6 +99,12 @@ Podon polyphemoides \tab 159919 \tab all stages except nauplii \tab 6.60 \tab 2.
 Pseudocalanus \tab 104165 \tab all stages except nauplii \tab 8.37 \tab 3.00 \tab Hay et al. 1988³\cr
 Temora longicornis \tab 104878 \tab all stages except nauplii \tab 8.37 \tab 3.00 \tab Hay et al. 1988³\cr
 }
+
+For a local copy within an installed package, use:
+\code{system.file("extdata", "Mesozooplankton_Kattegat_Skagerrak_taxa_and_biomass_calculations.xlsx", package = "SHARK4R")}
+
+To download the latest version directly:
+\href{https://github.com/sharksmhi/SHARK4R/raw/refs/heads/master/inst/extdata/Mesozooplankton_Kattegat_Skagerrak_taxa_and_biomass_calculations.xlsx}{Download from GitHub}
 }
 
 \examples{
@@ -169,4 +178,7 @@ Research Papers} 39(Suppl. 2):S485-S505.
 southeastern North Sea. In: 10th European Symposium on Marine Biology,
 Ostend, Belgium, 17-23 September 1975, Vol. 2, pp. 437-455.
 }
+}
+\seealso{
+\code{\link[=calc_zooplankton_biomass]{calc_zooplankton_biomass()}}
 }

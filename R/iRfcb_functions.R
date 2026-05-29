@@ -39,8 +39,22 @@
 #' determines if each input position intersects with this buffer or the landmass itself.
 #' By default, it uses the OBIS land vector dataset.
 #'
-#' The EEA shapefile is downloaded from \url{https://www.eea.europa.eu/data-and-maps/data/eea-coastline-for-analysis-2/gis-data/eea-coastline-polygon}
-#' when `source = "eea"`.
+#' Coastline sources used when `shape = NULL`:
+#' \itemize{
+#'   \item `"obis"` - the land polygon distributed by the
+#'     Ocean Biodiversity Information System, downloaded from
+#'     \url{https://obis-resources.s3.amazonaws.com/land.gpkg}.
+#'     The first call downloads and caches the file under
+#'     [clean_shark4r_cache()].
+#'   \item `"ne"` - Natural Earth 1:10m coastline / land vectors,
+#'     provided via the `rnaturalearth` package; see
+#'     \url{https://www.naturalearthdata.com}.
+#'   \item `"eea"` - high-resolution European coastline from the
+#'     European Environment Agency (EEA Coastline 2017). Downloaded
+#'     chunked from the EEA arcgis service the first time and cached
+#'     locally. Dataset metadata:
+#'     \url{https://sdi.eea.europa.eu/catalogue/datahub/api/records/9faa6ea1-372a-4826-a3c7-fb5b05e31c52/formatters/xsl-view?output=pdf&language=eng&approved=true}.
+#' }
 #'
 #' @seealso [clean_shark4r_cache()] to manually clear cached shape files.
 #' @seealso [`iRfcb::ifcb_is_near_land`] for the original function.
@@ -85,90 +99,8 @@ positions_are_near_land <- function(latitudes,
     ))
   }
 
-  # Cache OBIS shapefile across sessions if source is "eea" and shape is NULL
-  if (is.null(shape) && source == "obis") {
-    cache_dir <- file.path(cache_dir(), "perm")
-
-    url <- "https://obis-resources.s3.amazonaws.com/land.gpkg"
-    shape <- file.path(cache_dir, "land.gpkg")
-
-    if (!dir.exists(cache_dir)) {
-      dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
-    }
-
-    if (!file.exists(shape)) {
-      if (verbose) cli::cli_inform("Downloading OBIS coastline data...")
-      tryCatch({
-        utils::download.file(url, shape, mode = "wb")
-      }, error = function(e) {
-        cli::cli_abort(c(
-          "Could not download OBIS land data.",
-          "i" = "Manually download from: {.url {url}}",
-          "i" = "Then provide the path using {.arg shape}, or set {.arg source} to {.val ne} or {.val eea}."
-        ))
-      })
-    }
-  }
-
-  # Cache EEA shapefile across sessions if source is "eea" and shape is NULL
-  if (is.null(shape) && source == "eea") {
-    cache_dir <- file.path(cache_dir(), "perm")
-
-    shape <- file.path(cache_dir, "EEA_Coastline_2017.gpkg")
-
-    if (!file.exists(shape)) {
-      base <- "https://marine.discomap.eea.europa.eu/arcgis/rest/services/Marine/EEA_coastline_2017/MapServer/0"
-
-      # get object IDs
-      oid_url <- paste0(
-        base,
-        "/query?where=1=1&returnIdsOnly=true&f=json"
-      )
-
-      oids <- jsonlite::fromJSON(oid_url)$objectIds
-
-      chunk_size <- 1000
-      chunks <- split(oids, ceiling(seq_along(oids) / chunk_size))
-      n_chunks <- length(chunks)
-
-      # set up progress bar
-      if (verbose && n_chunks > 0) {
-        cli::cli_inform("Downloading EEA coastline data...")
-        cli::cli_progress_bar("Downloading EEA chunks", total = n_chunks)
-      }
-
-      coast_list <- vector("list", n_chunks)
-
-      for (i in seq_along(chunks)) {
-
-        if (verbose && n_chunks > 0) {
-          cli::cli_progress_update()
-        }
-
-        query <- paste0(
-          base,
-          "/query?",
-          "objectIds=", paste(chunks[[i]], collapse = ","),
-          "&outFields=*",
-          "&f=geojson"
-        )
-
-        coast_list[[i]] <- st_read(query, quiet = TRUE)
-      }
-
-      # close progress bar
-      if (verbose && n_chunks > 0) {
-        cli::cli_progress_done()
-      }
-
-      coast <- do.call(rbind, coast_list)
-
-      if (!dir.exists(cache_dir)) {
-        dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
-      }
-
-      st_write(coast, shape, quiet = TRUE, append = FALSE)
-    }
+  if (is.null(shape) && source %in% c("obis", "eea")) {
+    shape <- cache_coastline_shape(source = source, verbose = verbose)
   }
 
   iRfcb::ifcb_is_near_land(latitudes = latitudes,
@@ -227,4 +159,87 @@ which_basin <- function(latitudes, longitudes, plot = FALSE, shape_file = NULL) 
                           longitudes = longitudes,
                           plot = plot,
                           shape_file = shape_file)
+}
+
+#' Cache a high-resolution coastline shapefile
+#'
+#' Internal helper: download (if not already cached) the OBIS or EEA
+#' coastline polygon dataset to the package cache and return its on-disk
+#' path. Used by both [positions_are_near_land()] and the EEA/OBIS
+#' basemap option of [create_pie_map()].
+#'
+#' @param source One of `"obis"` or `"eea"`.
+#' @param verbose Logical. If `TRUE` (default) print download progress.
+#' @return Absolute path to the cached `.gpkg` file.
+#' @keywords internal
+cache_coastline_shape <- function(source, verbose = TRUE) {
+  cache_dir <- file.path(cache_dir(), "perm")
+  if (!dir.exists(cache_dir)) {
+    dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
+  }
+
+  if (source == "obis") {
+    url   <- "https://obis-resources.s3.amazonaws.com/land.gpkg"
+    shape <- file.path(cache_dir, "land.gpkg")
+    if (!file.exists(shape)) {
+      if (verbose) cli::cli_inform("Downloading OBIS coastline data...")
+      tryCatch(
+        utils::download.file(url, shape, mode = "wb", quiet = !verbose),
+        error = function(e) {
+          if (file.exists(shape)) try(file.remove(shape), silent = TRUE)
+          cli::cli_abort(c(
+            "Could not download OBIS land data.",
+            "i" = "Manually download from: {.url {url}}",
+            "i" = "Then provide the path directly, or use a different source."
+          ), parent = e)
+        }
+      )
+    }
+    return(shape)
+  }
+
+  if (source == "eea") {
+    shape <- file.path(cache_dir, "EEA_Coastline_2017.gpkg")
+    if (!file.exists(shape)) {
+      base <- "https://marine.discomap.eea.europa.eu/arcgis/rest/services/Marine/EEA_coastline_2017/MapServer/0"
+      oid_url <- paste0(base, "/query?where=1=1&returnIdsOnly=true&f=json")
+      oids <- jsonlite::fromJSON(oid_url)$objectIds
+      chunks   <- split(oids, ceiling(seq_along(oids) / 1000))
+      n_chunks <- length(chunks)
+      if (verbose && n_chunks > 0) {
+        cli::cli_inform("Downloading EEA coastline data...")
+        cli::cli_progress_bar("Downloading EEA chunks", total = n_chunks)
+      }
+      coast_list <- vector("list", n_chunks)
+      for (i in seq_along(chunks)) {
+        if (verbose && n_chunks > 0) cli::cli_progress_update()
+        query <- paste0(
+          base, "/query?",
+          "objectIds=", paste(chunks[[i]], collapse = ","),
+          "&outFields=*&f=geojson"
+        )
+        coast_list[[i]] <- st_read(query, quiet = TRUE)
+      }
+      if (verbose && n_chunks > 0) cli::cli_progress_done()
+      coast <- do.call(rbind, coast_list)
+      # If the write fails (e.g. transient sqlite lock from another
+      # process, read-only filesystem in a CI/pkgdown subprocess), make
+      # sure we don't leave a half-written .gpkg behind that would also
+      # fool the next call's file.exists() check.
+      tryCatch(
+        st_write(coast, shape, quiet = TRUE, append = FALSE),
+        error = function(e) {
+          if (file.exists(shape)) try(file.remove(shape), silent = TRUE)
+          cli::cli_abort(c(
+            "Could not write EEA coastline cache to {.path {shape}}.",
+            "x" = "Underlying error: {conditionMessage(e)}",
+            "i" = "Check that {.path {dirname(shape)}} is writable and not held open by another process, then re-run."
+          ), parent = e)
+        }
+      )
+    }
+    return(shape)
+  }
+
+  cli::cli_abort("{.arg source} must be {.val obis} or {.val eea}; got {.val {source}}.")
 }

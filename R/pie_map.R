@@ -494,11 +494,21 @@ scale_pie_radii <- function(raw, size_range = c(0.15, 0.40)) {
 #' @param anchor_color,anchor_fill,anchor_size Aesthetics for the dot drawn
 #'   at the true station location of each displaced pie.
 #' @param basemap Optional ggplot layer (or list of layers) used as the
-#'   base map. If `NULL`, a coastline polygon from `rnaturalearth`
-#'   is drawn (requires the `rnaturalearth` package).
+#'   base map. If `NULL`, a coastline polygon from the source named by
+#'   `basemap_source` is drawn.
+#' @param basemap_source One of `"ne"` (Natural Earth, default), `"eea"`,
+#'   or `"obis"`. Ignored when `basemap` is supplied.
+#'   * `"ne"` uses `rnaturalearth::ne_countries()` (requires
+#'     the `rnaturalearth` package).
+#'   * `"eea"` uses the high-resolution European Environment Agency
+#'     coastline (Europe only).
+#'   * `"obis"` uses the global OBIS land polygon.
+#'   For `"eea"` and `"obis"` the polygon dataset is downloaded once
+#'   and cached on disk.
 #' @param basemap_scale Resolution passed to
-#'   `rnaturalearth::ne_countries()` when `basemap` is `NULL`.
-#'   One of `"small"`, `"medium"` or `"large"`.
+#'   `rnaturalearth::ne_countries()` when `basemap` is `NULL` and
+#'   `basemap_source = "ne"`. One of `"small"`, `"medium"` or
+#'   `"large"`. Ignored for the `eea` and `obis` sources.
 #' @param basemap_fill,basemap_border,sea_color Colors for the default
 #'   coastline basemap.
 #' @param xlim,ylim Optional numeric length-2 vectors. If supplied they
@@ -506,7 +516,31 @@ scale_pie_radii <- function(raw, size_range = c(0.15, 0.40)) {
 #' @param pad Padding (in degrees) added around station bounds when
 #'   auto-fitting the extent.
 #' @param title,legend_title Optional plot title and legend title.
+#' @param verbose Logical. If `TRUE` (default) print progress messages
+#'   when a coastline dataset has to be downloaded (only triggered by
+#'   `basemap_source = "eea"` or `"obis"` on the first call). Set to
+#'   `FALSE` to keep examples / pkgdown output clean.
 #' @return A `ggplot` object.
+#' @details
+#' Coastline sources available via `basemap_source` when `basemap = NULL`:
+#' \itemize{
+#'   \item `"ne"` - Natural Earth 1:10m / 1:50m / 1:110m land vectors,
+#'     fetched on the fly through `rnaturalearth::ne_countries()`.
+#'     Resolution is controlled by `basemap_scale`. See
+#'     \url{https://www.naturalearthdata.com}. Requires the
+#'     `rnaturalearth` and `rnaturalearthdata` packages (both Suggests).
+#'   \item `"eea"` - high-resolution European coastline from the
+#'     European Environment Agency (EEA Coastline 2017). Best choice
+#'     for detailed regional maps of European waters. Downloaded
+#'     chunked from the EEA arcgis service the first time and cached
+#'     locally. Dataset metadata:
+#'     \url{https://sdi.eea.europa.eu/catalogue/datahub/api/records/9faa6ea1-372a-4826-a3c7-fb5b05e31c52/formatters/xsl-view?output=pdf&language=eng&approved=true}.
+#'   \item `"obis"` - global land polygon distributed by the Ocean
+#'     Biodiversity Information System, downloaded from
+#'     \url{https://obis-resources.s3.amazonaws.com/land.gpkg}.
+#' }
+#' The `"eea"` and `"obis"` datasets are cached across sessions and can
+#' be cleared with [clean_shark4r_cache()].
 #' @examples
 #' # Six SHARK monitoring stations spanning the Swedish west coast,
 #' # Kattegat, and Baltic Proper. Note that SLÄGGÖ and Å17 sit close
@@ -567,6 +601,19 @@ scale_pie_radii <- function(raw, size_range = c(0.15, 0.40)) {
 #'   legend_title = "Taxon group",
 #'   title        = "Pie size scaled by chlorophyll-a"
 #' )
+#'
+#' # 4. Use the high-resolution EEA coastline instead of the Natural Earth
+#' #    default. The first call downloads the EEA polygon and caches it
+#' #    for re-use; subsequent calls are fast. `basemap_scale` is ignored
+#' #    for EEA. Suitable for regional European maps where Natural Earth's
+#' #    coastline is too coarse.
+#' create_pie_map(
+#'   stations,
+#'   basemap_source = "eea",
+#'   legend_title   = "Taxon group",
+#'   title          = "High-resolution EEA coastline",
+#'   verbose        = FALSE
+#' )
 #' }
 #' @export
 create_pie_map <- function(data,
@@ -595,6 +642,7 @@ create_pie_map <- function(data,
                            anchor_fill   = "white",
                            anchor_size   = 1.8,
                            basemap       = NULL,
+                           basemap_source = c("ne", "eea", "obis"),
                            basemap_scale = "medium",
                            basemap_fill  = "gray95",
                            basemap_border = "gray70",
@@ -603,7 +651,8 @@ create_pie_map <- function(data,
                            ylim          = NULL,
                            pad           = 1.0,
                            title         = NULL,
-                           legend_title  = "Group") {
+                           legend_title  = "Group",
+                           verbose       = TRUE) {
   required <- c(station_col, lon_col, lat_col, group_col, value_col)
   missing_cols <- setdiff(required, names(data))
   if (length(missing_cols) > 0) {
@@ -615,6 +664,19 @@ create_pie_map <- function(data,
   if (!is.null(label_col) && !label_col %in% names(data)) {
     cli::cli_abort("{.arg label_col} ({.val {label_col}}) not found in {.arg data}.")
   }
+  check_range <- function(value, name) {
+    if (is.null(value)) return(invisible())
+    if (!is.numeric(value) || length(value) != 2L ||
+        any(!is.finite(value)) || value[1] >= value[2]) {
+      cli::cli_abort(c(
+        "{.arg {name}} must be a numeric vector of length 2 with {.code {name}[1] < {name}[2]}.",
+        "i" = "Got {.val {value}}."
+      ))
+    }
+  }
+  check_range(xlim, "xlim")
+  check_range(ylim, "ylim")
+
 
   long <- data.frame(
     station = as.character(data[[station_col]]),
@@ -733,22 +795,52 @@ create_pie_map <- function(data,
   p <- ggplot2::ggplot()
 
   if (is.null(basemap)) {
-    if (!requireNamespace("rnaturalearth", quietly = TRUE)) {
-      cli::cli_abort(c(
-        "The {.pkg rnaturalearth} package is required for the default basemap.",
-        "i" = "Install it with {.code install.packages(\"rnaturalearth\")} or pass a custom {.arg basemap} layer."
-      ))
-    }
-    world <- rnaturalearth::ne_countries(scale = basemap_scale,
-                                         returnclass = "sf")
-    p <- p + ggplot2::geom_sf(data = world, fill = basemap_fill,
+    basemap_source <- match.arg(basemap_source)
+    land <- switch(
+      basemap_source,
+      ne = {
+        if (!requireNamespace("rnaturalearth", quietly = TRUE)) {
+          cli::cli_abort(c(
+            "The {.pkg rnaturalearth} package is required for the {.val ne} basemap.",
+            "i" = "Install it with {.code install.packages(\"rnaturalearth\")}, choose another {.arg basemap_source}, or pass a custom {.arg basemap} layer."
+          ))
+        }
+        rnaturalearth::ne_countries(scale = basemap_scale,
+                                    returnclass = "sf")
+      },
+      eea  = sf::st_read(cache_coastline_shape("eea",  verbose = verbose),
+                         quiet = TRUE),
+      obis = sf::st_read(cache_coastline_shape("obis", verbose = verbose),
+                         quiet = TRUE)
+    )
+
+    # Crop the basemap to the panel bbox so its visible extent is bounded
+    # by the basemap geometry itself, not by panel clipping. This lets us
+    # turn `clip = "off"` on for `coord_sf` (below) without the land
+    # polygons bleeding out around the panel. We temporarily disable `s2`
+    # for the crop because spherical geometry cuts along great circles,
+    # which appear as curves on the equirectangular display and leave
+    # the basemap top/bottom edges visibly bowed.
+    panel_bbox <- sf::st_bbox(c(xmin = xlim[1], xmax = xlim[2],
+                                ymin = ylim[1], ymax = ylim[2]),
+                              crs = sf::st_crs(land))
+    s2_was <- sf::sf_use_s2()
+    on.exit(suppressMessages(sf::sf_use_s2(s2_was)), add = TRUE)
+    suppressMessages(sf::sf_use_s2(FALSE))
+    land <- suppressMessages(suppressWarnings(sf::st_crop(land, panel_bbox)))
+    p <- p + ggplot2::geom_sf(data = land, fill = basemap_fill,
                               color = basemap_border)
   } else {
     p <- p + basemap
   }
 
+  # `clip = "off"` keeps station labels visible if the placer's per-char
+  # width estimator slightly underestimates rendered glyph width and the
+  # text would otherwise overflow the panel edge. With the basemap above
+  # cropped to the panel, this does not let the land polygons escape.
   p <- p +
-    ggplot2::coord_sf(xlim = xlim, ylim = ylim, expand = FALSE) +
+    ggplot2::coord_sf(xlim = xlim, ylim = ylim, expand = FALSE,
+                      clip = "off") +
     ggplot2::geom_polygon(
       data  = pie_data,
       ggplot2::aes(x = .data$x, y = .data$y,
