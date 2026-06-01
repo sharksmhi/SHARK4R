@@ -40,7 +40,7 @@ before a depth is flagged as an error. Default = \code{0}.}
 for negative depths to be considered valid. If \code{NA} (default), this check
 is skipped.}
 
-\item{bathymetry}{Optional \link[terra:SpatRaster-class]{terra::SpatRaster} object with one layer giving
+\item{bathymetry}{Optional \link[terra:SpatRaster]{terra::SpatRaster} object with one layer giving
 bathymetry values. If \code{NULL} (default), bathymetry and shore distance are
 retrieved using \code{\link[=lookup_xy]{lookup_xy()}}, which calls the OBIS XY lookup API.}
 }
@@ -59,7 +59,7 @@ If \code{report = FALSE}, returns the subset of input rows that failed any check
 \code{check_depth()} inspects one or two depth columns in a dataset and reports
 potential problems such as missing values, non-numeric entries, or values
 that conflict with bathymetry and shoreline information. It can also
-validate depths against bathymetry data retrieved from a \link[terra:SpatRaster-class]{terra::SpatRaster}
+validate depths against bathymetry data retrieved from a \link[terra:SpatRaster]{terra::SpatRaster}
 object or, if \code{bathymetry = NULL}, via the \code{lookup_xy()} function, which calls
 the OBIS XY lookup API to obtain bathymetry (using EMODnet Bathymetry) and shore distance.
 }
