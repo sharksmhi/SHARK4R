@@ -14,10 +14,23 @@ hab_available <- tryCatch({
                                httr::timeout(5))) < 400
 }, error = function(e) FALSE)
 
-toxin_available <- tryCatch({
-  httr::status_code(httr::GET("https://toxins.hais.ioc-unesco.org/",
-                               httr::timeout(5))) < 400
-}, error = function(e) FALSE)
+toxin_reachable <- function(insecure = FALSE) {
+  cfg <- if (insecure) httr::config(ssl_verifypeer = FALSE) else httr::config()
+  tryCatch({
+    httr::status_code(httr::GET("https://toxins.hais.ioc-unesco.org/",
+                                 cfg, httr::timeout(5))) < 400
+  }, error = function(e) FALSE)
+}
+
+# The toxins.hais.ioc-unesco.org TLS certificate may occasionally lapse. Fall
+# back to an unverified request so the vignette can still build during such
+# periods.
+toxin_available <- toxin_reachable()
+toxin_insecure <- FALSE
+if (!toxin_available) {
+  toxin_available <- toxin_reachable(insecure = TRUE)
+  toxin_insecure <- toxin_available
+}
 ```
 
 ## IOC-UNESCO Databases
@@ -91,7 +104,7 @@ print(hab_non_toxic_list)
 The complete Toxin list can be downloaded from the [IOC-UNESCO Toxins database](https://toxins.hais.ioc-unesco.org/) using the `get_toxin_list()` function.
 
 ```{r, include=FALSE, eval=toxin_available}
-toxin_list <- try(get_toxin_list(), silent = TRUE)
+toxin_list <- try(get_toxin_list(insecure = toxin_insecure), silent = TRUE)
 if (inherits(toxin_list, "try-error")) toxin_available <- FALSE
 ```
 
@@ -106,6 +119,8 @@ print(toxin_list)
 ```{r, echo=FALSE, eval=toxin_available}
 print(toxin_list)
 ```
+
+On occasion the Toxins database TLS certificate may temporarily lapse. Should `get_toxin_list()` fail with a certificate error, the verification step can be bypassed by running `get_toxin_list(insecure = TRUE)`. Only do this when the certificate issue is known and trusted, as it disables protection against tampering.
 
 ---
 

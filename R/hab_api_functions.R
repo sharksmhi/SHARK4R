@@ -3,8 +3,28 @@
 #' This function collects data from the [IOC-UNESCO Toxins Database](https://toxins.hais.ioc-unesco.org/) and returns information about toxins.
 #'
 #' @param return_count Logical. If `TRUE`, the function returns the count of toxins available in the database. If `FALSE` (default), it returns detailed toxin data.
+#' @param insecure Logical. If `TRUE`, the request is made without verifying the
+#'   server's TLS certificate. This is a workaround for periods when the
+#'   `toxins.hais.ioc-unesco.org` certificate has expired or is otherwise
+#'   invalid. Defaults to `FALSE`. When `FALSE` and a certificate error is
+#'   encountered, an interactive session will prompt before retrying without
+#'   verification, while a non-interactive session aborts with instructions to
+#'   set `insecure = TRUE`. Disabling verification removes protection against
+#'   tampering and should only be used when the certificate issue is known and
+#'   trusted.
 #'
 #' @return If `return_count = TRUE`, the function returns a numeric value representing the number of toxins in the database. Otherwise, it returns a `tibble` of toxins with detailed information.
+#'
+#' @details
+#' The TLS certificate for `toxins.hais.ioc-unesco.org` may occasionally lapse.
+#' When this happens the default (secure) request fails with a certificate
+#' error. The `insecure`
+#' argument provides a deliberate, opt-in escape hatch: in an interactive
+#' session the function prompts before retrying without verification, while a
+#' non-interactive session aborts and instructs the caller to set
+#' `insecure = TRUE`. Only disable verification when you have confirmed that the
+#' failure is caused by the known certificate issue, as it removes protection
+#' against a tampered or spoofed response.
 #'
 #' @seealso \url{https://toxins.hais.ioc-unesco.org/} for IOC-UNESCO Toxins Database.
 #'
@@ -17,19 +37,51 @@
 #' # Retrieve only the count of toxins
 #' try(toxin_count <- get_toxin_list(return_count = TRUE))
 #' if (exists("toxin_count")) print(toxin_count)
+#'
+#' # If the server's TLS certificate has expired, the verification step can be
+#' # bypassed explicitly. Only do this when the certificate issue is known and
+#' # trusted, as it disables protection against tampering.
+#' try(toxin_list <- get_toxin_list(insecure = TRUE))
+#' if (exists("toxin_list")) head(toxin_list)
 #' }
 #'
 #' @export
-get_toxin_list <- function(return_count = FALSE) {
-
+get_toxin_list <- function(return_count = FALSE, insecure = FALSE) {
   url_toxins <- "https://toxins.hais.ioc-unesco.org/api/toxins/"
+  temp_file  <- tempfile(fileext = ".json")
 
-  temp_file <- tempfile(fileext = ".json")
+  fetch <- function(insecure) {
+    if (insecure) {
+      cli::cli_warn("TLS certificate verification disabled \u2014 this download is not protected against tampering.")
+    }
+    cfg <- if (insecure) httr::config(ssl_verifypeer = FALSE) else httr::config()
+    GET(url_toxins, cfg, write_disk(temp_file, overwrite = TRUE), timeout(300))
+  }
 
-  res <- tryCatch(
-    GET(url_toxins, write_disk(temp_file, overwrite = TRUE), timeout(300)),
-    error = function(e) e
-  )
+  res <- tryCatch(fetch(insecure), error = function(e) e)
+
+  # Only offer the bypass when the failure is specifically a certificate problem
+  is_cert_err <- inherits(res, "error") &&
+    grepl("certificate|SSL", conditionMessage(res), ignore.case = TRUE)
+
+  if (is_cert_err && !insecure) {
+    if (interactive()) {
+      proceed <- isTRUE(utils::askYesNo(
+        sprintf(
+          "TLS certificate for toxins.hais.ioc-unesco.org could not be verified:\n  %s\nRetry without certificate verification?",
+          conditionMessage(res)
+        ),
+        default = FALSE
+      ))
+      if (proceed) res <- tryCatch(fetch(insecure = TRUE), error = function(e) e)
+    } else {
+      cli::cli_abort(c(
+        "Could not verify the server's TLS certificate.",
+        "x" = "{conditionMessage(res)}",
+        "i" = "Re-run with {.code insecure = TRUE} to proceed without verification."
+      ))
+    }
+  }
 
   if (inherits(res, "error")) {
     cli::cli_warn(c(
@@ -41,23 +93,15 @@ get_toxin_list <- function(return_count = FALSE) {
   txt <- readLines(temp_file, warn = FALSE)
   json_raw <- paste(txt, collapse = "")
 
-  # Try direct parse to data frame
   parsed <- try(fromJSON(json_raw, simplifyDataFrame = TRUE), silent = TRUE)
-
   if (!inherits(parsed, "try-error")) {
     if (return_count) return(nrow(parsed$toxins))
     else return(as_tibble(parsed$toxins))
   }
 
-  # Fallback: repair partial JSON
   repaired <- repair_toxins_json(json_raw)
   parsed_recovered <- fromJSON(repaired, simplifyDataFrame = TRUE)
-
-  if (return_count) {
-    return(nrow(parsed_recovered$toxins))
-  } else {
-    return(as_tibble(parsed_recovered$toxins))
-  }
+  if (return_count) nrow(parsed_recovered$toxins) else as_tibble(parsed_recovered$toxins)
 }
 #' Download the IOC-UNESCO Taxonomic Reference List of Harmful Microalgae
 #'

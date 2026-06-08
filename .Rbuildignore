@@ -13,3 +13,4 @@
 ^vignettes/retrieve_dyntaxa_data\.Rmd$
 ^\.positai$
 ^\.claude$
+^cran-comments\.md$

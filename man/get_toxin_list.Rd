@@ -4,16 +4,37 @@
 \alias{get_toxin_list}
 \title{Retrieve marine biotoxin data from IOC-UNESCO Toxins Database}
 \usage{
-get_toxin_list(return_count = FALSE)
+get_toxin_list(return_count = FALSE, insecure = FALSE)
 }
 \arguments{
 \item{return_count}{Logical. If \code{TRUE}, the function returns the count of toxins available in the database. If \code{FALSE} (default), it returns detailed toxin data.}
+
+\item{insecure}{Logical. If \code{TRUE}, the request is made without verifying the
+server's TLS certificate. This is a workaround for periods when the
+\code{toxins.hais.ioc-unesco.org} certificate has expired or is otherwise
+invalid. Defaults to \code{FALSE}. When \code{FALSE} and a certificate error is
+encountered, an interactive session will prompt before retrying without
+verification, while a non-interactive session aborts with instructions to
+set \code{insecure = TRUE}. Disabling verification removes protection against
+tampering and should only be used when the certificate issue is known and
+trusted.}
 }
 \value{
 If \code{return_count = TRUE}, the function returns a numeric value representing the number of toxins in the database. Otherwise, it returns a \code{tibble} of toxins with detailed information.
 }
 \description{
 This function collects data from the \href{https://toxins.hais.ioc-unesco.org/}{IOC-UNESCO Toxins Database} and returns information about toxins.
+}
+\details{
+The TLS certificate for \code{toxins.hais.ioc-unesco.org} may occasionally lapse.
+When this happens the default (secure) request fails with a certificate
+error. The \code{insecure}
+argument provides a deliberate, opt-in escape hatch: in an interactive
+session the function prompts before retrying without verification, while a
+non-interactive session aborts and instructs the caller to set
+\code{insecure = TRUE}. Only disable verification when you have confirmed that the
+failure is caused by the known certificate issue, as it removes protection
+against a tampered or spoofed response.
 }
 \examples{
 \donttest{
@@ -24,6 +45,12 @@ if (exists("toxin_list")) head(toxin_list)
 # Retrieve only the count of toxins
 try(toxin_count <- get_toxin_list(return_count = TRUE))
 if (exists("toxin_count")) print(toxin_count)
+
+# If the server's TLS certificate has expired, the verification step can be
+# bypassed explicitly. Only do this when the certificate issue is known and
+# trusted, as it disables protection against tampering.
+try(toxin_list <- get_toxin_list(insecure = TRUE))
+if (exists("toxin_list")) head(toxin_list)
 }
 
 }
