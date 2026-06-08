@@ -31,6 +31,10 @@ and Hydrological Institute)
 
 Authors:
 
+- Anders Torstensson <anders.torstensson@smhi.se>
+  ([ORCID](https://orcid.org/0000-0002-8283-656X)) (Swedish
+  Meteorological and Hydrological Institute)
+
 - Markus Lindh ([ORCID](https://orcid.org/0000-0002-7120-4145)) (Swedish
   Meteorological and Hydrological Institute)
 

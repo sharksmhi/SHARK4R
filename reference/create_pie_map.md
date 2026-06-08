@@ -293,13 +293,13 @@ if (has_basemap) create_pie_map(
 #    for re-use; subsequent calls are fast. `basemap_scale` is ignored
 #    for EEA. Suitable for regional European maps where Natural Earth's
 #    coastline is too coarse.
-create_pie_map(
+try(create_pie_map(
   stations,
   basemap_source = "eea",
   legend_title   = "Taxon group",
   title          = "High-resolution EEA coastline",
   verbose        = FALSE
-)
+))
 
 # }
 ```

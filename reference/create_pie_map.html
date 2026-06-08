@@ -17,7 +17,7 @@ and any numeric value (biomass, biovolume, abundance, ...)."><meta property="og:
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -349,13 +349,13 @@ be cleared with <code><a href="clean_shark4r_cache.html">clean_shark4r_cache()</
 <span class="r-in"><span><span class="co">#    for re-use; subsequent calls are fast. `basemap_scale` is ignored</span></span></span>
 <span class="r-in"><span><span class="co">#    for EEA. Suitable for regional European maps where Natural Earth's</span></span></span>
 <span class="r-in"><span><span class="co">#    coastline is too coarse.</span></span></span>
-<span class="r-in"><span><span class="fu">create_pie_map</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">create_pie_map</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">stations</span>,</span></span>
 <span class="r-in"><span>  basemap_source <span class="op">=</span> <span class="st">"eea"</span>,</span></span>
 <span class="r-in"><span>  legend_title   <span class="op">=</span> <span class="st">"Taxon group"</span>,</span></span>
 <span class="r-in"><span>  title          <span class="op">=</span> <span class="st">"High-resolution EEA coastline"</span>,</span></span>
 <span class="r-in"><span>  verbose        <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="create_pie_map-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>

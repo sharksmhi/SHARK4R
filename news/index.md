@@ -1,6 +1,6 @@
 # Changelog
 
-## SHARK4R (development version)
+## SHARK4R 1.2.0
 
 ### New features
 
@@ -39,6 +39,13 @@
 
 ### Minor improvements and fixes
 
+- [`get_toxin_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_toxin_list.md)
+  gains an `insecure` argument (default `FALSE`) to handle periods when
+  the IOC-UNESCO Toxins Database TLS certificate has lapsed. When a
+  certificate error is encountered, an interactive session prompts
+  before retrying without verification, while a non-interactive session
+  aborts with guidance to set `insecure = TRUE`. Disabling verification
+  emits a warning, as it removes protection against tampering.
 - All user-facing console output has been migrated from base R
   ([`stop()`](https://rdrr.io/r/base/stop.html),
   [`warning()`](https://rdrr.io/r/base/warning.html),

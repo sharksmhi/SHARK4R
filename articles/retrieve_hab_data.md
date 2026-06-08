@@ -54,20 +54,20 @@ hab_list <- get_hab_list()
 print(hab_list)
 ```
 
-    ## # A tibble: 537 × 29
+    ## # A tibble: 536 × 29
     ##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹
     ##      <dbl> <chr>               <chr>                <dbl> <chr>                 
-    ##  1  639809 Achomosphaera hype… (Defland…           110041 Gonyaulax spinifera   
-    ##  2  841664 Aetokthonos hydril… S.B.Wild…           841664 Aetokthonos hydrillic…
-    ##  3  232546 Akashiwo sanguinea  (K.Hiras…           232546 Akashiwo sanguinea    
-    ##  4  233407 Alexandrium acaten… (Whedon …           231873 Alexandrium catenella 
-    ##  5  109707 Alexandrium affine  (H.Inoue…           109707 Alexandrium affine    
-    ##  6  231872 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
-    ##  7  246835 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
-    ##  8  233452 Alexandrium angust… F.J.R.Ta…           109711 Alexandrium minutum   
-    ##  9  833063 Alexandrium austra… Sh.Murra…           833063 Alexandrium australie…
-    ## 10  231873 Alexandrium catene… (Whedon …           231873 Alexandrium catenella 
-    ## # ℹ 527 more rows
+    ##  1  418135 Acanthogonyaulax s… (Murray …           418135 Acanthogonyaulax spin…
+    ##  2  639809 Achomosphaera hype… (Defland…           110041 Gonyaulax spinifera   
+    ##  3  841664 Aetokthonos hydril… S.B.Wild…           841664 Aetokthonos hydrillic…
+    ##  4  232546 Akashiwo sanguinea  (K.Hiras…           232546 Akashiwo sanguinea    
+    ##  5  233407 Alexandrium acaten… (Whedon …           231873 Alexandrium catenella 
+    ##  6  109707 Alexandrium affine  (H.Inoue…           109707 Alexandrium affine    
+    ##  7  231872 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
+    ##  8  246835 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
+    ##  9  233452 Alexandrium angust… F.J.R.Ta…           109711 Alexandrium minutum   
+    ## 10  833063 Alexandrium austra… Sh.Murra…           833063 Alexandrium australie…
+    ## # ℹ 526 more rows
     ## # ℹ abbreviated name: ¹​ScientificName_accepted
     ## # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
     ## #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
@@ -153,6 +153,14 @@ print(toxin_list)
     ## #   alternative_inchies <lgl>, spectra_available <lgl>, certified <lgl>,
     ## #   non_certified_reference_material <lgl>, chemical_analysis_research <lgl>, …
 
+On occasion the Toxins database TLS certificate may temporarily lapse.
+Should
+[`get_toxin_list()`](https://sharksmhi.github.io/SHARK4R/reference/get_toxin_list.md)
+fail with a certificate error, the verification step can be bypassed by
+running `get_toxin_list(insecure = TRUE)`. Only do this when the
+certificate issue is known and trusted, as it disables protection
+against tampering.
+
 ------------------------------------------------------------------------
 
 ## Citation
@@ -161,7 +169,7 @@ print(toxin_list)
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.1.1.
+    ##   Databases. R package version 1.2.0.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -170,7 +178,7 @@ print(toxin_list)
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.1.1},
+    ##     note = {R package version 1.2.0},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
 
@@ -182,7 +190,7 @@ print(toxin_list)
   Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas,
   R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO
   Taxonomic Reference List of Harmful Microalgae. Accessed at
-  <https://www.marinespecies.org/hab/> on 2026-05-29.
+  <https://www.marinespecies.org/hab/> on 2026-06-08.
   [doi:10.14284/362](https://doi.org/10.14284/362)
 - Zingone A. and L. Escalera (2025) Non toxigenic animal-killing
   microalgal species. In: Lundholm, N.; Bernard, C.; Churro, C.;
@@ -190,4 +198,4 @@ print(toxin_list)
   Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds)
   (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful
   Microalgae. Accessed at <https://www.marinespecies.org/hab/> on
-  2026-05-29. [doi:10.14284/362](https://doi.org/10.14284/362)
+  2026-06-08. [doi:10.14284/362](https://doi.org/10.14284/362)
