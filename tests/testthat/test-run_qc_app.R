@@ -1,4 +1,14 @@
 test_that("function runs without output when interactive is FALSE", {
+  # Skip when any Suggested app dependency is absent (e.g. on CRAN, where
+  # Suggested packages may not be installed for checking).
+  skip_if_not_installed("shiny")
+  skip_if_not_installed("bslib")
+  skip_if_not_installed("bsicons")
+  skip_if_not_installed("htmltools")
+  skip_if_not_installed("rmarkdown")
+  skip_if_not_installed("skimr")
+  skip_if_not_installed("plotly")
+
   expect_silent(run_qc_app(interactive = FALSE))
 })
 

@@ -24,6 +24,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Anders Torstensson \email{anders.torstensson@smhi.se} (\href{https://orcid.org/0000-0002-8283-656X}{ORCID}) (Swedish Meteorological and Hydrological Institute)
   \item Markus Lindh (\href{https://orcid.org/0000-0002-7120-4145}{ORCID}) (Swedish Meteorological and Hydrological Institute)
 }
 

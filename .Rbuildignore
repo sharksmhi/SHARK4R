@@ -11,3 +11,6 @@
 ^\.covrignore$
 ^vignettes/retrieve_algaebase_data\.Rmd$
 ^vignettes/retrieve_dyntaxa_data\.Rmd$
+^\.positai$
+^\.claude$
+^cran-comments\.md$

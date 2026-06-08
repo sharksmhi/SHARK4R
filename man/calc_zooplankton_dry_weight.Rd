@@ -69,35 +69,35 @@ The bundled workbook used for these coefficients can be downloaded directly:
 
 \tabular{llllll}{
 \strong{Reference taxon} \tab \strong{AphiaID} \tab \strong{Development stage} \tab \strong{A} \tab \strong{B} \tab \strong{Reference}\cr
-Acartia bifilosa \tab 345919 \tab all stages except nauplii \tab 7.71 \tab 2.96 \tab Hay 1991¹\cr
-Acartia clausi \tab 149755 \tab all stages except nauplii \tab 7.71 \tab 2.96 \tab Hay 1991¹\cr
-Acartia longiremis \tab 346037 \tab all stages except nauplii \tab 7.71 \tab 2.96 \tab Hay 1991¹\cr
-Acartia \tab 104108 \tab all stages except nauplii \tab 7.71 \tab 2.96 \tab Hay 1991¹\cr
-Calanus finmarchicus \tab 104464 \tab all stages except nauplii \tab 6.88 \tab 2.69 \tab Hay 1991¹\cr
-Calanus finmarchicus \tab 104464 \tab nauplii \tab 5.38 \tab 2.03 \tab Hygum et al. 2000²\cr
-Centropages hamatus \tab 104496 \tab all stages except nauplii \tab 6.09 \tab 2.45 \tab Hay 1991¹\cr
-Centropages \tab 104159 \tab all stages except nauplii \tab 6.10 \tab 2.45 \tab Hay 1991¹\cr
-Centropages typicus \tab 104499 \tab all stages except nauplii \tab 6.10 \tab 2.45 \tab Hay 1991¹\cr
-Clausocalanus \tab 104161 \tab all stages except nauplii \tab 8.90 \tab 3.35 \tab Hay et al. 1988³\cr
-Corycaeus \tab 128634 \tab all stages except nauplii \tab 6.07 \tab 2.63 \tab Satapoomin 1999⁴\cr
-Cyclopoida \tab 106415 \tab all stages except nauplii \tab 6.72 \tab 2.71 \tab Uye 1982⁵\cr
-Evadne nordmanni \tab 106273 \tab all stages except nauplii \tab 5.79 \tab 2.80 \tab Hernroth 1985⁶\cr
-Fritillaria \tab 103358 \tab all stages except nauplii \tab 4.51 \tab 2.66 \tab Paffenhofer 1976¹⁰\cr
-Harpacticoid copepod \tab 1102 \tab all stages except nauplii \tab 7.24 \tab 2.89 \tab Uye 1982⁵\cr
-copepod nauplii *all copepod species \tab 1080 \tab nauplii \tab 5.48 \tab 2.23 \tab Hay 1991¹\cr
-Metridia \tab 104190 \tab all stages except nauplii \tab 7.12 \tab 2.68 \tab Hirche and Mumm 1992⁹\cr
-Microcalanus \tab 104164 \tab all stages except nauplii \tab 7.86 \tab 2.91 \tab Hay 1991¹\cr
-Microsetella \tab 115341 \tab all stages except nauplii \tab 7.66 \tab 2.88 \tab Satapoomin 1999⁴\cr
-Oikopleura dioica \tab 103407 \tab all stages except nauplii \tab 4.51 \tab 2.66 \tab Paffenhofer 1976¹⁰\cr
-Oithona \tab 106485 \tab nauplii \tab 2.68 \tab 2.14 \tab Almeda et al. 2010⁸\cr
-Oithona similis \tab 106656 \tab all stages except nauplii \tab 6.72 \tab 2.71 \tab Uye 1982⁵\cr
-Oncaea \tab 128690 \tab all stages except nauplii \tab 6.28 \tab 2.63 \tab Satapoomin 1999⁴\cr
-Paracalanus parvus \tab 104685 \tab all stages except nauplii \tab 6.16 \tab 2.45 \tab Hay 1991¹\cr
-Penilia avirostris \tab 106272 \tab all stages except nauplii \tab 4.95 \tab 2.38 \tab Atienza et al. 2006⁷\cr
-Podon leukarti \tab 106277 \tab all stages except nauplii \tab 7.52 \tab 3.02 \tab Uye 1982⁵\cr
-Podon polyphemoides \tab 159919 \tab all stages except nauplii \tab 6.60 \tab 2.75 \tab Uye 1982⁵\cr
-Pseudocalanus \tab 104165 \tab all stages except nauplii \tab 8.37 \tab 3.00 \tab Hay et al. 1988³\cr
-Temora longicornis \tab 104878 \tab all stages except nauplii \tab 8.37 \tab 3.00 \tab Hay et al. 1988³\cr
+Acartia bifilosa \tab 345919 \tab all stages except nauplii \tab 7.71 \tab 2.96 \tab Hay 1991(1)\cr
+Acartia clausi \tab 149755 \tab all stages except nauplii \tab 7.71 \tab 2.96 \tab Hay 1991(1)\cr
+Acartia longiremis \tab 346037 \tab all stages except nauplii \tab 7.71 \tab 2.96 \tab Hay 1991(1)\cr
+Acartia \tab 104108 \tab all stages except nauplii \tab 7.71 \tab 2.96 \tab Hay 1991(1)\cr
+Calanus finmarchicus \tab 104464 \tab all stages except nauplii \tab 6.88 \tab 2.69 \tab Hay 1991(1)\cr
+Calanus finmarchicus \tab 104464 \tab nauplii \tab 5.38 \tab 2.03 \tab Hygum et al. 2000(2)\cr
+Centropages hamatus \tab 104496 \tab all stages except nauplii \tab 6.09 \tab 2.45 \tab Hay 1991(1)\cr
+Centropages \tab 104159 \tab all stages except nauplii \tab 6.10 \tab 2.45 \tab Hay 1991(1)\cr
+Centropages typicus \tab 104499 \tab all stages except nauplii \tab 6.10 \tab 2.45 \tab Hay 1991(1)\cr
+Clausocalanus \tab 104161 \tab all stages except nauplii \tab 8.90 \tab 3.35 \tab Hay et al. 1988(3)\cr
+Corycaeus \tab 128634 \tab all stages except nauplii \tab 6.07 \tab 2.63 \tab Satapoomin 1999(4)\cr
+Cyclopoida \tab 106415 \tab all stages except nauplii \tab 6.72 \tab 2.71 \tab Uye 1982(5)\cr
+Evadne nordmanni \tab 106273 \tab all stages except nauplii \tab 5.79 \tab 2.80 \tab Hernroth 1985(6)\cr
+Fritillaria \tab 103358 \tab all stages except nauplii \tab 4.51 \tab 2.66 \tab Paffenhofer 1976(10)\cr
+Harpacticoid copepod \tab 1102 \tab all stages except nauplii \tab 7.24 \tab 2.89 \tab Uye 1982(5)\cr
+copepod nauplii *all copepod species \tab 1080 \tab nauplii \tab 5.48 \tab 2.23 \tab Hay 1991(1)\cr
+Metridia \tab 104190 \tab all stages except nauplii \tab 7.12 \tab 2.68 \tab Hirche and Mumm 1992(9)\cr
+Microcalanus \tab 104164 \tab all stages except nauplii \tab 7.86 \tab 2.91 \tab Hay 1991(1)\cr
+Microsetella \tab 115341 \tab all stages except nauplii \tab 7.66 \tab 2.88 \tab Satapoomin 1999(4)\cr
+Oikopleura dioica \tab 103407 \tab all stages except nauplii \tab 4.51 \tab 2.66 \tab Paffenhofer 1976(10)\cr
+Oithona \tab 106485 \tab nauplii \tab 2.68 \tab 2.14 \tab Almeda et al. 2010(8)\cr
+Oithona similis \tab 106656 \tab all stages except nauplii \tab 6.72 \tab 2.71 \tab Uye 1982(5)\cr
+Oncaea \tab 128690 \tab all stages except nauplii \tab 6.28 \tab 2.63 \tab Satapoomin 1999(4)\cr
+Paracalanus parvus \tab 104685 \tab all stages except nauplii \tab 6.16 \tab 2.45 \tab Hay 1991(1)\cr
+Penilia avirostris \tab 106272 \tab all stages except nauplii \tab 4.95 \tab 2.38 \tab Atienza et al. 2006(7)\cr
+Podon leukarti \tab 106277 \tab all stages except nauplii \tab 7.52 \tab 3.02 \tab Uye 1982(5)\cr
+Podon polyphemoides \tab 159919 \tab all stages except nauplii \tab 6.60 \tab 2.75 \tab Uye 1982(5)\cr
+Pseudocalanus \tab 104165 \tab all stages except nauplii \tab 8.37 \tab 3.00 \tab Hay et al. 1988(3)\cr
+Temora longicornis \tab 104878 \tab all stages except nauplii \tab 8.37 \tab 3.00 \tab Hay et al. 1988(3)\cr
 }
 
 For a local copy within an installed package, use:
@@ -144,19 +144,19 @@ calc_zooplankton_dry_weight(
 \item Hay SJ, Kiørboe T, Matthews A (1991) Zooplankton biomass and production
 in the North Sea during the Autumn Circulation experiment, October
 1987-March 1988. \emph{Continental Shelf Research} 11(12):1453-1476.
-\url{https://doi.org/10.1016/0278-4343(91)90021-W}
+\doi{10.1016/0278-4343(91)90021-W}
 \item Hygum BH, Rey C, Hansen BW (2000) Growth and development rates of
 \emph{Calanus finmarchicus} nauplii during a diatom spring bloom. \emph{Marine
-Biology} 136:1075-1085. \url{https://doi.org/10.1007/s002270000313}
+Biology} 136:1075-1085. \doi{10.1007/s002270000313}
 \item Hay SJ, Evans GT, Gamble JC (1988) Birth, growth and death rates for
 enclosed populations of calanoid copepods. \emph{Journal of Plankton Research}
-10(3):431-454. \url{https://doi.org/10.1093/plankt/10.3.431}
+10(3):431-454. \doi{10.1093/plankt/10.3.431}
 \item Satapoomin S (1999) Carbon content of some common tropical Andaman Sea
 copepods. \emph{Journal of Plankton Research} 21(11):2117-2123.
-\url{https://doi.org/10.1093/plankt/21.11.2117}
+\doi{10.1093/plankt/21.11.2117}
 \item Uye SI (1982) Length-weight relationships of important zooplankton from
 the Inland Sea of Japan. \emph{Journal of the Oceanographical Society of Japan}
-38:149-158. \url{https://doi.org/10.1007/BF02110286}
+38:149-158. \doi{10.1007/BF02110286}
 \item Hernroth L, ed. (1985) \emph{Recommendations on methods for marine biological
 studies in the Baltic Sea: mesozooplankton biomass assessment / individual
 volume technique}. Publication / The Baltic Marine Biologists - BMB, 10.
@@ -164,16 +164,16 @@ Lysekil: Institute of Marine Research.
 \item Atienza D, Saiz E, Calbet A (2006) Feeding ecology of the marine
 cladoceran \emph{Penilia avirostris}: natural diet, prey selectivity and daily
 ration. \emph{Marine Ecology Progress Series} 315:211-220.
-\url{https://doi.org/10.3354/meps315211}
+\doi{10.3354/meps315211}
 \item Almeda R, Calbet A, Alcaraz M, Yebra L, Saiz E (2010) Effects of
 temperature and food concentration on the survival, development and growth
 rates of naupliar stages of \emph{Oithona davisae} (Copepoda, Cyclopoida).
 \emph{Marine Ecology Progress Series} 410:97-109.
-\url{https://doi.org/10.3354/meps08625}
+\doi{10.3354/meps08625}
 \item Hirche HJ, Mumm N (1992) Distribution of dominant copepods in the Nansen
 Basin, Arctic Ocean, in summer. \emph{Deep-Sea Research Part A. Oceanographic
 Research Papers} 39(Suppl. 2):S485-S505.
-\url{https://doi.org/10.1016/S0198-0149(06)80017-8}
+\doi{10.1016/S0198-0149(06)80017-8}
 \item Paffenhöfer GA (1976) On the biology of appendicularia of the
 southeastern North Sea. In: 10th European Symposium on Marine Biology,
 Ostend, Belgium, 17-23 September 1975, Vol. 2, pp. 437-455.

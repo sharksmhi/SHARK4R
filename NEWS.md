@@ -1,4 +1,4 @@
-# SHARK4R (development version)
+# SHARK4R 1.2.0
 
 ## New features
 
@@ -9,6 +9,7 @@
 
 ## Minor improvements and fixes
 
+* `get_toxin_list()` gains an `insecure` argument (default `FALSE`) to handle periods when the IOC-UNESCO Toxins Database TLS certificate has lapsed. When a certificate error is encountered, an interactive session prompts before retrying without verification, while a non-interactive session aborts with guidance to set `insecure = TRUE`. Disabling verification emits a warning, as it removes protection against tampering.
 * All user-facing console output has been migrated from base R (`stop()`, `warning()`, `message()`, `cat()`, `txtProgressBar`) to the `cli` package. Errors use `cli_abort()`, warnings use `cli_warn()`, and informational messages use `cli_inform()`, all with structured bullet lists and inline markup for arguments, values, file paths, and function names. Progress bars in long-running API functions are replaced with `cli_progress_bar()`.
 * Threshold values previously defined in `R/zzz.R` are now bundled as `inst/extdata/threshold_values.csv` and loaded at runtime, removing several package-level global variables.
 * All internal cache paths now consistently redirect to `tempdir()` during `R CMD check`, extending the `cache_dir()` redirect to the remaining call sites in `R/util.R`.
