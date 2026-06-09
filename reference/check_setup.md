@@ -52,7 +52,7 @@ try(check_setup(path = tempdir()))
 #> Warning: downloaded length 0 != reported length 14
 #> Warning: cannot open URL 'https://codeload.github.com/sharksmhi/SHARK4R/zip/refs/tags/v1.2.0': HTTP status was '404 Not Found'
 #> Tag v1.2.0 not yet published, retrying from master branch...
-#> ✔ Setup complete. Files are available in /tmp/RtmpbCWnBv
+#> ✔ Setup complete. Files are available in /tmp/Rtmp3yH81T
 
 # Force re-download if already present
 try(check_setup(path = tempdir(), force = TRUE))
@@ -60,7 +60,7 @@ try(check_setup(path = tempdir(), force = TRUE))
 #> Warning: downloaded length 0 != reported length 14
 #> Warning: cannot open URL 'https://codeload.github.com/sharksmhi/SHARK4R/zip/refs/tags/v1.2.0': HTTP status was '404 Not Found'
 #> Tag v1.2.0 not yet published, retrying from master branch...
-#> ✔ Setup complete. Files are available in /tmp/RtmpbCWnBv
+#> ✔ Setup complete. Files are available in /tmp/Rtmp3yH81T
 
 # Download and run the QC Shiny app
 if(interactive()){

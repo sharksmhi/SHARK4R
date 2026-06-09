@@ -219,8 +219,8 @@ print(dyntaxa_records)
     ##  2  237763  1010465 <list [0]>           71602 FALSE          "Illustration (LM…
     ##  3  238027  1010523 <list [0]>           73509 FALSE          "Illustration (LM…
     ##  4  238248  1010596 <list [0]>           70032 FALSE           NA               
-    ##  5  238927  1016130 <list [0]>          114016 FALSE           NA               
-    ##  6  257418  6001140 <list [0]>          113151 FALSE           NA               
+    ##  5  238927  1016130 <list [0]>          114017 FALSE           NA               
+    ##  6  257418  6001140 <list [0]>          113152 FALSE           NA               
     ##  7  263645  1016291 <list [0]>           67809 FALSE          "2005. Published …
     ##  8 1010578  6332738 <list [0]>           70154 FALSE          "Scrippsiella han…
     ##  9 1010594  2003235 <list [0]>           70016 FALSE           NA               
@@ -321,8 +321,8 @@ print(taxonomy_table)
     ## # A tibble: 296 × 16
     ##    taxonId        acceptedNameUsageID parentNameUsageID scientificName taxonRank
     ##    <chr>          <chr>               <chr>             <chr>          <chr>    
-    ##  1 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  
-    ##  2 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Pseudopediast… species  
+    ##  1 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Pseudopediast… species  
+    ##  2 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  
     ##  3 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Protoperidini… species  
     ##  4 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Binuclearia l… species  
     ##  5 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Chrysotila ca… species  
