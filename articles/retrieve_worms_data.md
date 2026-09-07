@@ -341,6 +341,8 @@ ggplot(plankton_custom_group_sum,
   theme(plot.background = element_rect(fill = "white", color = NA))
 ```
 
+![](retrieve_worms_data_files/figure-html/unnamed-chunk-24-1.png)
+
 ------------------------------------------------------------------------
 
 ## Citation

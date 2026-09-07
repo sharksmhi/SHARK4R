@@ -68,16 +68,19 @@ message.
 # Example usage with a vector of Aphia IDs
 aphia_ids <- c(12345, 67890, 112233)
 try(worms_records <- get_worms_records(aphia_ids, verbose = FALSE))
-#> Warning: Attempt 1 failed for AphiaID 12345: Timeout was reached
-#> [www.marinespecies.org]: SSL connection timeout - Retrying...
-#> Warning: Attempt 2 failed for AphiaID 12345: Timeout was reached
-#> [www.marinespecies.org]: Failed to connect to www.marinespecies.org port 443
-#> after 10002 ms: Timeout was reached - Retrying...
-#> Error in value[[3L]](cond) : 
-#>   Error retrieving WoRMS record for AphiaID 12345 after 3 attempts:
-#> Timeout was reached [www.marinespecies.org]: Failed to connect to
-#> www.marinespecies.org port 443 after 10002 ms: Timeout was reached
 
 if (exists("worms_records")) print(worms_records)
+#> # A tibble: 3 × 28
+#>   AphiaID status url   scientificname authority unacceptreason taxonRankID rank 
+#>     <dbl> <chr>  <chr> <chr>          <chr>     <lgl>                <int> <chr>
+#> 1   12345 no co… NA    NA             NA        NA                      NA NA   
+#> 2   67890 no co… NA    NA             NA        NA                      NA NA   
+#> 3  112233 accep… http… Nonionella     Cushman,… NA                     180 Genus
+#> # ℹ 20 more variables: valid_AphiaID <int>, valid_name <chr>,
+#> #   valid_authority <chr>, parentNameUsageID <int>, originalNameUsageID <int>,
+#> #   kingdom <chr>, phylum <chr>, class <chr>, order <chr>, family <chr>,
+#> #   genus <chr>, citation <chr>, lsid <chr>, isMarine <int>, isBrackish <lgl>,
+#> #   isFreshwater <int>, isTerrestrial <int>, isExtinct <int>, match_type <chr>,
+#> #   modified <chr>
 # }
 ```
