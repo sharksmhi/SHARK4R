@@ -205,7 +205,7 @@ get_hab_list <- function(species_only = TRUE,
   url_habs <- "https://www.marinespecies.org/hab/aphia.php?p=export&what=taxlist"
 
   if (harmful_non_toxic_only) {
-    url_habs <- "https://www.marinespecies.org/aphia.php?p=taxlist&nType=Harmful+effect&nComp=contains&nName=Non-toxigenic+marine+microalgal+species&rSkips=0&adv=1"
+    url_habs <- "https://www.marinespecies.org/aphia.php?p=taxlist&nType=Harmful+effects+and+toxins&nComp=contains&nName=Non-toxigenic+marine+microalgal+species&rSkips=0&adv=1"
   }
 
   # Download the file directly into memory
@@ -231,7 +231,16 @@ get_hab_list <- function(species_only = TRUE,
         as.integer(sub("aphia\\.php\\?p=taxdetails&id=", "", matches))
       })
 
-      aphia_ids <- unname(aphia_ids)
+      aphia_ids <- unname(unlist(aphia_ids))
+
+      # Fail early with a clear message if the WoRMS search returned nothing
+      # (e.g. the note type or note text used in the search URL has changed)
+      if (length(aphia_ids) == 0) {
+        cli::cli_abort(c(
+          "No records found in the WoRMS search for non-toxigenic harmful microalgae.",
+          "i" = "The WoRMS search parameters may have changed. Please report this at {.url https://github.com/sharksmhi/SHARK4R/issues}."
+        ))
+      }
 
       # Retrieve records for the Aphia IDs
       records <- get_worms_records(aphia_ids, verbose = verbose)
