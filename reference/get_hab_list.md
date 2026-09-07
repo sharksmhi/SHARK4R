@@ -147,23 +147,10 @@ List of Harmful Microalgae
 # \donttest{
 # Download the default HABs taxonomic list
 try(habs_taxlist_df <- get_hab_list())
+#> Error in curl::curl_fetch_memory(url, handle = handle) : 
+#>   Timeout was reached [www.marinespecies.org]:
+#> SSL connection timeout
 if (exists("habs_taxlist_df")) head(habs_taxlist_df)
-#> # A tibble: 6 × 29
-#>   AphiaID ScientificName       Authority AphiaID_accepted ScientificName_accep…¹
-#>     <dbl> <chr>                <chr>                <dbl> <chr>                 
-#> 1  418135 Acanthogonyaulax sp… (Murray …           418135 Acanthogonyaulax spin…
-#> 2  639809 Achomosphaera hyper… (Defland…           110041 Gonyaulax spinifera   
-#> 3  841664 Aetokthonos hydrill… S.B.Wild…           841664 Aetokthonos hydrillic…
-#> 4  232546 Akashiwo sanguinea   (K.Hiras…           232546 Akashiwo sanguinea    
-#> 5  233407 Alexandrium acatene… (Whedon …           231873 Alexandrium catenella 
-#> 6  109707 Alexandrium affine   (H.Inoue…           109707 Alexandrium affine    
-#> # ℹ abbreviated name: ¹​ScientificName_accepted
-#> # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
-#> #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
-#> #   Genus <chr>, Subgenus <lgl>, Species <chr>, Subspecies <lgl>, Marine <dbl>,
-#> #   Brackish <dbl>, Fresh <dbl>, Terrestrial <dbl>, taxonomicStatus <chr>,
-#> #   Qualitystatus <chr>, Unacceptreason <chr>, DateLastModified <date>,
-#> #   LSID <chr>, `Parent AphiaID` <dbl>, Storedpath <chr>, Citation <chr>
 
 # Include higher taxa records
 try(habs_taxlist_df <- get_hab_list(species_only = FALSE))

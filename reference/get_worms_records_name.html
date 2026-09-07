@@ -130,6 +130,10 @@ If all attempts fail, the function stops and throws an error.</p>
 <span class="r-in"><span>                                  max_retries <span class="op">=</span> <span class="fl">3</span>, sleep_time <span class="op">=</span> <span class="fl">5</span>, marine_only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`get_worms_records_name()` was deprecated in SHARK4R 1.0.0.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `match_worms_taxa()` instead.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in value[[3L]](cond) : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Error retrieving WoRMS record for <span style="color: #0000BB;">"Amphidinium"</span> after 3 attempts:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Timeout was reached [www.marinespecies.org]: Failed to connect to</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> www.marinespecies.org port 443 after 10002 ms: Timeout was reached</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
