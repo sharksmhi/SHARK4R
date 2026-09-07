@@ -1,5 +1,18 @@
 # Changelog
 
+## SHARK4R (development version)
+
+## SHARK4R 1.2.1
+
+### Minor improvements and fixes
+
+- `get_hab_list(harmful_non_toxic_only = TRUE)` works again. WoRMS
+  renamed the note type used in the search from `"Harmful effect"` to
+  `"Harmful effects and toxins"`, so the search returned no records and
+  the function failed with an `incorrect number of dimensions` error.
+  The search URL has been updated, and the function now aborts with an
+  informative error if the WoRMS search returns no records.
+
 ## SHARK4R 1.2.0
 
 CRAN release: 2026-06-08

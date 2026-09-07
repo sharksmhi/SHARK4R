@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SHARK4R</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,9 +44,20 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.2.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="shark4r-development-version">SHARK4R (development version)<a class="anchor" aria-label="anchor" href="#shark4r-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.2.1" id="shark4r-121">SHARK4R 1.2.1<a class="anchor" aria-label="anchor" href="#shark4r-121"></a></h2>
+<div class="section level3">
+<h3 id="minor-improvements-and-fixes-1-2-1">Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-1-2-1"></a></h3>
+<ul><li>
+<code>get_hab_list(harmful_non_toxic_only = TRUE)</code> works again. WoRMS renamed the note type used in the search from <code>"Harmful effect"</code> to <code>"Harmful effects and toxins"</code>, so the search returned no records and the function failed with an <code>incorrect number of dimensions</code> error. The search URL has been updated, and the function now aborts with an informative error if the WoRMS search returns no records.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.0" id="shark4r-120">SHARK4R 1.2.0<a class="anchor" aria-label="anchor" href="#shark4r-120"></a></h2><p class="text-muted">CRAN release: 2026-06-08</p>
 <div class="section level3">
@@ -314,7 +325,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

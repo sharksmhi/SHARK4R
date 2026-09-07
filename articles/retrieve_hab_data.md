@@ -54,7 +54,7 @@ hab_list <- get_hab_list()
 print(hab_list)
 ```
 
-    ## # A tibble: 536 × 29
+    ## # A tibble: 535 × 29
     ##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹
     ##      <dbl> <chr>               <chr>                <dbl> <chr>                 
     ##  1  418135 Acanthogonyaulax s… (Murray …           418135 Acanthogonyaulax spin…
@@ -67,7 +67,7 @@ print(hab_list)
     ##  8  246835 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
     ##  9  233452 Alexandrium angust… F.J.R.Ta…           109711 Alexandrium minutum   
     ## 10  833063 Alexandrium austra… Sh.Murra…           833063 Alexandrium australie…
-    ## # ℹ 526 more rows
+    ## # ℹ 525 more rows
     ## # ℹ abbreviated name: ¹​ScientificName_accepted
     ## # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
     ## #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
@@ -190,7 +190,7 @@ against tampering.
   Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas,
   R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO
   Taxonomic Reference List of Harmful Microalgae. Accessed at
-  <https://www.marinespecies.org/hab/> on 2026-06-09.
+  <https://www.marinespecies.org/hab/> on 2026-09-07.
   [doi:10.14284/362](https://doi.org/10.14284/362)
 - Zingone A. and L. Escalera (2025) Non toxigenic animal-killing
   microalgal species. In: Lundholm, N.; Bernard, C.; Churro, C.;
@@ -198,4 +198,4 @@ against tampering.
   Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds)
   (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful
   Microalgae. Accessed at <https://www.marinespecies.org/hab/> on
-  2026-06-09. [doi:10.14284/362](https://doi.org/10.14284/362)
+  2026-09-07. [doi:10.14284/362](https://doi.org/10.14284/362)

@@ -48,19 +48,13 @@ Shiny app directly after setup.
 # \donttest{
 # Download support files into a temporary directory
 try(check_setup(path = tempdir()))
-#> Downloading setup files for SHARK4R (v1.2.0)...
-#> Warning: downloaded length 0 != reported length 14
-#> Warning: cannot open URL 'https://codeload.github.com/sharksmhi/SHARK4R/zip/refs/tags/v1.2.0': HTTP status was '404 Not Found'
-#> Tag v1.2.0 not yet published, retrying from master branch...
-#> ✔ Setup complete. Files are available in /tmp/Rtmp3yH81T
+#> Downloading setup files for SHARK4R (master)...
+#> ✔ Setup complete. Files are available in /tmp/RtmpiZxPpq
 
 # Force re-download if already present
 try(check_setup(path = tempdir(), force = TRUE))
-#> Downloading setup files for SHARK4R (v1.2.0)...
-#> Warning: downloaded length 0 != reported length 14
-#> Warning: cannot open URL 'https://codeload.github.com/sharksmhi/SHARK4R/zip/refs/tags/v1.2.0': HTTP status was '404 Not Found'
-#> Tag v1.2.0 not yet published, retrying from master branch...
-#> ✔ Setup complete. Files are available in /tmp/Rtmp3yH81T
+#> Downloading setup files for SHARK4R (master)...
+#> ✔ Setup complete. Files are available in /tmp/RtmpiZxPpq
 
 # Download and run the QC Shiny app
 if(interactive()){
