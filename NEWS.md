@@ -1,5 +1,3 @@
-# SHARK4R (development version)
-
 # SHARK4R 1.2.1
 
 ## Minor improvements and fixes
