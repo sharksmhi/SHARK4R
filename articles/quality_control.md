@@ -315,7 +315,7 @@ station_match <- match_station(chlorophyll_data$station_name)
 head(station_match)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmpJCZ55s/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpItzTuk/station.txt
     ## ✔ All stations found
 
     ##   reported_station_name match_type
@@ -335,7 +335,7 @@ check_station_distance(data = chlorophyll_data,
                        plot_leaflet = TRUE)
 ```
 
-    ## Using station.txt from SHARK4R bundle: /tmp/RtmpJCZ55s/station.txt
+    ## Using station.txt from SHARK4R bundle: /tmp/RtmpItzTuk/station.txt
     ## Some stations are outside the allowed distance limit
     ## ! Stations: "LÄSÖ RÄNNA", "OH7", and "HS2"
 
@@ -404,7 +404,7 @@ data for analysis.
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.2.0.
+    ##   Databases. R package version 1.2.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -413,7 +413,7 @@ data for analysis.
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.2.0},
+    ##     note = {R package version 1.2.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
 

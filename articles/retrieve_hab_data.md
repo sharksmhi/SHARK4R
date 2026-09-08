@@ -54,27 +54,6 @@ hab_list <- get_hab_list()
 print(hab_list)
 ```
 
-    ## # A tibble: 535 × 29
-    ##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹
-    ##      <dbl> <chr>               <chr>                <dbl> <chr>                 
-    ##  1  418135 Acanthogonyaulax s… (Murray …           418135 Acanthogonyaulax spin…
-    ##  2  639809 Achomosphaera hype… (Defland…           110041 Gonyaulax spinifera   
-    ##  3  841664 Aetokthonos hydril… S.B.Wild…           841664 Aetokthonos hydrillic…
-    ##  4  232546 Akashiwo sanguinea  (K.Hiras…           232546 Akashiwo sanguinea    
-    ##  5  233407 Alexandrium acaten… (Whedon …           231873 Alexandrium catenella 
-    ##  6  109707 Alexandrium affine  (H.Inoue…           109707 Alexandrium affine    
-    ##  7  231872 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
-    ##  8  246835 Alexandrium anders… Balech, …           246835 Alexandrium andersonii
-    ##  9  233452 Alexandrium angust… F.J.R.Ta…           109711 Alexandrium minutum   
-    ## 10  833063 Alexandrium austra… Sh.Murra…           833063 Alexandrium australie…
-    ## # ℹ 525 more rows
-    ## # ℹ abbreviated name: ¹​ScientificName_accepted
-    ## # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
-    ## #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
-    ## #   Genus <chr>, Subgenus <lgl>, Species <chr>, Subspecies <lgl>, Marine <dbl>,
-    ## #   Brackish <dbl>, Fresh <dbl>, Terrestrial <dbl>, taxonomicStatus <chr>,
-    ## #   Qualitystatus <chr>, Unacceptreason <chr>, DateLastModified <date>, …
-
 A separate list of harmful non-toxic species is also available (Zingone
 & Escalera, 2025). This compilation focuses on taxa for which no toxin
 production is known, yet which have been linked to negative impacts on
@@ -94,27 +73,6 @@ hab_non_toxic_list <- get_hab_list(harmful_non_toxic_only = TRUE,
 # Print result
 print(hab_non_toxic_list)
 ```
-
-    ## # A tibble: 67 × 24
-    ##    AphiaID ScientificName      Authority AphiaID_accepted ScientificName_accep…¹
-    ##      <int> <chr>               <chr>                <int> <chr>                 
-    ##  1  109708 Alexandrium balech… (Steidin…           109708 Alexandrium balechii  
-    ##  2  375699 Aureococcus anopha… Hargrave…           375699 Aureococcus anophagef…
-    ##  3  375701 Aureoumbra lagunen… D.A.Stoc…           375701 Aureoumbra lagunensis 
-    ##  4 1360848 Blixaea quinquecor… (T.H.Abé…          1360848 Blixaea quinquecornis 
-    ##  5  149619 Cerataulina pelagi… (Cleve) …           149619 Cerataulina pelagica  
-    ##  6  163013 Chaetoceros calcit… (Paulsen…           163015 Chaetoceros simplex v…
-    ##  7  178180 Chaetoceros coarct… Lauder, …           178180 Chaetoceros coarctatus
-    ##  8  156607 Chaetoceros concav… Mangin, …           156607 Chaetoceros concavico…
-    ##  9  156611 Chaetoceros convol… Castraca…           156611 Chaetoceros convolutus
-    ## 10  465389 Chaetoceros crioph… Castraca…           465389 Chaetoceros criophilus
-    ## # ℹ 57 more rows
-    ## # ℹ abbreviated name: ¹​ScientificName_accepted
-    ## # ℹ 19 more variables: Authority_accepted <chr>, Fossil <int>, Kingdom <chr>,
-    ## #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
-    ## #   Genus <chr>, Marine <int>, Brackish <int>, Fresh <int>, Terrestrial <int>,
-    ## #   taxonomicStatus <chr>, Unacceptreason <chr>, DateLastModified <dttm>,
-    ## #   LSID <chr>, `Parent AphiaID` <int>, Citation <chr>
 
 ## Retrieve HAB Toxins From IOC Toxins Database
 
@@ -169,7 +127,7 @@ against tampering.
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.2.0.
+    ##   Databases. R package version 1.2.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -178,7 +136,7 @@ against tampering.
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.2.0},
+    ##     note = {R package version 1.2.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
 
@@ -190,7 +148,7 @@ against tampering.
   Iwataki, M.; Larsen, J.; Mertens, K.; Murray, S.; Probert, I.; Salas,
   R.; Tillmann, U.; Zingone, A. (Eds) (2009 onwards). IOC-UNESCO
   Taxonomic Reference List of Harmful Microalgae. Accessed at
-  <https://www.marinespecies.org/hab/> on 2026-09-07.
+  <https://www.marinespecies.org/hab/> on 2026-09-08.
   [doi:10.14284/362](https://doi.org/10.14284/362)
 - Zingone A. and L. Escalera (2025) Non toxigenic animal-killing
   microalgal species. In: Lundholm, N.; Bernard, C.; Churro, C.;
@@ -198,4 +156,4 @@ against tampering.
   Murray, S.; Probert, I.; Salas, R.; Tillmann, U.; Zingone, A. (Eds)
   (2009 onwards). IOC-UNESCO Taxonomic Reference List of Harmful
   Microalgae. Accessed at <https://www.marinespecies.org/hab/> on
-  2026-09-07. [doi:10.14284/362](https://doi.org/10.14284/362)
+  2026-09-08. [doi:10.14284/362](https://doi.org/10.14284/362)

@@ -219,8 +219,8 @@ print(dyntaxa_records)
     ##  2  237763  1010465 <list [0]>           71695 FALSE          "Illustration (LM…
     ##  3  238027  1010523 <list [0]>           73602 FALSE          "Illustration (LM…
     ##  4  238248  1010596 <list [0]>           70124 FALSE           NA               
-    ##  5  238927  1016130 <list [0]>          114185 FALSE           NA               
-    ##  6  257418  6001140 <list [0]>          113320 FALSE           NA               
+    ##  5  238927  1016130 <list [0]>          114186 FALSE           NA               
+    ##  6  257418  6001140 <list [0]>          113321 FALSE           NA               
     ##  7  263645  1016291 <list [0]>           67900 FALSE          "2005. Published …
     ##  8 1010578  6332738 <list [0]>           70246 FALSE          "Scrippsiella han…
     ##  9 1010594  2003235 <list [0]>           70108 FALSE           NA               
@@ -325,9 +325,9 @@ print(taxonomy_table)
     ##  2 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Oblea          genus    
     ##  3 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Scrippsiella   genus    
     ##  4 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Cuspidothrix … species  
-    ##  5 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Binuclearia l… species  
-    ##  6 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Bacillaria pa… species  
-    ##  7 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  
+    ##  5 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Bacillaria pa… species  
+    ##  6 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Diatoma vulga… species  
+    ##  7 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Binuclearia l… species  
     ##  8 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Protoperidini… species  
     ##  9 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Chrysotila ca… species  
     ## 10 urn:lsid:dynt… urn:lsid:dyntaxa.s… urn:lsid:dyntaxa… Dictyochales   order    
@@ -344,7 +344,7 @@ print(taxonomy_table)
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.2.0.
+    ##   Databases. R package version 1.2.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -353,6 +353,6 @@ print(taxonomy_table)
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.2.0},
+    ##     note = {R package version 1.2.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }

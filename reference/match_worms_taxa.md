@@ -110,23 +110,18 @@ try(records <- match_worms_taxa(c("Amphidinium", "Karenia"),
                             sleep_time = 5,
                             marine_only = TRUE,
                             verbose = FALSE))
+#> Error in value[[3L]](cond) : 
+#>   Error retrieving WoRMS record for "Amphidinium" after 3 attempts:
+#> Timeout was reached [www.marinespecies.org]: SSL connection timeout
 if (exists("records")) print(records)
-#> # A tibble: 2 × 29
-#>   name  AphiaID url   scientificname authority status unacceptreason taxonRankID
-#>   <chr>   <int> <chr> <chr>          <chr>     <chr>  <chr>                <int>
-#> 1 Amph…  109473 http… Amphidinium    Claperèd… accep… NA                     180
-#> 2 Kare…  231788 http… Karenia        G.Hansen… accep… NA                     180
-#> # ℹ 21 more variables: rank <chr>, valid_AphiaID <int>, valid_name <chr>,
-#> #   valid_authority <chr>, parentNameUsageID <int>, originalNameUsageID <int>,
-#> #   kingdom <chr>, phylum <chr>, class <chr>, order <chr>, family <chr>,
-#> #   genus <chr>, citation <chr>, lsid <chr>, isMarine <int>, isBrackish <int>,
-#> #   isFreshwater <int>, isTerrestrial <int>, isExtinct <lgl>, match_type <chr>,
-#> #   modified <chr>
 
 # Retrieve WoRMS records in bulk mode (faster for many names)
 try(records_bulk <- match_worms_taxa(c("Amphidinium", "Karenia", "Navicula"),
                                  bulk = TRUE,
                                  marine_only = TRUE,
                                  verbose = FALSE))
+#> Error in value[[3L]](cond) : 
+#>   Error retrieving WoRMS records for chunk 1 after 3 attempts: Timeout was
+#> reached [www.marinespecies.org]: SSL connection timeout
 # }
 ```

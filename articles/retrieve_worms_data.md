@@ -82,20 +82,6 @@ worms_records <- match_worms_taxa(unique(taxa_names),
 print(worms_records)
 ```
 
-    ## # A tibble: 4 × 29
-    ##   name        status AphiaID rank  scientificname url   authority unacceptreason
-    ##   <chr>       <chr>    <int> <chr> <chr>          <chr> <chr>     <chr>         
-    ## 1 Unicell     no co…      NA NA    NA             NA    NA        NA            
-    ## 2 Scrippsiel… accep…  109545 Genus Scrippsiella   http… Balech e… NA            
-    ## 3 Cylindroth… accep…  149004 Spec… Cylindrotheca… http… (Ehrenbe… NA            
-    ## 4 Diplopsalis accep…  109515 Genus Diplopsalis    http… R.S.Berg… NA            
-    ## # ℹ 21 more variables: taxonRankID <int>, valid_AphiaID <int>,
-    ## #   valid_name <chr>, valid_authority <chr>, parentNameUsageID <int>,
-    ## #   originalNameUsageID <int>, kingdom <chr>, phylum <chr>, class <chr>,
-    ## #   order <chr>, family <chr>, genus <chr>, citation <chr>, lsid <chr>,
-    ## #   isMarine <int>, isBrackish <int>, isFreshwater <int>, isTerrestrial <int>,
-    ## #   isExtinct <lgl>, match_type <chr>, modified <chr>
-
 ### Get WoRMS records from AphiaID
 
 Taxonomic records can also be retrieved using Aphia IDs, employing the
@@ -120,26 +106,6 @@ worms_records <- get_worms_records(aphia_ids,
 print(worms_records)
 ```
 
-    ## # A tibble: 10 × 28
-    ##    AphiaID url        scientificname authority status unacceptreason taxonRankID
-    ##      <int> <chr>      <chr>          <chr>     <chr>  <lgl>                <int>
-    ##  1 1310442 https://w… Octactis spec… (Ehrenbe… accep… NA                     220
-    ##  2  146715 https://w… Aphanothece    Nägeli, … accep… NA                     180
-    ##  3  837459 https://w… Tripos lineat… (Ehrenbe… accep… NA                     220
-    ##  4  134529 https://w… Pyramimonas    Schmarda… accep… NA                     180
-    ##  5  575737 https://w… Binuclearia l… (Schmidl… unacc… NA                     220
-    ##  6  110153 https://w… Heterocapsa t… (Ehrenbe… unacc… NA                     220
-    ##  7  148899 https://w… Bacillariophy… Haeckel,… accep… NA                      60
-    ##  8  106287 https://w… Hemiselmis     Parke, 1… accep… NA                     180
-    ##  9  249711 https://w… Desmodesmus    (R.Choda… accep… NA                     180
-    ## 10  109553 https://w… Protoperidini… Bergh, 1… accep… NA                     180
-    ## # ℹ 21 more variables: rank <chr>, valid_AphiaID <int>, valid_name <chr>,
-    ## #   valid_authority <chr>, parentNameUsageID <int>, originalNameUsageID <int>,
-    ## #   kingdom <chr>, phylum <chr>, class <chr>, order <chr>, family <chr>,
-    ## #   genus <chr>, citation <chr>, lsid <chr>, isMarine <int>, isBrackish <int>,
-    ## #   isFreshwater <int>, isTerrestrial <int>, isExtinct <lgl>, match_type <chr>,
-    ## #   modified <chr>
-
 ### Get WoRMS Taxonomy
 
 SHARK sources taxonomic information from
@@ -163,22 +129,6 @@ shark_data_with_worms <- shark_data %>%
   left_join(worms_taxonomy, by = "aphia_id")
 ```
 
-    ## # A tibble: 10 × 10
-    ##    aphia_id worms_scientific_name    worms_kingdom worms_phylum     worms_class 
-    ##       <dbl> <chr>                    <chr>         <chr>            <chr>       
-    ##  1  1310442 Octactis speculum        Chromista     Ochrophyta       Dictyochoph…
-    ##  2   146715 Aphanothece              Bacteria      Cyanobacteria    Cyanophyceae
-    ##  3   837459 Tripos lineatus          Chromista     Myzozoa          Dinophyceae 
-    ##  4   134529 Pyramimonas              Plantae       NA               Pyramimonad…
-    ##  5   575737 Binuclearia lauterbornii Plantae       NA               Ulvophyceae 
-    ##  6   110153 Heterocapsa triquetra    Chromista     Myzozoa          Dinophyceae 
-    ##  7   148899 Bacillariophyceae        Chromista     Heterokontophyta Bacillariop…
-    ##  8   106287 Hemiselmis               Chromista     Cryptophyta      Cryptophyce…
-    ##  9   249711 Desmodesmus              Plantae       NA               Chlorophyce…
-    ## 10   109553 Protoperidinium          Chromista     Myzozoa          Dinophyceae 
-    ## # ℹ 5 more variables: worms_order <chr>, worms_family <chr>, worms_genus <chr>,
-    ## #   worms_species <chr>, worms_hierarchy <chr>
-
 ### Retrieve WoRMS Taxonomic Hierarchies
 
 To explore the full hierarchical taxonomy records of your Aphia IDs, you
@@ -201,25 +151,6 @@ worms_tree <- get_worms_taxonomy_tree(
 # Print result
 print(worms_tree)
 ```
-
-    ## # A tibble: 9 × 28
-    ##   AphiaID url   scientificname authority status unacceptreason taxonRankID rank 
-    ##     <int> <chr> <chr>          <chr>     <chr>  <lgl>                <int> <chr>
-    ## 1       7 http… Chromista      NA        accep… NA                      10 King…
-    ## 2  582419 http… Harosa         NA        accep… NA                      20 Subk…
-    ## 3  368898 http… Heterokonta    NA        accep… NA                      25 Infr…
-    ## 4  345465 http… Ochrophyta     Cavalier… accep… NA                      30 Phyl…
-    ## 5  146232 http… Dictyochophyc… P.C. Sil… accep… NA                      60 Class
-    ## 6  157256 http… Dictyochales   Haeckel,… accep… NA                     100 Order
-    ## 7  157257 http… Dictyochaceae  Lemmerma… accep… NA                     140 Fami…
-    ## 8  369960 http… Octactis       J.Schill… accep… NA                     180 Genus
-    ## 9 1310442 http… Octactis spec… (Ehrenbe… accep… NA                     220 Spec…
-    ## # ℹ 20 more variables: valid_AphiaID <int>, valid_name <chr>,
-    ## #   valid_authority <chr>, parentNameUsageID <int>, originalNameUsageID <int>,
-    ## #   kingdom <chr>, phylum <chr>, class <chr>, order <chr>, family <chr>,
-    ## #   genus <chr>, citation <chr>, lsid <chr>, isMarine <int>, isBrackish <int>,
-    ## #   isFreshwater <int>, isTerrestrial <int>, isExtinct <lgl>, match_type <chr>,
-    ## #   modified <chr>
 
 ### Assign Phytoplankton Groups
 
@@ -273,23 +204,6 @@ ggplot(plankton_group_sum,
   theme(plot.background = element_rect(fill = "white", color = NA))
 ```
 
-    ## # A tibble: 23 × 2
-    ##    scientific_name      plankton_group 
-    ##    <chr>                <chr>          
-    ##  1 Pauliella taeniata   Diatoms        
-    ##  2 Amylax triacantha    Dinoflagellates
-    ##  3 Aphanocapsa          Cyanobacteria  
-    ##  4 Aphanothece          Cyanobacteria  
-    ##  5 Chaetoceros similis  Diatoms        
-    ##  6 Dinobryon balticum   Other          
-    ##  7 Dinophysis acuminata Dinoflagellates
-    ##  8 Dinophysis norvegica Dinoflagellates
-    ##  9 Gymnodinium          Dinoflagellates
-    ## 10 Protodinium simplex  Other          
-    ## # ℹ 13 more rows
-
-![](retrieve_worms_data_files/figure-html/unnamed-chunk-21-1.png)
-
 #### Assign Custom Phytoplankton Groups
 
 You can add custom plankton groups by using the `custom_groups`
@@ -341,8 +255,6 @@ ggplot(plankton_custom_group_sum,
   theme(plot.background = element_rect(fill = "white", color = NA))
 ```
 
-![](retrieve_worms_data_files/figure-html/unnamed-chunk-24-1.png)
-
 ------------------------------------------------------------------------
 
 ## Citation
@@ -351,7 +263,7 @@ ggplot(plankton_custom_group_sum,
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.2.0.
+    ##   Databases. R package version 1.2.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -360,6 +272,6 @@ ggplot(plankton_custom_group_sum,
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.2.0},
+    ##     note = {R package version 1.2.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }

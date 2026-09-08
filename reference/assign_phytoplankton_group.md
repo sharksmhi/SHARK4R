@@ -139,15 +139,12 @@ listed after `Cryptophytes` in the `custom_groups` list.
 try(result <- assign_phytoplankton_group(
   scientific_names = c("Tripos fusus", "Diatoma", "Nodularia spumigena", "Octactis speculum"),
   verbose = FALSE))
+#> Error in value[[3L]](cond) : 
+#>   Error retrieving WoRMS record for "Tripos fusus" after 3 attempts:
+#> Timeout was reached [www.marinespecies.org]: Failed to connect to
+#> www.marinespecies.org port 443 after 10000 ms: Timeout was reached
 
 if (exists("result")) print(result)
-#> # A tibble: 4 × 2
-#>   scientific_name     plankton_group 
-#>   <chr>               <chr>          
-#> 1 Tripos fusus        Dinoflagellates
-#> 2 Diatoma             Diatoms        
-#> 3 Nodularia spumigena Cyanobacteria  
-#> 4 Octactis speculum   Other          
 
 # Improve classification by explicitly providing Aphia IDs for ambiguous taxa
 # Actinocyclus and Navicula are names shared by both diatoms and animals,
@@ -156,15 +153,18 @@ try(result <- assign_phytoplankton_group(
   scientific_names = c("Actinocyclus", "Navicula", "Nodularia spumigena", "Tripos fusus"),
   aphia_ids = c(148944, 149142, NA, NA),
   verbose = FALSE))
+#> Warning: Attempt 1 failed for AphiaID 148944: Timeout was reached
+#> [www.marinespecies.org]: Failed to connect to www.marinespecies.org port 443
+#> after 10001 ms: Timeout was reached - Retrying...
+#> Warning: Attempt 2 failed for AphiaID 148944: Timeout was reached
+#> [www.marinespecies.org]: Failed to connect to www.marinespecies.org port 443
+#> after 10002 ms: Timeout was reached - Retrying...
+#> Error in value[[3L]](cond) : 
+#>   Error retrieving WoRMS record for AphiaID 148944 after 3 attempts:
+#> Timeout was reached [www.marinespecies.org]: Failed to connect to
+#> www.marinespecies.org port 443 after 10003 ms: Timeout was reached
 
 if (exists("result")) print(result)
-#> # A tibble: 4 × 2
-#>   scientific_name     plankton_group 
-#>   <chr>               <chr>          
-#> 1 Actinocyclus        Diatoms        
-#> 2 Navicula            Diatoms        
-#> 3 Nodularia spumigena Cyanobacteria  
-#> 4 Tripos fusus        Dinoflagellates
 
 # Assign plankton groups using additional custom grouping
 custom_groups <- list(
@@ -179,13 +179,14 @@ try(result_custom <- assign_phytoplankton_group(
   custom_groups = custom_groups,         # Adding custom groups
   verbose = FALSE
 ))
+#> Warning: Attempt 1 failed for AphiaID 106306: Timeout was reached
+#> [www.marinespecies.org]: SSL connection timeout - Retrying...
+#> Warning: Attempt 2 failed for AphiaID 106306: Timeout was reached
+#> [www.marinespecies.org]: SSL connection timeout - Retrying...
+#> Error in value[[3L]](cond) : 
+#>   Error retrieving WoRMS record for AphiaID 106306 after 3 attempts:
+#> Timeout was reached [www.marinespecies.org]: SSL connection timeout
 
 if (exists("result_custom")) print(result_custom)
-#> # A tibble: 3 × 2
-#>   scientific_name      plankton_group 
-#>   <chr>                <chr>          
-#> 1 Teleaulax amphioxeia Cryptophytes   
-#> 2 Mesodinium rubrum    Ciliates       
-#> 3 Dinophysis acuta     Dinoflagellates
 # }
 ```

@@ -353,7 +353,7 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
     ## 
     ##   Lindh, M. and Torstensson, A. (2026). SHARK4R: Accessing and
     ##   Validating Marine Environmental Data from 'SHARK' and Related
-    ##   Databases. R package version 1.2.0.
+    ##   Databases. R package version 1.2.1.
     ##   https://CRAN.R-project.org/package=SHARK4R
     ## 
     ## A BibTeX entry for LaTeX users is
@@ -362,7 +362,7 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
     ##     title = {SHARK4R: Accessing and Validating Marine Environmental Data from 'SHARK' and Related Databases},
     ##     author = {Markus Lindh and Anders Torstensson},
     ##     year = {2026},
-    ##     note = {R package version 1.2.0},
+    ##     note = {R package version 1.2.1},
     ##     url = {https://CRAN.R-project.org/package=SHARK4R},
     ##   }
 
@@ -372,4 +372,4 @@ Toolbox](https://nordicmicroalgae.org/plankton-toolbox/) data files:
 
 - Torstensson, A., Loo, A., Sundqvist, L., Skjevik, A.-T., Karlberg, M.,
   Johansen, M., Andreasson, A., and Karlson, B. (2024). Nordic
-  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-09-07.
+  Microalgae 2.0, Accessed at www.nordicmicroalgae.org on 2026-09-08.
