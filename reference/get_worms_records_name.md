@@ -88,9 +88,5 @@ try(records <- get_worms_records_name(c("Amphidinium", "Karenia"),
                                   max_retries = 3, sleep_time = 5, marine_only = TRUE))
 #> Warning: `get_worms_records_name()` was deprecated in SHARK4R 1.0.0.
 #> ℹ Please use `match_worms_taxa()` instead.
-#> Error in value[[3L]](cond) : 
-#>   Error retrieving WoRMS record for "Amphidinium" after 3 attempts:
-#> Timeout was reached [www.marinespecies.org]: Failed to connect to
-#> www.marinespecies.org port 443 after 10002 ms: Timeout was reached
 # }
 ```

@@ -63,9 +63,13 @@ A `tibble` with taxonomy columns added, including:
 # \donttest{
 # Using AphiaID only
 try(add_worms_taxonomy(c(1080, 109604), verbose = FALSE))
-#> Error in dplyr::relocate(df_all, worms_hierarchy, .after = dplyr::last_col()) : 
-#>   Can't select columns that don't exist.
-#> ✖ Column `worms_hierarchy` doesn't exist.
+#> # A tibble: 2 × 10
+#>   aphia_id worms_scientific_name worms_kingdom worms_phylum worms_class
+#>      <dbl> <chr>                 <chr>         <chr>        <chr>      
+#> 1     1080 Copepoda              Animalia      Arthropoda   Copepoda   
+#> 2   109604 Dinophysis acuta      Chromista     Myzozoa      Dinophyceae
+#> # ℹ 5 more variables: worms_order <chr>, worms_family <chr>, worms_genus <chr>,
+#> #   worms_species <chr>, worms_hierarchy <chr>
 
 # Using a combination of AphiaID and scientific name
 try(add_worms_taxonomy(
@@ -73,8 +77,12 @@ try(add_worms_taxonomy(
   scientific_names = c("Calanus finmarchicus", "Oithona similis"),
   verbose = FALSE
 ))
-#> Error in value[[3L]](cond) : 
-#>   Error retrieving WoRMS record for "Calanus finmarchicus" after 3
-#> attempts: Timeout was reached [www.marinespecies.org]: SSL connection timeout
+#> # A tibble: 2 × 11
+#>   aphia_id scientific_name      worms_scientific_name worms_kingdom worms_phylum
+#>      <dbl> <chr>                <chr>                 <chr>         <chr>       
+#> 1   104464 Calanus finmarchicus Calanus finmarchicus  Animalia      Arthropoda  
+#> 2   109604 Oithona similis      Dinophysis acuta      Chromista     Myzozoa     
+#> # ℹ 6 more variables: worms_class <chr>, worms_order <chr>, worms_family <chr>,
+#> #   worms_genus <chr>, worms_species <chr>, worms_hierarchy <chr>
 # }
 ```

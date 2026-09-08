@@ -54,7 +54,7 @@ allowing users to define additional classifications based on specific taxonomic 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Assign phytoplankton group to scientific names</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/worms_api_functions.R" class="external-link"><code>R/worms_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.2.1/R/worms_api_functions.R" class="external-link"><code>R/worms_api_functions.R</code></a></small>
       <div class="d-none name"><code>assign_phytoplankton_group.Rd</code></div>
     </div>
 
@@ -168,12 +168,15 @@ and a specific group <code>Teleaulax</code> (name-based), it will be assigned to
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">assign_phytoplankton_group</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  scientific_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Tripos fusus"</span>, <span class="st">"Diatoma"</span>, <span class="st">"Nodularia spumigena"</span>, <span class="st">"Octactis speculum"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error in value[[3L]](cond) : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Error retrieving WoRMS record for <span style="color: #0000BB;">"Tripos fusus"</span> after 3 attempts:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Timeout was reached [www.marinespecies.org]: Failed to connect to</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> www.marinespecies.org port 443 after 10000 ms: Timeout was reached</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"result"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   scientific_name     plankton_group </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Tripos fusus        Dinoflagellates</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Diatoma             Diatoms        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Nodularia spumigena Cyanobacteria  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Octactis speculum   Other          </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Improve classification by explicitly providing Aphia IDs for ambiguous taxa</span></span></span>
 <span class="r-in"><span><span class="co"># Actinocyclus and Navicula are names shared by both diatoms and animals,</span></span></span>
@@ -182,18 +185,15 @@ and a specific group <code>Teleaulax</code> (name-based), it will be assigned to
 <span class="r-in"><span>  scientific_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Actinocyclus"</span>, <span class="st">"Navicula"</span>, <span class="st">"Nodularia spumigena"</span>, <span class="st">"Tripos fusus"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  aphia_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">148944</span>, <span class="fl">149142</span>, <span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Attempt 1 failed for AphiaID 148944: Timeout was reached</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> [www.marinespecies.org]: Failed to connect to www.marinespecies.org port 443</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> after 10001 ms: Timeout was reached - Retrying...</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Attempt 2 failed for AphiaID 148944: Timeout was reached</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> [www.marinespecies.org]: Failed to connect to www.marinespecies.org port 443</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> after 10002 ms: Timeout was reached - Retrying...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error in value[[3L]](cond) : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Error retrieving WoRMS record for AphiaID 148944 after 3 attempts:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Timeout was reached [www.marinespecies.org]: Failed to connect to</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> www.marinespecies.org port 443 after 10003 ms: Timeout was reached</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"result"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   scientific_name     plankton_group </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Actinocyclus        Diatoms        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Navicula            Diatoms        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Nodularia spumigena Cyanobacteria  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Tripos fusus        Dinoflagellates</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Assign plankton groups using additional custom grouping</span></span></span>
 <span class="r-in"><span><span class="va">custom_groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
@@ -208,15 +208,14 @@ and a specific group <code>Teleaulax</code> (name-based), it will be assigned to
 <span class="r-in"><span>  custom_groups <span class="op">=</span> <span class="va">custom_groups</span>,         <span class="co"># Adding custom groups</span></span></span>
 <span class="r-in"><span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Attempt 1 failed for AphiaID 106306: Timeout was reached</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> [www.marinespecies.org]: SSL connection timeout - Retrying...</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Attempt 2 failed for AphiaID 106306: Timeout was reached</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> [www.marinespecies.org]: SSL connection timeout - Retrying...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error in value[[3L]](cond) : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Error retrieving WoRMS record for AphiaID 106306 after 3 attempts:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Timeout was reached [www.marinespecies.org]: SSL connection timeout</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"result_custom"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result_custom</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   scientific_name      plankton_group </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Teleaulax amphioxeia Cryptophytes   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Mesodinium rubrum    Ciliates       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Dinophysis acuta     Dinoflagellates</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

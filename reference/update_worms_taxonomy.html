@@ -50,7 +50,7 @@ The data is organized into a full taxonomic table that can be joined with data d
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve and organize WoRMS taxonomy for SHARK Aphia IDs</h1>
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/R/worms_api_functions.R" class="external-link"><code>R/worms_api_functions.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.2.1/R/worms_api_functions.R" class="external-link"><code>R/worms_api_functions.R</code></a></small>
       <div class="d-none name"><code>update_worms_taxonomy.Rd</code></div>
     </div>
 
@@ -97,20 +97,15 @@ Use <code>aphia_id</code> instead.</p></dd>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`update_worms_taxonomy()` was deprecated in SHARK4R 0.1.3.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `add_worms_taxonomy()` instead.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Retrieving WoRMS classification for 3 AphiaIDs.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Failed to retrieve WoRMS classification for AphiaID 149619: Timeout was reached</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> [www.marinespecies.org]: SSL connection timeout</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Retrieving WoRMS classification <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  67% | ETA:  5s</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Failed to retrieve WoRMS classification for AphiaID 149122: Timeout was reached</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> [www.marinespecies.org]: Failed to connect to www.marinespecies.org port 443</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> after 10002 ms: Timeout was reached</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Retrieving WoRMS classification <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ </span> 100% | ETA:  0s</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Failed to retrieve WoRMS classification for AphiaID 11: Timeout was reached</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> [www.marinespecies.org]: Failed to connect to www.marinespecies.org port 443</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> after 10002 ms: Timeout was reached</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error in dplyr::relocate(df_all, worms_hierarchy, .after = dplyr::last_col()) : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Can't select columns that don't exist.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Column `worms_hierarchy` doesn't exist.</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a></span><span class="op">(</span><span class="st">"updated_taxonomy"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">updated_taxonomy</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   aphia_id worms_scientific_name worms_kingdom worms_phylum     worms_class     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   <span style="text-decoration: underline;">149</span>619 Cerataulina pelagica  Chromista     Heterokontophyta Bacillariophyce…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>   <span style="text-decoration: underline;">149</span>122 Chaetoceros didymus   Chromista     Heterokontophyta Bacillariophyce…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>       11 Ciliophora            Chromista     Ciliophora       <span style="color: #BB0000;">NA</span>              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 more variables: worms_order &lt;chr&gt;, worms_family &lt;chr&gt;, worms_genus &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   worms_species &lt;chr&gt;, worms_hierarchy &lt;chr&gt;</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

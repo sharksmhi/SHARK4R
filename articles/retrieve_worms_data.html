@@ -77,7 +77,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Retrieve Taxonomic Data From WoRMS</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/master/vignettes/retrieve_worms_data.Rmd" class="external-link"><code>vignettes/retrieve_worms_data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/sharksmhi/SHARK4R/blob/v.1.2.1/vignettes/retrieve_worms_data.Rmd" class="external-link"><code>vignettes/retrieve_worms_data.Rmd</code></a></small>
       <div class="d-none name"><code>retrieve_worms_data.Rmd</code></div>
     </div>
 
@@ -157,6 +157,19 @@ successfully.</p>
 <span></span>
 <span><span class="co"># Print result</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">worms_records</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 4 × 29</span></span></span>
+<span><span class="co">##   name        status AphiaID rank  scientificname url   authority unacceptreason</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> Unicell     no co…      <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> Scrippsiel… accep…  <span style="text-decoration: underline;">109</span>545 Genus Scrippsiella   http… Balech e… <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> Cylindroth… accep…  <span style="text-decoration: underline;">149</span>004 Spec… Cylindrotheca… http… (Ehrenbe… <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> Diplopsalis accep…  <span style="text-decoration: underline;">109</span>515 Genus Diplopsalis    http… R.S.Berg… <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 21 more variables: taxonRankID &lt;int&gt;, valid_AphiaID &lt;int&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   valid_name &lt;chr&gt;, valid_authority &lt;chr&gt;, parentNameUsageID &lt;int&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   originalNameUsageID &lt;int&gt;, kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   order &lt;chr&gt;, family &lt;chr&gt;, genus &lt;chr&gt;, citation &lt;chr&gt;, lsid &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   isMarine &lt;int&gt;, isBrackish &lt;int&gt;, isFreshwater &lt;int&gt;, isTerrestrial &lt;int&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   isExtinct &lt;lgl&gt;, match_type &lt;chr&gt;, modified &lt;chr&gt;</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="get-worms-records-from-aphiaid">Get WoRMS records from AphiaID<a class="anchor" aria-label="anchor" href="#get-worms-records-from-aphiaid"></a>
@@ -164,7 +177,7 @@ successfully.</p>
 <p>Taxonomic records can also be retrieved using Aphia IDs, employing
 the same retry and error-handling logic as the
 <code><a href="../reference/match_worms_taxa.html">match_worms_taxa()</a></code> function.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Randomly select ten Aphia IDs</span></span>
 <span><span class="va">aphia_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">shark_data</span><span class="op">$</span><span class="va">aphia_id</span><span class="op">)</span>,</span>
 <span>                    size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
@@ -178,6 +191,25 @@ the same retry and error-handling logic as the
 <span></span>
 <span><span class="co"># Print result</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">worms_records</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10 × 28</span></span></span>
+<span><span class="co">##    AphiaID url        scientificname authority status unacceptreason taxonRankID</span></span>
+<span><span class="co">##      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> 1<span style="text-decoration: underline;">310</span>442 https://w… Octactis spec… (Ehrenbe… accep… <span style="color: #BB0000;">NA</span>                     220</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">146</span>715 https://w… Aphanothece    Nägeli, … accep… <span style="color: #BB0000;">NA</span>                     180</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">837</span>459 https://w… Tripos lineat… (Ehrenbe… accep… <span style="color: #BB0000;">NA</span>                     220</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">134</span>529 https://w… Pyramimonas    Schmarda… accep… <span style="color: #BB0000;">NA</span>                     180</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">575</span>737 https://w… Binuclearia l… (Schmidl… unacc… <span style="color: #BB0000;">NA</span>                     220</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">110</span>153 https://w… Heterocapsa t… (Ehrenbe… unacc… <span style="color: #BB0000;">NA</span>                     220</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">148</span>899 https://w… Bacillariophy… Haeckel,… accep… <span style="color: #BB0000;">NA</span>                      60</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">106</span>287 https://w… Hemiselmis     Parke, 1… accep… <span style="color: #BB0000;">NA</span>                     180</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">249</span>711 https://w… Desmodesmus    (R.Choda… accep… <span style="color: #BB0000;">NA</span>                     180</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">109</span>553 https://w… Protoperidini… Bergh, 1… accep… <span style="color: #BB0000;">NA</span>                     180</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 21 more variables: rank &lt;chr&gt;, valid_AphiaID &lt;int&gt;, valid_name &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   valid_authority &lt;chr&gt;, parentNameUsageID &lt;int&gt;, originalNameUsageID &lt;int&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   genus &lt;chr&gt;, citation &lt;chr&gt;, lsid &lt;chr&gt;, isMarine &lt;int&gt;, isBrackish &lt;int&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   isFreshwater &lt;int&gt;, isTerrestrial &lt;int&gt;, isExtinct &lt;lgl&gt;, match_type &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   modified &lt;chr&gt;</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="get-worms-taxonomy">Get WoRMS Taxonomy<a class="anchor" aria-label="anchor" href="#get-worms-taxonomy"></a>
@@ -186,7 +218,7 @@ the same retry and error-handling logic as the
 starting with <code>taxon_xxxxx</code>. Equivalent columns based on
 WoRMS can be retrieved using the <code><a href="../reference/add_worms_taxonomy.html">add_worms_taxonomy()</a></code>
 function.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve taxonomic table</span></span>
 <span><span class="va">worms_taxonomy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/add_worms_taxonomy.html">add_worms_taxonomy</a></span><span class="op">(</span><span class="va">aphia_ids</span>,</span>
 <span>                                     verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -197,6 +229,21 @@ function.</p>
 <span><span class="co"># Enrich SHARK data with taxonomic data from WoRMS</span></span>
 <span><span class="va">shark_data_with_worms</span> <span class="op">&lt;-</span> <span class="va">shark_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">worms_taxonomy</span>, by <span class="op">=</span> <span class="st">"aphia_id"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10 × 10</span></span></span>
+<span><span class="co">##    aphia_id worms_scientific_name    worms_kingdom worms_phylum     worms_class </span></span>
+<span><span class="co">##       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>  1<span style="text-decoration: underline;">310</span>442 Octactis speculum        Chromista     Ochrophyta       Dictyochoph…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   <span style="text-decoration: underline;">146</span>715 Aphanothece              Bacteria      Cyanobacteria    Cyanophyceae</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   <span style="text-decoration: underline;">837</span>459 Tripos lineatus          Chromista     Myzozoa          Dinophyceae </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   <span style="text-decoration: underline;">134</span>529 Pyramimonas              Plantae       <span style="color: #BB0000;">NA</span>               Pyramimonad…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   <span style="text-decoration: underline;">575</span>737 Binuclearia lauterbornii Plantae       <span style="color: #BB0000;">NA</span>               Ulvophyceae </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   <span style="text-decoration: underline;">110</span>153 Heterocapsa triquetra    Chromista     Myzozoa          Dinophyceae </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   <span style="text-decoration: underline;">148</span>899 Bacillariophyceae        Chromista     Heterokontophyta Bacillariop…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   <span style="text-decoration: underline;">106</span>287 Hemiselmis               Chromista     Cryptophyta      Cryptophyce…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   <span style="text-decoration: underline;">249</span>711 Desmodesmus              Plantae       <span style="color: #BB0000;">NA</span>               Chlorophyce…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>   <span style="text-decoration: underline;">109</span>553 Protoperidinium          Chromista     Myzozoa          Dinophyceae </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 5 more variables: worms_order &lt;chr&gt;, worms_family &lt;chr&gt;, worms_genus &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   worms_species &lt;chr&gt;, worms_hierarchy &lt;chr&gt;</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="retrieve-worms-taxonomic-hierarchies">Retrieve WoRMS Taxonomic Hierarchies<a class="anchor" aria-label="anchor" href="#retrieve-worms-taxonomic-hierarchies"></a>
@@ -206,7 +253,7 @@ you can use the <code><a href="../reference/get_worms_taxonomy_tree.html">get_wo
 function retrieves records for the entire taxonomic tree from WoRMS,
 including parent-child relationships, and can optionally fetch all
 descendants (e.g. species) under a genus or known synonyms.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Retrieve taxonomic tree</span></span>
 <span><span class="va">worms_tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_worms_taxonomy_tree.html">get_worms_taxonomy_tree</a></span><span class="op">(</span></span>
 <span>  <span class="va">aphia_ids</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,                <span class="co"># use first id only in this example</span></span>
@@ -217,6 +264,24 @@ descendants (e.g. species) under a genus or known synonyms.</p>
 <span></span>
 <span><span class="co"># Print result</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">worms_tree</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 9 × 28</span></span></span>
+<span><span class="co">##   AphiaID url   scientificname authority status unacceptreason taxonRankID rank </span></span>
+<span><span class="co">##     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>       7 http… Chromista      <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      10 King…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">582</span>419 http… Harosa         <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      20 Subk…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">368</span>898 http… Heterokonta    <span style="color: #BB0000;">NA</span>        accep… <span style="color: #BB0000;">NA</span>                      25 Infr…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">345</span>465 http… Ochrophyta     Cavalier… accep… <span style="color: #BB0000;">NA</span>                      30 Phyl…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">146</span>232 http… Dictyochophyc… P.C. Sil… accep… <span style="color: #BB0000;">NA</span>                      60 Class</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">157</span>256 http… Dictyochales   Haeckel,… accep… <span style="color: #BB0000;">NA</span>                     100 Order</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">7</span>  <span style="text-decoration: underline;">157</span>257 http… Dictyochaceae  Lemmerma… accep… <span style="color: #BB0000;">NA</span>                     140 Fami…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">8</span>  <span style="text-decoration: underline;">369</span>960 http… Octactis       J.Schill… accep… <span style="color: #BB0000;">NA</span>                     180 Genus</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">9</span> 1<span style="text-decoration: underline;">310</span>442 http… Octactis spec… (Ehrenbe… accep… <span style="color: #BB0000;">NA</span>                     220 Spec…</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 20 more variables: valid_AphiaID &lt;int&gt;, valid_name &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   valid_authority &lt;chr&gt;, parentNameUsageID &lt;int&gt;, originalNameUsageID &lt;int&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   kingdom &lt;chr&gt;, phylum &lt;chr&gt;, class &lt;chr&gt;, order &lt;chr&gt;, family &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   genus &lt;chr&gt;, citation &lt;chr&gt;, lsid &lt;chr&gt;, isMarine &lt;int&gt;, isBrackish &lt;int&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   isFreshwater &lt;int&gt;, isTerrestrial &lt;int&gt;, isExtinct &lt;lgl&gt;, match_type &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   modified &lt;chr&gt;</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="assign-phytoplankton-groups">Assign Phytoplankton Groups<a class="anchor" aria-label="anchor" href="#assign-phytoplankton-groups"></a>
@@ -226,7 +291,7 @@ Dinoflagellates, Diatoms, Cyanobacteria, and Others. This grouping can
 be achieved by referencing information from WoRMS and assigning taxa to
 these groups based on their taxonomic classification, as demonstrated in
 the example below.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Subset data from one national monitoring station</span></span>
 <span><span class="va">nat_stations</span> <span class="op">&lt;-</span> <span class="va">shark_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">station_name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BY5 BORNHOLMSDJ"</span><span class="op">)</span><span class="op">)</span></span>
@@ -267,6 +332,21 @@ the example below.</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 23 × 2</span></span></span>
+<span><span class="co">##    scientific_name      plankton_group </span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> Pauliella taeniata   Diatoms        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> Amylax triacantha    Dinoflagellates</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> Aphanocapsa          Cyanobacteria  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> Aphanothece          Cyanobacteria  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> Chaetoceros similis  Diatoms        </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> Dinobryon balticum   Other          </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> Dinophysis acuminata Dinoflagellates</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> Dinophysis norvegica Dinoflagellates</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> Gymnodinium          Dinoflagellates</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> Protodinium simplex  Other          </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 13 more rows</span></span></span></code></pre>
+<p><img src="retrieve_worms_data_files/figure-html/unnamed-chunk-21-1.png" class="r-plt" alt="" width="700"></p>
 <div class="section level4">
 <h4 id="assign-custom-phytoplankton-groups">Assign Custom Phytoplankton Groups<a class="anchor" aria-label="anchor" href="#assign-custom-phytoplankton-groups"></a>
 </h4>
@@ -276,7 +356,7 @@ plankton based on specific taxonomic criteria. Please note that the
 order of the list matters: taxa are assigned to the last matching group.
 For example: Mesodinium rubrum will be excluded from the Ciliates group
 because it appears after Ciliates in the list in the example below.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define custom plankton groups using a named list</span></span>
 <span><span class="va">custom_groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Cryptophytes"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"Cryptophyceae"</span><span class="op">)</span>,</span>
@@ -315,6 +395,7 @@ because it appears after Ciliates in the list in the example below.</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>plot.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="retrieve_worms_data_files/figure-html/unnamed-chunk-24-1.png" class="r-plt" alt="" width="700"></p>
 <hr>
 </div>
 </div>

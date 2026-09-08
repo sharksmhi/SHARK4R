@@ -147,30 +147,80 @@ List of Harmful Microalgae
 # \donttest{
 # Download the default HABs taxonomic list
 try(habs_taxlist_df <- get_hab_list())
-#> Error in curl::curl_fetch_memory(url, handle = handle) : 
-#>   Timeout was reached [www.marinespecies.org]:
-#> Failed to connect to www.marinespecies.org port 443 after 10001 ms: Timeout was reached
 if (exists("habs_taxlist_df")) head(habs_taxlist_df)
+#> # A tibble: 6 × 29
+#>   AphiaID ScientificName       Authority AphiaID_accepted ScientificName_accep…¹
+#>     <dbl> <chr>                <chr>                <dbl> <chr>                 
+#> 1  418135 Acanthogonyaulax sp… (Murray …           418135 Acanthogonyaulax spin…
+#> 2  639809 Achomosphaera hyper… (Defland…           110041 Gonyaulax spinifera   
+#> 3  841664 Aetokthonos hydrill… S.B.Wild…           841664 Aetokthonos hydrillic…
+#> 4  232546 Akashiwo sanguinea   (K.Hiras…           232546 Akashiwo sanguinea    
+#> 5  233407 Alexandrium acatene… (Whedon …           231873 Alexandrium catenella 
+#> 6  109707 Alexandrium affine   (H.Inoue…           109707 Alexandrium affine    
+#> # ℹ abbreviated name: ¹​ScientificName_accepted
+#> # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
+#> #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
+#> #   Genus <chr>, Subgenus <lgl>, Species <chr>, Subspecies <lgl>, Marine <dbl>,
+#> #   Brackish <dbl>, Fresh <dbl>, Terrestrial <dbl>, taxonomicStatus <chr>,
+#> #   Qualitystatus <chr>, Unacceptreason <chr>, DateLastModified <date>,
+#> #   LSID <chr>, `Parent AphiaID` <dbl>, Storedpath <chr>, Citation <chr>
 
 # Include higher taxa records
 try(habs_taxlist_df <- get_hab_list(species_only = FALSE))
-#> Error in curl::curl_fetch_memory(url, handle = handle) : 
-#>   Timeout was reached [www.marinespecies.org]:
-#> Failed to connect to www.marinespecies.org port 443 after 10002 ms: Timeout was reached
 if (exists("habs_taxlist_df")) head(habs_taxlist_df)
+#> # A tibble: 6 × 29
+#>   AphiaID ScientificName       Authority AphiaID_accepted ScientificName_accep…¹
+#>     <dbl> <chr>                <chr>                <dbl> <chr>                 
+#> 1  415000 Acanthogonyaulax     (Kofoid)…           415000 Acanthogonyaulax      
+#> 2  418135 Acanthogonyaulax sp… (Murray …           418135 Acanthogonyaulax spin…
+#> 3  601319 Achomosphaera        Evitt, 1…           601319 Achomosphaera         
+#> 4  639809 Achomosphaera hyper… (Defland…           110041 Gonyaulax spinifera   
+#> 5 1653558 Aerosakkonemataceae  Struneck…          1653558 Aerosakkonemataceae   
+#> 6  836651 Aetokthonos          S.B.Wild…           836651 Aetokthonos           
+#> # ℹ abbreviated name: ¹​ScientificName_accepted
+#> # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
+#> #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
+#> #   Genus <chr>, Subgenus <lgl>, Species <chr>, Subspecies <lgl>, Marine <dbl>,
+#> #   Brackish <dbl>, Fresh <dbl>, Terrestrial <dbl>, taxonomicStatus <chr>,
+#> #   Qualitystatus <chr>, Unacceptreason <chr>, DateLastModified <date>,
+#> #   LSID <chr>, `Parent AphiaID` <dbl>, Storedpath <chr>, Citation <chr>
 
 # Retrieve only non-toxigenic harmful species (experimental stage)
 try(habs_taxlist_df <- get_hab_list(harmful_non_toxic_only = TRUE, verbose = FALSE))
-#> Error in curl::curl_fetch_memory(url, handle = handle) : 
-#>   Timeout was reached [www.marinespecies.org]:
-#> Failed to connect to www.marinespecies.org port 443 after 10002 ms: Timeout was reached
 if (exists("habs_taxlist_df")) head(habs_taxlist_df)
+#> # A tibble: 6 × 24
+#>   AphiaID ScientificName       Authority AphiaID_accepted ScientificName_accep…¹
+#>     <int> <chr>                <chr>                <int> <chr>                 
+#> 1  109708 Alexandrium balechii (Steidin…           109708 Alexandrium balechii  
+#> 2  375699 Aureococcus anophag… Hargrave…           375699 Aureococcus anophagef…
+#> 3  375701 Aureoumbra lagunens… D.A.Stoc…           375701 Aureoumbra lagunensis 
+#> 4 1360848 Blixaea quinquecorn… (T.H.Abé…          1360848 Blixaea quinquecornis 
+#> 5  149619 Cerataulina pelagica (Cleve) …           149619 Cerataulina pelagica  
+#> 6  163013 Chaetoceros calcitr… (Paulsen…           163015 Chaetoceros simplex v…
+#> # ℹ abbreviated name: ¹​ScientificName_accepted
+#> # ℹ 19 more variables: Authority_accepted <chr>, Fossil <int>, Kingdom <chr>,
+#> #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
+#> #   Genus <chr>, Marine <int>, Brackish <int>, Fresh <int>, Terrestrial <int>,
+#> #   taxonomicStatus <chr>, Unacceptreason <chr>, DateLastModified <dttm>,
+#> #   LSID <chr>, `Parent AphiaID` <int>, Citation <chr>
 
 # Include only specific fields in the output
 try(habs_taxlist_df <- get_hab_list(aphia_id = TRUE, scientific_name = TRUE, authority = FALSE))
-#> Error in curl::curl_fetch_memory(url, handle = handle) : 
-#>   Timeout was reached [www.marinespecies.org]:
-#> Failed to connect to www.marinespecies.org port 443 after 10002 ms: Timeout was reached
 if (exists("habs_taxlist_df")) head(habs_taxlist_df)
+#> # A tibble: 6 × 28
+#>   AphiaID ScientificName             AphiaID_accepted ScientificName_accepted   
+#>     <dbl> <chr>                                 <dbl> <chr>                     
+#> 1  418135 Acanthogonyaulax spinifera           418135 Acanthogonyaulax spinifera
+#> 2  639809 Achomosphaera hyperacantha           110041 Gonyaulax spinifera       
+#> 3  841664 Aetokthonos hydrillicola             841664 Aetokthonos hydrillicola  
+#> 4  232546 Akashiwo sanguinea                   232546 Akashiwo sanguinea        
+#> 5  233407 Alexandrium acatenella               231873 Alexandrium catenella     
+#> 6  109707 Alexandrium affine                   109707 Alexandrium affine        
+#> # ℹ 24 more variables: Authority_accepted <chr>, Fossil <dbl>, Kingdom <chr>,
+#> #   Phylum <chr>, Class <chr>, Order <chr>, Family <chr>, taxonRank <chr>,
+#> #   Genus <chr>, Subgenus <lgl>, Species <chr>, Subspecies <lgl>, Marine <dbl>,
+#> #   Brackish <dbl>, Fresh <dbl>, Terrestrial <dbl>, taxonomicStatus <chr>,
+#> #   Qualitystatus <chr>, Unacceptreason <chr>, DateLastModified <date>,
+#> #   LSID <chr>, `Parent AphiaID` <dbl>, Storedpath <chr>, Citation <chr>
 # }
 ```

@@ -51,19 +51,14 @@ try(updated_taxonomy <- update_worms_taxonomy(c(149619, 149122, 11)))
 #> Warning: `update_worms_taxonomy()` was deprecated in SHARK4R 0.1.3.
 #> ℹ Please use `add_worms_taxonomy()` instead.
 #> Retrieving WoRMS classification for 3 AphiaIDs.
-#> Warning: Failed to retrieve WoRMS classification for AphiaID 149619: Timeout was reached
-#> [www.marinespecies.org]: SSL connection timeout
-#> Retrieving WoRMS classification ■■■■■■■■■■■■■■■■■■■■■             67% | ETA:  5s
-#> Warning: Failed to retrieve WoRMS classification for AphiaID 149122: Timeout was reached
-#> [www.marinespecies.org]: Failed to connect to www.marinespecies.org port 443
-#> after 10002 ms: Timeout was reached
-#> Retrieving WoRMS classification ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■  100% | ETA:  0s
-#> Warning: Failed to retrieve WoRMS classification for AphiaID 11: Timeout was reached
-#> [www.marinespecies.org]: Failed to connect to www.marinespecies.org port 443
-#> after 10002 ms: Timeout was reached
-#> Error in dplyr::relocate(df_all, worms_hierarchy, .after = dplyr::last_col()) : 
-#>   Can't select columns that don't exist.
-#> ✖ Column `worms_hierarchy` doesn't exist.
 if (exists("updated_taxonomy")) print(updated_taxonomy)
+#> # A tibble: 3 × 10
+#>   aphia_id worms_scientific_name worms_kingdom worms_phylum     worms_class     
+#>      <dbl> <chr>                 <chr>         <chr>            <chr>           
+#> 1   149619 Cerataulina pelagica  Chromista     Heterokontophyta Bacillariophyce…
+#> 2   149122 Chaetoceros didymus   Chromista     Heterokontophyta Bacillariophyce…
+#> 3       11 Ciliophora            Chromista     Ciliophora       NA              
+#> # ℹ 5 more variables: worms_order <chr>, worms_family <chr>, worms_genus <chr>,
+#> #   worms_species <chr>, worms_hierarchy <chr>
 # }
 ```
